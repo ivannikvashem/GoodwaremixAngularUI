@@ -1,0 +1,76 @@
+<h3>Атрибут: {{id}}</h3>
+
+<form class="example-form">
+  <mat-form-field appearance="fill">
+    <mat-label>Фиксация</mat-label>
+    <mat-select value="{{attribute?.fixed}}">
+      <mat-option value="false"></mat-option>
+      <mat-option value="true">Фиксирован</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Тип атрибута</mat-label>
+    <mat-select>
+      <mat-option *ngFor="let at of attrType" [value]="at.value">
+        {{at.viewValue}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Наименование атрибута</mat-label>
+    <input matInput placeholder="Наименование" value="{{attribute?.nameAttribute}}">
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Наименование атрибута по ETIM</mat-label>
+    <input matInput placeholder="EFxxxxxx" value="{{attribute?.etimFeature}}">
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Единица измерения</mat-label>
+    <input matInput placeholder="Единица измерения" value="{{attribute?.unit}}">
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Единица измерения ETIM</mat-label>
+    <input matInput placeholder="EUxxxxxx" value="{{attribute?.etimUnit}}">
+  </mat-form-field>
+
+  <mat-form-field class="example-chip-list" appearance="fill">
+    <mat-label>Список возможных значений</mat-label>
+    <mat-chip-list #chipList aria-label="Список возможных значений">
+      <mat-chip *ngFor="let v of attribute?.allValue" (removed)="remove(v)">
+        {{v}}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+      <input placeholder="Введите значение..."
+             [matChipInputFor]="chipList"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             [matChipInputAddOnBlur]="addOnBlur"
+             (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+  </mat-form-field>
+
+  <mat-form-field class="example-chip-list" appearance="fill" *ngIf="attribute?.fixed">
+    <mat-label>Список возможных имен атрибута</mat-label>
+    <mat-chip-list #chipList aria-label="Список возможных имен атрибута">
+      <mat-chip *ngFor="let pn of attribute?.possibleAttributeName" (removed)="remove(pn)">
+        {{pn}}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+      <input placeholder="Введите значение..."
+             [matChipInputFor]="chipList"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             [matChipInputAddOnBlur]="addOnBlur"
+             (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+  </mat-form-field>
+</form>
+
+

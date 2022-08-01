@@ -1,0 +1,60 @@
+<div class="header-container" style="display: inline-flex; align-items: center;">
+  <h3>Поставщики &nbsp;</h3>
+  <mat-spinner diameter="35" *ngIf="dataSource.loading$ | async"></mat-spinner>
+</div>
+
+<div class="mat-elevation-z8">
+
+  <table mat-table [dataSource]="dataSource">
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Наименование</th>
+      <td mat-cell *matCellDef="let row">{{row.supplierName}}</td>
+    </ng-container>
+
+    <!-- brands Column -->
+    <ng-container matColumnDef="brands">
+      <th mat-header-cell *matHeaderCellDef>Бренды</th>
+      <td mat-cell *matCellDef="let row">{{ row.brands != null ? row.brands.join(', ') : ""}}</td>
+    </ng-container>
+
+    <!-- stat Column -->
+    <ng-container matColumnDef="stat">
+      <th mat-header-cell *matHeaderCellDef>Номенкулатура</th>
+      <td mat-cell *matCellDef="let row">{{ row.productQty != null && row.productQty > 0 ? row.productQty + " / " : ""}} {{ row.productQtyWithCode != null ? row.productQtyWithCode : ""}}</td>
+    </ng-container>
+
+    <!-- ACTIONS Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="" (click)="fetchItem('default')">
+          <mat-icon>restart_alt</mat-icon>
+        </button>&nbsp;
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="" (click)="addItem()">
+          <mat-icon>build</mat-icon>
+        </button>&nbsp;
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="" (click)="addItem()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </th>
+      <td mat-cell *matCellDef="let item">
+
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="Загрузить данные" (click)="fetchItem(item.supplierName)">
+          <mat-icon>start</mat-icon>
+        </button>&nbsp;
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="Изменить товар" (click)="editItem(item.supplierName)">
+          <mat-icon>edit</mat-icon>
+        </button>&nbsp;
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить товар" (click)="deleteItem(item.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <mat-paginator [length]="dataSource.rowCount" [pageSize]="10" [pageSizeOptions]=[10,20,50,100]></mat-paginator>
+</div>
