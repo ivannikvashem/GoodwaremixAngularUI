@@ -12,7 +12,7 @@ import {Router} from "@angular/router";
 })
 export class SupplierIndexComponent implements OnInit {
 
-  displayedColumns: string[] = ['name', 'brands', 'stat', 'actions'];
+  displayedColumns: string[] = ['name', 'type', 'fullfill', 'brands', 'stat', 'actions'];
   dataSource: SuppliersDataSource;
 
   constructor(
@@ -26,7 +26,7 @@ export class SupplierIndexComponent implements OnInit {
   paginator!: MatPaginator
 
   ngOnInit(): any {
-    this.dataSource.loadPagedData("", 0, 10);
+    //this.dataSource.loadPagedData("");
   }
 
   ngAfterViewInit(): void {
@@ -35,10 +35,12 @@ export class SupplierIndexComponent implements OnInit {
         tap( () => this.loadData())
       )
       .subscribe();
+    this.loadData();
   }
 
   loadData(): any {
-    this.dataSource.loadPagedData("",this.paginator?.pageIndex ?? 0, this.paginator?.pageSize ?? 10);
+    //console.log("pager: " + JSON.stringify(this.paginator));
+    this.dataSource.loadPagedData("", this.paginator?.pageIndex, this.paginator?.pageSize);
   }
 
   addItem() {

@@ -10,7 +10,30 @@
     <!-- Name Column -->
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Наименование</th>
-      <td mat-cell *matCellDef="let row">{{row.supplierName}}</td>
+      <td mat-cell *matCellDef="let row">{{row.supplierName}}({{row.prefix}})</td>
+    </ng-container>
+
+    <!-- connection + type Column -->
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef>Тип</th>
+      <td mat-cell *matCellDef="let row">
+        <mat-icon class="material-icons-outlined">{{row.source == "API" ? "cloud_done" : (row.source == "MAIL" ? "mail" : "folder_shared")}}</mat-icon>
+        <mat-icon class="material-icons-outlined">{{row.type == "XML" ? "code" : (row.type == "XLSX" ? "table_view" : "data_object")}}</mat-icon>
+      </td>
+    </ng-container>
+
+    <!--  data fillfillment Column -->
+    <ng-container matColumnDef="fullfill">
+      <th mat-header-cell *matHeaderCellDef>Данные</th>
+      <td mat-cell *matCellDef="let row">
+
+        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.images != null">photo_camera</mat-icon>
+        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.attributesParam.nameAttribute != null && row.supplierConfigs.productAttributeKeys != null">toc</mat-icon>
+        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.netto != null && row.supplierConfigs.netto.barcode != null">crop</mat-icon>
+        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.packages.packQty != null">inventory_2</mat-icon>
+        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.documents.url != null || row.supplierConfigs.documents.certNumber != null">file_present</mat-icon>
+        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.attributesParam.etimFeature != null">explicit</mat-icon>
+      </td>
     </ng-container>
 
     <!-- brands Column -->
@@ -56,5 +79,5 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  <mat-paginator [length]="dataSource.rowCount" [pageSize]="10" [pageSizeOptions]=[10,20,50,100]></mat-paginator>
+  <mat-paginator [length]="dataSource.rowCount" [pageSize]="15" [pageSizeOptions]=[10,15,50,100]></mat-paginator>
 </div>

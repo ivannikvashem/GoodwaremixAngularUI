@@ -2,31 +2,31 @@ import {CollectionViewer, DataSource} from '@angular/cdk/collections';
 import {BehaviorSubject, Observable, of} from 'rxjs';
 import {catchError, finalize, map} from 'rxjs/operators';
 import {ApiClient} from "./httpClient";
-import {Product} from "../models/product.model";
+import {Log} from "../models/log.model";
 
-export class ProductsDataSource implements DataSource<Product> {
+export class LogsDataSource implements DataSource<Log> {
 
-  private ProductListSubject = new BehaviorSubject<Product[]>([]);
+  private LogListSubject = new BehaviorSubject<Log[]>([]);
   private loadingSubject = new BehaviorSubject<boolean>(false);
 
   public loading$ = this.loadingSubject.asObservable();
   public rowCount = 0;
 
-  constructor(private api: ApiClient) {}
+  constructor(private api: ApiClient) {  }
 
-  connect(collectionViewer: CollectionViewer): Observable<Product[]> {
-    return this.ProductListSubject.asObservable();
+  connect(collectionViewer: CollectionViewer): Observable<Log[]> {
+    return this.LogListSubject.asObservable();
   }
 
   disconnect(collectionViewer: CollectionViewer): void {
-    this.ProductListSubject.complete();
+    this.LogListSubject.complete();
     this.loadingSubject.complete();
   }
 
-  loadPagedData(queryString = "", withInternalCodeSelector = false, selectedSuppId = '', pageIndex = 1, pageSize = 10): any {
+  loadPagedData(pageIndex = 1, pageSize = 10): any {
     this.loadingSubject.next(true);
-      console.log("pageIndex: " +pageIndex);
-    this.api.getProducts(queryString, withInternalCodeSelector, selectedSuppId, pageIndex, pageSize)
+
+    this.api.getLogs(pageIndex, pageSize)
       .pipe(
         map(res => {
           return res.body;
@@ -35,7 +35,7 @@ export class ProductsDataSource implements DataSource<Product> {
       finalize(() => this.loadingSubject.next(false))
     )
       .subscribe(body => {
-        this.ProductListSubject.next(body.data)
+        this.LogListSubject.next(body.data)
         this.rowCount = body.totalRecords;
       });
   }

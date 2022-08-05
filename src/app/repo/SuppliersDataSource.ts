@@ -23,7 +23,7 @@ export class SuppliersDataSource implements DataSource<Supplier> {
     this.loadingSubject.complete();
   }
 
-  loadPagedData(searchQuery = "", pageIndex = 1, pageSize = 10): any {
+  loadPagedData(searchQuery = "", pageIndex = 0, pageSize = 10): any {
     this.loadingSubject.next(true);
 
     this.api.getSuppliers(searchQuery, pageIndex, pageSize)

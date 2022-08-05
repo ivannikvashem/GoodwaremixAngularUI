@@ -4,7 +4,9 @@ import {ApiClient} from "../../repo/httpClient";
 import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
 import {Router} from "@angular/router";
 import {MatPaginator} from "@angular/material/paginator";
-import {tap} from "rxjs";
+import {debounceTime, distinctUntilChanged, filter, finalize, map, Observable, startWith, switchMap, tap} from "rxjs";
+import {FormControl} from '@angular/forms';
+import {Supplier} from "../../models/supplier.model";
 
 export interface DialogData {
   src: '';
@@ -19,10 +21,18 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
 
   displayedColumns: string[] = ['preview', 'internalCode' ,'name', 'supplierName', 'actions'];
   dataSource: ProductsDataSource;
+
   hoverImage: string = "";
   hoverRowId: string = "";
-  public searchQuery = '';
+  public searchQuery: string | undefined;
   public withInternalCodeSelector: boolean;
+
+  searchSuppliersCtrl = new FormControl<string | Supplier>('');
+  searchQueryCtrl  = new FormControl<string>('');
+  public supplierList: Supplier[] | undefined;
+  public filteredSupplierList: Observable<Supplier[]> | undefined;
+  selectedSupplier: Supplier | undefined;
+  isLoading = false;
 
   constructor(
     public api: ApiClient,
@@ -37,7 +47,26 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   paginator!: MatPaginator
 
   ngOnInit(): any {
-    this.dataSource.loadPagedData(this.searchQuery, this.withInternalCodeSelector, 0, 10);
+    this.dataSource.loadPagedData(this.searchQuery, this.withInternalCodeSelector, '',  0, 10);
+    this.searchSuppliersCtrl.valueChanges.pipe(
+      distinctUntilChanged(),
+      debounceTime(100),
+      tap(() => {
+        this.isLoading = true;
+      }),
+      switchMap(value => this.api.getSuppliers(this.searchSuppliersCtrl.value, 0 ,20)
+        .pipe(
+          finalize(() => {
+            this.isLoading = false
+          }),
+        )
+      )
+    )
+    .subscribe((data: any) => {
+      this.supplierList = data.body.data;
+      console.log("Got FRESH Data! " + this.searchSuppliersCtrl.value);
+      //console.log(JSON.stringify(this.supplierList));
+    });
   }
 
   ngAfterViewInit(): void {
@@ -48,10 +77,25 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
       .subscribe();
   }
 
+  displayFn(supplier: Supplier): string {
+    return supplier && supplier.supplierName ? supplier.supplierName : '';
+  }
+
+  onSupplierSelected() {
+    //console.log("ctrlVal= " + JSON.stringify(this.searchSuppliersCtrl.value));
+    this.selectedSupplier = this.searchSuppliersCtrl.value as Supplier;
+    console.log("suppId= " + this.selectedSupplier?.id);
+    this.loadData();
+  }
+
   loadData(): any {
-    //console.log("loadData, page: " + this.paginator?.pageIndex);
-    console.log("loadData, withInternalCodeSelector: " + this.withInternalCodeSelector);
-    this.dataSource.loadPagedData(this.searchQuery, this.withInternalCodeSelector, this.paginator?.pageIndex ?? 0, this.paginator?.pageSize ?? 10);
+    console.log("loadData " + this.searchQueryCtrl.value + " , withInternalCodeSelector: " + this.withInternalCodeSelector);
+    this.dataSource.loadPagedData(this.searchQuery, this.withInternalCodeSelector, this.selectedSupplier?.id, this.paginator?.pageIndex ?? 0, this.paginator?.pageSize ?? 10);
+  }
+
+  searchQueryChanged() {
+    this.searchQuery = this.searchQueryCtrl.value ?? '';
+    this.loadData();
   }
 
   deleteItem(_id: any) {
@@ -70,8 +114,6 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   changeImage(row: any, image: any) {
     this.hoverRowId = row.id;
     this.hoverImage = image;
-    //console.log("Row: " + JSON.stringify(row.id));
-    //console.log("Image: " + JSON.stringify(image));
   }
   openDialog(image: string) {
     console.log(image);

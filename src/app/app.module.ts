@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import {HttpClientModule} from "@angular/common/http";
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
@@ -61,6 +61,7 @@ import { ParserLogComponent } from './components/parser-log/parser-log.component
     MatSnackBarModule,
     MatTableModule,
     MatToolbarModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

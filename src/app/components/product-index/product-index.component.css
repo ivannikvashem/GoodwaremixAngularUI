@@ -19,6 +19,15 @@ table {
   text-align: -webkit-center;
   text-align: center;
 }
+
+.mat-column-internalCode {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 100px !important;
+  width: 100px !important;
+  text-align: -webkit-center;
+  text-align: center;
+}
 .mat-column-preview {
   word-wrap: break-word !important;
   white-space: unset !important;
