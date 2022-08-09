@@ -54,7 +54,7 @@
         <button mat-icon-button class="mat-elevation-z2" matTooltip="" (click)="fetchItem('default')">
           <mat-icon>restart_alt</mat-icon>
         </button>&nbsp;
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="" (click)="addItem()">
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="" (click)="fixSupplierStat()">
           <mat-icon>build</mat-icon>
         </button>&nbsp;
         <button mat-icon-button class="mat-elevation-z2" matTooltip="" (click)="addItem()">
@@ -69,7 +69,7 @@
         <button mat-icon-button class="mat-elevation-z2" matTooltip="Изменить товар" (click)="editItem(item.supplierName)">
           <mat-icon>edit</mat-icon>
         </button>&nbsp;
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить товар" (click)="deleteItem(item.id)">
+        <button mat-icon-button disabled class="mat-elevation-z2" matTooltip="Удалить товар" (click)="deleteItem(item.id)">
           <mat-icon>delete</mat-icon>
         </button>
 

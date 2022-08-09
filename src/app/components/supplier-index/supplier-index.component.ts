@@ -47,6 +47,16 @@ export class SupplierIndexComponent implements OnInit {
 
   }
 
+  fixSupplierStat() {
+    console.log("fixSupplierStat ");
+    this.api.fixSupplierStat().subscribe( res => {
+        console.log(JSON.stringify(res));
+      },
+      err => {
+        console.log(err);
+      })
+  }
+
   fetchItem(supplierName: any) {
     console.log("fetching " +supplierName);
     this.api.fetchDataFromSupplier(supplierName).subscribe( res => {
@@ -60,7 +70,6 @@ export class SupplierIndexComponent implements OnInit {
   editItem(supplierName: any) {
     this.router.navigate([`supplier-edit/${supplierName}`]);
   }
-
   deleteItem(id: any) {
 
   }
