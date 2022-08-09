@@ -103,7 +103,8 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   }
 
   editItem(id: any) {
-    console.log("nav!");
+    console.log("nav! " + id);
+    this.router.navigate([`product-edit/${id}`]);
     //this.router.navigate([`attribute-edit/${id}`]);
   }
 

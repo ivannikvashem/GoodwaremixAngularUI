@@ -27,6 +27,7 @@ import { AttributeEditComponent } from './components/attribute-edit/attribute-ed
 import { SupplierIndexComponent } from './components/supplier-index/supplier-index.component';
 import { SupplierEditComponent } from './components/supplier-edit/supplier-edit.component';
 import { ParserLogComponent } from './components/parser-log/parser-log.component';
+import { ProductEditComponent } from './components/product-edit/product-edit.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { ParserLogComponent } from './components/parser-log/parser-log.component
     AttributeEditComponent,
     SupplierIndexComponent,
     SupplierEditComponent,
-    ParserLogComponent
+    ParserLogComponent,
+    ProductEditComponent
   ],
   imports: [
     CommonModule,

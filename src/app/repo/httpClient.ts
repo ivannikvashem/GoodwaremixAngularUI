@@ -77,12 +77,16 @@ export class ApiClient {
     return this.http.get<any>(this.apiURL + '/AngProduct', opt);
   }
 
+  getProductById(id: string): Observable<any> {
+    return this.http.get<any>(this.apiURL + '/Product/' +id, this.httpOptions);
+  }
+
   // Suppliers ENDPOINT
 
   getSuppliers(searchQuery: any, pageIndex: number, pageSize: number): Observable<any> {
     let opt = {
       params: new HttpParams()
-        .set('queryString', searchQuery)
+        .set('searchFilter', searchQuery)
         .set('pageNumber', pageIndex ? pageIndex + 1 : 1)
         .set('pageSize', pageSize ?? 10)
     };

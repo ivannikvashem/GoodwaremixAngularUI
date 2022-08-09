@@ -7,11 +7,11 @@ export class Product implements Deserializable{
   Title: string | undefined;
   TitleLong: string | undefined;
   Description: string | undefined;
-  Vendor: string | undefined; //objectId
-  VendorId: string | undefined; //objectId
-  Image360: string | undefined; //objectId
-  Images: string[] | undefined; //objectId
-  Attributes: string[] | undefined; //objectId
+  Vendor: string | undefined;
+  VendorId: string | undefined;
+  Image360: string | undefined;
+  Images: string[] | undefined;
+  Attributes: string[] | undefined;
   sss: number | undefined;
   createdAt: Date | undefined;
   updatedAt: Date | undefined;
