@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  flex: 2;
+}
+.left-panel {
+  flex: 0 1 55%;
+  margin: 5px
+}
+.right-panel {
+  flex: 0 1 45%;
+  margin: 5px
+}
+.full-width {
+  width: 100%;
+}
+.pic {
+  height: 150px;
+  width: auto;
+  margin: 0 5px
+}
+.mat-list .mat-list-item {
+  height: 60px; /* default is 72px */
+}

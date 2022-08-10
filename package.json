@@ -20,6 +20,8 @@
     "@angular/platform-browser": "^14.0.6",
     "@angular/platform-browser-dynamic": "^14.0.6",
     "@angular/router": "^14.0.6",
+    "@material/image-list": "^14.0.0",
+    "ngx-barcode": "^0.3.0",
     "rxjs": "~7.5.6",
     "tslib": "^2.4.0",
     "zone.js": "~0.11.6"

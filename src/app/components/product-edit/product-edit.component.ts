@@ -2,16 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ApiClient} from "../../repo/httpClient";
 import {Observable} from "rxjs";
+import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
   selector: 'app-product-edit',
   templateUrl: './product-edit.component.html',
   styleUrls: ['./product-edit.component.css']
 })
+
 export class ProductEditComponent implements OnInit {
 
   productId: string | any;
   product: Observable<any> | any;
+
+  displayedAttrColumns: string[] = ['name', 'value'];
+  dataSource = new MatTableDataSource();
 
   constructor(
     private api: ApiClient,
@@ -24,6 +29,7 @@ export class ProductEditComponent implements OnInit {
       data => {
         console.log(JSON.stringify(data));
         this.product = data.body;
+        this.dataSource = new MatTableDataSource(this.product.attributes);
       }
     );
   }

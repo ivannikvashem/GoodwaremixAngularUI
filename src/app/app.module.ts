@@ -2,9 +2,13 @@ import { NgModule } from '@angular/core';
 import {HttpClientModule} from "@angular/common/http";
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {MatCardModule} from '@angular/material/card';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatInputModule} from '@angular/material/input';
+import {MatListModule} from '@angular/material/list';
+import {MatExpansionModule} from '@angular/material/expansion';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatGridListModule} from '@angular/material/grid-list';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatSortModule} from "@angular/material/sort";
 import {MatSelectModule} from "@angular/material/select";
@@ -28,6 +32,7 @@ import { SupplierIndexComponent } from './components/supplier-index/supplier-ind
 import { SupplierEditComponent } from './components/supplier-edit/supplier-edit.component';
 import { ParserLogComponent } from './components/parser-log/parser-log.component';
 import { ProductEditComponent } from './components/product-edit/product-edit.component';
+import { NgxBarcodeModule } from 'ngx-barcode';
 
 @NgModule({
   declarations: [
@@ -51,8 +56,12 @@ import { ProductEditComponent } from './components/product-edit/product-edit.com
     MatAutocompleteModule,
     MatButtonModule,
     MatButtonToggleModule,
+    MatCardModule,
     MatChipsModule,
     MatDialogModule,
+    MatExpansionModule,
+    MatGridListModule,
+    MatListModule,
     MatIconModule,
     MatInputModule,
     MatPaginatorModule,
@@ -64,6 +73,7 @@ import { ProductEditComponent } from './components/product-edit/product-edit.com
     MatTableModule,
     MatToolbarModule,
     ReactiveFormsModule,
+    NgxBarcodeModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
