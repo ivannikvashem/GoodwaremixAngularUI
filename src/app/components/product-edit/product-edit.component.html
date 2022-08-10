@@ -2,17 +2,15 @@
 <div class="container">
   <div class="left-panel">
     <mat-card>
-      <mat-card-title-group>
+
         <mat-card-title>{{product.title}}</mat-card-title>
-        <mat-card-subtitle style="display: flex;
-justify-content: space-between;">
+        <mat-card-subtitle style="display: flex; justify-content: space-between;">
           <span>{{product.vendorId}}</span>
           <span>Арт: {{product.internalCode ? product.internalCode : 'отсутствует'}}</span>
         </mat-card-subtitle>
-      </mat-card-title-group>
+
       <mat-card-content>
-        <p [innerHTML]="product.description"></p>
-        <p></p>
+        <div [innerHTML]="product.description"></div>
       </mat-card-content>
     </mat-card>
 

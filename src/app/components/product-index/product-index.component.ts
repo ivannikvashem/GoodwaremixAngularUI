@@ -2,7 +2,7 @@ import {AfterViewInit, Component, Inject, OnInit, ViewChild} from '@angular/core
 import {ProductsDataSource} from "../../repo/ProductsDataSource";
 import {ApiClient} from "../../repo/httpClient";
 import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {MatPaginator} from "@angular/material/paginator";
 import {debounceTime, distinctUntilChanged, filter, finalize, map, Observable, startWith, switchMap, tap} from "rxjs";
 import {FormControl} from '@angular/forms';
@@ -33,11 +33,15 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   public filteredSupplierList: Observable<Supplier[]> | undefined;
   selectedSupplier: Supplier | undefined;
   isLoading = false;
+  productId: string | any;
+  supplierId: string | any; //todo shity bug!! need to upload whole Supplier and set it into this.selectedSupplier
+
 
   constructor(
     public api: ApiClient,
     public dialog: MatDialog,
     public router: Router,
+    private _ActivatedRoute:ActivatedRoute
   ) {
     this.dataSource = new ProductsDataSource(this.api);
     this.withInternalCodeSelector = false;
@@ -47,7 +51,9 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   paginator!: MatPaginator
 
   ngOnInit(): any {
-    this.dataSource.loadPagedData(this.searchQuery, this.withInternalCodeSelector, '',  0, 10);
+    this._ActivatedRoute.queryParams.subscribe(params => {
+      this.supplierId = params['supplierId'];
+    });
     this.searchSuppliersCtrl.valueChanges.pipe(
       distinctUntilChanged(),
       debounceTime(100),
@@ -65,8 +71,8 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     .subscribe((data: any) => {
       this.supplierList = data.body.data;
       console.log("Got FRESH Data! " + this.searchSuppliersCtrl.value);
-      //console.log(JSON.stringify(this.supplierList));
     });
+    this.dataSource.loadPagedData(this.searchQuery, this.withInternalCodeSelector, this.selectedSupplier ? this.selectedSupplier.id : this.supplierId,  0, 10);
   }
 
   ngAfterViewInit(): void {
