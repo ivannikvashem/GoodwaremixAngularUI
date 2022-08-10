@@ -4,16 +4,27 @@ import {ApiClient} from "../../repo/httpClient";
 import {MatPaginator} from "@angular/material/paginator";
 import {tap} from "rxjs";
 import {Router} from "@angular/router";
+import {animate, state, style, transition, trigger} from "@angular/animations";
+import {Supplier} from "../../models/supplier.model";
 
 @Component({
   selector: 'app-supplier-index',
   templateUrl: './supplier-index.component.html',
-  styleUrls: ['./supplier-index.component.css']
+  styleUrls: ['./supplier-index.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class SupplierIndexComponent implements OnInit {
 
   displayedColumns: string[] = ['name', 'type', 'fullfill', 'brands', 'stat', 'actions'];
   dataSource: SuppliersDataSource;
+  //columnsToDisplayWithExpand = [...this.displayedColumns];
+  expandedElement: Supplier | null | undefined;
 
   constructor(
     public api: ApiClient,

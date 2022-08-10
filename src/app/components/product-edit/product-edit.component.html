@@ -26,7 +26,7 @@ justify-content: space-between;">
       </mat-grid-list>
     </mat-card>
 
-    <mat-card style="margin-top: 10px;" *ngIf="product.documents">
+    <mat-card style="margin-top: 10px; max-width: 900px" *ngIf="product.documents">
       <mat-card-subtitle>Документы</mat-card-subtitle>
       <mat-list>
         <mat-list-item *ngFor="let d of product.documents">
