@@ -10,6 +10,7 @@
         </mat-card-subtitle>
 
       <mat-card-content>
+        <div>Бренд: {{product.vendor}}</div>
         <div [innerHTML]="product.description"></div>
       </mat-card-content>
     </mat-card>
@@ -32,36 +33,14 @@
           <mat-icon mat-list-icon>description</mat-icon>
           <div mat-line><strong>{{d.type}}</strong></div>
           <div mat-line>{{d.certId}}</div>
-          <div mat-line> {{d.startDate | date}} - {{d.endDate | date}} </div>
+          <div mat-line>{{d.startDate | date}} - {{d.endDate | date}}</div>
         </mat-list-item>
       </mat-list>
     </mat-card>
 
-    <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between;">
-      <mat-card style="margin-top: 10px; " *ngIf="product.netto">
-          <mat-card-subtitle>{{product.netto.packQty}} шт. - {{product.netto.type}}</mat-card-subtitle>
-        <mat-card-content>
-
-          <div mat-line style="font-size: large">{{product.netto.width}} x {{product.netto.height}} x {{product.netto.depth}} см</div>
-
-          <div mat-line><ngx-barcode [bc-value]="product.netto.barcode" [bc-display-value]="true"></ngx-barcode></div>
-          <div mat-line style="font-size: large"><mat-icon>scale</mat-icon> {{product.netto.weight}} гр.</div>
-          <div mat-line style="font-size: large"><mat-icon>view_in_ar</mat-icon> {{product.netto.volume}} см<sup>3</sup></div>
-        </mat-card-content>
-      </mat-card>
-
-      <mat-card style="margin-top: 10px; " *ngFor="let pack of product.packages">
-        <mat-card-subtitle>{{pack.packQty}} шт. - {{pack.type}}</mat-card-subtitle>
-        <mat-card-content>
-
-          <div mat-line style="font-size: large">{{pack.width}} x {{pack.height}} x {{pack.depth}} см</div>
-
-          <div mat-line><ngx-barcode [bc-value]="pack.barcode" [bc-display-value]="true"></ngx-barcode></div>
-          <div mat-line style="font-size: large"><mat-icon>scale</mat-icon> {{pack.weight}} гр.</div>
-          <div mat-line style="font-size: large"><mat-icon>view_in_ar</mat-icon> {{pack.volume}} см<sup>3</sup></div>
-        </mat-card-content>
-      </mat-card>
-
+    <div style="display: flex; flex-direction: row; flex-wrap: wrap; ">
+      <app-package-card [pack]="product.netto"></app-package-card>
+      <app-package-card [pack]="pack" *ngFor="let pack of product.packages"></app-package-card>
     </div>
   </div>
 

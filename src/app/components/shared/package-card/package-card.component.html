@@ -1,0 +1,19 @@
+<mat-card style="margin-top: 10px; margin-right: 8px" *ngIf="pack && (pack.barcode || pack.packQty)">
+<!--    <div style="background-color: aquamarine">{{pack.packQty}}</div>
+    <mat-card-subtitle>{{pack.type}}</mat-card-subtitle>-->
+
+  <div style="display: inline-flex">
+    <div class="packQty-badge">{{pack.packQty ? pack.packQty : 1}}</div>
+    <div class="packType">{{pack.type}}</div>
+  </div>
+
+  <mat-card-content>
+<!--    <div>{{pack.width}} x {{pack.height}} x {{pack.depth}} см</div>-->
+    <ngx-barcode [bc-width]="1.4" [bc-height]="40" [bc-value]="pack.barcode" [bc-display-value]="true"></ngx-barcode>
+    <div style="display: flex; justify-content: space-between;">
+      <div *ngIf="pack.weight"><mat-icon>scale</mat-icon> {{Math.round((pack.weight + Eps) * 100) / 100}} гр.</div>
+      <div *ngIf="pack.volume"><mat-icon>view_in_ar</mat-icon> {{Math.round((pack.volume + Eps) * 100) / 100}} см<sup>3</sup></div>
+    </div>
+
+  </mat-card-content>
+</mat-card>

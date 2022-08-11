@@ -33,6 +33,8 @@ import { SupplierEditComponent } from './components/supplier-edit/supplier-edit.
 import { ParserLogComponent } from './components/parser-log/parser-log.component';
 import { ProductEditComponent } from './components/product-edit/product-edit.component';
 import { NgxBarcodeModule } from 'ngx-barcode';
+import { PackageCardComponent } from './components/shared/package-card/package-card.component';
+import {MatBadgeModule} from '@angular/material/badge';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,8 @@ import { NgxBarcodeModule } from 'ngx-barcode';
     SupplierIndexComponent,
     SupplierEditComponent,
     ParserLogComponent,
-    ProductEditComponent
+    ProductEditComponent,
+    PackageCardComponent
   ],
   imports: [
     CommonModule,
@@ -54,6 +57,7 @@ import { NgxBarcodeModule } from 'ngx-barcode';
     BrowserAnimationsModule,
     FormsModule,
     MatAutocompleteModule,
+    MatBadgeModule,
     MatButtonModule,
     MatButtonToggleModule,
     MatCardModule,
