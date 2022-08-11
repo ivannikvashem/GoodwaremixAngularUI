@@ -25,7 +25,7 @@
     </mat-form-field>
 
     <!--[formControl]="withInternalCode"-->
-    <mat-button-toggle-group name="withInternalCode" class="full-width" [(ngModel)]="withInternalCodeSelector" [value]="withInternalCodeSelector" (change)="loadData()">
+    <mat-button-toggle-group name="withInternalCode" class="full-width" [(ngModel)]="withInternalCodeSelector" [value]="withInternalCodeSelector" (change)="loadProductPagedData()">
       <mat-button-toggle [value]="false" class="full-width">Все товары</mat-button-toggle>
       <mat-button-toggle [value]="true" class="full-width">Только с артикулом</mat-button-toggle>
     </mat-button-toggle-group>

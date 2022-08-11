@@ -51,10 +51,11 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   ngOnInit(): any {
     this._ActivatedRoute.queryParams.subscribe(params => {
       this.supplierId = params['supplierId'];
+      console.log("GETTING URL PARAMS!" + this.supplierId);
       if (this.supplierId) {
         this.api.getSupplierById(this.supplierId).subscribe( s => {
-          console.log("Got Supp by id: " + this.supplierId);
-          this.selectedSupplier = s;
+          this.selectedSupplier = s.body as Supplier;
+          this.searchSuppliersCtrl.setValue(s.body as Supplier);
         })
       }
     });
@@ -64,9 +65,10 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
       tap(() => {
         this.isLoading = true;
       }),
-      switchMap(value => this.api.getSuppliers(this.searchSuppliersCtrl.value, 0 ,20)
+      switchMap(value => this.api.getSuppliers(this.searchSuppliersCtrl.value, 0 ,100)
         .pipe(
           finalize(() => {
+            console.log("get init  data!");
             this.isLoading = false
           }),
         )
@@ -76,13 +78,15 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
       this.supplierList = data.body.data;
       console.log("Got FRESH Data! " + this.searchSuppliersCtrl.value);
     });
+
+    //initial product data load
     this.dataSource.loadPagedData(this.searchQuery, this.withInternalCodeSelector, this.selectedSupplier ? this.selectedSupplier.id : this.supplierId,  0, 10);
   }
 
   ngAfterViewInit(): void {
     this.paginator.page
       .pipe(
-        tap( () => this.loadData())
+        tap( () => this.loadProductPagedData())
       )
       .subscribe();
   }
@@ -95,17 +99,17 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     //console.log("ctrlVal= " + JSON.stringify(this.searchSuppliersCtrl.value));
     this.selectedSupplier = this.searchSuppliersCtrl.value as Supplier;
     console.log("suppId= " + this.selectedSupplier?.id);
-    this.loadData();
+    this.loadProductPagedData();
   }
 
-  loadData(): any {
+  loadProductPagedData(): any {
     console.log("loadData " + this.searchQueryCtrl.value + " , withInternalCodeSelector: " + this.withInternalCodeSelector);
     this.dataSource.loadPagedData(this.searchQuery, this.withInternalCodeSelector, this.selectedSupplier?.id, this.paginator?.pageIndex ?? 0, this.paginator?.pageSize ?? 10);
   }
 
   searchQueryChanged() {
     this.searchQuery = this.searchQueryCtrl.value ?? '';
-    this.loadData();
+    this.loadProductPagedData();
   }
 
   deleteItem(_id: any) {

@@ -25,7 +25,6 @@ export class ProductsDataSource implements DataSource<Product> {
 
   loadPagedData(queryString = "", withInternalCodeSelector = false, selectedSuppId = '', pageIndex = 1, pageSize = 10): any {
     this.loadingSubject.next(true);
-      console.log("pageIndex: " +pageIndex);
     this.api.getProducts(queryString, withInternalCodeSelector, selectedSuppId, pageIndex, pageSize)
       .pipe(
         map(res => {

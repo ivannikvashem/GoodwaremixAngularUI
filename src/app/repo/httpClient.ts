@@ -91,7 +91,7 @@ export class ApiClient {
         .set('filter.pageSize', pageSize ?? 10)
         .set('searchFilter', searchQuery)
     };
-    console.log("req: "+JSON.stringify(opt));
+    //console.log("req: "+JSON.stringify(opt));
     opt = Object.assign(opt, this.httpOptions);
     return this.http.get<any>(this.apiURL + '/Supplier', opt);
   }
