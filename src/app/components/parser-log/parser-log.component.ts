@@ -12,7 +12,7 @@ import {LogsDataSource} from "../../repo/LogDataSource";
 })
 export class ParserLogComponent implements OnInit {
 
-  displayedColumns: string[] = ['name', 'status', 'result', 'actions'];
+  displayedColumns: string[] = ['name', 'date', 'status', 'result', 'actions'];
   dataSource: LogsDataSource;
 
   constructor(

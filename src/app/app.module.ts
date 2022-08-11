@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
 import {MatChipsModule} from '@angular/material/chips';
+import {MatStepperModule} from '@angular/material/stepper';
 import {MatInputModule} from '@angular/material/input';
 import {MatListModule} from '@angular/material/list';
 import {MatExpansionModule} from '@angular/material/expansion';
@@ -31,7 +32,7 @@ import { AttributeEditComponent } from './components/attribute-edit/attribute-ed
 import { SupplierIndexComponent } from './components/supplier-index/supplier-index.component';
 import { SupplierEditComponent } from './components/supplier-edit/supplier-edit.component';
 import { ParserLogComponent } from './components/parser-log/parser-log.component';
-import { ProductEditComponent } from './components/product-edit/product-edit.component';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { NgxBarcodeModule } from 'ngx-barcode';
 import { PackageCardComponent } from './components/shared/package-card/package-card.component';
 import {MatBadgeModule} from '@angular/material/badge';
@@ -46,7 +47,7 @@ import {MatBadgeModule} from '@angular/material/badge';
     SupplierIndexComponent,
     SupplierEditComponent,
     ParserLogComponent,
-    ProductEditComponent,
+    ProductDetailsComponent,
     PackageCardComponent
   ],
   imports: [
@@ -74,6 +75,7 @@ import {MatBadgeModule} from '@angular/material/badge';
     MatSelectModule,
     MatSortModule,
     MatSnackBarModule,
+    MatStepperModule,
     MatTableModule,
     MatToolbarModule,
     ReactiveFormsModule,

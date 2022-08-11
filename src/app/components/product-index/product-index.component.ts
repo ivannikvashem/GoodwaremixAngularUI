@@ -29,13 +29,11 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
 
   searchSuppliersCtrl = new FormControl<string | Supplier>('');
   searchQueryCtrl  = new FormControl<string>('');
-  public supplierList: Supplier[] | undefined;
-  public filteredSupplierList: Observable<Supplier[]> | undefined;
+  public supplierList: Supplier[] | undefined;  // public filteredSupplierList: Observable<Supplier[]> | undefined;
   selectedSupplier: Supplier | undefined;
   isLoading = false;
   productId: string | any;
   supplierId: string | any; //todo shity bug!! need to upload whole Supplier and set it into this.selectedSupplier
-
 
   constructor(
     public api: ApiClient,
@@ -53,6 +51,12 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   ngOnInit(): any {
     this._ActivatedRoute.queryParams.subscribe(params => {
       this.supplierId = params['supplierId'];
+      if (this.supplierId) {
+        this.api.getSupplierById(this.supplierId).subscribe( s => {
+          console.log("Got Supp by id: " + this.supplierId);
+          this.selectedSupplier = s;
+        })
+      }
     });
     this.searchSuppliersCtrl.valueChanges.pipe(
       distinctUntilChanged(),
@@ -110,7 +114,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
 
   editItem(id: any) {
     console.log("nav! " + id);
-    this.router.navigate([`product-edit/${id}`]);
+    this.router.navigate([`product-details/${id}`]);
     //this.router.navigate([`attribute-edit/${id}`]);
   }
 

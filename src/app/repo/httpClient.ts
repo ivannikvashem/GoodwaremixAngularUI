@@ -96,6 +96,11 @@ export class ApiClient {
     return this.http.get<any>(this.apiURL + '/Supplier', opt);
   }
 
+  getSupplierById(supplierId: string): Observable<any> {
+    //console.log("getSuppliers: "+JSON.stringify(searchQuery));
+    return this.http.get<any>(this.apiURL + '/Supplier/id/' + supplierId, this.httpOptions);
+  }
+
   fetchDataFromSupplier(supplierName: any) {
     return this.http.post<any>(this.apiURL + '/supplier/fetch/' + supplierName, {}, this.httpOptions);
   }

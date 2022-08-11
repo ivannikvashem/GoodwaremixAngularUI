@@ -5,12 +5,12 @@ import {Observable} from "rxjs";
 import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
-  selector: 'app-product-edit',
-  templateUrl: './product-edit.component.html',
-  styleUrls: ['./product-edit.component.css']
+  selector: 'app-product-details',
+  templateUrl: './product-details.component.html',
+  styleUrls: ['./product-details.component.css']
 })
 
-export class ProductEditComponent implements OnInit {
+export class ProductDetailsComponent implements OnInit {
 
   productId: string | any;
   product: Observable<any> | any;
