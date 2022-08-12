@@ -4,12 +4,17 @@
   flex: 2;
 }
 .left-panel {
-  flex: 0 1 55%;
+  flex: 0 1 33%;
   margin: 5px
 }
 .right-panel {
-  flex: 0 1 45%;
+  flex: 0 1 33%;
   margin: 5px
+}
+.center-panel {
+  //flex: 0 1 33%;
+  margin: 5px;
+  width: 500px;
 }
 .full-width {
   width: 100%;
@@ -21,4 +26,18 @@
 }
 .mat-list .mat-list-item {
   height: 60px; /* default is 72px */
+}
+
+td, th, .mat-line {
+  white-space: normal;
+  word-wrap: break-word;
+  max-width: 200px;
+}
+tr.mat-row {
+  height: 35px;
+}
+.mat-line {
+  white-space: normal;
+  word-wrap: break-word;
+  max-width: 400px;
 }

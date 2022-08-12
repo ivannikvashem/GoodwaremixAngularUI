@@ -37,19 +37,25 @@ import { ProductDetailsComponent } from './components/product-details/product-de
 import { NgxBarcodeModule } from 'ngx-barcode';
 import { PackageCardComponent } from './components/shared/package-card/package-card.component';
 import {MatBadgeModule} from '@angular/material/badge';
+import {
+  DialogDataExampleDialog2,
+  HoverImageSliderComponent
+} from './components/shared/hover-image-slider/hover-image-slider.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProductIndexComponent,
     DialogDataExampleDialog,
+    DialogDataExampleDialog2,
     AttributeIndexComponent,
     AttributeEditComponent,
     SupplierIndexComponent,
     SupplierEditComponent,
     ParserLogComponent,
     ProductDetailsComponent,
-    PackageCardComponent
+    PackageCardComponent,
+    HoverImageSliderComponent
   ],
   imports: [
     CommonModule,

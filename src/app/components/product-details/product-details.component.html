@@ -1,29 +1,39 @@
+<div class="mat-headline">
+  {{product.title}}
+  <span style="margin: 0 1.5em;">{{product.vendor}}</span>
+  <EM><span style="font-size: small">{{product.vendorId}}</span></EM>
+</div>
+<div class="mat-body"> {{product.vendor}} </div>
 
 <div class="container">
+
+  <div class="center-panel">
+      <app-hover-image-slider [imgList]="product.images"></app-hover-image-slider>
+  </div>
+
   <div class="left-panel">
     <mat-card>
-
-        <mat-card-title>{{product.title}}</mat-card-title>
+        <!--<mat-card-title>{{product.title}}</mat-card-title>-->
         <mat-card-subtitle style="display: flex; justify-content: space-between;">
           <span>{{product.vendorId}}</span>
           <span>Арт: {{product.internalCode ? product.internalCode : 'отсутствует'}}</span>
         </mat-card-subtitle>
 
       <mat-card-content>
-        <div>Бренд: {{product.vendor}}</div>
         <div [innerHTML]="product.description"></div>
       </mat-card-content>
     </mat-card>
 
-    <mat-card style="margin-top: 10px">
-      <!--<img *ngFor="let p of product.images" src="{{p}}" class="pic">-->
+<!--    <mat-card style="margin-top: 10px">
+      <img *ngFor="let p of product.images" src="{{p}}" class="pic">
       <mat-grid-list cols="4" rowHeight="150px">
         <mat-grid-tile
           *ngFor="let p of product.images">
           <img src="{{p}}" style="max-width:100%; max-height:100%;">
         </mat-grid-tile>
       </mat-grid-list>
-    </mat-card>
+      <app-hover-image-slider [imgList]="product.images"></app-hover-image-slider>
+    </mat-card>-->
 
     <mat-card style="margin-top: 10px; max-width: 900px" *ngIf="product.documents">
       <mat-card-subtitle>Документы</mat-card-subtitle>
@@ -43,6 +53,8 @@
       <app-package-card [pack]="pack" *ngFor="let pack of product.packages"></app-package-card>
     </div>
   </div>
+
+
 
   <div class="right-panel">
     <mat-accordion>

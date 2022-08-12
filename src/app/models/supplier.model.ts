@@ -1,16 +1,14 @@
 import {Deserializable} from './deserializable.model';
+import {Stat} from "./Stat.model";
+import {SupplierConfig} from "./supplierConfig.model";
 
 export class Supplier implements Deserializable{
   id: string | undefined;
-  connection: string | undefined;
   supplierName: string | undefined;
-  productQty: number | undefined;
-  productQtyWithCode: number | undefined;
-  brands: string[] | undefined;
-  source: string | undefined;
-  type: string | undefined;
+  comment: number | undefined;
+  stat: Stat | undefined;
   sourceSettings: any | undefined;
-  supplierConfigs: any | undefined;
+  supplierConfigs: SupplierConfig | undefined;
   deserialize(input: any): this {
     return Object.assign(this, input);
   }

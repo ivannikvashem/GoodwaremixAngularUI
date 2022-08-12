@@ -23,7 +23,6 @@ export class SupplierIndexComponent implements OnInit {
 
   displayedColumns: string[] = ['name', 'type', 'fullfill', 'brands', 'stat', 'actions'];
   dataSource: SuppliersDataSource;
-  //columnsToDisplayWithExpand = [...this.displayedColumns];
   expandedElement: Supplier | null | undefined;
 
   constructor(
@@ -50,7 +49,6 @@ export class SupplierIndexComponent implements OnInit {
   }
 
   loadData(): any {
-    //console.log("pager: " + JSON.stringify(this.paginator));
     this.dataSource.loadPagedData("", this.paginator?.pageIndex, this.paginator?.pageSize);
   }
 
@@ -81,7 +79,12 @@ export class SupplierIndexComponent implements OnInit {
   editItem(supplierName: any) {
     this.router.navigate([`supplier-edit/${supplierName}`]);
   }
+
   deleteItem(id: any) {
+
+  }
+
+  deleteSupplierProducts(id: any) {
 
   }
 }

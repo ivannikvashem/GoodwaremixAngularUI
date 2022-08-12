@@ -74,7 +74,7 @@ export class ApiClient {
         .set('searchQuery', searchQuery)
     };
     opt = Object.assign(opt, this.httpOptions);
-    return this.http.get<any>(this.apiURL + '/AngProduct', opt);
+    return this.http.get<any>(this.apiURL + '/Product', opt);
   }
 
   getProductById(id: string): Observable<any> {

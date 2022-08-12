@@ -1,0 +1,12 @@
+<div class="containerCmain"> <!--*ngIf="hoverRowId==row.id"-->
+  <img [src]="hoverImage" class="imgInContainer"/>
+  <div class="containerC">
+    <div *ngFor="let p of imgList; index as i" class="hoverBlockC" (mouseover)="changeImage(p)" (click)="openDialog(p)"></div>
+  </div>
+</div>
+<!--<div class="containerCmain"> &lt;!&ndash;*ngIf="hoverRowId!=row.id"&ndash;&gt;
+  <img [src]="imgList[0]" class="imgInContainer"/>
+  <div class="containerC">
+    <div *ngFor="let image of imgList; index as i" class="hoverBlockC" (mouseover)="changeImage(image)"></div>
+  </div>
+</div>-->

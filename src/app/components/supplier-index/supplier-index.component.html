@@ -17,8 +17,8 @@
     <ng-container matColumnDef="type">
       <th mat-header-cell *matHeaderCellDef>Тип</th>
       <td mat-cell *matCellDef="let row">
-        <mat-icon class="material-icons-outlined">{{row.source == "API" ? "cloud_done" : (row.source == "MAIL" ? "mail" : "folder_shared")}}</mat-icon>
-        <mat-icon class="material-icons-outlined">{{row.type == "XML" ? "code" : (row.type == "XLSX" ? "table_view" : "data_object")}}</mat-icon>
+        <mat-icon class="material-icons-outlined">{{row.sourceSettings.source == "API" ? "cloud_done" : (row.source == "MAIL" ? "mail" : "folder_shared")}}</mat-icon>
+        <mat-icon class="material-icons-outlined">{{row.supplierConfigs.type == "XML" ? "code" : (row.type == "XLSX" ? "table_view" : "data_object")}}</mat-icon>
       </td>
     </ng-container>
 
@@ -27,20 +27,20 @@
       <th mat-header-cell *matHeaderCellDef>Данные</th>
       <td mat-cell *matCellDef="let row">
 
-        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.images != null">photo_camera</mat-icon>
-        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.attributesParam.nameAttribute != null && row.supplierConfigs.productAttributeKeys != null">toc</mat-icon>
-        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.netto != null && row.supplierConfigs.netto.barcode != null">crop</mat-icon>
-        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.packages.packQty != null">inventory_2</mat-icon>
-        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.documents.url != null || row.supplierConfigs.documents.certNumber != null">file_present</mat-icon>
-        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.attributesParam.etimFeature != null">explicit</mat-icon>
+        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.imageConfig.images != null">photo_camera</mat-icon>
+        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.attributeConfig.attributeName != null && row.supplierConfigs.attributeConfig.productAttributeKeys != null">toc</mat-icon>
+        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.packageConfig.netto != null && row.supplierConfigs.packageConfig.netto.barcode != null">crop</mat-icon>
+        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.packageConfig.packQty != null">inventory_2</mat-icon>
+        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.documentConfig.endDate != null || row.supplierConfigs.documentConfig.certNumber != null">file_present</mat-icon>
+        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.attributeConfig.etimFeature != null">explicit</mat-icon>
       </td>
     </ng-container>
 
     <!-- brands Column -->
     <ng-container matColumnDef="brands">
       <th mat-header-cell *matHeaderCellDef>Бренды</th>
-      <td mat-cell *matCellDef="let row">{{ row.brands != null ? row.brands.slice(0, 7).join(', ') : ""}} {{row.brands.length > 7 ? "... и др." : ''}}
-        <button mat-icon-button aria-label="expand row" (click)="(expandedElement = expandedElement === row ? null : row); $event.stopPropagation()" *ngIf="row.brands.length > 7">
+      <td mat-cell *matCellDef="let row">{{ row.stat.brands != null ? row.stat.brands.slice(0, 7).join(', ') : ""}} {{row.stat.brands && row.stat.brands.length > 7 ? "... и др." : ''}}
+        <button mat-icon-button aria-label="expand row" (click)="(expandedElement = expandedElement === row ? null : row); $event.stopPropagation()" *ngIf="row.stat && row.stat.brands && row.stat.brands.length > 7">
           <mat-icon *ngIf="expandedElement !== row">keyboard_arrow_down</mat-icon>
           <mat-icon *ngIf="expandedElement === row">keyboard_arrow_up</mat-icon>
         </button>
@@ -50,7 +50,7 @@
     <!-- stat Column -->
     <ng-container matColumnDef="stat">
       <th mat-header-cell *matHeaderCellDef>Номенкулатура</th>
-      <td mat-cell *matCellDef="let row">{{ row.productQty != null && row.productQty > 0 ? row.productQty + " / " : ""}} {{ row.productQtyWithCode != null ? row.productQtyWithCode : ""}}</td>
+      <td mat-cell *matCellDef="let row">{{ row.stat.productQty != null && row.stat.productQty > 0 ? row.stat.productQty + " / " : ""}} {{ row.stat.productQtyWithCode != null ? row.stat.productQtyWithCode : ""}}</td>
     </ng-container>
 
     <!-- expand Column -->
@@ -99,7 +99,7 @@
              [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
 
           <div class="example-element-description">
-            {{ element.brands != null ? element.brands.join(', ') : ""}}
+            {{ element.stat.brands != null ? element.stat.brands.join(', ') : ""}}
           </div>
         </div>
       </td>
