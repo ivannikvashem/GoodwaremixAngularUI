@@ -49,9 +49,11 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   paginator!: MatPaginator
 
   ngOnInit(): any {
+    this.api.getSuppliers('', 0 ,100).subscribe( r => {
+      this.supplierList = r.body.data
+    });
     this._ActivatedRoute.queryParams.subscribe(params => {
       this.supplierId = params['supplierId'];
-      console.log("GETTING URL PARAMS!" + this.supplierId);
       if (this.supplierId) {
         this.api.getSupplierById(this.supplierId).subscribe( s => {
           this.selectedSupplier = s.body as Supplier;
@@ -65,10 +67,9 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
       tap(() => {
         this.isLoading = true;
       }),
-      switchMap(value => this.api.getSuppliers(this.searchSuppliersCtrl.value, 0 ,100)
+      switchMap(value => this.api.getSuppliers(value, 0 ,100)
         .pipe(
           finalize(() => {
-            console.log("get init  data!");
             this.isLoading = false
           }),
         )
@@ -76,7 +77,6 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     )
     .subscribe((data: any) => {
       this.supplierList = data.body.data;
-      console.log("Got FRESH Data! " + this.searchSuppliersCtrl.value);
     });
 
     //initial product data load
@@ -103,7 +103,6 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   }
 
   loadProductPagedData(): any {
-    console.log("loadData " + this.searchQueryCtrl.value + " , withInternalCodeSelector: " + this.withInternalCodeSelector);
     this.dataSource.loadPagedData(this.searchQuery, this.withInternalCodeSelector, this.selectedSupplier?.id, this.paginator?.pageIndex ?? 0, this.paginator?.pageSize ?? 10);
   }
 
@@ -117,9 +116,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   }
 
   editItem(id: any) {
-    console.log("nav! " + id);
     this.router.navigate([`product-details/${id}`]);
-    //this.router.navigate([`attribute-edit/${id}`]);
   }
 
   addItem() {

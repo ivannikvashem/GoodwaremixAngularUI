@@ -21,6 +21,7 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {AppRoutingModule} from "./app-routing.module";
 import {MatButtonModule} from "@angular/material/button";
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatTooltipModule} from '@angular/material/tooltip';
 import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
 import {DialogDataExampleDialog, ProductIndexComponent} from './components/product-index/product-index.component';
@@ -78,6 +79,7 @@ import {MatBadgeModule} from '@angular/material/badge';
     MatStepperModule,
     MatTableModule,
     MatToolbarModule,
+    MatTooltipModule,
     ReactiveFormsModule,
     NgxBarcodeModule,
   ],

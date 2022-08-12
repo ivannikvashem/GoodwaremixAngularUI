@@ -10,6 +10,7 @@ export class PackageCardComponent implements OnInit {
 
   Math = Math;
   Eps = Number.EPSILON;
+  isCalculatedVolume = false;
 
   constructor() {
   }
@@ -17,6 +18,10 @@ export class PackageCardComponent implements OnInit {
   @Input() pack: Package = new Package();
 
   ngOnInit(): void {
+    if (!this.pack.volume && this.pack.height && this.pack.width && this.pack.depth) {
+      this.pack.volume = this.pack.height * this.pack.width * this.pack.depth;
+      this.isCalculatedVolume = true;
+    }
   }
 
 }

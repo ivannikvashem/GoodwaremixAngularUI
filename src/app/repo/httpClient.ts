@@ -84,21 +84,18 @@ export class ApiClient {
   // Suppliers ENDPOINT
 
   getSuppliers(searchQuery: any, pageIndex: number, pageSize: number): Observable<any> {
-    //console.log("getSuppliers: "+JSON.stringify(searchQuery));
     let opt = {
       params: new HttpParams()
         .set('filter.pageNumber', pageIndex ? pageIndex + 1 : 1)
         .set('filter.pageSize', pageSize ?? 10)
         .set('searchFilter', searchQuery)
     };
-    //console.log("req: "+JSON.stringify(opt));
     opt = Object.assign(opt, this.httpOptions);
-    return this.http.get<any>(this.apiURL + '/Supplier', opt);
+    return this.http.get<any>(this.apiURL + '/supplier', opt);
   }
 
   getSupplierById(supplierId: string): Observable<any> {
-    //console.log("getSuppliers: "+JSON.stringify(searchQuery));
-    return this.http.get<any>(this.apiURL + '/Supplier/id/' + supplierId, this.httpOptions);
+    return this.http.get<any>(this.apiURL + '/supplier/id/' + supplierId, this.httpOptions);
   }
 
   fetchDataFromSupplier(supplierName: any) {
