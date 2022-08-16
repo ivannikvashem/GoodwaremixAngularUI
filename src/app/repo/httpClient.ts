@@ -71,7 +71,7 @@ export class ApiClient {
         .set('withInternalCode', withInternalCodeSelector ?? false)
         .set('pageNumber', pageIndex ? pageIndex + 1 : 1)
         .set('pageSize', pageSize ?? 10)
-        .set('searchQuery', searchQuery)
+        .set('searchFilter', searchQuery)
     };
     opt = Object.assign(opt, this.httpOptions);
     return this.http.get<any>(this.apiURL + '/Product', opt);
@@ -96,6 +96,10 @@ export class ApiClient {
 
   getSupplierById(supplierId: string): Observable<any> {
     return this.http.get<any>(this.apiURL + '/supplier/id/' + supplierId, this.httpOptions);
+  }
+
+  getSupplierByName(supplierName: string): Observable<any> {
+    return this.http.get<any>(this.apiURL + '/supplier/' + supplierName, this.httpOptions);
   }
 
   fetchDataFromSupplier(supplierName: any) {
