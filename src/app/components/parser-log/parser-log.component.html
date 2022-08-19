@@ -5,18 +5,18 @@
 
 <div class="mat-elevation-z8">
 
-  <table mat-table [dataSource]="dataSource">
+  <table mat-table [dataSource]="dataSource" matSort matSortActive="Date" matSortDisableClear matSortDirection="desc">
 
     <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Поставщик</th>
+    <ng-container matColumnDef="SupplierName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Поставщик</th>
       <td mat-cell *matCellDef="let row">{{row.supplierName}}</td>
     </ng-container>
 
     <!-- Date Column -->
-    <ng-container matColumnDef="date">
-      <th mat-header-cell *matHeaderCellDef>Дата</th>
-      <td mat-cell *matCellDef="let row">{{row.date | date}}</td>
+    <ng-container matColumnDef="Date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Дата</th>
+      <td mat-cell *matCellDef="let row">{{row.date | date:'yyyy-mm-dd, hh:mm'}}</td>
     </ng-container>
 
     <!-- status Column -->

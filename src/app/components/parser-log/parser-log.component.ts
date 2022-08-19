@@ -2,8 +2,9 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {ApiClient} from "../../repo/httpClient";
 import {Router} from "@angular/router";
 import {MatPaginator} from "@angular/material/paginator";
-import {tap} from "rxjs";
+import {merge, startWith, tap} from "rxjs";
 import {LogsDataSource} from "../../repo/LogDataSource";
+import {MatSort, SortDirection} from "@angular/material/sort";
 
 @Component({
   selector: 'app-parser-log',
@@ -12,7 +13,7 @@ import {LogsDataSource} from "../../repo/LogDataSource";
 })
 export class ParserLogComponent implements OnInit {
 
-  displayedColumns: string[] = ['name', 'date', 'status', 'result', 'actions'];
+  displayedColumns: string[] = ['SupplierName', 'Date', 'status', 'result', 'actions'];
   dataSource: LogsDataSource;
 
   constructor(
@@ -22,15 +23,19 @@ export class ParserLogComponent implements OnInit {
     this.dataSource = new LogsDataSource(this.api);
   }
 
-  @ViewChild(MatPaginator)
-  paginator!: MatPaginator
+  @ViewChild(MatPaginator) paginator!: MatPaginator
+  @ViewChild(MatSort) sort: MatSort | any;
 
   ngOnInit(): any {
     this.dataSource.loadPagedData(0, 10);
   }
 
   ngAfterViewInit(): void {
-    this.paginator.page
+    // If the user changes the sort order, reset back to the first page.
+    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+
+    //todo доделать нормальный pipe и обработку ошибок
+    merge(this.sort.sortChange, this.paginator.page)
       .pipe(
         tap( () => this.loadData())
       )
@@ -38,7 +43,7 @@ export class ParserLogComponent implements OnInit {
   }
 
   loadData(): any {
-    this.dataSource.loadPagedData(this.paginator?.pageIndex ?? 0, this.paginator?.pageSize ?? 10);
+    this.dataSource.loadPagedData(this.paginator?.pageIndex ?? 0, this.paginator?.pageSize ?? 10, this.sort.active, this.sort.direction);
   }
 
   flushLogTable(): any {

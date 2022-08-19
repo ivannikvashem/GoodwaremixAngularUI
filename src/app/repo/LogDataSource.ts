@@ -23,10 +23,10 @@ export class LogsDataSource implements DataSource<Log> {
     this.loadingSubject.complete();
   }
 
-  loadPagedData(pageIndex = 1, pageSize = 10): any {
+  loadPagedData(pageIndex = 1, pageSize = 10, sortActive = "Date", sortDirection = "desc"): any {
     this.loadingSubject.next(true);
-
-    this.api.getLogs(pageIndex, pageSize)
+    console.log("Sort: " + sortActive + ", " + sortDirection);
+    this.api.getLogs(pageIndex, pageSize, sortActive, sortDirection)
       .pipe(
         map(res => {
           return res.body;
