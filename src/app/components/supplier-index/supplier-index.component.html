@@ -17,8 +17,8 @@
     <ng-container matColumnDef="type">
       <th mat-header-cell *matHeaderCellDef>Тип</th>
       <td mat-cell *matCellDef="let row">
-        <mat-icon class="material-icons-outlined">{{row.sourceSettings.source == "API" ? "cloud_done" : (row.source == "MAIL" ? "mail" : "folder_shared")}}</mat-icon>
-        <mat-icon class="material-icons-outlined">{{row.supplierConfigs.type == "XML" ? "code" : (row.type == "XLSX" ? "table_view" : "data_object")}}</mat-icon>
+        <mat-icon class="material-icons-outlined" *ngIf="row.sourceSettings">{{row.sourceSettings.source == "API" ? "cloud_done" : (row.source == "MAIL" ? "mail" : "folder_shared")}}</mat-icon>
+        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs">{{row.supplierConfigs.type == "XML" ? "code" : (row.type == "XLSX" ? "table_view" : "data_object")}}</mat-icon>
       </td>
     </ng-container>
 
@@ -26,12 +26,12 @@
     <ng-container matColumnDef="fullfill">
       <th mat-header-cell *matHeaderCellDef>Данные</th>
       <td mat-cell *matCellDef="let row">
-        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.imageConfig.images != null">{{row.supplierConfigs.imageConfig.downloadLocally ? "add_a_photo" : "photo_camera"}}</mat-icon>
-        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.attributeConfig.attributeName != null && row.supplierConfigs.attributeConfig.productAttributeKeys != null">toc</mat-icon>
-        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.packageConfig.netto != null && row.supplierConfigs.packageConfig.netto.barcode != null">crop</mat-icon>
-        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.packageConfig.packQty != null">inventory_2</mat-icon>
-        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.documentConfig.endDate != null || row.supplierConfigs.documentConfig.certNumber != null">file_present</mat-icon>
-        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.attributeConfig.etimFeature != null">explicit</mat-icon>
+        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs != null && row.supplierConfigs.imageConfig.images != null">{{row.supplierConfigs.imageConfig.downloadLocally ? "add_a_photo" : "photo_camera"}}</mat-icon>
+        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs != null && row.supplierConfigs.attributeConfig.attributeName != null && row.supplierConfigs.attributeConfig.productAttributeKeys != null">toc</mat-icon>
+        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs != null && row.supplierConfigs.packageConfig.netto != null && row.supplierConfigs.packageConfig.netto.barcode != null">crop</mat-icon>
+        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs != null && row.supplierConfigs.packageConfig.packQty != null">inventory_2</mat-icon>
+        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs != null && (row.supplierConfigs.documentConfig.endDate != null || row.supplierConfigs.documentConfig.certNumber != null)">file_present</mat-icon>
+        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs != null && row.supplierConfigs.attributeConfig.etimFeature != null">explicit</mat-icon>
       </td>
     </ng-container>
 
@@ -84,10 +84,10 @@
         <button mat-icon-button class="mat-elevation-z2" matTooltip="Изменить" (click)="editItem(item.supplierName)">
           <mat-icon>edit</mat-icon>
         </button>&nbsp;
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить товары поставщика" (click)="deleteSupplierProducts(item.id)">
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить товары поставщика" (click)="confirmDeleteSuppProdDialog(item.id, item.supplierName)">
           <mat-icon>remove_shopping_cart</mat-icon>
         </button>&nbsp;
-        <button mat-icon-button disabled class="mat-elevation-z2" matTooltip="Удалить поставщика" (click)="deleteItem(item.id)">
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить поставщика" (click)="confirmDeleteSuppDialog(item.id, item.supplierName)">
           <mat-icon>delete</mat-icon>
         </button>
       </td>

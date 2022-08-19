@@ -16,9 +16,8 @@ import {Supplier} from "../../models/supplier.model";
 })
 export class AttributeIndexComponent implements OnInit {
 
-  searchQuery = '';
   dataSource: AttributesDataSource;
-  displayedColumns: string[] = ['fixed', 'rating', 'etimFeature', 'nameAttribute', 'allValue', 'actions'];
+  displayedColumns: string[] = ['fixed', 'rating', 'supplierName', 'etimFeature', 'nameAttribute', 'allValue', 'actions'];
 
   searchSuppliersCtrl = new FormControl<string | Supplier>('');
   public supplierList: Supplier[] | undefined;  // public filteredSupplierList: Observable<Supplier[]> | undefined;
@@ -26,12 +25,18 @@ export class AttributeIndexComponent implements OnInit {
   isLoading = false;
   supplierId: string | any; //todo shity bug!! need to upload whole Supplier and set it into this.selectedSupplier
 
+  public withFixedAttrSelector?: any;
+
+  public searchQuery: string | undefined;
+  searchQueryCtrl  = new FormControl<string>('');
+
   constructor(
     public api: ApiClient,
     private router: Router,
     private _ActivatedRoute:ActivatedRoute
   ) {
     this.dataSource = new AttributesDataSource(this.api);
+    //this.withFixedAttrSelector = true;
   }
 
   @ViewChild(MatPaginator)
@@ -79,7 +84,7 @@ export class AttributeIndexComponent implements OnInit {
   }
 
   loadData(): any {
-    this.dataSource.loadPagedData(this.searchQuery, this.selectedSupplier?.id, this.paginator?.pageIndex ?? 0, this.paginator?.pageSize ?? 10);
+    this.dataSource.loadPagedData(this.searchQuery, this.selectedSupplier?.id, this.paginator?.pageIndex ?? 0, this.paginator?.pageSize ?? 10, this.withFixedAttrSelector);
   }
 
   addItem() {
@@ -103,6 +108,16 @@ export class AttributeIndexComponent implements OnInit {
     //console.log("ctrlVal= " + JSON.stringify(this.searchSuppliersCtrl.value));
     this.selectedSupplier = this.searchSuppliersCtrl.value as Supplier;
     console.log("suppId= " + this.selectedSupplier?.id);
+    this.loadData();
+  }
+
+  onFixedSelected() {
+    console.log(this.withFixedAttrSelector);
+    this.loadData();
+  }
+
+  searchQueryChanged() {
+    this.searchQuery = this.searchQueryCtrl.value ?? '';
     this.loadData();
   }
 }

@@ -23,9 +23,9 @@ export class AttributesDataSource implements DataSource<Attribute> {
     this.loadingSubject.complete();
   }
 
-  loadPagedData(queryString = "", supplierId: any, pageIndex = 1, pageSize = 10): any {
+  loadPagedData(queryString = "", supplierId: any, pageIndex = 1, pageSize = 10, fixed?: boolean ): any {
     this.loadingSubject.next(true);
-    this.api.getAttributes(queryString, supplierId, pageIndex, pageSize)
+    this.api.getAttributes(queryString, supplierId, pageIndex, pageSize, fixed)
       .pipe(
         map(res => {
           return res.body;

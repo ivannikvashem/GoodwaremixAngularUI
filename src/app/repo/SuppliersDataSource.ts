@@ -39,4 +39,24 @@ export class SuppliersDataSource implements DataSource<Supplier> {
         this.rowCount = body.totalRecords;
       });
   }
+
+  deleteSupplier(id: any) {
+    console.log("deleting supp " + id);
+    this.api.deleteSupplier(id).subscribe( res => {
+        console.log(JSON.stringify(res));
+      },
+      err => {
+        console.log(err);
+      })
+  }
+
+  deleteSupplierProducts(id: any) {
+    console.log("deleting supp " + id + " products");
+    this.api.deleteSupplierProducts(id).subscribe( res => {
+        console.log(JSON.stringify(res));
+      },
+      err => {
+        console.log(err);
+      })
+  }
 }

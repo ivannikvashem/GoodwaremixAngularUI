@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, Type} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
@@ -34,17 +34,20 @@ export class ApiClient {
   };
 
   // Attributes ENDPOINTS
-  getAttributes(searchQuery: string, supplierId: string, pageIndex: number, pageSize: number): Observable<any> {
+  getAttributes(searchQuery: string, supplierId: string, pageIndex: number, pageSize: number, fixed?: boolean): Observable<any> {
     let opt = {
       params: new HttpParams()
         .set('pageNumber', pageIndex ? pageIndex + 1 : 1)
         .set('pageSize', pageSize ?? 10)
-        .set('searchQuery', searchQuery)
+        .set('searchFilter', searchQuery)
     };
     if (supplierId) {
       opt.params = opt.params.append('supplierId', supplierId);
     }
-    //console.log("props: " + JSON.stringify(opt));
+    //if (typeof (fixed) == "boolean") {
+      opt.params = opt.params.append('fixedFilter', fixed ? fixed : false);
+    //}
+    console.log("props: " + JSON.stringify(opt));
     opt = Object.assign(opt, this.httpOptions);
     return this.http.get<any>(this.apiURL + '/Attribute', opt);
   }
@@ -121,6 +124,10 @@ export class ApiClient {
 
   deleteSupplierProducts(id: any): Observable<any> {
     return this.http.delete<any>(this.apiURL + '/supplier?supplierId=' + id, this.httpOptions);
+  }
+
+  deleteSupplier(id: any): Observable<any> {
+    return this.http.delete<any>(this.apiURL + '/supplier/' + id, this.httpOptions);
   }
 
   // INIT ENDPOINT

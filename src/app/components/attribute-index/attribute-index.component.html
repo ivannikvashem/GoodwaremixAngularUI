@@ -7,7 +7,7 @@
   <div class="left-panel">
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>Поиск</mat-label>
-      <input matInput [(ngModel)]="searchQuery" (keydown.enter)="loadData()">
+      <input matInput [formControl]="searchQueryCtrl" (keydown.enter)="searchQueryChanged()">
     </mat-form-field>
     <br />
 
@@ -23,10 +23,9 @@
       </mat-autocomplete>
     </mat-form-field>
 
-    <!--[formControl]="withInternalCode"-->
-    <mat-button-toggle-group name="fixed" class="full-width">
-      <mat-button-toggle value="false" class="full-width">Все атрибуты</mat-button-toggle>
-      <mat-button-toggle value="true" class="full-width">Только фиксированные</mat-button-toggle>
+    <mat-button-toggle-group name="fixed" class="full-width" [(ngModel)]="withFixedAttrSelector" [value]="withFixedAttrSelector" (change)="onFixedSelected()">
+      <mat-button-toggle [value]=false class="full-width">Все</mat-button-toggle>
+      <mat-button-toggle [value]=true class="full-width">Фиксированные</mat-button-toggle>
     </mat-button-toggle-group>
 
   </div>
@@ -40,6 +39,12 @@
       <td mat-cell *matCellDef="let row">
         <mat-icon>{{row.fixed ? 'check_circle' : 'radio_button_unchecked'}}</mat-icon>
       </td>
+    </ng-container>
+
+    <!-- Supp Name Column -->
+    <ng-container matColumnDef="supplierName">
+      <th mat-header-cell *matHeaderCellDef>Пост.</th>
+      <td mat-cell *matCellDef="let row">{{row.supplierName}}</td>
     </ng-container>
 
     <!-- Name Column -->

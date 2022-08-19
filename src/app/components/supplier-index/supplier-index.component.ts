@@ -6,6 +6,8 @@ import {tap} from "rxjs";
 import {Router} from "@angular/router";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {Supplier} from "../../models/supplier.model";
+import {MatDialog} from "@angular/material/dialog";
+import {ConfirmDialogComponent, ConfirmDialogModel} from "../shared/confirm-dialog/confirm-dialog.component";
 
 @Component({
   selector: 'app-supplier-index',
@@ -27,7 +29,8 @@ export class SupplierIndexComponent implements OnInit {
 
   constructor(
     public api: ApiClient,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog
   ) {
     this.dataSource = new SuppliersDataSource(this.api);
   }
@@ -80,20 +83,6 @@ export class SupplierIndexComponent implements OnInit {
     this.router.navigate([`supplier-edit/${supplierName}`]);
   }
 
-  deleteItem(id: any) {
-
-  }
-
-  deleteSupplierProducts(id: any) {
-    console.log("deleting supp " + id + " products");
-    this.api.deleteSupplierProducts(id).subscribe( res => {
-        console.log(JSON.stringify(res));
-      },
-      err => {
-        console.log(err);
-      })
-  }
-
   addTmpSupplier(): void{
     let supplier = {
       SupplierName: "123",
@@ -107,5 +96,41 @@ export class SupplierIndexComponent implements OnInit {
       error => {
         console.log( "updateSupplierError: " + JSON.stringify(error));
       })
+  }
+
+  confirmDeleteSuppDialog(id: string, name: string): void {
+    const message = `Удалить поставщика ` + name + `?`;
+    const dialogData = new ConfirmDialogModel("Подтверждение", message);
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: "400px",
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      //this.result = dialogResult;
+      if (dialogResult === true) {
+        console.log("Confirm deleting " + id);
+        this.dataSource.deleteSupplier(id);
+      }
+    });
+  }
+
+  confirmDeleteSuppProdDialog(id: string, name: string): void {
+    const message = `Удалить все товары поставщика ` + name + `?`;
+    const dialogData = new ConfirmDialogModel("Подтверждение", message);
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: "500px",
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      //this.result = dialogResult;
+      if (dialogResult === true) {
+        console.log("Confirm deleting " + id);
+        this.dataSource.deleteSupplierProducts(id);
+      }
+    });
   }
 }

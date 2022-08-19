@@ -41,6 +41,7 @@ import {
   DialogDataExampleDialog2,
   HoverImageSliderComponent
 } from './components/shared/hover-image-slider/hover-image-slider.component';
+import { ConfirmDialogComponent } from './components/shared/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import {
     ParserLogComponent,
     ProductDetailsComponent,
     PackageCardComponent,
-    HoverImageSliderComponent
+    HoverImageSliderComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     CommonModule,
