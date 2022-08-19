@@ -62,6 +62,10 @@ export class ApiClient {
     return this.http.get<any>(this.apiURL + '/Log', opt);
   }
 
+  flushLogs(): Observable<boolean> {
+    return this.http.delete<any>(this.apiURL + '/Log/DeleteLogs', this.httpOptions);
+  }
+
   // Product ENDPOINT
 
   getProducts(searchQuery: string, withInternalCodeSelector: boolean, selectedSuppId: string, pageIndex: number, pageSize: number): Observable<any> {
@@ -102,8 +106,16 @@ export class ApiClient {
     return this.http.get<any>(this.apiURL + '/supplier/' + supplierName, this.httpOptions);
   }
 
-  fetchDataFromSupplier(supplierName: any) {
+  fetchDataFromSupplier(supplierName: any): Observable<any> {
     return this.http.post<any>(this.apiURL + '/supplier/fetch/' + supplierName, {}, this.httpOptions);
+  }
+
+  updateSupplier(supplier: any): Observable<any> {
+    return this.http.post<any>(this.apiURL + '/supplier/' , {...supplier}, this.httpOptions);
+  }
+
+  deleteSupplierProducts(id: any): Observable<any> {
+    return this.http.delete<any>(this.apiURL + '/supplier?supplierId=' + id, this.httpOptions);
   }
 
   // INIT ENDPOINT

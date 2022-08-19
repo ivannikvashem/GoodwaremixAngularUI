@@ -43,6 +43,12 @@ export class ParserLogComponent implements OnInit {
 
   flushLogTable(): any {
      //TODO send request to flush log
+    this.api.flushLogs().subscribe( x=> {
+        if (x) console.log("Logs are deleted");
+      },
+      err => {
+        console.log("Logs deletion error: " +err )
+      });
   }
 
 }

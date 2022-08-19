@@ -1,47 +1,126 @@
-<h3>Supplier {{supplierName}}</h3>
+<h3>Supplier {{supplier?.supplierName}}</h3>
+<form [formGroup]="supplierForm">
 <mat-stepper orientation="vertical" [linear]="false" #stepper>
-  <mat-step [stepControl]="baseFormGroup">
-    <form [formGroup]="baseFormGroup">
+  <mat-step formGroupName="supplierProfile" [stepControl]="supplierForm.supplierProfile">
       <ng-template matStepLabel>Настройки профиля поставщика</ng-template>
       <mat-form-field appearance="fill">
         <mat-label>Наименование поставщика</mat-label>
-        <input matInput placeholder="Last name, First name" formControlName="supplierNameCtrl" required>
+        <input matInput placeholder="Last name, First name" formControlName="supplierName" required>
       </mat-form-field>
       <mat-form-field appearance="fill">
-        <mat-label>Идентификатор товара</mat-label>
-        <input matInput placeholder="vendor_id" formControlName="vendorIdCtrl" required>
+        <mat-label>Комментарий</mat-label>
+        <input matInput placeholder="Комментарий" formControlName="comment" required>
       </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>Наименование товара</mat-label>
-        <input matInput placeholder="vendor_id" formControlName="titleCtrl" required>
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>ИНН</mat-label>
-        <input matInput placeholder="" formControlName="titleCtrl" required>
-      </mat-form-field>
-    </form>
   </mat-step>
-  <mat-step [stepControl]="fetcherFormGroup">
-    <form [formGroup]="fetcherFormGroup">
-      <ng-template matStepLabel>Подключение с поставщику</ng-template>
+  <mat-step formGroupName="sourceSettings">
+      <ng-template matStepLabel>Подключение к ресурсу поставщика</ng-template>
       <mat-form-field appearance="fill">
-        <mat-label>Address</mat-label>
-        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
-               required>
+        <mat-label>fileName</mat-label>
+        <input matInput formControlName="fileName" placeholder="">
       </mat-form-field>
-    </form>
-  </mat-step>
-  <mat-step [stepControl]="fetcherFormGroup">
-    <form [formGroup]="fetcherFormGroup">
-      <ng-template matStepLabel>Парсер. Товар</ng-template>
       <mat-form-field appearance="fill">
-        <mat-label>Address</mat-label>
-        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
-               required>
+        <mat-label>source</mat-label>
+        <input matInput formControlName="source" placeholder="">
       </mat-form-field>
-    </form>
+    <mat-form-field appearance="fill">
+      <mat-label>methodType</mat-label>
+      <input matInput formControlName="methodType" placeholder="">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>countPage</mat-label>
+      <input matInput formControlName="countPage" placeholder="">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>startPage</mat-label>
+      <input matInput formControlName="startPage" placeholder="">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>multipart</mat-label>
+      <input matInput formControlName="multipart" placeholder="">
+    </mat-form-field>
+    <br />
+    <mat-form-field appearance="fill">
+        <mat-label>urlList</mat-label>
+        <input matInput formControlName="urlList" placeholder="">
+      </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>urlItem</mat-label>
+        <input matInput formControlName="urlItem" placeholder="">
+      </mat-form-field>
+      <br />
+      <mat-form-field appearance="fill">
+        <mat-label>header</mat-label>
+        <input matInput formControlName="header" placeholder="">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>body</mat-label>
+        <input matInput formControlName="body" placeholder="">
+      </mat-form-field>
   </mat-step>
-  <mat-step [stepControl]="fetcherFormGroup">
+  <mat-step formGroupName="supplierConfig">
+      <ng-template matStepLabel>Парсер. Файл</ng-template>
+      <mat-form-field appearance="fill">
+        <mat-label>Тип файла</mat-label>
+        <input matInput formControlName="type" placeholder="" required>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>stripXMLNamespace</mat-label>
+        <input matInput formControlName="stripXMLNamespace" placeholder="">
+      </mat-form-field>
+  </mat-step>
+  <mat-step formGroupName="baseSuppConfig">
+    <ng-template matStepLabel>Парсер. Товар</ng-template>
+    <mat-form-field appearance="fill">
+      <mat-label>Наименование</mat-label>
+      <input matInput formControlName="title" placeholder="" required>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Полное наименование</mat-label>
+      <input matInput formControlName="titleLong" placeholder="">
+    </mat-form-field>
+  </mat-step>
+  <mat-step formGroupName="attributeConfig">
+    <ng-template matStepLabel>Aтрибуты</ng-template>
+    <mat-form-field appearance="fill">
+      <mat-label>Address</mat-label>
+      <input matInput formControlName="attributesStartTag" placeholder="">
+    </mat-form-field>
+<!--    <mat-form-field appearance="fill">
+      <mat-label>Address</mat-label>
+      <input matInput formControlName="attributesURL" placeholder="">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Address</mat-label>
+      <input matInput formControlName="attributeName" placeholder="">
+    </mat-form-field>
+    <br/>
+    <mat-form-field appearance="fill">
+      <mat-label>Address</mat-label>
+      <input matInput formControlName="etimFeature" placeholder="">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Address</mat-label>
+      <input matInput formControlName="etimValue" placeholder="">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Address</mat-label>
+      <input matInput formControlName="etimUnit" placeholder="">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Address</mat-label>
+      <input matInput formControlName="unit" placeholder="">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Address</mat-label>
+      <input matInput formControlName="type" placeholder="">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Address</mat-label>
+      <input matInput formControlName="value" placeholder="">
+    </mat-form-field>-->
+  </mat-step>
+
+<!--  <mat-step [stepControl]="fetcherFormGroup">
     <form [formGroup]="fetcherFormGroup">
       <ng-template matStepLabel>Парсер. Документы</ng-template>
       <mat-form-field appearance="fill">
@@ -60,19 +139,12 @@
                required>
       </mat-form-field>
     </form>
-  </mat-step>
-  <mat-step [stepControl]="fetcherFormGroup">
-    <form [formGroup]="fetcherFormGroup">
-      <ng-template matStepLabel>Словарь аттрибутов</ng-template>
-      <mat-form-field appearance="fill">
-        <mat-label>Address</mat-label>
-        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
-               required>
-      </mat-form-field>
-    </form>
-  </mat-step>
-  <mat-step [stepControl]="fetcherFormGroup">
-    <form [formGroup]="fetcherFormGroup">
+  </mat-step>-->
+
+
+
+<!--  <mat-step [stepControl]="supplierForm.SupplierConfig.Multipliers">
+    <form [formGroup]="supplierForm.SupplierConfig.Multipliers">
       <ng-template matStepLabel>Перевод единиц измерения и др.</ng-template>
       <mat-form-field appearance="fill">
         <mat-label>Address</mat-label>
@@ -80,13 +152,24 @@
                required>
       </mat-form-field>
     </form>
-  </mat-step>
+  </mat-step>-->
+
   <mat-step>
     <ng-template matStepLabel>Готово</ng-template>
     <p>You are now done.</p>
     <div>
-      <button mat-button (click)="stepper.reset()">Сбросить</button>
+<!--      <button mat-button (click)="stepper.reset()">Сбросить</button>-->
       <button mat-flat-button color="primary" matStepperPrevious>Сохранить</button>
     </div>
+
+    <div>
+      <button type="submit">Create</button>
+      <br>
+<!--      <a (click)="patchForm()" type="submit">PatchValue</a><br><br>-->
+      <a (click)="clearForm()" type="submit" class="danger">ClearForm</a>
+    </div>
   </mat-step>
+
+
 </mat-stepper>
+</form>

@@ -53,7 +53,7 @@ export class SupplierIndexComponent implements OnInit {
   }
 
   addItem() {
-
+    this.addTmpSupplier();
   }
 
   fixSupplierStat() {
@@ -85,6 +85,27 @@ export class SupplierIndexComponent implements OnInit {
   }
 
   deleteSupplierProducts(id: any) {
+    console.log("deleting supp " + id + " products");
+    this.api.deleteSupplierProducts(id).subscribe( res => {
+        console.log(JSON.stringify(res));
+      },
+      err => {
+        console.log(err);
+      })
+  }
 
+  addTmpSupplier(): void{
+    let supplier = {
+      SupplierName: "123",
+      Stat: {},
+      SourceSettings: {}
+    };
+    console.log('supp Submit: ', supplier);
+    this.api.updateSupplier(supplier).subscribe( x => {
+        console.log("updateSupplier: " +JSON.stringify(x) );
+      },
+      error => {
+        console.log( "updateSupplierError: " + JSON.stringify(error));
+      })
   }
 }

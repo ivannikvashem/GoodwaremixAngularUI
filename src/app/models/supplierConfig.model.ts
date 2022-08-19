@@ -1,3 +1,4 @@
+import { AttributeConfig } from './attributeConfig.model';
 import {Deserializable} from './deserializable.model';
 
 export class SupplierConfig implements Deserializable{
@@ -7,11 +8,11 @@ export class SupplierConfig implements Deserializable{
   prefix: string | undefined;
   zippedFileName: string | undefined;
   baseConfig: any;
-  CategoryConfig: any;
-  DocumentConfig: any;
-  ImageConfig: any;
-  AttributeConfig: any;
-  PackageConfig: any;
+  //categoryConfig: any;
+  documentConfig: any;
+  imageConfig: any;
+  attributeConfig: AttributeConfig | undefined;
+  packageConfig: any;
   dateFormats: string[] | undefined;
   multipliers: any | undefined;
   deserialize(input: any): this {

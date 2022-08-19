@@ -26,8 +26,7 @@
     <ng-container matColumnDef="fullfill">
       <th mat-header-cell *matHeaderCellDef>Данные</th>
       <td mat-cell *matCellDef="let row">
-
-        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.imageConfig.images != null">photo_camera</mat-icon>
+        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.imageConfig.images != null">{{row.supplierConfigs.imageConfig.downloadLocally ? "add_a_photo" : "photo_camera"}}</mat-icon>
         <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.attributeConfig.attributeName != null && row.supplierConfigs.attributeConfig.productAttributeKeys != null">toc</mat-icon>
         <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.packageConfig.netto != null && row.supplierConfigs.packageConfig.netto.barcode != null">crop</mat-icon>
         <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.packageConfig.packQty != null">inventory_2</mat-icon>
@@ -39,8 +38,8 @@
     <!-- brands Column -->
     <ng-container matColumnDef="brands">
       <th mat-header-cell *matHeaderCellDef>Бренды</th>
-      <td mat-cell *matCellDef="let row">{{ row.stat.brands != null ? row.stat.brands.slice(0, 7).join(', ') : ""}} {{row.stat.brands && row.stat.brands.length > 7 ? "... и др." : ''}}
-        <button mat-icon-button aria-label="expand row" (click)="(expandedElement = expandedElement === row ? null : row); $event.stopPropagation()" *ngIf="row.stat && row.stat.brands && row.stat.brands.length > 7">
+      <td mat-cell *matCellDef="let row">{{ row.stat.brands != null ? row.stat.brands.slice(0, 5).join(', ') : ""}} {{row.stat.brands && row.stat.brands.length > 5 ? " и др." : ''}}
+        <button mat-icon-button aria-label="expand row" (click)="(expandedElement = expandedElement === row ? null : row); $event.stopPropagation()" *ngIf="row.stat && row.stat.brands && row.stat.brands.length > 5">
           <mat-icon *ngIf="expandedElement !== row">keyboard_arrow_down</mat-icon>
           <mat-icon *ngIf="expandedElement === row">keyboard_arrow_up</mat-icon>
         </button>
@@ -73,7 +72,7 @@
         <button mat-icon-button class="mat-elevation-z2" matTooltip="" (click)="fixSupplierStat()">
           <mat-icon>build</mat-icon>
         </button>&nbsp;
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="" (click)="addItem()">
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="Добавить поставщика" (click)="addItem()">
           <mat-icon>add</mat-icon>
         </button>
       </th>
@@ -82,10 +81,13 @@
         <button mat-icon-button class="mat-elevation-z2" matTooltip="Загрузить данные" (click)="fetchItem(item.supplierName)">
           <mat-icon>start</mat-icon>
         </button>&nbsp;
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="Изменить товар" (click)="editItem(item.supplierName)">
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="Изменить" (click)="editItem(item.supplierName)">
           <mat-icon>edit</mat-icon>
         </button>&nbsp;
-        <button mat-icon-button disabled class="mat-elevation-z2" matTooltip="Удалить товар" (click)="deleteItem(item.id)">
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить товары поставщика" (click)="deleteSupplierProducts(item.id)">
+          <mat-icon>remove_shopping_cart</mat-icon>
+        </button>&nbsp;
+        <button mat-icon-button disabled class="mat-elevation-z2" matTooltip="Удалить поставщика" (click)="deleteItem(item.id)">
           <mat-icon>delete</mat-icon>
         </button>
       </td>

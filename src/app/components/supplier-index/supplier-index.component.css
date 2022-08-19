@@ -4,8 +4,8 @@ table {
 .mat-column-actions {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 115px !important;
-  min-width: 115px !important;
+  flex: 0 0 155px !important;
+  min-width: 155px !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
   justify-content: center;
@@ -62,14 +62,13 @@ table {
 .mat-column-brands {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 800px !important;
-  width: 800px !important;
+  flex: 0 0 830px !important;
+  width: 830px !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
   justify-content: center;
   word-break: break-word;
 }
-
 
 tr.example-detail-row {
   height: 0;
