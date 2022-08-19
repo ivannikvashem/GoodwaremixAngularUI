@@ -19,6 +19,36 @@ table {
   text-align: -webkit-center;
   text-align: center;
 }
+.mat-column-rating {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 60px !important;
+  width: 60px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  justify-content: center;
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+.mat-column-etimFeature {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 90px !important;
+  width: 90px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  justify-content: center;
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
 .left-panel {
   width: 350px;
   min-width: 300px;

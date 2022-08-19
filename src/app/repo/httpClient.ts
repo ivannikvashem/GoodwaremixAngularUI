@@ -34,14 +34,17 @@ export class ApiClient {
   };
 
   // Attributes ENDPOINTS
-  getAttributes(searchQuery: string, pageIndex: number, pageSize: number): Observable<any> {
+  getAttributes(searchQuery: string, supplierId: string, pageIndex: number, pageSize: number): Observable<any> {
     let opt = {
       params: new HttpParams()
-        // .set('code', code)
         .set('pageNumber', pageIndex ? pageIndex + 1 : 1)
         .set('pageSize', pageSize ?? 10)
         .set('searchQuery', searchQuery)
     };
+    if (supplierId) {
+      opt.params = opt.params.append('supplierId', supplierId);
+    }
+    //console.log("props: " + JSON.stringify(opt));
     opt = Object.assign(opt, this.httpOptions);
     return this.http.get<any>(this.apiURL + '/Attribute', opt);
   }
