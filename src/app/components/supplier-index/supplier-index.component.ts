@@ -80,7 +80,7 @@ export class SupplierIndexComponent implements OnInit {
   }
 
   editItem(supplierName: any) {
-    this.router.navigate([`supplier-edit/${supplierName}`]);
+    this.router.navigate([`supplier-edit-mw/${supplierName}`]);
   }
 
   addTmpSupplier(): void{

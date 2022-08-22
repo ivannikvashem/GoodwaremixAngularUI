@@ -34,13 +34,19 @@ export class ApiClient {
   };
 
   // Attributes ENDPOINTS
-  getAttributes(searchQuery: string, supplierId: string, pageIndex: number, pageSize: number, fixed?: boolean): Observable<any> {
+  getAttributes(searchQuery: string, supplierId: string, pageIndex: number, pageSize: number, fixed?: boolean, sortField?: string, sortDirection?: string): Observable<any> {
     let opt = {
       params: new HttpParams()
         .set('pageNumber', pageIndex ? pageIndex + 1 : 1)
         .set('pageSize', pageSize ?? 10)
         .set('searchFilter', searchQuery)
+        // .set('sortField', sortField)
+        // .set('sortDirection', sortDirection == "desc" ? "-1" : "1")
     };
+    if (sortField && sortDirection) {
+      opt.params = opt.params.append('sortField', sortField);
+      opt.params = opt.params.append('sortDirection', sortDirection == "desc" ? "-1" : "1");
+    }
     if (supplierId) {
       opt.params = opt.params.append('supplierId', supplierId);
     }
@@ -120,6 +126,11 @@ export class ApiClient {
 
   updateSupplier(supplier: any): Observable<any> {
     return this.http.post<any>(this.apiURL + '/supplier/' , {...supplier}, this.httpOptions);
+  }
+  //
+  postSupplier(supplier: any): Observable<any> {
+    let body = { ...supplier };
+    return this.http.post<any>(this.apiURL + '/Supplier', body, this.httpOptions)
   }
 
   deleteSupplierProducts(id: any): Observable<any> {
