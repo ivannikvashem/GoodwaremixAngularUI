@@ -133,4 +133,14 @@ export class SupplierIndexComponent implements OnInit {
       }
     });
   }
+
+  internalCodeFetch(supplierName: string) {
+    console.log("IC bind " +supplierName);
+    this.api.internalCodeBindForSupplier(supplierName).subscribe( res => {
+        console.log(JSON.stringify(res));
+      },
+      err => {
+        console.log(err);
+      })
+  }
 }
