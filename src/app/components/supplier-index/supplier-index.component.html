@@ -55,8 +55,8 @@
     </ng-container>
 
     <!-- stat Column -->
-    <ng-container matColumnDef="stat">
-      <th mat-header-cell *matHeaderCellDef>Номенкулатура</th>
+    <ng-container matColumnDef="Stat.ProductQty">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Номенкулатура</th>
       <td mat-cell *matCellDef="let row">{{ row.stat.productQty != null && row.stat.productQty > 0 ? row.stat.productQty + " / " : ""}} {{ row.stat.productQtyWithCode != null ? row.stat.productQtyWithCode : ""}}</td>
     </ng-container>
 

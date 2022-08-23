@@ -24,7 +24,7 @@ import {MatSort, SortDirection} from "@angular/material/sort";
 })
 export class SupplierIndexComponent implements OnInit {
 
-  displayedColumns: string[] = ['SupplierName', 'type', 'fullfill', 'brands', 'stat', 'actions'];
+  displayedColumns: string[] = ['SupplierName', 'type', 'fullfill', 'brands', 'Stat.ProductQty', 'actions'];
   dataSource: SuppliersDataSource;
   searchQuery = "";
   expandedElement: Supplier | null | undefined;
