@@ -12,9 +12,10 @@
 .mat-card {
   padding: 12px;
   width: 245px;
+  min-height: 130px;
 }
 .bc_placeholder {
-  height: 60px;
+  height: 45px;
 }
 .bcode {
   text-align: center;

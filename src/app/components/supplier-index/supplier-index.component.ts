@@ -2,12 +2,13 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {SuppliersDataSource} from "../../repo/SuppliersDataSource";
 import {ApiClient} from "../../repo/httpClient";
 import {MatPaginator} from "@angular/material/paginator";
-import {tap} from "rxjs";
+import {merge, tap} from "rxjs";
 import {Router} from "@angular/router";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {Supplier} from "../../models/supplier.model";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../shared/confirm-dialog/confirm-dialog.component";
+import {MatSort, SortDirection} from "@angular/material/sort";
 
 @Component({
   selector: 'app-supplier-index',
@@ -23,8 +24,9 @@ import {ConfirmDialogComponent, ConfirmDialogModel} from "../shared/confirm-dial
 })
 export class SupplierIndexComponent implements OnInit {
 
-  displayedColumns: string[] = ['name', 'type', 'fullfill', 'brands', 'stat', 'actions'];
+  displayedColumns: string[] = ['SupplierName', 'type', 'fullfill', 'brands', 'stat', 'actions'];
   dataSource: SuppliersDataSource;
+  searchQuery = "";
   expandedElement: Supplier | null | undefined;
 
   constructor(
@@ -35,30 +37,45 @@ export class SupplierIndexComponent implements OnInit {
     this.dataSource = new SuppliersDataSource(this.api);
   }
 
-  @ViewChild(MatPaginator)
-  paginator!: MatPaginator
+  @ViewChild(MatPaginator) paginator!: MatPaginator
+  @ViewChild(MatSort) sort: MatSort | any;
 
   ngOnInit(): any {
-    //this.dataSource.loadPagedData("");
+    this.loadData();
   }
 
   ngAfterViewInit(): void {
-    this.paginator.page
+/*    this.paginator.page
       .pipe(
         tap( () => this.loadData())
       )
       .subscribe();
-    this.loadData();
+    this.loadData();*/
+    // If the user changes the sort order, reset back to the first page.
+    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+
+    //todo доделать нормальный pipe и обработку ошибок
+    merge(this.sort.sortChange, this.paginator.page)
+      .pipe(
+        tap( () => this.loadData())
+      )
+      .subscribe();
   }
 
   loadData(): any {
-    this.dataSource.loadPagedData("", this.paginator?.pageIndex, this.paginator?.pageSize);
+    this.dataSource.loadPagedData(this.searchQuery, this.paginator?.pageIndex, this.paginator?.pageSize, this.sort?.active, this.sort?.direction);
   }
 
   addItem() {
     //this.addTmpSupplier();
   }
 
+  applySupplierFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.searchQuery = filterValue;
+    //this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.loadData();
+  }
   /*  addTmpSupplier(): void{
       let supplier = {
         SupplierName: "123",

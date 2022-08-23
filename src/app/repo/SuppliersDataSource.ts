@@ -12,6 +12,8 @@ export class SuppliersDataSource implements DataSource<Supplier> {
   public loading$ = this.loadingSubject.asObservable();
   public rowCount = 0;
 
+  //public searchQ = new Observable<string>();
+
   constructor(private api: ApiClient) {  }
 
   connect(collectionViewer: CollectionViewer): Observable<Supplier[]> {
@@ -23,10 +25,10 @@ export class SuppliersDataSource implements DataSource<Supplier> {
     this.loadingSubject.complete();
   }
 
-  loadPagedData(searchQuery = "", pageIndex = 0, pageSize = 10): any {
+  loadPagedData(searchQuery = "", pageIndex = 0, pageSize = 10, sortActive = "SupplierName", sortDirection = "asc"): any {
     this.loadingSubject.next(true);
 
-    this.api.getSuppliers(searchQuery, pageIndex, pageSize)
+    this.api.getSuppliers(searchQuery, pageIndex, pageSize, sortActive, sortDirection)
       .pipe(
         map(res => {
           return res.body;

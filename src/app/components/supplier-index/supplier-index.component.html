@@ -1,15 +1,23 @@
-<div class="header-container" style="display: inline-flex; align-items: center;">
+<div class="header-container" style="display: flex; align-items: baseline; flex: 1;">
   <h3>Поставщики &nbsp;</h3>
-  <mat-spinner diameter="35" *ngIf="dataSource.loading$ | async"></mat-spinner>
+
+  <mat-form-field appearance="standard" class="search-bar">
+    <mat-label>Поиск по поставщикам</mat-label>
+    <input matInput (keyup)="applySupplierFilter($event)">
+  </mat-form-field>
+  <div style="width: 110px;">
+    <mat-spinner diameter="35" *ngIf="dataSource.loading$ | async"></mat-spinner>
+  </div>
+
 </div>
 
 <div class="mat-elevation-z8">
 
-  <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
+  <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort matSortActive="SupplierName" matSortDisableClear matSortDirection="asc">
 
     <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Наименование</th>
+    <ng-container matColumnDef="SupplierName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Наименование</th>
       <td mat-cell *matCellDef="let row"><a [routerLink]="['/products']" [queryParams]="{supplierId: row.id}">{{row.supplierName}} ({{row.sourceSettings.prefix}})</a></td>
     </ng-container>
 

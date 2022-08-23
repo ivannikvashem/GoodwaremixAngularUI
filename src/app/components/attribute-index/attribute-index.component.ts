@@ -43,7 +43,7 @@ export class AttributeIndexComponent implements OnInit {
   paginator!: MatPaginator
 
   ngOnInit(): any {
-    this.api.getSuppliers('', 0 ,100).subscribe( r => {
+    this.api.getSuppliers('', 0 ,100, "SupplierName", "asc").subscribe( r => {
       this.supplierList = r.body.data
     });
     this._ActivatedRoute.queryParams.subscribe(params => {
@@ -61,7 +61,7 @@ export class AttributeIndexComponent implements OnInit {
       tap(() => {
         this.isLoading = true;
       }),
-      switchMap(value => this.api.getSuppliers(value, 0 ,100)
+      switchMap(value => this.api.getSuppliers(value, 0 ,100, "SupplierName", "asc")
         .pipe(
           finalize(() => {
             this.isLoading = false
