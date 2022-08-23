@@ -11,4 +11,11 @@
 }
 .mat-card {
   padding: 12px;
+  width: 245px;
+}
+.bc_placeholder {
+  height: 60px;
+}
+.bcode {
+  text-align: center;
 }

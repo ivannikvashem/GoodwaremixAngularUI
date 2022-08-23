@@ -14,17 +14,22 @@
   </mat-step>
   <mat-step formGroupName="sourceSettings">
       <ng-template matStepLabel>Подключение к ресурсу поставщика</ng-template>
-      <mat-form-field appearance="fill">
-        <mat-label>fileName</mat-label>
-        <input matInput formControlName="fileName" placeholder="">
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>source</mat-label>
-        <input matInput formControlName="source" placeholder="">
-      </mat-form-field>
     <mat-form-field appearance="fill">
-      <mat-label>methodType</mat-label>
-      <input matInput formControlName="methodType" placeholder="">
+      <mat-label>Источник</mat-label>
+      <mat-select formControlName="source">
+        <mat-option value="API">API</mat-option>
+        <mat-option value="FTP">FTP</mat-option>
+        <mat-option value="MAIL">MAIL</mat-option>
+        <mat-option value="FILE">FILE</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Тип запроса</mat-label>
+      <mat-select formControlName="methodType">
+        <mat-option value="GET">GET</mat-option>
+        <mat-option value="POST">POST</mat-option>
+        <mat-option value="BINARY">BINARY</mat-option>
+      </mat-select>
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>countPage</mat-label>
@@ -35,8 +40,12 @@
       <input matInput formControlName="startPage" placeholder="">
     </mat-form-field>
     <mat-form-field appearance="fill">
-      <mat-label>multipart</mat-label>
-      <input matInput formControlName="multipart" placeholder="">
+      <mat-label>Multipart</mat-label>
+      <mat-select formControlName="multipart" >
+        <mat-option>По умолчанию</mat-option>
+        <mat-option [value]="true">Multipart Form Body</mat-option>
+        <mat-option [value]="false">RAW Body</mat-option>
+      </mat-select>
     </mat-form-field>
     <br />
     <mat-form-field appearance="fill">
@@ -64,8 +73,12 @@
         <input matInput formControlName="type" placeholder="" required>
       </mat-form-field>
       <mat-form-field appearance="fill">
-        <mat-label>stripXMLNamespace</mat-label>
-        <input matInput formControlName="stripXMLNamespace" placeholder="">
+        <mat-label>Очистка XML Namespace</mat-label>
+        <mat-select formControlName="stripXMLNamespace" name="stripXMLNamespace">
+          <mat-option>Очистка XML Namespace</mat-option>
+          <mat-option [value]="true">Очистить</mat-option>
+          <mat-option [value]="false">Не менять</mat-option>
+        </mat-select>
       </mat-form-field>
   </mat-step>
   <mat-step formGroupName="baseSuppConfig">

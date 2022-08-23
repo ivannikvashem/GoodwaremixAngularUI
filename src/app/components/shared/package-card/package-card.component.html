@@ -5,11 +5,12 @@
   </div>
 
   <mat-card-content>
-    <div style="margin-top: 4px; font-size: small; text-align: end;" *ngIf="pack.width || pack.height || pack.depth">{{pack.width}} x {{pack.height}} x {{pack.depth}} см</div>
-    <ngx-barcode [bc-width]="1.4" [bc-height]="40" [bc-margin]="0" [bc-margin-top]="4" [bc-margin-right] ="0" [bc-margin-left]="0" [bc-value]="pack.barcode" [bc-display-value]="true"></ngx-barcode>
+    <div style="margin-top: 4px; font-size: small; text-align: end;" *ngIf="pack.width || pack.height || pack.depth">{{pack.width | number : '1.0-2'}} x {{pack.height | number : '1.0-2'}} x {{pack.depth | number : '1.0-2'}} см</div>
+    <ngx-barcode [bc-width]="1.4" [bc-height]="40" [bc-margin]="0" [bc-margin-top]="4" [bc-margin-right] ="0" [bc-margin-left]="0" [bc-value]="pack.barcode" [bc-display-value]="true" class="bcode"></ngx-barcode>
+    <div class="bc_placeholder" *ngIf="!pack.barcode"> </div>
     <div style="display: flex; justify-content: space-between;">
       <div *ngIf="pack.weight"><mat-icon>scale</mat-icon> {{Math.round((pack.weight + Eps) * 100) / 100}} гр.</div>
-      <div *ngIf="pack.volume" matTooltip="{{pack.width}} x {{pack.height}} x {{pack.depth}}"><mat-icon>view_in_ar</mat-icon> {{Math.round((pack.volume + Eps) * 100) / 100}} см<sup>3</sup> <sup *ngIf="isCalculatedVolume">*</sup></div>
+      <div *ngIf="pack.volume" matTooltip="{{pack.width | number : '1.0-2'}} x {{pack.height | number : '1.0-2'}} x {{pack.depth | number : '1.0-2'}}"><mat-icon>view_in_ar</mat-icon> {{Math.round((pack.volume + Eps) * 100) / 100}} см<sup>3</sup> <sup *ngIf="isCalculatedVolume">*</sup></div>
     </div>
 
   </mat-card-content>

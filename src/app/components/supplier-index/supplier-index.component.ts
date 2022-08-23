@@ -56,8 +56,23 @@ export class SupplierIndexComponent implements OnInit {
   }
 
   addItem() {
-    this.addTmpSupplier();
+    //this.addTmpSupplier();
   }
+
+  /*  addTmpSupplier(): void{
+      let supplier = {
+        SupplierName: "123",
+        Stat: {},
+        SourceSettings: {}
+      };
+      console.log('supp Submit: ', supplier);
+      this.api.updateSupplier(supplier).subscribe( x => {
+          console.log("updateSupplier: " +JSON.stringify(x) );
+        },
+        error => {
+          console.log( "updateSupplierError: " + JSON.stringify(error));
+        })
+    }*/
 
   fixSupplierStat() {
     console.log("fixSupplierStat ");
@@ -81,21 +96,6 @@ export class SupplierIndexComponent implements OnInit {
 
   editItem(supplierName: any) {
     this.router.navigate([`supplier-edit-mw/${supplierName}`]);
-  }
-
-  addTmpSupplier(): void{
-    let supplier = {
-      SupplierName: "123",
-      Stat: {},
-      SourceSettings: {}
-    };
-    console.log('supp Submit: ', supplier);
-    this.api.updateSupplier(supplier).subscribe( x => {
-        console.log("updateSupplier: " +JSON.stringify(x) );
-      },
-      error => {
-        console.log( "updateSupplierError: " + JSON.stringify(error));
-      })
   }
 
   confirmDeleteSuppDialog(id: string, name: string): void {

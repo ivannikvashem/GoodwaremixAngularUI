@@ -20,6 +20,7 @@ const routes: Routes = [
   {path: 'suppliers', component: SupplierIndexComponent},
   {path: 'supplier-edit/:supplierName', component: SupplierEditComponent},
   {path: 'supplier-edit-mw/:supplierName', component: SupplierEditMwComponent},
+  {path: 'supplier-edit-mw', component: SupplierEditMwComponent},
   {path: 'log', component: ParserLogComponent}
 ];
 

@@ -71,11 +71,20 @@ export class SupplierEditMwComponent implements OnInit {
 
   ngOnInit(): void {
     this.supplierName = this._ActivatedRoute.snapshot.paramMap.get("supplierName");
-    this.api.getSupplierByName(this.supplierName)
-      .subscribe((response) => {
-        this.body = response.body;
-        this.attr = this.body.supplierConfigs.attributeConfig.productAttributeKeys;
-      });
+    if (!this.supplierName) {
+      this.body = {
+        SupplierName: "x",
+        Stat: {},
+        SourceSettings: {
+          source: "API",
+        }
+      };
+    } else
+      this.api.getSupplierByName(this.supplierName)
+        .subscribe((response) => {
+          this.body = response.body;
+          this.attr = this.body.supplierConfigs.attributeConfig.productAttributeKeys;
+        });
   }
 
   PostData() {
@@ -88,8 +97,7 @@ export class SupplierEditMwComponent implements OnInit {
         this.errorMessage = error.message;
         this.snackBarMessage(error.message);
       },
-    }
-    );
+    });
   }
 
   OnDelete(index: number) {
@@ -107,7 +115,6 @@ export class SupplierEditMwComponent implements OnInit {
         this.attributes = response.body.data;
       });
   }
-
 
   FillAutoComplete() {
     this.api.getAttributes("", '', this.pageNumber, this.pageSize, this.fixed, 'Rating', 'desc')

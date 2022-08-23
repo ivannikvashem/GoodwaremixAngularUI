@@ -35,7 +35,7 @@
       <app-hover-image-slider [imgList]="product.images"></app-hover-image-slider>
     </mat-card>-->
 
-    <mat-card style="margin-top: 10px; max-width: 900px" *ngIf="product.documents">
+    <mat-card style="margin-top: 10px; max-width: 900px" *ngIf="product.documents && product.documents.length > 0">
       <mat-card-subtitle>Документы</mat-card-subtitle>
       <mat-list>
         <mat-list-item *ngFor="let d of product.documents">

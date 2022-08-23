@@ -21,19 +21,20 @@ export class SupplierEditComponent implements OnInit {
     private fb: FormBuilder,
     public api: ApiClient,
   ) {
-    this.initForm();
+
   }
 
   ngOnInit(): void {
     this.supplierName = this._ActivatedRoute.snapshot.paramMap.get("supplierName");
     console.log("init with params: " + this.supplierName);
 
-    this.api.getSupplierByName(this.supplierName)
-      .subscribe( s => {
-        console.log("get data from: " + this.supplierName);
-        this.supplier = s.body as Supplier;
-        //this.filloutForm(this.supplier);
-    });
+    if (this.supplierName)
+      this.api.getSupplierByName(this.supplierName)
+        .subscribe( s => {
+          console.log("get data from: " + this.supplierName);
+          this.supplier = s.body as Supplier;
+          this.initForm(this.supplier);
+      });
 
     //this.initForm();
 /*    this._ActivatedRoute.queryParams.subscribe(params => {
@@ -48,37 +49,37 @@ export class SupplierEditComponent implements OnInit {
     });*/
   }
 
-  initForm(): void {
+  initForm(s: Supplier): void {
     this.supplierForm = this.fb.group({
       supplierProfile: this.fb.group({
         //  id: this.fb.control(''),
-        supplierName: this.fb.control('', Validators.required),
-        comment: this.fb.control(''),
+        supplierName: this.fb.control(s.supplierName, Validators.required),
+        comment: this.fb.control(s.comment),
       }),
       sourceSettings: this.fb.group({
-        fileName: this.fb.control(''),
-        source: this.fb.control(''),
-        urlList: this.fb.control(''),
-        urlItem: this.fb.control(''),
-        methodType: this.fb.control(''),
-        header: this.fb.control(''),
-        body: this.fb.control(''),
-        countPage: this.fb.control(''),
-        startPage: this.fb.control(''),
-        multipart: this.fb.control(false),
+        //fileName: this.fb.control(s.sourceSettings?.fileName),
+        source: this.fb.control(s.sourceSettings?.source),
+        urlList: this.fb.control(s.sourceSettings?.urlList),
+        urlItem: this.fb.control(s.sourceSettings?.urlItem),
+        methodType: this.fb.control(s.sourceSettings?.methodType),
+        header: this.fb.control(s.sourceSettings?.header),
+        body: this.fb.control(s.sourceSettings?.body),
+        countPage: this.fb.control(s.sourceSettings?.countPage),
+        startPage: this.fb.control(s.sourceSettings?.startPage),
+        multipart: this.fb.control(s.sourceSettings?.multipart),
       }),
       baseSuppConfig: this.fb.group({
-        startTag: this.fb.control(''),
-        vendorId: this.fb.control(''),
-        title: this.fb.control(''),
-        titleLong: this.fb.control(''),
-        description: this.fb.control(''),
-        brand: this.fb.control(''),
-        image360: this.fb.control(''),
-        videos: this.fb.control(''),
-        country: this.fb.control(''),
-        countryCode: this.fb.control(''),
-        GTD: this.fb.control(''),
+        startTag: this.fb.control(s.supplierConfigs?.baseConfig?.startTag),
+        vendorId: this.fb.control(s.supplierConfigs?.baseConfig?.vendorId),
+        title: this.fb.control(s.supplierConfigs?.baseConfig?.title),
+        titleLong: this.fb.control(s.supplierConfigs?.baseConfig?.titleLong),
+        description: this.fb.control(s.supplierConfigs?.baseConfig?.description),
+        brand: this.fb.control(s.supplierConfigs?.baseConfig?.brand),
+        image360: this.fb.control(s.supplierConfigs?.baseConfig?.image360),
+        videos: this.fb.control(s.supplierConfigs?.baseConfig?.videos),
+        country: this.fb.control(s.supplierConfigs?.baseConfig?.country),
+        countryCode: this.fb.control(s.supplierConfigs?.baseConfig?.countryCode),
+        GTD: this.fb.control(s.supplierConfigs?.baseConfig?.gtd),
       }),
       attributeConfig: this.fb.group({
         attributesStartTag: this.fb.control(''),
@@ -98,12 +99,12 @@ export class SupplierEditComponent implements OnInit {
         }),
       }),
       supplierConfig: this.fb.group({
-        type: this.fb.control(''),
-        stripXMLNamespace: this.fb.control(false),
-        fileEncoding: this.fb.control(''),
-        prefix: this.fb.control(''),
-        zippedFileName: this.fb.control(''),
 
+        type: this.fb.control(s.supplierConfigs?.type),
+        stripXMLNamespace: this.fb.control(s.supplierConfigs?.stripXMLNamespace),
+        fileEncoding: this.fb.control(s.supplierConfigs?.fileEncoding),
+        prefix: this.fb.control(s.supplierConfigs?.prefix),
+        zippedFileName: this.fb.control(s.supplierConfigs?.zippedFileName),
 
         documentConfig: this.fb.control(null), //todo
         packageConfig: this.fb.control(null), //todo
@@ -117,7 +118,7 @@ export class SupplierEditComponent implements OnInit {
     });
   }
 
-/*  filloutForm(s: Supplier): void {
+  filloutForm(s: Supplier): void {
     console.log("ok, filling out with supplier " + this.supplier.supplierName);
     this.supplierForm = this.fb.group({
       //  id: this.fb.control(''),
@@ -150,8 +151,8 @@ export class SupplierEditComponent implements OnInit {
           Brand: this.fb.control(s.supplierConfigs?.baseConfig?.brand),
           Image360: this.fb.control(s.supplierConfigs?.baseConfig?.image360),
           Videos: this.fb.control(s.supplierConfigs?.baseConfig?.videos),
-          Сountry: this.fb.control(s.supplierConfigs?.baseConfig?.country),
-          СountryCode: this.fb.control(s.supplierConfigs?.baseConfig?.countryCode),
+          Country: this.fb.control(s.supplierConfigs?.baseConfig?.country),
+          CountryCode: this.fb.control(s.supplierConfigs?.baseConfig?.countryCode),
           GTD: this.fb.control(s.supplierConfigs?.baseConfig?.gtd),
         }),
         CategoryConfig: this.fb.control(null), //todo
@@ -166,7 +167,7 @@ export class SupplierEditComponent implements OnInit {
         DateFormats: this.fb.array([]),
       }),
     });
-  }*/
+  }
 
   onSubmit(): void{
     console.log('Form Submit: ', this.supplierForm.value);
