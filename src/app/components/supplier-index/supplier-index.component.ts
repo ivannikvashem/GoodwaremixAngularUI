@@ -45,12 +45,6 @@ export class SupplierIndexComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-/*    this.paginator.page
-      .pipe(
-        tap( () => this.loadData())
-      )
-      .subscribe();
-    this.loadData();*/
     // If the user changes the sort order, reset back to the first page.
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 
@@ -73,6 +67,7 @@ export class SupplierIndexComponent implements OnInit {
   applySupplierFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.searchQuery = filterValue;
+    this.paginator.pageIndex = 0;
     //this.dataSource.filter = filterValue.trim().toLowerCase();
     this.loadData();
   }
