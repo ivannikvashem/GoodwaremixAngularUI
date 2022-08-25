@@ -102,6 +102,13 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     this.loadProductPagedData();
   }
 
+  onClearSupplierSelection() {
+    this.selectedSupplier=undefined;
+    this.searchSuppliersCtrl.setValue('');
+    this.paginator.pageIndex = 0;
+    this.loadProductPagedData();
+  }
+
   loadProductPagedData(): any {
     this.dataSource.loadPagedData(this.searchQuery, this.withInternalCodeSelector, this.selectedSupplier?.id, this.paginator?.pageIndex ?? 0, this.paginator?.pageSize ?? 10);
   }

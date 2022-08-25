@@ -21,6 +21,9 @@
           {{option.supplierName}}
         </mat-option>
       </mat-autocomplete>
+      <button *ngIf="selectedSupplier" matSuffix mat-icon-button aria-label="Clear" (click)="onClearSupplierSelection()">
+        <mat-icon>close</mat-icon>
+      </button>
     </mat-form-field>
 
     <mat-button-toggle-group name="fixed" class="full-width" [(ngModel)]="withFixedAttrSelector" [value]="withFixedAttrSelector" (change)="onFixedSelected()">

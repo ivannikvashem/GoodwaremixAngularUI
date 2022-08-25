@@ -13,6 +13,7 @@ export class ApiClient {
    //apiURL = environment.apiURL;
    //loginServerURL = environment.loginServerURL;
   apiURL = 'http://localhost:5105/api';
+  //apiURL = 'http://172.16.50.123:5105/api';
 
   constructor(private http: HttpClient) { }
 

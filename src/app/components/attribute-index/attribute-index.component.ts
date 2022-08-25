@@ -108,16 +108,26 @@ export class AttributeIndexComponent implements OnInit {
     //console.log("ctrlVal= " + JSON.stringify(this.searchSuppliersCtrl.value));
     this.selectedSupplier = this.searchSuppliersCtrl.value as Supplier;
     console.log("suppId= " + this.selectedSupplier?.id);
+    this.paginator.pageIndex = 0;
     this.loadData();
   }
 
   onFixedSelected() {
     console.log(this.withFixedAttrSelector);
+    this.paginator.pageIndex = 0;
     this.loadData();
   }
 
   searchQueryChanged() {
     this.searchQuery = this.searchQueryCtrl.value ?? '';
+    this.paginator.pageIndex = 0;
+    this.loadData();
+  }
+
+  onClearSupplierSelection() {
+    this.selectedSupplier=undefined;
+    this.searchSuppliersCtrl.setValue('');
+    this.paginator.pageIndex = 0;
     this.loadData();
   }
 }

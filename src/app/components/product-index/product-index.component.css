@@ -80,3 +80,10 @@ table {
 table {
   width: 100%;
 }
+tr.element-row:not(.example-expanded-row):hover {
+  //background: whitesmoke;
+  background-image: linear-gradient(to right, white , whitesmoke);
+}
+tr.element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}

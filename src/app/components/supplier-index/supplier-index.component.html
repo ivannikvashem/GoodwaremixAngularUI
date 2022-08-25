@@ -74,10 +74,10 @@
     <!-- ACTIONS Column -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="" (click)="fetchItem('default')">
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="Запустить сбор всех поставщиков" (click)="fetchItem('default')">
           <mat-icon>restart_alt</mat-icon>
         </button>&nbsp;
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="" (click)="fixSupplierStat()">
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="Обновить кол-во товара и бренды" (click)="fixSupplierStat()">
           <mat-icon>build</mat-icon>
         </button>&nbsp;
         <button mat-icon-button class="mat-elevation-z2" matTooltip="Добавить поставщика" (click)="editItem('')">
@@ -91,7 +91,7 @@
         <button mat-icon-button class="mat-elevation-z2" matTooltip="Изменить" (click)="editItem(item.supplierName)">
           <mat-icon>edit</mat-icon>
         </button>&nbsp;
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="Изменить" (click)="internalCodeFetch(item.supplierName)">
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="Привязать артикулы" (click)="internalCodeFetch(item.supplierName)">
           <mat-icon>build</mat-icon>
         </button>&nbsp;
         <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить товары поставщика" (click)="confirmDeleteSuppProdDialog(item.id, item.supplierName)">
