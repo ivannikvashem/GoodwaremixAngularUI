@@ -35,11 +35,11 @@ export class ApiClient {
   };
 
   // Attributes ENDPOINTS
-  getAttributes(searchQuery: string, supplierId: string, pageIndex: number, pageSize: number, fixed?: boolean, sortField?: string, sortDirection?: string): Observable<any> {
+  getAttributes(searchQuery: any, supplierId: string, pageIndex: number, pageSize: number, fixed?: boolean, sortField?: string, sortDirection?: string): Observable<any> {
     let opt = {
       params: new HttpParams()
-        .set('pageNumber', pageIndex ? pageIndex + 1 : 1)
-        .set('pageSize', pageSize ?? 10)
+        .set('filter.pageNumber', pageIndex ? pageIndex + 1 : 1)
+        .set('filter.pageSize', pageSize ?? 10)
         .set('searchFilter', searchQuery)
         // .set('sortField', sortField)
         // .set('sortDirection', sortDirection == "desc" ? "-1" : "1")
@@ -48,12 +48,12 @@ export class ApiClient {
       opt.params = opt.params.append('sortField', sortField);
       opt.params = opt.params.append('sortDirection', sortDirection == "desc" ? "-1" : "1");
     }
-    if (supplierId) {
+    if (supplierId != "") {
       opt.params = opt.params.append('supplierId', supplierId);
     }
-    //if (typeof (fixed) == "boolean") {
-      opt.params = opt.params.append('fixedFilter', fixed ? fixed : false);
-    //}
+    if (typeof (fixed) == "boolean") {
+      opt.params = opt.params.append('fixedFilter', fixed);
+    }
     console.log("props: " + JSON.stringify(opt));
     opt = Object.assign(opt, this.httpOptions);
     return this.http.get<any>(this.apiURL + '/Attribute', opt);

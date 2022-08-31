@@ -17,7 +17,7 @@ import {Supplier} from "../../models/supplier.model";
 export class AttributeIndexComponent implements OnInit {
 
   dataSource: AttributesDataSource;
-  displayedColumns: string[] = ['fixed', 'rating', 'supplierName', 'etimFeature', 'nameAttribute', 'allValue', 'actions'];
+  displayedColumns: string[] = ['fixed', 'Rating', 'supplierName', 'etimFeature', 'nameAttribute', 'allValue', 'actions'];
 
   searchSuppliersCtrl = new FormControl<string | Supplier>('');
   public supplierList: Supplier[] | undefined;  // public filteredSupplierList: Observable<Supplier[]> | undefined;
@@ -84,7 +84,7 @@ export class AttributeIndexComponent implements OnInit {
   }
 
   loadData(): any {
-    this.dataSource.loadPagedData(this.searchQuery, this.selectedSupplier?.id, this.paginator?.pageIndex ?? 0, this.paginator?.pageSize ?? 10, this.withFixedAttrSelector);
+    this.dataSource.loadPagedData(this.searchQuery, this.selectedSupplier?.id ?? '', this.paginator?.pageIndex ?? 0, this.paginator?.pageSize ?? 15, this.withFixedAttrSelector);
   }
 
   addItem() {
@@ -129,5 +129,9 @@ export class AttributeIndexComponent implements OnInit {
     this.searchSuppliersCtrl.setValue('');
     this.paginator.pageIndex = 0;
     this.loadData();
+  }
+
+  swapItem(id: any) {
+    //openDialog
   }
 }

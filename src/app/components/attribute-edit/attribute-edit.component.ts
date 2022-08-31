@@ -23,11 +23,10 @@ export class AttributeEditComponent implements OnInit {
   id: string | null | undefined;
   attribute: Attribute | undefined;
   attrType: AttributeType[] = [
-    {value: 'bool', viewValue: 'Бинарный'},
-    {value: 'num', viewValue: 'Числовой'},
-    {value: 'range', viewValue: 'Числовой диапазон'},
-    {value: 'text', viewValue: 'Текстовый'},
-    {value: 'list', viewValue: 'Список'},
+    {value: 'L', viewValue: 'Бинарный'},
+    {value: 'N', viewValue: 'Числовой'},
+    {value: 'R', viewValue: 'Числовой диапазон'},
+    {value: 'A', viewValue: 'Текстовый'},
   ];
 
   constructor(

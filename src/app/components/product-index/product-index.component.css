@@ -27,6 +27,11 @@ table {
   text-align: -webkit-center;
   text-align: center;
 }
+.mat-column-name {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  vertical-align: top;
+}
 .mat-column-preview {
   word-wrap: break-word !important;
   white-space: unset !important;

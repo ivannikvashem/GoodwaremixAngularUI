@@ -1,8 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Supplier} from "../../models/supplier.model";
 import {ApiClient} from "../../repo/httpClient";
+import {ProductAttributeKey} from "../../models/productAttributeKey.model";
+import {DataSource} from "@angular/cdk/collections";
+import {debounceTime, distinctUntilChanged, finalize, Observable, ReplaySubject, switchMap, tap} from "rxjs";
+import { Attribute } from 'src/app/models/attribute.model';
 
 @Component({
   selector: 'app-supplier-edit',
@@ -16,12 +20,23 @@ export class SupplierEditComponent implements OnInit {
   supplier: Supplier | any;
   supplierForm: FormGroup | any;
 
+  dataToDisplay = [];
+  attrDataSource = new ProdAttrDataSource(this.dataToDisplay);
+  attrTableColumns: string[] = ['idx', 'keySupplier', 'attributeBDName', 'action'];
+  attrSelectedRow: any;
+  private isUpdated: boolean;
+
+  public attributeList: Attribute[] | undefined;
+  attributeListCtrl = new FormControl<string | Attribute>('');
+  selectedAttr: Attribute | undefined;
+
+
   constructor(
     private _ActivatedRoute:ActivatedRoute,
     private fb: FormBuilder,
     public api: ApiClient,
   ) {
-
+    this.isUpdated = false;
   }
 
   ngOnInit(): void {
@@ -36,20 +51,28 @@ export class SupplierEditComponent implements OnInit {
           this.initForm(this.supplier);
       });
 
-    //this.initForm();
-/*    this._ActivatedRoute.queryParams.subscribe(params => {
-      this.supplierName = params['supplierName'];
-      console.log("init with params: " + this.supplierName);
-      if (this.supplierName) {
-        this.api.getSupplierByName(this.supplierName).subscribe( s => {
-          this.supplier = s.body as Supplier;
-          this.filloutForm(this.supplier);
-        })
-      }
-    });*/
+    this.attributeListCtrl.valueChanges.pipe(
+      distinctUntilChanged(),
+      debounceTime(100),
+      tap(() => {
+
+      }),
+      switchMap(value => this.api.getAttributes(value, '' ,0, 10, undefined, "rating", "desc")
+        .pipe(
+          finalize(() => {
+
+          }),
+        )
+      )
+    )
+      .subscribe((data: any) => {
+        this.attributeList = data.body.data;
+      });
   }
 
   initForm(s: Supplier): void {
+    this.attrDataSource.setData(s.supplierConfigs?.attributeConfig?.productAttributeKeys || []);
+
     this.supplierForm = this.fb.group({
       supplierProfile: this.fb.group({
         //  id: this.fb.control(''),
@@ -80,30 +103,31 @@ export class SupplierEditComponent implements OnInit {
         country: this.fb.control(s.supplierConfigs?.baseConfig?.country),
         countryCode: this.fb.control(s.supplierConfigs?.baseConfig?.countryCode),
         GTD: this.fb.control(s.supplierConfigs?.baseConfig?.gtd),
+        prefix: this.fb.control(s.supplierConfigs?.prefix),
       }),
       attributeConfig: this.fb.group({
-        attributesStartTag: this.fb.control(''),
-        attributesURL: this.fb.control(''),
-        attributeName: this.fb.control(''),
-        etimFeature: this.fb.control(''),
-        etimValue: this.fb.control(''),
-        etimUnit: this.fb.control(''),
-        unit: this.fb.control(''),
-        type: this.fb.control(''),
-        value: this.fb.control(''),
-        productAttributeKeys: this.fb.group({
-          attributeIdBD: this.fb.control(''),
-          keySupplier: this.fb.control(''),
-          attributeBDName: this.fb.control(''),
-          multiplier: this.fb.control(''),
-        }),
+        attributesStartTag: this.fb.control(s.supplierConfigs?.attributeConfig?.attributesStartTag),
+        attributesURL: this.fb.control(s.supplierConfigs?.attributeConfig?.attributesURL),
+        attributeName: this.fb.control(s.supplierConfigs?.attributeConfig?.attributeName),
+        etimFeature: this.fb.control(s.supplierConfigs?.attributeConfig?.etimFeature),
+        etimValue: this.fb.control(s.supplierConfigs?.attributeConfig?.etimValue),
+        etimUnit: this.fb.control(s.supplierConfigs?.attributeConfig?.etimUnit),
+        unit: this.fb.control(s.supplierConfigs?.attributeConfig?.unit),
+        attrType: this.fb.control(s.supplierConfigs?.attributeConfig?.type),
+        value: this.fb.control(s.supplierConfigs?.attributeConfig?.value),
+      }),
+      productAttributeKeys: this.fb.group({
+        attributeIdBD: this.fb.control(''),
+        keySupplier: this.fb.control(''),
+        attributeBDName: this.fb.control(''),
+        multiplier: this.fb.control(''),
       }),
       supplierConfig: this.fb.group({
 
         type: this.fb.control(s.supplierConfigs?.type),
         stripXMLNamespace: this.fb.control(s.supplierConfigs?.stripXMLNamespace),
         fileEncoding: this.fb.control(s.supplierConfigs?.fileEncoding),
-        prefix: this.fb.control(s.supplierConfigs?.prefix),
+
         zippedFileName: this.fb.control(s.supplierConfigs?.zippedFileName),
 
         documentConfig: this.fb.control(null), //todo
@@ -114,57 +138,6 @@ export class SupplierEditComponent implements OnInit {
           weightIndex: this.fb.control(1),
         }),
         dateFormats: this.fb.array([]),
-      }),
-    });
-  }
-
-  filloutForm(s: Supplier): void {
-    console.log("ok, filling out with supplier " + this.supplier.supplierName);
-    this.supplierForm = this.fb.group({
-      //  id: this.fb.control(''),
-      supplierName: this.fb.control(s.supplierName, Validators.required),
-      comment: this.fb.control(s.comment),
-      SourceSettings: this.fb.group({
-        FileName: this.fb.control(s.sourceSettings?.fileName),
-        Source: this.fb.control(s.sourceSettings?.source),
-        UrlList: this.fb.control(s.sourceSettings?.urlList),
-        UrlItem: this.fb.control(s.sourceSettings?.urlItem),
-        MethodType: this.fb.control(s.sourceSettings?.methodType),
-        Header: this.fb.control(s.sourceSettings?.header),
-        Body: this.fb.control(s.sourceSettings?.body),
-        CountPage: this.fb.control(s.sourceSettings?.countPage),
-        StartPage: this.fb.control(s.sourceSettings?.startPage),
-        Multipart: this.fb.control(s.sourceSettings?.multipart),
-      }),
-      SupplierConfig: this.fb.group({
-        Type: this.fb.control(s.supplierConfigs?.type),
-        StripXMLNamespace: this.fb.control(s.supplierConfigs?.stripXMLNamespace),
-        FileEncoding: this.fb.control(s.supplierConfigs?.fileEncoding),
-        Prefix: this.fb.control(s.supplierConfigs?.prefix),
-        ZippedFileName: this.fb.control(s.supplierConfigs?.zippedFileName),
-        BaseConfig: this.fb.group({
-          StartTag: this.fb.control(s.supplierConfigs?.baseConfig?.startTag),
-          VendorId: this.fb.control(s.supplierConfigs?.baseConfig?.vendorId),
-          Title: this.fb.control(s.supplierConfigs?.baseConfig?.title),
-          TitleLong: this.fb.control(s.supplierConfigs?.baseConfig?.titleLong),
-          Description: this.fb.control(s.supplierConfigs?.baseConfig?.description),
-          Brand: this.fb.control(s.supplierConfigs?.baseConfig?.brand),
-          Image360: this.fb.control(s.supplierConfigs?.baseConfig?.image360),
-          Videos: this.fb.control(s.supplierConfigs?.baseConfig?.videos),
-          Country: this.fb.control(s.supplierConfigs?.baseConfig?.country),
-          CountryCode: this.fb.control(s.supplierConfigs?.baseConfig?.countryCode),
-          GTD: this.fb.control(s.supplierConfigs?.baseConfig?.gtd),
-        }),
-        CategoryConfig: this.fb.control(null), //todo
-        DocumentConfig: this.fb.control(null), //todo
-        AttributeConfig: this.fb.control(null), //todo
-        PackageConfig: this.fb.control(null), //todo
-        Multipliers: this.fb.group({
-          DimensionIndex: this.fb.control(1),
-          VolumeIndex: this.fb.control(1),
-          WeightIndex: this.fb.control(1),
-        }),
-        DateFormats: this.fb.array([]),
       }),
     });
   }
@@ -181,5 +154,83 @@ export class SupplierEditComponent implements OnInit {
 
   clearForm(): void{
     this.supplierForm.reset();
+  }
+
+  addSuppAttr() {
+    var a = new ProductAttributeKey ();
+    a.attributeBDName = '';
+    a.keySupplier = '';
+    this.supplier.supplierConfigs.attributeConfig.productAttributeKeys.push(a);
+    console.log("instert attr!: "+ JSON.stringify(a));
+
+    this.attrDataSource.setData(this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys);
+  }
+
+  deleteSuppAttr(keySupplier: string) {
+    let idx = this.supplier.supplierConfigs.attributeConfig.productAttributeKeys.map((obj:ProductAttributeKey) => obj.keySupplier).indexOf(keySupplier);
+    console.log(idx);
+
+    this.supplier.supplierConfigs.attributeConfig.productAttributeKeys.splice(idx, 1);
+    this.attrDataSource.setData(this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys);
+  }
+
+  onSelectRow(row: any, index: number) {
+    if (this.isUpdated)
+    {
+      this.isUpdated = false;
+      return;
+    }
+    this.selectedAttr = undefined;
+    this.attributeListCtrl.setValue(row.attributeBDName);
+    this.attrSelectedRow = row;
+  }
+
+  displayFn(attr: Attribute): string {
+    return attr && attr.nameAttribute ? attr.nameAttribute : '';
+  }
+
+  onDBAttrSelected() {
+    this.selectedAttr = this.attributeListCtrl.value as Attribute;
+  }
+
+  updateSuppAttr(i: number, row: any) {
+    //update
+    //this.attrSelectedRow = (this.attributeListCtrl.value as Attribute).nameAttribute;
+    this.attrSelectedRow.attributeBDName = this.selectedAttr?.nameAttribute;
+    this.supplier.supplierConfigs.attributeConfig.productAttributeKeys[i] = this.attrSelectedRow;
+    console.log("upd: " + JSON.stringify(this.attrSelectedRow));
+
+    //prepare for refresh
+    this.isUpdated = true; //crutch to prevent row onClick event
+    this.attrSelectedRow = null;
+    this.attrDataSource.setData(this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys);
+  }
+
+  submitSupplier() {
+    this.api.updateSupplier(this.supplier).subscribe( x => {
+        console.log("updateSupplier: " +JSON.stringify(x) );
+      },
+      error => {
+        console.log( "updateSupplierError: " + JSON.stringify(error));
+      });
+  }
+}
+
+class ProdAttrDataSource extends DataSource<ProductAttributeKey> {
+  private _dataStream = new ReplaySubject<ProductAttributeKey[]>();
+
+  constructor(initialData: ProductAttributeKey[]) {
+    super();
+    this.setData(initialData);
+  }
+
+  connect(): Observable<ProductAttributeKey[]> {
+    return this._dataStream;
+  }
+
+  disconnect() {}
+
+  setData(data: ProductAttributeKey[]) {
+    this._dataStream.next(data);
   }
 }

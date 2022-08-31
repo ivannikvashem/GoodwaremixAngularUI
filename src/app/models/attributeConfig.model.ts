@@ -8,7 +8,7 @@ export class AttributeConfig implements Deserializable{
   etimFeature: string | undefined;
   etimValue: string | undefined;
   etimUnit: any;
-  tnit: any;
+  unit: any;
   type: any;
   value: any;
   productAttributeKeys: ProductAttributeKey[] | undefined;

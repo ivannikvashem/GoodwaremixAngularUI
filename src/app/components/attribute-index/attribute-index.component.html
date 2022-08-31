@@ -27,7 +27,8 @@
     </mat-form-field>
 
     <mat-button-toggle-group name="fixed" class="full-width" [(ngModel)]="withFixedAttrSelector" [value]="withFixedAttrSelector" (change)="onFixedSelected()">
-      <mat-button-toggle [value]=false class="full-width">Все</mat-button-toggle>
+      <mat-button-toggle [value]=null class="full-width">Все</mat-button-toggle>
+      <mat-button-toggle [value]=false class="full-width">Открытые</mat-button-toggle>
       <mat-button-toggle [value]=true class="full-width">Фиксированные</mat-button-toggle>
     </mat-button-toggle-group>
 
@@ -63,12 +64,11 @@
     </ng-container>
 
     <!-- rating Column -->
-    <ng-container matColumnDef="rating">
+    <ng-container matColumnDef="Rating">
       <th mat-header-cell *matHeaderCellDef>Частота</th>
       <td mat-cell *matCellDef="let row">{{row.rating}}</td>
     </ng-container>
 
-    <!-- rating Column -->
     <ng-container matColumnDef="allValue">
       <th mat-header-cell *matHeaderCellDef>Список значений</th>
       <td mat-cell *matCellDef="let row">{{row.allValue.join(', ').substring(0, 100)}}</td>
@@ -86,8 +86,11 @@
         <button mat-icon-button class="mat-elevation-z2" matTooltip="Изменить" (click)="editItem(item.id)">
           <mat-icon>edit</mat-icon>
         </button>&nbsp;
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить" (click)="deleteItem(item.id)">
+<!--        <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить" (click)="deleteItem(item.id)">
           <mat-icon>delete</mat-icon>
+        </button>-->
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="Заменить" (click)="swapItem(item.id)">
+          <mat-icon>swap_horiz</mat-icon>
         </button>
 
       </td>
@@ -96,6 +99,6 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  <mat-paginator [length]="dataSource.rowCount" [pageSize]="10" [pageSizeOptions]=[10,20,50,100] aria-label="Страница результатов"></mat-paginator>
+  <mat-paginator [length]="dataSource.rowCount" [pageSize]="15" [pageSizeOptions]=[10,15,50,100] aria-label="Страница результатов"></mat-paginator>
 </div>
 </div>

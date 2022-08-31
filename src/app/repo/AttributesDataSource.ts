@@ -23,11 +23,12 @@ export class AttributesDataSource implements DataSource<Attribute> {
     this.loadingSubject.complete();
   }
 
-  loadPagedData(queryString = "", supplierId: any, pageIndex = 1, pageSize = 10, fixed?: boolean ): any {
+  loadPagedData(queryString = "", supplierId: string, pageIndex = 1, pageSize = 10, fixed?: boolean ): any {
     this.loadingSubject.next(true);
-    this.api.getAttributes(queryString, supplierId, pageIndex, pageSize, fixed)
+    this.api.getAttributes(queryString, supplierId, pageIndex, pageSize, fixed, "Rating", "desc")
       .pipe(
         map(res => {
+          console.log(JSON.stringify(res.body));
           return res.body;
         }),
       catchError(() => of([])),

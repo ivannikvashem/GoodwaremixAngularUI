@@ -69,7 +69,19 @@
       <!-- Name Column -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef>Наименование товара</th>
-        <td mat-cell *matCellDef="let row">{{row.title}}</td>
+        <td mat-cell *matCellDef="let row">
+
+          <ng-template #t [ngTemplateOutlet]="t"
+                       let-a [ngTemplateOutletContext]="{ $implicit: 0 }">
+          <div>
+            <h4>{{row.title}}</h4>
+            <p style="font-style: italic">{{row.vendorId}}</p>
+            <p>{{row.netto?.barcode || ""}}</p>
+          </div>
+
+          </ng-template>
+
+        </td>
       </ng-container>
 
       <!-- supplier Column -->
@@ -87,9 +99,9 @@
         </th>
         <td mat-cell *matCellDef="let item">
 
-          <button mat-icon-button class="mat-elevation-z2" matTooltip="Изменить товар" (click)="editItem(item.id)">
+<!--          <button mat-icon-button class="mat-elevation-z2" matTooltip="Изменить товар" (click)="editItem(item.id)">
             <mat-icon>edit</mat-icon>
-          </button>&nbsp;
+          </button>&nbsp;-->
           <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить товар" (click)="deleteItem(item.id)">
             <mat-icon>delete</mat-icon>
           </button>
@@ -98,7 +110,7 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="element-row"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="element-row" (click)="editItem(row.id)"></tr>
     </table>
     <mat-paginator [length]="dataSource.rowCount" [pageSize]="10" [pageSizeOptions]=[10,20,50,100] aria-label="Страница"></mat-paginator>
   </div>

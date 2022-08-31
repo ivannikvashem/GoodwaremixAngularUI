@@ -57,7 +57,7 @@ export class SupplierIndexComponent implements OnInit {
   }
 
   loadData(): any {
-    this.dataSource.loadPagedData(this.searchQuery, this.paginator?.pageIndex, this.paginator?.pageSize, this.sort?.active, this.sort?.direction);
+    this.dataSource.loadPagedData(this.searchQuery, this.paginator?.pageIndex || 0, this.paginator?.pageSize || 15, this.sort?.active, this.sort?.direction);
   }
 
   addItem() {
@@ -107,7 +107,7 @@ export class SupplierIndexComponent implements OnInit {
   }
 
   editItem(supplierName: any) {
-    this.router.navigate([`supplier-edit-mw/${supplierName}`]);
+    this.router.navigate([`supplier-edit/${supplierName}`]);
   }
 
   confirmDeleteSuppDialog(id: string, name: string): void {
