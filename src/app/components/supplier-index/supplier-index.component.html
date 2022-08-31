@@ -26,7 +26,7 @@
       <th mat-header-cell *matHeaderCellDef>Тип</th>
       <td mat-cell *matCellDef="let row">
         <mat-icon class="material-icons-outlined" *ngIf="row.sourceSettings">{{row.sourceSettings.source == "API" ? "cloud_done" : (row.sourceSettings.source == "MAIL" ? "drafts" : "folder_shared")}}</mat-icon>
-        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs">{{row.supplierConfigs.type == "XML" ? "code" : (row.supplierConfigs.type == "XLSX" ? "table_view" : "data_object")}}</mat-icon>
+        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs != null">{{row.supplierConfigs.type == "XML" ? "code" : (row.supplierConfigs.type == "XLSX" ? "table_view" : "data_object")}}</mat-icon>
       </td>
     </ng-container>
 
@@ -34,12 +34,14 @@
     <ng-container matColumnDef="fullfill">
       <th mat-header-cell *matHeaderCellDef>Данные</th>
       <td mat-cell *matCellDef="let row">
-        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs != null && row.supplierConfigs.imageConfig.images != null">{{row.supplierConfigs.imageConfig.downloadLocally ? "add_a_photo" : "photo_camera"}}</mat-icon>
-        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs != null && row.supplierConfigs.attributeConfig.attributeName != null && row.supplierConfigs.attributeConfig.productAttributeKeys != null">toc</mat-icon>
-        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs != null && row.supplierConfigs.packageConfig.netto != null && row.supplierConfigs.packageConfig.netto.barcode != null">crop</mat-icon>
-        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs != null && row.supplierConfigs.packageConfig.packQty != null">inventory_2</mat-icon>
-        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs != null && (row.supplierConfigs.documentConfig.endDate != null || row.supplierConfigs.documentConfig.certNumber != null)">file_present</mat-icon>
-        <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs != null && row.supplierConfigs.attributeConfig.etimFeature != null">explicit</mat-icon>
+        <ng-container *ngIf="row.supplierConfigs != null">
+          <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.imageConfig != null && row.supplierConfigs.imageConfig.images != null">{{row.supplierConfigs.imageConfig.downloadLocally ? "add_a_photo" : "photo_camera"}}</mat-icon>
+          <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.attributeConfig != null && row.supplierConfigs.attributeConfig.attributeName != null && row.supplierConfigs.attributeConfig.productAttributeKeys != null">toc</mat-icon>
+          <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.packageConfig != null && row.supplierConfigs.packageConfig.netto != null && row.supplierConfigs.packageConfig.netto.barcode != null">crop</mat-icon>
+          <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.packageConfig != null && row.supplierConfigs.packageConfig.packQty != null">inventory_2</mat-icon>
+          <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.documentConfig != null && (row.supplierConfigs.documentConfig.endDate != null || row.supplierConfigs.documentConfig.certNumber != null)">file_present</mat-icon>
+          <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.attributeConfig != null && row.supplierConfigs.attributeConfig.etimFeature != null">explicit</mat-icon>
+        </ng-container>
       </td>
     </ng-container>
 
