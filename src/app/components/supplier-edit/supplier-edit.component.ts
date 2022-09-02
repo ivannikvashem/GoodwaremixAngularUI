@@ -7,6 +7,8 @@ import {ProductAttributeKey} from "../../models/productAttributeKey.model";
 import {DataSource} from "@angular/cdk/collections";
 import {debounceTime, distinctUntilChanged, finalize, Observable, ReplaySubject, switchMap, tap} from "rxjs";
 import { Attribute } from 'src/app/models/attribute.model';
+import {COMMA, ENTER} from "@angular/cdk/keycodes";
+import {MatChipInputEvent} from "@angular/material/chips";
 
 @Component({
   selector: 'app-supplier-edit',
@@ -15,44 +17,49 @@ import { Attribute } from 'src/app/models/attribute.model';
 })
 export class SupplierEditComponent implements OnInit {
 
-  supplierName: string | any;
-  //supplierId: string | any;
+  //supplierName: string | any;
+  supplierId: string | any;
   supplier: Supplier | any;
-  supplierForm: FormGroup | any;
+  //supplierForm: FormGroup | any;
 
   dataToDisplay = [];
   attrDataSource = new ProdAttrDataSource(this.dataToDisplay);
-  attrTableColumns: string[] = ['idx', 'keySupplier', 'attributeBDName', 'action'];
+  attrTableColumns: string[] = ['idx', 'keySupplier', 'attributeBDName', 'actions'];
   attrSelectedRow: any;
-  private isUpdated: boolean;
+  //private isUpdated: boolean;
 
   public attributeList: Attribute[] | undefined;
   attributeListCtrl = new FormControl<string | Attribute>('');
   selectedAttr: Attribute | undefined;
 
-
   constructor(
     private _ActivatedRoute:ActivatedRoute,
-    private fb: FormBuilder,
+    //private fb: FormBuilder,
     public api: ApiClient,
   ) {
-    this.isUpdated = false;
+    //this.isUpdated = false;
   }
 
   ngOnInit(): void {
-    this.supplierName = this._ActivatedRoute.snapshot.paramMap.get("supplierName");
-    console.log("init with params: " + this.supplierName);
+    this.supplierId = this._ActivatedRoute.snapshot.paramMap.get("supplierId");
+    console.log("init with params: " + this.supplierId);
 
-    if (this.supplierName)
-      this.api.getSupplierByName(this.supplierName)
+    if (this.supplierId) {
+      this.api.getSupplierById(this.supplierId)
         .subscribe( s => {
-          console.log("get data from: " + this.supplierName);
+          console.log("get data by " + this.supplierId + ": " + s.supplierName);
           this.supplier = s.body as Supplier;
-          this.initForm(this.supplier);
-      });
+          //this.initForm(this.supplier);
+          this.attrDataSource.setData(this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys || []);
+        });
+    }
+    else {
+      //init empty supplier
+      this.supplier = new Supplier();
+    }
 
     this.attributeListCtrl.valueChanges.pipe(
-      distinctUntilChanged(),
+      //distinctUntilChanged(),
       debounceTime(100),
       tap(() => {
 
@@ -70,7 +77,7 @@ export class SupplierEditComponent implements OnInit {
       });
   }
 
-  initForm(s: Supplier): void {
+  /*initForm(s: Supplier): void {
     this.attrDataSource.setData(s.supplierConfigs?.attributeConfig?.productAttributeKeys || []);
 
     this.supplierForm = this.fb.group({
@@ -140,10 +147,10 @@ export class SupplierEditComponent implements OnInit {
         dateFormats: this.fb.array([]),
       }),
     });
-  }
+  }*/
 
   onSubmit(): void{
-    console.log('Form Submit: ', this.supplierForm.value);
+    console.log('Submitting: ', JSON.stringify(this.supplier));
     this.api.updateSupplier(this.supplier).subscribe( x => {
         console.log("updateSupplier: " +JSON.stringify(x) );
     },
@@ -152,18 +159,16 @@ export class SupplierEditComponent implements OnInit {
     })
   }
 
-  clearForm(): void{
-    this.supplierForm.reset();
-  }
-
   addSuppAttr() {
     var a = new ProductAttributeKey ();
     a.attributeBDName = '';
-    a.keySupplier = '';
     this.supplier.supplierConfigs.attributeConfig.productAttributeKeys.push(a);
     console.log("instert attr!: "+ JSON.stringify(a));
-
     this.attrDataSource.setData(this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys);
+    let row = this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys[this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys.length - 1];
+
+    this.attributeListCtrl.setValue(row.attributeBDName);
+    this.attrSelectedRow = row;
   }
 
   deleteSuppAttr(keySupplier: string) {
@@ -175,25 +180,37 @@ export class SupplierEditComponent implements OnInit {
   }
 
   onSelectRow(row: any, index: number) {
-    if (this.isUpdated)
+
+/*    if (this.isUpdated)
     {
+      console.log("onSelectRow isUpdated");
       this.isUpdated = false;
       return;
-    }
+    }*/
+    console.log("onSelectRow clear");
     this.selectedAttr = undefined;
     this.attributeListCtrl.setValue(row.attributeBDName);
     this.attrSelectedRow = row;
   }
 
   displayFn(attr: Attribute): string {
-    return attr && attr.nameAttribute ? attr.nameAttribute : '';
+    return attr && attr.nameAttribute ? attr.nameAttribute + " [" + attr.etimFeature + "] от " + attr.supplierName : '';
   }
 
   onDBAttrSelected() {
+    console.log("onDBAttrSelected");
     this.selectedAttr = this.attributeListCtrl.value as Attribute;
   }
 
   updateSuppAttr(i: number, row: any) {
+    console.log("updateSuppAttr attr dict!");
+    //validation
+    // Add our value
+    const idx = this.supplier.supplierConfigs.attributeConfig.productAttributeKeys.indexOf(row.keySupplier);
+    if (row.keySupplier == null && idx != i) {
+      return;
+    }
+
     //update
     //this.attrSelectedRow = (this.attributeListCtrl.value as Attribute).nameAttribute;
     this.attrSelectedRow.attributeBDName = this.selectedAttr?.nameAttribute;
@@ -201,9 +218,31 @@ export class SupplierEditComponent implements OnInit {
     console.log("upd: " + JSON.stringify(this.attrSelectedRow));
 
     //prepare for refresh
-    this.isUpdated = true; //crutch to prevent row onClick event
+    //this.isUpdated = true; //crutch to prevent row onClick event
     this.attrSelectedRow = null;
     this.attrDataSource.setData(this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys);
+  }
+
+  addOnBlur = true;
+  readonly separatorKeysCodes = [ENTER, COMMA] as const;
+
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+    // Add our value
+    const idx = this.supplier.supplierConfigs.dateFormats?.indexOf(value);
+    if (value && idx === -1 ) {
+      this.supplier.supplierConfigs.dateFormats?.push(value);
+    }
+    // Clear the input value
+    event.chipInput!.clear();
+  }
+
+  remove(fruit: string): void {
+    const index = this.supplier.supplierConfigs.dateFormats?.indexOf(fruit);
+
+    if (typeof(index) == "number" && index >= 0) {
+      this.supplier.supplierConfigs.dateFormats?.splice(index, 1);
+    }
   }
 
   submitSupplier() {
@@ -211,7 +250,7 @@ export class SupplierEditComponent implements OnInit {
         console.log("updateSupplier: " +JSON.stringify(x) );
       },
       error => {
-        console.log( "updateSupplierError: " + JSON.stringify(error));
+        console.log("updateSupplierError: " + JSON.stringify(error));
       });
   }
 }

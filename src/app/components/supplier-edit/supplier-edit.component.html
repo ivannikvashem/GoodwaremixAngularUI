@@ -1,35 +1,34 @@
 <div class="full-width" style="display: flex; justify-content: space-between; padding-right: 20px;">
-  <h3>Supplier {{supplier?.supplierName}}</h3>
+  <h3>{{supplier?.supplierName == undefined ? "Создание нового поставщика" : "Поставщик " + supplier?.supplierName}}</h3>
   <div style="vertical-align: bottom; margin: auto 0;">
     <button mat-flat-button color="primary" type="submit" (click)="submitSupplier()">Сохранить</button>
   </div>
 </div>
 
-<form [formGroup]="supplierForm">
-<mat-stepper orientation="vertical" [linear]="false" #stepper>
-  <mat-step formGroupName="supplierProfile" [stepControl]="supplierForm.supplierProfile" class="full-width">
+<form>
+  <mat-stepper orientation="vertical" [linear]="false" #stepper>
+    <mat-step>
       <ng-template matStepLabel>Настройки профиля поставщика</ng-template>
     <div class="formBlockDouble">
       <mat-form-field appearance="fill">
         <mat-label>Наименование поставщика</mat-label>
-        <input matInput placeholder="Last name, First name" formControlName="supplierName" required>
+        <input matInput placeholder="Наименование поставщика" name="supplierName" required [(ngModel)]="supplier.supplierName">
       </mat-form-field>
     </div>
     <div class="formBlockDouble">
-    <mat-form-field appearance="fill">
-      <mat-label>Комментарий</mat-label>
-      <textarea type="text" matInput placeholder="Комментарий" formControlName="comment" style="height: 100px;"></textarea>
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Комментарий</mat-label>
+        <textarea type="text" matInput placeholder="Комментарий" name="comment" style="height: 100px;" [(ngModel)]="supplier.comment"></textarea>
+      </mat-form-field>
     </div>
-
   </mat-step>
-  <mat-step formGroupName="sourceSettings">
-      <ng-template matStepLabel>Подключение к ресурсу поставщика</ng-template>
 
+    <mat-step>
+      <ng-template matStepLabel>Подключение к ресурсу поставщика</ng-template>
       <div class="formBlockDouble">
         <mat-form-field appearance="fill">
           <mat-label>Источник</mat-label>
-          <mat-select formControlName="source" #source>
+          <mat-select name="source" #source [(ngModel)]="supplier.sourceSettings.source">
             <mat-option value="API">API</mat-option>
             <mat-option value="FTP">FTP</mat-option>
             <mat-option value="MAIL">MAIL</mat-option>
@@ -38,7 +37,7 @@
         </mat-form-field>&nbsp;
         <mat-form-field appearance="fill">
           <mat-label>Тип запроса</mat-label>
-          <mat-select formControlName="methodType" #methodType>
+          <mat-select name="methodType" #methodType [(ngModel)]="supplier.sourceSettings.methodType">
             <mat-option value="GET">GET</mat-option>
             <mat-option value="POST">POST</mat-option>
             <mat-option value="BINARY">BINARY</mat-option>
@@ -46,296 +45,287 @@
         </mat-form-field>&nbsp;
           <mat-form-field appearance="fill" *ngIf="this.methodType.value == 'POST'">
             <mat-label>Multipart</mat-label>
-            <mat-select formControlName="multipart">
+            <mat-select name="multipart" [(ngModel)]="supplier.sourceSettings.multipart">
               <mat-option>По умолчанию</mat-option>
               <mat-option [value]="true">Multipart Form Body</mat-option>
               <mat-option [value]="false">RAW Body</mat-option>
             </mat-select>
         </mat-form-field>
       </div>
-
-    <div class="formBlockFull" *ngIf="source.value !='MAIL'">
+      <div class="formBlockFull" *ngIf="source.value !='MAIL'">
       <div class="formBlockTriple">
         <mat-form-field appearance="fill">
             <mat-label>urlList</mat-label>
-            <input matInput formControlName="urlList" placeholder="">
+            <input matInput name="urlList" placeholder="" [(ngModel)]="supplier.sourceSettings.urlList">
         </mat-form-field>
       </div>
       &nbsp;
       <div style="display: inline-flex">
           <mat-form-field appearance="fill">
             <mat-label>startPage</mat-label>
-            <input matInput type="number" formControlName="startPage" placeholder="">
+            <input matInput type="number" name="startPage" placeholder="" [(ngModel)]="supplier.sourceSettings.startPage">
           </mat-form-field>&nbsp;
           <mat-form-field appearance="fill">
             <mat-label>countPage</mat-label>
-            <input matInput type="number" formControlName="countPage" placeholder="">
+            <input matInput type="number" name="countPage" placeholder="" [(ngModel)]="supplier.sourceSettings.countPage">
           </mat-form-field>
         </div>
     </div>
-
-    <div class="formBlockTriple"  *ngIf="source.value !='MAIL'">
+      <div class="formBlockTriple"  *ngIf="source.value !='MAIL'">
       <mat-form-field appearance="fill">
           <mat-label>urlItem</mat-label>
-          <input matInput formControlName="urlItem" placeholder="">
+          <input matInput name="urlItem" placeholder="" [(ngModel)]="supplier.sourceSettings.urlItem">
         </mat-form-field>
     </div>
-    <div style="width: 100%; display: inline-flex;"  *ngIf="source.value !='MAIL'">
+      <div style="width: 100%; display: inline-flex;" *ngIf="source.value !='MAIL'">
       <div class="formBlockDouble">
         <mat-form-field appearance="fill">
           <mat-label>header</mat-label>
-          <textarea matInput formControlName="header" placeholder="" style="height: 100px;"></textarea>
+          <textarea matInput name="header" placeholder="" style="height: 100px;" [(ngModel)]="supplier.sourceSettings.header"></textarea>
         </mat-form-field>
       </div>
       &nbsp;
       <div class="formBlockDouble">
         <mat-form-field appearance="fill" *ngIf="this.methodType.value == 'POST'">
           <mat-label>body</mat-label>
-          <textarea matInput formControlName="body" placeholder="" style="height: 100px;"></textarea>
+          <textarea matInput name="body" placeholder="" style="height: 100px;" [(ngModel)]="supplier.sourceSettings.body"></textarea>
         </mat-form-field>
       </div>
     </div>
+    </mat-step>
 
-
-  </mat-step>
-  <mat-step formGroupName="supplierConfig">
-      <ng-template matStepLabel>Файл данных поставщика</ng-template>
-      <div class="formBlockDouble">
-        <mat-form-field appearance="fill" required>
-          <mat-label>Тип файла</mat-label>
-          <mat-select formControlName="type" #fileType>
-            <mat-option value="JSON">JSON</mat-option>
-            <mat-option value="XML">XML</mat-option>
-            <mat-option value="XLSX">XLSX</mat-option>
-            <mat-option value="CSV">CSV</mat-option>
-          </mat-select>
-        </mat-form-field>
-        &nbsp;
-        <mat-form-field appearance="fill" *ngIf="fileType.value == 'XML'">
-          <mat-label>Очистка XML Namespace</mat-label>
-          <mat-select formControlName="stripXMLNamespace" name="stripXMLNamespace">
-            <mat-option>Очистка XML Namespace</mat-option>
-            <mat-option [value]="true">Очистить</mat-option>
-            <mat-option [value]="false">Не менять</mat-option>
-          </mat-select>
-        </mat-form-field>
-        &nbsp;
-        <mat-form-field appearance="fill">
-          <mat-label>Кодировка</mat-label>
-          <input matInput formControlName="fileEncoding" placeholder="">
-        </mat-form-field>
-      </div>
-  </mat-step>
-
-  <mat-step formGroupName="baseSuppConfig">
-    <ng-template matStepLabel>Парсер. Товар</ng-template>
-    <div class="formBlockDouble">
-      <mat-form-field appearance="fill">
-        <mat-label>StartTag</mat-label>
-        <input matInput formControlName="startTag" placeholder="">
-      </mat-form-field>&nbsp;
-      <mat-form-field appearance="fill">
-        <mat-label>Префикс идентификатора поставщика</mat-label>
-        <input matInput formControlName="prefix" placeholder="">
-      </mat-form-field>&nbsp;
-      <mat-form-field appearance="fill">
-        <mat-label>Идентификатор товара поставщика</mat-label>
-        <input matInput formControlName="vendorId" placeholder="" required>
-      </mat-form-field>
-    </div>
-    <div class="formBlockDouble">
-      <mat-form-field appearance="fill">
-        <mat-label>Наименование</mat-label>
-        <input matInput formControlName="title" placeholder="" required>
-      </mat-form-field>&nbsp;
-      <mat-form-field appearance="fill">
-        <mat-label>Полное наименование</mat-label>
-        <input matInput formControlName="titleLong" placeholder="">
-      </mat-form-field>&nbsp;
-      <mat-form-field appearance="fill">
-        <mat-label>Описание</mat-label>
-        <input matInput formControlName="description" placeholder="">
-      </mat-form-field>
-    </div>
-    <div class="formBlockDouble">
-      <mat-form-field appearance="fill">
-        <mat-label>Бренд</mat-label>
-        <input matInput formControlName="brand" placeholder="">
-      </mat-form-field>&nbsp;
-      <mat-form-field appearance="fill">
-        <mat-label>Страна производства</mat-label>
-        <input matInput formControlName="country" placeholder="">
-      </mat-form-field>&nbsp;
-      <mat-form-field appearance="fill">
-        <mat-label>Код страны производства</mat-label>
-        <input matInput formControlName="countryCode" placeholder="">
-      </mat-form-field>
-    </div>
-    <div class="formBlockDouble">
-      <mat-form-field appearance="fill">
-        <mat-label>Ссылка на фото 360</mat-label>
-        <input matInput formControlName="image360" placeholder="">
-      </mat-form-field>&nbsp;
-      <mat-form-field appearance="fill">
-        <mat-label>Ссылка на видео (список)</mat-label>
-        <input matInput formControlName="videos" placeholder="">
-      </mat-form-field>&nbsp;
-      <mat-form-field appearance="fill">
-        <mat-label>ГТД</mat-label>
-        <input matInput formControlName="GTD" placeholder="">
-      </mat-form-field>
-    </div>
-
-  </mat-step>
-  <mat-step formGroupName="attributeConfig">
-    <ng-template matStepLabel>Парсер. Aтрибуты</ng-template>
-    <div class="formBlockDouble">
-      <mat-form-field appearance="fill">
-        <mat-label>Стартовый таг атрибутов</mat-label>
-        <input matInput formControlName="attributesStartTag" placeholder="">
-      </mat-form-field>&nbsp;
-    </div>
-      <div class="formBlockDouble">
-      <mat-form-field appearance="fill">
-        <mat-label>URL к данным атрибута</mat-label>
-        <input matInput formControlName="attributesURL" placeholder="">
-      </mat-form-field>&nbsp;
-<!--      <mat-form-field appearance="fill" required>
-        <mat-label>Тип свойства</mat-label>
-        <mat-select formControlName="attrType" #fileType>
-          <mat-option value="A">Alphanumeric Текстовый со списком</mat-option>
-          <mat-option value="L">Logic Бинарный</mat-option>
-          <mat-option value="N">Numeric Числовой</mat-option>
-          <mat-option value="R">Range Диапазон</mat-option>
-        </mat-select>
-      </mat-form-field>-->
-    </div>
-    <div class="formBlockDouble">
-      <mat-form-field appearance="fill">
-        <mat-label>Тип свойства</mat-label>
-        <input matInput formControlName="attrType" placeholder="">
-      </mat-form-field>
-    </div>
-    <div class="formBlockDouble">
-      <mat-form-field appearance="fill">
-        <mat-label>Наименование атрибута</mat-label>
-        <input matInput formControlName="attributeName" placeholder="">
-      </mat-form-field>&nbsp;
-      <mat-form-field appearance="fill">
-        <mat-label>Единица измерения</mat-label>
-        <input matInput formControlName="unit" placeholder="">
-      </mat-form-field>&nbsp;
-      <mat-form-field appearance="fill">
-        <mat-label>Значение</mat-label>
-        <input matInput formControlName="value" placeholder="">
-      </mat-form-field>
-    </div>
-    <div class="formBlockDouble">
-      <mat-form-field appearance="fill">
-        <mat-label>ETIM свойство</mat-label>
-        <input matInput formControlName="etimFeature" placeholder="">
-      </mat-form-field>&nbsp;
-      <mat-form-field appearance="fill">
-        <mat-label>ETIM единица измерения</mat-label>
-        <input matInput formControlName="etimUnit" placeholder="">
-      </mat-form-field>&nbsp;
-      <mat-form-field appearance="fill">
-        <mat-label>ETIM значение</mat-label>
-        <input matInput formControlName="etimValue" placeholder="">
-      </mat-form-field>
-    </div>
-  </mat-step>
-  <mat-step formGroupName="productAttributeKeys">
-    <ng-template matStepLabel>Парсер. Словарь атрибутов</ng-template>
-
-    <table mat-table [dataSource]="attrDataSource" class="mat-elevation-z8">
-
-      <!-- keySupplier Column -->
-      <ng-container matColumnDef="idx">
-        <th mat-header-cell *matHeaderCellDef> # </th>
-        <td mat-cell *matCellDef="let i = index;">
-          {{i}}
-        </td>
-      </ng-container>
-
-      <!-- keySupplier Column -->
-      <ng-container matColumnDef="keySupplier">
-        <th mat-header-cell *matHeaderCellDef> Атрибут поставщика </th>
-        <td mat-cell *matCellDef="let element">
-          <mat-form-field class="full-width" style="margin-top: 16px;" appearance="standard" *ngIf="attrSelectedRow?.keySupplier == element.keySupplier">
-            <mat-label>Атрибут в файле поставщика</mat-label>
-            <input type="text" matInput [value]="element.keySupplier" (change)="element.keySupplier=$any($event.target.value)"><!--NOT WORKING IN STRICT MODE-->
-          </mat-form-field>&nbsp;
-          <span *ngIf="attrSelectedRow?.keySupplier != element.keySupplier">{{element.keySupplier}}</span>
-        </td>
-      </ng-container>
-
-      <!-- Name Column -->
-      <ng-container matColumnDef="attributeBDName">
-        <th mat-header-cell *matHeaderCellDef> Наш атрибут </th>
-        <td mat-cell *matCellDef="let element">
-    <!--      <mat-form-field appearance="standard" *ngIf="attrSelectedRow?.keySupplier == element.keySupplier">
-            <mat-label>Целевой атрибут</mat-label>
-            <input matInput placeholder="" [value]="element.attributeBDName">
-          </mat-form-field>&nbsp;-->
-          <mat-form-field class="full-width" appearance="standard" *ngIf="attrSelectedRow?.keySupplier == element.keySupplier">
-            <mat-label>Целевой атрибут</mat-label>
-            <input type="text" matInput aria-label="Поставщик"
-                   [formControl]="attributeListCtrl"
-                   [matAutocomplete]="auto">
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onDBAttrSelected()">
-              <mat-option *ngFor="let option of attributeList" [value]="option">
-                {{option.nameAttribute}}
-              </mat-option>
-            </mat-autocomplete>
+    <mat-step>
+        <ng-template matStepLabel>Файл данных поставщика</ng-template>
+        <div class="formBlockDouble">
+          <mat-form-field appearance="fill" required>
+            <mat-label>Тип файла</mat-label>
+            <mat-select name="type" #fileType [(ngModel)]="supplier.supplierConfigs.type">
+              <mat-option value="JSON">JSON</mat-option>
+              <mat-option value="XML">XML</mat-option>
+              <mat-option value="XLSX">XLSX</mat-option>
+              <mat-option value="CSV">CSV</mat-option>
+            </mat-select>
           </mat-form-field>
-          <span *ngIf="attrSelectedRow?.keySupplier != element.keySupplier">{{element.attributeBDName}}</span></td>
-      </ng-container>
+          &nbsp;
+          <mat-form-field appearance="fill" *ngIf="fileType.value == 'XML'">
+            <mat-label>Очистка XML Namespace</mat-label>
+            <mat-select name="stripXMLNamespace" name="stripXMLNamespace" [(ngModel)]="supplier.supplierConfigs.stripXMLNamespace">
+              <mat-option>По умолчанию</mat-option>
+              <mat-option [value]="true">Очистить</mat-option>
+              <mat-option [value]="false">Не менять</mat-option>
+            </mat-select>
+          </mat-form-field>
+          &nbsp;
+          <mat-form-field appearance="fill">
+            <mat-label>Кодировка</mat-label>
+            <input matInput name="fileEncoding" placeholder="" [(ngModel)]="supplier.supplierConfigs.fileEncoding">
+          </mat-form-field>
+        </div>
+    </mat-step>
 
-      <!-- action Column -->
-      <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef>
-          <button mat-icon-button class="mat-elevation-z2" matTooltip="Добавить" (click)="addSuppAttr()">
-            <mat-icon>add</mat-icon>
-          </button>
-        </th>
-        <td mat-cell *matCellDef="let i = index; let element">
-          <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить" (click)="deleteSuppAttr(element.keySupplier)" *ngIf="attrSelectedRow?.keySupplier != element.keySupplier">
-            <mat-icon>delete</mat-icon>
-          </button>
-          <button mat-mini-fab color="accent" class="mat-elevation-z2" matTooltip="Обновить" (click)="updateSuppAttr(i, element)" *ngIf="attrSelectedRow?.keySupplier == element.keySupplier">
-            <mat-icon>check</mat-icon>
-          </button>
-        </td>
-      </ng-container>
+    <mat-step>
+      <ng-template matStepLabel>Парсер. Товар</ng-template>
+      <div class="formBlockDouble">
+        <mat-form-field appearance="fill">
+          <mat-label>StartTag</mat-label>
+          <input matInput name="startTag" placeholder="" [(ngModel)]="supplier.supplierConfigs.baseConfig.startTag">
+        </mat-form-field>&nbsp;
+        <mat-form-field appearance="fill">
+          <mat-label>Префикс идентификатора поставщика</mat-label>
+          <input matInput name="prefix" placeholder="" [(ngModel)]="supplier.supplierConfigs.baseConfig.prefix">
+        </mat-form-field>&nbsp;
+        <mat-form-field appearance="fill">
+          <mat-label>Идентификатор товара поставщика</mat-label>
+          <input matInput name="vendorId" placeholder="" required [(ngModel)]="supplier.supplierConfigs.baseConfig.vendorId">
+        </mat-form-field>
+      </div>
+      <div class="formBlockDouble">
+        <mat-form-field appearance="fill">
+          <mat-label>Наименование</mat-label>
+          <input matInput name="title" placeholder="" required [(ngModel)]="supplier.supplierConfigs.baseConfig.title">
+        </mat-form-field>&nbsp;
+        <mat-form-field appearance="fill">
+          <mat-label>Полное наименование</mat-label>
+          <input matInput name="titleLong" placeholder="" [(ngModel)]="supplier.supplierConfigs.baseConfig.titleLong">
+        </mat-form-field>&nbsp;
+        <mat-form-field appearance="fill">
+          <mat-label>Описание</mat-label>
+          <input matInput name="description" placeholder="" [(ngModel)]="supplier.supplierConfigs.baseConfig.description">
+        </mat-form-field>
+      </div>
+      <div class="formBlockDouble">
+        <mat-form-field appearance="fill">
+          <mat-label>Бренд</mat-label>
+          <input matInput name="brand" placeholder="" [(ngModel)]="supplier.supplierConfigs.baseConfig.brand">
+        </mat-form-field>&nbsp;
+        <mat-form-field appearance="fill">
+          <mat-label>Страна производства</mat-label>
+          <input matInput name="country" placeholder="" [(ngModel)]="supplier.supplierConfigs.baseConfig.country">
+        </mat-form-field>&nbsp;
+        <mat-form-field appearance="fill">
+          <mat-label>Код страны производства</mat-label>
+          <input matInput name="countryCode" placeholder="" [(ngModel)]="supplier.supplierConfigs.baseConfig.countryCode">
+        </mat-form-field>
+      </div>
+      <div class="formBlockDouble">
+        <mat-form-field appearance="fill">
+          <mat-label>Ссылка на фото 360</mat-label>
+          <input matInput name="image360" placeholder="" [(ngModel)]="supplier.supplierConfigs.baseConfig.image360">
+        </mat-form-field>&nbsp;
+        <mat-form-field appearance="fill">
+          <mat-label>Ссылка на видео (список)</mat-label>
+          <input matInput name="videos" placeholder="" [(ngModel)]="supplier.supplierConfigs.baseConfig.videos">
+        </mat-form-field>&nbsp;
+        <mat-form-field appearance="fill">
+          <mat-label>ГТД</mat-label>
+          <input matInput name="GTD" placeholder="" [(ngModel)]="supplier.supplierConfigs.baseConfig.GTD">
+        </mat-form-field>
+      </div>
 
-      <tr mat-header-row *matHeaderRowDef="attrTableColumns"></tr>
-      <tr mat-row *matRowDef="let i = index; let row; columns: attrTableColumns;"
-          (click)="onSelectRow(row, i)"></tr>
-    </table>
+        </mat-step>
 
-  </mat-step>
+    <mat-step>
+       <ng-template matStepLabel>Парсер. Aтрибуты</ng-template>
+       <div class="formBlockDouble">
+         <mat-form-field appearance="fill">
+           <mat-label>Стартовый таг атрибутов</mat-label>
+           <input matInput name="attributesStartTag" placeholder="" [(ngModel)]="supplier.supplierConfigs.attributeConfig.attributesStartTag">
+         </mat-form-field>&nbsp;
+       </div>
+         <div class="formBlockDouble">
+         <mat-form-field appearance="fill">
+           <mat-label>URL к данным атрибута</mat-label>
+           <input matInput name="attributesURL" placeholder="" [(ngModel)]="supplier.supplierConfigs.attributeConfig.attributesURL">
+         </mat-form-field>&nbsp;
+       </div>
+       <div class="formBlockDouble">
+         <mat-form-field appearance="fill">
+           <mat-label>Тип свойства</mat-label>
+           <input matInput name="attrType" placeholder="" [(ngModel)]="supplier.supplierConfigs.attributeConfig.attrType">
+         </mat-form-field>
+       </div>
+       <div class="formBlockDouble">
+         <mat-form-field appearance="fill">
+           <mat-label>Наименование атрибута</mat-label>
+           <input matInput name="attributeName" placeholder="" [(ngModel)]="supplier.supplierConfigs.attributeConfig.attributeName">
+         </mat-form-field>&nbsp;
+         <mat-form-field appearance="fill">
+           <mat-label>Единица измерения</mat-label>
+           <input matInput name="unit" placeholder="" [(ngModel)]="supplier.supplierConfigs.attributeConfig.unit">
+         </mat-form-field>&nbsp;
+         <mat-form-field appearance="fill">
+           <mat-label>Значение</mat-label>
+           <input matInput name="value" placeholder="" [(ngModel)]="supplier.supplierConfigs.attributeConfig.value">
+         </mat-form-field>
+       </div>
+       <div class="formBlockDouble">
+         <mat-form-field appearance="fill">
+           <mat-label>ETIM свойство</mat-label>
+           <input matInput name="etimFeature" placeholder="" [(ngModel)]="supplier.supplierConfigs.attributeConfig.etimFeature">
+         </mat-form-field>&nbsp;
+         <mat-form-field appearance="fill">
+           <mat-label>ETIM единица измерения</mat-label>
+           <input matInput name="etimUnit" placeholder="" [(ngModel)]="supplier.supplierConfigs.attributeConfig.etimUnit">
+         </mat-form-field>&nbsp;
+         <mat-form-field appearance="fill">
+           <mat-label>ETIM значение</mat-label>
+           <input matInput name="etimValue" placeholder="" [(ngModel)]="supplier.supplierConfigs.attributeConfig.etimValue">
+         </mat-form-field>
+       </div>
+    </mat-step>
 
+    <mat-step>
+      <ng-template matStepLabel>Парсер. Словарь атрибутов</ng-template>
 
+      <table mat-table [dataSource]="attrDataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="idx">
+          <th mat-header-cell *matHeaderCellDef> # </th>
+          <td mat-cell *matCellDef="let i = index;let element;">
+             {{i}}
+          </td>
+        </ng-container>
 
-<!--  <mat-step [stepControl]="supplierForm.SupplierConfig.Multipliers">
-    <form [formGroup]="supplierForm.SupplierConfig.Multipliers">
-      <ng-template matStepLabel>Перевод единиц измерения и др.</ng-template>
-      <mat-form-field appearance="fill">
-        <mat-label>Address</mat-label>
-        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
-               required>
+        <ng-container matColumnDef="keySupplier">
+          <th mat-header-cell *matHeaderCellDef> Атрибут поставщика </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-form-field class="full-width" style="margin-top: 16px;" appearance="standard" *ngIf="attrSelectedRow?.keySupplier == element.keySupplier">
+              <mat-label>Атрибут в файле поставщика</mat-label>
+              <input type="text" matInput [value]="element.keySupplier" (keyup)="element.keySupplier=$any($event.target.value)" required><!--NOT WORKING IN STRICT MODE-->
+            </mat-form-field>&nbsp;
+            <span *ngIf="attrSelectedRow?.keySupplier != element.keySupplier">{{element.keySupplier}}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="attributeBDName">
+          <th mat-header-cell *matHeaderCellDef> Наш атрибут </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-form-field class="full-width" appearance="standard" *ngIf="attrSelectedRow?.keySupplier == element.keySupplier">
+              <mat-label>Целевой атрибут</mat-label>
+              <input type="text" matInput aria-label="Поставщик"
+                     [formControl]="attributeListCtrl"
+                     [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onDBAttrSelected()">
+                <mat-option *ngFor="let option of attributeList" [value]="option">
+                  {{option.nameAttribute}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <span *ngIf="attrSelectedRow?.keySupplier != element.keySupplier" [style.color]="element.attributeValid ? 'black': 'orangered'">{{element.attributeBDName}}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>
+            <button mat-icon-button class="mat-elevation-z2" (click)="addSuppAttr()">
+              <mat-icon>add</mat-icon>
+            </button>
+          </th>
+          <td mat-cell *matCellDef="let i = index; let element">
+            <ng-container  *ngIf="attrSelectedRow?.keySupplier != element.keySupplier">
+              <button mat-icon-button class="mat-elevation-z2" (click)="onSelectRow(element, i)">
+                <mat-icon>edit</mat-icon>
+              </button>&nbsp;
+              <button mat-icon-button class="mat-elevation-z2" (click)="deleteSuppAttr(element.keySupplier)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </ng-container>
+            <button mat-mini-fab color="accent" class="mat-elevation-z2" (click)="updateSuppAttr(i, element)" *ngIf="attrSelectedRow?.keySupplier == element.keySupplier" [disabled]="attrSelectedRow?.keySupplier == ''">
+              <mat-icon>check</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="attrTableColumns"></tr>
+        <tr mat-row *matRowDef="let i = index; let row; columns: attrTableColumns;"></tr>
+      </table>
+
+    </mat-step>
+
+    <mat-step>
+    <ng-template matStepLabel>Единицы измерения и прочее</ng-template>
+    <div class="formBlockDouble">
+      <mat-form-field class="chip-list" appearance="fill" *ngIf="supplier.supplierConfigs.dateFormats">
+        <mat-label>Список возможных имен атрибута</mat-label>
+        <mat-chip-list #chipList aria-label="Список возможных форматов даты" [(ngModel)]="supplier.supplierConfigs.dateFormats">
+          <mat-chip *ngFor="let df of supplier.supplierConfigs.dateFormats" (removed)="remove(df)">
+            {{df}}
+            <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+          <input placeholder="dd/MM/yyyy h:mm:ss tt"
+                 [matChipInputFor]="chipList"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                 [matChipInputAddOnBlur]="addOnBlur"
+                 (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
       </mat-form-field>
-    </form>
-  </mat-step>-->
-
-  <mat-step>
-    <ng-template matStepLabel>Готово</ng-template>
+    </div>
   </mat-step>
 
-</mat-stepper>
+  </mat-stepper>
 </form>
-<div class="full-width" style="display: flex; justify-content: end; padding: 20px;">
+<!--<div class="full-width" style="display: flex; justify-content: end; padding: 20px;">
   <button mat-flat-button color="primary" type="submit">Сохранить</button>
-</div>
+</div>-->
 

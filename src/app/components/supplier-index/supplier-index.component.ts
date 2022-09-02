@@ -106,8 +106,8 @@ export class SupplierIndexComponent implements OnInit {
       })
   }
 
-  editItem(supplierName: any) {
-    this.router.navigate([`supplier-edit/${supplierName}`]);
+  editItem(supplierId: any) {
+    this.router.navigate([`supplier-edit/${supplierId}`]);
   }
 
   confirmDeleteSuppDialog(id: string, name: string): void {

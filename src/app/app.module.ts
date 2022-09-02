@@ -42,7 +42,6 @@ import {
   HoverImageSliderComponent
 } from './components/shared/hover-image-slider/hover-image-slider.component';
 import { ConfirmDialogComponent } from './components/shared/confirm-dialog/confirm-dialog.component';
-import {SupplierEditMwComponent} from "./components/supplier-edit-mw/supplier-edit-mw.component";
 
 @NgModule({
   declarations: [
@@ -54,7 +53,6 @@ import {SupplierEditMwComponent} from "./components/supplier-edit-mw/supplier-ed
     AttributeEditComponent,
     SupplierIndexComponent,
     SupplierEditComponent,
-    SupplierEditMwComponent,
     ParserLogComponent,
     ProductDetailsComponent,
     PackageCardComponent,

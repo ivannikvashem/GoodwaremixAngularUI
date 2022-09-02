@@ -1,6 +1,6 @@
 import {Deserializable} from './deserializable.model';
 
-export class baseSupplierConfig implements Deserializable{
+export class BaseSupplierConfig implements Deserializable{
   startTag: string | undefined;
   vendorId: string | undefined;
   title: string | undefined;
@@ -11,7 +11,7 @@ export class baseSupplierConfig implements Deserializable{
   videos: string | undefined;
   country: string | undefined;
   countryCode: string | undefined;
-  gtd: string[] | undefined;
+  gtd: string | undefined;
   deserialize(input: any): this {
     return Object.assign(this, input);
   }

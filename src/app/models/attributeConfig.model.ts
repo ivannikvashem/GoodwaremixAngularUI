@@ -11,7 +11,7 @@ export class AttributeConfig implements Deserializable{
   unit: any;
   type: any;
   value: any;
-  productAttributeKeys: ProductAttributeKey[] | undefined;
+  productAttributeKeys: ProductAttributeKey[] = [];
   deserialize(input: any): this {
     return Object.assign(this, input);
   }

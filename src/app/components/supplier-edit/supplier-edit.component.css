@@ -37,4 +37,12 @@ p {
 .mat-stepper-vertical-line .mat-vertical-content-container .mat-vertical-content {
   margin-top: 6px !important;
 }
-
+.mat-column-actions {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 120px !important;
+  width: 120px !important;
+  justify-content: center;
+  text-align: -webkit-center;
+  text-align: center;
+}

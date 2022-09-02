@@ -7,9 +7,16 @@ export class Supplier implements Deserializable{
   id: string | undefined;
   supplierName: string | undefined;
   comment: number | undefined;
-  stat: Stat | undefined;
-  sourceSettings: SourceSettings | undefined;
-  supplierConfigs: SupplierConfig | undefined;
+  stat: Stat = new Stat();
+  sourceSettings: SourceSettings = new SourceSettings();
+  supplierConfigs: SupplierConfig = new SupplierConfig();
+
+  constructor() {
+    this.sourceSettings = new SourceSettings();
+    this.supplierConfigs = new SupplierConfig();
+    this.stat = new Stat();
+  }
+
   deserialize(input: any): this {
     return Object.assign(this, input);
   }

@@ -1,21 +1,47 @@
 <div class="mat-headline">
   {{product.title}}
-  <span style="margin: 0 1.5em;">{{product.vendor}}</span>
-  <EM><span style="font-size: small">{{product.vendorId}}</span></EM>
+  <span style="margin: 0 1.5em; border: 1px solid #1976d2; border-radius: 8px; background-color: whitesmoke; padding: 3px">
+    {{product.vendorId}}
+  </span>
+  <span>
+    {{product.vendor}}
+  </span>
 </div>
-<div class="mat-body"> {{product.vendor}} </div>
+<!--<div class="mat-body"> {{product.vendor}} </div>-->
 
 <div class="container">
 
   <div class="center-panel">
       <app-hover-image-slider [imgList]="product.images"></app-hover-image-slider>
+
+      <mat-card *ngIf="product.image360" style="margin-top: 10px">
+        <mat-card-subtitle style="display: flex; justify-content: space-between;">
+          <span>Фото 360</span>
+        </mat-card-subtitle>
+        <mat-card-content>
+          <div style="height: 300px; width: 300px;">
+            {{product.image360}}
+          </div>
+          <div [innerHTML]="product.image360"></div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card *ngIf="safeVideoUrl" style="margin-top: 10px; width: 560px;">
+        <mat-card-subtitle style="display: flex; justify-content: space-between;">
+          <span>Видео</span>
+        </mat-card-subtitle>
+        <mat-card-content>
+          {{safeVideoUrl}}
+          <iframe width="560" height="315" [src]="safeVideoUrl" frameborder="0" allowfullscreen></iframe>
+          <!--<iframe [src]='product.videos[0]' frameborder="0" allowfullscreen></iframe>-->
+        </mat-card-content>
+      </mat-card>
   </div>
 
   <div class="left-panel">
     <mat-card>
         <!--<mat-card-title>{{product.title}}</mat-card-title>-->
         <mat-card-subtitle style="display: flex; justify-content: space-between;">
-          <span>{{product.vendorId}}</span>
           <span>Арт: {{product.internalCode ? product.internalCode : 'отсутствует'}}</span>
         </mat-card-subtitle>
 
@@ -56,7 +82,7 @@
 
 
 
-  <div class="right-panel">
+  <div class="right-panel" *ngIf="product.attributes && product.attributes.length > 0">
     <mat-accordion>
       <!-- Характеристики, позже сделать контрол -->
       <mat-expansion-panel expanded>

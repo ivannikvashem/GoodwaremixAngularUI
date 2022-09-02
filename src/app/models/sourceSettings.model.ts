@@ -1,10 +1,10 @@
 import {Deserializable} from './deserializable.model';
 
 export class SourceSettings implements Deserializable{
-  fileName: string | undefined;
+  fileName: string = '';
   source: string | undefined;
-  urlList: string | undefined;
-  urlItem: string | undefined;
+  urlList: string = '';
+  urlItem: string = '';
   methodType: string | undefined;
   header: any;
   body: any;

@@ -8,19 +8,16 @@ import {SupplierIndexComponent} from "./components/supplier-index/supplier-index
 import {SupplierEditComponent} from "./components/supplier-edit/supplier-edit.component";
 import {ParserLogComponent} from "./components/parser-log/parser-log.component";
 import {ProductDetailsComponent} from "./components/product-details/product-details.component";
-import {SupplierEditMwComponent} from "./components/supplier-edit-mw/supplier-edit-mw.component";
 
 const routes: Routes = [
-/*  {path: 'photosets-list', component: PhotsetListComponent},
-  ,*/
+
   {path: 'products', component: ProductIndexComponent},
   {path: 'product-details/:id', component: ProductDetailsComponent},
   {path: 'attributes', component: AttributeIndexComponent},
   {path: 'attribute-edit/:id', component: AttributeEditComponent},
   {path: 'suppliers', component: SupplierIndexComponent},
-  {path: 'supplier-edit/:supplierName', component: SupplierEditComponent},
-  {path: 'supplier-edit-mw/:supplierName', component: SupplierEditMwComponent},
-  {path: 'supplier-edit-mw', component: SupplierEditMwComponent},
+  {path: 'supplier-edit/:supplierId', component: SupplierEditComponent},
+  {path: 'supplier-edit', component: SupplierEditComponent},
   {path: 'log', component: ParserLogComponent}
 ];
 

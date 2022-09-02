@@ -2,6 +2,7 @@ import {Injectable, Type} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
+import {Supplier} from "../models/supplier.model";
 
 @Injectable({
   providedIn: 'root'
@@ -54,7 +55,7 @@ export class ApiClient {
     if (typeof (fixed) == "boolean") {
       opt.params = opt.params.append('fixedFilter', fixed);
     }
-    console.log("props: " + JSON.stringify(opt));
+    //console.log("props: " + JSON.stringify(opt));
     opt = Object.assign(opt, this.httpOptions);
     return this.http.get<any>(this.apiURL + '/Attribute', opt);
   }
@@ -116,11 +117,11 @@ export class ApiClient {
   }
 
   getSupplierById(supplierId: string): Observable<any> {
-    return this.http.get<any>(this.apiURL + '/supplier/id/' + supplierId, this.httpOptions);
+    return this.http.get<Supplier>(this.apiURL + '/supplier/id/' + supplierId, this.httpOptions);
   }
 
   getSupplierByName(supplierName: string): Observable<any> {
-    return this.http.get<any>(this.apiURL + '/supplier/' + supplierName, this.httpOptions);
+    return this.http.get<Supplier>(this.apiURL + '/supplier/' + supplierName, this.httpOptions);
   }
 
   fetchDataFromSupplier(supplierName: any): Observable<any> {
@@ -131,8 +132,8 @@ export class ApiClient {
     return this.http.post<any>(this.apiURL + '/supplier/internalBind/' + supplierName + "?action=bind", {}, this.httpOptions);
   }
 
-  updateSupplier(supplier: any): Observable<any> {
-    return this.http.post<any>(this.apiURL + '/supplier/' , {...supplier}, this.httpOptions);
+  updateSupplier(supplier: Supplier): Observable<any> {
+    return this.http.post<any>(this.apiURL + '/supplier/', supplier, this.httpOptions);
   }
   //
   postSupplier(supplier: any): Observable<any> {

@@ -22,18 +22,18 @@ table {
 .mat-column-supplierName {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 80px !important;
-  width: 80px !important;
+  flex: 0 0 100px !important;
+  width: 100px !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
   justify-content: center;
   word-break: break-word;
 }
-.mat-column-rating {
+.mat-column-Rating {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 60px !important;
-  width: 60px !important;
+  flex: 0 0 70px !important;
+  width: 70px !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
   justify-content: center;
