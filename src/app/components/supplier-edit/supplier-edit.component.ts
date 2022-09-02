@@ -74,9 +74,9 @@ export class SupplierEditComponent implements OnInit {
         )
       )
     )
-      .subscribe((data: any) => {
-        this.attributeList = data.body.data;
-      });
+    .subscribe((data: any) => {
+      this.attributeList = data.body.data;
+    });
   }
 
   /*initForm(s: Supplier): void {
@@ -213,6 +213,7 @@ export class SupplierEditComponent implements OnInit {
     //update
     //this.attrSelectedRow = (this.attributeListCtrl.value as Attribute).nameAttribute;
     this.attrSelectedRow.attributeBDName = this.selectedAttr?.nameAttribute;
+    this.attrSelectedRow.attributeValid = true;
     this.supplier.supplierConfigs.attributeConfig.productAttributeKeys[i] = this.attrSelectedRow;
     console.log("upd: " + JSON.stringify(this.attrSelectedRow));
 
