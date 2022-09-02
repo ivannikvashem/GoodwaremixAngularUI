@@ -55,7 +55,6 @@ export class ApiClient {
     if (typeof (fixed) == "boolean") {
       opt.params = opt.params.append('fixedFilter', fixed);
     }
-    //console.log("props: " + JSON.stringify(opt));
     opt = Object.assign(opt, this.httpOptions);
     return this.http.get<any>(this.apiURL + '/Attribute', opt);
   }
@@ -64,6 +63,10 @@ export class ApiClient {
     return this.http.get<any>(this.apiURL + '/Attribute/'+ id, this.httpOptions);
   }
 
+  swapAttribute(attributeUpdate: string, attributeDelete: string): Observable<any> {
+    let body = { attributeUpdate: attributeDelete, attributeDelete: attributeUpdate };
+    return this.http.post<any>(this.apiURL + '/Attribute', JSON.stringify(body), this.httpOptions);
+  }
   // Log ENDPOINT
 
   getLogs(pageIndex: number, pageSize: number, sortField: string, sortDirection: string): Observable<any> {

@@ -1,13 +1,20 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {ProductsDataSource} from "../../repo/ProductsDataSource";
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {AttributesDataSource} from "../../repo/AttributesDataSource";
 import {ApiClient} from "../../repo/httpClient";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Attribute} from "../../models/attribute.model";
 import {debounceTime, distinctUntilChanged, finalize, switchMap, tap} from "rxjs";
 import {MatPaginator} from "@angular/material/paginator";
 import {FormControl} from "@angular/forms";
 import {Supplier} from "../../models/supplier.model";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {Attribute} from "../../models/attribute.model";
+import {MatSnackBar} from "@angular/material/snack-bar";
+
+export interface AttrDialogData {
+  oldAttributeId: string;
+  oldAttribute: string;
+  newAttribute: Attribute;
+}
 
 @Component({
   selector: 'app-attribute-index',
@@ -33,6 +40,8 @@ export class AttributeIndexComponent implements OnInit {
   constructor(
     public api: ApiClient,
     private router: Router,
+    public dialog: MatDialog,
+    private _snackBar: MatSnackBar,
     private _ActivatedRoute:ActivatedRoute
   ) {
     this.dataSource = new AttributesDataSource(this.api);
@@ -88,16 +97,12 @@ export class AttributeIndexComponent implements OnInit {
   }
 
   addItem() {
-
+    this._snackBar.open("TODO: не обработано");
+    //todo show form to make a new attribute
   }
 
   editItem(id: any) {
-    console.log("nav!");
     this.router.navigate([`attribute-edit/${id}`]);
-  }
-
-  deleteItem(_id: any) {
-
   }
 
   displayFn(supplier: Supplier): string {
@@ -105,15 +110,12 @@ export class AttributeIndexComponent implements OnInit {
   }
 
   onSupplierSelected() {
-    //console.log("ctrlVal= " + JSON.stringify(this.searchSuppliersCtrl.value));
     this.selectedSupplier = this.searchSuppliersCtrl.value as Supplier;
-    console.log("suppId= " + this.selectedSupplier?.id);
     this.paginator.pageIndex = 0;
     this.loadData();
   }
 
   onFixedSelected() {
-    console.log(this.withFixedAttrSelector);
     this.paginator.pageIndex = 0;
     this.loadData();
   }
@@ -125,13 +127,85 @@ export class AttributeIndexComponent implements OnInit {
   }
 
   onClearSupplierSelection() {
-    this.selectedSupplier=undefined;
+    this.selectedSupplier = undefined;
     this.searchSuppliersCtrl.setValue('');
     this.paginator.pageIndex = 0;
     this.loadData();
   }
 
-  swapItem(id: any) {
-    //openDialog
+  swapItem(nameAttribute: string, id: string) {
+    this.openDialog(nameAttribute, id);
+  }
+
+  openDialog(nameAttribute: string, id: string): void {
+    const dialogRef = this.dialog.open(AttributeReplacementDialog, {
+      width: '900px',
+      height: '380px',
+      data: { oldAttributeId: id, oldAttribute: nameAttribute, newAttribute: new Attribute() },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.api.swapAttribute(result.oldAttributeId, result.newAttribute.id).subscribe({
+        next: next => {
+          this._snackBar.open('Данные сохранены успешно');
+        },
+        error: error => {
+          this._snackBar.open(error.message);
+        },
+      });
+    });
+  }
+
+}
+@Component({
+  selector: 'attribute-replacement-dialog',
+  templateUrl: 'attribute-replacement-dialog.html',
+})
+
+export class AttributeReplacementDialog implements OnInit {
+  attributes: Array<Attribute> = new Array<Attribute>;
+  attribute: Attribute = new Attribute;
+  searchAttributeCtrl = new FormControl<string | Attribute>('');
+
+  constructor(public api: ApiClient,
+              public dialogRef: MatDialogRef<AttributeReplacementDialog>,
+              @Inject(MAT_DIALOG_DATA)
+              public data: AttrDialogData,) { }
+
+  ngOnInit(): void {
+    this.api.getAttributeById(this.data.oldAttributeId).subscribe((response) => {
+      this.attribute = response.body.data;
+    });
+    this.data.newAttribute.supplierName = this.data.oldAttribute;
+
+    this.searchAttributeCtrl.valueChanges.pipe(
+      distinctUntilChanged(),
+      debounceTime(100),
+      tap(() => {
+       // this.isLoading = true;
+      }),
+      switchMap(value => this.api.getAttributes(value, '' ,0, 10, undefined, "Rating", "desc")
+        .pipe(
+          finalize(() => {
+            //this.isLoading = false
+          }),
+        )
+      )
+    )
+    .subscribe((response: any) => {
+      this.attributes = response.body.data;
+    });
+  }
+
+  onCancelClick(): void {
+    this.dialogRef.close();
+  }
+
+  diaplayFn(attribute: Attribute): string {
+    return attribute && attribute.nameAttribute ? attribute.nameAttribute : '';
+  }
+
+  onAttributeSelected() {
+    this.data.newAttribute = this.searchAttributeCtrl.value as Attribute;
   }
 }

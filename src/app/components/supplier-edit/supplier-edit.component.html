@@ -263,10 +263,11 @@
               <mat-label>Целевой атрибут</mat-label>
               <input type="text" matInput aria-label="Поставщик"
                      [formControl]="attributeListCtrl"
-                     [matAutocomplete]="auto">
+                     [matAutocomplete]="auto"
+                     (keydown.enter)="updateSelectedSuppAttr(i, element)">
               <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onDBAttrSelected()">
                 <mat-option *ngFor="let option of attributeList" [value]="option">
-                  {{option.nameAttribute}}
+                  {{option.fixed ? "■" : ''}} {{option.nameAttribute}} [{{option.supplierName}}]
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
@@ -289,7 +290,7 @@
                 <mat-icon>delete</mat-icon>
               </button>
             </ng-container>
-            <button mat-mini-fab color="accent" class="mat-elevation-z2" (click)="updateSuppAttr(i, element)" *ngIf="attrSelectedRow?.keySupplier == element.keySupplier" [disabled]="attrSelectedRow?.keySupplier == ''">
+            <button mat-mini-fab color="accent" class="mat-elevation-z2" (click)="updateSelectedSuppAttr(i, element)" *ngIf="attrSelectedRow?.keySupplier == element.keySupplier" [disabled]="attrSelectedRow?.keySupplier == ''">
               <mat-icon>check</mat-icon>
             </button>
           </td>
@@ -307,7 +308,7 @@
       <mat-form-field class="chip-list" appearance="fill" *ngIf="supplier.supplierConfigs.dateFormats">
         <mat-label>Список возможных имен атрибута</mat-label>
         <mat-chip-list #chipList aria-label="Список возможных форматов даты" [(ngModel)]="supplier.supplierConfigs.dateFormats">
-          <mat-chip *ngFor="let df of supplier.supplierConfigs.dateFormats" (removed)="remove(df)">
+          <mat-chip *ngFor="let df of supplier.supplierConfigs.dateFormats" (removed)="removeDateFormat(df)">
             {{df}}
             <button matChipRemove>
               <mat-icon>cancel</mat-icon>
@@ -317,7 +318,7 @@
                  [matChipInputFor]="chipList"
                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                  [matChipInputAddOnBlur]="addOnBlur"
-                 (matChipInputTokenEnd)="add($event)">
+                 (matChipInputTokenEnd)="addDateFormat($event)">
         </mat-chip-list>
       </mat-form-field>
     </div>

@@ -28,7 +28,7 @@ export class AttributesDataSource implements DataSource<Attribute> {
     this.api.getAttributes(queryString, supplierId, pageIndex, pageSize, fixed, "Rating", "desc")
       .pipe(
         map(res => {
-          console.log(JSON.stringify(res.body));
+          //console.log(JSON.stringify(res.body));
           return res.body;
         }),
       catchError(() => of([])),

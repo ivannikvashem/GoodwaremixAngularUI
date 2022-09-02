@@ -46,3 +46,15 @@ p {
   text-align: -webkit-center;
   text-align: center;
 }
+.mat-column-keySupplier {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 500px !important;
+  width: 500px !important;
+}
+.mat-column-attributeBDName {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 600px !important;
+  min-width: 600px !important;
+}

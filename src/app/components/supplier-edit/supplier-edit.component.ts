@@ -9,6 +9,7 @@ import {debounceTime, distinctUntilChanged, finalize, Observable, ReplaySubject,
 import { Attribute } from 'src/app/models/attribute.model';
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {MatChipInputEvent} from "@angular/material/chips";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-supplier-edit',
@@ -35,6 +36,7 @@ export class SupplierEditComponent implements OnInit {
   constructor(
     private _ActivatedRoute:ActivatedRoute,
     //private fb: FormBuilder,
+    private _snackBar: MatSnackBar,
     public api: ApiClient,
   ) {
     //this.isUpdated = false;
@@ -64,7 +66,7 @@ export class SupplierEditComponent implements OnInit {
       tap(() => {
 
       }),
-      switchMap(value => this.api.getAttributes(value, '' ,0, 10, undefined, "rating", "desc")
+      switchMap(value => this.api.getAttributes(value, '' ,0, 10, undefined, "Rating", "desc")
         .pipe(
           finalize(() => {
 
@@ -160,10 +162,14 @@ export class SupplierEditComponent implements OnInit {
   }
 
   addSuppAttr() {
-    var a = new ProductAttributeKey ();
-    a.attributeBDName = '';
+    //if already added -  skip
+    if (this.supplier.supplierConfigs.attributeConfig.productAttributeKeys.some( (x: ProductAttributeKey) => x.keySupplier == '')) {
+      return;
+    }
+
+    let a = new ProductAttributeKey ();
     this.supplier.supplierConfigs.attributeConfig.productAttributeKeys.push(a);
-    console.log("instert attr!: "+ JSON.stringify(a));
+
     this.attrDataSource.setData(this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys);
     let row = this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys[this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys.length - 1];
 
@@ -180,13 +186,6 @@ export class SupplierEditComponent implements OnInit {
   }
 
   onSelectRow(row: any, index: number) {
-
-/*    if (this.isUpdated)
-    {
-      console.log("onSelectRow isUpdated");
-      this.isUpdated = false;
-      return;
-    }*/
     console.log("onSelectRow clear");
     this.selectedAttr = undefined;
     this.attributeListCtrl.setValue(row.attributeBDName);
@@ -198,15 +197,15 @@ export class SupplierEditComponent implements OnInit {
   }
 
   onDBAttrSelected() {
-    console.log("onDBAttrSelected");
     this.selectedAttr = this.attributeListCtrl.value as Attribute;
   }
 
-  updateSuppAttr(i: number, row: any) {
+  updateSelectedSuppAttr(i: number, row: any) {
     console.log("updateSuppAttr attr dict!");
     //validation
     // Add our value
     const idx = this.supplier.supplierConfigs.attributeConfig.productAttributeKeys.indexOf(row.keySupplier);
+    console.log("idx: "+ idx);
     if (row.keySupplier == null && idx != i) {
       return;
     }
@@ -218,15 +217,22 @@ export class SupplierEditComponent implements OnInit {
     console.log("upd: " + JSON.stringify(this.attrSelectedRow));
 
     //prepare for refresh
-    //this.isUpdated = true; //crutch to prevent row onClick event
-    this.attrSelectedRow = null;
+    this.clearAttrSelection();
     this.attrDataSource.setData(this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys);
+  }
+
+  saveUpdatedSupplierAttr(){
+
+  }
+
+  clearAttrSelection():void {
+    this.attrSelectedRow = null;
   }
 
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
 
-  add(event: MatChipInputEvent): void {
+  addDateFormat(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
     // Add our value
     const idx = this.supplier.supplierConfigs.dateFormats?.indexOf(value);
@@ -237,7 +243,7 @@ export class SupplierEditComponent implements OnInit {
     event.chipInput!.clear();
   }
 
-  remove(fruit: string): void {
+  removeDateFormat(fruit: string): void {
     const index = this.supplier.supplierConfigs.dateFormats?.indexOf(fruit);
 
     if (typeof(index) == "number" && index >= 0) {
@@ -247,10 +253,13 @@ export class SupplierEditComponent implements OnInit {
 
   submitSupplier() {
     this.api.updateSupplier(this.supplier).subscribe( x => {
-        console.log("updateSupplier: " +JSON.stringify(x) );
+        //console.log("updateSupplier: " +JSON.stringify(x) );
+        this._snackBar.open("Конфигурация сохранена","OK",{ duration: 1000});
       },
       error => {
-        console.log("updateSupplierError: " + JSON.stringify(error));
+        //console.log("updateSupplierError: " + JSON.stringify(error));
+        this._snackBar.open("Ошибка: " + JSON.stringify(error),undefined,{ duration: 1000});
+        //todo обработчик ошибок, сервер недоступен или еще чего..
       });
   }
 }

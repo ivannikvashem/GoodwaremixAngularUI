@@ -115,7 +115,7 @@ export class SupplierIndexComponent implements OnInit {
     const dialogData = new ConfirmDialogModel("Подтверждение", message);
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      maxWidth: "400px",
+      minWidth: "400px",
       data: dialogData
     });
 
