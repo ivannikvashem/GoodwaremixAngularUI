@@ -1,6 +1,6 @@
 import {Deserializable} from './deserializable.model';
 
-export class BaseSupplierConfig implements Deserializable{
+export class BaseConfig implements Deserializable{
   startTag: string | undefined;
   vendorId: string | undefined;
   title: string | undefined;

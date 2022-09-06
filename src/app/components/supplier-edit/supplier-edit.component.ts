@@ -185,7 +185,7 @@ export class SupplierEditComponent implements OnInit {
     this.attrDataSource.setData(this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys);
   }
 
-  onSelectRow(row: any, index: number) {
+  onSelectRow(row: any) {
     console.log("onSelectRow clear");
     this.selectedAttr = undefined;
     this.attributeListCtrl.setValue(row.attributeBDName);

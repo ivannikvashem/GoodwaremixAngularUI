@@ -1,18 +1,21 @@
 import {Deserializable} from './deserializable.model';
+import {Attribute} from "./attribute.model";
+import {AttributeProduct} from "./attributeProduct.model";
 
 export class Product implements Deserializable{
   Id: string | undefined;
-  SupplierId: string | undefined;
+  supplierId: string | undefined;
   internalCode: string | undefined;
-  Title: string | undefined;
-  TitleLong: string | undefined;
-  Description: string | undefined;
-  Vendor: string | undefined;
-  VendorId: string | undefined;
-  Image360: string | undefined;
-  Images: string[] | undefined;
-  Attributes: string[] | undefined;
-  sss: number | undefined;
+  title: string | undefined;
+  titleLong: string | undefined;
+  description: string | undefined;
+  vendor: string | undefined;
+  vendorId: string | undefined;
+  images: string[] | undefined;
+  documents: Document[] | undefined;
+  image360: string | undefined;
+  videos: string[] | undefined;
+  attributes: AttributeProduct[] | undefined;
   createdAt: Date | undefined;
   updatedAt: Date | undefined;
 

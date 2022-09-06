@@ -1,6 +1,7 @@
 import { AttributeConfig } from './attributeConfig.model';
 import {Deserializable} from './deserializable.model';
-import {BaseSupplierConfig} from "./baseSupplierConfig.model";
+import {BaseConfig} from "./baseSupplierConfig.model";
+import {Package} from "./package.model";
 
 export class SupplierConfig implements Deserializable{
   type: string | undefined;
@@ -8,12 +9,12 @@ export class SupplierConfig implements Deserializable{
   fileEncoding: string | undefined;
   prefix: string ='';
   zippedFileName: string | undefined;
-  baseConfig: BaseSupplierConfig = new BaseSupplierConfig();
+  baseConfig: BaseConfig = new BaseConfig();
   //categoryConfig: any;
   documentConfig: any;
   imageConfig: any;
   attributeConfig: AttributeConfig = new AttributeConfig();
-  packageConfig: any;
+  packageConfig: Package = new Package();
   dateFormats: string[] = [];
   multipliers: any;
 
