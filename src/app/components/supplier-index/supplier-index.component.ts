@@ -9,6 +9,7 @@ import {Supplier} from "../../models/supplier.model";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../shared/confirm-dialog/confirm-dialog.component";
 import {MatSort, SortDirection} from "@angular/material/sort";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-supplier-index',
@@ -32,7 +33,8 @@ export class SupplierIndexComponent implements OnInit {
   constructor(
     public api: ApiClient,
     private router: Router,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private _snackBar: MatSnackBar,
   ) {
     this.dataSource = new SuppliersDataSource(this.api);
   }
@@ -92,7 +94,7 @@ export class SupplierIndexComponent implements OnInit {
         console.log(JSON.stringify(res));
       },
       err => {
-        console.log(err);
+        this._snackBar.open("Ошибка: " + JSON.stringify(err),undefined,{ duration: 5000});
       })
   }
 
@@ -102,7 +104,7 @@ export class SupplierIndexComponent implements OnInit {
         console.log(JSON.stringify(res));
       },
       err => {
-        console.log(err);
+        this._snackBar.open("Ошибка: " + JSON.stringify(err),undefined,{ duration: 5000});
       })
   }
 

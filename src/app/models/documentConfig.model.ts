@@ -1,8 +1,8 @@
 import {Deserializable} from './deserializable.model';
 
-export class Document implements Deserializable{
-  id: string | undefined;
-  supplierId: string = '';
+export class DocumentConfig implements Deserializable{
+  documentsStartTag: string | undefined;
+  documentsURL: string = '';
   type: string | undefined;
   url: string | undefined;
   certTitle: string | undefined;
@@ -14,7 +14,8 @@ export class Document implements Deserializable{
   endDate: Date | undefined;
   blankNumber: string | undefined;
   isDeleted: boolean | undefined;
-  keywords: string[] | undefined;
+  keywords: string | undefined;
+  downloadLocally: boolean | undefined;
   deserialize(input: any): this {
     return Object.assign(this, input);
   }

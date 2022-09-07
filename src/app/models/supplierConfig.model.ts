@@ -1,7 +1,10 @@
 import { AttributeConfig } from './attributeConfig.model';
 import {Deserializable} from './deserializable.model';
 import {BaseConfig} from "./baseSupplierConfig.model";
-import {Package} from "./package.model";
+import {DocumentConfig} from "./documentConfig.model";
+import {ImageConfig} from "./imageConfig.model";
+import {PackageConfig} from "./packageConfig.model";
+import {NettoConfig} from "./nettoConfig.model";
 
 export class SupplierConfig implements Deserializable{
   type: string | undefined;
@@ -11,10 +14,11 @@ export class SupplierConfig implements Deserializable{
   zippedFileName: string | undefined;
   baseConfig: BaseConfig = new BaseConfig();
   //categoryConfig: any;
-  documentConfig: any;
-  imageConfig: any;
+  documentConfig: DocumentConfig = new DocumentConfig();
+  imageConfig: ImageConfig = new ImageConfig();
   attributeConfig: AttributeConfig = new AttributeConfig();
-  packageConfig: Package = new Package();
+  packageConfig: PackageConfig = new PackageConfig();
+  nettoConfig: NettoConfig = new NettoConfig();
   dateFormats: string[] = [];
   multipliers: any;
 

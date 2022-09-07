@@ -358,7 +358,7 @@
                      (keydown.enter)="updateSelectedSuppAttr(i, element)">
               <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onDBAttrSelected()">
                 <mat-option *ngFor="let option of attributeList" [value]="option">
-                  {{option.fixed ? "■" : ''}} {{option.nameAttribute}} [{{option.supplierName}}]
+                  {{option.fixed ? "■" : ''}} {{option.etimFeature}} {{option.nameAttribute}} [{{option.supplierName}}]
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>

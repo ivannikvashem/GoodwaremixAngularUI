@@ -12,8 +12,6 @@ export class SuppliersDataSource implements DataSource<Supplier> {
   public loading$ = this.loadingSubject.asObservable();
   public rowCount = 0;
 
-  //public searchQ = new Observable<string>();
-
   constructor(private api: ApiClient) {  }
 
   connect(collectionViewer: CollectionViewer): Observable<Supplier[]> {
@@ -45,11 +43,12 @@ export class SuppliersDataSource implements DataSource<Supplier> {
   deleteSupplier(id: any) {
     console.log("deleting supp " + id);
     this.api.deleteSupplier(id).subscribe( res => {
-        console.log(JSON.stringify(res));
+        let newdata = this.SupplierListSubject.value.filter(row => row.id != id );
+        this.SupplierListSubject.next(newdata);
       },
       err => {
         console.log(err);
-      })
+      });
   }
 
   deleteSupplierProducts(id: any) {

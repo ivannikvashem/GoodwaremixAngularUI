@@ -259,7 +259,7 @@ export class SupplierEditComponent implements OnInit {
       },
       error => {
         //console.log("updateSupplierError: " + JSON.stringify(error));
-        this._snackBar.open("Ошибка: " + JSON.stringify(error),undefined,{ duration: 1000});
+        this._snackBar.open("Ошибка: " + JSON.stringify(error),undefined,{ duration: 5000});
         //todo обработчик ошибок, сервер недоступен или еще чего..
       });
   }
