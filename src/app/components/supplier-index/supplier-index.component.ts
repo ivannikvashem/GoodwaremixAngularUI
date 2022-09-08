@@ -157,4 +157,14 @@ export class SupplierIndexComponent implements OnInit {
         console.log(err);
       })
   }
+
+  fullInit() {
+    console.log("full init");
+    this.api.fullInit().subscribe( res => {
+        console.log(JSON.stringify(res));
+      },
+      err => {
+        this._snackBar.open("Ошибка: " + JSON.stringify(err),undefined,{ duration: 5000});
+      })
+  }
 }

@@ -158,4 +158,8 @@ export class ApiClient {
   fixSupplierStat() {
     return this.http.post<any>(this.apiURL + '/init/?action=fix', {}, this.httpOptions);
   }
+
+  fullInit() {
+    return this.http.post<any>(this.apiURL + '/init/fullInit', {}, this.httpOptions);
+  }
 }
