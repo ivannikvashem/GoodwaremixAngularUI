@@ -1,4 +1,4 @@
-<mat-card style="margin-top: 10px; margin-right: 8px" *ngIf="pack && (pack.barcode || pack.packQty)">
+<mat-card style="margin-top: 10px; margin-right: 8px" *ngIf="pack && (pack.barcode || pack.packQty || pack.volume || pack.weight)">
   <div style="display: inline-flex">
     <div class="packQty-badge">{{pack.packQty ? pack.packQty : 1}}</div>
     <div class="packType">{{pack.type}}</div>

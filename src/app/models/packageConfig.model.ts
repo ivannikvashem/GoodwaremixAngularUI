@@ -1,4 +1,5 @@
 import {Deserializable} from './deserializable.model';
+import {Dimensions} from "./dimensions.model";
 
 export class PackageConfig implements Deserializable{
   packagesStartTag: string | undefined;
@@ -11,6 +12,7 @@ export class PackageConfig implements Deserializable{
   volume: string | undefined;
   weight: string | undefined;
   packQty: string | undefined;
+  dimensions: Dimensions = new Dimensions();
 
   deserialize(input: any): this {
     return Object.assign(this, input);

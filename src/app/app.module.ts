@@ -18,6 +18,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {AppRoutingModule} from "./app-routing.module";
 import {MatButtonModule} from "@angular/material/button";
 import {MatDialogModule} from '@angular/material/dialog';
@@ -42,6 +43,7 @@ import {
   HoverImageSliderComponent
 } from './components/shared/hover-image-slider/hover-image-slider.component';
 import { ConfirmDialogComponent } from './components/shared/confirm-dialog/confirm-dialog.component';
+import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
 
 @NgModule({
   declarations: [
@@ -84,6 +86,7 @@ import { ConfirmDialogComponent } from './components/shared/confirm-dialog/confi
     MatProgressBarModule,
     MatSelectModule,
     MatSortModule,
+    MatSlideToggleModule,
     MatSnackBarModule,
     MatStepperModule,
     MatTableModule,
@@ -92,7 +95,12 @@ import { ConfirmDialogComponent } from './components/shared/confirm-dialog/confi
     ReactiveFormsModule,
     NgxBarcodeModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { displayDefaultIndicatorType: false }
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
