@@ -1,11 +1,7 @@
 ### STAGE 1: Build ###
 FROM node:16 AS build
 
-#ENV DELIVERY_API_URL="http://delivery_srv:3000/api"
-#ENV DELIVERY_UI_NAME="DeliveryMix"
-#ENV ENV="production"
-
-#BASEHREF specified in the config angular.json - change it accordinately with API GW settings !!! todo!!!
+#BASEHREF specified in the config angular.json - change it accordingly API GW settings !!! todo!!!
 ENV GOODWARE_UI_BASEHREF="/"
 
 WORKDIR /app

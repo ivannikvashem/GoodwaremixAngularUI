@@ -1,9 +1,9 @@
 import {Deserializable} from './deserializable.model';
 
 export class Dimensions implements Deserializable{
-  tagName: string | undefined;
-  format: string | undefined;
-  multiplier: number | undefined;
+  tagName: string = "";
+  format: string = "";
+  multiplier: number = 1;
 
   deserialize(input: any): this {
     return Object.assign(this, input);

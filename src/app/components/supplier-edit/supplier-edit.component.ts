@@ -10,6 +10,7 @@ import { Attribute } from 'src/app/models/attribute.model';
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {MatChipInputEvent} from "@angular/material/chips";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {Dimensions} from "../../models/dimensions.model";
 
 @Component({
   selector: 'app-supplier-edit',
@@ -18,16 +19,13 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 })
 export class SupplierEditComponent implements OnInit {
 
-  //supplierName: string | any;
   supplierId: string | any;
   supplier: Supplier | any;
-  //supplierForm: FormGroup | any;
 
   dataToDisplay = [];
   attrDataSource = new ProdAttrDataSource(this.dataToDisplay);
   attrTableColumns: string[] = ['idx', 'keySupplier', 'attributeBDName', 'actions'];
   attrSelectedRow: any;
-  //private isUpdated: boolean;
 
   public attributeList: Attribute[] | undefined;
   attributeListCtrl = new FormControl<string | Attribute>('');
@@ -35,12 +33,9 @@ export class SupplierEditComponent implements OnInit {
 
   constructor(
     private _ActivatedRoute:ActivatedRoute,
-    //private fb: FormBuilder,
     private _snackBar: MatSnackBar,
     public api: ApiClient,
-  ) {
-    //this.isUpdated = false;
-  }
+  ) { }
 
   ngOnInit(): void {
     this.supplierId = this._ActivatedRoute.snapshot.paramMap.get("supplierId");
@@ -49,14 +44,19 @@ export class SupplierEditComponent implements OnInit {
     if (this.supplierId) {
       this.api.getSupplierById(this.supplierId)
         .subscribe( s => {
-          console.log("get data by " + this.supplierId + ": " + s.supplierName);
+          console.log("get data by " + this.supplierId + ": " + JSON.stringify(s?.body));
+          if (s?.body.supplierConfigs?.nettoConfig?.dimensions == null) {
+            s.body.supplierConfigs.nettoConfig.dimensions = new Dimensions();
+          }
+          if (s?.body.supplierConfigs?.packageConfig?.dimensions == null) {
+            s.body.supplierConfigs.packageConfig.dimensions = new Dimensions();
+          }
           this.supplier = s.body as Supplier;
-          //this.initForm(this.supplier);
+          console.log("inited data :" + JSON.stringify( this.supplier));
           this.attrDataSource.setData(this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys || []);
         });
     }
     else {
-      //init empty supplier
       this.supplier = new Supplier();
     }
 

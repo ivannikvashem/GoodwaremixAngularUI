@@ -2,6 +2,8 @@ import {Deserializable} from './deserializable.model';
 import {Stat} from "./Stat.model";
 import {SupplierConfig} from "./supplierConfig.model";
 import {SourceSettings} from "./sourceSettings.model";
+import {NettoConfig} from "./nettoConfig.model";
+import {Dimensions} from "./dimensions.model";
 
 export class Supplier implements Deserializable{
   id: string | undefined;

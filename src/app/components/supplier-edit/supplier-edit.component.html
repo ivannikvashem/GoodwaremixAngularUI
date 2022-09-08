@@ -333,16 +333,16 @@
       <div class="formBlockDouble">
         <mat-form-field appearance="fill">
           <mat-label>Таг</mat-label>
-          <input matInput name="packagetagName" placeholder="" [(ngModel)]="supplier.supplierConfigs.packageConfig.dimensions.tagName">
+          <input matInput name="packagetagName" placeholder="" [ngModel]="supplier.supplierConfigs.packageConfig.dimensions?.tagName">
         </mat-form-field>&nbsp;
         <mat-form-field appearance="fill">
           <mat-label>Формат</mat-label>
-          <input matInput name="packageformat" placeholder="" [(ngModel)]="supplier.supplierConfigs.packageConfig.dimensions.format">
+          <input matInput name="packageformat" placeholder="" [ngModel]="supplier.supplierConfigs.packageConfig.dimensions?.format">
         </mat-form-field>&nbsp;
         <!--        автокомплит, со значениями типа: мм в см, м в см и так далее-->
         <mat-form-field appearance="fill">
           <mat-label>Множитель</mat-label>
-          <input matInput name="packagemultiplier" placeholder="" [(ngModel)]="supplier.supplierConfigs.packageConfig.dimensions.multiplier">
+          <input matInput name="packagemultiplier" placeholder="" [ngModel]="supplier.supplierConfigs.packageConfig.dimensions?.multiplier">
         </mat-form-field>
       </div>
 
@@ -535,25 +535,39 @@
 
     <mat-step>
     <ng-template matStepLabel>Единицы измерения и прочее</ng-template>
-    <div class="formBlockDouble">
-      <mat-form-field class="chip-list" appearance="fill" *ngIf="supplier.supplierConfigs.dateFormats">
-        <mat-label>Список возможных имен атрибута</mat-label>
-        <mat-chip-list #chipList aria-label="Список возможных форматов даты" [(ngModel)]="supplier.supplierConfigs.dateFormats">
-          <mat-chip *ngFor="let df of supplier.supplierConfigs.dateFormats" (removed)="removeDateFormat(df)">
-            {{df}}
-            <button matChipRemove>
-              <mat-icon>cancel</mat-icon>
-            </button>
-          </mat-chip>
-          <input placeholder="dd/MM/yyyy h:mm:ss tt"
-                 [matChipInputFor]="chipList"
-                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                 [matChipInputAddOnBlur]="addOnBlur"
-                 (matChipInputTokenEnd)="addDateFormat($event)">
-        </mat-chip-list>
-      </mat-form-field>
-    </div>
-  </mat-step>
+      <div class="formBlockDouble">
+        <mat-form-field appearance="fill">
+          <mat-label>Множитель для габаритов</mat-label>
+          <input matInput name="dimensionIndex" placeholder="" [(ngModel)]="supplier.supplierConfigs.multipliers.dimensionIndex">
+        </mat-form-field>&nbsp;
+        <mat-form-field appearance="fill">
+          <mat-label>Множитель для объема</mat-label>
+          <input matInput name="volumeIndex" placeholder="" [(ngModel)]="supplier.supplierConfigs.multipliers.volumeIndex">
+        </mat-form-field>&nbsp;
+        <mat-form-field appearance="fill">
+          <mat-label>Множитель для веса</mat-label>
+          <input matInput name="weightIndex" placeholder="" [(ngModel)]="supplier.supplierConfigs.multipliers.weightIndex">
+        </mat-form-field>
+      </div>
+      <div class="formBlockDouble">
+        <mat-form-field class="chip-list" appearance="fill" *ngIf="supplier.supplierConfigs.dateFormats">
+          <mat-label>Список возможных имен атрибута</mat-label>
+          <mat-chip-list #chipList aria-label="Список возможных форматов даты" [(ngModel)]="supplier.supplierConfigs.dateFormats">
+            <mat-chip *ngFor="let df of supplier.supplierConfigs.dateFormats" (removed)="removeDateFormat(df)">
+              {{df}}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+            <input placeholder="dd/MM/yyyy h:mm:ss tt"
+                   [matChipInputFor]="chipList"
+                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                   [matChipInputAddOnBlur]="addOnBlur"
+                   (matChipInputTokenEnd)="addDateFormat($event)">
+          </mat-chip-list>
+        </mat-form-field>
+      </div>
+    </mat-step>
 
   </mat-stepper>
 </form>

@@ -3,17 +3,18 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import {Supplier} from "../models/supplier.model";
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class ApiClient {
-
+  private apiURL = environment.apiURL;
   // Define API
    //apiURL = environment.apiURL;
    //loginServerURL = environment.loginServerURL;
-  apiURL = 'http://localhost:5105/api';
+  //apiURL = 'http://localhost:5105/api';
   //apiURL = 'http://172.16.50.123:5105/api';
   //apiURL = 'http://172.16.41.246:5105/api';
 

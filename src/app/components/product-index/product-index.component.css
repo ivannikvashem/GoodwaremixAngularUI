@@ -32,6 +32,10 @@ table {
   white-space: unset !important;
   vertical-align: top;
 }
+th {
+  text-align: center !important;
+  vertical-align: middle !important;
+}
 .mat-column-preview {
   word-wrap: break-word !important;
   white-space: unset !important;
