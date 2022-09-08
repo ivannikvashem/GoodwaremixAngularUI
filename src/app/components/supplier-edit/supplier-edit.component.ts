@@ -11,6 +11,7 @@ import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {MatChipInputEvent} from "@angular/material/chips";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Dimensions} from "../../models/dimensions.model";
+import {Multipliers} from "../../models/multipliers.model";
 
 @Component({
   selector: 'app-supplier-edit',
@@ -50,6 +51,9 @@ export class SupplierEditComponent implements OnInit {
           }
           if (s?.body.supplierConfigs?.packageConfig?.dimensions == null) {
             s.body.supplierConfigs.packageConfig.dimensions = new Dimensions();
+          }
+          if (s?.body.supplierConfigs?.multipliers == null) {
+            s.body.supplierConfigs.multipliers = new Multipliers();
           }
           this.supplier = s.body as Supplier;
           console.log("inited data :" + JSON.stringify( this.supplier));

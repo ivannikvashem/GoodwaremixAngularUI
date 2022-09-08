@@ -5,6 +5,7 @@ import {DocumentConfig} from "./documentConfig.model";
 import {ImageConfig} from "./imageConfig.model";
 import {PackageConfig} from "./packageConfig.model";
 import {NettoConfig} from "./nettoConfig.model";
+import {Multipliers} from "./multipliers.model";
 
 export class SupplierConfig implements Deserializable{
   type: string | undefined;
@@ -20,7 +21,7 @@ export class SupplierConfig implements Deserializable{
   packageConfig: PackageConfig = new PackageConfig();
   nettoConfig: NettoConfig = new NettoConfig();
   dateFormats: string[] = [];
-  multipliers: any;
+  multipliers: Multipliers = new Multipliers();
 
   constructor() {
     this.type = undefined;

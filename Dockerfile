@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 RUN apt-get update && apt-get -y install mc
 RUN npm install --force
-RUN npm run ng -- build --prod --base-href $GOODWARE_UI_BASEHREF
+RUN npm run ng -- build --configuration production --base-href $GOODWARE_UI_BASEHREF
 
 ### STAGE 2: Run ###
 FROM nginx:latest
