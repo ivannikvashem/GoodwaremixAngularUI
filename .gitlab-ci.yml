@@ -9,7 +9,7 @@ deploy_stage:
   before_script:
     - docker stop $CI_PROJECT_NAME || true
     - docker rm $CI_PROJECT_NAME || true
-    - docker rmi $CI_REGISTRY_IMAGE:latest
+    - docker rmi $CI_REGISTRY_IMAGE:latest || true
   script:
     - docker build --no-cache -t $CI_REGISTRY_IMAGE:latest .
     - docker run --name $CI_PROJECT_NAME -d -p 4200:80 $CI_REGISTRY_IMAGE:latest
