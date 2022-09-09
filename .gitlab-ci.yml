@@ -26,4 +26,4 @@ deploy_stage:
     - docker:stable-dind
   script:
     - docker build -t goodwareui:prod .
-    - docker run -d -p 80:80 goodwareui:prod
+    - docker run -d -p 4200:80 goodwareui:prod
