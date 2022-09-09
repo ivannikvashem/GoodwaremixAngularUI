@@ -62,6 +62,7 @@ export class SupplierEditComponent implements OnInit {
     }
     else {
       this.supplier = new Supplier();
+      console.log("inited new supplier: " + JSON.stringify( this.supplier));
     }
 
     this.attributeListCtrl.valueChanges.pipe(
