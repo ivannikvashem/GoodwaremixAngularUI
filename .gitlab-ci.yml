@@ -7,9 +7,9 @@ deploy_stage:
   services:
     - docker:stable-dind
   before_script:
-    - docker stop $CI_PROJECT_NAME || true
-    - docker rm $CI_PROJECT_NAME || true
-    - docker rmi $CI_REGISTRY_IMAGE:prod || true
+    - docker stop goodwareui || true
+    - docker rm goodwareui || true
+    - docker rmi goodwareui:prod || true
   script:
-    - docker build -t $CI_REGISTRY_IMAGE:prod .
-    - docker run --name $CI_PROJECT_NAME -d -p 4200:80 $CI_REGISTRY_IMAGE:prod
+    - docker build -t goodwareui:prod .
+    - docker run --name goodwareui -d -p 4200:80 goodwareui:prod
