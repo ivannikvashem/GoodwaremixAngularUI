@@ -25,5 +25,6 @@ deploy_stage:
   services:
     - docker:stable-dind
   script:
+    - docker stop goodwareui:prod || true && docker rm goodwareui:prod || true
     - docker build -t goodwareui:prod .
     - docker run -d -p 4200:80 goodwareui:prod
