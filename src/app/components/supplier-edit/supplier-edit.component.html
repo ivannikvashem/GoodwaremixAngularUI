@@ -1,3 +1,6 @@
+
+
+
 <div class="full-width" style="display: flex; justify-content: space-between; padding-right: 20px;">
   <h3>{{supplier?.supplierName == undefined ? "Создание нового поставщика" : "Поставщик " + supplier?.supplierName}}</h3>
   <div style="vertical-align: bottom; margin: auto 0;">
@@ -12,13 +15,13 @@
     <div class="formBlockDouble">
       <mat-form-field appearance="fill">
         <mat-label>Наименование поставщика</mat-label>
-        <input matInput placeholder="Наименование поставщика" name="supplierName" required [(ngModel)]="supplier.supplierName">
+        <input matInput placeholder="Наименование поставщика" [(ngModel)]="supplier.supplierName" name="supplierName" required >
       </mat-form-field>
     </div>
     <div class="formBlockDouble">
       <mat-form-field appearance="fill">
         <mat-label>Комментарий</mat-label>
-        <textarea type="text" matInput placeholder="Комментарий" name="comment" style="height: 100px;" [(ngModel)]="supplier.comment"></textarea>
+        <textarea type="text" matInput placeholder="Комментарий" [(ngModel)]="supplier.comment" name="comment" style="height: 100px;" ></textarea>
       </mat-form-field>
     </div>
   </mat-step>
@@ -28,7 +31,8 @@
       <div class="formBlockDouble">
         <mat-form-field appearance="fill">
           <mat-label>Источник</mat-label>
-          <mat-select name="source" #source [(ngModel)]="supplier.sourceSettings.source">
+          <mat-select name="source" #source [(ngModel)]="supplier.sourceSettings.source" >
+            <mat-option value="">Выберите источник</mat-option>
             <mat-option value="API">API</mat-option>
             <mat-option value="SOAP">SOAP</mat-option>
             <mat-option value="FTP">FTP</mat-option>
@@ -39,6 +43,7 @@
         <mat-form-field appearance="fill">
           <mat-label>Тип запроса</mat-label>
           <mat-select name="methodType" #methodType [(ngModel)]="supplier.sourceSettings.methodType">
+            <mat-option value="">Выберите тип запроса</mat-option>
             <mat-option value="GET">GET</mat-option>
             <mat-option value="POST">POST</mat-option>
             <mat-option value="BINARY">BINARY</mat-option>
@@ -223,7 +228,7 @@
         </mat-form-field>&nbsp;
         <mat-form-field appearance="fill">
           <mat-label>Кол-во в упаковке</mat-label>
-          <input matInput name="nettopackQty" placeholder="" [(ngModel)]="supplier.supplierConfigs.nettoConfig.packQty">
+          <input matInput name="nettopackQty" placeholder="" [(ngModel)]="supplier.supplierConfigs.nettoConfig.packQty" >
         </mat-form-field>&nbsp;
         <mat-form-field appearance="fill">
           <mat-label>Наименование упаковки/фасовки</mat-label>
@@ -393,22 +398,22 @@
         </mat-form-field>&nbsp;
         <mat-form-field appearance="fill">
           <mat-label>Номер бланка</mat-label>
-          <input matInput name="blankNumber" placeholder="" [(ngModel)]="supplier.supplierConfigs.documentConfig.BlankNumber">
+          <input matInput name="blankNumber" placeholder="" [(ngModel)]="supplier.supplierConfigs.documentConfig.blankNumber">
         </mat-form-field>
       </div>
 
       <div class="formBlockDouble">
         <mat-form-field appearance="fill">
           <mat-label>Дата начала действия</mat-label>
-          <input matInput name="startDate" placeholder="" [(ngModel)]="supplier.supplierConfigs.documentConfig.StartDate">
+          <input matInput name="startDate" placeholder="" [(ngModel)]="supplier.supplierConfigs.documentConfig.startDate">
         </mat-form-field>&nbsp;
         <mat-form-field appearance="fill">
           <mat-label>Дата окончания действия</mat-label>
-          <input matInput name="endDate" placeholder="" [(ngModel)]="supplier.supplierConfigs.documentConfig.EndDate">
+          <input matInput name="endDate" placeholder="" [(ngModel)]="supplier.supplierConfigs.documentConfig.endDate">
         </mat-form-field>
       </div>
 
-      <mat-slide-toggle [(ngModel)]="supplier.supplierConfigs.documentConfig.downloadLocally" name="docDownloadLocally">Загружать локально</mat-slide-toggle>
+      <mat-slide-toggle name="docDownloadLocally" [(ngModel)]="supplier.supplierConfigs.documentConfig.downloadLocally" >Загружать локально</mat-slide-toggle>
 
     </mat-step>
 
@@ -469,7 +474,7 @@
         <ng-container matColumnDef="idx">
           <th mat-header-cell *matHeaderCellDef> # </th>
           <td mat-cell *matCellDef="let i = index;let element;">
-             {{i}}
+             {{ i+1 }}
           </td>
         </ng-container>
 
@@ -495,7 +500,7 @@
                      (keydown.enter)="updateSelectedSuppAttr(i, element)">
               <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onDBAttrSelected()">
                 <mat-option *ngFor="let option of attributeList" [value]="option">
-                  {{option.fixed ? "■" : ''}} {{option.etimFeature}} {{option.nameAttribute}} [{{option.supplierName}}]
+                  {{option.fixed ? "◉" : ''}} {{option.etimFeature}} {{option.nameAttribute}} [{{option.supplierName}}]
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
@@ -552,7 +557,7 @@
       <div class="formBlockDouble">
         <mat-form-field class="chip-list" appearance="fill" *ngIf="supplier.supplierConfigs.dateFormats">
           <mat-label>Список возможных имен атрибута</mat-label>
-          <mat-chip-list #chipList aria-label="Список возможных форматов даты" [(ngModel)]="supplier.supplierConfigs.dateFormats">
+          <mat-chip-list #chipList aria-label="Список возможных форматов даты" name="dateFormats" [(ngModel)]="supplier.supplierConfigs.dateFormats">
             <mat-chip *ngFor="let df of supplier.supplierConfigs.dateFormats" (removed)="removeDateFormat(df)">
               {{df}}
               <button matChipRemove>

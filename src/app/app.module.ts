@@ -44,6 +44,7 @@ import {
 } from './components/shared/hover-image-slider/hover-image-slider.component';
 import { ConfirmDialogComponent } from './components/shared/confirm-dialog/confirm-dialog.component';
 import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
+import { ProductAddComponent } from './product-add/product-add.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
     ProductDetailsComponent,
     PackageCardComponent,
     HoverImageSliderComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    ProductAddComponent
   ],
   imports: [
     CommonModule,

@@ -1,11 +1,6 @@
-import {Deserializable} from './deserializable.model';
 
-export class Dimensions implements Deserializable{
-  tagName: string = "";
-  format: string = "";
+export class Dimensions {
+  tagName: string | undefined;
+  format: string = '';
   multiplier: number = 1;
-
-  deserialize(input: any): this {
-    return Object.assign(this, input);
-  }
 }

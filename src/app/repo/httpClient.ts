@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import {Supplier} from "../models/supplier.model";
 import {environment} from '../../environments/environment';
+import {Product} from "../models/product.model";
 
 @Injectable({
   providedIn: 'root'
@@ -89,7 +90,7 @@ export class ApiClient {
 
   // Product ENDPOINT
 
-  getProducts(searchQuery: string, withInternalCodeSelector: boolean, selectedSuppId: string, pageIndex: number, pageSize: number): Observable<any> {
+  getProducts(searchQuery: string, withInternalCodeSelector: boolean, selectedSuppId: string, pageIndex: number, pageSize: number) {
     let opt = {
       params: new HttpParams()
         .set('supplierId', selectedSuppId)
@@ -99,7 +100,7 @@ export class ApiClient {
         .set('searchFilter', searchQuery)
     };
     opt = Object.assign(opt, this.httpOptions);
-    return this.http.get<any>(this.apiURL + '/Product', opt);
+    return this.http.get<Product[]>(this.apiURL + '/Product', opt);
   }
 
   getProductById(id: string): Observable<any> {
@@ -108,7 +109,7 @@ export class ApiClient {
 
   // Suppliers ENDPOINT
 
-  getSuppliers(searchQuery: any, pageIndex: number, pageSize: number, sortField: string, sortDirection: string): Observable<any> {
+  getSuppliers(searchQuery: any, pageIndex: number, pageSize: number, sortField: string, sortDirection: string) {
     let opt = {
       params: new HttpParams()
         .set('filter.pageNumber', pageIndex ? pageIndex + 1 : 1)
@@ -121,7 +122,7 @@ export class ApiClient {
     return this.http.get<any>(this.apiURL + '/supplier', opt);
   }
 
-  getSupplierById(supplierId: string): Observable<any> {
+  getSupplierById(supplierId: string){
     return this.http.get<Supplier>(this.apiURL + '/supplier/id/' + supplierId, this.httpOptions);
   }
 

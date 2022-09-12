@@ -13,7 +13,7 @@ export class HoverImageSliderComponent implements OnInit {
   hoverImage = "";
   hoverRowId = "";
 
-  @Input() imgList = [];
+  @Input() imgList:any = [];
 
   constructor(
     public dialog: MatDialog,
@@ -39,6 +39,10 @@ export class HoverImageSliderComponent implements OnInit {
       }
     };
     this.dialog.open(DialogDataExampleDialog2, dialogBoxSettings);
+  }
+
+  handleMissingImage(event: Event) {
+    (event.target as HTMLImageElement).src='https://teelindy.com/wp-content/uploads/2019/03/default_image.png'
   }
 }
 @Component({

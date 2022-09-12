@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Params} from "@angular/router";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Supplier} from "../../models/supplier.model";
 import {ApiClient} from "../../repo/httpClient";
@@ -20,10 +20,10 @@ import {Multipliers} from "../../models/multipliers.model";
 })
 export class SupplierEditComponent implements OnInit {
 
-  supplierId: string | any;
-  supplier: Supplier | any;
+  supplierId: string = '';
+  supplier: Supplier;
 
-  dataToDisplay = [];
+  dataToDisplay:any = [];
   attrDataSource = new ProdAttrDataSource(this.dataToDisplay);
   attrTableColumns: string[] = ['idx', 'keySupplier', 'attributeBDName', 'actions'];
   attrSelectedRow: any;
@@ -40,12 +40,16 @@ export class SupplierEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.supplierId = this._ActivatedRoute.snapshot.paramMap.get("supplierId");
-    console.log("init with params: " + this.supplierId);
 
+
+    //this.fetchSupplier()
+    // this.supplierId = this._ActivatedRoute.snapshot.paramMap.get("supplierId");
+    // console.log("init with params: " + this.supplierId);
+    //
     if (this.supplierId) {
       this.api.getSupplierById(this.supplierId)
-        .subscribe( s => {
-          console.log("get data by " + this.supplierId + ": " + JSON.stringify(s?.body));
+        .subscribe( (s:any) => {
+          console.log("get data by " + this.supplierId + ": " + JSON.stringify(s));
           if (s?.body.supplierConfigs?.nettoConfig?.dimensions == null) {
             s.body.supplierConfigs.nettoConfig.dimensions = new Dimensions();
           }
@@ -55,15 +59,16 @@ export class SupplierEditComponent implements OnInit {
           if (s?.body.supplierConfigs?.multipliers == null) {
             s.body.supplierConfigs.multipliers = new Multipliers();
           }
-          this.supplier = s.body as Supplier;
+
+           this.supplier = s.body as Supplier;
           console.log("inited data :" + JSON.stringify( this.supplier));
           this.attrDataSource.setData(this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys || []);
         });
     }
     else {
       this.supplier = new Supplier();
-      console.log("inited new supplier: " + JSON.stringify( this.supplier));
     }
+
 
     this.attributeListCtrl.valueChanges.pipe(
       //distinctUntilChanged(),
@@ -155,6 +160,20 @@ export class SupplierEditComponent implements OnInit {
       }),
     });
   }*/
+
+  // fetchSupplier() {
+  //   if (this.supplierId != null) {
+  //     this.api.getSupplierById(this.supplierId).subscribe(resp => {
+  //       console.log( 'actual resp',resp)
+  //       this.supplier = resp
+  //     })
+  //   }
+  //   else {
+  //     this.supplier = {} as Supplier
+  //   }
+  //
+  // }
+
 
   onSubmit(): void{
     console.log('Submitting: ', JSON.stringify(this.supplier));

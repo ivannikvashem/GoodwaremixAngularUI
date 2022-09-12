@@ -44,7 +44,7 @@
           <ng-template #t [ngTemplateOutlet]="t"
                        let-a [ngTemplateOutletContext]="{ $implicit: 0 }">
             <div class="containerCmain" *ngIf="hoverRowId==row.id">
-              <img [src]="hoverImage" class="imgInContainer"/>
+              <img [src]="hoverImage" class="imgInContainer" />
               <div class="containerC">
                 <div *ngFor="let image of row.images; index as i" class="hoverBlockC" (mouseover)="changeImage(row, image)" (click)="openDialog(image)"></div>
               </div>

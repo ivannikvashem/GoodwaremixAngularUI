@@ -52,15 +52,15 @@ export class AttributeIndexComponent implements OnInit {
   paginator!: MatPaginator
 
   ngOnInit(): any {
-    this.api.getSuppliers('', 0 ,100, "SupplierName", "asc").subscribe( r => {
+    this.api.getSuppliers('', 0 ,100, "SupplierName", "asc").subscribe( (r:any) => {
       this.supplierList = r.body.data
     });
     this._ActivatedRoute.queryParams.subscribe(params => {
       this.supplierId = params['supplierId'];
       if (this.supplierId) {
         this.api.getSupplierById(this.supplierId).subscribe( s => {
-          this.selectedSupplier = s.body as Supplier;
-          this.searchSuppliersCtrl.setValue(s.body as Supplier);
+          this.selectedSupplier = s as Supplier;
+          this.searchSuppliersCtrl.setValue(s as Supplier);
         })
       }
     });

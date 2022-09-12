@@ -55,13 +55,16 @@ th {
   flex-direction: row;
 }
 .containerCmain {
+
+  display: block;
   position: relative;
 }
 .imgInContainer {
+  display: block;
   margin: 10px 2px;
   height: 150px;
-  max-width:250px;
-  ///width: 259px;
+  /*max-width:250px;*/
+  width: 259px;
   position: absolute;
   top: 0;
   left: 0;

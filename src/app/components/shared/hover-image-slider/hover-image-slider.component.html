@@ -1,5 +1,5 @@
 <div class="containerCmain"> <!--*ngIf="hoverRowId==row.id"-->
-  <img [src]="hoverImage" class="imgInContainer"/>
+  <img  [src]="hoverImage" class="imgInContainer"/>
   <div class="containerC">
     <div *ngFor="let p of imgList; index as i" class="hoverBlockC" (mouseover)="changeImage(p)" (click)="openDialog(p)"></div>
   </div>

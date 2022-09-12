@@ -1,15 +1,12 @@
-import {Deserializable} from './deserializable.model';
 
-export class AttributeProduct implements Deserializable{
-  attributeId: string | undefined;
-  attributeName: string | undefined;
-  etimFeature: string | undefined;
+export class AttributeProduct {
+  attributeId: string;
+  attributeName: string;
+  etimFeature: string;
   etimValue: any;
-  etimUnit: string | undefined;
-  unit: string | undefined;
-  type: string | undefined;
+  etimUnit: string;
+  unit: string;
+  type: string;
   value: any;
-  deserialize(input: any): this {
-    return Object.assign(this, input);
-  }
+
 }

@@ -48,16 +48,16 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator)
   paginator!: MatPaginator
 
-  ngOnInit(): any {
-    this.api.getSuppliers('', 0 ,100, "SupplierName", "asc").subscribe( r => {
+  ngOnInit() {
+    this.api.getSuppliers('', 0 ,100, "SupplierName", "asc").subscribe( (r:any) => {
       this.supplierList = r.body.data
     });
     this._ActivatedRoute.queryParams.subscribe(params => {
       this.supplierId = params['supplierId'];
       if (this.supplierId) {
         this.api.getSupplierById(this.supplierId).subscribe( s => {
-          this.selectedSupplier = s.body as Supplier;
-          this.searchSuppliersCtrl.setValue(s.body as Supplier);
+          this.selectedSupplier = s as Supplier;
+          this.searchSuppliersCtrl.setValue(s as Supplier);
         })
       }
     });
@@ -146,6 +146,10 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
       }
     };
     this.dialog.open(DialogDataExampleDialog, dialogBoxSettings);
+  }
+
+  handleMissingImage(event: Event) {
+    (event.target as HTMLImageElement).src='https://teelindy.com/wp-content/uploads/2019/03/default_image.png'
   }
 }
 @Component({

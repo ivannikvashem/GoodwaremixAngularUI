@@ -23,11 +23,11 @@ export class ProductsDataSource implements DataSource<Product> {
     this.loadingSubject.complete();
   }
 
-  loadPagedData(queryString = "", withInternalCodeSelector = false, selectedSuppId = '', pageIndex = 1, pageSize = 10): any {
+  loadPagedData(queryString = "", withInternalCodeSelector = false, selectedSuppId = '', pageIndex = 1, pageSize = 10) {
     this.loadingSubject.next(true);
     this.api.getProducts(queryString, withInternalCodeSelector, selectedSuppId, pageIndex, pageSize)
       .pipe(
-        map(res => {
+        map((res:any) => {
           return res.body;
         }),
       catchError(() => of([])),
