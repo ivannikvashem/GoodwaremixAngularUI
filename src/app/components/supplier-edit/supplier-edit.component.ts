@@ -5,13 +5,14 @@ import {SourceSettings, Supplier, SupplierConfig} from "../../models/supplier.mo
 import {ApiClient} from "../../repo/httpClient";
 import {ProductAttributeKey} from "../../models/productAttributeKey.model";
 import {DataSource} from "@angular/cdk/collections";
-import {debounceTime, distinctUntilChanged, finalize, Observable, ReplaySubject, switchMap, tap} from "rxjs";
 import { Attribute } from 'src/app/models/attribute.model';
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {MatChipInputEvent} from "@angular/material/chips";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Dimensions} from "../../models/dimensions.model";
 import {Multipliers} from "../../models/multipliers.model";
+import {debounceTime, Observable, ReplaySubject, switchMap, tap} from "rxjs";
+import {finalize} from "rxjs/operators";
 
 @Component({
   selector: 'app-supplier-edit',

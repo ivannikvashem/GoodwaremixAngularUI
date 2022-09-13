@@ -1,31 +1,143 @@
 <p>Добавление нового товара</p>
-<div class="header-container" style="display: flex; align-items: baseline; flex: 1;">
 
+<form>
 
+  <mat-stepper #stepper>
+    <mat-step label="Основное">
+        <ng-template matStepLabel>Основное</ng-template>
 
+        <mat-form-field appearance="fill" class="form-full-width">
+          <mat-label>Наименование</mat-label>
+          <input matInput name="title" [(ngModel)]="product.title" required>
+        </mat-form-field>
 
-  <mat-form-field class="full-width" appearance="fill">
-    <mat-label>Поставщик</mat-label>
-    <input type="text" matInput aria-label="Поставщик"
-           [formControl]="searchSuppliersCtrl"
-           [matAutocomplete]="auto">
-    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onSupplierSelected()">
-      <mat-option *ngFor="let option of supplierList" [value]="option">
-        {{option.supplierName}}
-      </mat-option>
-    </mat-autocomplete>
-    <button *ngIf="selectedSupplier" matSuffix mat-icon-button aria-label="Clear" (click)="onClearSupplierSelection()">
-      <mat-icon>close</mat-icon>
-    </button>
-  </mat-form-field>
+        <mat-form-field appearance="fill" class="form-full-width">
+          <mat-label>Полное наименование</mat-label>
+          <input matInput name="titleLong" [(ngModel)]="product.titleLong">
+        </mat-form-field>
 
+        <mat-form-field appearance="fill" class="form-full-width">
+          <mat-label>Описание</mat-label>
+          <textarea matInput name="description" [(ngModel)]="product.description" style="max-height: 150px"></textarea>
+        </mat-form-field>
 
-</div>
+        <mat-form-field appearance="fill" class="form-full-width">
+          <mat-label>Вендор</mat-label>
+          <input matInput name="vendor" [(ngModel)]="product.vendor">
+        </mat-form-field>
 
+        <mat-form-field appearance="fill" class="form-full-width">
+          <mat-label>Страна производства</mat-label>
+          <input matInput name="country" [(ngModel)]="product.country">
+        </mat-form-field>
 
-<div class="mat-elevation-z8">
-  <mat-form-field>
-    <mat-label>Комментарий</mat-label>
-    <textarea type="text" matInput style="height:100px; width:500px"></textarea>
-  </mat-form-field>
-</div>
+      <mat-form-field class=form-full-width appearance="fill">
+        <mat-label>ГТД</mat-label>
+        <mat-chip-list #chipList aria-label="Fruit selection">
+          <mat-chip *ngFor="let item of product.gtd" (removed)="removeGTD(item)">
+            {{item}}
+            <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+          <input placeholder=""
+                 [matChipInputFor]="chipList"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                 [matChipInputAddOnBlur]="true"
+                 (matChipInputTokenEnd)="addGTD($event)">
+        </mat-chip-list>
+      </mat-form-field>
+
+        <div>
+          <button mat-button matStepperNext>Далее</button>
+        </div>
+    </mat-step>
+    <mat-step label="Характеристики">
+
+<!--        <table mat-table [dataSource]="product.attributes" class="mat-elevation-z8; form-full-width">-->
+<!--          <ng-container matColumnDef="idx">-->
+<!--            <th mat-header-cell *matHeaderCellDef> # </th>-->
+<!--            <td mat-cell *matCellDef="let i = index;let element;">-->
+<!--              {{ i+1 }}-->
+<!--            </td>-->
+<!--          </ng-container>-->
+
+<!--          <ng-container matColumnDef="attributeKey">-->
+<!--            <th mat-header-cell *matHeaderCellDef> Характеристика </th>-->
+<!--            <td mat-cell *matCellDef="let element; let i = index ">-->
+<!--              <mat-form-field class="full-width" appearance="standard" *ngIf="attrSelectedRow?.keySupplier == element.keySupplier">-->
+<!--                <mat-label>Целевой атрибут</mat-label>-->
+<!--                <input type="text" matInput aria-label="Поставщик"-->
+<!--                       [formControl]="attributeListCtrl"-->
+<!--                       [matAutocomplete]="auto"-->
+<!--                       (keydown.enter)="updateSelectedSuppAttr(i, element)">-->
+<!--                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onDBAttrSelected()">-->
+<!--                  <mat-option *ngFor="let option of attributeList" [value]="option">-->
+<!--                    {{option.fixed ? "◉" : ''}} {{option.etimFeature}} {{option.nameAttribute}} [{{option.supplierName}}]-->
+<!--                  </mat-option>-->
+<!--                </mat-autocomplete>-->
+<!--              </mat-form-field>-->
+<!--            </td>-->
+<!--          </ng-container>-->
+
+<!--          <ng-container matColumnDef="attributeValue">-->
+<!--            <th mat-header-cell *matHeaderCellDef> Значение </th>-->
+<!--            <td mat-cell *matCellDef="let element">-->
+<!--              <mat-form-field class="full-width" appearance="standard" *ngIf="attrSelectedRow?.keySupplier == element.keySupplier">-->
+
+<!--              </mat-form-field>-->
+<!--              <span *ngIf="attrSelectedRow?.keySupplier != element.keySupplier" [style.color]="element.attributeValid ? 'black': 'orangered'">{{element.attributeBDName}}</span>-->
+<!--            </td>-->
+<!--          </ng-container>-->
+
+<!--          <ng-container matColumnDef="actions">-->
+<!--&lt;!&ndash;            <th mat-header-cell *matHeaderCellDef>&ndash;&gt;-->
+<!--&lt;!&ndash;              <button mat-icon-button class="mat-elevation-z2" (click)="addSuppAttr()">&ndash;&gt;-->
+<!--&lt;!&ndash;                <mat-icon>add</mat-icon>&ndash;&gt;-->
+<!--&lt;!&ndash;              </button>&ndash;&gt;-->
+<!--&lt;!&ndash;            </th>&ndash;&gt;-->
+<!--&lt;!&ndash;            <td mat-cell *matCellDef="let i = index; let element">&ndash;&gt;-->
+<!--&lt;!&ndash;              <ng-container  *ngIf="attrSelectedRow?.keySupplier != element.keySupplier">&ndash;&gt;-->
+<!--&lt;!&ndash;                <button mat-icon-button class="mat-elevation-z2" (click)="onSelectRow(element)">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <mat-icon>edit</mat-icon>&ndash;&gt;-->
+<!--&lt;!&ndash;                </button>&nbsp;&ndash;&gt;-->
+<!--&lt;!&ndash;                <button mat-icon-button class="mat-elevation-z2" (click)="deleteSuppAttr(element.keySupplier)">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <mat-icon>delete</mat-icon>&ndash;&gt;-->
+<!--&lt;!&ndash;                </button>&ndash;&gt;-->
+<!--&lt;!&ndash;              </ng-container>&ndash;&gt;-->
+<!--&lt;!&ndash;              <button mat-mini-fab color="accent" class="mat-elevation-z2" (click)="updateSelectedSuppAttr(i, element)" *ngIf="attrSelectedRow?.keySupplier == element.keySupplier" [disabled]="attrSelectedRow?.keySupplier == ''">&ndash;&gt;-->
+<!--&lt;!&ndash;                <mat-icon>check</mat-icon>&ndash;&gt;-->
+<!--&lt;!&ndash;              </button>&nbsp;&ndash;&gt;-->
+<!--&lt;!&ndash;              <button mat-icon-button class="mat-elevation-z2" (click)="onSelectRow({})" *ngIf="attrSelectedRow?.keySupplier == element.keySupplier" [disabled]="attrSelectedRow?.keySupplier == ''">&ndash;&gt;-->
+<!--&lt;!&ndash;                <mat-icon>close</mat-icon>&ndash;&gt;-->
+<!--&lt;!&ndash;              </button>&ndash;&gt;-->
+<!--&lt;!&ndash;            </td>&ndash;&gt;-->
+<!--          </ng-container>-->
+
+<!--          <tr mat-header-row *matHeaderRowDef="attrTableColumns"></tr>-->
+<!--          <tr mat-row *matRowDef="let i = index; let row; columns: attrTableColumns;"></tr>-->
+<!--        </table>-->
+
+  </mat-step>
+    <mat-step label="Медиа">
+        <mat-form-field appearance="fill">
+          <mat-label>Address</mat-label>
+          <input matInput  placeholder="Ex. 1 Main St, New York, NY"
+                 required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Предпросмотр</ng-template>
+      <p>You are now done.</p>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button (click)="stepper.reset()">Reset</button>
+      </div>
+    </mat-step>
+</mat-stepper>
+
+</form>

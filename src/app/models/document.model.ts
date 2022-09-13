@@ -1,21 +1,16 @@
-import {Deserializable} from './deserializable.model';
-
-export class Document implements Deserializable{
-  id: string | undefined;
-  supplierId: string = '';
-  type: string | undefined;
-  url: string | undefined;
-  certTitle: string | undefined;
-  certNumber: string | undefined;
-  file: string | undefined;
-  certOrganizNumber: string | undefined;
-  certOrganizDescr: string | undefined;
-  startDate: Date | undefined;
-  endDate: Date | undefined;
-  blankNumber: string | undefined;
-  isDeleted: boolean | undefined;
-  keywords: string[] | undefined;
-  deserialize(input: any): this {
-    return Object.assign(this, input);
-  }
+export class Document {
+  id: string
+  supplierId: string
+  type: string
+  url: string
+  certTitle: string
+  certNumber: string
+  file: string
+  certOrganizNumber: string
+  certOrganizDescr: string
+  startDate: Date
+  endDate: Date
+  blankNumber: string
+  isDeleted: boolean
+  keywords: string[]
 }

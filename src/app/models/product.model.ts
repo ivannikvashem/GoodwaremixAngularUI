@@ -1,5 +1,6 @@
 import {Attribute} from "./attribute.model";
 import {AttributeProduct} from "./attributeProduct.model";
+import {Document} from "./document.model";
 
 export class Product {
   Id: string;
@@ -10,6 +11,9 @@ export class Product {
   description: string;
   vendor: string;
   vendorId: string;
+  country:string;
+  countryId:string;
+  gtd:string[]
   images: string[];
   documents: Document[];
   image360: string;
@@ -18,4 +22,11 @@ export class Product {
   createdAt: Date;
   updatedAt: Date;
 
+  constructor() {
+    this.gtd = []
+    this.images = []
+    this.documents = {} as Document[]
+    this.videos = []
+    this.attributes = {} as AttributeProduct[]
+  }
 }
