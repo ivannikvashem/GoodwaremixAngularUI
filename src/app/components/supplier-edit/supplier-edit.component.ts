@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Params} from "@angular/router";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Supplier} from "../../models/supplier.model";
+import {SourceSettings, Supplier, SupplierConfig} from "../../models/supplier.model";
 import {ApiClient} from "../../repo/httpClient";
 import {ProductAttributeKey} from "../../models/productAttributeKey.model";
 import {DataSource} from "@angular/cdk/collections";

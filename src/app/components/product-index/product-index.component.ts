@@ -127,7 +127,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   }
 
   addItem() {
-
+    this.router.navigate(['product-edit'])
   }
 
   changeImage(row: any, image: any) {

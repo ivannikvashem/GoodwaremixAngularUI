@@ -3,6 +3,8 @@ import {ProductAttributeKey} from "./productAttributeKey.model";
 import { Dimensions } from './dimensions.model';
 import {Multipliers} from "./multipliers.model";
 
+
+
 export class Supplier {
   id: string
   supplierName: string;
@@ -10,6 +12,12 @@ export class Supplier {
   stat: Stat;
   sourceSettings: SourceSettings
   supplierConfigs: SupplierConfig
+
+  constructor() {
+    this.sourceSettings = new SourceSettings()
+    this.stat = new Stat()
+    this.supplierConfigs = new SupplierConfig()
+  }
 }
 
 export class SourceSettings {
@@ -40,6 +48,16 @@ export class SupplierConfig {
   nettoConfig: NettoConfig;
   dateFormats: string[];
   multipliers: Multipliers;
+
+  constructor() {
+    this.baseConfig = new BaseConfig()
+    this.documentConfig = new DocumentConfig()
+    this.imageConfig = new ImageConfig()
+    this.attributeConfig = new AttributeConfig()
+    this.packageConfig = new PackageConfig()
+    this.nettoConfig = new NettoConfig()
+    this.multipliers = new Multipliers()
+  }
 }
 
 export class BaseConfig {
@@ -113,6 +131,10 @@ export class PackageConfig {
   weight: string;
   packQty?: string;
   dimensions: Dimensions;
+
+  constructor() {
+    this.dimensions = new Dimensions()
+  }
 }
 
 export class NettoConfig {
@@ -125,4 +147,9 @@ export class NettoConfig {
   weight: string;
   packQty: string;
   dimensions: Dimensions
+
+  constructor() {
+    this.dimensions = new Dimensions()
+  }
 }
+

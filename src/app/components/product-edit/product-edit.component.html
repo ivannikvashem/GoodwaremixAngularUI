@@ -1,0 +1,31 @@
+<p>Добавление нового товара</p>
+<div class="header-container" style="display: flex; align-items: baseline; flex: 1;">
+
+
+
+
+  <mat-form-field class="full-width" appearance="fill">
+    <mat-label>Поставщик</mat-label>
+    <input type="text" matInput aria-label="Поставщик"
+           [formControl]="searchSuppliersCtrl"
+           [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onSupplierSelected()">
+      <mat-option *ngFor="let option of supplierList" [value]="option">
+        {{option.supplierName}}
+      </mat-option>
+    </mat-autocomplete>
+    <button *ngIf="selectedSupplier" matSuffix mat-icon-button aria-label="Clear" (click)="onClearSupplierSelection()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+
+
+</div>
+
+
+<div class="mat-elevation-z8">
+  <mat-form-field>
+    <mat-label>Комментарий</mat-label>
+    <textarea type="text" matInput style="height:100px; width:500px"></textarea>
+  </mat-form-field>
+</div>
