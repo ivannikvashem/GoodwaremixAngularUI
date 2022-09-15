@@ -25,7 +25,12 @@
   margin: 0 5px
 }
 .mat-list .mat-list-item {
-  min-height: 60px; /* default is 72px */
+  min-height: 20px; /* default is 72px */
+}
+
+.mat-card {
+  height:auto;
+  min-height: 20px;
 }
 
 td, th, .mat-line {

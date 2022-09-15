@@ -1,5 +1,8 @@
 <div class="containerCmain"> <!--*ngIf="hoverRowId==row.id"-->
-  <img (error)="handleMissingImage($event)" [src]="hoverImage" class="imgInContainer" />
+  <div class="imgWrapper">
+    <img (error)="handleMissingImage($event)" [src]="hoverImage" class="imgInContainer" />
+  </div>
+
   <div class="containerC" >
     <div *ngFor="let p of imgList; index as i" class="hoverBlockC" (mouseover)="changeImage(p)" (click)="openDialog(p)"></div>
   </div>

@@ -1,5 +1,5 @@
 import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ApiClient} from "../../repo/httpClient";
 import {Observable} from "rxjs";
 import {MatTableDataSource} from "@angular/material/table";
@@ -17,12 +17,13 @@ export class ProductDetailsComponent implements OnInit {
   productId: string | any;
   product: Observable<Product> | any;
 
-  displayedAttrColumns: string[] = ['name', 'value'];
+  displayedAttrColumns: string[] = ['name', 'value', 'action'];
   dataSource = new MatTableDataSource();
   safeVideoUrl: SafeResourceUrl | undefined;
 
   constructor(
     private api: ApiClient,
+    private router: Router,
     private _ActivatedRoute:ActivatedRoute,
     private _sanitizer: DomSanitizer
   ) { }
@@ -40,4 +41,7 @@ export class ProductDetailsComponent implements OnInit {
     );
   }
 
+  goToEdit(id:string) {
+    this.router.navigate([`attribute-edit/${id}`]);
+  }
 }

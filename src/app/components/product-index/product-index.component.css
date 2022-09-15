@@ -55,33 +55,34 @@ th {
   flex-direction: row;
 }
 .containerCmain {
-
-  display: block;
   position: relative;
 }
-.imgInContainer {
-  object-fit: contain;
-  display: block;
-  margin: 10px 2px;
-  height: 150px;
-  /*max-width:250px;*/
-  width: 259px;
+.imgWrapper {
   position: absolute;
   top: 0;
   left: 0;
+  width: 250px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+.imgInContainer {
+  object-fit: contain;
+  height: auto;
+  margin: auto;
+  vertical-align: middle;
+  max-height: 150px;
+  max-width: 250px;
 }
 .containerC {
   height: 173px;
-  ///width: 263px;
   display: flex;
 }
 .hoverBlockC {
   border-bottom: 3px solid lightgray;
   flex: 1 1 auto;
-//height: 100%;
   z-index:5;
   margin: 0 2px;
-//margin-bottom: 2px;
 }
 .hoverBlockC:hover {
   border-bottom: 3px solid black;
@@ -94,7 +95,6 @@ table {
   width: 100%;
 }
 tr.element-row:not(.example-expanded-row):hover {
-  //background: whitesmoke;
   background-image: linear-gradient(to right, white , whitesmoke);
 }
 tr.element-row:not(.example-expanded-row):active {

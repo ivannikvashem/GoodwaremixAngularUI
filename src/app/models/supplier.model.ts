@@ -9,6 +9,7 @@ export class Supplier {
   id: string
   supplierName: string;
   comment: number;
+  runParser:boolean = false
   stat: Stat;
   sourceSettings: SourceSettings
   supplierConfigs: SupplierConfig
@@ -101,7 +102,7 @@ export class ImageConfig {
   imageStartTag: string;
   images: string;
   supplierImageBaseUrl: string;
-  downloadLocally: boolean ;
+  downloadClientType:string
 }
 
 export class AttributeConfig {

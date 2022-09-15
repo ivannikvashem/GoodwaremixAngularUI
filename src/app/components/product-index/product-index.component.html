@@ -44,13 +44,19 @@
           <ng-template #t [ngTemplateOutlet]="t"
                        let-a [ngTemplateOutletContext]="{ $implicit: 0 }">
             <div class="containerCmain" *ngIf="hoverRowId==row.id">
-              <img (error)="handleMissingImage($event)" [src]="hoverImage"  class="imgInContainer" />
+              <div class="imgWrapper">
+                <img (error)="handleMissingImage($event)" [src]="hoverImage"  class="imgInContainer" />
+
+              </div>
+
               <div class="containerC">
                 <div *ngFor="let image of row.images; index as i" class="hoverBlockC" (mouseover)="changeImage(row, image)" (click)="openDialog(image)"></div>
               </div>
             </div>
             <div class="containerCmain" *ngIf="hoverRowId!=row.id">
-              <img (error)="handleMissingImage($event)" [src]="row.images[0]" class="imgInContainer"/>
+              <div class="imgWrapper">
+                <img (error)="handleMissingImage($event)" [src]="row.images[0]" class="imgInContainer"/>
+              </div>
               <div class="containerC">
                 <div *ngFor="let image of row.images; index as i" class="hoverBlockC" (mouseover)="changeImage(row, image)"></div>
               </div>
@@ -75,8 +81,8 @@
                        let-a [ngTemplateOutletContext]="{ $implicit: 0 }">
           <div>
             <h4><a href="/product-details/{{row.id}}">[{{row.vendor}}] {{row.title}}</a> </h4>
-            <p style="font-style: italic">Артикул вендора <strong>{{row.vendorId}}</strong></p>
-            <p>Штрихкод нетто <strong>{{row.netto?.barcode || ""}}</strong></p>
+            <p style="font-style: italic"><strong>{{row.vendorId}}</strong></p>
+            <p><strong>{{row.netto?.barcode || ""}}</strong></p>
           </div>
 
           </ng-template>
