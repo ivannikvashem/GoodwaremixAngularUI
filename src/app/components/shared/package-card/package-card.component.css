@@ -12,7 +12,8 @@
 .mat-card {
   padding: 12px;
   width: 245px;
-  min-height: 130px;
+  min-height: 100px;
+
 }
 .bc_placeholder {
   height: 45px;

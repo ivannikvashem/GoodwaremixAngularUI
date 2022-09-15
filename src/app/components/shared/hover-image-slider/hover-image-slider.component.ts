@@ -42,16 +42,21 @@ export class HoverImageSliderComponent implements OnInit {
   }
 
   handleMissingImage(event: Event) {
-    (event.target as HTMLImageElement).src='https://teelindy.com/wp-content/uploads/2019/03/default_image.png'
+    (event.target as HTMLImageElement).src='./assets/imgPlaceholder.png'
   }
 }
 @Component({
   selector: 'dialog-data-example-dialog',
   template: `
     <!--<img style="max-width: 800px;  max-height: 800px;" src='{{data.src}}'>-->
-    <img style="max-width: 95%;  max-height: 95%; margin: 0 auto; display: flex" src='{{data.src}}'>
+    <img (error)="handleMissingImage($event)" style="max-width: 95%;  max-height: 95%; margin: 0 auto; display: flex" src='{{data.src}}'>
 `
 })
 export class DialogDataExampleDialog2 {
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+
+  handleMissingImage($event: ErrorEvent) {
+    ($event.target as HTMLImageElement).src='./assets/imgPlaceholder.png'
+
+  }
 }

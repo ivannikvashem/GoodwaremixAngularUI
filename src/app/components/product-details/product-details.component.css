@@ -25,7 +25,7 @@
   margin: 0 5px
 }
 .mat-list .mat-list-item {
-  height: 60px; /* default is 72px */
+  min-height: 60px; /* default is 72px */
 }
 
 td, th, .mat-line {
@@ -37,7 +37,21 @@ tr.mat-row {
   height: 35px;
 }
 .mat-line {
-  white-space: normal;
+  white-space: pre-wrap;
   word-wrap: break-word;
-  max-width: 400px;
+  max-width: 100%;
+}
+::ng-deep .mat-list .mat-list-item .mat-line{
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.card {
+  margin-top: 15px;
+  margin-left: 20px;
+}
+
+.modifH2{
+  font-weight: bold;
+  color:rgba(0,0,0,.54)
 }

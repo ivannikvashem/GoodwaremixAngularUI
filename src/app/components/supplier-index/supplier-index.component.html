@@ -99,12 +99,17 @@
         <button mat-icon-button class="mat-elevation-z2" matTooltip="Привязать артикулы" (click)="internalCodeFetch(item.supplierName)">
           <mat-icon>build</mat-icon>
         </button>&nbsp;
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить товары поставщика" (click)="confirmDeleteSuppProdDialog(item.id, item.supplierName)">
-          <mat-icon>remove_shopping_cart</mat-icon>
-        </button>&nbsp;
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить поставщика" (click)="confirmDeleteSuppDialog(item.id, item.supplierName)">
-          <mat-icon>delete</mat-icon>
-        </button>
+
+        <button mat-icon-button class="mat-elevation-z2" [matMenuTriggerFor]="menu" matTooltip="Удалить..."><mat-icon>delete</mat-icon></button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="confirmDeleteSuppProdDialog(item.id, item.supplierName)">
+            <mat-icon>remove_shopping_cart</mat-icon> Удалить товары
+          </button>
+          <button mat-menu-item (click)="confirmDeleteSuppDialog(item.id, item.supplierName)">
+            <mat-icon>delete_forever</mat-icon> Удалить поставщика
+          </button>
+        </mat-menu>
+
       </td>
     </ng-container>
 
@@ -131,5 +136,5 @@
     </tr>
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
   </table>
-  <mat-paginator [length]="dataSource.rowCount" [pageSize]="15" [pageSizeOptions]=[10,15,50,100]></mat-paginator>
+  <mat-paginator [length]="dataSource.rowCount" showFirstLastButtons [pageSize]="15" [pageSizeOptions]=[10,15,50,100]></mat-paginator>
 </div>

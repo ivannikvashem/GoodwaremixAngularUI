@@ -1,122 +1,141 @@
 <div class="mat-headline">
-  {{product.title}}
-  <span style="margin: 0 1.5em; border: 1px solid #1976d2; border-radius: 8px; background-color: whitesmoke; padding: 3px">
-    {{product.vendorId}}
-  </span>
-  <span>
+  <div *ngIf="product.vendor">
     {{product.vendor}}
-  </span>
+    {{product.title}}
+    <strong>[{{product.vendorId}}]</strong>
+    <button *ngIf="!product.internalCode" mat-raised-button style="float:right">Добавить товар</button>
+    <span *ngIf="product.internalCode" style="float:right">{{product.internalCode}}</span>
+  </div>
+  <div *ngIf="!product.vendor">
+    {{product.supplierName}}
+    {{product.title}}
+    <strong>[{{product.vendorId}}]</strong>
+
+    <button *ngIf="!product.internalCode" mat-raised-button style="float:right">Добавить товар</button>
+    <span *ngIf="product.internalCode" style="float:right">{{product.internalCode}}</span>
+  </div>
+
 </div>
 <!--<div class="mat-body"> {{product.vendor}} </div>-->
 
 <div class="container">
 
   <div class="center-panel">
-      <app-hover-image-slider [imgList]="product.images"></app-hover-image-slider>
 
-      <mat-card *ngIf="product.image360" style="margin-top: 10px">
-        <mat-card-subtitle style="display: flex; justify-content: space-between;">
-          <span>Фото 360</span>
-        </mat-card-subtitle>
-        <mat-card-content>
-          <div style="height: 300px; width: 300px;">
-            {{product.image360}}
-          </div>
-          <div [innerHTML]="product.image360"></div>
-        </mat-card-content>
-      </mat-card>
+    <mat-tab-group disableRipple>
+      <mat-tab>
+        <ng-template matTabContent>
+          <ng-template mat-tab-label><h3 class="modifH2">Фото</h3></ng-template>
+          <app-hover-image-slider [imgList]="product.images"></app-hover-image-slider>
+        </ng-template>
+      </mat-tab>
+      <mat-tab *ngIf="product.image360" label="360">
+        <mat-card  style="margin-top: 10px">
+          <mat-card-subtitle style="display: flex; justify-content: space-between;">
+            <span>Фото 360</span>
+          </mat-card-subtitle>
+          <mat-card-content>
+            <div style="height: 300px; width: 300px;">
+              {{product.image360}}
+            </div>
+            <div [innerHTML]="product.image360"></div>
+          </mat-card-content>
+        </mat-card>
+      </mat-tab>
+      <mat-tab *ngIf="safeVideoUrl" label="Видео">
+        <mat-card  style="margin-top: 10px; width: 560px;">
+          <mat-card-subtitle style="display: flex; justify-content: space-between;">
+            <span>Видео</span>
+          </mat-card-subtitle>
+          <mat-card-content>
+            {{safeVideoUrl}}
+            <iframe width="560" height="315" [src]="safeVideoUrl" frameborder="0" allowfullscreen></iframe>
+            <!--<iframe [src]='product.videos[0]' frameborder="0" allowfullscreen></iframe>-->
+          </mat-card-content>
+        </mat-card>
+      </mat-tab>
+    </mat-tab-group>
 
-      <mat-card *ngIf="safeVideoUrl" style="margin-top: 10px; width: 560px;">
-        <mat-card-subtitle style="display: flex; justify-content: space-between;">
-          <span>Видео</span>
-        </mat-card-subtitle>
-        <mat-card-content>
-          {{safeVideoUrl}}
-          <iframe width="560" height="315" [src]="safeVideoUrl" frameborder="0" allowfullscreen></iframe>
-          <!--<iframe [src]='product.videos[0]' frameborder="0" allowfullscreen></iframe>-->
-        </mat-card-content>
-      </mat-card>
+
+    <hr>
+    <mat-accordion *ngIf="product.netto || product.packages">
+      <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <h3 class="modifH2">Штрихкоды</h3>
+          </mat-panel-title>
+          <mat-panel-description>
+
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <app-package-card [pack]="product.netto"></app-package-card>
+        <app-package-card [pack]="pack" *ngFor="let pack of product.packages"></app-package-card>
+      </mat-expansion-panel>
+    </mat-accordion>
+
   </div>
 
-  <div class="left-panel">
-    <mat-card>
-        <!--<mat-card-title>{{product.title}}</mat-card-title>-->
-        <mat-card-subtitle style="display: flex; justify-content: space-between;">
-          <span>Арт: {{product.internalCode ? product.internalCode : 'отсутствует'}}</span>
-        </mat-card-subtitle>
 
-      <mat-card-content>
-        <div [innerHTML]="product.description"></div>
-      </mat-card-content>
-    </mat-card>
 
-<!--    <mat-card style="margin-top: 10px">
-      <img *ngFor="let p of product.images" src="{{p}}" class="pic">
-      <mat-grid-list cols="4" rowHeight="150px">
-        <mat-grid-tile
-          *ngFor="let p of product.images">
-          <img src="{{p}}" style="max-width:100%; max-height:100%;">
-        </mat-grid-tile>
-      </mat-grid-list>
-      <app-hover-image-slider [imgList]="product.images"></app-hover-image-slider>
-    </mat-card>-->
 
-    <mat-card style="margin-top: 10px; max-width: 900px" *ngIf="product.documents && product.documents.length > 0">
-      <mat-card-subtitle>Документы</mat-card-subtitle>
+
+  <div style="width: 100%">
+
+    <div class="card">
+      <h2 class="modifH2" >О товаре</h2>
+      <div [innerHTML]="product.description"></div>
+
+      <ul>
+        <li *ngIf="product.country" matTooltip="Код страны{{product.id}}">Сделано в {{product.country}}</li>
+        <li *ngIf="product.internalCode">Артикул 1С - {{product.internalCode}}</li>
+        <li *ngIf="product.vendorId">Артикул поставщика - {{product.vendorId}}</li>
+        <li *ngIf="product.vendor">Вендор - {{product.vendor}}</li>
+        <li *ngIf="product.supplierName">Поставщик - {{product.supplierName}}</li>
+      </ul>
+    </div>
+
+
+
+
+    <mat-card style="margin-top: 10px;" *ngIf="product.documents && product.documents.length > 0">
+      <mat-card-subtitle><h2>Документы</h2></mat-card-subtitle>
       <mat-list>
         <mat-list-item *ngFor="let d of product.documents">
-          <a mat-icon-button *ngIf="d.url" href="{{d.url}}" target="_blank"><mat-icon>download</mat-icon></a>
+
           <mat-icon mat-list-icon>description</mat-icon>
           <div mat-line><strong>{{d.type}}</strong></div>
           <div mat-line>{{d.certTitle}}</div>
           <div mat-line>{{d.startDate | date:'yyyy-mm-dd'}} - {{d.endDate | date:'yyyy-mm-dd'}}</div>
+          <a mat-icon-button *ngIf="d.url" href="{{d.url}}" target="_blank"><mat-icon>download</mat-icon></a>
         </mat-list-item>
       </mat-list>
     </mat-card>
 
-    <div style="display: flex; flex-direction: row; flex-wrap: wrap; ">
-      <app-package-card [pack]="product.netto"></app-package-card>
-      <app-package-card [pack]="pack" *ngFor="let pack of product.packages"></app-package-card>
-    </div>
-  </div>
+    <mat-card style="margin-top: 10px;" *ngIf="product.attributes && product.attributes.length > 0">
+      <mat-card-subtitle><h2>Характеристики</h2></mat-card-subtitle>
+      <table mat-table [dataSource]="dataSource" class="full-width">
 
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>
+            Характеристика
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.attributeName}} </td>
+        </ng-container>
 
+        <!-- Value Column -->
+        <ng-container matColumnDef="value">
+          <th mat-header-cell *matHeaderCellDef>
+            Значение
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.value}} </td>
+        </ng-container>
 
-  <div class="right-panel" *ngIf="product.attributes && product.attributes.length > 0">
-    <mat-accordion>
-      <!-- Характеристики, позже сделать контрол -->
-      <mat-expansion-panel expanded>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Характеристики товара
-          </mat-panel-title>
-        </mat-expansion-panel-header>
+        <tr mat-row *matRowDef="let row; columns: displayedAttrColumns;"></tr>
+      </table>
 
-        <table mat-table [dataSource]="dataSource" class="full-width">
+    </mat-card>
 
-          <!-- Name Column -->
-          <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef>
-              Характеристика
-            </th>
-            <td mat-cell *matCellDef="let element"> {{element.attributeName}} </td>
-          </ng-container>
-
-          <!-- Value Column -->
-          <ng-container matColumnDef="value">
-            <th mat-header-cell *matHeaderCellDef>
-              Значение
-            </th>
-            <td mat-cell *matCellDef="let element"> {{element.value}} </td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="displayedAttrColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedAttrColumns;"></tr>
-        </table>
-
-      </mat-expansion-panel>
-
-    </mat-accordion>
 
   </div>
 </div>

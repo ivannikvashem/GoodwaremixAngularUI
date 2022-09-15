@@ -14,7 +14,7 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatSortModule} from "@angular/material/sort";
 import {MatSelectModule} from "@angular/material/select";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
-import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatPaginatorIntl, MatPaginatorModule} from "@angular/material/paginator";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatToolbarModule} from "@angular/material/toolbar";
@@ -45,6 +45,9 @@ import {
 import { ConfirmDialogComponent } from './components/shared/confirm-dialog/confirm-dialog.component';
 import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
 import { ProductEditComponent } from './components/product-edit/product-edit.component';
+import {MatTabsModule} from "@angular/material/tabs";
+import {getRuPaginatorIntl} from  './service/ru-paginator-intl'
+import {MatMenuModule} from "@angular/material/menu";
 
 @NgModule({
   declarations: [
@@ -96,12 +99,15 @@ import { ProductEditComponent } from './components/product-edit/product-edit.com
     MatTooltipModule,
     ReactiveFormsModule,
     NgxBarcodeModule,
+    MatTabsModule,
+    MatMenuModule,
   ],
   providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,
       useValue: { displayDefaultIndicatorType: false }
-    }
+    },
+    {provide: MatPaginatorIntl, useValue: getRuPaginatorIntl()}
   ],
   bootstrap: [AppComponent]
 })
