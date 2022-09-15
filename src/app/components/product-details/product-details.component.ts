@@ -17,7 +17,7 @@ export class ProductDetailsComponent implements OnInit {
   productId: string | any;
   product: Observable<Product> | any;
 
-  displayedAttrColumns: string[] = ['name', 'value', 'action'];
+  displayedAttrColumns: string[] = ['name', 'value','etim', 'action'];
   dataSource = new MatTableDataSource();
   safeVideoUrl: SafeResourceUrl | undefined;
 
@@ -32,7 +32,6 @@ export class ProductDetailsComponent implements OnInit {
     this.productId = this._ActivatedRoute.snapshot.paramMap.get("id");
     this.api.getProductById(this.productId).subscribe(
       data => {
-        console.log(JSON.stringify(data));
         this.product = data.body;
         if (this.product.videos.length > 0)
           this.safeVideoUrl = this._sanitizer.bypassSecurityTrustResourceUrl(this.product.videos[0]);

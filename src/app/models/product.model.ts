@@ -13,7 +13,9 @@ export class Product {
   vendorId: string;
   country:string;
   countryId:string;
-  gtd:string[]
+  gtd:string[];
+  netto:any;
+  package:any[];
   images: string[];
   documents: Document[];
   image360: string;
