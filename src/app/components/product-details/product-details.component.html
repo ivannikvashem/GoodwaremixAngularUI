@@ -2,7 +2,7 @@
   <div *ngIf="product.vendor">
     {{product.vendor}}
     {{product.title}}
-    <strong>[{{product.vendorId}}]</strong>
+    <strong *ngIf="product.vendorId">[{{product.vendorId}}]</strong>
     <button *ngIf="!product.internalCode" mat-raised-button style="float:right">В ассортимент</button>
     <span *ngIf="product.internalCode" style="float:right">{{product.internalCode}}</span>
   </div>
@@ -21,44 +21,46 @@
 <div class="container">
 
   <div class="center-panel">
-
-    <mat-tab-group>
-      <mat-tab>
-        <ng-template matTabContent>
-          <ng-template mat-tab-label><h3 class="modifH2">Фото</h3></ng-template>
+    <mat-card style="padding-top: 0">
+      <mat-tab-group>
+        <mat-tab>
+          <ng-template matTabContent>
+            <ng-template mat-tab-label><h3 class="modifH2">Фото</h3></ng-template>
 
             <app-hover-image-slider [imgList]="product.images"></app-hover-image-slider>
-        </ng-template>
-      </mat-tab>
-      <mat-tab *ngIf="product.image360" label="360">
-        <mat-card  style="margin-top: 10px">
-          <mat-card-subtitle style="display: flex; justify-content: space-between;">
-            <span>Фото 360</span>
-          </mat-card-subtitle>
-          <mat-card-content>
-            <div style="height: 300px; width: 300px;">
-              {{product.image360}}
-            </div>
-            <div [innerHTML]="product.image360"></div>
-          </mat-card-content>
-        </mat-card>
-      </mat-tab>
-      <mat-tab *ngIf="safeVideoUrl" label="Видео">
-        <mat-card  style="margin-top: 10px; width: 560px;">
-          <mat-card-subtitle style="display: flex; justify-content: space-between;">
-            <span>Видео</span>
-          </mat-card-subtitle>
-          <mat-card-content>
-            {{safeVideoUrl}}
-            <iframe width="560" height="315" [src]="safeVideoUrl" frameborder="0" allowfullscreen></iframe>
-            <!--<iframe [src]='product.videos[0]' frameborder="0" allowfullscreen></iframe>-->
-          </mat-card-content>
-        </mat-card>
-      </mat-tab>
-    </mat-tab-group>
+          </ng-template>
+        </mat-tab>
+        <mat-tab *ngIf="product.image360" label="360">
+          <mat-card  style="margin-top: 10px">
+            <mat-card-subtitle style="display: flex; justify-content: space-between;">
+              <span>Фото 360</span>
+            </mat-card-subtitle>
+            <mat-card-content>
+              <div style="height: 300px; width: 300px;">
+                {{product.image360}}
+              </div>
+              <div [innerHTML]="product.image360"></div>
+            </mat-card-content>
+          </mat-card>
+        </mat-tab>
+        <mat-tab *ngIf="safeVideoUrl" label="Видео">
+          <mat-card  style="margin-top: 10px; width: 560px;">
+            <mat-card-subtitle style="display: flex; justify-content: space-between;">
+              <span>Видео</span>
+            </mat-card-subtitle>
+            <mat-card-content>
+              {{safeVideoUrl}}
+              <iframe width="560" height="315" [src]="safeVideoUrl" allowfullscreen></iframe>
+              <!--<iframe [src]='product.videos[0]' frameborder="0" allowfullscreen></iframe>-->
+            </mat-card-content>
+          </mat-card>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card>
+
 
     <mat-accordion  *ngIf="product.netto.packQty">
-      <mat-expansion-panel disabled expanded style="margin: 10px 0;">
+      <mat-expansion-panel disabled expanded style="margin-right: 10px; margin-bottom: 10px; margin-top: 10px">
         <app-package-card [pack]="product.netto"></app-package-card>
       </mat-expansion-panel>
     </mat-accordion>

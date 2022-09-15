@@ -1,4 +1,3 @@
-import {Attribute} from "./attribute.model";
 import {AttributeProduct} from "./attributeProduct.model";
 import {Document} from "./document.model";
 

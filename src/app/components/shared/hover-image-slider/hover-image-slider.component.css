@@ -1,18 +1,18 @@
 .containerCmain {
   position: relative;
-  height: 465px;
-  width: 465px;
+  height: 455px;
+  width: 455px;
 }
 .imgInContainer {
   margin: 10px 2px;
-  max-height: 450px;
-  max-width:450px;
+  max-height: 440px;
+  max-width:440px;
   position: absolute;
   top: 0;
   left: 0;
 }
 .containerC {
-  height: 465px;
+  height: 455px;
   display: flex;
 }
 .hoverBlockC {
