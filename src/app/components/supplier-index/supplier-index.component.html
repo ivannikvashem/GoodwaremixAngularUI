@@ -41,6 +41,7 @@
           <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.packageConfig != null && row.supplierConfigs.packageConfig.packQty != null">inventory_2</mat-icon>
           <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.documentConfig != null && (row.supplierConfigs.documentConfig.endDate != null || row.supplierConfigs.documentConfig.certNumber != null)">file_present</mat-icon>
           <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.attributeConfig != null && row.supplierConfigs.attributeConfig.etimFeature != null">explicit</mat-icon>
+          <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs.supplierConfigs?.baseConfig.country !=null">public</mat-icon>
         </ng-container>
       </td>
     </ng-container>

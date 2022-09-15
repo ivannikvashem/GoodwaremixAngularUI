@@ -30,30 +30,18 @@
             <app-hover-image-slider [imgList]="product.images"></app-hover-image-slider>
           </ng-template>
         </mat-tab>
-        <mat-tab *ngIf="product.image360" label="360">
-          <mat-card  style="margin-top: 10px">
-            <mat-card-subtitle style="display: flex; justify-content: space-between;">
-              <span>Фото 360</span>
-            </mat-card-subtitle>
-            <mat-card-content>
-              <div style="height: 300px; width: 300px;">
-                {{product.image360}}
-              </div>
-              <div [innerHTML]="product.image360"></div>
-            </mat-card-content>
-          </mat-card>
+<!--        *ngIf="product.image360"-->
+        <mat-tab>
+          <ng-template matTabContent>
+            <ng-template mat-tab-label><h3 class="modifH2">Фото 360</h3></ng-template>
+            <div [innerHTML]="product.image360"></div>
+          </ng-template>
         </mat-tab>
-        <mat-tab *ngIf="safeVideoUrl" label="Видео">
-          <mat-card  style="margin-top: 10px; width: 560px;">
-            <mat-card-subtitle style="display: flex; justify-content: space-between;">
-              <span>Видео</span>
-            </mat-card-subtitle>
-            <mat-card-content>
-              {{safeVideoUrl}}
-              <iframe width="560" height="315" [src]="safeVideoUrl" allowfullscreen></iframe>
-              <!--<iframe [src]='product.videos[0]' frameborder="0" allowfullscreen></iframe>-->
-            </mat-card-content>
-          </mat-card>
+
+        <mat-tab *ngIf="product.safeVideoUrl">
+          <ng-template matTabContent>
+            <ng-template mat-tab-label><h3 class="modifH2">Видео</h3></ng-template>
+            <iframe width="440" height="440" src="https://www.youtube.com/embed/iboVFePF69w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>          </ng-template>
         </mat-tab>
       </mat-tab-group>
     </mat-card>
