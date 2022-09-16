@@ -60,6 +60,9 @@ export class SupplierEditComponent implements OnInit {
           if (s?.body.supplierConfigs?.multipliers == null) {
             s.body.supplierConfigs.multipliers = new Multipliers();
           }
+/*          if (s?.body.sourceSettings?.multipart == null) {
+            s.body.sourceSettings.multipart = false;
+          }*/
 
            this.supplier = s.body as Supplier;
           console.log("inited data :" + JSON.stringify( this.supplier));

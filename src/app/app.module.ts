@@ -21,6 +21,7 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {AppRoutingModule} from "./app-routing.module";
 import {MatButtonModule} from "@angular/material/button";
+import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { AppComponent } from './app.component';
@@ -83,6 +84,7 @@ import '@angular/common/locales/global/ru'
     MatChipsModule,
     MatDialogModule,
     MatExpansionModule,
+    MatFormFieldModule,
     MatGridListModule,
     MatListModule,
     MatIconModule,

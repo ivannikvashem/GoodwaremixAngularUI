@@ -46,7 +46,7 @@
         </mat-form-field>&nbsp;
         <mat-form-field appearance="fill" *ngIf="this.methodType.value == 'POST'">
           <mat-label>Multipart</mat-label>
-          <mat-select  name="multipart" [(ngModel)]="supplier.sourceSettings.multipart">
+          <mat-select name="multipart" [(ngModel)]="supplier.sourceSettings.multipart">
             <mat-option>По умолчанию</mat-option>
             <mat-option [value]="true">Multipart Form Body</mat-option>
             <mat-option [value]="false">RAW Body</mat-option>
@@ -64,11 +64,11 @@
         <div style="display: inline-flex">
           <mat-form-field appearance="fill">
             <mat-label>startPage</mat-label>
-<!--            <input matInput type="number" name="startPage" placeholder="" [(ngModel)]="supplier.sourceSettings.startPage">-->
+              <input matInput name="startPage" placeholder="" [(ngModel)]="supplier.sourceSettings.startPage">
           </mat-form-field>&nbsp;
           <mat-form-field appearance="fill">
             <mat-label>countPage</mat-label>
-<!--            <input matInput type="number" name="countPage" placeholder="" [(ngModel)]="supplier.sourceSettings.countPage">-->
+              <input matInput name="countPage" placeholder="" [(ngModel)]="supplier.sourceSettings.countPage">
           </mat-form-field>
         </div>
       </div>
@@ -110,7 +110,7 @@
         &nbsp;
         <mat-form-field appearance="fill" *ngIf="fileType.value == 'XML'">
           <mat-label>Очистка XML Namespace</mat-label>
-          <mat-select name="stripXMLNamespace" name="stripXMLNamespace" [(ngModel)]="supplier.supplierConfigs.stripXMLNamespace">
+          <mat-select name="stripXMLNamespace" [(ngModel)]="supplier.supplierConfigs.stripXMLNamespace">
             <mat-option>По умолчанию</mat-option>
             <mat-option [value]="true">Очистить</mat-option>
             <mat-option [value]="false">Не менять</mat-option>
