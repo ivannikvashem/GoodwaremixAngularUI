@@ -126,6 +126,11 @@
           <mat-label>Имя файла в ZIP архиве</mat-label>
           <input matInput name="zippedFileName" placeholder="" [(ngModel)]="supplier.supplierConfigs.zippedFileName">
         </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Имя файла</mat-label>
+          <input matInput name="fileName" placeholder="" [(ngModel)]="supplier.sourceSettings.fileName">
+        </mat-form-field>
       </div>
     </mat-step>
 

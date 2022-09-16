@@ -50,7 +50,6 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {getRuPaginatorIntl} from  './service/ru-paginator-intl'
 import {MatMenuModule} from "@angular/material/menu";
 import '@angular/common/locales/global/ru'
-import {MatFormFieldModule} from "@angular/material/form-field";
 
 @NgModule({
   declarations: [
