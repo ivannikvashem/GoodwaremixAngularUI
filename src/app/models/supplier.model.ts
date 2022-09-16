@@ -31,7 +31,7 @@ export class SourceSettings {
   body: any;
   countPage: string;
   startPage: string;
-  multipart: any | undefined;
+  multipart?: boolean;
 }
 
 export class SupplierConfig {
