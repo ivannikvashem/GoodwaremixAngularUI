@@ -25,7 +25,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 })
 export class SupplierIndexComponent implements OnInit {
 
-  displayedColumns: string[] = ['SupplierName', 'type', 'fullfill', 'brands', 'Stat.ProductQty', 'actions'];
+  displayedColumns: string[] = ['SupplierName', 'type', 'fullfill', 'brands', 'Stat.ProductQty', 'Stat.lastImport', 'actions'];
   dataSource: SuppliersDataSource;
   searchQuery = "";
   expandedElement: Supplier | null | undefined;

@@ -29,8 +29,8 @@ export class SourceSettings {
   methodType: string
   header: any;
   body: any;
-  countPage: any;
-  startPage: any;
+  countPage: number;
+  startPage: number;
   multipart: any;
 }
 
@@ -40,7 +40,7 @@ export class SupplierConfig {
   fileEncoding: string;
   prefix: string;
   zippedFileName: string;
-  baseConfig: BaseConfig;
+  baseSuppConfig: BaseConfig;
   //categoryConfig: any;
   documentConfig: DocumentConfig;
   imageConfig: ImageConfig ;
@@ -51,7 +51,7 @@ export class SupplierConfig {
   multipliers: Multipliers;
 
   constructor() {
-    this.baseConfig = new BaseConfig()
+    this.baseSuppConfig = new BaseConfig()
     this.documentConfig = new DocumentConfig()
     this.imageConfig = new ImageConfig()
     this.attributeConfig = new AttributeConfig()
@@ -74,7 +74,6 @@ export class BaseConfig {
   countryCode: string;
   gtd: string;
   //
-  prefix:string
 }
 
 export class DocumentConfig {

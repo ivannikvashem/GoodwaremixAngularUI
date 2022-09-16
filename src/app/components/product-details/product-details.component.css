@@ -66,9 +66,9 @@ tr.mat-row {
   word-wrap: break-word;
   white-space: pre-wrap;
 }
-::ng-deep.mat-tab-label-active{
-  opacity: 1.0!important;
-}
+/*::ng-deep.mat-tab-label-active{*/
+/*  opacity: 1.0!important;*/
+/*}*/
 .card {
   margin-top: 15px;
   margin-left: 20px;
@@ -81,4 +81,9 @@ tr.mat-row {
   margin-block-end: 0.83em;
   font-weight: bold;
   color:rgba(0,0,0,.54)
+}
+::ng-deep.mat-tab-label, ::ng-deep.mat-tab-label-active{
+  min-width: 100px!important;
+  padding: 3px!important;
+  margin: 3px!important;
 }

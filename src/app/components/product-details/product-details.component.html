@@ -1,17 +1,16 @@
 <div class="mat-headline">
-  <div *ngIf="product.vendor">
-    {{product.vendor}}
+  <div *ngIf="product?.vendor">
+    {{product?.vendor}}
     {{product.title}}
     <strong *ngIf="product.vendorId">[{{product.vendorId}}]</strong>
     <button *ngIf="!product.internalCode" mat-raised-button style="float:right">В ассортимент</button>
     <span *ngIf="product.internalCode" style="float:right">{{product.internalCode}}</span>
   </div>
-  <div *ngIf="!product.vendor">
+  <div *ngIf="!product?.vendor">
     {{product.supplierName}}
     {{product.title}}
     <strong>[{{product.vendorId}}]</strong>
 
-    <button *ngIf="!product.internalCode" mat-raised-button style="float:right">Добавить товар</button>
     <span *ngIf="product.internalCode" style="float:right">{{product.internalCode}}</span>
   </div>
 
@@ -22,39 +21,37 @@
 
   <div class="center-panel">
     <mat-card style="padding-top: 0">
-      <mat-tab-group>
-        <mat-tab>
+      <mat-tab-group style="width:465px" animationDuration="0ms">
+        <mat-tab *ngIf="product?.images" label="Фото">
           <ng-template matTabContent>
-            <ng-template mat-tab-label><h3 class="modifH2">Фото</h3></ng-template>
 
             <app-hover-image-slider [imgList]="product.images"></app-hover-image-slider>
           </ng-template>
         </mat-tab>
 <!--        *ngIf="product.image360"-->
-        <mat-tab>
+        <mat-tab *ngIf="product.image360" label="Фото 360">
           <ng-template matTabContent>
-            <ng-template mat-tab-label><h3 class="modifH2">Фото 360</h3></ng-template>
-            <div [innerHTML]="product.image360"></div>
+            <iframe width="100%" height="440" [src]="safeImg360Url" title="360ImageViewer" allowfullscreen></iframe>
           </ng-template>
         </mat-tab>
 
-        <mat-tab *ngIf="product.safeVideoUrl">
+        <mat-tab *ngIf="product.videos.length >= 1" label="Видео">
           <ng-template matTabContent>
-            <ng-template mat-tab-label><h3 class="modifH2">Видео</h3></ng-template>
-            <iframe width="440" height="440" src="https://www.youtube.com/embed/iboVFePF69w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>          </ng-template>
+              <iframe width="100%" height="440" [src]="safeVideoUrl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </ng-template>
         </mat-tab>
       </mat-tab-group>
     </mat-card>
 
 
-    <mat-accordion  *ngIf="product.netto.packQty">
+    <mat-accordion  *ngIf="product?.netto.packQty">
       <mat-expansion-panel disabled expanded style="margin-right: 10px; margin-bottom: 10px; margin-top: 10px">
         <app-package-card [pack]="product.netto"></app-package-card>
       </mat-expansion-panel>
     </mat-accordion>
 
     <mat-accordion>
-      <mat-expansion-panel *ngFor="let pack of product.packages">
+      <mat-expansion-panel *ngFor="let pack of product?.packages">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <h3 class="modifH2">{{pack.packQty ? pack.packQty : 1}} {{pack.type}} [{{pack.barcode}}]</h3>

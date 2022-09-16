@@ -48,6 +48,7 @@ import { ProductEditComponent } from './components/product-edit/product-edit.com
 import {MatTabsModule} from "@angular/material/tabs";
 import {getRuPaginatorIntl} from  './service/ru-paginator-intl'
 import {MatMenuModule} from "@angular/material/menu";
+import '@angular/common/locales/global/ru'
 
 @NgModule({
   declarations: [
