@@ -33,7 +33,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   selectedSupplier: Supplier | undefined;
   isLoading = false;
   productId: string | any;
-  supplierId: string | any; //todo shity bug!! need to upload whole Supplier and set it into this.selectedSupplier
+  supplierId: string; //todo shity bug!! need to upload whole Supplier and set it into this.selectedSupplier
 
   constructor(
     public api: ApiClient,
@@ -103,6 +103,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   }
 
   onClearSupplierSelection() {
+    console.log('clear')
     this.selectedSupplier=undefined;
     this.searchSuppliersCtrl.setValue('');
     this.paginator.pageIndex = 0;

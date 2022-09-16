@@ -61,6 +61,7 @@ export class SupplierEditComponent implements OnInit {
             s.body.supplierConfigs.multipliers = new Multipliers();
           }
 
+
            this.supplier = s.body as Supplier;
           console.log("inited data :" + JSON.stringify( this.supplier));
           this.attrDataSource.setData(this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys || []);

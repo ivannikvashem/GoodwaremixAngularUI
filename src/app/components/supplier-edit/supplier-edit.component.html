@@ -64,11 +64,11 @@
         <div style="display: inline-flex">
           <mat-form-field appearance="fill">
             <mat-label>startPage</mat-label>
-<!--            <input matInput type="number" name="startPage" placeholder="" [(ngModel)]="supplier.sourceSettings.startPage">-->
+            <input matInput type="number" name="startPage" placeholder="" [(ngModel)]="supplier.sourceSettings.startPage">
           </mat-form-field>&nbsp;
           <mat-form-field appearance="fill">
             <mat-label>countPage</mat-label>
-<!--            <input matInput type="number" name="countPage" placeholder="" [(ngModel)]="supplier.sourceSettings.countPage">-->
+            <input matInput type="number" name="countPage" placeholder="" [(ngModel)]="supplier.sourceSettings.countPage">
           </mat-form-field>
         </div>
       </div>
@@ -125,6 +125,11 @@
         <mat-form-field appearance="fill">
           <mat-label>Имя файла в ZIP архиве</mat-label>
           <input matInput name="zippedFileName" placeholder="" [(ngModel)]="supplier.supplierConfigs.zippedFileName">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Имя файла</mat-label>
+          <input matInput name="fileName" placeholder="" [(ngModel)]="supplier.sourceSettings.fileName">
         </mat-form-field>
       </div>
     </mat-step>
@@ -473,72 +478,74 @@
 
     <mat-step>
       <ng-template matStepLabel>Парсер. Словарь атрибутов</ng-template>
+      <div class="tableDiv">
+        <table mat-table [dataSource]="attrDataSource" class="mat-elevation-z8">
+          <ng-container matColumnDef="idx">
+            <th mat-header-cell *matHeaderCellDef> # </th>
+            <td mat-cell *matCellDef="let i = index;let element;">
+              {{i+1}}
+            </td>
+          </ng-container>
 
-      <table mat-table [dataSource]="attrDataSource" class="mat-elevation-z8">
-        <ng-container matColumnDef="idx">
-          <th mat-header-cell *matHeaderCellDef> # </th>
-          <td mat-cell *matCellDef="let i = index;let element;">
-            {{i}}
-          </td>
-        </ng-container>
+          <ng-container matColumnDef="keySupplier">
+            <th mat-header-cell *matHeaderCellDef> Атрибут поставщика </th>
+            <td mat-cell *matCellDef="let element">
+              <mat-form-field class="full-width" style="margin-top: 16px;" appearance="standard" *ngIf="attrSelectedRow?.keySupplier == element.keySupplier">
+                <mat-label>Атрибут в файле поставщика</mat-label>
+                <input type="text" matInput [value]="element.keySupplier" (keyup)="element.keySupplier=$any($event.target['value'])" required><!--NOT WORKING IN STRICT MODE-->
+              </mat-form-field>&nbsp;
+              <span *ngIf="attrSelectedRow?.keySupplier != element.keySupplier">{{element.keySupplier}}</span>
+            </td>
+          </ng-container>
 
-        <ng-container matColumnDef="keySupplier">
-          <th mat-header-cell *matHeaderCellDef> Атрибут поставщика </th>
-          <td mat-cell *matCellDef="let element">
-            <mat-form-field class="full-width" style="margin-top: 16px;" appearance="standard" *ngIf="attrSelectedRow?.keySupplier == element.keySupplier">
-              <mat-label>Атрибут в файле поставщика</mat-label>
-              <input type="text" matInput [value]="element.keySupplier" (keyup)="element.keySupplier=$any($event.target['value'])" required><!--NOT WORKING IN STRICT MODE-->
-            </mat-form-field>&nbsp;
-            <span *ngIf="attrSelectedRow?.keySupplier != element.keySupplier">{{element.keySupplier}}</span>
-          </td>
-        </ng-container>
+          <ng-container matColumnDef="attributeBDName">
+            <th mat-header-cell *matHeaderCellDef> Наш атрибут </th>
+            <td mat-cell *matCellDef="let element">
+              <mat-form-field class="full-width" appearance="standard" *ngIf="attrSelectedRow?.keySupplier == element.keySupplier">
+                <mat-label>Целевой атрибут</mat-label>
+                <input type="text" matInput aria-label="Поставщик"
+                       [formControl]="attributeListCtrl"
+                       [matAutocomplete]="auto"
+                       (keydown.enter)="updateSelectedSuppAttr(i, element)">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onDBAttrSelected()">
+                  <mat-option *ngFor="let option of attributeList" [value]="option">
+                    {{option.fixed ? "■" : ''}} {{option.etimFeature}} {{option.nameAttribute}} [{{option.supplierName}}]
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+              <span *ngIf="attrSelectedRow?.keySupplier != element.keySupplier" [style.color]="element.attributeValid ? 'black': 'orangered'">{{element.attributeBDName}}</span>
+            </td>
+          </ng-container>
 
-        <ng-container matColumnDef="attributeBDName">
-          <th mat-header-cell *matHeaderCellDef> Наш атрибут </th>
-          <td mat-cell *matCellDef="let element">
-            <mat-form-field class="full-width" appearance="standard" *ngIf="attrSelectedRow?.keySupplier == element.keySupplier">
-              <mat-label>Целевой атрибут</mat-label>
-              <input type="text" matInput aria-label="Поставщик"
-                     [formControl]="attributeListCtrl"
-                     [matAutocomplete]="auto"
-                     (keydown.enter)="updateSelectedSuppAttr(i, element)">
-              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onDBAttrSelected()">
-                <mat-option *ngFor="let option of attributeList" [value]="option">
-                  {{option.fixed ? "■" : ''}} {{option.etimFeature}} {{option.nameAttribute}} [{{option.supplierName}}]
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-            <span *ngIf="attrSelectedRow?.keySupplier != element.keySupplier" [style.color]="element.attributeValid ? 'black': 'orangered'">{{element.attributeBDName}}</span>
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef>
-            <button mat-icon-button class="mat-elevation-z2" (click)="addSuppAttr()">
-              <mat-icon>add</mat-icon>
-            </button>
-          </th>
-          <td mat-cell *matCellDef="let i = index; let element">
-            <ng-container  *ngIf="attrSelectedRow?.keySupplier != element.keySupplier">
-              <button mat-icon-button class="mat-elevation-z2" (click)="onSelectRow(element)">
-                <mat-icon>edit</mat-icon>
-              </button>&nbsp;
-              <button mat-icon-button class="mat-elevation-z2" (click)="deleteSuppAttr(element.keySupplier)">
-                <mat-icon>delete</mat-icon>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>
+              <button mat-icon-button class="mat-elevation-z2" (click)="addSuppAttr()">
+                <mat-icon>add</mat-icon>
               </button>
-            </ng-container>
-            <button mat-mini-fab color="accent" class="mat-elevation-z2" (click)="updateSelectedSuppAttr(i, element)" *ngIf="attrSelectedRow?.keySupplier == element.keySupplier" [disabled]="attrSelectedRow?.keySupplier == ''">
-              <mat-icon>check</mat-icon>
-            </button>&nbsp;
-            <button mat-icon-button class="mat-elevation-z2" (click)="onSelectRow({})" *ngIf="attrSelectedRow?.keySupplier == element.keySupplier" [disabled]="attrSelectedRow?.keySupplier == ''">
-              <mat-icon>close</mat-icon>
-            </button>
-          </td>
-        </ng-container>
+            </th>
+            <td mat-cell *matCellDef="let i = index; let element">
+              <ng-container  *ngIf="attrSelectedRow?.keySupplier != element.keySupplier">
+                <button mat-icon-button class="mat-elevation-z2" (click)="onSelectRow(element)">
+                  <mat-icon>edit</mat-icon>
+                </button>&nbsp;
+                <button mat-icon-button class="mat-elevation-z2" (click)="deleteSuppAttr(element.keySupplier)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </ng-container>
+              <button mat-mini-fab color="accent" class="mat-elevation-z2" (click)="updateSelectedSuppAttr(i, element)" *ngIf="attrSelectedRow?.keySupplier == element.keySupplier" [disabled]="attrSelectedRow?.keySupplier == ''">
+                <mat-icon>check</mat-icon>
+              </button>&nbsp;
+              <button mat-icon-button class="mat-elevation-z2" (click)="onSelectRow({})" *ngIf="attrSelectedRow?.keySupplier == element.keySupplier" [disabled]="attrSelectedRow?.keySupplier == ''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </td>
+          </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="attrTableColumns"></tr>
-        <tr mat-row *matRowDef="let i = index; let row; columns: attrTableColumns;"></tr>
-      </table>
+          <tr mat-header-row *matHeaderRowDef="attrTableColumns; sticky:true"></tr>
+          <tr mat-row *matRowDef="let i = index; let row; columns: attrTableColumns;"></tr>
+        </table>
+      </div>
+
 
     </mat-step>
 

@@ -29,9 +29,9 @@ export class SourceSettings {
   methodType: string
   header: any;
   body: any;
-  countPage: number;
-  startPage: number;
-  multipart: any;
+  countPage: string;
+  startPage: string;
+  multipart: any | undefined;
 }
 
 export class SupplierConfig {

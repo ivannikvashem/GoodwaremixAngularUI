@@ -58,3 +58,8 @@ p {
   flex: 0 0 600px !important;
   min-width: 600px !important;
 }
+
+.tableDiv {
+  max-height: 500px;
+  overflow-y: scroll;
+}
