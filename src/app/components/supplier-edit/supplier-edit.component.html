@@ -46,7 +46,7 @@
         </mat-form-field>&nbsp;
         <mat-form-field appearance="fill" *ngIf="this.methodType.value == 'POST'">
           <mat-label>Multipart</mat-label>
-          <mat-select name="multipart" [(ngModel)]="supplier.sourceSettings.multipart">
+          <mat-select  name="multipart" [(ngModel)]="supplier.sourceSettings.multipart">
             <mat-option>По умолчанию</mat-option>
             <mat-option [value]="true">Multipart Form Body</mat-option>
             <mat-option [value]="false">RAW Body</mat-option>
@@ -64,11 +64,11 @@
         <div style="display: inline-flex">
           <mat-form-field appearance="fill">
             <mat-label>startPage</mat-label>
-            <input matInput type="number" name="startPage" placeholder="" [(ngModel)]="supplier.sourceSettings.startPage">
+<!--            <input matInput type="number" name="startPage" placeholder="" [(ngModel)]="supplier.sourceSettings.startPage">-->
           </mat-form-field>&nbsp;
           <mat-form-field appearance="fill">
             <mat-label>countPage</mat-label>
-            <input matInput type="number" name="countPage" placeholder="" [(ngModel)]="supplier.sourceSettings.countPage">
+<!--            <input matInput type="number" name="countPage" placeholder="" [(ngModel)]="supplier.sourceSettings.countPage">-->
           </mat-form-field>
         </div>
       </div>
@@ -134,7 +134,7 @@
       <div class="formBlockDouble">
         <mat-form-field appearance="fill">
           <mat-label>Стартовый таг</mat-label>
-          <input matInput name="startTag" placeholder="" [(ngModel)]="supplier.supplierConfigs.baseSuppConfig.startTag">
+          <input matInput name="startTag" placeholder="" [(ngModel)]="supplier.supplierConfigs.baseConfig.startTag">
         </mat-form-field>&nbsp;
         <mat-form-field appearance="fill">
           <mat-label>Префикс идентификатора поставщика</mat-label>
@@ -142,49 +142,49 @@
         </mat-form-field>&nbsp;
         <mat-form-field appearance="fill">
           <mat-label>Идентификатор товара поставщика</mat-label>
-          <input matInput name="vendorId" placeholder="" required [(ngModel)]="supplier.supplierConfigs.baseSuppConfig.vendorId">
+          <input matInput name="vendorId" placeholder="" required [(ngModel)]="supplier.supplierConfigs.baseConfig.vendorId">
         </mat-form-field>
       </div>
       <div class="formBlockDouble">
         <mat-form-field appearance="fill">
           <mat-label>Наименование</mat-label>
-          <input matInput name="title" placeholder="" required [(ngModel)]="supplier.supplierConfigs.baseSuppConfig.title">
+          <input matInput name="title" placeholder="" required [(ngModel)]="supplier.supplierConfigs.baseConfig.title">
         </mat-form-field>&nbsp;
         <mat-form-field appearance="fill">
           <mat-label>Полное наименование</mat-label>
-          <input matInput name="titleLong" placeholder="" [(ngModel)]="supplier.supplierConfigs.baseSuppConfig.titleLong">
+          <input matInput name="titleLong" placeholder="" [(ngModel)]="supplier.supplierConfigs.baseConfig.titleLong">
         </mat-form-field>&nbsp;
         <mat-form-field appearance="fill">
           <mat-label>Описание</mat-label>
-          <input matInput name="description" placeholder="" [(ngModel)]="supplier.supplierConfigs.baseSuppConfig.description">
+          <input matInput name="description" placeholder="" [(ngModel)]="supplier.supplierConfigs.baseConfig.description">
         </mat-form-field>
       </div>
       <div class="formBlockDouble">
         <mat-form-field appearance="fill">
           <mat-label>Бренд</mat-label>
-          <input matInput name="brand" placeholder="" [(ngModel)]="supplier.supplierConfigs.baseSuppConfig.brand">
+          <input matInput name="brand" placeholder="" [(ngModel)]="supplier.supplierConfigs.baseConfig.brand">
         </mat-form-field>&nbsp;
         <mat-form-field appearance="fill">
           <mat-label>Страна производства</mat-label>
-          <input matInput name="country" placeholder="" [(ngModel)]="supplier.supplierConfigs.baseSuppConfig.country">
+          <input matInput name="country" placeholder="" [(ngModel)]="supplier.supplierConfigs.baseConfig.country">
         </mat-form-field>&nbsp;
         <mat-form-field appearance="fill">
           <mat-label>Код страны производства</mat-label>
-          <input matInput name="countryCode" placeholder="" [(ngModel)]="supplier.supplierConfigs.baseSuppConfig.countryCode">
+          <input matInput name="countryCode" placeholder="" [(ngModel)]="supplier.supplierConfigs.baseConfig.countryCode">
         </mat-form-field>
       </div>
       <div class="formBlockDouble">
         <mat-form-field appearance="fill">
           <mat-label>Ссылка на фото 360</mat-label>
-          <input matInput name="image360" placeholder="" [(ngModel)]="supplier.supplierConfigs.baseSuppConfig.image360">
+          <input matInput name="image360" placeholder="" [(ngModel)]="supplier.supplierConfigs.baseConfig.image360">
         </mat-form-field>&nbsp;
         <mat-form-field appearance="fill">
           <mat-label>Ссылка на видео (список)</mat-label>
-          <input matInput name="videos" placeholder="" [(ngModel)]="supplier.supplierConfigs.baseSuppConfig.videos">
+          <input matInput name="videos" placeholder="" [(ngModel)]="supplier.supplierConfigs.baseConfig.videos">
         </mat-form-field>&nbsp;
         <mat-form-field appearance="fill">
           <mat-label>ГТД</mat-label>
-          <input matInput name="GTD" placeholder="" [(ngModel)]="supplier.supplierConfigs.baseSuppConfig.gtd">
+          <input matInput name="GTD" placeholder="" [(ngModel)]="supplier.supplierConfigs.baseConfig.gtd">
         </mat-form-field>
       </div>
     </mat-step>
@@ -487,7 +487,7 @@
           <td mat-cell *matCellDef="let element">
             <mat-form-field class="full-width" style="margin-top: 16px;" appearance="standard" *ngIf="attrSelectedRow?.keySupplier == element.keySupplier">
               <mat-label>Атрибут в файле поставщика</mat-label>
-              <input type="text" matInput [value]="element.keySupplier" (keyup)="element.keySupplier=$any($event.target.value)" required><!--NOT WORKING IN STRICT MODE-->
+              <input type="text" matInput [value]="element.keySupplier" (keyup)="element.keySupplier=$any($event.target['value'])" required><!--NOT WORKING IN STRICT MODE-->
             </mat-form-field>&nbsp;
             <span *ngIf="attrSelectedRow?.keySupplier != element.keySupplier">{{element.keySupplier}}</span>
           </td>

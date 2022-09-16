@@ -54,7 +54,7 @@
       <mat-expansion-panel *ngFor="let pack of product?.packages">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <h3 class="modifH2">{{pack.packQty ? pack.packQty : 1}} {{pack.type}} [{{pack.barcode}}]</h3>
+            <span>{{pack.packQty ? pack.packQty : 1}} {{pack.type}} [{{pack.barcode}}]</span>
           </mat-panel-title>
           <mat-panel-description>
 
@@ -92,7 +92,7 @@
       <mat-card-subtitle><h2>Документы</h2></mat-card-subtitle>
       <mat-list>
         <mat-list-item *ngFor="let d of product.documents" style="height: auto">
-          <div mat-line><strong>{{d.type}}</strong> <span style="font-style: italic">  ({{d.startDate | date:'dd-mm-yyyy'}} - {{d.endDate | date:'dd-mm-yyyy'}})</span></div>
+          <div mat-line><strong>{{d.type}}</strong> <span style="font-style: italic">  ({{d.startDate | date:'dd-MM-yyyy'}} - {{d.endDate | date:'dd-MM-yyyy'}})</span></div>
           <div mat-line>{{d.certTitle}}</div>
           <a mat-icon-button class="mat-elevation-z2" *ngIf="d.url" style="color:black" href="{{d.url}}" target="_blank"><mat-icon>download</mat-icon></a>
         </mat-list-item>

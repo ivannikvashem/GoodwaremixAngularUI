@@ -40,7 +40,7 @@ export class SupplierConfig {
   fileEncoding: string;
   prefix: string;
   zippedFileName: string;
-  baseSuppConfig: BaseConfig;
+  baseConfig: BaseConfig;
   //categoryConfig: any;
   documentConfig: DocumentConfig;
   imageConfig: ImageConfig ;
@@ -51,7 +51,7 @@ export class SupplierConfig {
   multipliers: Multipliers;
 
   constructor() {
-    this.baseSuppConfig = new BaseConfig()
+    this.baseConfig = new BaseConfig()
     this.documentConfig = new DocumentConfig()
     this.imageConfig = new ImageConfig()
     this.attributeConfig = new AttributeConfig()
