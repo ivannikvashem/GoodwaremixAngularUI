@@ -135,7 +135,7 @@
       <mat-card>
         <mat-card-subtitle>Фото</mat-card-subtitle>
         <mat-card-content>
-            <input formControlName="file" id="file" type="file" class="form-control-file" multiple=""
+            <input id="file" type="file" class="form-control-file" multiple=""
                    (change)="onFileChange($event)">
 
             <div *ngFor='let url of imagesToUpload'>
