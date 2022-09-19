@@ -105,35 +105,34 @@
 
         <!-- Name Column -->
         <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef>
-            Характеристика
-          </th>
-
-          <td mat-cell *matCellDef="let element"> {{element.attributeName}} </td>
+          <th mat-header-cell *matHeaderCellDef> Характеристика </th>
+          <td mat-cell *matCellDef="let row"> {{row.attributeName}} </td>
         </ng-container>
 
         <!-- Value Column -->
         <ng-container matColumnDef="value">
-          <th mat-header-cell *matHeaderCellDef>
-            Значение
-          </th>
-          <td mat-cell *matCellDef="let element"> {{element.value}} </td>
+          <th mat-header-cell *matHeaderCellDef> Значение </th>
+          <td mat-cell *matCellDef="let row"> {{row.value}} </td>
+        </ng-container>
+
+        <!-- unit Column -->
+        <ng-container matColumnDef="unit">
+          <th mat-header-cell *matHeaderCellDef> Ед. Изменерния </th>
+          <td mat-cell *matCellDef="let row"> {{row.unit}} </td>
         </ng-container>
 
         <!-- Etim Column -->
         <ng-container matColumnDef="etim">
-          <th mat-header-cell *matHeaderCellDef>
-            Значение
-          </th>
-          <td mat-cell *matCellDef="let element"> <mat-icon *ngIf="element.etimFeature" matTooltip="{{element.etimFeature}}">explicit</mat-icon>  </td>
+          <th mat-header-cell *matHeaderCellDef> Значение </th>
+          <td mat-cell *matCellDef="let row"> <mat-icon *ngIf="row.etimFeature" matTooltip="{{row.etimFeature}}">explicit</mat-icon>  </td>
         </ng-container>
 
         <!-- action Column -->
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let element">
-            <button  mat-icon-button class="mat-elevation-z2" matTooltip="Редактировать аттрибут" (click)="goToEdit(element.attributeId)">
-              <mat-icon>edit</mat-icon>
+          <td mat-cell *matCellDef="let item">
+            <button *ngIf="!item.fixed" mat-icon-button class="mat-elevation-z2" matTooltip="Заменить" (click)="swapItem(item.attributeName, item.attributeId)">
+              <mat-icon>swap_horiz</mat-icon>
             </button>
           </td>
         </ng-container>

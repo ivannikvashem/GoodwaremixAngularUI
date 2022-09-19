@@ -77,21 +77,20 @@
     <!-- ACTIONS Column -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="Добавить" (click)="addItem()">
+        <button style="float:right" mat-icon-button class="mat-elevation-z2" matTooltip="Добавить" (click)="addItem()">
           <mat-icon>add</mat-icon>
         </button>
       </th>
       <td mat-cell *matCellDef="let item">
 
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="Изменить" (click)="editItem(item.id)">
-          <mat-icon>edit</mat-icon>
-        </button>&nbsp;
-<!--        <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить" (click)="deleteItem(item.id)">
-          <mat-icon>delete</mat-icon>
-        </button>-->
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="Заменить" (click)="swapItem(item.nameAttribute, item.id)">
+        <button *ngIf="!item.fixed" mat-icon-button class="mat-elevation-z2" matTooltip="Заменить" (click)="swapItem(item.nameAttribute, item.id)">
           <mat-icon>swap_horiz</mat-icon>
         </button>
+
+        <button style="float:right" mat-icon-button class="mat-elevation-z2" matTooltip="Изменить" (click)="editItem(item.id)">
+          <mat-icon>edit</mat-icon>
+        </button>&nbsp;
+
 
       </td>
     </ng-container>

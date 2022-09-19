@@ -66,7 +66,7 @@
     <!-- lastImport Column -->
     <ng-container matColumnDef="Stat.lastImport">
       <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Последний импорт</th>
-      <td mat-cell *matCellDef="let row">{{ row.stat.lastImport | date:'yyyy-MM-dd'}}</td>
+      <td mat-cell *matCellDef="let row">{{ row.stat.lastImport | date:'yyyy-MM-dd'}} </td>
     </ng-container>
 
     <!-- expand Column -->
@@ -84,7 +84,7 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>
         <button mat-icon-button class="mat-elevation-z2" matTooltip="Запустить сбор всех поставщиков" (click)="fetchItem('default')">
-         <mat-icon>restart_alt</mat-icon>
+          <mat-icon>restart_alt</mat-icon>
         </button>&nbsp;
         <button mat-icon-button class="mat-elevation-z2" matTooltip="Init" (click)="fullInit()">
           <mat-icon>sync_problem</mat-icon>
@@ -97,12 +97,12 @@
         </button>
       </th>
       <td mat-cell *matCellDef="let item">
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="Загрузить данные" (click)="fetchItem(item.supplierName)">
-          <mat-icon>start</mat-icon>
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="{{item.runParser ? 'Остановить сбор': 'Загрузить данные'}}" (click)="fetchItem(item.supplierName)">
+          <mat-icon>{{item.runParser ? 'stop': 'start'}} </mat-icon>
         </button>&nbsp;
-<!--        <button mat-icon-button class="mat-elevation-z2" matTooltip="Остановить сбор">-->
+<!--        <button *ngIf="item.runParser" mat-icon-button class="mat-elevation-z2" matTooltip="Остановить сбор">-->
 <!--          <mat-icon>stop</mat-icon>-->
-<!--        </button>&nbsp;-->
+<!--        </button>-->
         <button mat-icon-button class="mat-elevation-z2" matTooltip="Изменить" (click)="editItem(item.id)">
           <mat-icon>edit</mat-icon>
         </button>&nbsp;

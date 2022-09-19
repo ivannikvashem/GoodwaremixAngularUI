@@ -107,6 +107,8 @@ export class ApiClient {
     return this.http.get<any>(this.apiURL + '/Product/' +id, this.httpOptions);
   }
 
+
+
   // Suppliers ENDPOINT
 
   getSuppliers(searchQuery: any, pageIndex: number, pageSize: number, sortField: string, sortDirection: string) {

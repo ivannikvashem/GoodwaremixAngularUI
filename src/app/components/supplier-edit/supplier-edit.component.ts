@@ -13,6 +13,7 @@ import {Dimensions} from "../../models/dimensions.model";
 import {Multipliers} from "../../models/multipliers.model";
 import {debounceTime, Observable, ReplaySubject, switchMap, tap} from "rxjs";
 import {finalize} from "rxjs/operators";
+import {NotificationService} from "../../service/notification-service";
 
 @Component({
   selector: 'app-supplier-edit',
@@ -35,7 +36,7 @@ export class SupplierEditComponent implements OnInit {
 
   constructor(
     private _ActivatedRoute:ActivatedRoute,
-    private _snackBar: MatSnackBar,
+    private _notyf: NotificationService,
     public api: ApiClient,
   ) { }
 
@@ -182,6 +183,7 @@ export class SupplierEditComponent implements OnInit {
   onSubmit(): void{
     console.log('Submitting: ', JSON.stringify(this.supplier));
     this.api.updateSupplier(this.supplier).subscribe( x => {
+
         console.log("updateSupplier: " +JSON.stringify(x) );
     },
     error => {
@@ -195,12 +197,13 @@ export class SupplierEditComponent implements OnInit {
       return;
     }
 
-    let a = new ProductAttributeKey ();
+    let a: ProductAttributeKey = {keySupplier: '', attributeBDName: '', attributeIdBD: '', attributeValid: false, multiplier: ''};
     this.supplier.supplierConfigs.attributeConfig.productAttributeKeys.push(a);
 
     this.attrDataSource.setData(this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys);
     let row = this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys[this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys.length - 1];
-
+    console.log('row', JSON.stringify(this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys.length -1))
+    console.log('row data', JSON.stringify(row.attributeIdBD))
     this.attributeListCtrl.setValue(row.attributeBDName);
     this.attrSelectedRow = row;
   }
@@ -230,6 +233,8 @@ export class SupplierEditComponent implements OnInit {
 
   updateSelectedSuppAttr(i: number, row: any) {
     console.log("updateSuppAttr attr dict!");
+    console.log(JSON.stringify(this.dataToDisplay))
+
     //validation
     // Add our value
     const idx = this.supplier.supplierConfigs.attributeConfig.productAttributeKeys.indexOf(row.keySupplier);
@@ -283,11 +288,11 @@ export class SupplierEditComponent implements OnInit {
   submitSupplier() {
     this.api.updateSupplier(this.supplier).subscribe( x => {
         //console.log("updateSupplier: " +JSON.stringify(x) );
-        this._snackBar.open("Конфигурация сохранена","OK",{ duration: 1000});
+        this._notyf.onSuccess("Конфигурация сохранена");
       },
       error => {
         //console.log("updateSupplierError: " + JSON.stringify(error));
-        this._snackBar.open("Ошибка: " + JSON.stringify(error),undefined,{ duration: 5000});
+        this._notyf.onError("Ошибка: " + JSON.stringify(error));
         //todo обработчик ошибок, сервер недоступен или еще чего..
       });
   }

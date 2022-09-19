@@ -26,8 +26,8 @@ export class Product {
   constructor() {
     this.gtd = []
     this.images = []
-    this.documents = {} as Document[]
+    this.documents = [] as Document[]
     this.videos = []
-    this.attributes = {} as AttributeProduct[]
+    this.attributes = [] as AttributeProduct[]
   }
 }

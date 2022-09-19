@@ -80,7 +80,7 @@
           <ng-template #t [ngTemplateOutlet]="t"
                        let-a [ngTemplateOutletContext]="{ $implicit: 0 }">
           <div>
-            <h4><a href="/product-details/{{row.id}}">[{{row.vendor}}] {{row.title}} </a> </h4>
+            <h4><a href="/product-details/{{row.id}}"><span *ngIf="row.vendor">[{{row.vendor}}]</span> {{row.title}} </a> </h4>
             <p style="font-style: italic"><strong>{{row.vendorId}}</strong></p>
             <p><strong>{{row.netto?.barcode || ""}}</strong></p>
           </div>

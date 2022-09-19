@@ -9,6 +9,8 @@ import {Supplier} from "../../models/supplier.model";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Attribute} from "../../models/attribute.model";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {SwapAttributeComponent} from "../shared/swap-attribute/swap-attribute.component";
+import {NotificationService} from "../../service/notification-service";
 
 export interface AttrDialogData {
   oldAttributeId: string;
@@ -41,7 +43,7 @@ export class AttributeIndexComponent implements OnInit {
     public api: ApiClient,
     private router: Router,
     public dialog: MatDialog,
-    private _snackBar: MatSnackBar,
+    private _notyf: NotificationService,
     private _ActivatedRoute:ActivatedRoute
   ) {
     this.dataSource = new AttributesDataSource(this.api);
@@ -97,7 +99,7 @@ export class AttributeIndexComponent implements OnInit {
   }
 
   addItem() {
-    this._snackBar.open("TODO: не обработано");
+    this._notyf.onWarning("TODO: не обработано")
     //todo show form to make a new attribute
   }
 
@@ -134,11 +136,13 @@ export class AttributeIndexComponent implements OnInit {
   }
 
   swapItem(nameAttribute: string, id: string) {
+    console.log(nameAttribute)
+
     this.openDialog(nameAttribute, id);
   }
 
   openDialog(nameAttribute: string, id: string): void {
-    const dialogRef = this.dialog.open(AttributeReplacementDialog, {
+    const dialogRef = this.dialog.open(SwapAttributeComponent, {
       width: '900px',
       height: '380px',
       data: { oldAttributeId: id, oldAttribute: nameAttribute, newAttribute: new Attribute() },
@@ -147,65 +151,14 @@ export class AttributeIndexComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.api.swapAttribute(result.oldAttributeId, result.newAttribute.id).subscribe({
         next: next => {
-          this._snackBar.open('Данные сохранены успешно');
+          this._notyf.onSuccess("Данные сохранены успешно")
         },
         error: error => {
-          this._snackBar.open(error.message);
+          this._notyf.onError(error.message);
         },
       });
     });
   }
 
 }
-@Component({
-  selector: 'attribute-replacement-dialog',
-  templateUrl: 'attribute-replacement-dialog.html',
-})
 
-export class AttributeReplacementDialog implements OnInit {
-  attributes: Array<Attribute> = new Array<Attribute>;
-  attribute: Attribute = new Attribute;
-  searchAttributeCtrl = new FormControl<string | Attribute>('');
-
-  constructor(public api: ApiClient,
-              public dialogRef: MatDialogRef<AttributeReplacementDialog>,
-              @Inject(MAT_DIALOG_DATA)
-              public data: AttrDialogData,) { }
-
-  ngOnInit(): void {
-    this.api.getAttributeById(this.data.oldAttributeId).subscribe((response) => {
-      this.attribute = response.body.data;
-    });
-    this.data.newAttribute.supplierName = this.data.oldAttribute;
-
-    this.searchAttributeCtrl.valueChanges.pipe(
-      distinctUntilChanged(),
-      debounceTime(100),
-      tap(() => {
-       // this.isLoading = true;
-      }),
-      switchMap(value => this.api.getAttributes(value, '' ,0, 10, undefined, "Rating", "desc")
-        .pipe(
-          finalize(() => {
-            //this.isLoading = false
-          }),
-        )
-      )
-    )
-    .subscribe((response: any) => {
-      this.attributes = response.body.data;
-    });
-  }
-
-  onCancelClick(): void {
-    this.dialogRef.close();
-  }
-
-  diaplayFn(attribute: Attribute): string {
-    return attribute && attribute.nameAttribute ? attribute.nameAttribute : '';
-  }
-
-  onAttributeSelected() {
-    this.data.newAttribute = this.searchAttributeCtrl.value as Attribute;
-  }
-}

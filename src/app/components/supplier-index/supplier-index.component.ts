@@ -10,6 +10,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../shared/confirm-dialog/confirm-dialog.component";
 import {MatSort, SortDirection} from "@angular/material/sort";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {NotificationService} from "../../service/notification-service";
 
 @Component({
   selector: 'app-supplier-index',
@@ -29,12 +30,11 @@ export class SupplierIndexComponent implements OnInit {
   dataSource: SuppliersDataSource;
   searchQuery = "";
   expandedElement: Supplier | null | undefined;
-
   constructor(
     public api: ApiClient,
     private router: Router,
     public dialog: MatDialog,
-    private _snackBar: MatSnackBar,
+    private _notyf: NotificationService,
   ) {
     this.dataSource = new SuppliersDataSource(this.api);
   }
@@ -94,7 +94,7 @@ export class SupplierIndexComponent implements OnInit {
         console.log(JSON.stringify(res));
       },
       err => {
-        this._snackBar.open("Ошибка: " + JSON.stringify(err),undefined,{ duration: 5000});
+        this._notyf.onError("Ошибка: " + JSON.stringify(err));
       })
   }
 
@@ -104,7 +104,7 @@ export class SupplierIndexComponent implements OnInit {
         console.log(JSON.stringify(res));
       },
       err => {
-        this._snackBar.open("Ошибка: " + JSON.stringify(err),undefined,{ duration: 5000});
+        this._notyf.onError("Ошибка: " + JSON.stringify(err));
       })
   }
 
@@ -164,7 +164,7 @@ export class SupplierIndexComponent implements OnInit {
         console.log(JSON.stringify(res));
       },
       err => {
-        this._snackBar.open("Ошибка: " + JSON.stringify(err),undefined,{ duration: 5000});
+        this._notyf.onError("Ошибка: " + JSON.stringify(err));
       })
   }
 }

@@ -30,7 +30,7 @@ import {DialogDataExampleDialog, ProductIndexComponent} from './components/produ
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatTableModule} from "@angular/material/table";
 import {MatIconModule} from "@angular/material/icon";
-import { AttributeReplacementDialog, AttributeIndexComponent } from './components/attribute-index/attribute-index.component';
+import { AttributeIndexComponent } from './components/attribute-index/attribute-index.component';
 import { AttributeEditComponent } from './components/attribute-edit/attribute-edit.component';
 import { SupplierIndexComponent } from './components/supplier-index/supplier-index.component';
 import { SupplierEditComponent } from './components/supplier-edit/supplier-edit.component';
@@ -49,7 +49,8 @@ import { ProductEditComponent } from './components/product-edit/product-edit.com
 import {MatTabsModule} from "@angular/material/tabs";
 import {getRuPaginatorIntl} from  './service/ru-paginator-intl'
 import {MatMenuModule} from "@angular/material/menu";
-import '@angular/common/locales/global/ru'
+import '@angular/common/locales/global/ru';
+import { SwapAttributeComponent } from './components/shared/swap-attribute/swap-attribute.component'
 
 @NgModule({
   declarations: [
@@ -59,7 +60,6 @@ import '@angular/common/locales/global/ru'
     DialogDataExampleDialog2,
     AttributeIndexComponent,
     AttributeEditComponent,
-    AttributeReplacementDialog,
     SupplierIndexComponent,
     SupplierEditComponent,
     ParserLogComponent,
@@ -67,7 +67,8 @@ import '@angular/common/locales/global/ru'
     PackageCardComponent,
     HoverImageSliderComponent,
     ConfirmDialogComponent,
-    ProductEditComponent
+    ProductEditComponent,
+    SwapAttributeComponent
   ],
   imports: [
     CommonModule,
