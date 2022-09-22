@@ -1,5 +1,5 @@
 import {CollectionViewer, DataSource} from '@angular/cdk/collections';
-import {BehaviorSubject, Observable, of} from 'rxjs';
+import {BehaviorSubject, Observable, of, tap} from 'rxjs';
 import {catchError, finalize, map} from 'rxjs/operators';
 import {ApiClient} from "./httpClient";
 import {Product} from "../models/product.model";
@@ -23,10 +23,12 @@ export class ProductsDataSource implements DataSource<Product> {
     this.loadingSubject.complete();
   }
 
-  loadPagedData(queryString = "", withInternalCodeSelector = false, selectedSuppId = '', pageIndex = 1, pageSize = 10) {
-    this.loadingSubject.next(true);
+  loadPagedData(queryString = "", withInternalCodeSelector = false, selectedSuppId = '', pageIndex = 0, pageSize = 10) {
     this.api.getProducts(queryString, withInternalCodeSelector, selectedSuppId, pageIndex, pageSize)
       .pipe(
+        tap(() => {
+          this.loadingSubject.next(true);
+        }),
         map((res:any) => {
           return res.body;
         }),

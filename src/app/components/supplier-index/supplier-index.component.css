@@ -111,6 +111,3 @@ tr.example-element-row:not(.example-expanded-row):active {
 .full-width {
   width: 100%;
 }
-.search-bar {
-  width: 90%;
-}
