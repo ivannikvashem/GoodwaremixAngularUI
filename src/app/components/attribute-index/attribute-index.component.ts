@@ -115,12 +115,12 @@ export class AttributeIndexComponent implements OnInit {
     let supp = this.searchSuppliersCtrl.value as Supplier;
     this._localStorageService.setDataByPageName(this.constructor.name, {
       searchQuery: this.searchQueryCtrl.value,
-      supplier: {id: supp.id, supplierName: supp.supplierName} as Supplier,
       pageIndex: this.paginator?.pageIndex,
       pageSize: this.paginator?.pageSize,
       //sortDirection: this.sort?.direction,
       //sortField: this.sort?.active
-      withFixedAttrSelector: this.withFixedAttrSelectorCtrl?.value ?? null
+      withFixedAttrSelector: this.withFixedAttrSelectorCtrl?.value ?? null,
+      supplier: {id: supp.id, supplierName: supp.supplierName} as Supplier
     });
   }
 
@@ -128,6 +128,7 @@ export class AttributeIndexComponent implements OnInit {
     //try to get cookie, if there's no cookie - make the blank and save
     this._localStorageService.getDataByPageName(this.constructor.name); //pretty wrong, upd data
     this.sub = this.pageCookie$.subscribe(x => {
+      if (!x) return;
       console.log("pc: " + JSON.stringify(x));
       this.pC = x;
       this.searchQueryCtrl.setValue(this.pC.searchQuery);
@@ -188,6 +189,5 @@ export class AttributeIndexComponent implements OnInit {
       });
     });
   }
-
 }
 

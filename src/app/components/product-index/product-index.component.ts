@@ -77,6 +77,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     //try to get cookie, if there's no cookie - make the blank and save
     this._localStorageService.getDataByPageName(this.constructor.name) as PageCookieProductIndex; //pretty wrong, upd data
     this.sub = this.pageCookie$.subscribe(x => {
+      if (!x) return;
       //console.log("pc: " + JSON.stringify(x.pageIndex));
       this.pC = x;
       this.searchQueryCtrl.setValue(this.pC.searchQuery);

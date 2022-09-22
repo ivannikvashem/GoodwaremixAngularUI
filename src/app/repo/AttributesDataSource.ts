@@ -23,7 +23,7 @@ export class AttributesDataSource implements DataSource<Attribute> {
     this.loadingSubject.complete();
   }
 
-  loadPagedData(queryString = "", supplierId: string, pageIndex = 1, pageSize = 10, fixed?: boolean ): any {
+  loadPagedData(queryString = "", supplierId: string = '', pageIndex = 1, pageSize = 10, fixed?: boolean ): any {
     this.loadingSubject.next(true);
     this.api.getAttributes(queryString, supplierId, pageIndex, pageSize, fixed, "Rating", "desc")
       .pipe(
