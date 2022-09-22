@@ -164,29 +164,23 @@ export class ProductEditComponent implements OnInit {
     this.attrDataSource.setData(this.product.attributes || []);
   }
 
-  editAttrRow(attributeId: string, attributeName:string, value:string) {
-    this.openDialog(attributeId,attributeName,value);
+  editAttrRow(row:any) {
+    this.openDialog(row);
   }
 
-  openDialog(attributeId?: string, attributeName?: string, value?:string): void {
+  openDialog(oldAttribute?:any): void {
 
     const dialogRef = this.dialog.open(AttributeEditorComponent, {
       width: '900px',
       height: '380px',
-      data: { attributeId: attributeId, nameAttribute: attributeName, value:value, newAttribute: new AttributeProduct() },
+      data: { oldAttribute: oldAttribute, newAttribute: new AttributeProduct() },
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result != undefined) {
-        let attribute = new AttributeProduct()
-        attribute.attributeId = result.attributeId
-        attribute.attributeName = result.nameAttribute
-        attribute.etimFeature = result.etimFeature
-        attribute.etimUnit = result.etimUnit
-        attribute.etimValue = result.etimValue
-        attribute.unit = result.unit
-        attribute.value = result.value
-        this.product.attributes.unshift(attribute)
+      console.log('res',result)
+      if (result.newAttribute.attributeName != undefined) {
+
+        this.product.attributes.unshift(result.newAttribute as AttributeProduct)
         this.attrDataSource.setData(this.product.attributes || []);
       }
      });

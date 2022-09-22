@@ -17,13 +17,13 @@
 </style>
 
 <div class="main">
-  <h3> ? {{data?.attributeName}}: Добавление</h3>
+  <h3> ? {{data.oldAttribute?.attributeName}}: Добавление</h3>
   <div class="inputs">
-    <mat-form-field appearance="fill" class="full-width" *ngIf="!data.nameAttribute">
+    <mat-form-field appearance="fill" class="full-width" >
       <mat-label>Характеристика</mat-label>
       <input matInput placeholder=""
                    [formControl]="searchAttributeCtrl"
-                   [matAutocomplete]="auto" [readonly]="data.nameAttribute">
+                   [matAutocomplete]="auto" >
       <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onAttributeKeySelected()">
         <mat-option *ngFor="let option of attributesList" [value]="option" >
           {{option.fixed ? "■" : ''}} {{option.etimFeature}} {{option.nameAttribute}} [{{option.supplierName}}]
@@ -31,7 +31,7 @@
       </mat-autocomplete>
     </mat-form-field>
 
-    <h2 *ngIf="data.nameAttribute">{{data.nameAttribute}}</h2>
+    <pre>{{attributeProduct | json}}</pre>
 
     <br/>
     <mat-form-field appearance="fill" class="full-width">

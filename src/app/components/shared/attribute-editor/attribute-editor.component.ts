@@ -9,14 +9,8 @@ import {map} from "rxjs/operators";
 import {Supplier} from "../../../models/supplier.model";
 
 export interface AttrDialogData {
-  newAttribute: Attribute;
-  attributeId:string
-  nameAttribute:string;
-  attributeName:string;
-  etimFeature:string;
-  etimUnit:string;
-  unit:string;
-  value:string;
+  newAttribute?: AttributeProduct;
+  oldAttribute?:AttributeProduct;
 }
 
 @Component({
@@ -42,35 +36,39 @@ export class AttributeEditorComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('data', this.data)
-    this.api.getAttributeById(this.data.attributeId).subscribe((response) => {
-      this.attributeProduct = response.body.data;
-      this.searchAttributeCtrl.setValue(response.body.data as Attribute);
+    this.api.getAttributeById(this.data.oldAttribute.attributeId).subscribe((response) => {
+      console.log('response editor', response)
+      if (response.status == 200) {
+      this.attributeProduct = response.body;
+         //this.searchAttributeCtrl.setValue(this.attributeProduct);
+         //this.attributeValuesCtrl.setValue(this.data.oldAttribute.value);
+      }
 
-    });
-
-    this.searchAttributeCtrl.valueChanges.pipe(
-      distinctUntilChanged(),
-      debounceTime(100),
-      tap(() => {
-        // this.isLoading = true;
-      }),
-      switchMap(value => this.api.getAttributes(value, '' ,0, 10, undefined, "Rating", "desc")
-        .pipe(
-          finalize(() => {
-            //this.isLoading = false
-          }),
+      console.log('out init')
+      this.searchAttributeCtrl.valueChanges.pipe(
+        distinctUntilChanged(),
+        debounceTime(100),
+        tap(() => {
+          // this.isLoading = true;
+        }),
+        switchMap(value => this.api.getAttributes(value, '' ,0, 10, undefined, "Rating", "desc")
+          .pipe(
+            finalize(() => {
+              //this.isLoading = false
+            }),
+          )
         )
       )
-    )
-      .subscribe((response: any) => {
-        this.attributesList = response.body.data;
-      });
+        .subscribe((response: any) => {
+          this.attributesList = response.body.data;
+        });
+    });
+    console.log('out init')
+
     if (this.attributeProduct) {
       this.searchAttributeCtrl.setValue(this.attributeProduct as Attribute)
     }
-    if (this.data?.nameAttribute) {
-      this.onAttributeValueSelected()
-    }
+
     let selectedAttribute = this.searchAttributeCtrl.value as Attribute;
 
   }
@@ -90,18 +88,22 @@ export class AttributeEditorComponent implements OnInit {
       startWith(''),
       map(value => this._filter(value)),
     );
+
+
+
     this.attributeValues = selectedAttribute.allValue
 
-    this.data.attributeId = selectedAttribute.id
-    this.data.nameAttribute = selectedAttribute.nameAttribute
-    this.data.etimFeature = selectedAttribute.etimFeature
-    this.data.etimUnit = selectedAttribute.etimUnit
-    this.data.unit = selectedAttribute.unit
+    this.data.newAttribute.attributeId = selectedAttribute.id
+    this.data.newAttribute.attributeName = selectedAttribute.nameAttribute
+    this.data.newAttribute.etimFeature = selectedAttribute.etimFeature
+    this.data.newAttribute.etimUnit = selectedAttribute.etimUnit
+    this.data.newAttribute.unit = selectedAttribute.unit
 
   }
 
   onAttributeValueSelected() {
-    this.data.value = this.attributeValuesCtrl.value as string;
+    this.onAttributeKeySelected()
+    this.data.newAttribute.value = this.attributeValuesCtrl.value as string;
   }
 
   private _filter(value: string): string[] {

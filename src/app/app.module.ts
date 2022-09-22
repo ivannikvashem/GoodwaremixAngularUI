@@ -51,7 +51,6 @@ import {getRuPaginatorIntl} from  './service/ru-paginator-intl'
 import {MatMenuModule} from "@angular/material/menu";
 import '@angular/common/locales/global/ru';
 import { SwapAttributeComponent } from './components/shared/swap-attribute/swap-attribute.component'
-import {CookieService} from "ngx-cookie-service";
 import {AttributeEditorComponent} from "./components/shared/attribute-editor/attribute-editor.component";
 
 @NgModule({
@@ -116,7 +115,6 @@ import {AttributeEditorComponent} from "./components/shared/attribute-editor/att
       useValue: { displayDefaultIndicatorType: false }
     },
     {provide: MatPaginatorIntl, useValue: getRuPaginatorIntl()},
-    CookieService
 
   ],
   bootstrap: [AppComponent]
