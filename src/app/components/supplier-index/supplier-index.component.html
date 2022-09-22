@@ -1,13 +1,16 @@
 <div class="header-container" style="display: flex; align-items: baseline; flex: 1;">
-  <h3>Поставщики &nbsp;</h3>
 
-  <mat-form-field appearance="standard" class="search-bar">
+  <mat-form-field appearance="standard" class="full-width">
     <mat-label>Поиск по поставщикам</mat-label>
-    <input matInput (keyup)="applySupplierFilter($event)">
+<!--    <input matInput (keyup)="applySupplierFilter($event)">-->
+    <input matInput [formControl]="searchQueryCtrl">
+    <button *ngIf="searchQueryCtrl.value" matSuffix mat-icon-button aria-label="Clear" type="button" (click)="onClearSearchQuery()">
+      <mat-icon>close</mat-icon>
+    </button>
   </mat-form-field>
-  <div style="width: 110px;">
+<!--  <div style="width: 110px;">
     <mat-spinner diameter="35" *ngIf="dataSource.loading$ | async"></mat-spinner>
-  </div>
+  </div>-->
 
 </div>
 

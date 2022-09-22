@@ -7,5 +7,4 @@ export class Log {
   status: string;
   result: string;
   totalAdded: number;
-
 }

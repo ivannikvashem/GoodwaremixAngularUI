@@ -7,7 +7,7 @@
   <div class="left-panel">
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>Поиск</mat-label>
-      <input matInput [formControl]="searchQueryCtrl" (keydown.enter)="searchQueryChanged()">
+      <input matInput [formControl]="searchQueryCtrl" (keydown.enter)="onQueryChanged()">
     </mat-form-field>
     <br />
 
@@ -16,17 +16,17 @@
       <input type="text" matInput aria-label="Поставщик"
              [formControl]="searchSuppliersCtrl"
              [matAutocomplete]="auto">
-      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onSupplierSelected()">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onQueryChanged()">
         <mat-option *ngFor="let option of supplierList" [value]="option">
           {{option.supplierName}}
         </mat-option>
       </mat-autocomplete>
-      <button *ngIf="selectedSupplier" matSuffix mat-icon-button aria-label="Clear" (click)="onClearSupplierSelection()">
+      <button *ngIf="searchSuppliersCtrl.value" matSuffix mat-icon-button aria-label="Clear" type="button" (click)="onClearSupplierSelection()">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
 
-    <mat-button-toggle-group name="fixed" class="full-width" [(ngModel)]="withFixedAttrSelector" [value]="withFixedAttrSelector" (change)="onFixedSelected()">
+    <mat-button-toggle-group [formControl]="withFixedAttrSelectorCtrl" class="full-width" (change)="onQueryChanged()">
       <mat-button-toggle [value]=null class="full-width">Все</mat-button-toggle>
       <mat-button-toggle [value]=false class="full-width">Открытые</mat-button-toggle>
       <mat-button-toggle [value]=true class="full-width">Фиксированные</mat-button-toggle>
@@ -102,6 +102,6 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  <mat-paginator [length]="dataSource.rowCount" showFirstLastButtons [pageSize]="15" [pageSizeOptions]=[10,15,50,100] aria-label="Страница результатов"></mat-paginator>
+  <mat-paginator [length]="dataSource.rowCount" showFirstLastButtons [pageSize]="15" [pageSizeOptions]=[10,15,50,100] aria-label="Страница"></mat-paginator>
 </div>
 </div>

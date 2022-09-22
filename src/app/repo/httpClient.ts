@@ -135,7 +135,7 @@ export class ApiClient {
   }
 
   getSupplierById(supplierId: string){
-    return this.http.get<Supplier>(this.apiURL + '/supplier/id/' + supplierId, this.httpOptions);
+    return this.http.get<any>(this.apiURL + '/supplier/id/' + supplierId, this.httpOptions);
   }
 
   getSupplierByName(supplierName: string): Observable<any> {

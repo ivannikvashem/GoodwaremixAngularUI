@@ -7,11 +7,23 @@ import {MatPaginator} from "@angular/material/paginator";
 import {debounceTime, distinctUntilChanged, filter, finalize, map, Observable, startWith, switchMap, tap} from "rxjs";
 import {FormControl} from '@angular/forms';
 import {Supplier} from "../../models/supplier.model";
-import {ConfirmDialogComponent, ConfirmDialogModel} from "../shared/confirm-dialog/confirm-dialog.component";
-import {NotificationService} from "../../service/notification-service";
+import {LocalStorageService} from "../../service/local-storage.service";
 
 export interface DialogData {
   src: '';
+}
+
+class PageCookieProductIndex {
+  pageIndex: number = 1;
+  pageSize: number = 10;
+  searchQuery: string = "";
+  withInternalCodeSelector: boolean = false;
+  supplierId: string = "";
+  supplier: Supplier;
+
+  constructor() {
+    this.supplier = {id: this.supplierId} as Supplier;
+  }
 }
 
 @Component({
@@ -26,47 +38,81 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
 
   hoverImage: string = "";
   hoverRowId: string = "";
-  public searchQuery: string | undefined;
-  public withInternalCodeSelector: boolean;
 
   searchSuppliersCtrl = new FormControl<string | Supplier>('');
   searchQueryCtrl  = new FormControl<string>('');
+  withInternalCodeCtrl  = new FormControl<boolean>(false);
   public supplierList: Supplier[] | undefined;  // public filteredSupplierList: Observable<Supplier[]> | undefined;
-  selectedSupplier: Supplier | undefined;
   isLoading = false;
   productId: string | any;
-  supplierId: string; //todo shity bug!! need to upload whole Supplier and set it into this.selectedSupplier
+  pageCookie$ = this._localStorageService.myData$
+  pC: any = {};
+  private sub: any;
 
   constructor(
     public api: ApiClient,
     public dialog: MatDialog,
     public router: Router,
     private _ActivatedRoute:ActivatedRoute,
-    private _notyf: NotificationService,
+    private _localStorageService: LocalStorageService
   ) {
-    this.dataSource = new ProductsDataSource(this.api, this._notyf);
-    this.withInternalCodeSelector = false;
+    this.dataSource = new ProductsDataSource(this.api);
   }
 
-  @ViewChild(MatPaginator)
-  paginator!: MatPaginator
+  @ViewChild(MatPaginator) paginator: MatPaginator
+
+  setCookie() {
+    // on each interaction - save all controls state to cookies
+    let supp = this.searchSuppliersCtrl.value as Supplier;
+    this._localStorageService.setDataByPageName(this.constructor.name, {
+      searchQuery: this.searchQueryCtrl.value,
+      pageIndex: this.paginator?.pageIndex,
+      pageSize: this.paginator?.pageSize,
+      withInternalCodeSelector: this.withInternalCodeCtrl.value,
+      supplier: {id: supp.id, supplierName: supp.supplierName} as Supplier
+    });
+  }
+
+  getCookie() {
+    //try to get cookie, if there's no cookie - make the blank and save
+    this._localStorageService.getDataByPageName(this.constructor.name) as PageCookieProductIndex; //pretty wrong, upd data
+    this.sub = this.pageCookie$.subscribe(x => {
+      //console.log("pc: " + JSON.stringify(x.pageIndex));
+      this.pC = x;
+      this.searchQueryCtrl.setValue(this.pC.searchQuery);
+      this.withInternalCodeCtrl.setValue(this.pC.withInternalCodeSelector);
+      this.searchSuppliersCtrl.setValue(this.pC.supplier as Supplier);
+    });
+  }
 
   ngOnInit() {
-    this.api.getSuppliers('', 0 ,100, "SupplierName", "asc").subscribe( (r:any) => {
+
+    this.getCookie();
+
+    Promise.resolve().then(() => {
+      this.paginator.pageIndex = this.pC.pageIndex;
+      this.paginator.pageSize = this.pC.pageSize;
+      this.loadProductPagedData();
+    })
+
+    this.api.getSuppliers(this.pC?.searchQuery || "", 0 ,100, "SupplierName", "asc").subscribe( (r:any) => {
       this.supplierList = r.body.data
     });
+
     this._ActivatedRoute.queryParams.subscribe(params => {
-      this.supplierId = params['supplierId'];
-      if (this.supplierId) {
-        this.api.getSupplierById(this.supplierId).subscribe( s => {
-          this.selectedSupplier = s as Supplier;
-          this.searchSuppliersCtrl.setValue(s as Supplier);
+      let supplierId = params['supplierId'];
+      if (supplierId) {
+        this.pC.supplierId = supplierId;
+        this.searchSuppliersCtrl.setValue({id: supplierId} as Supplier);
+        this.api.getSupplierById(supplierId).subscribe( s => {
+          this.searchSuppliersCtrl.setValue(s.body as Supplier);
         })
       }
     });
+
     this.searchSuppliersCtrl.valueChanges.pipe(
       distinctUntilChanged(),
-      debounceTime(100),
+      debounceTime(300),
       tap(() => {
         this.isLoading = true;
       }),
@@ -82,65 +128,56 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
       this.supplierList = data.body.data;
     });
 
-    //initial product data load
-    this.dataSource.loadPagedData(this.searchQuery, this.withInternalCodeSelector, this.selectedSupplier ? this.selectedSupplier.id : this.supplierId,  0, 10);
+    this.searchQueryCtrl.valueChanges.pipe(
+      distinctUntilChanged(),
+      debounceTime(300)
+    ).subscribe(()=> {
+      this.loadProductPagedData();
+      this.setCookie();
+    })
   }
 
   ngAfterViewInit(): void {
     this.paginator.page
       .pipe(
-        tap( () => this.loadProductPagedData())
+        tap( () => {
+          this.loadProductPagedData();
+          this.setCookie();
+        })
       )
       .subscribe();
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe(); //crutch to dispose subs
   }
 
   displayFn(supplier: Supplier): string {
     return supplier && supplier.supplierName ? supplier.supplierName : '';
   }
 
-  onSupplierSelected() {
-    //console.log("ctrlVal= " + JSON.stringify(this.searchSuppliersCtrl.value));
-    this.selectedSupplier = this.searchSuppliersCtrl.value as Supplier;
-    console.log("suppId= " + this.selectedSupplier?.id);
+  onQueryChanged() {
+    this.paginator.pageIndex = 0;
     this.loadProductPagedData();
+    this.setCookie();
   }
 
   onClearSupplierSelection() {
-    console.log('clear')
-    this.selectedSupplier=undefined;
+    //console.log('clear')
     this.searchSuppliersCtrl.setValue('');
-    this.paginator.pageIndex = 0;
-    this.loadProductPagedData();
+    this.onQueryChanged();
   }
 
   loadProductPagedData(): any {
-    this.dataSource.loadPagedData(this.searchQuery, this.withInternalCodeSelector, this.selectedSupplier?.id, this.paginator?.pageIndex ?? 0, this.paginator?.pageSize ?? 10);
+    this.dataSource.loadPagedData(this.searchQueryCtrl.value, this.withInternalCodeCtrl.value, (this.searchSuppliersCtrl.value as Supplier)?.id, this.paginator.pageIndex, this.paginator.pageSize);
   }
 
-  searchQueryChanged() {
-    this.searchQuery = this.searchQueryCtrl.value ?? '';
-    this.loadProductPagedData();
+  deleteItem(_id: any) {
+
   }
 
-  confirmDeleteItemDialog(id: string, productTitle:string) {
-    const message = `Удалить товар ` + productTitle + `?`;
-    const dialogData = new ConfirmDialogModel("Подтверждение", message);
-
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: "400px",
-      data: dialogData
-    });
-
-    dialogRef.afterClosed().subscribe(dialogResult => {
-      //this.result = dialogResult;
-      if (dialogResult === true) {
-        this.dataSource.deleteProduct(id);
-      }
-    });
-  }
-
-  goToEditItem(id: any) {
-    this.router.navigate([`product-edit/${id}`]);
+  goToItemDetails(id: any) {
+    this.router.navigate([`product-details/${id}`]);
   }
 
   addItem() {
@@ -152,7 +189,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     this.hoverImage = image;
   }
   openDialog(image: string) {
-    console.log(image);
+    //console.log(image);
     let dialogBoxSettings = {
       /*maxHeight: '60%',*/
       maxWidth: '60%',
@@ -164,7 +201,6 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     };
     this.dialog.open(DialogDataExampleDialog, dialogBoxSettings);
   }
-
   handleMissingImage(event: Event) {
     (event.target as HTMLImageElement).src='./assets/imgPlaceholder.png'
   }

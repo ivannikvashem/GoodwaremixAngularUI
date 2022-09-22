@@ -8,10 +8,9 @@ import {FormControl} from "@angular/forms";
 import {Supplier} from "../../models/supplier.model";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Attribute} from "../../models/attribute.model";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {SwapAttributeComponent} from "../shared/swap-attribute/swap-attribute.component";
 import {NotificationService} from "../../service/notification-service";
-import {error} from "@angular/compiler-cli/src/transformers/util";
+import {LocalStorageService} from "../../service/local-storage.service";
 
 export interface AttrDialogData {
   oldAttributeId: string;
@@ -30,46 +29,56 @@ export class AttributeIndexComponent implements OnInit {
   displayedColumns: string[] = ['fixed', 'Rating', 'supplierName', 'etimFeature', 'nameAttribute', 'allValue', 'actions'];
 
   searchSuppliersCtrl = new FormControl<string | Supplier>('');
+  withFixedAttrSelectorCtrl = new FormControl<boolean | null>(null);
   public supplierList: Supplier[] | undefined;  // public filteredSupplierList: Observable<Supplier[]> | undefined;
-  selectedSupplier: Supplier | undefined;
   isLoading = false;
-  supplierId: string | any; //todo shity bug!! need to upload whole Supplier and set it into this.selectedSupplier
-
-  public withFixedAttrSelector?: any;
-
-  public searchQuery: string | undefined;
   searchQueryCtrl  = new FormControl<string>('');
+
+  pageCookie$ = this._localStorageService.myData$
+  pC: any = {};
+  private sub: any;
 
   constructor(
     public api: ApiClient,
     private router: Router,
     public dialog: MatDialog,
     private _notyf: NotificationService,
-    private _ActivatedRoute:ActivatedRoute
+    private _ActivatedRoute:ActivatedRoute,
+    private _localStorageService: LocalStorageService
   ) {
     this.dataSource = new AttributesDataSource(this.api);
-    //this.withFixedAttrSelector = true;
   }
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator
 
   ngOnInit(): any {
+    this.getCookie();
+
+    Promise.resolve().then(() => {
+      this.paginator.pageIndex = this.pC.pageIndex;
+      this.paginator.pageSize = this.pC.pageSize;
+      //this.sort.direction = this.pC.sortDirection;
+      //this.sort.active = this.pC.sortField;
+      this.loadData();
+    })
+
     this.api.getSuppliers('', 0 ,100, "SupplierName", "asc").subscribe( (r:any) => {
       this.supplierList = r.body.data
     });
+
     this._ActivatedRoute.queryParams.subscribe(params => {
-      this.supplierId = params['supplierId'];
-      if (this.supplierId) {
-        this.api.getSupplierById(this.supplierId).subscribe( s => {
-          this.selectedSupplier = s as Supplier;
-          this.searchSuppliersCtrl.setValue(s as Supplier);
+      let supplierId = params['supplierId'];
+      if (supplierId) {
+        this.api.getSupplierById(supplierId).subscribe( s => {
+          this.searchSuppliersCtrl.setValue(s.body as Supplier);
         })
       }
     });
+
     this.searchSuppliersCtrl.valueChanges.pipe(
       distinctUntilChanged(),
-      debounceTime(100),
+      debounceTime(300),
       tap(() => {
         this.isLoading = true;
       }),
@@ -81,22 +90,54 @@ export class AttributeIndexComponent implements OnInit {
         )
       )
     )
-      .subscribe((data: any) => {
-        this.supplierList = data.body.data;
-      });
-    this.loadData();
+    .subscribe((data: any) => {
+      this.supplierList = data.body.data;
+    });
   }
 
   ngAfterViewInit(): void {
     this.paginator.page
       .pipe(
-        tap( () => this.loadData())
+        tap( () => {
+          this.loadData();
+          this.setCookie();
+        })
       )
       .subscribe();
   }
 
+  ngOnDestroy() {
+    this.sub.unsubscribe(); //crutch to dispose subs
+  }
+
+  setCookie() {
+    // on each interaction - save all controls state to cookies
+    let supp = this.searchSuppliersCtrl.value as Supplier;
+    this._localStorageService.setDataByPageName(this.constructor.name, {
+      searchQuery: this.searchQueryCtrl.value,
+      supplier: {id: supp.id, supplierName: supp.supplierName} as Supplier,
+      pageIndex: this.paginator?.pageIndex,
+      pageSize: this.paginator?.pageSize,
+      //sortDirection: this.sort?.direction,
+      //sortField: this.sort?.active
+      withFixedAttrSelector: this.withFixedAttrSelectorCtrl?.value ?? null
+    });
+  }
+
+  getCookie() {
+    //try to get cookie, if there's no cookie - make the blank and save
+    this._localStorageService.getDataByPageName(this.constructor.name); //pretty wrong, upd data
+    this.sub = this.pageCookie$.subscribe(x => {
+      console.log("pc: " + JSON.stringify(x));
+      this.pC = x;
+      this.searchQueryCtrl.setValue(this.pC.searchQuery);
+      this.searchSuppliersCtrl.setValue(this.pC.supplier as Supplier);
+      this.withFixedAttrSelectorCtrl.setValue(this.pC.withFixedAttrSelector);
+    });
+  }
+
   loadData(): any {
-    this.dataSource.loadPagedData(this.searchQuery, this.selectedSupplier?.id ?? '', this.paginator?.pageIndex ?? 0, this.paginator?.pageSize ?? 15, this.withFixedAttrSelector);
+    this.dataSource.loadPagedData(this.searchQueryCtrl.value, (this.searchSuppliersCtrl.value as Supplier)?.id, this.paginator?.pageIndex ?? 0, this.paginator?.pageSize ?? 15, this.withFixedAttrSelectorCtrl.value);
   }
 
   addItem() {
@@ -112,28 +153,15 @@ export class AttributeIndexComponent implements OnInit {
     return supplier && supplier.supplierName ? supplier.supplierName : '';
   }
 
-  onSupplierSelected() {
-    this.selectedSupplier = this.searchSuppliersCtrl.value as Supplier;
+  onQueryChanged() {
     this.paginator.pageIndex = 0;
     this.loadData();
-  }
-
-  onFixedSelected() {
-    this.paginator.pageIndex = 0;
-    this.loadData();
-  }
-
-  searchQueryChanged() {
-    this.searchQuery = this.searchQueryCtrl.value ?? '';
-    this.paginator.pageIndex = 0;
-    this.loadData();
+    this.setCookie();
   }
 
   onClearSupplierSelection() {
-    this.selectedSupplier = undefined;
     this.searchSuppliersCtrl.setValue('');
-    this.paginator.pageIndex = 0;
-    this.loadData();
+    this.onQueryChanged();
   }
 
   swapItem(nameAttribute: string, id: string) {
@@ -159,17 +187,6 @@ export class AttributeIndexComponent implements OnInit {
         },
       });
     });
-  }
-
-  deleteItem(id:string) {
-    this.api.deleteProductAttribute(id).subscribe( {
-      next: next => {
-        this._notyf.onSuccess('Аттрибут успешно удалён')
-      },
-      error: error => {
-        this._notyf.onError(error.message)
-      }
-    })
   }
 
 }

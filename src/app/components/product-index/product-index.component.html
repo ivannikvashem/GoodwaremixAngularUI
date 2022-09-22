@@ -8,7 +8,7 @@
     <form class="example-form">
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>Поиск</mat-label>
-      <input matInput [formControl]="searchQueryCtrl" (keydown.enter)="searchQueryChanged()">
+      <input matInput [formControl]="searchQueryCtrl" (keydown.enter)="onQueryChanged()">
     </mat-form-field>
     <br />
 
@@ -17,20 +17,20 @@
       <input type="text" matInput aria-label="Поставщик"
              [formControl]="searchSuppliersCtrl"
              [matAutocomplete]="auto">
-      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onSupplierSelected()">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onQueryChanged()">
         <mat-option *ngFor="let option of supplierList" [value]="option">
           {{option.supplierName}}
         </mat-option>
       </mat-autocomplete>
-      <button *ngIf="selectedSupplier" matSuffix mat-icon-button aria-label="Clear" (click)="onClearSupplierSelection()">
+      <button *ngIf="searchSuppliersCtrl.value" matSuffix mat-icon-button aria-label="Clear" type="button" (click)="onClearSupplierSelection()">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
 
     <!--[formControl]="withInternalCode"-->
-    <mat-button-toggle-group name="withInternalCode" class="full-width" [(ngModel)]="withInternalCodeSelector" [value]="withInternalCodeSelector" (change)="loadProductPagedData()">
-      <mat-button-toggle [value]="false" class="full-width">Все товары</mat-button-toggle>
-      <mat-button-toggle [value]="true" class="full-width">Только с артикулом</mat-button-toggle>
+    <mat-button-toggle-group [formControl]="withInternalCodeCtrl" class="full-width" (change)="onQueryChanged()">
+      <mat-button-toggle [value]=false class="full-width">Все товары</mat-button-toggle>
+      <mat-button-toggle [value]=true class="full-width">Только с артикулом</mat-button-toggle>
     </mat-button-toggle-group>
     </form>
   </div>
@@ -46,7 +46,6 @@
             <div class="containerCmain" *ngIf="hoverRowId==row.id">
               <div class="imgWrapper">
                 <img (error)="handleMissingImage($event)" [src]="hoverImage"  class="imgInContainer" />
-
               </div>
 
               <div class="containerC">

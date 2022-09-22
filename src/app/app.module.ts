@@ -50,8 +50,8 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {getRuPaginatorIntl} from  './service/ru-paginator-intl'
 import {MatMenuModule} from "@angular/material/menu";
 import '@angular/common/locales/global/ru';
-import { SwapAttributeComponent } from './components/shared/swap-attribute/swap-attribute.component';
-import { AttributeEditorComponent } from './components/shared/attribute-editor/attribute-editor.component'
+import { SwapAttributeComponent } from './components/shared/swap-attribute/swap-attribute.component'
+import {CookieService} from "ngx-cookie-service";
 
 @NgModule({
   declarations: [
@@ -69,8 +69,7 @@ import { AttributeEditorComponent } from './components/shared/attribute-editor/a
     HoverImageSliderComponent,
     ConfirmDialogComponent,
     ProductEditComponent,
-    SwapAttributeComponent,
-    AttributeEditorComponent
+    SwapAttributeComponent
   ],
   imports: [
     CommonModule,
@@ -114,7 +113,9 @@ import { AttributeEditorComponent } from './components/shared/attribute-editor/a
       provide: STEPPER_GLOBAL_OPTIONS,
       useValue: { displayDefaultIndicatorType: false }
     },
-    {provide: MatPaginatorIntl, useValue: getRuPaginatorIntl()}
+    {provide: MatPaginatorIntl, useValue: getRuPaginatorIntl()},
+    CookieService
+
   ],
   bootstrap: [AppComponent]
 })
