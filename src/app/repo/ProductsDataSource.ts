@@ -15,7 +15,6 @@ export class ProductsDataSource implements DataSource<Product> {
 
   constructor(
     private api: ApiClient,
-    private _notyf: NotificationService
   ) {}
 
   connect(collectionViewer: CollectionViewer): Observable<Product[]> {
@@ -52,7 +51,7 @@ export class ProductsDataSource implements DataSource<Product> {
         this.ProductListSubject.next(newdata);
       },
       err => {
-        this._notyf.onError(err.message)
+        //this._notyf.onError(err.message)
       });
   }
 
