@@ -1,0 +1,55 @@
+<style>
+  .main {
+    position: relative;
+  }
+  .actions-div {
+    display: flex;
+    justify-content: space-between;
+  }
+  .information{
+    text-align: center;
+    margin: 0px 0px;
+    height: 40px;
+  }
+  .full-width {
+    width: 100%;
+  }
+</style>
+
+<div class="main">
+  <h3> ? {{data?.attributeName}}: Добавление</h3>
+  <div class="inputs">
+    <mat-form-field appearance="fill" class="full-width" *ngIf="!data.nameAttribute">
+      <mat-label>Характеристика</mat-label>
+      <input matInput placeholder=""
+                   [formControl]="searchAttributeCtrl"
+                   [matAutocomplete]="auto" [readonly]="data.nameAttribute">
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onAttributeKeySelected()">
+        <mat-option *ngFor="let option of attributesList" [value]="option" >
+          {{option.fixed ? "■" : ''}} {{option.etimFeature}} {{option.nameAttribute}} [{{option.supplierName}}]
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <h2 *ngIf="data.nameAttribute">{{data.nameAttribute}}</h2>
+
+    <br/>
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Значение</mat-label>
+      <input matInput placeholder=""
+             [formControl]="attributeValuesCtrl"
+             [matAutocomplete]="attributeValuesAuto">
+
+      <mat-autocomplete autoActiveFirstOption #attributeValuesAuto="matAutocomplete"  (optionSelected)="onAttributeValueSelected()">
+        <mat-option *ngFor="let option of filteredAttributeValues | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+
+  <div mat-dialog-actions class="actions-div">
+    <button mat-button mat-dialog-close (click)="onCancelClick()" type="button">Отмена</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="data">Добавить</button>
+  </div>
+</div>

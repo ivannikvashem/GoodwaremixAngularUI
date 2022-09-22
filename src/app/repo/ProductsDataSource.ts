@@ -3,6 +3,7 @@ import {BehaviorSubject, Observable, of} from 'rxjs';
 import {catchError, finalize, map} from 'rxjs/operators';
 import {ApiClient} from "./httpClient";
 import {Product} from "../models/product.model";
+import {NotificationService} from "../service/notification-service";
 
 export class ProductsDataSource implements DataSource<Product> {
 
@@ -12,7 +13,10 @@ export class ProductsDataSource implements DataSource<Product> {
   public loading$ = this.loadingSubject.asObservable();
   public rowCount = 0;
 
-  constructor(private api: ApiClient) {}
+  constructor(
+    private api: ApiClient,
+    private _notyf: NotificationService
+  ) {}
 
   connect(collectionViewer: CollectionViewer): Observable<Product[]> {
     return this.ProductListSubject.asObservable();
@@ -38,4 +42,16 @@ export class ProductsDataSource implements DataSource<Product> {
         this.rowCount = body.totalRecords;
       });
   }
+
+  deleteProduct(id: any) {
+    console.log("deleting supp " + id);
+    this.api.deleteProductById(id).subscribe( res => {
+        let newdata = this.ProductListSubject.value.filter(row => row.Id != id );
+        this.ProductListSubject.next(newdata);
+      },
+      err => {
+        this._notyf.onError(err.message)
+      });
+  }
+
 }

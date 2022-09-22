@@ -50,7 +50,8 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {getRuPaginatorIntl} from  './service/ru-paginator-intl'
 import {MatMenuModule} from "@angular/material/menu";
 import '@angular/common/locales/global/ru';
-import { SwapAttributeComponent } from './components/shared/swap-attribute/swap-attribute.component'
+import { SwapAttributeComponent } from './components/shared/swap-attribute/swap-attribute.component';
+import { AttributeEditorComponent } from './components/shared/attribute-editor/attribute-editor.component'
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { SwapAttributeComponent } from './components/shared/swap-attribute/swap-
     HoverImageSliderComponent,
     ConfirmDialogComponent,
     ProductEditComponent,
-    SwapAttributeComponent
+    SwapAttributeComponent,
+    AttributeEditorComponent
   ],
   imports: [
     CommonModule,

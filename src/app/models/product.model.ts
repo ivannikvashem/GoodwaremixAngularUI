@@ -4,6 +4,7 @@ import {Document} from "./document.model";
 export class Product {
   Id: string;
   supplierId: string;
+  supplierName:string;
   internalCode: string;
   title: string;
   titleLong: string;

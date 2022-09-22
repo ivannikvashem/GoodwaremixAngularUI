@@ -11,6 +11,7 @@ import {Attribute} from "../../models/attribute.model";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {SwapAttributeComponent} from "../shared/swap-attribute/swap-attribute.component";
 import {NotificationService} from "../../service/notification-service";
+import {error} from "@angular/compiler-cli/src/transformers/util";
 
 export interface AttrDialogData {
   oldAttributeId: string;
@@ -158,6 +159,17 @@ export class AttributeIndexComponent implements OnInit {
         },
       });
     });
+  }
+
+  deleteItem(id:string) {
+    this.api.deleteProductAttribute(id).subscribe( {
+      next: next => {
+        this._notyf.onSuccess('Аттрибут успешно удалён')
+      },
+      error: error => {
+        this._notyf.onError(error.message)
+      }
+    })
   }
 
 }

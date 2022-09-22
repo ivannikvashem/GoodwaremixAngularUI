@@ -7,6 +7,8 @@ import {MatPaginator} from "@angular/material/paginator";
 import {debounceTime, distinctUntilChanged, filter, finalize, map, Observable, startWith, switchMap, tap} from "rxjs";
 import {FormControl} from '@angular/forms';
 import {Supplier} from "../../models/supplier.model";
+import {ConfirmDialogComponent, ConfirmDialogModel} from "../shared/confirm-dialog/confirm-dialog.component";
+import {NotificationService} from "../../service/notification-service";
 
 export interface DialogData {
   src: '';
@@ -39,9 +41,10 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     public api: ApiClient,
     public dialog: MatDialog,
     public router: Router,
-    private _ActivatedRoute:ActivatedRoute
+    private _ActivatedRoute:ActivatedRoute,
+    private _notyf: NotificationService,
   ) {
-    this.dataSource = new ProductsDataSource(this.api);
+    this.dataSource = new ProductsDataSource(this.api, this._notyf);
     this.withInternalCodeSelector = false;
   }
 
@@ -119,12 +122,25 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     this.loadProductPagedData();
   }
 
-  deleteItem(_id: any) {
+  confirmDeleteItemDialog(id: string, productTitle:string) {
+    const message = `Удалить товар ` + productTitle + `?`;
+    const dialogData = new ConfirmDialogModel("Подтверждение", message);
 
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: "400px",
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      //this.result = dialogResult;
+      if (dialogResult === true) {
+        this.dataSource.deleteProduct(id);
+      }
+    });
   }
 
-  goToItemDetails(id: any) {
-    this.router.navigate([`product-details/${id}`]);
+  goToEditItem(id: any) {
+    this.router.navigate([`product-edit/${id}`]);
   }
 
   addItem() {
