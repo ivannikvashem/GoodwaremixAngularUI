@@ -77,4 +77,10 @@ export class ProductDetailsComponent implements OnInit {
       });
     });
   }
+
+  // deleteAttr(attributeId: any) {
+  //   this.api.deleteProductAttribute(attributeId).subscribe(result => {
+  //     console.log(result)
+  //   })
+  // }
 }

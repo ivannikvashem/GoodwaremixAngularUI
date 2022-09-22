@@ -51,6 +51,8 @@ import {getRuPaginatorIntl} from  './service/ru-paginator-intl'
 import {MatMenuModule} from "@angular/material/menu";
 import '@angular/common/locales/global/ru';
 import { SwapAttributeComponent } from './components/shared/swap-attribute/swap-attribute.component'
+import {CookieService} from "ngx-cookie-service";
+import {AttributeEditorComponent} from "./components/shared/attribute-editor/attribute-editor.component";
 
 @NgModule({
   declarations: [
@@ -66,6 +68,7 @@ import { SwapAttributeComponent } from './components/shared/swap-attribute/swap-
     ProductDetailsComponent,
     PackageCardComponent,
     HoverImageSliderComponent,
+    AttributeEditorComponent,
     ConfirmDialogComponent,
     ProductEditComponent,
     SwapAttributeComponent
@@ -112,9 +115,9 @@ import { SwapAttributeComponent } from './components/shared/swap-attribute/swap-
       provide: STEPPER_GLOBAL_OPTIONS,
       useValue: { displayDefaultIndicatorType: false }
     },
-    {
-      provide: MatPaginatorIntl, useValue: getRuPaginatorIntl()
-    },
+    {provide: MatPaginatorIntl, useValue: getRuPaginatorIntl()},
+    CookieService
+
   ],
   bootstrap: [AppComponent]
 })

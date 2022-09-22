@@ -91,6 +91,10 @@
           <mat-icon>edit</mat-icon>
         </button>&nbsp;
 
+        <button *ngIf="!item.fixed" mat-icon-button class="mat-elevation-z2" matTooltip="Удалить" (click)="deleteItem(item.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+
 
       </td>
     </ng-container>

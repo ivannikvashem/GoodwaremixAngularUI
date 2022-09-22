@@ -193,9 +193,9 @@ export class SupplierEditComponent implements OnInit {
 
   addSuppAttr() {
     //if already added -  skip
-    if (this.supplier.supplierConfigs.attributeConfig.productAttributeKeys.some( (x: ProductAttributeKey) => x.keySupplier == '')) {
-      return;
-    }
+    // if (this.supplier.supplierConfigs.attributeConfig.productAttributeKeys.some( (x: ProductAttributeKey) => x == '')) {
+    //   return;
+    // }
 
     let a: ProductAttributeKey = {keySupplier: '', attributeBDName: '', attributeIdBD: '', attributeValid: false, multiplier: ''};
     this.supplier.supplierConfigs.attributeConfig.productAttributeKeys.push(a);
@@ -218,8 +218,8 @@ export class SupplierEditComponent implements OnInit {
 
   onSelectRow(row: any) {
     console.log("onSelectRow clear");
-    this.selectedAttr = undefined;
-    this.attributeListCtrl.setValue(row.attributeBDName);
+    this.selectedAttr = this.attributeListCtrl.value as Attribute;
+    this.attributeListCtrl.setValue(this.selectedAttr);
     this.attrSelectedRow = row;
   }
 
@@ -237,11 +237,11 @@ export class SupplierEditComponent implements OnInit {
 
     //validation
     // Add our value
-    const idx = this.supplier.supplierConfigs.attributeConfig.productAttributeKeys.indexOf(row.keySupplier);
+    const idx = this.supplier.supplierConfigs.attributeConfig.productAttributeKeys.indexOf(row.attributeIdBD);
     console.log("idx: "+ idx);
-    if (row.keySupplier == null && idx != i) {
-      return;
-    }
+    // if (row.keySupplier == null && idx != i) {
+    //   return;
+    // }
 
     //update
     //this.attrSelectedRow = (this.attributeListCtrl.value as Attribute).nameAttribute;

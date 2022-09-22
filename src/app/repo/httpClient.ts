@@ -70,6 +70,10 @@ export class ApiClient {
     let body = { attributeUpdate: attributeDelete, attributeDelete: attributeUpdate };
     return this.http.post<any>(this.apiURL + '/Attribute', JSON.stringify(body), this.httpOptions);
   }
+
+  deleteProductAttribute (id:string)  {
+    return this.http.delete(this.apiURL+ '/Attribute/' + id, this.httpOptions)
+  }
   // Log ENDPOINT
 
   getLogs(pageIndex: number, pageSize: number, sortField: string, sortDirection: string): Observable<any> {
@@ -107,7 +111,13 @@ export class ApiClient {
     return this.http.get<any>(this.apiURL + '/Product/' +id, this.httpOptions);
   }
 
+  updateProduct(product: Product): Observable<any> {
+    return this.http.post<any>(this.apiURL + '/product/', product, this.httpOptions)
+  }
 
+  deleteProductById(productId:string) {
+    return this.http.delete<any>(this.apiURL + '/product/' + productId, this.httpOptions);
+  }
 
   // Suppliers ENDPOINT
 

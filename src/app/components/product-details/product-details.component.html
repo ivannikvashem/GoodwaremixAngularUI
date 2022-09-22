@@ -131,6 +131,9 @@
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let item">
+            <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить" (click)="deleteAttr(item.attributeId)">
+              <mat-icon>delete</mat-icon>
+            </button>
             <button *ngIf="!item.fixed" mat-icon-button class="mat-elevation-z2" matTooltip="Заменить" (click)="swapItem(item.attributeName, item.attributeId)">
               <mat-icon>swap_horiz</mat-icon>
             </button>
