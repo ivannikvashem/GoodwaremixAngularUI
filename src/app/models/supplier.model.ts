@@ -71,7 +71,8 @@ export class BaseConfig {
   image360: string;
   videos: string;
   country: string;
-  countryCode: string;
+  countryCode:
+    string;
   gtd: string;
   //
 }

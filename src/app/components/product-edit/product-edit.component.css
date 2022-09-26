@@ -1,0 +1,118 @@
+.uploadImageContainer {
+  display: flex;
+  flex-direction: row;
+  flex: 2;
+}
+.left-panel {
+  flex: 0 1 33%;
+  margin: 5px
+}
+.right-panel {
+  flex: 0 1 33%;
+  margin: 5px
+}
+.center-panel {
+  /*flex: 0 1 33%;*/
+  margin: 5px;
+  width: 500px;
+}
+.full-width {
+  width: 100%;
+}
+.pic {
+  height: 150px;
+  width: auto;
+  margin: 0 5px
+}
+.mat-list .mat-list-item {
+  min-height: 20px; /* default is 72px */
+}
+
+.mat-accordion .mat-expansion-panel {
+  margin-right: 10px;
+}
+
+.mat-card {
+  height:auto;
+  min-height: 20px;
+  margin-right: 10px;
+}
+.mat-column-action {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 30px !important;
+  width: 30px !important;
+  text-align: end;
+}
+
+th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
+  padding-right: 16px;
+}
+
+td, th, .mat-line {
+  white-space: normal;
+  word-wrap: break-word;
+  max-width: 200px;
+}
+tr.mat-row {
+  height: 35px;
+}
+.mat-line {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  max-width: 100%;
+}
+::ng-deep .mat-list .mat-list-item .mat-line{
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+/*::ng-deep.mat-tab-label-active{*/
+/*  opacity: 1.0!important;*/
+/*}*/
+.card {
+  margin-top: 15px;
+  margin-left: 20px;
+}
+
+.modifH2{
+  display: block;
+  font-size: 1.5em;
+  margin-block-start: 0.83em;
+  margin-block-end: 0.83em;
+  font-weight: bold;
+  color:rgba(0,0,0,.54)
+}
+::ng-deep.mat-tab-label, ::ng-deep.mat-tab-label-active{
+  min-width: 100px!important;
+  padding: 3px!important;
+  margin: 3px!important;
+}
+
+.formBlockDouble {
+  width: 50%;
+  display: flex;
+  justify-content: space-between
+}
+
+.thumbnail {
+  width:200px;
+  height:200px;
+  position:relative;
+  display: inline;
+}
+
+.thumbnail img {
+  max-width:100%;
+  max-height:100%;
+}
+
+.thumbnail button {
+  text-align: center;
+  display:block;
+  width:20px;
+  height:20px;
+  position:absolute;
+  top:-182px;
+  right:8px;
+  overflow:hidden;
+}

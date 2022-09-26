@@ -5,6 +5,7 @@ import { retry, catchError } from 'rxjs/operators';
 import {Supplier} from "../models/supplier.model";
 import {environment} from '../../environments/environment';
 import {Product} from "../models/product.model";
+import {ProductImageViewmodel} from "../models/viewmodels/productImage.viewmodel";
 
 @Injectable({
   providedIn: 'root'
@@ -111,8 +112,8 @@ export class ApiClient {
     return this.http.get<any>(this.apiURL + '/Product/' +id, this.httpOptions);
   }
 
-  updateProduct(product: Product): Observable<any> {
-    return this.http.post<any>(this.apiURL + '/product/', product, this.httpOptions)
+  updateProduct(productImgVM: ProductImageViewmodel): Observable<any> {
+    return this.http.post<any>(this.apiURL + '/product/', productImgVM, this.httpOptions)
   }
 
   deleteProductById(productId:string) {
@@ -166,6 +167,25 @@ export class ApiClient {
   deleteSupplier(id: any): Observable<any> {
     return this.http.delete<any>(this.apiURL + '/supplier/' + id, this.httpOptions);
   }
+
+
+  // fileUpload
+  // upload(file: File): Observable<HttpEvent<any>> {
+  //   const formData: FormData = new FormData();
+  //
+  //   formData.append('file', file);
+  //
+  //   const req = new HttpRequest('POST', `${this.apiURL}/upload`, formData, {
+  //     reportProgress: true,
+  //     responseType: 'json'
+  //   });
+  //
+  //   return this.http.request(req);
+  // }
+  //
+  // getFiles(): Observable<any> {
+  //   return this.http.get(`${this.baseUrl}/files`);
+  // }
 
   // INIT ENDPOINT
   fixSupplierStat() {

@@ -12,7 +12,7 @@ export class Product {
   vendor: string;
   vendorId: string;
   country:string;
-  countryId:string;
+  countryCode:string;
   gtd:string[];
   netto:any;
   package:any[];

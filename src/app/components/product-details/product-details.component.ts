@@ -78,9 +78,13 @@ export class ProductDetailsComponent implements OnInit {
     });
   }
 
-  // deleteAttr(attributeId: any) {
-  //   this.api.deleteProductAttribute(attributeId).subscribe(result => {
-  //     console.log(result)
-  //   })
-  // }
+  deleteAttr(attributeId: any) {
+    this.api.deleteProductAttribute(attributeId).subscribe(result => {
+      console.log(result)
+    })
+  }
+
+  goToEdit(Id: string) {
+    this.router.navigate([`product-edit/${Id}`]);
+  }
 }

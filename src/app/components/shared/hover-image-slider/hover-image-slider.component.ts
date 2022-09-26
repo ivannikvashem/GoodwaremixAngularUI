@@ -14,7 +14,6 @@ export class HoverImageSliderComponent implements OnInit {
   hoverRowId = "";
 
   @Input() imgList:any = [];
-
   constructor(
     public dialog: MatDialog,
     ) { }
@@ -42,8 +41,14 @@ export class HoverImageSliderComponent implements OnInit {
   }
 
   handleMissingImage(event: Event) {
-    (event.target as HTMLImageElement).src='./assets/imgPlaceholder.png'
+    if (this.imgList.length == 0) {
+      (event.target as HTMLImageElement).src='./assets/imgPlaceholder.png'
+    }
+    else {
+      (event.target as HTMLImageElement).alt='Sorry! Image not available at this time'
+    }
   }
+
 }
 @Component({
   selector: 'dialog-data-example-dialog',

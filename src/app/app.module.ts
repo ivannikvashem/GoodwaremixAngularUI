@@ -52,6 +52,8 @@ import {MatMenuModule} from "@angular/material/menu";
 import '@angular/common/locales/global/ru';
 import { SwapAttributeComponent } from './components/shared/swap-attribute/swap-attribute.component'
 import {AttributeEditorComponent} from "./components/shared/attribute-editor/attribute-editor.component";
+import { UploadImageComponent } from './components/shared/upload-image/upload-image.component';
+import { PackageEditorComponent } from './components/shared/package-editor/package-editor.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +72,9 @@ import {AttributeEditorComponent} from "./components/shared/attribute-editor/att
     AttributeEditorComponent,
     ConfirmDialogComponent,
     ProductEditComponent,
-    SwapAttributeComponent
+    SwapAttributeComponent,
+    UploadImageComponent,
+    PackageEditorComponent
   ],
   imports: [
     CommonModule,

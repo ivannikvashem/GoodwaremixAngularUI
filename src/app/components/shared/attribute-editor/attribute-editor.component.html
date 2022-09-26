@@ -17,28 +17,29 @@
 </style>
 
 <div class="main">
-  <h3> ? {{data.oldAttribute?.attributeName}}: Добавление</h3>
+  <h3>{{data.oldAttribute?.attributeName == undefined ? "Добавление характеристики" : "Редактирование " + data.oldAttribute?.attributeName}}</h3>
+
   <div class="inputs">
     <mat-form-field appearance="fill" class="full-width" >
       <mat-label>Характеристика</mat-label>
       <input matInput placeholder=""
                    [formControl]="searchAttributeCtrl"
                    [matAutocomplete]="auto" >
-      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onAttributeKeySelected()">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onAttributeKeySelected()">
         <mat-option *ngFor="let option of attributesList" [value]="option" >
           {{option.fixed ? "■" : ''}} {{option.etimFeature}} {{option.nameAttribute}} [{{option.supplierName}}]
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
 
-    <pre>{{attributeProduct | json}}</pre>
+<!--    <pre>{{attributeProduct | json}}</pre>-->
 
     <br/>
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>Значение</mat-label>
       <input matInput placeholder=""
              [formControl]="attributeValuesCtrl"
-             [matAutocomplete]="attributeValuesAuto">
+             [matAutocomplete]="attributeValuesAuto" [autofocus]="true">
 
       <mat-autocomplete autoActiveFirstOption #attributeValuesAuto="matAutocomplete"  (optionSelected)="onAttributeValueSelected()">
         <mat-option *ngFor="let option of filteredAttributeValues | async" [value]="option">

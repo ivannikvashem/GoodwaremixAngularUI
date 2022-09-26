@@ -22,7 +22,9 @@ import {SwapAttributeComponent} from "../shared/swap-attribute/swap-attribute.co
 import {MatDialog} from "@angular/material/dialog";
 import {AttributeEditComponent} from "../attribute-edit/attribute-edit.component";
 import {AttributeEditorComponent} from "../shared/attribute-editor/attribute-editor.component";
-
+import {resolveLiteral} from "@angular/compiler-cli/src/ngtsc/annotations/common";
+import {Package} from "../../models/package.model";
+import {ProductImageViewmodel} from "../../models/viewmodels/productImage.viewmodel";
 
 @Component({
   selector: 'app-product-edit',
@@ -38,14 +40,17 @@ export class ProductEditComponent implements OnInit {
   //Product
   product:Product;
   productId:string = '';
+  imagesToUpload:File[] = []
   // Attr
   dataToDisplay:any = [];
   attrDataSource = new AttrDataSource(this.dataToDisplay)
-
-  imagesToUpload:string[] = []
-
-  displayedColumns: string[] = [ 'attributeKey', 'attributeValue', 'actions'];
+  attributeColumns: string[] = [ 'attributeKey', 'attributeValue', 'actions'];
   dataSource = new MatTableDataSource<any>()
+
+  // Package
+  packageColumns: string[] = [ 'package', 'actions'];
+
+  packDataSource = new PackDataSource(this.dataToDisplay);
 
 
   constructor(public api:ApiClient,
@@ -64,43 +69,49 @@ export class ProductEditComponent implements OnInit {
         .subscribe( (s:any) => {
           this.product = s.body as Product;
           this.attrDataSource.setData(this.product.attributes || []);
+          this.packDataSource.setData(this.product.package || []);
         });
+
+      this.searchSupplierCtrl.setValue(this.product.supplierName as string)
     }
-
-    // this.attributeKeysListCtrl.valueChanges.pipe(
-    //   //distinctUntilChanged(),
-    //   debounceTime(100),
-    //   tap(() => {
-    //
-    //   }),
-    //   switchMap(value => this.api.getAttributes(value, '' ,0, 10, undefined, "Rating", "desc")
-    //     .pipe(
-    //       finalize(() => {
-    //
-    //       }),
-    //     )
-    //   )
-    // )
-    //   .subscribe((data: any) => {
-    //     this.attributeList = data.body.data;
-    //   });
-    //this.attributeList = this.product.attributes
-
-    this.product = new Product()
-    //this.dataToDisplay
-    console.log(this.product)
-
-
+    else{ this.product = new Product() }
   }
 
 
-
-  AddNewRow() {
-    this.openDialog();
+  // Media
+  onFileChange(event: any) {
+    if (event.target.files && event.target.files[0]) {
+      var filesAmount = event.target.files.length;
+      for (let i = 0; i < filesAmount; i++) {
+        var reader = new FileReader();
+        reader.onload = (event:any) => {
+          // Push Base64 string
+          this.imagesToUpload.unshift(event.target.result);
+        }
+        console.log(this.imagesToUpload)
+        reader.readAsDataURL(event.target.files[i]);
+      }
+    }
+    console.log(this.product.images)
   }
 
+  removeImage(url:any){
+    this.product.images = this.product.images.filter(img => (img != url));
+  }
 
+  addVideo($event: MatChipInputEvent) {
+    const value = ($event.value || '').trim()
+    if (value) { this.product.videos.push(value)}
+    $event.chipInput!.clear()
+  }
+  removeVideo(video:string) {
+    const index = this.product.videos.indexOf(video)
+    if (index >= 0) {
+      this.product.videos.splice(index,1)
+    }
+  }
 
+  // About product
   addGTD($event: MatChipInputEvent) {
     const value = ($event.value || '').trim()
     if (value) { this.product.gtd.push(value)}
@@ -112,42 +123,66 @@ export class ProductEditComponent implements OnInit {
       this.product.gtd.splice(index,1)
     }
   }
-
-
-  displayFn(attr: Attribute): string {
-    return attr && attr.nameAttribute ? attr.nameAttribute + " [" + attr.etimFeature + "] от " + attr.supplierName : '';
+  displayFn(supplier: Supplier): string {
+    return supplier && supplier.supplierName;
   }
 
+  // Attribute
+  AddNewRowAttribute() {
+    this.openAttributeEditorDialog();
+  }
 
+  editAttrRow(row:any) {
+    this.openAttributeEditorDialog(row);
+  }
 
+  deleteAttrRow(attribute: any) {
+    this.product.attributes = this.product.attributes.filter(item => item.attributeId !== attribute.attributeId)
+    this.attrDataSource.setData(this.product.attributes || []);
+  }
 
-  onFileChange(event: any) {
-    if (event.target.files && event.target.files[0]) {
-      var filesAmount = event.target.files.length;
-      for (let i = 0; i < filesAmount; i++) {
-        var reader = new FileReader();
-        reader.onload = (event:any) => {
-          // Push Base64 string
-          this.imagesToUpload.push(event.target.result);
+  openAttributeEditorDialog(oldAttribute?:any): void {
+
+    const dialogRef = this.dialog.open(AttributeEditorComponent, {
+      width: '900px',
+      height: '380px',
+      data: { oldAttribute: oldAttribute, newAttribute: new AttributeProduct() },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (this.product.attributes.filter(x => x.value !== result.newAttribute?.value)) {
+        if (result.newAttribute?.value !== undefined) {
+          if (oldAttribute == undefined) {
+            this.product.attributes.unshift(result.newAttribute as AttributeProduct)
+            this.attrDataSource.setData(this.product.attributes || []);
+          }
+          else {
+            if (oldAttribute !== result.newAttribute) {
+              const target = this.product.attributes.find((obj) => obj.value === oldAttribute.value)
+              const a = this.product.attributes.find(x => x.value).value == result.newAttribute.value
+              Object.assign(target, result.newAttribute)
+            }
+          }
         }
-        console.log(this.imagesToUpload)
-        reader.readAsDataURL(event.target.files[i]);
       }
-    }
+    });
   }
 
-  // Remove Image
-  removeImage(url:any){
-    console.log(this.imagesToUpload,url);
-    this.imagesToUpload = this.imagesToUpload.filter(img => (img != url));
-  }
+
+
+
+
+
+
 
   submitProduct() {
-    this.product.supplierName = 'iek'
-    this.product.Id = ''
-    this.product.supplierId = '624d278141034b896a223e4c'
     console.log('product', JSON.stringify(this.product))
-    this.api.updateProduct(this.product).subscribe( x => {
+    const productToAdd = new ProductImageViewmodel()
+    productToAdd.product = this.product
+    productToAdd.files = this.imagesToUpload
+    console.log('product to add',productToAdd)
+
+    this.api.updateProduct(productToAdd).subscribe(x => {
         //console.log("updateSupplier: " +JSON.stringify(x) );
         this._notyf.onSuccess("Товар сохранен");
       },
@@ -157,52 +192,36 @@ export class ProductEditComponent implements OnInit {
         //todo обработчик ошибок, сервер недоступен или еще чего..
       });
   }
-
-
-  deleteAttrRow(attribute: any) {
-    this.product.attributes = this.product.attributes.filter(item => item.attributeId !== attribute.attributeId)
-    this.attrDataSource.setData(this.product.attributes || []);
-  }
-
-  editAttrRow(row:any) {
-    this.openDialog(row);
-  }
-
-  openDialog(oldAttribute?:any): void {
-
-    const dialogRef = this.dialog.open(AttributeEditorComponent, {
-      width: '900px',
-      height: '380px',
-      data: { oldAttribute: oldAttribute, newAttribute: new AttributeProduct() },
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('res',result)
-      if (result.newAttribute.attributeName != undefined) {
-
-        this.product.attributes.unshift(result.newAttribute as AttributeProduct)
-        this.attrDataSource.setData(this.product.attributes || []);
-      }
-     });
-  }
-
 }
 
+
+// Service
 class AttrDataSource extends DataSource<AttributeProduct> {
   private _dataStream = new ReplaySubject<AttributeProduct[]>();
-
   constructor(initialData: AttributeProduct[]) {
     super();
     this.setData(initialData);
   }
-
   connect(): Observable<AttributeProduct[]> {
     return this._dataStream;
   }
-
   disconnect() {}
-
   setData(data: AttributeProduct[]) {
+    this._dataStream.next(data);
+  }
+}
+
+class PackDataSource extends DataSource<Package> {
+  private _dataStream = new ReplaySubject<Package[]>();
+  constructor(initialData: Package[]) {
+    super();
+    this.setData(initialData);
+  }
+  connect(): Observable<Package[]> {
+    return this._dataStream;
+  }
+  disconnect() {}
+  setData(data: Package[]) {
     this._dataStream.next(data);
   }
 }

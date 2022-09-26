@@ -147,6 +147,7 @@ export class AttributeIndexComponent implements OnInit {
   }
 
   editItem(id: any) {
+    console.log('id',id)
     this.router.navigate([`attribute-edit/${id}`]);
   }
 

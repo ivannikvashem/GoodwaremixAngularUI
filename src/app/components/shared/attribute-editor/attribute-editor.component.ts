@@ -35,41 +35,40 @@ export class AttributeEditorComponent implements OnInit {
               public data: AttrDialogData) { }
 
   ngOnInit(): void {
-    console.log('data', this.data)
-    this.api.getAttributeById(this.data.oldAttribute.attributeId).subscribe((response) => {
-      console.log('response editor', response)
-      if (response.status == 200) {
-      this.attributeProduct = response.body;
-         //this.searchAttributeCtrl.setValue(this.attributeProduct);
-         //this.attributeValuesCtrl.setValue(this.data.oldAttribute.value);
-      }
-
-      console.log('out init')
-      this.searchAttributeCtrl.valueChanges.pipe(
-        distinctUntilChanged(),
-        debounceTime(100),
-        tap(() => {
-          // this.isLoading = true;
-        }),
-        switchMap(value => this.api.getAttributes(value, '' ,0, 10, undefined, "Rating", "desc")
-          .pipe(
-            finalize(() => {
-              //this.isLoading = false
-            }),
-          )
-        )
-      )
-        .subscribe((response: any) => {
-          this.attributesList = response.body.data;
-        });
-    });
-    console.log('out init')
-
-    if (this.attributeProduct) {
-      this.searchAttributeCtrl.setValue(this.attributeProduct as Attribute)
+    if (this.data.oldAttribute !== undefined) {
+      this.api.getAttributeById(this.data.oldAttribute.attributeId).subscribe((response) => {
+        if (response.status == 200) {
+          this.attributeProduct = response.body;
+          this.searchAttributeCtrl.setValue(this.attributeProduct);
+          this.attributeValuesCtrl.setValue(this.data.oldAttribute.value);
+          this.attributeValues = this.attributeProduct.allValue
+          this.filteredAttributeValues = this.attributeValuesCtrl.valueChanges.pipe(
+            startWith(''),
+            map(value => this._filter(value)),
+          );
+        }
+      });
     }
 
-    let selectedAttribute = this.searchAttributeCtrl.value as Attribute;
+
+    this.searchAttributeCtrl.valueChanges.pipe(
+      distinctUntilChanged(),
+      debounceTime(100),
+      tap(() => {
+        // this.isLoading = true;
+      }),
+      switchMap(value => this.api.getAttributes(value, '' ,0, 10, undefined, "Rating", "desc")
+        .pipe(
+          finalize(() => {
+            //this.isLoading = false
+          }),
+        )
+      )
+    )
+      .subscribe((response: any) => {
+        this.attributesList = response.body.data;
+      });
+
 
   }
   onCancelClick(): void {
@@ -84,7 +83,7 @@ export class AttributeEditorComponent implements OnInit {
 
   onAttributeKeySelected() {
     let selectedAttribute = this.searchAttributeCtrl.value as Attribute;
-    this.filteredAttributeValues =this.attributeValuesCtrl.valueChanges.pipe(
+    this.filteredAttributeValues = this.attributeValuesCtrl.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value)),
     );
@@ -111,4 +110,5 @@ export class AttributeEditorComponent implements OnInit {
 
     return this.attributeValues.filter(attributeValues => attributeValues.toLowerCase().includes(filterValue));
   }
+
 }

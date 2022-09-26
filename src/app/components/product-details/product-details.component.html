@@ -3,7 +3,10 @@
     {{product?.vendor}}
     {{product.title}}
     <strong *ngIf="product.vendorId">[{{product.vendorId}}]</strong>
-    <button *ngIf="!product.internalCode" mat-raised-button style="float:right">В ассортимент</button>
+    <div style="float:right">
+      <button mat-raised-button (click)="goToEdit(productId)">Редактировать</button>&nbsp;
+      <button *ngIf="!product.internalCode" mat-raised-button>В ассортимент</button>
+    </div>
     <span *ngIf="product.internalCode" style="float:right">{{product.internalCode}}</span>
   </div>
   <div *ngIf="!product?.vendor">
@@ -19,7 +22,7 @@
 
 <div class="container">
 
-  <div class="center-panel">
+  <div>
     <mat-card style="padding-top: 0">
       <mat-tab-group style="width:465px" animationDuration="0ms">
         <mat-tab *ngIf="product?.images" label="Фото">
@@ -72,21 +75,18 @@
 
   <div style="width: 100%">
 
-    <div class="card">
-      <h2 class="modifH2" >О товаре</h2>
+    <mat-card>
+      <mat-card-subtitle><h2>О товаре</h2></mat-card-subtitle>
       <div [innerHTML]="product.description"></div>
 
       <ul>
-        <li *ngIf="product.country" matTooltip="Код страны{{product.id}}">Сделано в {{product.country}}</li>
+        <li *ngIf="product.country" matTooltip="Код страны{{product.id}}">Страна производства - {{product.country}} (Код {{product.countryCode}})</li>
         <li *ngIf="product.internalCode">Артикул 1С - {{product.internalCode}}</li>
         <li *ngIf="product.vendorId">Артикул поставщика - {{product.vendorId}}</li>
         <li *ngIf="product.vendor">Вендор - {{product.vendor}}</li>
         <li *ngIf="product.supplierName">Поставщик - {{product.supplierName}}</li>
       </ul>
-    </div>
-
-
-
+    </mat-card>
 
     <mat-card style="margin-top: 10px;" *ngIf="product.documents && product.documents.length > 0">
       <mat-card-subtitle><h2>Документы</h2></mat-card-subtitle>
@@ -131,15 +131,14 @@
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let item">
-            <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить" (click)="deleteAttr(item.attributeId)">
-              <mat-icon>delete</mat-icon>
-            </button>
-            <button *ngIf="!item.fixed" mat-icon-button class="mat-elevation-z2" matTooltip="Заменить" (click)="swapItem(item.attributeName, item.attributeId)">
+            <button mat-icon-button class="mat-elevation-z2" matTooltip="Заменить" (click)="swapItem(item.attributeName, item.attributeId)">
               <mat-icon>swap_horiz</mat-icon>
+            </button>&nbsp;
+            <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить" (click)="deleteAttr(item.attributeId)" *ngIf="!item.fixed">
+              <mat-icon>delete</mat-icon>
             </button>
           </td>
         </ng-container>
-
 
         <tr mat-row *matRowDef="let row; columns: displayedAttrColumns;"></tr>
       </table>

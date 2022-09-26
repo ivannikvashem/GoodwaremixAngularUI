@@ -185,6 +185,10 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     this.router.navigate(['product-edit'])
   }
 
+  goToEditItem(id:string) {
+    this.router.navigate([`product-edit/${id}`]);
+  }
+
   changeImage(row: any, image: any) {
     this.hoverRowId = row.id;
     this.hoverImage = image;
@@ -205,6 +209,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   handleMissingImage(event: Event) {
     (event.target as HTMLImageElement).src='./assets/imgPlaceholder.png'
   }
+
 }
 @Component({
   selector: 'dialog-data-example-dialog',
