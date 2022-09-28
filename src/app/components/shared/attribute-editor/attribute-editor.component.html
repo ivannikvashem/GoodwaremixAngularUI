@@ -23,8 +23,8 @@
     <mat-form-field appearance="fill" class="full-width" >
       <mat-label>Характеристика</mat-label>
       <input matInput placeholder=""
-                   [formControl]="searchAttributeCtrl"
-                   [matAutocomplete]="auto" >
+             [formControl]="searchAttributeCtrl"
+             [matAutocomplete]="auto" >
       <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onAttributeKeySelected()">
         <mat-option *ngFor="let option of attributesList" [value]="option" >
           {{option.fixed ? "■" : ''}} {{option.etimFeature}} {{option.nameAttribute}} [{{option.supplierName}}]
@@ -32,7 +32,7 @@
       </mat-autocomplete>
     </mat-form-field>
 
-<!--    <pre>{{attributeProduct | json}}</pre>-->
+    <!--    <pre>{{attributeProduct | json}}</pre>-->
 
     <br/>
     <mat-form-field appearance="fill" class="full-width">

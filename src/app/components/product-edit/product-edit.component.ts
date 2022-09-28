@@ -1,30 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {FormControl} from "@angular/forms";
 import {Supplier} from "../../models/supplier.model";
 import {ApiClient} from "../../repo/httpClient";
 import {Product} from "../../models/product.model";
 import {MatChipInputEvent} from "@angular/material/chips";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {AttributeProduct} from "../../models/attributeProduct.model";
-import {ProductAttributeKey} from "../../models/productAttributeKey.model";
 import {DataSource} from "@angular/cdk/collections";
-import {debounceTime, distinctUntilChanged, Observable, ReplaySubject, startWith, switchMap, tap} from "rxjs";
-import {Attribute} from "../../models/attribute.model";
-import {AttributesDataSource} from "../../repo/AttributesDataSource";
-import {finalize} from "rxjs/operators";
+import {Observable, ReplaySubject} from "rxjs";
 import {NotificationService} from "../../service/notification-service";
 import {MatTableDataSource} from "@angular/material/table";
-import {AttributeFiltration} from "../../models/attributeFiltration.model";
 import {ActivatedRoute} from "@angular/router";
-import {Dimensions} from "../../models/dimensions.model";
-import {Multipliers} from "../../models/multipliers.model";
-import {SwapAttributeComponent} from "../shared/swap-attribute/swap-attribute.component";
 import {MatDialog} from "@angular/material/dialog";
-import {AttributeEditComponent} from "../attribute-edit/attribute-edit.component";
 import {AttributeEditorComponent} from "../shared/attribute-editor/attribute-editor.component";
-import {resolveLiteral} from "@angular/compiler-cli/src/ngtsc/annotations/common";
 import {Package} from "../../models/package.model";
 import {ProductImageViewmodel} from "../../models/viewmodels/productImage.viewmodel";
+import {Document} from "../../models/document.model";
+import {DocumentEditorComponent} from "../shared/document-editor/document-editor.component";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-product-edit',
@@ -42,21 +35,28 @@ export class ProductEditComponent implements OnInit {
   productId:string = '';
   imagesToUpload:File[] = []
   // Attr
-  dataToDisplay:any = [];
-  attrDataSource = new AttrDataSource(this.dataToDisplay)
-  attributeColumns: string[] = [ 'attributeKey', 'attributeValue', 'actions'];
+  dataToDisplayAttr:any = [];
+  attrDataSource = new AttrDataSource(this.dataToDisplayAttr)
+  attributeColumns: string[] = [ 'attributeKey', 'attributeValue', 'action'];
   dataSource = new MatTableDataSource<any>()
 
   // Package
-  packageColumns: string[] = [ 'package', 'actions'];
+  dataToDisplayPck:any = [];
+  packageColumns: string[] = [ 'package', 'action'];
+  packDataSource = new PackDataSource(this.dataToDisplayPck);
 
-  packDataSource = new PackDataSource(this.dataToDisplay);
+  // Document
+  dataToDisplayDoc:any = [];
+  documentColumns:string[] = ['title', 'action']
+  documentDataSource = new DocumentDataSource(this.dataToDisplayDoc)
+
 
 
   constructor(public api:ApiClient,
               private _ActivatedRoute:ActivatedRoute,
               public _notyf:NotificationService,
-              public dialog: MatDialog) { }
+              public dialog: MatDialog,
+              public http:HttpClient) { }
 
   ngOnInit(): void {
     this.productId = this._ActivatedRoute.snapshot.paramMap.get("id");
@@ -70,9 +70,12 @@ export class ProductEditComponent implements OnInit {
           this.product = s.body as Product;
           this.attrDataSource.setData(this.product.attributes || []);
           this.packDataSource.setData(this.product.package || []);
+          this.documentDataSource.setData(this.product.documents || []);
+          this.searchSupplierCtrl.setValue(this.product.supplierName as string)
         });
-
-      this.searchSupplierCtrl.setValue(this.product.supplierName as string)
+      // if (this.product.supplierName !== undefined) {
+      //   this.searchSupplierCtrl.setValue(this.product.supplierName as string)
+      // }
     }
     else{ this.product = new Product() }
   }
@@ -80,17 +83,19 @@ export class ProductEditComponent implements OnInit {
 
   // Media
   onFileChange(event: any) {
+    //this.imagesToUpload.push(event.target.files[0] as File[])
+    console.log(this.imagesToUpload)
+
     if (event.target.files && event.target.files[0]) {
       var filesAmount = event.target.files.length;
-      for (let i = 0; i < filesAmount; i++) {
-        var reader = new FileReader();
-        reader.onload = (event:any) => {
-          // Push Base64 string
-          this.imagesToUpload.unshift(event.target.result);
-        }
-        console.log(this.imagesToUpload)
-        reader.readAsDataURL(event.target.files[i]);
+
+      const files:File[] = event.target.files
+      console.log('files', event.target.files)
+      for (let i of files) {
+        this.imagesToUpload.unshift(i)
       }
+      console.log('img upd2',this.imagesToUpload)
+
     }
     console.log(this.product.images)
   }
@@ -98,6 +103,7 @@ export class ProductEditComponent implements OnInit {
   removeImage(url:any){
     this.product.images = this.product.images.filter(img => (img != url));
   }
+
 
   addVideo($event: MatChipInputEvent) {
     const value = ($event.value || '').trim()
@@ -142,11 +148,12 @@ export class ProductEditComponent implements OnInit {
   }
 
   openAttributeEditorDialog(oldAttribute?:any): void {
-
+    console.log('att', oldAttribute)
     const dialogRef = this.dialog.open(AttributeEditorComponent, {
       width: '900px',
       height: '380px',
       data: { oldAttribute: oldAttribute, newAttribute: new AttributeProduct() },
+      autoFocus:false
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -169,28 +176,71 @@ export class ProductEditComponent implements OnInit {
   }
 
 
+  // Document
+  AddNewDocument() {
+    this.openDocumentEditorDialog()
+  }
 
 
+  editDocRow(row:any) {
+    this.openDocumentEditorDialog(row)
+  }
+
+
+  deleteDocRow(row:any) {
+    this.product.documents = this.product.documents.filter(dc => (dc != row))
+    this.documentDataSource.setData(this.product.documents || []);
+  }
+
+  openDocumentEditorDialog(oldDocument?:any): void {
+
+    const dialogRef = this.dialog.open(DocumentEditorComponent, {
+      width: '900px',
+      height: '600px',
+      data: { oldDocument: oldDocument, newDocument: new Document() },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (this.product.documents.filter(x => x !== result?.newDocument)) {
+        if (result.newDocument !== undefined) {
+          if (oldDocument == undefined) {
+            this.product.documents.unshift(result.newDocument as Document)
+            this.documentDataSource.setData(this.product.documents || []);
+          }
+          else {
+            if (oldDocument !== result.newDocument) {
+              const target = this.product.documents.find((obj) => obj === oldDocument)
+              Object.assign(target, result.newDocument)
+            }
+          }
+        }
+      }
+    });
+  }
 
 
 
 
   submitProduct() {
-    console.log('product', JSON.stringify(this.product))
+    // console.log('product', JSON.stringify(this.product))
     const productToAdd = new ProductImageViewmodel()
     productToAdd.product = this.product
     productToAdd.files = this.imagesToUpload
-    console.log('product to add',productToAdd)
+    // console.log('product to add',productToAdd)
+
+
+
 
     this.api.updateProduct(productToAdd).subscribe(x => {
         //console.log("updateSupplier: " +JSON.stringify(x) );
+        console.log('x')
         this._notyf.onSuccess("Товар сохранен");
       },
-      error => {
-        console.log("updateSupplierError: " + JSON.stringify(error));
-        this._notyf.onError("Ошибка: " + JSON.stringify(error));
-        //todo обработчик ошибок, сервер недоступен или еще чего..
-      });
+       error => {
+         console.log("updateSupplierError: " + JSON.stringify(error));
+         this._notyf.onError("Ошибка: " + JSON.stringify(error));
+         //todo обработчик ошибок, сервер недоступен или еще чего..
+       });
   }
 }
 
@@ -222,6 +272,21 @@ class PackDataSource extends DataSource<Package> {
   }
   disconnect() {}
   setData(data: Package[]) {
+    this._dataStream.next(data);
+  }
+}
+
+class DocumentDataSource extends DataSource<Document> {
+  private _dataStream = new ReplaySubject<Document[]>();
+  constructor(initialData: Document[]) {
+    super();
+    this.setData(initialData);
+  }
+  connect(): Observable<Document[]> {
+    return this._dataStream;
+  }
+  disconnect() {}
+  setData(data: Document[]) {
     this._dataStream.next(data);
   }
 }

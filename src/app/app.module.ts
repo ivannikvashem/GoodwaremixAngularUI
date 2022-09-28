@@ -54,6 +54,9 @@ import { SwapAttributeComponent } from './components/shared/swap-attribute/swap-
 import {AttributeEditorComponent} from "./components/shared/attribute-editor/attribute-editor.component";
 import { UploadImageComponent } from './components/shared/upload-image/upload-image.component';
 import { PackageEditorComponent } from './components/shared/package-editor/package-editor.component';
+import { DocumentEditorComponent } from './components/shared/document-editor/document-editor.component';
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
 
 @NgModule({
   declarations: [
@@ -74,7 +77,8 @@ import { PackageEditorComponent } from './components/shared/package-editor/packa
     ProductEditComponent,
     SwapAttributeComponent,
     UploadImageComponent,
-    PackageEditorComponent
+    PackageEditorComponent,
+    DocumentEditorComponent
   ],
   imports: [
     CommonModule,
@@ -112,6 +116,8 @@ import { PackageEditorComponent } from './components/shared/package-editor/packa
     NgxBarcodeModule,
     MatTabsModule,
     MatMenuModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [
     {
@@ -119,6 +125,8 @@ import { PackageEditorComponent } from './components/shared/package-editor/packa
       useValue: { displayDefaultIndicatorType: false }
     },
     {provide: MatPaginatorIntl, useValue: getRuPaginatorIntl()},
+    { provide: MAT_DATE_LOCALE, useValue: 'ru-RU' }
+
 
   ],
   bootstrap: [AppComponent]

@@ -15,7 +15,7 @@
             <button mat-button (click)="fileInput.click()" class="mat-elevation-z2" style="margin:10px">
               <mat-icon>cloud_upload</mat-icon>
               Загрузить
-              <input #fileInput type="file" multiple="" (change)="onFileChange($event)" style="display:none;" />
+              <input #fileInput type="file" multiple="" accept="image/gif, image/jpeg, image/png, image/jpg" (change)="onFileChange($event)" style="display:none;" />
             </button>
 
             <div>
@@ -26,7 +26,7 @@
             </div>
 
             <div class="img-wrap" *ngFor="let img of imagesToUpload">
-              <img  [src]="img" style="object-fit: cover;height:200px; width: 200px">
+              <img  [src]="img.name" style="object-fit: cover;height:200px; width: 200px">
             </div>
 
 <!--            <app-hover-image-slider [imgList]="product.images"></app-hover-image-slider>-->
@@ -47,7 +47,7 @@
           <ng-template matTabContent>
             <mat-form-field class="form-full-width" appearance="fill">
               <mat-label>Ссылка на видео</mat-label>
-              <mat-chip-list #chipList aria-label="Fruit selection">
+              <mat-chip-list #chipList>
                 <mat-chip *ngFor="let item of product.videos" (removed)="removeVideo(item)">
                   {{item}}
                   <button matChipRemove>
@@ -60,6 +60,7 @@
                        [matChipInputAddOnBlur]="true"
                        (matChipInputTokenEnd)="addVideo($event)">
               </mat-chip-list>
+              <mat-hint><strong> В формате https://www.youtube.com/embed/Код видео</strong></mat-hint>
             </mat-form-field>
           </ng-template>
         </mat-tab>
@@ -80,7 +81,7 @@
       <mat-tab-group  animationDuration="0ms">
         <mat-tab  label="О товаре">
           <ng-template matTabContent>
-            <mat-form-field appearance="fill" class="full-width" *ngIf="!product.supplierName">
+            <mat-form-field appearance="fill" class="full-width" *ngIf="!product?.supplierName">
               <mat-label>Поставщик</mat-label>
               <input matInput placeholder=""
                      [formControl]="searchSupplierCtrl"
@@ -159,7 +160,7 @@
 
                 <!-- attributeKey Column -->
                 <ng-container matColumnDef="attributeKey" appearance="fill" class="full-width">
-                  <th mat-header-cell *matHeaderCellDef> Аттрибут </th>
+                  <th mat-header-cell *matHeaderCellDef> Характеристика </th>
                   <td mat-cell *matCellDef="let row">{{row.attributeName}}</td>
                 </ng-container>
 
@@ -170,7 +171,7 @@
                 </ng-container>
 
                 <!-- actions Column -->
-                <ng-container matColumnDef="actions" appearance="fill" class="full-width">
+                <ng-container matColumnDef="action" appearance="fill" class="full-width">
                   <th mat-header-cell *matHeaderCellDef>
                     <button mat-icon-button class="mat-elevation-z2" (click)="AddNewRowAttribute()" >
                       <mat-icon>add</mat-icon>
@@ -180,7 +181,7 @@
 
                     <button mat-icon-button matTooltip="Редактировать" class="mat-elevation-z2" (click)="editAttrRow(row)">
                       <mat-icon>edit</mat-icon>
-                    </button>
+                    </button>&nbsp;
 
                     <button mat-icon-button matTooltip="Удалить" class="mat-elevation-z2" (click)="deleteAttrRow(row)">
                       <mat-icon>delete</mat-icon>
@@ -201,34 +202,30 @@
 
         <mat-tab  label="Упаковка">
           <ng-template matTabContent>
-            <app-package-card [pack]="product.netto"></app-package-card>
 
+            <table #table mat-table [dataSource]="packDataSource" class="mat-elevation-z8; form-full-width" style="display: table">
 
-            <table #table mat-table [dataSource]="packDataSource" class="mat-elevation-z8; form-full-width" >
-
-              <!-- attributeKey Column -->
+              <!-- package Column -->
               <ng-container matColumnDef="package" appearance="fill" class="full-width">
-                <th mat-header-cell *matHeaderCellDef></th>
+                <th mat-header-cell *matHeaderCellDef> Упаковка </th>
                 <td mat-cell *matCellDef="let row">
+                  <app-package-card [pack]="row.netto"></app-package-card>
                   <app-package-card [pack]="row"></app-package-card>
+
                 </td>
               </ng-container>
 
 
-              <!-- actions Column -->
-              <ng-container matColumnDef="actions" appearance="fill" class="full-width">
+              <!-- action Column -->
+              <ng-container matColumnDef="action" appearance="fill" class="full-width">
                 <th mat-header-cell *matHeaderCellDef>
-                  <button mat-icon-button class="mat-elevation-z2" (click)="AddNewRowAttribute()" >
-                    <mat-icon>add</mat-icon>
-                  </button>
+                  <button mat-icon-button class="mat-elevation-z2"><mat-icon>add</mat-icon></button>
                 </th>
                 <td mat-cell *matCellDef="let row">
-
-                  <button mat-icon-button matTooltip="Редактировать" class="mat-elevation-z2" (click)="editAttrRow(row)">
+                  <button mat-icon-button matTooltip="Редактировать" class="mat-elevation-z2" >
                     <mat-icon>edit</mat-icon>
-                  </button>
-
-                  <button mat-icon-button matTooltip="Удалить" class="mat-elevation-z2" (click)="deleteAttrRow(row)">
+                  </button>&nbsp;
+                  <button mat-icon-button matTooltip="Удалить" class="mat-elevation-z2">
                     <mat-icon>delete</mat-icon>
                   </button>
                 </td>
@@ -239,6 +236,9 @@
 
             </table>
 
+            <app-package-card [pack]="product.netto"></app-package-card>
+
+
 
 <!--            <mat-accordion  *ngIf="product?.netto.packQty">-->
 <!--              <mat-expansion-panel disabled expanded style="margin-right: 10px; margin-bottom: 10px; margin-top: 10px">-->
@@ -246,31 +246,61 @@
 <!--              </mat-expansion-panel>-->
 <!--            </mat-accordion>-->
 
-<!--            <mat-accordion>-->
-<!--              <mat-expansion-panel *ngFor="let pack of product?.package">-->
-<!--                <mat-expansion-panel-header>-->
-<!--                  <mat-panel-title>-->
-<!--                    <span>{{pack.packQty ? pack.packQty : 1}} {{pack.type}} [{{pack.barcode}}]</span>-->
-<!--                  </mat-panel-title>-->
-<!--                  <mat-panel-description>-->
+            <mat-accordion>
+              <mat-expansion-panel *ngFor="let pack of product?.package">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <span>{{pack.packQty ? pack.packQty : 1}} {{pack.type}} [{{pack.barcode}}]</span>
+                  </mat-panel-title>
+                  <mat-panel-description>
 
-<!--                  </mat-panel-description>-->
-<!--                </mat-expansion-panel-header>-->
-<!--                <app-package-card [pack]="pack"></app-package-card>-->
-<!--              </mat-expansion-panel>-->
-<!--            </mat-accordion>-->
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <app-package-card [pack]="pack"></app-package-card>
+              </mat-expansion-panel>
+            </mat-accordion>
           </ng-template>
         </mat-tab>
 
         <mat-tab  label="Документы">
           <ng-template matTabContent>
-            <mat-list>
-              <mat-list-item *ngFor="let d of product.documents" style="height: auto">
-                <div mat-line><strong>{{d.type}}</strong> <span style="font-style: italic">  ({{d.startDate | date:'dd-MM-yyyy'}} - {{d.endDate | date:'dd-MM-yyyy'}})</span></div>
-                <div mat-line>{{d.certTitle}}</div>
-                <a mat-icon-button class="mat-elevation-z2" *ngIf="d.url" style="color:black" href="{{d.url}}" target="_blank"><mat-icon>download</mat-icon></a>
-              </mat-list-item>
-            </mat-list>
+
+            <table #table mat-table [dataSource]="documentDataSource" class="mat-elevation-z8; form-full-width" style="display: table">
+
+              <!-- title Column -->
+              <ng-container matColumnDef="title" appearance="fill" class="full-width">
+                <th mat-header-cell *matHeaderCellDef> Документ </th>
+                <td mat-cell *matCellDef="let row">
+                  <div mat-line><strong>{{row.type}}</strong> <span style="font-style: italic">  ({{row.startDate | date:'dd-MM-yyyy'}} - {{row.endDate | date:'dd-MM-yyyy'}})</span></div>
+                  <div mat-line><small>{{row.certTitle}}</small></div>
+
+                </td>
+              </ng-container>
+
+
+              <!-- actions Column -->
+              <ng-container matColumnDef="action" appearance="fill" class="full-width">
+                <th mat-header-cell *matHeaderCellDef>
+                  <button mat-icon-button class="mat-elevation-z2" (click)="AddNewDocument()" >
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  <a mat-icon-button class="mat-elevation-z2" *ngIf="row.url" style="color:black" href="{{row.url}}" target="_blank"><mat-icon>visibility</mat-icon></a>&nbsp;
+                  <button mat-icon-button matTooltip="Редактировать" class="mat-elevation-z2" (click)="editDocRow(row)">
+                    <mat-icon>edit</mat-icon>
+                  </button>&nbsp;
+                  <button mat-icon-button matTooltip="Удалить" class="mat-elevation-z2" (click)="deleteDocRow(row)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="documentColumns; sticky: true" ></tr>
+              <tr mat-row *matRowDef="let row; columns: documentColumns;"></tr>
+
+            </table>
+
           </ng-template>
         </mat-tab>
 

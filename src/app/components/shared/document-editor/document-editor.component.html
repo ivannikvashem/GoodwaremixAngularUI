@@ -1,0 +1,76 @@
+<style>
+  .main {
+    position: relative;
+  }
+  .actions-div {
+    display: flex;
+    justify-content: space-between;
+  }
+  .information{
+    text-align: center;
+    margin: 0px 0px;
+    height: 40px;
+  }
+  .full-width {
+    width: 100%;
+  }
+</style>
+
+<div class="main">
+  <h3>{{documentProduct?.certTitle == undefined ? "Добавление документа" : "Редактирование документа"}}</h3>
+
+
+  <div class="inputs">
+    <form [formGroup]="form" (ngSubmit)="onSubmitClick()">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Название</mat-label>
+        <input matInput formControlName="certTitle" name="certTitle" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Номер</mat-label>
+        <input matInput formControlName="certNumber" name="certNumber" required>
+      </mat-form-field>
+
+      <div class="formBlockDouble">
+        <mat-form-field appearance="fill">
+          <mat-label>Дата начала</mat-label>
+          <input matInput [matDatepicker]="startDate"  formControlName="startDate" name="startDate">
+          <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+          <mat-datepicker #startDate></mat-datepicker>
+        </mat-form-field>&nbsp;
+
+        <mat-form-field appearance="fill">
+          <mat-label>Дата окончания</mat-label>
+          <input matInput [matDatepicker]="endDate" formControlName="endDate" name="endDate">
+          <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+          <mat-datepicker #endDate></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Тип</mat-label>
+          <input matInput formControlName="type" name="type">
+        </mat-form-field>
+
+        <mat-form-field class="example-chip-list" appearance="fill" class="full-width">
+          <mat-label>Ссылки</mat-label>
+          <mat-chip-list #chipList>
+            <mat-chip *ngFor="let url of urlList" (removed)="removeUrl(url)">
+              {{url}}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+            <input [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addUrl($event)" required>
+          </mat-chip-list>
+        </mat-form-field>
+    </form>
+
+  </div>
+
+  <div mat-dialog-actions class="actions-div">
+    <button mat-button mat-dialog-close (click)="onCancelClick()" type="button">Отмена</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="data" (click)="onSubmitClick()" [disabled]="form.invalid">Сохранить</button>
+  </div>
+</div>

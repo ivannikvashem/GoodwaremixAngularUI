@@ -112,8 +112,14 @@ export class ApiClient {
     return this.http.get<any>(this.apiURL + '/Product/' +id, this.httpOptions);
   }
 
-  updateProduct(productImgVM: ProductImageViewmodel): Observable<any> {
-    return this.http.post<any>(this.apiURL + '/product/', productImgVM, this.httpOptions)
+  updateProduct(imgProduct:ProductImageViewmodel): Observable<any> {
+    const formData = new FormData()
+    formData.append('product', JSON.stringify(imgProduct.product))
+    for (const photo of imgProduct.files) {
+      console.log(photo)
+      formData.append('files', photo)
+    }
+    return this.http.post(this.apiURL + '/product/', formData, {headers:{"ContentType": "multipart/form-data"}})
   }
 
   deleteProductById(productId:string) {

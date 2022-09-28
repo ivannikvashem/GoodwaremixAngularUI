@@ -2,7 +2,7 @@ export class Document {
   id: string
   supplierId: string
   type: string
-  url: string
+  url: string[] = []
   certTitle: string
   certNumber: string
   file: string
@@ -12,5 +12,5 @@ export class Document {
   endDate: Date
   blankNumber: string
   isDeleted: boolean
-  keywords: string[]
+  keywords: string[] = []
 }
