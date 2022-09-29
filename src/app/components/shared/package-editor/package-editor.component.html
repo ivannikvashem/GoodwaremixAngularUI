@@ -17,7 +17,7 @@
 </style>
 
 <div class="main">
-  <h3>{{packageProduct?.barcode == null ? "Добавление упаковки" : "Редактирование упаковки"}}</h3>
+  <h3>{{data.oldPackage == undefined ? "Добавление упаковки" : "Редактирование упаковки"}}</h3>
 
 
   <div class="inputs">
@@ -27,10 +27,15 @@
         <input matInput formControlName="barcode" required>
       </mat-form-field>
 
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Тип</mat-label>
-        <input matInput formControlName="type">
-      </mat-form-field>
+      <div class="formBlockDouble">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Тип</mat-label>
+          <input matInput formControlName="type">
+        </mat-form-field>
+        <mat-slide-toggle color="primary" style="height: 60px;margin-left: 10px" [(ngModel)]="isNetto">Нетто</mat-slide-toggle>
+
+      </div>
+
 
       <div class="formBlockTriple">
         <mat-form-field appearance="fill">

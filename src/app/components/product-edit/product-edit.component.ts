@@ -200,22 +200,18 @@ export class ProductEditComponent implements OnInit {
     this.packDataSource.setData(this.product.packages || []);
   }
 
-  openPackageEditorDialog(oldPackage?:any): void {
+  openPackageEditorDialog(oldPackage?:any, oldNetto?:any): void {
 
     const dialogRef = this.dialog.open(PackageEditorComponent, {
       width: '900px',
       height: '650px',
-      data: { oldPackage: oldPackage, newPackage: new Package()},
+      data: { oldPackage: oldPackage, newPackage: new Package(), oldNetto: oldNetto },
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('pck data',result)
-      console.log('packages', this.product.packages)
       if (this.product.packages.filter(x => x.barcode !== result.newPackage?.barcode)) {
 
         if (result.newPackage !== undefined) {
-          console.log('pck data', result)
-
           if (oldPackage == undefined) {
             console.log(this.product)
             this.product.packages.unshift(result.newPackage as Package)

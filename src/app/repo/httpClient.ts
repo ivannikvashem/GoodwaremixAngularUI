@@ -194,6 +194,8 @@ export class ApiClient {
   //   return this.http.get(`${this.apiURL}/files`);
   // }
 
+
+  // DOWNLOAD FILE ENDPOINT
   downloadTableFile(table:string, supplierId:string) {
     let opt = { params: new HttpParams().set('table', table).set('supplierId', supplierId) };
     if (supplierId != "") {

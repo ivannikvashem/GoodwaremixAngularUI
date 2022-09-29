@@ -14,6 +14,8 @@ import {DocumentEditorComponent} from "../document-editor/document-editor.compon
 export interface AttrDialogData {
   newPackage?: Package;
   oldPackage?:Package;
+  newNetto:any
+  oldNetto:any
 }
 
 @Component({
@@ -23,9 +25,10 @@ export interface AttrDialogData {
 })
 export class PackageEditorComponent implements OnInit {
 
-  readonly separatorKeysCodes = [ENTER, COMMA] as const;
   packageProduct: Package = new Package();
+  nettoProduct: any
   form:FormGroup
+  isNetto:boolean = false;
 
   constructor(public api: ApiClient,
               public dialogRef: MatDialogRef<DocumentEditorComponent>,

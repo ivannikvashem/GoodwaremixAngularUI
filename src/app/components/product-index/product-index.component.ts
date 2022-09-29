@@ -227,8 +227,8 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
 @Component({
   selector: 'dialog-data-example-dialog',
   template: `
-    <!--<img style="max-width: 800px;  max-height: 800px;" src='{{data.src}}'>-->
-    <img (error)="handleMissingImage($event)" style="max-width: 95%;  max-height: 95%; margin: 0 auto; display: flex" src='{{data.src}}'>
+    <img (error)="handleMissingImage($event)" style="max-width: 800px;  max-height: 800px;" src='{{data.src}}'>
+<!--    <img (error)="handleMissingImage($event)" style="max-width: 95%;  max-height: 95%; margin: 0 auto; display: flex" src='{{data.src}}'>-->
 `
 })
 export class DialogDataExampleDialog {

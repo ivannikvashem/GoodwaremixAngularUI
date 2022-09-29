@@ -1,11 +1,17 @@
-<div class="full-width" style="display: flex; justify-content: space-between; padding-right: 20px;">
-  <h3>{{product?.supplierId == undefined ? "Добавление нового товара" : "Редактирование " + product?.title}}</h3>
-  <div style="vertical-align: bottom; margin: auto 0;">
+
+<div class="mat-headline">
+  <div style="float:right; margin-right: 10px">
     <button mat-flat-button color="primary" (click)="submitProduct()">Сохранить</button>
+  </div>
+
+  <div>
+    <span>{{product?.supplierId == undefined ? "Добавление нового товара" : "Редактирование " + product?.title}}</span>
+    <strong *ngIf="product.vendorId"> [{{product.vendorId}}]</strong>
+
   </div>
 </div>
 
-<div class="uploadImageContainer">
+<div class="container">
 
   <div>
     <mat-card style="padding-top: 0">
@@ -17,7 +23,7 @@
               <input #fileInput type="file" multiple="" accept="image/gif, image/jpeg, image/png, image/jpg" (change)="onFileChange($event)" style="display:none;" />
             </button>
 
-            <div>
+            <div style="max-height: 600px; overflow-y: auto">
               <div class="thumbnail" *ngFor="let img of imagesView" >
                 <img [src]="img" style="object-fit: cover;height:200px; width: 200px; margin-left:10px">
                 <button (click)="removeImage(img)">X</button>
@@ -135,6 +141,7 @@
                        (matChipInputTokenEnd)="addGTD($event)">
               </mat-chip-list>
             </mat-form-field>
+
           </ng-template>
         </mat-tab>
 
@@ -206,7 +213,7 @@
               <ng-container matColumnDef="package" appearance="fill" class="full-width">
                 <th mat-header-cell *matHeaderCellDef> Упаковка </th>
                 <td mat-cell *matCellDef="let row">
-                  В упаковке {{row.packQty}}
+                  <strong> В упаковке {{row.packQty}}</strong>
                   <app-package-card [pack]="row"></app-package-card>
 
                 </td>
