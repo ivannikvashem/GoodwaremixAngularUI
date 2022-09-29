@@ -1,7 +1,7 @@
 
 export class Package {
   barcode: string;
-  type: string ;
+  type: string;
   height: number;
   width: number;
   depth: number;

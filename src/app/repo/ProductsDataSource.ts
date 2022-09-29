@@ -45,8 +45,9 @@ export class ProductsDataSource implements DataSource<Product> {
   }
 
   deleteProduct(id: any) {
-    console.log("deleting supp " + id);
+    console.log("deleting product " + id);
     this.api.deleteProductById(id).subscribe( res => {
+      console.log('res',res)
         let newdata = this.ProductListSubject.value.filter(row => row.Id != id );
         this.ProductListSubject.next(newdata);
       },

@@ -40,13 +40,8 @@ export class HoverImageSliderComponent implements OnInit {
     this.dialog.open(DialogDataExampleDialog2, dialogBoxSettings);
   }
 
-  handleMissingImage(event: Event) {
-    if (this.imgList.length == 0) {
-      (event.target as HTMLImageElement).src='./assets/imgPlaceholder.png'
-    }
-    else {
-      (event.target as HTMLImageElement).alt='Sorry! Image not available at this time'
-    }
+  handleMissingImage($event: Event) {
+    ($event.target as HTMLImageElement).src='./assets/imgPlaceholder.png'
   }
 
 }
@@ -62,6 +57,5 @@ export class DialogDataExampleDialog2 {
 
   handleMissingImage($event: ErrorEvent) {
     ($event.target as HTMLImageElement).src='./assets/imgPlaceholder.png'
-
   }
 }

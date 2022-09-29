@@ -62,25 +62,33 @@ export class ProductEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.productId = this._ActivatedRoute.snapshot.paramMap.get("id");
-    this.api.getSuppliers('', 0 ,100, "SupplierName", "asc").subscribe( (r:any) => {
-      this.supplierList = r.body.data
-    });
-
     if (this.productId) {
       this.api.getProductById(this.productId)
         .subscribe( (s:any) => {
+          console.log('res prod', s.body)
+
           this.product = s.body as Product;
           this.attrDataSource.setData(this.product.attributes || []);
-          this.packDataSource.setData(this.product.package || []);
+          this.packDataSource.setData(this.product.packages || []);
           this.documentDataSource.setData(this.product.documents || []);
           this.product.images.forEach((value) => {this.imagesView.unshift(value) })
+          console.log('prod', this.product)
         });
+
+
     }
-    else{ this.product = new Product() }
+    else {
+      this.product = new Product()
+      this.api.getSuppliers('', 0 ,100, "SupplierName", "asc").subscribe( (r:any) => {
+        this.supplierList = r.body.data
+      });
+    }
+
   }
 
 
-  // Media
+
+// Media
   onFileChange(event: any) {
     //this.imagesToUpload.push(event.target.files[0] as File[])
     console.log(this.imagesToUpload)
@@ -188,8 +196,8 @@ export class ProductEditComponent implements OnInit {
   }
 
   deletePackageRow(row:any) {
-    this.product.package = this.product.package.filter(dc => (dc != row))
-    this.packDataSource.setData(this.product.package || []);
+    this.product.packages = this.product.packages.filter(dc => (dc != row))
+    this.packDataSource.setData(this.product.packages || []);
   }
 
   openPackageEditorDialog(oldPackage?:any): void {
@@ -197,24 +205,24 @@ export class ProductEditComponent implements OnInit {
     const dialogRef = this.dialog.open(PackageEditorComponent, {
       width: '900px',
       height: '650px',
-      data: { oldPackage: oldPackage, newPackage: new Package() },
+      data: { oldPackage: oldPackage, newPackage: new Package()},
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('pck data',result)
-      console.log('packages', this.product.package)
-      if (this.product.package.filter(x => x.barcode !== result.newPackage?.barcode)) {
+      console.log('packages', this.product.packages)
+      if (this.product.packages.filter(x => x.barcode !== result.newPackage?.barcode)) {
 
         if (result.newPackage !== undefined) {
           console.log('pck data', result)
 
           if (oldPackage == undefined) {
             console.log(this.product)
-            this.product.package.unshift(result.newPackage as Package)
-            this.packDataSource.setData(this.product.package || []);
+            this.product.packages.unshift(result.newPackage as Package)
+            this.packDataSource.setData(this.product.packages || []);
           } else {
             if (oldPackage !== result.newPackage) {
-              const target = this.product.package.find((obj) => obj === oldPackage)
+              const target = this.product.packages.find((obj) => obj === oldPackage)
               Object.assign(target, result.newPackage)
             }
           }
@@ -249,6 +257,7 @@ export class ProductEditComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (this.product.documents.filter(x => x !== result?.newDocument)) {
+        console.log('docs', this.product.documents)
         if (result.newDocument !== undefined) {
           if (oldDocument == undefined) {
             this.product.documents.unshift(result.newDocument as Document)
@@ -276,6 +285,7 @@ export class ProductEditComponent implements OnInit {
       this.product.supplierId = supplier.id
       this.product.supplierName = supplier.supplierName
     }
+    console.log('ss',this.product)
     const productToAdd = new ProductImageViewmodel()
     productToAdd.product = this.product
     productToAdd.files = this.imagesToUpload

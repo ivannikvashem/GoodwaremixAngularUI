@@ -167,8 +167,6 @@ export class AttributeIndexComponent implements OnInit {
   }
 
   swapItem(nameAttribute: string, id: string) {
-    console.log(nameAttribute)
-
     this.openDialog(nameAttribute, id);
   }
 
@@ -176,7 +174,7 @@ export class AttributeIndexComponent implements OnInit {
     const dialogRef = this.dialog.open(SwapAttributeComponent, {
       width: '900px',
       height: '380px',
-      data: { oldAttributeId: id, oldDocument: nameAttribute, newDocument: new Attribute() },
+      data: { oldAttributeId: id, oldAttribute: nameAttribute, newAttribute: new Attribute() },
     });
 
     dialogRef.afterClosed().subscribe(result => {

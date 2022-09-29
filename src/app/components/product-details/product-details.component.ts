@@ -63,7 +63,7 @@ export class ProductDetailsComponent implements OnInit {
     const dialogRef = this.dialog.open(SwapAttributeComponent, {
       width: '900px',
       height: '380px',
-      data: { oldAttributeId: id, oldDocument: nameAttribute, newDocument: new Attribute() },
+      data: { oldAttributeId: id, oldAttribute: nameAttribute, newAttribute: new Attribute() },
     });
 
     dialogRef.afterClosed().subscribe(result => {

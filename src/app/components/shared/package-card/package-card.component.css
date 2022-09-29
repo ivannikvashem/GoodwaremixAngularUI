@@ -20,3 +20,18 @@
 .bcode {
   text-align: center;
 }
+
+.blockSingle {
+  width: 25%;
+  display: flex;
+  justify-content: space-between
+}
+
+.mat-list .mat-list-item {
+  font-size: 15px;
+  height: 25px; /* default is 72px */
+}
+.material-icons {
+  vertical-align: -5px; /*Change this to adjust the icon*/
+}
+

@@ -8,6 +8,7 @@ import {debounceTime, distinctUntilChanged, filter, finalize, map, Observable, s
 import {FormControl} from '@angular/forms';
 import {Supplier} from "../../models/supplier.model";
 import {LocalStorageService} from "../../service/local-storage.service";
+import {ConfirmDialogComponent, ConfirmDialogModel} from "../shared/confirm-dialog/confirm-dialog.component";
 
 export interface DialogData {
   src: '';
@@ -164,7 +165,6 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   }
 
   onClearSupplierSelection() {
-    //console.log('clear')
     this.searchSuppliersCtrl.setValue('');
     this.onQueryChanged();
   }
@@ -173,8 +173,21 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     this.dataSource.loadPagedData(this.searchQueryCtrl.value, this.withInternalCodeCtrl.value, (this.searchSuppliersCtrl.value as Supplier)?.id, this.paginator.pageIndex, this.paginator.pageSize);
   }
 
-  confirmDeleteItemDialog(id: string, title:string) {
+  confirmDeleteDialog(id: string, name: string): void {
+    const message = `Удалить товар ` + name + `?`;
+    const dialogData = new ConfirmDialogModel("Подтверждение", message);
 
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      minWidth: "300px",
+      maxWidth: "500px",
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult === true) {
+        this.dataSource.deleteProduct(id);
+      }
+    });
   }
 
   goToItemDetails(id: any) {
@@ -206,8 +219,8 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     };
     this.dialog.open(DialogDataExampleDialog, dialogBoxSettings);
   }
-  handleMissingImage(event: Event) {
-    (event.target as HTMLImageElement).src='./assets/imgPlaceholder.png'
+  handleMissingImage($event: Event) {
+    ($event.target as HTMLImageElement).src='./assets/imgPlaceholder.png'
   }
 
 }
@@ -221,7 +234,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
 export class DialogDataExampleDialog {
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
-  handleMissingImage(event: Event) {
-    (event.target as HTMLImageElement).src='./assets/imgPlaceholder.png'
+  handleMissingImage($event: Event) {
+    ($event.target as HTMLImageElement).src='./assets/imgPlaceholder.png'
   }
 }

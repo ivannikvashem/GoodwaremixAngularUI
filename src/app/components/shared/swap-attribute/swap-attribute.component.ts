@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {Attribute} from "../../../models/attribute.model";
-import {FormControl} from "@angular/forms";
+import {FormControl, Validators} from "@angular/forms";
 import {ApiClient} from "../../../repo/httpClient";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {debounceTime, distinctUntilChanged, finalize, switchMap, tap} from "rxjs";
@@ -15,7 +15,7 @@ import {AttrDialogData} from "../../attribute-index/attribute-index.component";
 export class SwapAttributeComponent implements OnInit {
   attributes: Array<Attribute> = new Array<Attribute>;
   attribute: Attribute = new Attribute;
-  searchAttributeCtrl = new FormControl<string | Attribute>('');
+  searchAttributeCtrl = new FormControl<string | Attribute>('', Validators.required);
 
   constructor(public api: ApiClient,
               public dialogRef: MatDialogRef<SwapAttributeComponent>,
@@ -24,7 +24,7 @@ export class SwapAttributeComponent implements OnInit {
 
   ngOnInit(): void {
     this.api.getAttributeById(this.data.oldAttributeId).subscribe((response) => {
-      this.attribute = response.body.data;
+      this.attribute = response.body;
     });
     this.data.newAttribute.supplierName = this.data.oldAttribute;
 

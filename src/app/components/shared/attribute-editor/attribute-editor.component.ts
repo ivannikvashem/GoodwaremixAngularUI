@@ -3,7 +3,7 @@ import {ApiClient} from "../../../repo/httpClient";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Attribute} from "../../../models/attribute.model";
 import {AttributeProduct} from "../../../models/attributeProduct.model";
-import {FormControl} from "@angular/forms";
+import {FormControl, Validators} from "@angular/forms";
 import {debounceTime, distinctUntilChanged, finalize, Observable, startWith, switchMap, tap} from "rxjs";
 import {map} from "rxjs/operators";
 import {Supplier} from "../../../models/supplier.model";
@@ -24,10 +24,8 @@ export class AttributeEditorComponent implements OnInit {
   attributeValues: string[] = [];
   filteredAttributeValues: Observable<string[]>;
   attributesList: Attribute = new Attribute();
-  searchAttributeCtrl = new FormControl<string | Attribute>('');
-  attributeValuesCtrl = new FormControl<string>('');
-
-
+  searchAttributeCtrl = new FormControl<string | Attribute>('', Validators.required);
+  attributeValuesCtrl = new FormControl<string>('', Validators.required);
 
   constructor(public api: ApiClient,
               public dialogRef: MatDialogRef<AttributeEditorComponent>,
