@@ -211,4 +211,22 @@ export class SupplierIndexComponent implements OnInit {
     this.loadData();
     this.setCookie();
   }
+
+  downloadTable(table:string, supplierId?:string) {
+    this.api.downloadTableFile(table,supplierId).subscribe(p =>{
+      console.log('p', p)
+      let fileName = p.headers.get('content-disposition')?.split(';')[1].split('=')[1];
+      //let blob:Blob = p.body as Blob
+      console.log('filename', fileName)
+      console.log('pbody', JSON.stringify(p.body))
+
+      let blob:any = new Blob([p.body], {type: 'application/json; charset=utf-8'})
+      console.log('blob', blob)
+
+      let downloadAction = document.createElement('a')
+      downloadAction.download = table;
+      downloadAction.href = window.URL.createObjectURL(blob)
+      downloadAction.click()
+    })
+  }
 }

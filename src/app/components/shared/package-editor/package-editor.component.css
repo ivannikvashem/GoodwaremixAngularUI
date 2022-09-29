@@ -1,0 +1,15 @@
+.formBlockSingle {
+  width: 25%;
+  display: flex;
+  justify-content: space-between
+}
+.formBlockDouble {
+  width: 50%;
+  display: flex;
+  justify-content: space-between
+}
+.formBlockTriple {
+  width: 73%;
+  display: flex;
+  justify-content: space-between
+}

@@ -173,7 +173,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     this.dataSource.loadPagedData(this.searchQueryCtrl.value, this.withInternalCodeCtrl.value, (this.searchSuppliersCtrl.value as Supplier)?.id, this.paginator.pageIndex, this.paginator.pageSize);
   }
 
-  deleteItem(_id: any) {
+  confirmDeleteItemDialog(id: string, title:string) {
 
   }
 

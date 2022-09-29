@@ -18,6 +18,7 @@ import {ProductImageViewmodel} from "../../models/viewmodels/productImage.viewmo
 import {Document} from "../../models/document.model";
 import {DocumentEditorComponent} from "../shared/document-editor/document-editor.component";
 import {HttpClient} from "@angular/common/http";
+import {PackageEditorComponent} from "../shared/package-editor/package-editor.component";
 
 @Component({
   selector: 'app-product-edit',
@@ -34,6 +35,7 @@ export class ProductEditComponent implements OnInit {
   product:Product;
   productId:string = '';
   imagesToUpload:File[] = []
+  imagesView:string[] =[]
   // Attr
   dataToDisplayAttr:any = [];
   attrDataSource = new AttrDataSource(this.dataToDisplayAttr)
@@ -71,11 +73,8 @@ export class ProductEditComponent implements OnInit {
           this.attrDataSource.setData(this.product.attributes || []);
           this.packDataSource.setData(this.product.package || []);
           this.documentDataSource.setData(this.product.documents || []);
-          this.searchSupplierCtrl.setValue(this.product.supplierName as string)
+          this.product.images.forEach((value) => {this.imagesView.unshift(value) })
         });
-      // if (this.product.supplierName !== undefined) {
-      //   this.searchSupplierCtrl.setValue(this.product.supplierName as string)
-      // }
     }
     else{ this.product = new Product() }
   }
@@ -87,20 +86,24 @@ export class ProductEditComponent implements OnInit {
     console.log(this.imagesToUpload)
 
     if (event.target.files && event.target.files[0]) {
-      var filesAmount = event.target.files.length;
-
+      let filesAmount = event.target.files.length;
       const files:File[] = event.target.files
-      console.log('files', event.target.files)
       for (let i of files) {
         this.imagesToUpload.unshift(i)
       }
-      console.log('img upd2',this.imagesToUpload)
-
+      for (let i = 0; i < filesAmount; i++) {
+        var reader = new FileReader();
+        reader.onload = (event:any) => {
+          this.imagesView.unshift(event.target.result);
+        }
+        reader.readAsDataURL(event.target.files[i]);
+      }
     }
-    console.log(this.product.images)
+    //this.imagesToUpload.push(event.target.files[0] as File[])
   }
 
   removeImage(url:any){
+    this.imagesView = this.imagesView.filter(img => (img != url));
     this.product.images = this.product.images.filter(img => (img != url));
   }
 
@@ -175,6 +178,50 @@ export class ProductEditComponent implements OnInit {
     });
   }
 
+  // Package
+  addNewPackage() {
+    this.openPackageEditorDialog()
+  }
+
+  editPackageRow(row:any) {
+    this.openPackageEditorDialog(row)
+  }
+
+  deletePackageRow(row:any) {
+    this.product.package = this.product.package.filter(dc => (dc != row))
+    this.packDataSource.setData(this.product.package || []);
+  }
+
+  openPackageEditorDialog(oldPackage?:any): void {
+
+    const dialogRef = this.dialog.open(PackageEditorComponent, {
+      width: '900px',
+      height: '650px',
+      data: { oldPackage: oldPackage, newPackage: new Package() },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('pck data',result)
+      console.log('packages', this.product.package)
+      if (this.product.package.filter(x => x.barcode !== result.newPackage?.barcode)) {
+
+        if (result.newPackage !== undefined) {
+          console.log('pck data', result)
+
+          if (oldPackage == undefined) {
+            console.log(this.product)
+            this.product.package.unshift(result.newPackage as Package)
+            this.packDataSource.setData(this.product.package || []);
+          } else {
+            if (oldPackage !== result.newPackage) {
+              const target = this.product.package.find((obj) => obj === oldPackage)
+              Object.assign(target, result.newPackage)
+            }
+          }
+        }
+      }
+    });
+  }
 
   // Document
   AddNewDocument() {
@@ -223,17 +270,19 @@ export class ProductEditComponent implements OnInit {
 
   submitProduct() {
     // console.log('product', JSON.stringify(this.product))
+    if (!this.product.supplierId)
+    {
+      const supplier = this.searchSupplierCtrl.value as Supplier
+      this.product.supplierId = supplier.id
+      this.product.supplierName = supplier.supplierName
+    }
     const productToAdd = new ProductImageViewmodel()
     productToAdd.product = this.product
     productToAdd.files = this.imagesToUpload
     // console.log('product to add',productToAdd)
 
-
-
-
     this.api.updateProduct(productToAdd).subscribe(x => {
         //console.log("updateSupplier: " +JSON.stringify(x) );
-        console.log('x')
         this._notyf.onSuccess("Товар сохранен");
       },
        error => {
@@ -241,7 +290,7 @@ export class ProductEditComponent implements OnInit {
          this._notyf.onError("Ошибка: " + JSON.stringify(error));
          //todo обработчик ошибок, сервер недоступен или еще чего..
        });
-  }
+   }
 }
 
 

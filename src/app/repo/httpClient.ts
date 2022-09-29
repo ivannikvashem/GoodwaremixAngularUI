@@ -1,5 +1,5 @@
 import {Injectable, Type} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpEvent, HttpHeaders, HttpParams, HttpRequest} from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import {Supplier} from "../models/supplier.model";
@@ -175,7 +175,8 @@ export class ApiClient {
   }
 
 
-  // fileUpload
+
+  // //fileUpload
   // upload(file: File): Observable<HttpEvent<any>> {
   //   const formData: FormData = new FormData();
   //
@@ -190,8 +191,18 @@ export class ApiClient {
   // }
   //
   // getFiles(): Observable<any> {
-  //   return this.http.get(`${this.baseUrl}/files`);
+  //   return this.http.get(`${this.apiURL}/files`);
   // }
+
+  downloadTableFile(table:string, supplierId:string) {
+    let opt = { params: new HttpParams().set('table', table).set('supplierId', supplierId) };
+    if (supplierId != "") {
+      opt.params = opt.params.append('supplierId', supplierId);
+    }
+    opt = Object.assign(opt, {observe:'response', responseType:'blob'});
+
+    return this.http.get(this.apiURL +'/supplier/DownloadFileJson',{observe:'response', responseType:'blob'})
+  }
 
   // INIT ENDPOINT
   fixSupplierStat() {

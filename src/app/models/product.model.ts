@@ -1,5 +1,6 @@
 import {AttributeProduct} from "./attributeProduct.model";
 import {Document} from "./document.model";
+import {Package} from "./package.model";
 
 export class Product {
   Id: string;
@@ -15,7 +16,7 @@ export class Product {
   countryCode:string;
   gtd:string[];
   netto:any;
-  package:any[];
+  package:Package[];
   images: string[];
   documents: Document[];
   image360: string;
@@ -27,6 +28,7 @@ export class Product {
   constructor() {
     this.gtd = []
     this.images = []
+    this.package = [] as Package[]
     this.documents = [] as Document[]
     this.videos = []
     this.attributes = [] as AttributeProduct[]

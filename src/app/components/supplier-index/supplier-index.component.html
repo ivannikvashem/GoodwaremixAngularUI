@@ -95,6 +95,9 @@
         <button mat-icon-button class="mat-elevation-z2" matTooltip="Обновить кол-во товара и бренды" (click)="fixSupplierStat()">
           <mat-icon>build</mat-icon>
         </button>&nbsp;
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="Скачать всё" (click)="downloadTable('Supplier')">
+          <mat-icon>cloud_download</mat-icon>
+        </button>&nbsp;
         <button mat-icon-button class="mat-elevation-z2" matTooltip="Добавить поставщика" (click)="editItem('')">
           <mat-icon>add</mat-icon>
         </button>
@@ -112,6 +115,16 @@
         <button mat-icon-button class="mat-elevation-z2" matTooltip="Привязать артикулы" (click)="internalCodeFetch(item.supplierName)">
           <mat-icon>build</mat-icon>
         </button>&nbsp;
+
+        <button mat-icon-button class="mat-elevation-z2" [matMenuTriggerFor]="downLoadMenu" matTooltip="Скачать..."><mat-icon>cloud_download</mat-icon></button>
+        <mat-menu #downLoadMenu="matMenu">
+          <button mat-menu-item (click)="downloadTable('Product', item.id)">
+            <mat-icon>local_offer</mat-icon> Скачать товары
+          </button>
+          <button mat-menu-item (click)="downloadTable('Attribute', item.id)">
+            <mat-icon>list</mat-icon> Скачать аттрибуты
+          </button>
+        </mat-menu>&nbsp;
 
         <button mat-icon-button class="mat-elevation-z2" [matMenuTriggerFor]="menu" matTooltip="Удалить..."><mat-icon>delete</mat-icon></button>
         <mat-menu #menu="matMenu">
