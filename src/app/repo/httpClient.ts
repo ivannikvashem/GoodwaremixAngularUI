@@ -6,6 +6,7 @@ import {Supplier} from "../models/supplier.model";
 import {environment} from '../../environments/environment';
 import {Product} from "../models/product.model";
 import {ProductImageViewmodel} from "../models/viewmodels/productImage.viewmodel";
+import {Attribute} from "../models/attribute.model";
 
 @Injectable({
   providedIn: 'root'
@@ -70,6 +71,10 @@ export class ApiClient {
   swapAttribute(attributeUpdate: string, attributeDelete: string): Observable<any> {
     let body = { attributeUpdate: attributeDelete, attributeDelete: attributeUpdate };
     return this.http.post<any>(this.apiURL + '/Attribute', JSON.stringify(body), this.httpOptions);
+  }
+
+  updateAttribute(attribute:Attribute):Observable<any> {
+    return this.http.post(this.apiURL+'/Attribute/Update', attribute, this.httpOptions)
   }
 
   deleteProductAttribute (id:string)  {
