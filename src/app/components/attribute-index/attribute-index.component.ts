@@ -143,8 +143,7 @@ export class AttributeIndexComponent implements OnInit {
   }
 
   addItem() {
-    this._notyf.onWarning("TODO: не обработано")
-    //todo show form to make a new attribute
+    this.router.navigate([`attribute-edit`]);
   }
 
   editItem(id: any) {

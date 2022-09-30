@@ -94,7 +94,7 @@ export class DocumentConfig {
   keywords: string
   downloadLocally: boolean
   //
-  certDescr:string
+  //certDescr:string
 }
 
 export class ImageConfig {
