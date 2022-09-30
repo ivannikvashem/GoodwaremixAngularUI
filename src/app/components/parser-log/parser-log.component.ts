@@ -1,6 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ApiClient} from "../../repo/httpClient";
-import {Router} from "@angular/router";
 import {MatPaginator} from "@angular/material/paginator";
 import {merge, startWith, tap} from "rxjs";
 import {LogsDataSource} from "../../repo/LogDataSource";
@@ -17,8 +16,7 @@ export class ParserLogComponent implements OnInit {
   dataSource: LogsDataSource;
 
   constructor(
-    public api: ApiClient,
-    private router: Router
+    public api: ApiClient
   ) {
     this.dataSource = new LogsDataSource(this.api);
   }
@@ -47,13 +45,6 @@ export class ParserLogComponent implements OnInit {
   }
 
   flushLogTable(): any {
-     //TODO send request to flush log
-    this.api.flushLogs().subscribe( x=> {
-        if (x) console.log("Logs are deleted");
-      },
-      err => {
-        console.log("Logs deletion error: " +err )
-      });
+    this.dataSource.deleteAllLogs();
   }
-
 }

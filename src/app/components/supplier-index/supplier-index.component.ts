@@ -185,9 +185,9 @@ export class SupplierIndexComponent implements OnInit {
     });
   }
 
-  internalCodeFetch(supplierName: string) {
-    console.log("IC bind " +supplierName);
-    this.api.internalCodeBindForSupplier(supplierName).subscribe( res => {
+  internalCodeFetch(id: string) {
+    console.log("IC bind " + id);
+    this.api.internalCodeBindForSupplier(id).subscribe( res => {
         console.log(JSON.stringify(res));
       },
       err => {

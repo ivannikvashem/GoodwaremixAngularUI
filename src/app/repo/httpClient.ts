@@ -6,6 +6,7 @@ import {Supplier} from "../models/supplier.model";
 import {environment} from '../../environments/environment';
 import {Product} from "../models/product.model";
 import {ProductImageViewmodel} from "../models/viewmodels/productImage.viewmodel";
+import {Attribute} from "../models/attribute.model";
 
 @Injectable({
   providedIn: 'root'
@@ -46,8 +47,6 @@ export class ApiClient {
         .set('filter.pageNumber', pageIndex ? pageIndex + 1 : 1)
         .set('filter.pageSize', pageSize ?? 10)
         .set('searchFilter', searchQuery)
-        // .set('sortField', sortField)
-        // .set('sortDirection', sortDirection == "desc" ? "-1" : "1")
     };
     if (sortField && sortDirection) {
       opt.params = opt.params.append('sortField', sortField);
@@ -60,23 +59,29 @@ export class ApiClient {
       opt.params = opt.params.append('fixedFilter', fixed);
     }
     opt = Object.assign(opt, this.httpOptions);
-    return this.http.get<any>(this.apiURL + '/Attribute', opt);
+    return this.http.get<any>(this.apiURL + '/Attributes', opt);
   }
 
   getAttributeById(id: string): Observable<any> {
-    return this.http.get<any>(this.apiURL + '/Attribute/'+ id, this.httpOptions);
+    return this.http.get<any>(this.apiURL + '/Attributes/'+ id, this.httpOptions);
   }
 
-  swapAttribute(attributeUpdate: string, attributeDelete: string): Observable<any> {
-    let body = { attributeUpdate: attributeDelete, attributeDelete: attributeUpdate };
-    return this.http.post<any>(this.apiURL + '/Attribute', JSON.stringify(body), this.httpOptions);
+  swapAttribute(sourceId: string, destId: string): Observable<any> {
+    return this.http.post<any>(this.apiURL + '/Attributes/' + sourceId + '/swap/' + destId, {}, this.httpOptions);
+  }
+
+  updateAttribute (attribute: Attribute) {
+    return this.http.post<any>(this.apiURL + '/Attributes/', attribute, this.httpOptions);
+  }
+
+  deleteAttribute (id: string) {
+    return this.http.delete<any>(this.apiURL + '/Attributes/' + id, this.httpOptions);
   }
 
   deleteProductAttribute (id:string)  {
-    return this.http.delete(this.apiURL+ '/Attribute/' + id, this.httpOptions)
+    return this.http.delete(this.apiURL+ '/Attributes/' + id, this.httpOptions)
   }
   // Log ENDPOINT
-
   getLogs(pageIndex: number, pageSize: number, sortField: string, sortDirection: string): Observable<any> {
     let opt = {
       params: new HttpParams()
@@ -86,15 +91,14 @@ export class ApiClient {
         .set('sortDirection', sortDirection == "desc" ? "-1" : "1")
     };
     opt = Object.assign(opt, this.httpOptions);
-    return this.http.get<any>(this.apiURL + '/Log', opt);
+    return this.http.get<any>(this.apiURL + '/Logs', opt);
   }
 
   flushLogs(): Observable<boolean> {
-    return this.http.delete<any>(this.apiURL + '/Log/DeleteLogs', this.httpOptions);
+    return this.http.delete<any>(this.apiURL + '/Logs', this.httpOptions);
   }
 
   // Product ENDPOINT
-
   getProducts(searchQuery: string, withInternalCodeSelector: boolean, selectedSuppId: string, pageIndex: number, pageSize: number) {
     let opt = {
       params: new HttpParams()
@@ -105,11 +109,11 @@ export class ApiClient {
         .set('searchFilter', searchQuery)
     };
     opt = Object.assign(opt, this.httpOptions);
-    return this.http.get<Product[]>(this.apiURL + '/Product', opt);
+    return this.http.get<Product[]>(this.apiURL + '/Products/', opt);
   }
 
   getProductById(id: string): Observable<any> {
-    return this.http.get<any>(this.apiURL + '/Product/' +id, this.httpOptions);
+    return this.http.get<any>(this.apiURL + '/Products/' +id, this.httpOptions);
   }
 
   updateProduct(imgProduct:ProductImageViewmodel): Observable<any> {
@@ -119,11 +123,11 @@ export class ApiClient {
       console.log(photo)
       formData.append('files', photo)
     }
-    return this.http.post(this.apiURL + '/product/', formData, {headers:{"ContentType": "multipart/form-data"}})
+    return this.http.post(this.apiURL + '/Products/', formData, {headers:{"ContentType": "multipart/form-data"}})
   }
 
   deleteProductById(productId:string) {
-    return this.http.delete<any>(this.apiURL + '/product/' + productId, this.httpOptions);
+    return this.http.delete<any>(this.apiURL + '/Products/' + productId, this.httpOptions);
   }
 
   // Suppliers ENDPOINT
@@ -138,40 +142,36 @@ export class ApiClient {
         .set('sortDirection', sortDirection == "desc" ? "-1" : "1")
     };
     opt = Object.assign(opt, this.httpOptions);
-    return this.http.get<any>(this.apiURL + '/supplier', opt);
+    return this.http.get<any>(this.apiURL + '/suppliers', opt);
   }
 
   getSupplierById(supplierId: string){
-    return this.http.get<any>(this.apiURL + '/supplier/id/' + supplierId, this.httpOptions);
-  }
-
-  getSupplierByName(supplierName: string): Observable<any> {
-    return this.http.get<Supplier>(this.apiURL + '/supplier/' + supplierName, this.httpOptions);
+    return this.http.get<any>(this.apiURL + '/suppliers/' + supplierId, this.httpOptions);
   }
 
   fetchDataFromSupplier(supplierName: any): Observable<any> {
-    return this.http.post<any>(this.apiURL + '/supplier/fetch/' + supplierName, {}, this.httpOptions);
+    return this.http.post<any>(this.apiURL + '/suppliers/fetch/' + supplierName, {}, this.httpOptions);
   }
 
-  internalCodeBindForSupplier(supplierName: any): Observable<any> {
-    return this.http.post<any>(this.apiURL + '/supplier/internalBind/' + supplierName + "?action=bind", {}, this.httpOptions);
+  internalCodeBindForSupplier(id: string): Observable<any> {
+    return this.http.post<any>(this.apiURL + '/suppliers/internalBind/' + id, {}, this.httpOptions);
   }
 
   updateSupplier(supplier: Supplier): Observable<any> {
-    return this.http.post<any>(this.apiURL + '/supplier/', supplier, this.httpOptions);
+    return this.http.post<any>(this.apiURL + '/suppliers/', supplier, this.httpOptions);
   }
-  //
+
   postSupplier(supplier: any): Observable<any> {
     let body = { ...supplier };
-    return this.http.post<any>(this.apiURL + '/Supplier', body, this.httpOptions)
+    return this.http.post<any>(this.apiURL + '/suppliers', body, this.httpOptions)
   }
 
   deleteSupplierProducts(id: any): Observable<any> {
-    return this.http.delete<any>(this.apiURL + '/supplier?supplierId=' + id, this.httpOptions);
+    return this.http.delete<any>(this.apiURL + '/suppliers/' + id + '/products/', this.httpOptions);
   }
 
   deleteSupplier(id: any): Observable<any> {
-    return this.http.delete<any>(this.apiURL + '/supplier/' + id, this.httpOptions);
+    return this.http.delete<any>(this.apiURL + '/suppliers/' + id, this.httpOptions);
   }
 
 
