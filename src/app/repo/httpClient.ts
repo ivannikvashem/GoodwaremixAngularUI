@@ -78,10 +78,6 @@ export class ApiClient {
     return this.http.delete<any>(this.apiURL + '/Attributes/' + id, this.httpOptions);
   }
 
-  updateAttribute(attribute:Attribute):Observable<any> {
-    return this.http.post(this.apiURL+'/Attribute/Update', attribute, this.httpOptions)
-  }
-
   deleteProductAttribute (id:string)  {
     return this.http.delete(this.apiURL+ '/Attributes/' + id, this.httpOptions)
   }
