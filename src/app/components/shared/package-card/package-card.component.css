@@ -30,6 +30,7 @@
 .mat-list .mat-list-item {
   font-size: 15px;
   height: 25px; /* default is 72px */
+  margin-top: 3px;
 }
 .material-icons {
   vertical-align: -5px; /*Change this to adjust the icon*/

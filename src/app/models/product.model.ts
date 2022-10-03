@@ -18,6 +18,7 @@ export class Product {
   netto:any;
   packages:Package[];
   images: string[];
+  thumbnails: string[];
   documents: Document[];
   image360: string;
   videos: string[];

@@ -7,7 +7,7 @@ import {MatChipInputEvent} from "@angular/material/chips";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {AttributeProduct} from "../../models/attributeProduct.model";
 import {DataSource} from "@angular/cdk/collections";
-import {Observable, ReplaySubject} from "rxjs";
+import {debounceTime, distinctUntilChanged, finalize, Observable, ReplaySubject, startWith, switchMap, tap} from "rxjs";
 import {NotificationService} from "../../service/notification-service";
 import {MatTableDataSource} from "@angular/material/table";
 import {ActivatedRoute} from "@angular/router";
@@ -19,6 +19,13 @@ import {Document} from "../../models/document.model";
 import {DocumentEditorComponent} from "../shared/document-editor/document-editor.component";
 import {HttpClient} from "@angular/common/http";
 import {PackageEditorComponent} from "../shared/package-editor/package-editor.component";
+import countriesListJson from "../../countriesList.json"
+import {map} from "rxjs/operators";
+
+interface Country {
+  code?:string
+  name?:string
+}
 
 @Component({
   selector: 'app-product-edit',
@@ -52,6 +59,10 @@ export class ProductEditComponent implements OnInit {
   documentColumns:string[] = ['title', 'action']
   documentDataSource = new DocumentDataSource(this.dataToDisplayDoc)
 
+  //Misc
+  countriesList:Country[] = countriesListJson
+  searchCountryCtrl = new FormControl<string | any>('')
+  filteredCountries: Observable<any[]>
 
 
   constructor(public api:ApiClient,
@@ -65,34 +76,53 @@ export class ProductEditComponent implements OnInit {
     if (this.productId) {
       this.api.getProductById(this.productId)
         .subscribe( (s:any) => {
-          console.log('res prod', s.body)
-
           this.product = s.body as Product;
           this.attrDataSource.setData(this.product.attributes || []);
           this.packDataSource.setData(this.product.packages || []);
           this.documentDataSource.setData(this.product.documents || []);
           this.product.images.forEach((value) => {this.imagesView.unshift(value) })
-          console.log('prod', this.product)
         });
-
-
     }
     else {
       this.product = new Product()
-      this.api.getSuppliers('', 0 ,100, "SupplierName", "asc").subscribe( (r:any) => {
+      this.api.getSuppliers('', 0, 100, "SupplierName", "asc").subscribe((r: any) => {
         this.supplierList = r.body.data
       });
     }
 
+    this.searchSupplierCtrl.valueChanges.pipe(
+      distinctUntilChanged(),
+      debounceTime(300),
+      tap(() => {
+      }),
+      switchMap(value => this.api.getSuppliers(value, 0 ,100,"SupplierName", "asc")
+      )
+    ).subscribe((data: any) => { this.supplierList = data.body.data; });
+
+    // this.searchCountryCtrl.valueChanges.pipe(
+    //   distinctUntilChanged(),
+    //   debounceTime(300),
+    //   tap(() => {
+    //   }),
+    // ).subscribe((data: any) => {
+    //   console.log(data.body.data)
+    //   this.supplierList = data.body.data;
+    // });
+
+    this.filteredCountries = this.searchCountryCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => ( value ? this._filter(value) : this.countriesList.slice())),
+      );
+  }
+  private _filter(value: any): any[] {
+    let filterValue = ''
+    try { filterValue = value.name.toLowerCase() }
+    catch (ex) { filterValue = value.toLowerCase() }
+    return this.countriesList.filter(option => option.name.toLowerCase().includes(filterValue));
   }
 
-
-
-// Media
+  // Media
   onFileChange(event: any) {
-    //this.imagesToUpload.push(event.target.files[0] as File[])
-    console.log(this.imagesToUpload)
-
     if (event.target.files && event.target.files[0]) {
       let filesAmount = event.target.files.length;
       const files:File[] = event.target.files
@@ -107,7 +137,6 @@ export class ProductEditComponent implements OnInit {
         reader.readAsDataURL(event.target.files[i]);
       }
     }
-    //this.imagesToUpload.push(event.target.files[0] as File[])
   }
 
   removeImage(url:any){
@@ -115,12 +144,12 @@ export class ProductEditComponent implements OnInit {
     this.product.images = this.product.images.filter(img => (img != url));
   }
 
-
   addVideo($event: MatChipInputEvent) {
     const value = ($event.value || '').trim()
     if (value) { this.product.videos.push(value)}
     $event.chipInput!.clear()
   }
+
   removeVideo(video:string) {
     const index = this.product.videos.indexOf(video)
     if (index >= 0) {
@@ -140,8 +169,12 @@ export class ProductEditComponent implements OnInit {
       this.product.gtd.splice(index,1)
     }
   }
-  displayFn(supplier: Supplier): string {
+  displaySupplierFn(supplier: Supplier): string {
     return supplier && supplier.supplierName;
+  }
+
+  displayCountryFn(country: any): string {
+    return country && country.name + ' (Код '+country.code+')';
   }
 
   // Attribute
@@ -159,7 +192,6 @@ export class ProductEditComponent implements OnInit {
   }
 
   openAttributeEditorDialog(oldAttribute?:any): void {
-    console.log('att', oldAttribute)
     const dialogRef = this.dialog.open(AttributeEditorComponent, {
       width: '900px',
       height: '380px',
@@ -201,7 +233,6 @@ export class ProductEditComponent implements OnInit {
   }
 
   openPackageEditorDialog(oldPackage?:any, oldNetto?:any): void {
-
     const dialogRef = this.dialog.open(PackageEditorComponent, {
       width: '900px',
       height: '650px',
@@ -210,7 +241,6 @@ export class ProductEditComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (this.product.packages.filter(x => x.barcode !== result.newPackage?.barcode)) {
-
         if (result.newPackage !== undefined) {
           if (oldPackage == undefined) {
             console.log(this.product)
@@ -232,11 +262,9 @@ export class ProductEditComponent implements OnInit {
     this.openDocumentEditorDialog()
   }
 
-
   editDocRow(row:any) {
     this.openDocumentEditorDialog(row)
   }
-
 
   deleteDocRow(row:any) {
     this.product.documents = this.product.documents.filter(dc => (dc != row))
@@ -244,7 +272,6 @@ export class ProductEditComponent implements OnInit {
   }
 
   openDocumentEditorDialog(oldDocument?:any): void {
-
     const dialogRef = this.dialog.open(DocumentEditorComponent, {
       width: '900px',
       height: '600px',
@@ -270,25 +297,17 @@ export class ProductEditComponent implements OnInit {
     });
   }
 
-
-
-
   submitProduct() {
-    // console.log('product', JSON.stringify(this.product))
     if (!this.product.supplierId)
     {
       const supplier = this.searchSupplierCtrl.value as Supplier
       this.product.supplierId = supplier.id
       this.product.supplierName = supplier.supplierName
     }
-    console.log('ss',this.product)
     const productToAdd = new ProductImageViewmodel()
     productToAdd.product = this.product
     productToAdd.files = this.imagesToUpload
-    // console.log('product to add',productToAdd)
-
     this.api.updateProduct(productToAdd).subscribe(x => {
-        //console.log("updateSupplier: " +JSON.stringify(x) );
         this._notyf.onSuccess("Товар сохранен");
       },
        error => {
@@ -297,8 +316,11 @@ export class ProductEditComponent implements OnInit {
          //todo обработчик ошибок, сервер недоступен или еще чего..
        });
    }
-}
 
+  onCountrySelected() {
+    this.product.countryCode = this.searchCountryCtrl.value.code
+  }
+}
 
 // Service
 class AttrDataSource extends DataSource<AttributeProduct> {

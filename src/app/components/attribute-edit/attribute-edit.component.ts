@@ -57,9 +57,7 @@ export class AttributeEditComponent implements OnInit {
         });
     }
     else {
-      console.log('bf in', this.attribute)
       this.attribute = new Attribute()
-      console.log('af in',this.attribute)
       this.api.getSuppliers('', 0 ,100, "SupplierName", "asc").subscribe( (r:any) => {
         this.supplierList = r.body.data
       });

@@ -79,7 +79,7 @@
               <input matInput placeholder=""
                      [formControl]="searchSupplierCtrl"
                      [matAutocomplete]="auto">
-              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displaySupplierFn">
                 <mat-option *ngFor="let option of supplierList" [value]="option">
                   {{option.supplierName}}
                 </mat-option>
@@ -113,16 +113,17 @@
               </mat-form-field>
             </div>
 
-            <div class="formBlockDouble">
-              <mat-form-field appearance="fill" class="form-full-width">
-                <mat-label>Страна производства</mat-label>
-                <input matInput name="country" [(ngModel)]="product.country">
-              </mat-form-field>&nbsp;
-              <mat-form-field appearance="fill" class="form-full-width">
-                <mat-label>Код страны</mat-label>
-                <input matInput name="countryId" [(ngModel)]="product.countryCode">
-              </mat-form-field>
-            </div>
+            <mat-form-field appearance="fill" class="form-full-width">
+              <mat-label>Страна производства</mat-label>
+              <input matInput placeholder=""
+                     [formControl]="searchCountryCtrl"
+                     [matAutocomplete]="auto">
+              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayCountryFn" (optionSelected)="onCountrySelected()">
+                <mat-option *ngFor="let option of filteredCountries | async" [value]="option">
+                  {{option.name }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>&nbsp;
 
 
             <mat-form-field class="form-full-width" appearance="fill">

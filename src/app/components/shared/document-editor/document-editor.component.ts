@@ -23,6 +23,14 @@ export class DocumentEditorComponent implements OnInit {
   documentProduct: Document = new Document();
   urlList:string[] = []
   form:FormGroup
+  documentTypesList = [
+    {code: 'SRT', descr: 'Сертификат соответствия'},
+    {code: 'DLR', descr: 'Декларация о соответствии'},
+    {code: 'RFL', descr: 'Отказное письмо'},
+    {code: 'IFL', descr: 'Информационное письмо'},
+    {code: 'MNL', descr: 'Инструкция по эксплуатации'},
+    {code: 'ADV', descr: 'Рекламная брошюра'}
+  ]
 
   constructor(public api: ApiClient,
               public dialogRef: MatDialogRef<DocumentEditorComponent>,

@@ -31,7 +31,7 @@
 
     </div>
     <div class="column rightColumn">
-      <mat-list style="width: 200px">
+      <mat-list style="width: 140%">
         <mat-list-item *ngIf="pack.weight">
           <div><mat-icon>scale </mat-icon> {{Math.round((pack.weight + Eps) * 100) / 100}} гр. </div>
         </mat-list-item>
@@ -39,7 +39,7 @@
           <div matTooltip="{{pack.width | number : '1.0-2'}} x {{pack.height | number : '1.0-2'}} x {{pack.depth | number : '1.0-2'}}"><mat-icon>view_in_ar</mat-icon> {{Math.round((pack.volume + Eps) * 100) / 100}} см<sup>3</sup> <sup *ngIf="isCalculatedVolume">*</sup></div>
         </mat-list-item>
         <mat-list-item *ngIf="pack.type">
-          <div><mat-icon>format_size</mat-icon> {{pack.type}} </div>
+          <di><mat-icon>format_size</mat-icon> {{pack.type}} </di>
         </mat-list-item>
         <mat-list-item *ngIf="pack.width || pack.height || pack.depth">
           <div><mat-icon>straighten</mat-icon> {{pack.width | number : '1.0-2'}} x {{pack.height | number : '1.0-2'}} x {{pack.depth | number : '1.0-2'}} см</div>

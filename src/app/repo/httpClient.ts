@@ -203,7 +203,7 @@ export class ApiClient {
     }
     opt = Object.assign(opt, {observe:'response', responseType:'blob'});
 
-    return this.http.get(this.apiURL +'/supplier/DownloadFileJson',{observe:'response', responseType:'blob'})
+    return this.http.get(this.apiURL +'/suppliers/DownloadFileJson',{observe:'response', responseType:'blob'})
   }
 
   // INIT ENDPOINT

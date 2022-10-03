@@ -6,7 +6,6 @@ import {AttributeProduct} from "../../../models/attributeProduct.model";
 import {FormControl, Validators} from "@angular/forms";
 import {debounceTime, distinctUntilChanged, finalize, Observable, startWith, switchMap, tap} from "rxjs";
 import {map} from "rxjs/operators";
-import {Supplier} from "../../../models/supplier.model";
 
 export interface AttrDialogData {
   newAttribute?: AttributeProduct;
@@ -23,7 +22,7 @@ export class AttributeEditorComponent implements OnInit {
   attributeProduct: Attribute = new Attribute();
   attributeValues: string[] = [];
   filteredAttributeValues: Observable<string[]>;
-  attributesList: Attribute = new Attribute();
+  attributesList: Attribute[] = [];
   searchAttributeCtrl = new FormControl<string | Attribute>('', Validators.required);
   attributeValuesCtrl = new FormControl<string>('', Validators.required);
 
@@ -86,16 +85,12 @@ export class AttributeEditorComponent implements OnInit {
       map(value => this._filter(value)),
     );
 
-
-
     this.attributeValues = selectedAttribute.allValue
-
     this.data.newAttribute.attributeId = selectedAttribute.id
     this.data.newAttribute.attributeName = selectedAttribute.nameAttribute
     this.data.newAttribute.etimFeature = selectedAttribute.etimFeature
     this.data.newAttribute.etimUnit = selectedAttribute.etimUnit
     this.data.newAttribute.unit = selectedAttribute.unit
-
   }
 
   onAttributeValueSelected() {
