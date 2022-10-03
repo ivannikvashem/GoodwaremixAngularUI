@@ -39,4 +39,16 @@ export class AttributesDataSource implements DataSource<Attribute> {
         this.rowCount = body.totalRecords;
       });
   }
+
+  deleteAttribute(id: string) {
+    console.log("deleting attr " + id);
+    this.api.deleteAttribute(id).subscribe( res => {
+        console.log('res',res)
+        let newdata = this.AttributeListSubject.value.filter(row => row.id != id );
+        this.AttributeListSubject.next(newdata);
+      },
+      err => {
+        //this._notyf.onError(err.message)
+      });
+  }
 }

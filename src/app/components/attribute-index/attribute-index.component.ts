@@ -11,6 +11,7 @@ import {Attribute} from "../../models/attribute.model";
 import {SwapAttributeComponent} from "../shared/swap-attribute/swap-attribute.component";
 import {NotificationService} from "../../service/notification-service";
 import {LocalStorageService} from "../../service/local-storage.service";
+import {ConfirmDialogComponent, ConfirmDialogModel} from "../shared/confirm-dialog/confirm-dialog.component";
 
 export interface AttrDialogData {
   oldAttributeId: string;
@@ -179,12 +180,29 @@ export class AttributeIndexComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.api.swapAttribute(result.oldAttributeId, result.newAttribute.id).subscribe({
         next: next => {
-          this._notyf.onSuccess("Данные сохранены успешно")
+          this._notyf.onSuccess("Атрибут переназначен")
         },
         error: error => {
           this._notyf.onError(error.message);
         },
       });
+    });
+  }
+
+  confirmDeleteDialog(id: string, name: string): void {
+    const message = `Удалить атрибут ` + name + `?`;
+    const dialogData = new ConfirmDialogModel("Подтверждение", message);
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      minWidth: "300px",
+      maxWidth: "500px",
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult === true) {
+        this.dataSource.deleteAttribute(id);
+      }
     });
   }
 }

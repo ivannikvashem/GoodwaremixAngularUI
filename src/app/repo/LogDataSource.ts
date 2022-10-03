@@ -39,4 +39,16 @@ export class LogsDataSource implements DataSource<Log> {
         this.rowCount = body.totalRecords;
       });
   }
+
+  deleteAllLogs() {
+    console.log("deleting log data");
+    this.api.flushLogs().subscribe( res => {
+        console.log('res',res)
+        let newdata = new Array<Log>();
+        this.LogListSubject.next(newdata);
+      },
+      err => {
+        //this._notyf.onError(err.message)
+      });
+  }
 }
