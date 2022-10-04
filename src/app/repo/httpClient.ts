@@ -202,7 +202,7 @@ export class ApiClient {
     //   opt.params = opt.params.append('supplierId', supplierId);
     // }
     // opt = Object.assign(opt, {observe:'response', responseType:'blob'});
-
+    //
     return this.http.get(this.apiURL +'/suppliers/DownloadFileJson?table='+table+'&supplierId='+supplierId,{observe:'response', responseType:'blob'})
   }
 
