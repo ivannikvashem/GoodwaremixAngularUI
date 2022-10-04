@@ -1,7 +1,6 @@
 import {Component, Inject, Input, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
 import {DialogData} from "../../product-index/product-index.component";
-import {Package} from "../../../models/package.model";
 
 @Component({
   selector: 'app-hover-image-slider',
@@ -28,9 +27,7 @@ export class HoverImageSliderComponent implements OnInit {
     this.hoverImage = image;
   }
   openDialog(image: string) {
-    console.log(image);
     let dialogBoxSettings = {
-      maxWidth: '60%',
       margin: '0 auto',
       hasBackdrop: true,
       data: {

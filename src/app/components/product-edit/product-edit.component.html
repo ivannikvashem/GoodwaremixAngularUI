@@ -19,7 +19,7 @@
         <mat-tab  label="Фото">
           <ng-template matTabContent>
             <button mat-button (click)="fileInput.click()" class="mat-elevation-z2" style="margin:10px">
-              <mat-icon>cloud_upload</mat-icon>Загрузить
+              <mat-icon>cloud_upload</mat-icon> Загрузить
               <input #fileInput type="file" multiple="" accept="image/gif, image/jpeg, image/png, image/jpg" (change)="onFileChange($event)" style="display:none;" />
             </button>
 
@@ -125,7 +125,6 @@
               </mat-autocomplete>
             </mat-form-field>&nbsp;
 
-
             <mat-form-field class="form-full-width" appearance="fill">
               <mat-label>ГТД</mat-label>
               <mat-chip-list #chipList aria-label="Fruit selection">
@@ -198,18 +197,18 @@
         <mat-tab  label="Упаковка">
           <ng-template matTabContent>
 
-            <div *ngIf="product.netto">
+            <div class="mat-elevation-z8;" *ngIf="product.netto.barcode">
               <h3>Нетто</h3>
               <app-package-card [pack]="product.netto"></app-package-card>
+              <div style="float: right">
+                <button mat-icon-button matTooltip="Редактировать" class="mat-elevation-z2" (click)="editPackageRow(product.netto, true)"><mat-icon>edit</mat-icon></button>&nbsp;
+                <button mat-icon-button matTooltip="Удалить" class="mat-elevation-z2" (click)="deletePackageRow(product.netto, true)"><mat-icon>delete</mat-icon></button>
+              </div>
             </div>
-            <div *ngIf="!product.netto">
-              <button mat-button class="mat-elevation-z2" style="margin: 5px" (click)="addNewPackage()">Добавить нетто</button>
-            </div>
+
 
 
             <table #table mat-table [dataSource]="packDataSource" class="mat-elevation-z8; form-full-width" style="display: table">
-              <h3>Упаковки</h3>
-
               <!-- package Column -->
               <ng-container matColumnDef="package" appearance="fill" class="full-width">
                 <th mat-header-cell *matHeaderCellDef> Упаковка </th>
@@ -267,7 +266,7 @@
                   </button>
                 </th>
                 <td mat-cell *matCellDef="let row">
-                  <a mat-icon-button class="mat-elevation-z2" *ngIf="row.url" style="color:black" href="{{row.url}}" target="_blank"><mat-icon>visibility</mat-icon></a>&nbsp;
+                  <a mat-icon-button class="mat-elevation-z2" *ngIf="row.url" style="color:black" href="{{row.url}}" target="_blank"><mat-icon>download</mat-icon></a>&nbsp;
                   <button mat-icon-button matTooltip="Редактировать" class="mat-elevation-z2" (click)="editDocRow(row)">
                     <mat-icon>edit</mat-icon>
                   </button>&nbsp;

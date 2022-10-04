@@ -58,6 +58,7 @@ export class AttributeEditComponent implements OnInit {
     }
     else {
       this.attribute = new Attribute()
+      this.attribute.rating = 0;
       this.api.getSuppliers('', 0 ,100, "SupplierName", "asc").subscribe( (r:any) => {
         this.supplierList = r.body.data
       });
@@ -87,20 +88,15 @@ export class AttributeEditComponent implements OnInit {
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-
-    // Add our fruit
     const idx = this.attribute?.allValue?.indexOf(value);
     if (value && idx === -1 ) {
       this.attribute?.allValue?.push(value);
     }
-
-    // Clear the input value
     event.chipInput!.clear();
   }
 
   remove(fruit: string): void {
     const index = this.attribute?.allValue?.indexOf(fruit);
-
     if (typeof(index) == "number" && index >= 0) {
       this.attribute?.allValue?.splice(index, 1);
     }

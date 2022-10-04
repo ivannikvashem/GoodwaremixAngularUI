@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl} from "@angular/forms";
+import {FormControl, Validators} from "@angular/forms";
 import {Supplier} from "../../models/supplier.model";
 import {ApiClient} from "../../repo/httpClient";
 import {Product} from "../../models/product.model";
@@ -37,7 +37,7 @@ export class ProductEditComponent implements OnInit {
   // Supplier
   public supplierList: Supplier[];  // public filteredSupplierList: Observable<Supplier[]> | undefined;
   selectedSupplier: Supplier;
-  searchSupplierCtrl = new FormControl<string | Supplier>('')
+  searchSupplierCtrl = new FormControl<string | Supplier>('', Validators.required)
   //Product
   product:Product;
   productId:string = '';
@@ -80,7 +80,12 @@ export class ProductEditComponent implements OnInit {
           this.attrDataSource.setData(this.product.attributes || []);
           this.packDataSource.setData(this.product.packages || []);
           this.documentDataSource.setData(this.product.documents || []);
-          this.product.images.forEach((value) => {this.imagesView.unshift(value) })
+          if (this.product.images) {
+            this.product.images.forEach((value) => {this.imagesView.unshift(value) })
+          }
+          if (this.product.thumbnails) {
+            this.product.localImages.forEach((value) => {this.imagesView.unshift(value) })
+          }
         });
     }
     else {
@@ -98,16 +103,6 @@ export class ProductEditComponent implements OnInit {
       switchMap(value => this.api.getSuppliers(value, 0 ,100,"SupplierName", "asc")
       )
     ).subscribe((data: any) => { this.supplierList = data.body.data; });
-
-    // this.searchCountryCtrl.valueChanges.pipe(
-    //   distinctUntilChanged(),
-    //   debounceTime(300),
-    //   tap(() => {
-    //   }),
-    // ).subscribe((data: any) => {
-    //   console.log(data.body.data)
-    //   this.supplierList = data.body.data;
-    // });
 
     this.filteredCountries = this.searchCountryCtrl.valueChanges.pipe(
       startWith(''),
@@ -160,9 +155,11 @@ export class ProductEditComponent implements OnInit {
   // About product
   addGTD($event: MatChipInputEvent) {
     const value = ($event.value || '').trim()
-    if (value) { this.product.gtd.push(value)}
+    const idx = this.product?.gtd?.indexOf(value);
+    if (value && idx === -1 ) {this.product.gtd.push(value);}
     $event.chipInput!.clear()
   }
+
   removeGTD(gtd:string) {
     const index = this.product.gtd.indexOf(gtd)
     if (index >= 0) {
@@ -223,37 +220,57 @@ export class ProductEditComponent implements OnInit {
     this.openPackageEditorDialog()
   }
 
-  editPackageRow(row:any) {
-    this.openPackageEditorDialog(row)
+  editPackageRow(row:any, isNetto?:boolean) {
+    this.openPackageEditorDialog(row, isNetto)
   }
 
-  deletePackageRow(row:any) {
-    this.product.packages = this.product.packages.filter(dc => (dc != row))
-    this.packDataSource.setData(this.product.packages || []);
+  deletePackageRow(row:any, isNetto?:boolean) {
+    if (isNetto) {this.product.netto = ''}
+    else {
+      this.product.packages = this.product.packages.filter(dc => (dc != row))
+      this.packDataSource.setData(this.product.packages || []);
+    }
+
   }
 
-  openPackageEditorDialog(oldPackage?:any, oldNetto?:any): void {
+  openPackageEditorDialog(oldPackage?:any, isNetto?:boolean): void {
     const dialogRef = this.dialog.open(PackageEditorComponent, {
       width: '900px',
       height: '650px',
-      data: { oldPackage: oldPackage, newPackage: new Package(), oldNetto: oldNetto },
+      data: { oldPackage: oldPackage, newPackage: new Package(), isNetto: isNetto },
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (this.product.packages.filter(x => x.barcode !== result.newPackage?.barcode)) {
+      if (result?.isNetto) {
         if (result.newPackage !== undefined) {
           if (oldPackage == undefined) {
             console.log(this.product)
-            this.product.packages.unshift(result.newPackage as Package)
-            this.packDataSource.setData(this.product.packages || []);
+            this.product.netto = result.newPackage as any
           } else {
             if (oldPackage !== result.newPackage) {
-              const target = this.product.packages.find((obj) => obj === oldPackage)
-              Object.assign(target, result.newPackage)
+              //const target = this.product.netto.find((obj) => obj === oldPackage)
+              Object.assign(this.product.netto, result.newPackage)
             }
           }
         }
       }
+      else {
+        if (this.product.packages.filter(x => x.barcode !== result.newPackage?.barcode)) {
+          if (result.newPackage !== undefined) {
+            if (oldPackage == undefined) {
+              console.log(this.product)
+              this.product.packages.unshift(result.newPackage as Package)
+              this.packDataSource.setData(this.product.packages || []);
+            } else {
+              if (oldPackage !== result.newPackage) {
+                const target = this.product.packages.find((obj) => obj === oldPackage)
+                Object.assign(target, result.newPackage)
+              }
+            }
+          }
+        }
+      }
+
     });
   }
 
@@ -280,7 +297,6 @@ export class ProductEditComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (this.product.documents.filter(x => x !== result?.newDocument)) {
-        console.log('docs', this.product.documents)
         if (result.newDocument !== undefined) {
           if (oldDocument == undefined) {
             this.product.documents.unshift(result.newDocument as Document)

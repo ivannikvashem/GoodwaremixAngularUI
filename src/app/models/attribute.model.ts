@@ -10,8 +10,8 @@ export class Attribute {
   etimFeature: string
   etimUnit: string
   rating: number
-  allValue: string[]
-  possibleAttributeName: string[]
+  allValue: string[] = []
+  possibleAttributeName: string[] = []
   createdAt: Date
   updatedAt: Date
 }

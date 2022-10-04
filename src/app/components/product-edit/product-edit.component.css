@@ -33,8 +33,6 @@
 }
 
 .mat-card {
-  height:auto;
-  min-height: 20px;
   margin-right: 10px;
 }
 .mat-column-action {

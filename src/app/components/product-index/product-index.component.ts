@@ -207,10 +207,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     this.hoverImage = image;
   }
   openDialog(image: string) {
-    //console.log(image);
     let dialogBoxSettings = {
-      /*maxHeight: '60%',*/
-      maxWidth: '60%',
       margin: '0 auto',
       hasBackdrop: true,
       data: {

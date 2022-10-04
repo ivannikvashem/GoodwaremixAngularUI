@@ -47,9 +47,6 @@ export class ProductDetailsComponent implements OnInit {
         this.dataSource = new MatTableDataSource(this.product.attributes);
         this.safeImg360Url = this._sanitizer.bypassSecurityTrustResourceUrl(this.product.image360)
         this.safeImg360Test = this._sanitizer.bypassSecurityTrustResourceUrl('https://api.systeme.ru/player/embed?ref=14910')
-        console.log('360img',this.safeImg360Url)
-        console.log('video',this.safeVideoUrl)
-
       }
     );
   }

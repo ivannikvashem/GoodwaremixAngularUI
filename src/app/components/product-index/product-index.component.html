@@ -42,7 +42,7 @@
         <td mat-cell *matCellDef="let row">
 
           <ng-template #t [ngTemplateOutlet]="t" let-a [ngTemplateOutletContext]="{ $implicit: 0 }">
-            <div *ngIf="!row.thumbnails">
+            <div *ngIf="row.thumbnails.length == 0">
               <div class="containerCmain" *ngIf="hoverRowId==row.id">
                 <div class="imgWrapper">
                   <img (error)="handleMissingImage($event)" [src]="hoverImage"  class="imgInContainer" />
@@ -62,22 +62,22 @@
               </div>
             </div>
 
-            <div *ngIf="row.thumbnails">
+            <div *ngIf="row.thumbnails.length > 0">
               <div class="containerCmain" *ngIf="hoverRowId==row.id">
                 <div class="imgWrapper">
-                  <img (error)="handleMissingImage($event)" [src]="hoverImage"  class="imgInContainer" />
+                  <img [src]="hoverImage"  class="imgInContainer" />
                 </div>
 
                 <div class="containerC">
-                  <div *ngFor="let thumbnail of row.thumbnails; index as i" class="hoverBlockC" (mouseover)="changeImage(row, thumbnail)" (click)="openDialog(thumbnail)"></div>
+                  <div *ngFor="let thumbnail of row.thumbnails; index as i" class="hoverBlockC" (mouseover)="changeImage(row, thumbnail)" (click)="openDialog(row.localImages[i])"></div>
                 </div>
               </div>
               <div class="containerCmain" *ngIf="hoverRowId!=row.id">
                 <div class="imgWrapper">
-                  <img (error)="handleMissingImage($event)" [src]="row.images[0]" class="imgInContainer"/>
+                  <img  [src]="row.localImages[0]" class="imgInContainer"/>
                 </div>
                 <div class="containerC">
-                  <div *ngFor="let image of row.images; index as i" class="hoverBlockC" (mouseover)="changeImage(row, image)"></div>
+                  <div *ngFor="let image of row.localImages; index as i" class="hoverBlockC" (mouseover)="changeImage(row, image)"></div>
                 </div>
               </div>
             </div>
