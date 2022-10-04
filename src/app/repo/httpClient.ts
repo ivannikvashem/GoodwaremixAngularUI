@@ -197,13 +197,13 @@ export class ApiClient {
 
   // DOWNLOAD FILE ENDPOINT
   downloadTableFile(table:string, supplierId:string) {
-    let opt = { params: new HttpParams().set('table', table).set('supplierId', supplierId) };
-    if (supplierId != "") {
-      opt.params = opt.params.append('supplierId', supplierId);
-    }
-    opt = Object.assign(opt, {observe:'response', responseType:'blob'});
+    // let opt = { params: new HttpParams().set('table', table).set('supplierId', supplierId) };
+    // if (supplierId != "") {
+    //   opt.params = opt.params.append('supplierId', supplierId);
+    // }
+    // opt = Object.assign(opt, {observe:'response', responseType:'blob'});
 
-    return this.http.get(this.apiURL +'/suppliers/DownloadFileJson',{observe:'response', responseType:'blob'})
+    return this.http.get(this.apiURL +'/suppliers/DownloadFileJson?table='+table+'&supplierId='+supplierId,{observe:'response', responseType:'blob'})
   }
 
   // INIT ENDPOINT
