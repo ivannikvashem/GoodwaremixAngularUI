@@ -31,6 +31,7 @@ export class AttributeEditorComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA)
               public data: AttrDialogData) { }
 
+
   ngOnInit(): void {
     if (this.data.oldAttribute !== undefined) {
       this.api.getAttributeById(this.data.oldAttribute.attributeId).subscribe((response) => {
