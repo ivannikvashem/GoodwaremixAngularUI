@@ -14,7 +14,6 @@ import {DocumentEditorComponent} from "../document-editor/document-editor.compon
 export interface AttrDialogData {
   newPackage?: Package;
   oldPackage?:Package;
-  isNetto?:boolean;
 }
 
 @Component({
@@ -38,7 +37,6 @@ export class PackageEditorComponent implements OnInit {
       "volume": new FormControl<number>(null),
       "weight": new FormControl<number>(null),
       "packQty": new FormControl<number>(null),
-      "isNetto": new FormControl<boolean>(false),
     })
   }
 
@@ -52,7 +50,6 @@ export class PackageEditorComponent implements OnInit {
       this.form.get("volume").setValue(this.data.oldPackage.volume)
       this.form.get("weight").setValue(this.data.oldPackage.weight)
       this.form.get("packQty").setValue(this.data.oldPackage.packQty)
-      this.form.get("isNetto").setValue(this.data.isNetto)
 
       // this.packageProduct = this.data.oldPackage
     }
@@ -68,7 +65,6 @@ export class PackageEditorComponent implements OnInit {
       this.data.newPackage.volume = this.form.get("volume").value
       this.data.newPackage.weight = this.form.get("weight").value
       this.data.newPackage.packQty = this.form.get("packQty").value
-      this.data.isNetto = this.form.get("isNetto").value
     }
   }
 

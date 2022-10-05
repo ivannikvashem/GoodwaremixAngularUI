@@ -100,3 +100,12 @@ tr.element-row:not(.example-expanded-row):hover {
 tr.element-row:not(.example-expanded-row):active {
   background: #efefef;
 }
+
+.btnAsText {
+  background:none;
+  border-style: none;
+  margin:0;
+  padding:0;
+  cursor: pointer;
+  font:400 24px/32px Roboto, "Helvetica Neue", sans-serif
+}

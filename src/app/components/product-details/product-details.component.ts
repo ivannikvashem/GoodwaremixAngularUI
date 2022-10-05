@@ -84,4 +84,9 @@ export class ProductDetailsComponent implements OnInit {
   goToEdit(Id: string) {
     this.router.navigate([`product-edit/${Id}`]);
   }
+
+  copyVendorId(vendorId: string) {
+    navigator.clipboard.writeText(vendorId)
+    this._notyf.onSuccess('Код поставщика скопирован')
+  }
 }

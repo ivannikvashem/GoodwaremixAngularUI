@@ -220,6 +220,10 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     ($event.target as HTMLImageElement).src='./assets/imgPlaceholder.png'
   }
 
+  copyVendorId(vendorId: string) {
+    navigator.clipboard.writeText(vendorId)
+    // this._notyf.onSuccess('Код поставщика скопирован')
+  }
 }
 @Component({
   selector: 'dialog-data-example-dialog',

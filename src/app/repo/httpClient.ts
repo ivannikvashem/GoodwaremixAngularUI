@@ -153,6 +153,10 @@ export class ApiClient {
     return this.http.post<any>(this.apiURL + '/suppliers/fetch/' + supplierName, {}, this.httpOptions);
   }
 
+  stopFetchDataFromSupplier(supplierName: any): Observable<any> {
+    return this.http.post<any>(this.apiURL + '/suppliers/fetchStop/' + supplierName, {}, this.httpOptions);
+  }
+
   internalCodeBindForSupplier(id: string): Observable<any> {
     return this.http.post<any>(this.apiURL + '/suppliers/internalBind/' + id, {}, this.httpOptions);
   }

@@ -29,6 +29,7 @@ export class Product {
 
   constructor() {
     this.gtd = []
+    this.netto = []
     this.packages = [] as Package[]
     this.images = []
     this.thumbnails = []

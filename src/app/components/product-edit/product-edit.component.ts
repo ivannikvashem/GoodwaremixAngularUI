@@ -220,8 +220,8 @@ export class ProductEditComponent implements OnInit {
     this.openPackageEditorDialog()
   }
 
-  editPackageRow(row:any, isNetto?:boolean) {
-    this.openPackageEditorDialog(row, isNetto)
+  editPackageRow(row:any) {
+    this.openPackageEditorDialog(row)
   }
 
   deletePackageRow(row:any, isNetto?:boolean) {
@@ -233,28 +233,14 @@ export class ProductEditComponent implements OnInit {
 
   }
 
-  openPackageEditorDialog(oldPackage?:any, isNetto?:boolean): void {
+  openPackageEditorDialog(oldPackage?:any): void {
     const dialogRef = this.dialog.open(PackageEditorComponent, {
       width: '900px',
       height: '650px',
-      data: { oldPackage: oldPackage, newPackage: new Package(), isNetto: isNetto },
+      data: { oldPackage: oldPackage, newPackage: new Package() },
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result?.isNetto) {
-        if (result.newPackage !== undefined) {
-          if (oldPackage == undefined) {
-            console.log(this.product)
-            this.product.netto = result.newPackage as any
-          } else {
-            if (oldPackage !== result.newPackage) {
-              //const target = this.product.netto.find((obj) => obj === oldPackage)
-              Object.assign(this.product.netto, result.newPackage)
-            }
-          }
-        }
-      }
-      else {
         if (this.product.packages.filter(x => x.barcode !== result.newPackage?.barcode)) {
           if (result.newPackage !== undefined) {
             if (oldPackage == undefined) {
@@ -269,8 +255,6 @@ export class ProductEditComponent implements OnInit {
             }
           }
         }
-      }
-
     });
   }
 

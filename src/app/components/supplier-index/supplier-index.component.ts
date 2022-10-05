@@ -136,9 +136,16 @@ export class SupplierIndexComponent implements OnInit {
   }
 
   fetchItem(supplierName: any) {
-    console.log("fetching " +supplierName);
     this.api.fetchDataFromSupplier(supplierName).subscribe( res => {
-        console.log(JSON.stringify(res));
+       this._notyf.onSuccess('Сбор данных '+supplierName+' начат')
+      },
+      err => {
+        this._notyf.onError("Ошибка: " + JSON.stringify(err));
+      })
+  }
+  stopFetchItem(supplierName: any) {
+    this.api.stopFetchDataFromSupplier(supplierName).subscribe( res => {
+        this._notyf.onSuccess('Сбор данных '+supplierName+' остановлен')
       },
       err => {
         this._notyf.onError("Ошибка: " + JSON.stringify(err));
@@ -229,4 +236,5 @@ export class SupplierIndexComponent implements OnInit {
       downloadAction.click()
     })
   }
+
 }

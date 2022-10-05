@@ -34,14 +34,14 @@
     </mat-button-toggle-group>
     </form>
   </div>
-  <div class="mat-elevation-z8 full-width">
+  <div class="mat-elevation-z8 full-width" >
     <table mat-table [dataSource]="dataSource">
       <!-- Preview Column -->
-      <ng-container matColumnDef="preview">
+      <ng-container matColumnDef="preview" >
         <th mat-header-cell *matHeaderCellDef>Фотографии</th>
         <td mat-cell *matCellDef="let row">
 
-          <ng-template #t [ngTemplateOutlet]="t" let-a [ngTemplateOutletContext]="{ $implicit: 0 }">
+          <ng-template #t [ngTemplateOutlet]="t" let-a [ngTemplateOutletContext]="{ $implicit: 0 }" >
             <div *ngIf="row.thumbnails.length == 0">
               <div class="containerCmain" *ngIf="hoverRowId==row.id">
                 <div class="imgWrapper">
@@ -102,7 +102,7 @@
                        let-a [ngTemplateOutletContext]="{ $implicit: 0 }">
           <div>
             <h4><a href="/product-details/{{row.id}}"><span *ngIf="row.vendor">[{{row.vendor}}]</span> {{row.title}} </a> </h4>
-            <p style="font-style: italic"><strong>{{row.vendorId}}</strong></p>
+            <p style="font-style: italic"><strong>{{row.vendorId}}&nbsp;<button class="btnAsText" (click)="copyVendorId(row.vendorId)"><mat-icon style="vertical-align:bottom;font-size:18px">content_copy</mat-icon></button></strong></p>
             <p><strong>{{row.netto?.barcode || ""}}</strong></p>
           </div>
 
