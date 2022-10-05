@@ -87,6 +87,6 @@ export class ProductDetailsComponent implements OnInit {
 
   copyVendorId(vendorId: string) {
     navigator.clipboard.writeText(vendorId)
-    this._notyf.onSuccess('Код поставщика скопирован')
+    this._notyf.onSuccess('Артикул поставщика скопирован')
   }
 }

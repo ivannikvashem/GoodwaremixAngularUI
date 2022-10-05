@@ -21,6 +21,7 @@ import {HttpClient} from "@angular/common/http";
 import {PackageEditorComponent} from "../shared/package-editor/package-editor.component";
 import countriesListJson from "../../countriesList.json"
 import {map} from "rxjs/operators";
+import {Dimensions} from "../../models/dimensions.model";
 
 interface Country {
   code?:string
@@ -77,6 +78,19 @@ export class ProductEditComponent implements OnInit {
       this.api.getProductById(this.productId)
         .subscribe( (s:any) => {
           this.product = s.body as Product;
+          if (this.product.netto == null) {
+            this.product.netto = new Package()
+          }
+          if (this.product.country) {
+            const a = this.countriesList.filter(option => option.name.toLowerCase().includes(this.product.country.toLowerCase()) as Country)
+            console.log('aaa', a)
+            this.searchCountryCtrl.setValue(a as Country)
+          }
+          //return this.countriesList.filter(option => option.name.toLowerCase().includes(filterValue));
+
+          console.log('prod', this.product)
+          console.log('prod', this.product)
+
           this.attrDataSource.setData(this.product.attributes || []);
           this.packDataSource.setData(this.product.packages || []);
           this.documentDataSource.setData(this.product.documents || []);
@@ -224,13 +238,9 @@ export class ProductEditComponent implements OnInit {
     this.openPackageEditorDialog(row)
   }
 
-  deletePackageRow(row:any, isNetto?:boolean) {
-    if (isNetto) {this.product.netto = ''}
-    else {
-      this.product.packages = this.product.packages.filter(dc => (dc != row))
-      this.packDataSource.setData(this.product.packages || []);
-    }
-
+  deletePackageRow(row:any) {
+    this.product.packages = this.product.packages.filter(dc => (dc != row))
+    this.packDataSource.setData(this.product.packages || []);
   }
 
   openPackageEditorDialog(oldPackage?:any): void {
@@ -304,6 +314,7 @@ export class ProductEditComponent implements OnInit {
       this.product.supplierId = supplier.id
       this.product.supplierName = supplier.supplierName
     }
+    console.log('product',this.product)
     const productToAdd = new ProductImageViewmodel()
     productToAdd.product = this.product
     productToAdd.files = this.imagesToUpload
@@ -318,6 +329,7 @@ export class ProductEditComponent implements OnInit {
    }
 
   onCountrySelected() {
+    this.product.country = this.searchCountryCtrl.value.name
     this.product.countryCode = this.searchCountryCtrl.value.code
   }
 }

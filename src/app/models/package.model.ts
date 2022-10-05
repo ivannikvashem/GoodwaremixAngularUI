@@ -5,8 +5,8 @@ export class Package {
   height: number;
   width: number;
   depth: number;
-  volume: number;
   weight: number;
+  volume: number;
   packQty: number;
 
   constructor(barcode: string = "") {

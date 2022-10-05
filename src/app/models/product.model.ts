@@ -15,7 +15,7 @@ export class Product {
   country:string;
   countryCode:string;
   gtd:string[];
-  netto:any;
+  netto:Package;
   packages:Package[];
   images: string[];
   thumbnails: string[];
@@ -29,7 +29,7 @@ export class Product {
 
   constructor() {
     this.gtd = []
-    this.netto = []
+    this.netto = new Package()
     this.packages = [] as Package[]
     this.images = []
     this.thumbnails = []

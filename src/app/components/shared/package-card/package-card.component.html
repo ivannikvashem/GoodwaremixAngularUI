@@ -20,7 +20,7 @@
 </style>
 
 
-<div style="margin-top: 10px; margin-right: 30px; width:400px;" *ngIf="pack && (pack.barcode || pack.packQty || pack.volume || pack.weight)">
+<div style="margin-top: 10px; margin-right: 30px; width:100%;" *ngIf="pack && (pack.barcode || pack.packQty || pack.volume || pack.weight)">
 
   <div class="centered-element">
     <div class="column leftColumn">
@@ -31,7 +31,7 @@
 
     </div>
     <div class="column rightColumn">
-      <mat-list style="width: 140%">
+      <mat-list >
         <mat-list-item *ngIf="pack.weight">
           <div><mat-icon>scale </mat-icon> {{Math.round((pack.weight + Eps) * 100) / 100}} гр. </div>
         </mat-list-item>

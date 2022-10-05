@@ -9,6 +9,7 @@ import {FormControl} from '@angular/forms';
 import {Supplier} from "../../models/supplier.model";
 import {LocalStorageService} from "../../service/local-storage.service";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../shared/confirm-dialog/confirm-dialog.component";
+import {NotificationService} from "../../service/notification-service";
 
 export interface DialogData {
   src: '';
@@ -55,7 +56,8 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     public dialog: MatDialog,
     public router: Router,
     private _ActivatedRoute:ActivatedRoute,
-    private _localStorageService: LocalStorageService
+    private _localStorageService: LocalStorageService,
+    private _notyf: NotificationService
   ) {
     this.dataSource = new ProductsDataSource(this.api);
   }
@@ -222,7 +224,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
 
   copyVendorId(vendorId: string) {
     navigator.clipboard.writeText(vendorId)
-    // this._notyf.onSuccess('Код поставщика скопирован')
+    this._notyf.onSuccess('Артикул поставщика скопирован')
   }
 }
 @Component({

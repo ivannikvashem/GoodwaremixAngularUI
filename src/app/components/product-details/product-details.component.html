@@ -44,7 +44,7 @@
     </mat-card>
 
 
-    <mat-accordion  *ngIf="product?.netto.barcode">
+    <mat-accordion  *ngIf="product?.netto?.barcode">
       <mat-expansion-panel disabled expanded style="margin-right: 10px; margin-bottom: 10px; margin-top: 10px">
         <app-package-card [pack]="product?.netto"></app-package-card>
       </mat-expansion-panel>

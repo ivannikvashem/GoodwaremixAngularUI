@@ -6,7 +6,7 @@
 
   <div>
     <span>{{product?.supplierId == undefined ? "Добавление нового товара" : "Редактирование " + product?.title}}</span>
-    <strong *ngIf="product.vendorId"> [{{product.vendorId}}]</strong>
+    <strong *ngIf="product.vendorId && product?.supplierId != undefined">  [{{product.vendorId}}]</strong>
 
   </div>
 </div>
@@ -104,12 +104,12 @@
             <div class="formBlockDouble">
               <mat-form-field appearance="fill" class="form-full-width">
                 <mat-label>Вендор</mat-label>
-                <input matInput name="vendor" [(ngModel)]="product.vendor">
+                <input matInput name="vendor" [(ngModel)]="product.vendor" required>
               </mat-form-field>&nbsp;
 
               <mat-form-field appearance="fill" class="form-full-width">
                 <mat-label>Вендор ID</mat-label>
-                <input matInput name="vendorId" [(ngModel)]="product.vendorId">
+                <input matInput name="vendorId" [(ngModel)]="product.vendorId" required>
               </mat-form-field>
             </div>
 
@@ -250,7 +250,9 @@
                       <input matInput [(ngModel)]="product.netto.packQty" name="packQty" type="number" min="0" pattern="\d*">
                     </mat-form-field>
 
+                  <div *ngIf="product.netto.barcode">
                     <app-package-card [pack]="product.netto"></app-package-card>
+                  </div>
 
                 </mat-expansion-panel>
               </mat-accordion>

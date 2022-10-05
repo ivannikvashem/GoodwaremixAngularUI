@@ -66,6 +66,7 @@ th {
   align-items: center;
   height: 100%;
 }
+
 .imgInContainer {
   object-fit: contain;
   height: auto;
