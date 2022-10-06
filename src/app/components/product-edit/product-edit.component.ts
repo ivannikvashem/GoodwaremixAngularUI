@@ -12,16 +12,15 @@ import {NotificationService} from "../../service/notification-service";
 import {MatTableDataSource} from "@angular/material/table";
 import {ActivatedRoute} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
-import {AttributeEditorComponent} from "../shared/attribute-editor/attribute-editor.component";
+import {ProductAttributeEditComponent} from "../shared/product-attribute-edit/product-attribute-edit.component";
 import {Package} from "../../models/package.model";
 import {ProductImageViewmodel} from "../../models/viewmodels/productImage.viewmodel";
 import {Document} from "../../models/document.model";
-import {DocumentEditorComponent} from "../shared/document-editor/document-editor.component";
+import {ProductDocumentEdit} from "../shared/product-document-edit/product-document-edit";
 import {HttpClient} from "@angular/common/http";
-import {PackageEditorComponent} from "../shared/package-editor/package-editor.component";
+import {ProductPackageEditComponent} from "../shared/product-package-edit/product-package-edit.component";
 import countriesListJson from "../../countriesList.json"
 import {map} from "rxjs/operators";
-import {Dimensions} from "../../models/dimensions.model";
 
 interface Country {
   code?:string
@@ -49,22 +48,18 @@ export class ProductEditComponent implements OnInit {
   attrDataSource = new AttrDataSource(this.dataToDisplayAttr)
   attributeColumns: string[] = [ 'attributeKey', 'attributeValue', 'action'];
   dataSource = new MatTableDataSource<any>()
-
   // Package
   dataToDisplayPck:any = [];
   packageColumns: string[] = [ 'package', 'action'];
   packDataSource = new PackDataSource(this.dataToDisplayPck);
-
   // Document
   dataToDisplayDoc:any = [];
   documentColumns:string[] = ['title', 'action']
   documentDataSource = new DocumentDataSource(this.dataToDisplayDoc)
-
   //Misc
   countriesList:Country[] = countriesListJson
   searchCountryCtrl = new FormControl<string | any>('')
   filteredCountries: Observable<any[]>
-
 
   constructor(public api:ApiClient,
               private _ActivatedRoute:ActivatedRoute,
@@ -82,15 +77,10 @@ export class ProductEditComponent implements OnInit {
             this.product.netto = new Package()
           }
           if (this.product.country) {
-            const a = this.countriesList.filter(option => option.name.toLowerCase().includes(this.product.country.toLowerCase()) as Country)
-            console.log('aaa', a)
-            this.searchCountryCtrl.setValue(a as Country)
+            const productCountry = this.countriesList.filter(option => option.name.toLowerCase().includes(this.product.country.toLowerCase()) as Country)
+            this.searchCountryCtrl.setValue(productCountry as Country)
           }
           //return this.countriesList.filter(option => option.name.toLowerCase().includes(filterValue));
-
-          console.log('prod', this.product)
-          console.log('prod', this.product)
-
           this.attrDataSource.setData(this.product.attributes || []);
           this.packDataSource.setData(this.product.packages || []);
           this.documentDataSource.setData(this.product.documents || []);
@@ -203,7 +193,7 @@ export class ProductEditComponent implements OnInit {
   }
 
   openAttributeEditorDialog(oldAttribute?:any): void {
-    const dialogRef = this.dialog.open(AttributeEditorComponent, {
+    const dialogRef = this.dialog.open(ProductAttributeEditComponent, {
       width: '900px',
       height: '380px',
       data: { oldAttribute: oldAttribute, newAttribute: new AttributeProduct() },
@@ -244,7 +234,7 @@ export class ProductEditComponent implements OnInit {
   }
 
   openPackageEditorDialog(oldPackage?:any): void {
-    const dialogRef = this.dialog.open(PackageEditorComponent, {
+    const dialogRef = this.dialog.open(ProductPackageEditComponent, {
       width: '900px',
       height: '650px',
       data: { oldPackage: oldPackage, newPackage: new Package() },
@@ -283,7 +273,7 @@ export class ProductEditComponent implements OnInit {
   }
 
   openDocumentEditorDialog(oldDocument?:any): void {
-    const dialogRef = this.dialog.open(DocumentEditorComponent, {
+    const dialogRef = this.dialog.open(ProductDocumentEdit, {
       width: '900px',
       height: '600px',
       data: { oldDocument: oldDocument, newDocument: new Document() },

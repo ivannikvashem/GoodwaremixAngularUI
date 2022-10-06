@@ -4,21 +4,19 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Document} from "../../../models/document.model";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {MatChipInputEvent} from "@angular/material/chips";
-import {Form, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Attribute} from "../../../models/attribute.model";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 export interface AttrDialogData {
   newDocument?: Document;
   oldDocument?:Document;
 }
 
-
 @Component({
-  selector: 'app-document-editor',
-  templateUrl: './document-editor.component.html',
-  styleUrls: ['./document-editor.component.css']
+  selector: 'app-product-document-edit',
+  templateUrl: './product-document-edit.html',
+  styleUrls: ['./product-document-edit.css']
 })
-export class DocumentEditorComponent implements OnInit {
+export class ProductDocumentEdit implements OnInit {
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   documentProduct: Document = new Document();
   urlList:string[] = []
@@ -33,7 +31,7 @@ export class DocumentEditorComponent implements OnInit {
   ]
 
   constructor(public api: ApiClient,
-              public dialogRef: MatDialogRef<DocumentEditorComponent>,
+              public dialogRef: MatDialogRef<ProductDocumentEdit>,
               @Inject(MAT_DIALOG_DATA)
               public data: AttrDialogData) {
     this.form = new FormGroup<any>({

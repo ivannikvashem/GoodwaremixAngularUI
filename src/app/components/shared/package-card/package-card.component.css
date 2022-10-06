@@ -36,3 +36,21 @@
   vertical-align: -5px; /*Change this to adjust the icon*/
 }
 
+.column {
+  float:left;
+}
+.leftColumn {
+  width: 55%;
+}
+.rightColumn {
+  width: 45%;
+}
+.row:after{
+  content:"";
+  display: table;
+  clear: both;
+}
+
+.centered-element {
+  vertical-align: middle;
+}

@@ -159,14 +159,11 @@ export class SupplierIndexComponent implements OnInit {
   confirmDeleteSuppDialog(id: string, name: string): void {
     const message = `Удалить поставщика ` + name + `?`;
     const dialogData = new ConfirmDialogModel("Подтверждение", message);
-
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       minWidth: "400px",
       data: dialogData
     });
-
     dialogRef.afterClosed().subscribe(dialogResult => {
-      //this.result = dialogResult;
       if (dialogResult === true) {
         console.log("Confirm deleting " + id);
         this.dataSource.deleteSupplier(id);
@@ -177,12 +174,10 @@ export class SupplierIndexComponent implements OnInit {
   confirmDeleteSuppProdDialog(id: string, name: string): void {
     const message = `Удалить все товары поставщика ` + name + `?`;
     const dialogData = new ConfirmDialogModel("Подтверждение", message);
-
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: "500px",
       data: dialogData
     });
-
     dialogRef.afterClosed().subscribe(dialogResult => {
       //this.result = dialogResult;
       if (dialogResult === true) {
@@ -221,15 +216,9 @@ export class SupplierIndexComponent implements OnInit {
 
   downloadTable(table:string, supplierId?:string) {
     this.api.downloadTableFile(table,supplierId).subscribe(p =>{
-      console.log('p', p)
       let fileName = p.headers.get('content-disposition')?.split(';')[1].split('=')[1];
-      //let blob:Blob = p.body as Blob
-      console.log('filename', fileName)
-      console.log('pbody', JSON.stringify(p.body))
-
       let blob:any = new Blob([p.body], {type: 'application/json; charset=utf-8'})
       console.log('blob', blob)
-
       let downloadAction = document.createElement('a')
       downloadAction.download = table;
       downloadAction.href = window.URL.createObjectURL(blob)

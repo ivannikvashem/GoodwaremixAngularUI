@@ -4,5 +4,4 @@ export class Stat {
   productQtyWithCode: number;
   lastImport: Date;
   brands: string[];
-
 }

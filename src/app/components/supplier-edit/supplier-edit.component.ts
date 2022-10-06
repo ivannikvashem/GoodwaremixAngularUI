@@ -1,7 +1,7 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from "@angular/router";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {SourceSettings, Supplier, SupplierConfig} from "../../models/supplier.model";
+import {FormControl} from "@angular/forms";
+import {Supplier} from "../../models/supplier.model";
 import {ApiClient} from "../../repo/httpClient";
 import {ProductAttributeKey} from "../../models/productAttributeKey.model";
 import {DataSource} from "@angular/cdk/collections";
@@ -23,12 +23,10 @@ export class SupplierEditComponent implements OnInit {
 
   supplierId: string = '';
   supplier: Supplier;
-
   dataToDisplay:any = [];
   attrDataSource = new ProdAttrDataSource(this.dataToDisplay);
   attrTableColumns: string[] = ['idx', 'keySupplier', 'attributeBDName', 'actions'];
   attrSelectedRow: any;
-
   public attributeList: Attribute[] | undefined;
   attributeListCtrl = new FormControl<string | Attribute>('');
   selectedAttr: Attribute | undefined;
@@ -41,12 +39,6 @@ export class SupplierEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.supplierId = this._ActivatedRoute.snapshot.paramMap.get("supplierId");
-
-
-    //this.fetchSupplier()
-    // this.supplierId = this._ActivatedRoute.snapshot.paramMap.get("supplierId");
-    // console.log("init with params: " + this.supplierId);
-    //
     if (this.supplierId) {
       this.api.getSupplierById(this.supplierId)
         .subscribe( (s:any) => {
@@ -60,22 +52,14 @@ export class SupplierEditComponent implements OnInit {
           if (s?.body.supplierConfigs?.multipliers == null) {
             s.body.supplierConfigs.multipliers = new Multipliers();
           }
-/*          if (s?.body.sourceSettings?.multipart == null) {
-            s.body.sourceSettings.multipart = false;
-          }*/
-
-
            this.supplier = s.body as Supplier;
-          console.log("inited data :" + JSON.stringify( this.supplier));
           this.attrDataSource.setData(this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys || []);
         });
     }
     else {
       this.supplier = new Supplier();
     }
-
     this.attributeListCtrl.valueChanges.pipe(
-      //distinctUntilChanged(),
       debounceTime(100),
       tap(() => {
 
@@ -87,21 +71,7 @@ export class SupplierEditComponent implements OnInit {
           }),
         )
       )
-    )
-    .subscribe((data: any) => {
-      this.attributeList = data.body.data;
-    });
-  }
-
-  onSubmit(): void{
-    console.log('Submitting: ', JSON.stringify(this.supplier));
-    this.api.updateSupplier(this.supplier).subscribe( x => {
-
-        console.log("updateSupplier: " +JSON.stringify(x) );
-    },
-    error => {
-      console.log( "updateSupplierError: " + JSON.stringify(error));
-    })
+    ).subscribe((data: any) => { this.attributeList = data.body.data; });
   }
 
   addSuppAttr() {
@@ -168,10 +138,6 @@ export class SupplierEditComponent implements OnInit {
     this.attrDataSource.setData(this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys);
   }
 
-  saveUpdatedSupplierAttr(){
-
-  }
-
   clearAttrSelection():void {
     this.attrSelectedRow = null;
   }
@@ -192,7 +158,6 @@ export class SupplierEditComponent implements OnInit {
 
   removeDateFormat(fruit: string): void {
     const index = this.supplier.supplierConfigs.dateFormats?.indexOf(fruit);
-
     if (typeof(index) == "number" && index >= 0) {
       this.supplier.supplierConfigs.dateFormats?.splice(index, 1);
     }
@@ -200,11 +165,9 @@ export class SupplierEditComponent implements OnInit {
 
   submitSupplier() {
     this.api.updateSupplier(this.supplier).subscribe( x => {
-        //console.log("updateSupplier: " +JSON.stringify(x) );
         this._notyf.onSuccess("Конфигурация сохранена");
       },
       error => {
-        //console.log("updateSupplierError: " + JSON.stringify(error));
         this._notyf.onError("Ошибка: " + JSON.stringify(error));
         //todo обработчик ошибок, сервер недоступен или еще чего..
       });

@@ -6,7 +6,7 @@ import {debounceTime, distinctUntilChanged, finalize, switchMap, tap} from "rxjs
 import {MatPaginator} from "@angular/material/paginator";
 import {FormControl} from "@angular/forms";
 import {Supplier} from "../../models/supplier.model";
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MatDialog} from "@angular/material/dialog";
 import {Attribute} from "../../models/attribute.model";
 import {SwapAttributeComponent} from "../shared/swap-attribute/swap-attribute.component";
 import {NotificationService} from "../../service/notification-service";
@@ -31,10 +31,9 @@ export class AttributeIndexComponent implements OnInit {
 
   searchSuppliersCtrl = new FormControl<string | Supplier>('');
   withFixedAttrSelectorCtrl = new FormControl<boolean | null>(null);
-  public supplierList: Supplier[] | undefined;  // public filteredSupplierList: Observable<Supplier[]> | undefined;
+  public supplierList: Supplier[] | undefined;
   isLoading = false;
   searchQueryCtrl  = new FormControl<string>('');
-
   pageCookie$ = this._localStorageService.myData$
   pC: any = {};
   private sub: any;
@@ -103,8 +102,7 @@ export class AttributeIndexComponent implements OnInit {
           this.loadData();
           this.setCookie();
         })
-      )
-      .subscribe();
+      ).subscribe();
   }
 
   ngOnDestroy() {

@@ -44,7 +44,6 @@ export class AttributeEditComponent implements OnInit {
       this.api.getAttributeById(this.id ?? "")
         .pipe(
           map(res => {
-            //this.rowCount = res.body.count;
             return res.body;
           }),
           catchError(() => of([])),
@@ -75,12 +74,8 @@ export class AttributeEditComponent implements OnInit {
             }),
           )
         )
-      )
-        .subscribe((data: any) => {
-          this.supplierList = data.body.data;
-        });
+      ).subscribe((data: any) =>  { this.supplierList = data.body.data;});
     }
-
   }
 
   addOnBlur = true;
@@ -104,10 +99,6 @@ export class AttributeEditComponent implements OnInit {
 
   displayFn(supplier: Supplier): string {
     return supplier && supplier.supplierName ? supplier.supplierName : '';
-  }
-
-  onQueryChanged() {
-
   }
 
   saveAttribute() {

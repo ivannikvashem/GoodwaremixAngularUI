@@ -21,7 +21,6 @@ export class ProductDetailsComponent implements OnInit {
 
   productId: string | any;
   product: Observable<Product> | any;
-
   displayedAttrColumns: string[] = ['name', 'value','unit','etim', 'action'];
   dataSource = new MatTableDataSource();
   safeVideoUrl: SafeResourceUrl;

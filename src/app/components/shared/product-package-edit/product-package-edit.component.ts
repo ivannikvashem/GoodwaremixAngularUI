@@ -1,15 +1,9 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {Attribute} from "../../../models/attribute.model";
-import {debounceTime, distinctUntilChanged, finalize, Observable, startWith, switchMap, tap} from "rxjs";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ApiClient} from "../../../repo/httpClient";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {map} from "rxjs/operators";
 import {Package} from "../../../models/package.model";
-import {COMMA, ENTER} from "@angular/cdk/keycodes";
-import {Document} from "../../../models/document.model";
-import {MatChipInputEvent} from "@angular/material/chips";
-import {DocumentEditorComponent} from "../document-editor/document-editor.component";
+import {ProductDocumentEdit} from "../product-document-edit/product-document-edit";
 
 export interface AttrDialogData {
   newPackage?: Package;
@@ -17,15 +11,14 @@ export interface AttrDialogData {
 }
 
 @Component({
-  selector: 'app-package-editor',
-  templateUrl: './package-editor.component.html',
-  styleUrls: ['./package-editor.component.css']
+  selector: 'app-product-package-edit',
+  templateUrl: './product-package-edit.component.html',
+  styleUrls: ['./product-package-edit.component.css']
 })
-export class PackageEditorComponent implements OnInit {
+export class ProductPackageEditComponent implements OnInit {
   form:FormGroup
-
   constructor(public api: ApiClient,
-              public dialogRef: MatDialogRef<DocumentEditorComponent>,
+              public dialogRef: MatDialogRef<ProductDocumentEdit>,
               @Inject(MAT_DIALOG_DATA)
               public data: AttrDialogData) {
     this.form = new FormGroup<any>({
@@ -50,8 +43,6 @@ export class PackageEditorComponent implements OnInit {
       this.form.get("volume").setValue(this.data.oldPackage.volume)
       this.form.get("weight").setValue(this.data.oldPackage.weight)
       this.form.get("packQty").setValue(this.data.oldPackage.packQty)
-
-      // this.packageProduct = this.data.oldPackage
     }
   }
 
@@ -67,11 +58,5 @@ export class PackageEditorComponent implements OnInit {
       this.data.newPackage.packQty = this.form.get("packQty").value
     }
   }
-
-  onCancelClick() {
-    console.log('closed')
-  }
-
-
-
+  onCancelClick() {}
 }

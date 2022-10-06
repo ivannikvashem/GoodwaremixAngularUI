@@ -1,24 +1,5 @@
-<style>
-  .main {
-    position: relative;
-  }
-  .actions-div {
-    display: flex;
-    justify-content: space-between;
-  }
-  .information{
-    text-align: center;
-    margin: 0px 0px;
-    height: 40px;
-  }
-  .full-width {
-    width: 100%;
-  }
-</style>
-
 <div class="main">
   <h3>{{data.oldAttribute?.attributeName == undefined ? "Добавление характеристики" : "Редактирование " + data.oldAttribute?.attributeName}}</h3>
-
   <div class="inputs">
     <mat-form-field appearance="fill" class="full-width" >
       <mat-label>Характеристика</mat-label>
@@ -31,16 +12,12 @@
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
-
-    <!--    <pre>{{attributeProduct | json}}</pre>-->
-
     <br/>
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>Значение</mat-label>
       <input matInput placeholder=""
              [formControl]="attributeValuesCtrl"
              [matAutocomplete]="attributeValuesAuto" [autofocus]="true">
-
       <mat-autocomplete autoActiveFirstOption #attributeValuesAuto="matAutocomplete"  (optionSelected)="onAttributeValueSelected()">
         <mat-option *ngFor="let option of filteredAttributeValues | async" [value]="option">
           {{option}}

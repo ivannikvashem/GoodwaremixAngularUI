@@ -1,23 +1,19 @@
-
-
 <div class="mat-headline">
   <div style="float:right">
     <button mat-raised-button color="primary" (click)="saveAttribute()">Сохранить</button>&nbsp;
   </div>
-
   <div>
     <span> {{attribute?.id == undefined ? "Добавление нового атрибута" : "Атрибут "+ id}}</span>
   </div>
 </div>
 
 <form>
-
   <mat-form-field class="full-width" appearance="fill" *ngIf="!attribute?.id">
     <mat-label>Поставщик</mat-label>
     <input type="text" matInput aria-label="Поставщик"
            [formControl]="searchSuppliersCtrl"
            [matAutocomplete]="auto">
-    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onQueryChanged()">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
       <mat-option *ngFor="let option of supplierList" [value]="option">
         {{option.supplierName}}
       </mat-option>
@@ -25,7 +21,6 @@
   </mat-form-field>
 
   <div style="width: 100%; display: flex; justify-content: space-between">
-
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Фиксация</mat-label>
       <mat-select name="fixed" [(ngModel)]="attribute.fixed">

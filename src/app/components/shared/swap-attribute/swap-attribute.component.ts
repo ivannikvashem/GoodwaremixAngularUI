@@ -41,10 +41,7 @@ export class SwapAttributeComponent implements OnInit {
           }),
         )
       )
-    )
-      .subscribe((response: any) => {
-        this.attributes = response.body.data;
-      });
+    ).subscribe((response: any) => { this.attributes = response.body.data; });
   }
 
   onCancelClick(): void {

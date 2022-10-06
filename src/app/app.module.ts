@@ -51,9 +51,9 @@ import {getRuPaginatorIntl} from  './service/ru-paginator-intl'
 import {MatMenuModule} from "@angular/material/menu";
 import '@angular/common/locales/global/ru';
 import { SwapAttributeComponent } from './components/shared/swap-attribute/swap-attribute.component'
-import {AttributeEditorComponent} from "./components/shared/attribute-editor/attribute-editor.component";
-import { PackageEditorComponent } from './components/shared/package-editor/package-editor.component';
-import { DocumentEditorComponent } from './components/shared/document-editor/document-editor.component';
+import {ProductAttributeEditComponent} from "./components/shared/product-attribute-edit/product-attribute-edit.component";
+import { ProductPackageEditComponent } from './components/shared/product-package-edit/product-package-edit.component';
+import { ProductDocumentEdit } from './components/shared/product-document-edit/product-document-edit';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
 
@@ -71,12 +71,12 @@ import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
     ProductDetailsComponent,
     PackageCardComponent,
     HoverImageSliderComponent,
-    AttributeEditorComponent,
+    ProductAttributeEditComponent,
     ConfirmDialogComponent,
     ProductEditComponent,
     SwapAttributeComponent,
-    PackageEditorComponent,
-    DocumentEditorComponent
+    ProductPackageEditComponent,
+    ProductDocumentEdit
   ],
   imports: [
     CommonModule,

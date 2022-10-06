@@ -82,9 +82,10 @@ export class ApiClient {
     return this.http.delete(this.apiURL+ '/Attributes/' + id, this.httpOptions)
   }
   // Log ENDPOINT
-  getLogs(pageIndex: number, pageSize: number, sortField: string, sortDirection: string): Observable<any> {
+  getLogs(supplierId:string, pageIndex: number, pageSize: number, sortField: string, sortDirection: string): Observable<any> {
     let opt = {
       params: new HttpParams()
+        .set('searchFilter', supplierId)
         .set('filter.pageNumber', pageIndex ? pageIndex + 1 : 1)
         .set('filter.pageSize', pageSize ?? 10)
         .set('sortField', sortField)

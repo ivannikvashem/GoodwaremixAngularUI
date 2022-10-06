@@ -13,11 +13,11 @@ export interface AttrDialogData {
 }
 
 @Component({
-  selector: 'app-attribute-editor',
-  templateUrl: './attribute-editor.component.html',
-  styleUrls: ['./attribute-editor.component.css']
+  selector: 'app-product-attribute-edit',
+  templateUrl: './product-attribute-edit.component.html',
+  styleUrls: ['./product-attribute-edit.component.css']
 })
-export class AttributeEditorComponent implements OnInit {
+export class ProductAttributeEditComponent implements OnInit {
 
   attributeProduct: Attribute = new Attribute();
   attributeValues: string[] = [];
@@ -27,10 +27,9 @@ export class AttributeEditorComponent implements OnInit {
   attributeValuesCtrl = new FormControl<string>('', Validators.required);
 
   constructor(public api: ApiClient,
-              public dialogRef: MatDialogRef<AttributeEditorComponent>,
+              public dialogRef: MatDialogRef<ProductAttributeEditComponent>,
               @Inject(MAT_DIALOG_DATA)
               public data: AttrDialogData) { }
-
 
   ngOnInit(): void {
     if (this.data.oldAttribute !== undefined) {
@@ -48,7 +47,6 @@ export class AttributeEditorComponent implements OnInit {
       });
     }
 
-
     this.searchAttributeCtrl.valueChanges.pipe(
       distinctUntilChanged(),
       debounceTime(100),
@@ -62,20 +60,13 @@ export class AttributeEditorComponent implements OnInit {
           }),
         )
       )
-    )
-      .subscribe((response: any) => {
-        this.attributesList = response.body.data;
-      });
-
-
+    ).subscribe((response: any) => { this.attributesList = response.body.data; });
   }
   onCancelClick(): void {
     this.dialogRef.close();
   }
 
   displayFn(attribute: Attribute): string {
-    //return attribute ? attribute.nameAttribute:
-    //return typeof attribute !== 'string' ? attribute.nameAttribute : attribute
     return attribute && attribute.nameAttribute ? attribute.nameAttribute : '';
   }
 
@@ -101,8 +92,6 @@ export class AttributeEditorComponent implements OnInit {
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-
     return this.attributeValues.filter(attributeValues => attributeValues.toLowerCase().includes(filterValue));
   }
-
 }

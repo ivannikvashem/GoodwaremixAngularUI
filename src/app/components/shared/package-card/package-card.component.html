@@ -1,34 +1,10 @@
-<style>
-  .column {
-    float:left;
-  }
-  .leftColumn {
-    width: 55%;
-  }
-  .rightColumn {
-    width: 45%;
-  }
-  .row:after{
-    content:"";
-    display: table;
-    clear: both;
-  }
-
-  .centered-element {
-    vertical-align: middle;
-  }
-</style>
-
-
 <div style="margin-top: 10px; margin-right: 30px; width:100%;" *ngIf="pack && (pack.barcode || pack.packQty || pack.volume || pack.weight)">
-
   <div class="centered-element">
     <div class="column leftColumn">
-      <div  style="margin-top:25px;">
+      <div style="margin-top:25px;">
         <ngx-barcode [bc-width]="1.7" [bc-height]="40" [bc-margin]="0" [bc-margin-top]="4" [bc-margin-right] ="0" [bc-margin-left]="0" [bc-value]="pack.barcode" [bc-display-value]="true" class="bcode"></ngx-barcode>
-        <div class="bc_placeholder" *ngIf="!pack.barcode"> </div>
+        <div class="bc_placeholder" *ngIf="!pack.barcode"></div>
       </div>
-
     </div>
     <div class="column rightColumn">
       <mat-list >
@@ -46,10 +22,6 @@
         </mat-list-item>
       </mat-list>
     </div>
-
   </div>
-
-
-
 </div>
 

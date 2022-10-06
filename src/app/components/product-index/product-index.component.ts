@@ -161,7 +161,9 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   }
 
   onQueryChanged() {
-    this.paginator.pageIndex = 0;
+    if (this.paginator.pageIndex != 0) {
+      this.paginator.pageIndex = 0;
+    }
     this.loadProductPagedData();
     this.setCookie();
   }
