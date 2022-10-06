@@ -63,7 +63,7 @@ export class ProductEditComponent implements OnInit {
 
   constructor(public api:ApiClient,
               private _ActivatedRoute:ActivatedRoute,
-              public _notyf:NotificationService,
+              private _notyf:NotificationService,
               public dialog: MatDialog,
               public http:HttpClient) { }
 

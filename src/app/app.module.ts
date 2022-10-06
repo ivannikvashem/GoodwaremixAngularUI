@@ -56,6 +56,7 @@ import { ProductPackageEditComponent } from './components/shared/product-package
 import { ProductDocumentEdit } from './components/shared/product-document-edit/product-document-edit';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
+import { SupplierAttributeAddComponent } from './components/shared/supplier-attribute-add/supplier-attribute-add.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
     ProductEditComponent,
     SwapAttributeComponent,
     ProductPackageEditComponent,
-    ProductDocumentEdit
+    ProductDocumentEdit,
+    SupplierAttributeAddComponent
   ],
   imports: [
     CommonModule,

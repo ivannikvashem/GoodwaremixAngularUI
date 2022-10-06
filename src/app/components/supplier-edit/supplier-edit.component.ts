@@ -13,6 +13,10 @@ import {Multipliers} from "../../models/multipliers.model";
 import {debounceTime, Observable, ReplaySubject, switchMap, tap} from "rxjs";
 import {finalize} from "rxjs/operators";
 import {NotificationService} from "../../service/notification-service";
+import {ProductAttributeEditComponent} from "../shared/product-attribute-edit/product-attribute-edit.component";
+import {AttributeProduct} from "../../models/attributeProduct.model";
+import {MatDialog} from "@angular/material/dialog";
+import {SupplierAttributeAddComponent} from "../shared/supplier-attribute-add/supplier-attribute-add.component";
 
 @Component({
   selector: 'app-supplier-edit',
@@ -34,6 +38,7 @@ export class SupplierEditComponent implements OnInit {
   constructor(
     private _ActivatedRoute:ActivatedRoute,
     private _notyf: NotificationService,
+    public dialog: MatDialog,
     public api: ApiClient,
   ) { }
 
@@ -175,6 +180,32 @@ export class SupplierEditComponent implements OnInit {
 
   addNewAttr(element: any) {
     console.log("el: " + JSON.stringify(element) );
+    this.openAttributeEditorDialog()
+  }
+
+
+  openAttributeEditorDialog(supplierName?:any): void {
+    const dialogRef = this.dialog.open(SupplierAttributeAddComponent, {
+      data: { oldAttribute: supplierName, newAttribute: new Attribute() },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // if (this.product.attributes.filter(x => x.value !== result.newAttribute?.value)) {
+      //   if (result.newAttribute?.value !== undefined) {
+      //     if (oldAttribute == undefined) {
+      //       this.product.attributes.unshift(result.newAttribute as AttributeProduct)
+      //       this.attrDataSource.setData(this.product.attributes || []);
+      //     }
+      //     else {
+      //       if (oldAttribute !== result.newAttribute) {
+      //         const target = this.product.attributes.find((obj) => obj.value === oldAttribute.value)
+      //         const a = this.product.attributes.find(x => x.value).value == result.newAttribute.value
+      //         Object.assign(target, result.newAttribute)
+      //       }
+      //     }
+      //   }
+      // }
+    });
   }
 }
 

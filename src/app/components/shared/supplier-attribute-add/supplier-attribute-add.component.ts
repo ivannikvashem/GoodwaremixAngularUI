@@ -1,25 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import {MatChipInputEvent} from "@angular/material/chips";
-import {COMMA, ENTER} from "@angular/cdk/keycodes";
-import {Attribute} from "../../models/attribute.model";
-import {ApiClient} from "../../repo/httpClient";
-import {ActivatedRoute, Router} from "@angular/router";
-import {catchError, finalize, map} from "rxjs/operators";
-import {BehaviorSubject, debounceTime, distinctUntilChanged, of, pipe, switchMap, tap} from "rxjs";
 import {FormControl} from "@angular/forms";
-import {Supplier} from "../../models/supplier.model";
+import {Supplier} from "../../../models/supplier.model";
+import {BehaviorSubject, debounceTime, distinctUntilChanged, of, switchMap, tap} from "rxjs";
+import {Attribute} from "../../../models/attribute.model";
+import {ApiClient} from "../../../repo/httpClient";
+import {ActivatedRoute} from "@angular/router";
+import {catchError, finalize, map} from "rxjs/operators";
+import {COMMA, ENTER} from "@angular/cdk/keycodes";
+import {MatChipInputEvent} from "@angular/material/chips";
 
 interface AttributeType {
   value: string;
   viewValue: string;
 }
 
+
 @Component({
-  selector: 'app-attribute-edit',
-  templateUrl: './attribute-edit.component.html',
-  styleUrls: ['./attribute-edit.component.css']
+  selector: 'app-supplier-attribute-add',
+  templateUrl: './supplier-attribute-add.component.html',
+  styleUrls: ['./supplier-attribute-add.component.css']
 })
-export class AttributeEditComponent implements OnInit {
+export class SupplierAttributeAddComponent implements OnInit {
 
   searchSuppliersCtrl = new FormControl<string | Supplier>('');
   public supplierList: Supplier[] | undefined;
@@ -128,4 +129,5 @@ export class AttributeEditComponent implements OnInit {
       console.log('res', x)
     })
   }
+
 }
