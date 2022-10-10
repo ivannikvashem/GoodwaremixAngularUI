@@ -16,11 +16,12 @@ import {ProductAttributeEditComponent} from "../shared/product-attribute-edit/pr
 import {Package} from "../../models/package.model";
 import {ProductImageViewmodel} from "../../models/viewmodels/productImage.viewmodel";
 import {Document} from "../../models/document.model";
-import {ProductDocumentEdit} from "../shared/product-document-edit/product-document-edit";
+import {ProductDocumentEditComponent} from "../shared/product-document-edit/product-document-edit.component";
 import {HttpClient} from "@angular/common/http";
 import {ProductPackageEditComponent} from "../shared/product-package-edit/product-package-edit.component";
 import countriesListJson from "../../countriesList.json"
 import {map} from "rxjs/operators";
+import {MissingImageHandler} from "../../repo/missingImageHandler";
 
 interface Country {
   code?:string
@@ -65,7 +66,8 @@ export class ProductEditComponent implements OnInit {
               private _ActivatedRoute:ActivatedRoute,
               private _notyf:NotificationService,
               public dialog: MatDialog,
-              public http:HttpClient) { }
+              public http:HttpClient,
+              private imgHandler:MissingImageHandler) { }
 
   ngOnInit(): void {
     this.productId = this._ActivatedRoute.snapshot.paramMap.get("id");
@@ -141,6 +143,7 @@ export class ProductEditComponent implements OnInit {
   removeImage(url:any){
     this.imagesView = this.imagesView.filter(img => (img != url));
     this.product.images = this.product.images.filter(img => (img != url));
+    this.product.localImages = this.product.localImages.filter(img => (img != url));
   }
 
   addVideo($event: MatChipInputEvent) {
@@ -210,7 +213,6 @@ export class ProductEditComponent implements OnInit {
           else {
             if (oldAttribute !== result.newAttribute) {
               const target = this.product.attributes.find((obj) => obj.value === oldAttribute.value)
-              const a = this.product.attributes.find(x => x.value).value == result.newAttribute.value
               Object.assign(target, result.newAttribute)
             }
           }
@@ -273,7 +275,7 @@ export class ProductEditComponent implements OnInit {
   }
 
   openDocumentEditorDialog(oldDocument?:any): void {
-    const dialogRef = this.dialog.open(ProductDocumentEdit, {
+    const dialogRef = this.dialog.open(ProductDocumentEditComponent, {
       width: '900px',
       height: '600px',
       data: { oldDocument: oldDocument, newDocument: new Document() },
@@ -321,6 +323,10 @@ export class ProductEditComponent implements OnInit {
   onCountrySelected() {
     this.product.country = this.searchCountryCtrl.value.name
     this.product.countryCode = this.searchCountryCtrl.value.code
+  }
+
+  handleMissingImage($event: Event) {
+    this.imgHandler.checkImgStatus($event)
   }
 }
 

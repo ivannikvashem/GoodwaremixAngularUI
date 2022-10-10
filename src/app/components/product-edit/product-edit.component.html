@@ -22,7 +22,7 @@
 
             <div style="max-height: 600px; overflow-y: auto">
               <div class="thumbnail" *ngFor="let img of imagesView" >
-                <img [src]="img" style="object-fit: cover;height:200px; width: 200px; margin-left:10px" alt="thumbnail">
+                <img [src]="img" style="object-fit: cover;height:200px; width: 200px; margin-left:10px" alt="thumbnail" (error)="handleMissingImage($event)">
                 <button (click)="removeImage(img)">X</button>
               </div>
             </div>

@@ -13,10 +13,10 @@ export interface AttrDialogData {
 
 @Component({
   selector: 'app-product-document-edit',
-  templateUrl: './product-document-edit.html',
-  styleUrls: ['./product-document-edit.css']
+  templateUrl: './product-document-edit.component.html',
+  styleUrls: ['./product-document-edit.component.css']
 })
-export class ProductDocumentEdit implements OnInit {
+export class ProductDocumentEditComponent implements OnInit {
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   documentProduct: Document = new Document();
   urlList:string[] = []
@@ -31,7 +31,7 @@ export class ProductDocumentEdit implements OnInit {
   ]
 
   constructor(public api: ApiClient,
-              public dialogRef: MatDialogRef<ProductDocumentEdit>,
+              public dialogRef: MatDialogRef<ProductDocumentEditComponent>,
               @Inject(MAT_DIALOG_DATA)
               public data: AttrDialogData) {
     this.form = new FormGroup<any>({

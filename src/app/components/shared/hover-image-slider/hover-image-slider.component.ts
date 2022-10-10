@@ -1,6 +1,8 @@
 import {Component, Inject, Input, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
 import {DialogData} from "../../product-index/product-index.component";
+import {ApiClient} from "../../../repo/httpClient";
+import {MissingImageHandler} from "../../../repo/missingImageHandler";
 
 @Component({
   selector: 'app-hover-image-slider',
@@ -15,6 +17,7 @@ export class HoverImageSliderComponent implements OnInit {
   @Input() imgList:any = [];
   constructor(
     public dialog: MatDialog,
+    private imgHandler:MissingImageHandler
     ) { }
 
   ngOnInit(): void {
@@ -38,7 +41,7 @@ export class HoverImageSliderComponent implements OnInit {
   }
 
   handleMissingImage($event: Event) {
-    ($event.target as HTMLImageElement).src='./assets/imgPlaceholder.png'
+    this.imgHandler.checkImgStatus($event)
   }
 
 }
@@ -50,9 +53,9 @@ export class HoverImageSliderComponent implements OnInit {
 `
 })
 export class DialogDataExampleDialog2 {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData, private imgHandler:MissingImageHandler) {}
 
-  handleMissingImage($event: ErrorEvent) {
-    ($event.target as HTMLImageElement).src='./assets/imgPlaceholder.png'
+  handleMissingImage($event: Event) {
+    this.imgHandler.checkImgStatus($event)
   }
 }

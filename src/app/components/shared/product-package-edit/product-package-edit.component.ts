@@ -3,7 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ApiClient} from "../../../repo/httpClient";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Package} from "../../../models/package.model";
-import {ProductDocumentEdit} from "../product-document-edit/product-document-edit";
+import {ProductDocumentEditComponent} from "../product-document-edit/product-document-edit.component";
 
 export interface AttrDialogData {
   newPackage?: Package;
@@ -18,7 +18,7 @@ export interface AttrDialogData {
 export class ProductPackageEditComponent implements OnInit {
   form:FormGroup
   constructor(public api: ApiClient,
-              public dialogRef: MatDialogRef<ProductDocumentEdit>,
+              public dialogRef: MatDialogRef<ProductDocumentEditComponent>,
               @Inject(MAT_DIALOG_DATA)
               public data: AttrDialogData) {
     this.form = new FormGroup<any>({

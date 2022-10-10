@@ -62,6 +62,7 @@ export class ApiClient {
     return this.http.get<any>(this.apiURL + '/Attributes', opt);
   }
 
+
   getAttributeById(id: string): Observable<any> {
     return this.http.get<any>(this.apiURL + '/Attributes/'+ id, this.httpOptions);
   }
@@ -218,5 +219,9 @@ export class ApiClient {
 
   fullInit() {
     return this.http.post<any>(this.apiURL + '/init/fullInit', {}, this.httpOptions);
+  }
+
+  checkImageStatusCode(url:string) {
+    return this.http.get(url)
   }
 }

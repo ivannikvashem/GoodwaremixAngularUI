@@ -32,6 +32,7 @@ export class SupplierEditComponent implements OnInit {
   attrTableColumns: string[] = ['idx', 'keySupplier', 'attributeBDName', 'actions'];
   attrSelectedRow: any;
   public attributeList: Attribute[] | undefined;
+  attributesToAdd:Attribute[] = []
   attributeListCtrl = new FormControl<string | Attribute>('');
   selectedAttr: Attribute | undefined;
 
@@ -47,7 +48,6 @@ export class SupplierEditComponent implements OnInit {
     if (this.supplierId) {
       this.api.getSupplierById(this.supplierId)
         .subscribe( (s:any) => {
-          console.log("get data by " + this.supplierId + ": " + JSON.stringify(s));
           if (s?.body.supplierConfigs?.nettoConfig?.dimensions == null) {
             s.body.supplierConfigs.nettoConfig.dimensions = new Dimensions();
           }
@@ -90,16 +90,13 @@ export class SupplierEditComponent implements OnInit {
 
     this.attrDataSource.setData(this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys);
     let row = this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys[this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys.length - 1];
-    console.log('row', JSON.stringify(this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys.length -1))
-    console.log('row data', JSON.stringify(row.attributeIdBD))
     this.attributeListCtrl.setValue(row.attributeBDName);
     this.attrSelectedRow = row;
   }
 
-  deleteSuppAttr(keySupplier: string) {
+  deleteSuppAttr(keySupplier: string, attributeBDName:string) {
     let idx = this.supplier.supplierConfigs.attributeConfig.productAttributeKeys.map((obj:ProductAttributeKey) => obj.keySupplier).indexOf(keySupplier);
-    console.log(idx);
-
+    console.log('to del', attributeBDName)
     this.supplier.supplierConfigs.attributeConfig.productAttributeKeys.splice(idx, 1);
     this.attrDataSource.setData(this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys);
   }
@@ -112,7 +109,7 @@ export class SupplierEditComponent implements OnInit {
   }
 
   displayFn(attr: Attribute): string {
-    return attr && attr.nameAttribute ? attr.nameAttribute + " [" + attr.etimFeature + "] от " + attr.supplierName : '';
+    return attr && attr.nameAttribute ? attr.nameAttribute + " [" + attr?.etimFeature + "] от " + attr?.supplierName : '';
   }
 
   onDBAttrSelected() {
@@ -120,13 +117,10 @@ export class SupplierEditComponent implements OnInit {
   }
 
   updateSelectedSuppAttr(i: number, row: any) {
-    console.log("updateSuppAttr attr dict!");
-    console.log(JSON.stringify(this.dataToDisplay))
-
     //validation
     // Add our value
-    const idx = this.supplier.supplierConfigs.attributeConfig.productAttributeKeys.indexOf(row.attributeIdBD);
-    console.log("idx: "+ idx);
+    // const idx = this.supplier.supplierConfigs.attributeConfig.productAttributeKeys.indexOf(row.attributeIdBD);
+    // console.log("idx: "+ idx);
     // if (row.keySupplier == null && idx != i) {
     //   return;
     // }
@@ -161,8 +155,8 @@ export class SupplierEditComponent implements OnInit {
     event.chipInput!.clear();
   }
 
-  removeDateFormat(fruit: string): void {
-    const index = this.supplier.supplierConfigs.dateFormats?.indexOf(fruit);
+  removeDateFormat(date: string): void {
+    const index = this.supplier.supplierConfigs.dateFormats?.indexOf(date);
     if (typeof(index) == "number" && index >= 0) {
       this.supplier.supplierConfigs.dateFormats?.splice(index, 1);
     }
@@ -170,41 +164,35 @@ export class SupplierEditComponent implements OnInit {
 
   submitSupplier() {
     this.api.updateSupplier(this.supplier).subscribe( x => {
-        this._notyf.onSuccess("Конфигурация сохранена");
+      this._notyf.onSuccess("Конфигурация сохранена");
+        for (let i of this.attributesToAdd) {
+          i.supplierId = x.body.id
+          i.supplierName = x.body.supplierName
+          this.api.updateAttribute(i).subscribe()
+        }
       },
       error => {
         this._notyf.onError("Ошибка: " + JSON.stringify(error));
         //todo обработчик ошибок, сервер недоступен или еще чего..
       });
+
+
   }
 
   addNewAttr(element: any) {
-    console.log("el: " + JSON.stringify(element) );
     this.openAttributeEditorDialog()
   }
 
 
-  openAttributeEditorDialog(supplierName?:any): void {
+  openAttributeEditorDialog(): void {
     const dialogRef = this.dialog.open(SupplierAttributeAddComponent, {
-      data: { oldAttribute: supplierName, newAttribute: new Attribute() },
+      data: { supplierName: this.supplier.supplierName, newAttribute: new Attribute() },
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      // if (this.product.attributes.filter(x => x.value !== result.newAttribute?.value)) {
-      //   if (result.newAttribute?.value !== undefined) {
-      //     if (oldAttribute == undefined) {
-      //       this.product.attributes.unshift(result.newAttribute as AttributeProduct)
-      //       this.attrDataSource.setData(this.product.attributes || []);
-      //     }
-      //     else {
-      //       if (oldAttribute !== result.newAttribute) {
-      //         const target = this.product.attributes.find((obj) => obj.value === oldAttribute.value)
-      //         const a = this.product.attributes.find(x => x.value).value == result.newAttribute.value
-      //         Object.assign(target, result.newAttribute)
-      //       }
-      //     }
-      //   }
-      // }
+      this.attributesToAdd.push(result.newAttribute)
+      this.selectedAttr = result.newAttribute
+      this.attributeListCtrl.setValue(result.newAttribute as Attribute);
     });
   }
 }

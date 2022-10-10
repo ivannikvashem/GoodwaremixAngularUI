@@ -5,7 +5,7 @@
 
 <div class="page-container">
   <div class="left-panel">
-    <form class="example-form">
+    <form>
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>Поиск</mat-label>
       <input matInput [formControl]="searchQueryCtrl" (keydown.enter)="onQueryChanged()">
@@ -32,6 +32,38 @@
       <mat-button-toggle [value]=false class="full-width">Все товары</mat-button-toggle>
       <mat-button-toggle [value]=true class="full-width">Только с артикулом</mat-button-toggle>
     </mat-button-toggle-group>
+
+      <hr>
+
+<!--      <mat-accordion style="margin-top: 10px" class="full-width" appearance="fill">-->
+<!--        <mat-expansion-panel *ngFor="let item of attributesForFilter">-->
+<!--          <mat-expansion-panel-header>-->
+<!--            <mat-panel-title>-->
+<!--              {{item.nameAttribute}}-->
+<!--              {{item.allValue.length}}-->
+<!--            </mat-panel-title>-->
+<!--          </mat-expansion-panel-header>-->
+<!--          -->
+<!--          <mat-form-field class="full-width" appearance="fill">-->
+<!--              <mat-label>{{item.nameAttribute}}</mat-label>-->
+<!--              <mat-select multiple [formControl]="attributeValueFilterCtrl" panelClass="select-long-panel">-->
+<!--&lt;!&ndash;                <mat-select-trigger>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                </mat-select-trigger>&ndash;&gt;-->
+<!--                <mat-card style="height: 370px">-->
+<!--                  <mat-form-field class="full-width" appearance="fill">-->
+<!--                    <mat-label>Поиск</mat-label>-->
+<!--                    <input matInput #filterSearch (input)="filtrationSearch(filterSearch, item.id)" [autofocus]="true">-->
+<!--                  </mat-form-field>-->
+<!--                  <cdk-virtual-scroll-viewport itemSize="10" class="attributeFilter-viewport" style="height: 300px">-->
+<!--                    <mat-option *cdkVirtualFor="let value of item.allValue" [value]="value" class="multiline-mat-option">{{value}}</mat-option>-->
+<!--                  </cdk-virtual-scroll-viewport>-->
+<!--                </mat-card>-->
+<!--              </mat-select>-->
+<!--            </mat-form-field>-->
+<!--        </mat-expansion-panel>-->
+<!--      </mat-accordion>-->
+
     </form>
   </div>
   <div class="mat-elevation-z8 full-width" >

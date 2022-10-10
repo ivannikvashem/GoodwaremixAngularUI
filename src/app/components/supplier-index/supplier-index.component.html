@@ -26,6 +26,7 @@
       <th mat-header-cell *matHeaderCellDef>Тип</th>
       <td mat-cell *matCellDef="let row">
         <mat-icon class="material-icons-outlined" *ngIf="row.sourceSettings">{{row.sourceSettings.source == "API" ? "cloud_done" : (row.sourceSettings.source == "MAIL" ? "drafts" : "folder_shared")}}</mat-icon>
+        <mat-icon class="material-icons-outlined" *ngIf="row.sourceSettings.source">{{row.sourceSettings.source == "FTP" ? "folder": ''}}</mat-icon>
         <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs != null">{{row.supplierConfigs.type == "XML" ? "code" : (row.supplierConfigs.type == "XLSX" ? "table_view" : "data_object")}}</mat-icon>
       </td>
     </ng-container>

@@ -110,3 +110,28 @@ tr.element-row:not(.example-expanded-row):active {
   cursor: pointer;
   font:400 24px/32px Roboto, "Helvetica Neue", sans-serif
 }
+
+.attributeFilter-viewport {
+  height: 150px;
+  /*width: 250px;*/
+}
+
+.attributeFilter-item {
+  /*height: 70px;*/
+  /*word-break: break-word;*/
+}
+
+::ng-deep .mat-select-panel.select-long-panel {
+  max-height: 500px;
+}
+.mat-select-panel mat-option.mat-option {
+  height: unset;
+}
+
+.multiline-mat-option.mat-option {
+  white-space: normal;
+  line-height: normal;
+  height: unset;
+  padding-top: 0.9em;
+  padding-bottom: 0.9em;
+}

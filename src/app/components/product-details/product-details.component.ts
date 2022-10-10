@@ -26,6 +26,7 @@ export class ProductDetailsComponent implements OnInit {
   safeVideoUrl: SafeResourceUrl;
   safeImg360Url: SafeResourceUrl | undefined
   safeImg360Test:any
+  remoteAndLocalImg:string[] = []
 
   constructor(
     private api: ApiClient,
@@ -46,6 +47,8 @@ export class ProductDetailsComponent implements OnInit {
         this.dataSource = new MatTableDataSource(this.product.attributes);
         this.safeImg360Url = this._sanitizer.bypassSecurityTrustResourceUrl(this.product.image360)
         this.safeImg360Test = this._sanitizer.bypassSecurityTrustResourceUrl('https://api.systeme.ru/player/embed?ref=14910')
+        if (this.product.images) { this.product.images.forEach((value:any) => {this.remoteAndLocalImg.push(value)})}
+        if (this.product.localImages) { this.product.localImages.forEach((value:any) => {this.remoteAndLocalImg.push(value)})}
       }
     );
   }

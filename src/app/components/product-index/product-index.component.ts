@@ -4,15 +4,33 @@ import {ApiClient} from "../../repo/httpClient";
 import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatPaginator} from "@angular/material/paginator";
-import {debounceTime, distinctUntilChanged, filter, finalize, map, Observable, startWith, switchMap, tap} from "rxjs";
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  finalize,
+  map,
+  Observable,
+  pipe,
+  startWith,
+  switchMap,
+  tap, timer
+} from "rxjs";
 import {FormControl} from '@angular/forms';
 import {Supplier} from "../../models/supplier.model";
 import {LocalStorageService} from "../../service/local-storage.service";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../shared/confirm-dialog/confirm-dialog.component";
 import {NotificationService} from "../../service/notification-service";
+import {Attribute} from "../../models/attribute.model";
+import {MissingImageHandler} from "../../repo/missingImageHandler";
 
 export interface DialogData {
   src: '';
+}
+
+export class SelectedFilterAttributes {
+  attributeName:string
+  selectedValues:string[] = []
 }
 
 class PageCookieProductIndex {
@@ -41,10 +59,17 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   hoverImage: string = "";
   hoverRowId: string = "";
 
+  attributeValueFilterCtrl = new FormControl('');
+
+
   searchSuppliersCtrl = new FormControl<string | Supplier>('');
   searchQueryCtrl  = new FormControl<string>('');
   withInternalCodeCtrl  = new FormControl<boolean>(false);
   public supplierList: Supplier[] | undefined;  // public filteredSupplierList: Observable<Supplier[]> | undefined;
+  attributesForFilter:Attribute[]
+  selectedFilterAttributes:SelectedFilterAttributes[] = []
+  filteredAttributeValues: Observable<string[]>;
+
   isLoading = false;
   productId: string | any;
   pageCookie$ = this._localStorageService.myData$
@@ -57,7 +82,8 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     public router: Router,
     private _ActivatedRoute:ActivatedRoute,
     private _localStorageService: LocalStorageService,
-    private _notyf: NotificationService
+    private _notyf: NotificationService,
+    private imgHandler:MissingImageHandler
   ) {
     this.dataSource = new ProductsDataSource(this.api);
   }
@@ -103,6 +129,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
       this.supplierList = r.body.data
     });
 
+
     this._ActivatedRoute.queryParams.subscribe(params => {
       let supplierId = params['supplierId'];
       if (supplierId) {
@@ -113,6 +140,8 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
         })
       }
     });
+
+
 
     this.searchSuppliersCtrl.valueChanges.pipe(
       distinctUntilChanged(),
@@ -127,10 +156,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
           }),
         )
       )
-    )
-    .subscribe((data: any) => {
-      this.supplierList = data.body.data;
-    });
+    ).subscribe((data: any) => { this.supplierList = data.body.data; });
 
     this.searchQueryCtrl.valueChanges.pipe(
       distinctUntilChanged(),
@@ -139,6 +165,10 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
       this.loadProductPagedData();
       this.setCookie();
     })
+
+    this.api.getAttributes('','',0,10,false,"Rating", "desc").subscribe((r:any) => {
+      this.attributesForFilter = r.body.data
+    });
   }
 
   ngAfterViewInit(): void {
@@ -148,8 +178,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
           this.loadProductPagedData();
           this.setCookie();
         })
-      )
-      .subscribe();
+      ).subscribe();
   }
 
   ngOnDestroy() {
@@ -221,12 +250,30 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     this.dialog.open(DialogDataExampleDialog, dialogBoxSettings);
   }
   handleMissingImage($event: Event) {
-    ($event.target as HTMLImageElement).src='./assets/imgPlaceholder.png'
+    this.imgHandler.checkImgStatus($event)
   }
 
   copyVendorId(vendorId: string) {
     navigator.clipboard.writeText(vendorId)
     this._notyf.onSuccess('Артикул поставщика скопирован')
+  }
+
+  filtrationSearch(filterSearch: HTMLInputElement, attributeId:string) {
+    this.api.getAttributeById(attributeId).subscribe((r:any) => {
+      this.attributesForFilter.find(attr => attr.id === attributeId).allValue = r.body.allValue.filter((value:any) => {
+        return value.toLowerCase().includes(filterSearch.value.toLowerCase())
+      })
+    })
+  }
+
+  attributeValueChecked(nameAttribute: string, value: string) {
+    const a:SelectedFilterAttributes = new SelectedFilterAttributes()
+    a.attributeName = nameAttribute
+    a.selectedValues.push(value)
+
+    console.log('selected', a)
+    this.selectedFilterAttributes.push(a)
+    console.log('selected list',this.selectedFilterAttributes)
   }
 }
 @Component({
@@ -237,9 +284,9 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
 `
 })
 export class DialogDataExampleDialog {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData, private imgHandler:MissingImageHandler) {}
 
   handleMissingImage($event: Event) {
-    ($event.target as HTMLImageElement).src='./assets/imgPlaceholder.png'
+    this.imgHandler.checkImgStatus($event)
   }
 }

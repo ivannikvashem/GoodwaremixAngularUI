@@ -118,6 +118,10 @@ export class AttributeConfig {
   productAttributeKeys: ProductAttributeKey[];
   //
   attrType:string
+
+  constructor() {
+    this.productAttributeKeys = []
+  }
 }
 
 export class PackageConfig {

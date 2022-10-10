@@ -530,11 +530,11 @@
                 <button mat-icon-button class="mat-elevation-z2" (click)="onSelectRow(element)">
                   <mat-icon>edit</mat-icon>
                 </button>&nbsp;
-                <button mat-icon-button class="mat-elevation-z2" (click)="deleteSuppAttr(element.keySupplier)">
+                <button mat-icon-button class="mat-elevation-z2" (click)="deleteSuppAttr(element.keySupplier, element.attributeBDName)">
                   <mat-icon>delete</mat-icon>
                 </button>
               </ng-container>
-              <button mat-mini-fab color="primary" class="mat-elevation-z2" (click)="addNewAttr(element)" *ngIf="attrSelectedRow?.keySupplier == element.keySupplier" [disabled]="attrSelectedRow?.keySupplier != ''">
+              <button mat-mini-fab color="primary" class="mat-elevation-z2" (click)="addNewAttr(element)" *ngIf="attrSelectedRow?.keySupplier == element.keySupplier">
                 <mat-icon>add</mat-icon>
               </button>&nbsp;
               <button mat-mini-fab color="accent" class="mat-elevation-z2" (click)="updateSelectedSuppAttr(i, element)" *ngIf="attrSelectedRow?.keySupplier == element.keySupplier" [disabled]="attrSelectedRow?.keySupplier == ''">
@@ -572,7 +572,7 @@
       <div class="formBlockDouble">
         <mat-form-field class="chip-list" appearance="fill" *ngIf="supplier.supplierConfigs.dateFormats">
           <mat-label>Список возможных имен атрибута</mat-label>
-          <mat-chip-list #chipList aria-label="Список возможных форматов даты" [(ngModel)]="supplier.supplierConfigs.dateFormats">
+          <mat-chip-list #chipList aria-label="Список возможных форматов даты" name="dateFormats" [(ngModel)]="supplier.supplierConfigs.dateFormats">
             <mat-chip *ngFor="let df of supplier.supplierConfigs.dateFormats" (removed)="removeDateFormat(df)">
               {{df}}
               <button matChipRemove>

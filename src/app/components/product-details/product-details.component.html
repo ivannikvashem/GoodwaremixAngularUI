@@ -18,14 +18,10 @@
   <div>
     <mat-card style="padding-top: 0">
       <mat-tab-group style="width:465px" animationDuration="0ms">
-        <mat-tab *ngIf="product?.images" label="Фото">
+        <mat-tab *ngIf="product?.images || product?.localImages" label="Фото">
           <ng-template matTabContent>
-            <div *ngIf="product.thumbnails.length == 0">
-              <app-hover-image-slider [imgList]="product.images"></app-hover-image-slider>
-            </div>
-
-            <div *ngIf="product.thumbnails.length > 0">
-              <app-hover-image-slider [imgList]="product.localImages"></app-hover-image-slider>
+            <div>
+              <app-hover-image-slider [imgList]="remoteAndLocalImg"></app-hover-image-slider>
             </div>
           </ng-template>
         </mat-tab>

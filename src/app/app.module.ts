@@ -53,10 +53,12 @@ import '@angular/common/locales/global/ru';
 import { SwapAttributeComponent } from './components/shared/swap-attribute/swap-attribute.component'
 import {ProductAttributeEditComponent} from "./components/shared/product-attribute-edit/product-attribute-edit.component";
 import { ProductPackageEditComponent } from './components/shared/product-package-edit/product-package-edit.component';
-import { ProductDocumentEdit } from './components/shared/product-document-edit/product-document-edit';
+import { ProductDocumentEditComponent } from './components/shared/product-document-edit/product-document-edit.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
 import { SupplierAttributeAddComponent } from './components/shared/supplier-attribute-add/supplier-attribute-add.component';
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {ScrollingModule} from "@angular/cdk/scrolling";
 
 @NgModule({
   declarations: [
@@ -77,8 +79,8 @@ import { SupplierAttributeAddComponent } from './components/shared/supplier-attr
     ProductEditComponent,
     SwapAttributeComponent,
     ProductPackageEditComponent,
-    ProductDocumentEdit,
-    SupplierAttributeAddComponent
+    ProductDocumentEditComponent,
+    SupplierAttributeAddComponent,
   ],
   imports: [
     CommonModule,
@@ -117,7 +119,9 @@ import { SupplierAttributeAddComponent } from './components/shared/supplier-attr
     MatTabsModule,
     MatMenuModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatCheckboxModule,
+    ScrollingModule
   ],
   providers: [
     {
