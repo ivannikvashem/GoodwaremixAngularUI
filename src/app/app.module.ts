@@ -59,6 +59,7 @@ import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
 import { SupplierAttributeAddComponent } from './components/shared/supplier-attribute-add/supplier-attribute-add.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {ScrollingModule} from "@angular/cdk/scrolling";
+import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import {ScrollingModule} from "@angular/cdk/scrolling";
     ProductPackageEditComponent,
     ProductDocumentEditComponent,
     SupplierAttributeAddComponent,
+    AdminPanelComponent,
   ],
   imports: [
     CommonModule,

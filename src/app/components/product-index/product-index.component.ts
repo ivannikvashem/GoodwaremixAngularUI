@@ -166,7 +166,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
       this.setCookie();
     })
 
-    this.api.getAttributes('','',0,10,false,"Rating", "desc").subscribe((r:any) => {
+    this.api.getAttributes('','',0,10,true,"Rating", "desc").subscribe((r:any) => {
       this.attributesForFilter = r.body.data
     });
   }
