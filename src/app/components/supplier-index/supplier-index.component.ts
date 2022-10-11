@@ -125,16 +125,6 @@ export class SupplierIndexComponent implements OnInit {
     this.loadData();
   }*/
 
-  fixSupplierStat() {
-    console.log("fixSupplierStat ");
-    this.api.fixSupplierStat().subscribe( res => {
-        console.log(JSON.stringify(res));
-      },
-      err => {
-        this._notyf.onError("Ошибка: " + JSON.stringify(err));
-      })
-  }
-
   fetchItem(supplierName: any) {
     this.api.fetchDataFromSupplier(supplierName).subscribe( res => {
        this._notyf.onSuccess('Сбор данных '+supplierName+' начат')
@@ -197,15 +187,6 @@ export class SupplierIndexComponent implements OnInit {
       })
   }
 
-  fullInit() {
-    console.log("full init");
-    this.api.fullInit().subscribe( res => {
-        console.log(JSON.stringify(res));
-      },
-      err => {
-        this._notyf.onError("Ошибка: " + JSON.stringify(err));
-      })
-  }
 
   onClearSearchQuery() {
     this.searchQueryCtrl.setValue('');
@@ -215,10 +196,8 @@ export class SupplierIndexComponent implements OnInit {
   }
 
   downloadTable(table:string, supplierId?:string) {
-    this.api.downloadTableFile(table,supplierId).subscribe(p =>{
-      let fileName = p.headers.get('content-disposition')?.split(';')[1].split('=')[1];
+    this.api.downloadTableFile(table,supplierId).subscribe((p:any) =>{
       let blob:any = new Blob([p.body], {type: 'application/json; charset=utf-8'})
-      console.log('blob', blob)
       let downloadAction = document.createElement('a')
       downloadAction.download = table;
       downloadAction.href = window.URL.createObjectURL(blob)

@@ -23,9 +23,9 @@ export class ProductDetailsComponent implements OnInit {
   product: Observable<Product> | any;
   displayedAttrColumns: string[] = ['name', 'value','unit','etim', 'action'];
   dataSource = new MatTableDataSource();
-  safeVideoUrl: SafeResourceUrl;
+  safeVideoUrl: SafeResourceUrl[] =[];
+  selectedSafeVideo:SafeResourceUrl
   safeImg360Url: SafeResourceUrl | undefined
-  safeImg360Test:any
   remoteAndLocalImg:string[] = []
 
   constructor(
@@ -43,10 +43,10 @@ export class ProductDetailsComponent implements OnInit {
       data => {
         this.product = data.body;
         if (this.product.videos.length > 0)
-          this.safeVideoUrl = this._sanitizer.bypassSecurityTrustResourceUrl(this.product.videos[0]);
+        this.product.videos.forEach((value:any) => {this.safeVideoUrl.push(this._sanitizer.bypassSecurityTrustResourceUrl(value))});
+        this.selectedSafeVideo = this.safeVideoUrl[0]
         this.dataSource = new MatTableDataSource(this.product.attributes);
         this.safeImg360Url = this._sanitizer.bypassSecurityTrustResourceUrl(this.product.image360)
-        this.safeImg360Test = this._sanitizer.bypassSecurityTrustResourceUrl('https://api.systeme.ru/player/embed?ref=14910')
         if (this.product.images) { this.product.images.forEach((value:any) => {this.remoteAndLocalImg.push(value)})}
         if (this.product.localImages) { this.product.localImages.forEach((value:any) => {this.remoteAndLocalImg.push(value)})}
       }

@@ -22,7 +22,7 @@ import {LocalStorageService} from "../../service/local-storage.service";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../shared/confirm-dialog/confirm-dialog.component";
 import {NotificationService} from "../../service/notification-service";
 import {Attribute} from "../../models/attribute.model";
-import {MissingImageHandler} from "../../repo/missingImageHandler";
+import {MissingImageHandler} from "../../repo/MissingImageHandler";
 
 export interface DialogData {
   src: '';

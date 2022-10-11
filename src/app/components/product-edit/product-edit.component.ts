@@ -21,7 +21,7 @@ import {HttpClient} from "@angular/common/http";
 import {ProductPackageEditComponent} from "../shared/product-package-edit/product-package-edit.component";
 import countriesListJson from "../../countriesList.json"
 import {map} from "rxjs/operators";
-import {MissingImageHandler} from "../../repo/missingImageHandler";
+import {MissingImageHandler} from "../../repo/MissingImageHandler";
 
 interface Country {
   code?:string

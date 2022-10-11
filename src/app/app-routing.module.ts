@@ -9,6 +9,7 @@ import {SupplierEditComponent} from "./components/supplier-edit/supplier-edit.co
 import {ParserLogComponent} from "./components/parser-log/parser-log.component";
 import {ProductDetailsComponent} from "./components/product-details/product-details.component";
 import {ProductEditComponent} from "./components/product-edit/product-edit.component";
+import {AdminPanelComponent} from "./components/admin-panel/admin-panel.component";
 
 const routes: Routes = [
 
@@ -22,7 +23,8 @@ const routes: Routes = [
   {path: 'suppliers', component: SupplierIndexComponent},
   {path: 'supplier-edit/:supplierId', component: SupplierEditComponent},
   {path: 'supplier-edit', component: SupplierEditComponent},
-  {path: 'log', component: ParserLogComponent}
+  {path: 'log', component: ParserLogComponent},
+  {path:'admin', component: AdminPanelComponent}
 ];
 
 @NgModule({
