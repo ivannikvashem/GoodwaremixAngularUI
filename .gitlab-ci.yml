@@ -11,5 +11,5 @@ staging_stage:
     - docker rm goodwareui-dev || true
     - docker rmi goodwareui-dev:staging || true
   script:
-    - docker build -t goodwareui-dev .
+    - docker build -t goodwareui-dev:staging .
     - docker run --name goodwareui-dev -d -p 4202:80 goodwareui-dev:staging
