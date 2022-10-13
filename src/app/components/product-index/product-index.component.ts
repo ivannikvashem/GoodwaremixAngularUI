@@ -170,6 +170,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     // this.api.getAttributes('','',0,10,true,"Rating", "desc").subscribe((r:any) => {
     //   this.attributesForFilter = r.body.data
     // });
+
   }
 
   ngAfterViewInit(): void {
