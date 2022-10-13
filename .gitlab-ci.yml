@@ -1,15 +1,15 @@
 stages:          # List of stages for jobs, and their order of execution
-  - deploy
+  - staging
 
-deploy_stage:
-  stage: deploy
+staging_stage:
+  stage: staging
   image: docker:stable-git
   services:
     - docker:stable-dind
   before_script:
-    - docker stop goodwareui || true
-    - docker rm goodwareui || true
-    - docker rmi goodwareui:prod || true
+    - docker stop goodwareui-dev || true
+    - docker rm goodwareui-dev || true
+    - docker rmi goodwareui-dev:staging || true
   script:
-    - docker build -t goodwareui:prod .
-    - docker run --name goodwareui -d -p 4200:80 goodwareui:prod
+    - docker build -t goodwareui-dev .
+    - docker run --name goodwareui-dev -d -p 4202:80 goodwareui-dev:staging
