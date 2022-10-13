@@ -1,0 +1,63 @@
+table {
+  width: 100%;
+}
+.mat-column-actions {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 150px !important;
+  width: 150px !important;
+  overflow-wrap: break-word;
+  justify-content: center;
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+
+  text-align: -webkit-center;
+  text-align: center;
+}
+.mat-column-supplierName {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 100px !important;
+  width: 100px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  justify-content: center;
+  word-break: break-word;
+}
+.mat-column-Rating {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 70px !important;
+  width: 70px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  justify-content: center;
+  word-break: break-word;
+}
+.mat-column-etimFeature {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 100px !important;
+  width: 100px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  justify-content: center;
+  word-break: break-word;
+}
+.left-panel {
+  width: 350px;
+  min-width: 300px;
+  margin-right: 20px;
+}
+.page-container {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+}
+.full-width {
+  width: 100%;
+}

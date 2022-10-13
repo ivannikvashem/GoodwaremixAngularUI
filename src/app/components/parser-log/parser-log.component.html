@@ -1,0 +1,63 @@
+<div class="header-container" style="display: flex; align-items: baseline;">
+  <h3>Журнал событий</h3>
+  <mat-spinner diameter="35" *ngIf="dataSource.loading$ | async"></mat-spinner>
+</div>
+
+<mat-form-field class="full-width" appearance="fill">
+  <mat-label>Поставщик</mat-label>
+  <input type="text" matInput aria-label="Поставщик"
+         [formControl]="searchSuppliersCtrl"
+         [matAutocomplete]="auto">
+  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onQueryChanged()">
+    <mat-option *ngFor="let option of supplierList" [value]="option">
+      {{option.supplierName}}
+    </mat-option>
+  </mat-autocomplete>
+  <button *ngIf="searchSuppliersCtrl.value" matSuffix mat-icon-button aria-label="Clear" type="button" (click)="onClearSupplierSelection()">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-form-field>
+
+<div class="mat-elevation-z8">
+
+  <table mat-table [dataSource]="dataSource" matSort matSortActive="Date" matSortDisableClear matSortDirection="desc">
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="SupplierName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Поставщик</th>
+      <td mat-cell *matCellDef="let row">{{row.supplierName}}</td>
+    </ng-container>
+
+    <!-- Date Column -->
+    <ng-container matColumnDef="Date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Дата</th>
+      <td mat-cell *matCellDef="let row">{{row.date | date:'yyyy-MM-dd, hh:mm'}}</td>
+    </ng-container>
+
+    <!-- status Column -->
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Статус</th>
+      <td mat-cell *matCellDef="let row">{{ row.status }}</td>
+    </ng-container>
+
+    <!-- stat Column -->
+    <ng-container matColumnDef="result">
+      <th mat-header-cell *matHeaderCellDef>Результат</th>
+      <td mat-cell *matCellDef="let row">{{ row.result }}</td>
+    </ng-container>
+
+    <!-- ACTIONS Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="Очистить лог" (click)="flushLogTable()">
+          <mat-icon>delete</mat-icon>
+        </button>&nbsp;
+      </th>
+      <td mat-cell *matCellDef="let item"></td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <mat-paginator [length]="dataSource.rowCount" showFirstLastButtons [pageSize]="10" [pageSizeOptions]=[10,20,50,100]></mat-paginator>
+</div>

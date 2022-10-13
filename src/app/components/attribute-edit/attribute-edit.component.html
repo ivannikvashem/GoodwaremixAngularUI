@@ -1,0 +1,98 @@
+<div class="mat-headline">
+  <div style="float:right">
+    <button mat-raised-button color="primary" (click)="saveAttribute()">Сохранить</button>&nbsp;
+  </div>
+  <div>
+    <span> {{attribute?.id == undefined ? "Добавление нового атрибута" : "Атрибут "+ id}}</span>
+  </div>
+</div>
+
+<form>
+  <mat-form-field class="full-width" appearance="fill" *ngIf="!attribute?.id">
+    <mat-label>Поставщик</mat-label>
+    <input type="text" matInput aria-label="Поставщик"
+           [formControl]="searchSuppliersCtrl"
+           [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+      <mat-option *ngFor="let option of supplierList" [value]="option">
+        {{option.supplierName}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <div style="width: 100%; display: flex; justify-content: space-between">
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Фиксация</mat-label>
+      <mat-select name="fixed" [(ngModel)]="attribute.fixed">
+        <mat-option [value]="false"></mat-option>
+        <mat-option [value]="true">Фиксирован</mat-option>
+      </mat-select>
+    </mat-form-field>&nbsp;
+
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Тип атрибута</mat-label>
+      <mat-select name="type" [(ngModel)]="attribute.type" [value]="attribute.type">
+        <mat-option *ngFor="let at of attrType" [value]="at.value">
+          {{at.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>&nbsp;
+
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Наименование атрибута по ETIM</mat-label>
+      <input matInput placeholder="EFxxxxxx" name="etimFeature" [(ngModel)]="attribute.etimFeature">
+    </mat-form-field>&nbsp;
+
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Единица измерения</mat-label>
+      <input matInput placeholder="Единица измерения" name="unit" [(ngModel)]="attribute.unit">
+    </mat-form-field>&nbsp;
+
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Единица измерения ETIM</mat-label>
+      <input matInput placeholder="EUxxxxxx" name="etimUnit" [(ngModel)]="attribute.etimUnit">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field style="width: 100%;" appearance="fill">
+      <mat-label>Наименование атрибута</mat-label>
+      <input matInput placeholder="Наименование" name="nameAttribute" [(ngModel)]="attribute.nameAttribute">
+    </mat-form-field>&nbsp;
+  </div>
+
+  <mat-form-field class="chip-list" appearance="fill">
+    <mat-label>Список возможных значений</mat-label>
+    <mat-chip-list #chipList aria-label="Список возможных значений">
+      <mat-chip *ngFor="let v of attribute?.allValue" (removed)="removePossibleValue(v)">
+        {{v}}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+      <input placeholder="Введите значение..."
+             [matChipInputFor]="chipList"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             [matChipInputAddOnBlur]="addOnBlur"
+             (matChipInputTokenEnd)="addPossibleValue($event)">
+    </mat-chip-list>
+  </mat-form-field>
+
+  <mat-form-field class="chip-list" appearance="fill" *ngIf="attribute?.fixed">
+    <mat-label>Список возможных имен атрибута</mat-label>
+    <mat-chip-list #chipList aria-label="Список возможных имен атрибута">
+      <mat-chip *ngFor="let pn of attribute?.possibleAttributeName" (removed)="removePossibleName(pn)">
+        {{pn}}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+      <input placeholder="Введите значение..."
+             [matChipInputFor]="chipList"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             [matChipInputAddOnBlur]="addOnBlur"
+             (matChipInputTokenEnd)="addPossibleName($event)">
+    </mat-chip-list>
+  </mat-form-field>
+</form>
+
+

@@ -1,0 +1,90 @@
+<div class="mat-headline">
+    <span> Добавление нового атрибута</span>
+</div>
+
+<form>
+  <div style="width: 100%; display: flex; justify-content: space-between">
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Фиксация</mat-label>
+      <mat-select name="fixed" [(ngModel)]="attribute.fixed">
+        <mat-option [value]="false"></mat-option>
+        <mat-option [value]="true">Фиксирован</mat-option>
+      </mat-select>
+    </mat-form-field>&nbsp;
+
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Тип атрибута</mat-label>
+      <mat-select name="type" [(ngModel)]="attribute.type" [value]="attribute.type">
+        <mat-option *ngFor="let at of attrType" [value]="at.value">
+          {{at.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>&nbsp;
+  </div>
+
+  <div class="formBlockTriple">
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Наименование атрибута по ETIM</mat-label>
+      <input matInput placeholder="EFxxxxxx" name="etimFeature" [(ngModel)]="attribute.etimFeature">
+    </mat-form-field>&nbsp;
+
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Единица измерения</mat-label>
+      <input matInput placeholder="Единица измерения" name="unit" [(ngModel)]="attribute.unit">
+    </mat-form-field>&nbsp;
+
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Единица измерения ETIM</mat-label>
+      <input matInput placeholder="EUxxxxxx" name="etimUnit" [(ngModel)]="attribute.etimUnit">
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field style="width: 100%;" appearance="fill">
+      <mat-label>Наименование атрибута</mat-label>
+      <input matInput placeholder="Наименование" name="nameAttribute" [(ngModel)]="attribute.nameAttribute">
+    </mat-form-field>&nbsp;
+  </div>
+
+  <mat-form-field class="chip-list" appearance="fill">
+    <mat-label>Список возможных значений</mat-label>
+    <mat-chip-list #chipList aria-label="Список возможных значений">
+      <mat-chip *ngFor="let v of attribute?.allValue" (removed)="removePossibleValue(v)">
+        {{v}}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+      <input placeholder="Введите значение..."
+             [matChipInputFor]="chipList"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             [matChipInputAddOnBlur]="addOnBlur"
+             (matChipInputTokenEnd)="addPossibleValue($event)">
+    </mat-chip-list>
+  </mat-form-field>
+
+  <mat-form-field class="chip-list" appearance="fill" *ngIf="attribute?.fixed">
+    <mat-label>Список возможных имен атрибута</mat-label>
+    <mat-chip-list #chipList aria-label="Список возможных имен атрибута">
+      <mat-chip *ngFor="let pn of attribute?.possibleAttributeName" (removed)="removePossibleName(pn)">
+        {{pn}}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+      <input placeholder="Введите значение..."
+             [matChipInputFor]="chipList"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             [matChipInputAddOnBlur]="addOnBlur"
+             (matChipInputTokenEnd)="addPossibleName($event)">
+    </mat-chip-list>
+  </mat-form-field>
+
+  <div mat-dialog-actions class="actions-div">
+    <button mat-button mat-dialog-close (click)="onCancelClick()" type="button">Отмена</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="data" (click)="saveAttribute()">Сохранить</button>
+  </div>
+</form>
+
+
+<!--<button mat-raised-button color="primary" [mat-dialog-close]="data" (click)="saveAttribute()">Сохранить</button>&nbsp;-->

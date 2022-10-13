@@ -1,0 +1,32 @@
+<div class="main">
+  <h3>Удаление атрибута с заменой</h3>
+  <div class="inputs">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Старый атрибут:</mat-label>
+      <input matInput placeholder="" name="oldAttribute" [(ngModel)]="data.oldAttribute" readonly="true">
+    </mat-form-field>
+    <br/>
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Заменить на:</mat-label>
+      <input matInput placeholder=""
+             [formControl]="searchAttributeCtrl"
+             [matAutocomplete]="auto">
+      <!--                   name="newAttribute" [(ngModel)]="data.newAttribute" (ngModelChange)="UpdateAutocomplete($event)" -->
+
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="diaplayFn" (optionSelected)="onAttributeSelected()">
+        <mat-option *ngFor="let option of attributes" [value]="option">
+          {{option.fixed ? "■" : ''}} {{option.etimFeature}} {{option.nameAttribute}} [{{option.supplierName}}]
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+
+  <div class="information">
+    <p *ngIf="data.newAttribute.nameAttribute != null">Аттрибут "{{data.oldAttribute}}", будет заменён на "{{data.newAttribute.nameAttribute}}"</p>
+  </div>
+
+  <div mat-dialog-actions class="actions-div">
+    <button mat-button mat-dialog-close (click)="onCancelClick()" type="button">Отмена</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="data" [disabled]="searchAttributeCtrl.invalid">Заменить</button>
+  </div>
+</div>

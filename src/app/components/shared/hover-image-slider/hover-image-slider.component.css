@@ -1,0 +1,29 @@
+.containerCmain {
+  position: relative;
+  height: 455px;
+  width: 455px;
+}
+.imgInContainer {
+  margin: 10px 2px;
+  height: 440px;
+  width:450px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  object-fit: contain;
+}
+.containerC {
+  height: 455px;
+  display: flex;
+}
+.hoverBlockC {
+  border-bottom: 3px solid lightgray;
+  flex: 1 1 auto;
+  z-index:5;
+  margin: 0 2px;
+}
+.hoverBlockC:hover {
+  border-bottom: 3px solid black;
+  z-index:5;
+
+}

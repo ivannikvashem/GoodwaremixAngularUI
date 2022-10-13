@@ -1,0 +1,33 @@
+<div class="main">
+  <h3>{{data.oldAttribute?.attributeName == undefined ? "Добавление характеристики" : "Редактирование " + data.oldAttribute?.attributeName}}</h3>
+  <div class="inputs">
+    <mat-form-field appearance="fill" class="full-width" >
+      <mat-label>Характеристика</mat-label>
+      <input matInput placeholder=""
+             [formControl]="searchAttributeCtrl"
+             [matAutocomplete]="auto" >
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onAttributeKeySelected()">
+        <mat-option *ngFor="let option of attributesList" [value]="option" >
+          {{option.fixed ? "■" : ''}} {{option.etimFeature}} {{option.nameAttribute}} [{{option.supplierName}}]
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <br/>
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Значение</mat-label>
+      <input matInput placeholder=""
+             [formControl]="attributeValuesCtrl"
+             [matAutocomplete]="attributeValuesAuto" [autofocus]="true">
+      <mat-autocomplete autoActiveFirstOption #attributeValuesAuto="matAutocomplete"  (optionSelected)="onAttributeValueSelected()">
+        <mat-option *ngFor="let option of filteredAttributeValues | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+
+  <div mat-dialog-actions class="actions-div">
+    <button mat-button mat-dialog-close (click)="onCancelClick()" type="button">Отмена</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="data" [disabled]="searchAttributeCtrl.invalid && attributeValuesCtrl.invalid">Добавить</button>
+  </div>
+</div>

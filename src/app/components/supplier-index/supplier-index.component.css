@@ -1,0 +1,114 @@
+table {
+  width: 100%;
+}
+.mat-column-actions {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: none;
+  min-width: 160px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  justify-content: center;
+  word-break: break-word;
+
+  text-align: -webkit-center;
+  text-align: center;
+}
+.mat-column-name {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 135px !important;
+  min-width: 135px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  justify-content: center;
+  word-break: break-word;
+}
+.mat-column-type {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 70px !important;
+  width: 70px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  justify-content: center;
+  word-break: break-word;
+}
+.mat-column-stat {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 135px !important;
+  width: 135px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  justify-content: center;
+  word-break: break-word;
+}
+.mat-column-fullfill {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 155px !important;
+  width: 155px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  justify-content: center;
+  word-break: break-word;
+}
+.mat-column-brands {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 830px !important;
+  width: 830px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  justify-content: center;
+  word-break: break-word;
+}
+
+tr.example-detail-row {
+  height: 0;
+}
+
+tr.element-row:not(.example-expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.element-row td {
+  border-bottom-width: 0;
+}
+
+.element-detail {
+  overflow: hidden;
+  display: flex;
+  width:100%
+}
+
+
+.element-brands {
+  flex: 25%;
+  padding: 16px;
+  float: left;
+}
+
+.element-actions {
+  flex: 75%;
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: none;
+  min-width: 160px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  justify-content: left;
+  word-break: break-word;
+  padding:16px 0 16px 16px;
+  display: table-cell;
+  vertical-align: inherit;
+}
+
+.full-width {
+  width: 100%;
+}
