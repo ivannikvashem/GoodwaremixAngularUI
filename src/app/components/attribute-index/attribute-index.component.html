@@ -77,7 +77,7 @@
     <!-- ACTIONS Column -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="Добавить" (click)="addItem()">
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="Добавить" [routerLink]="['/attribute-add']">
           <mat-icon>add</mat-icon>
         </button>
       </th>

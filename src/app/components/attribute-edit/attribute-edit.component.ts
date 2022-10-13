@@ -8,6 +8,7 @@ import {catchError, finalize, map} from "rxjs/operators";
 import {BehaviorSubject, debounceTime, distinctUntilChanged, of, pipe, switchMap, tap} from "rxjs";
 import {FormControl} from "@angular/forms";
 import {Supplier} from "../../models/supplier.model";
+import {NotificationService} from "../../service/notification-service";
 
 interface AttributeType {
   value: string;
@@ -25,7 +26,7 @@ export class AttributeEditComponent implements OnInit {
   public supplierList: Supplier[] | undefined;
   private loadingSubject = new BehaviorSubject<boolean>(true);
   id: string | null | undefined;
-  attribute: Attribute ;
+  attribute: Attribute;
   attrType: AttributeType[] = [
     {value: 'L', viewValue: 'Бинарный'},
     {value: 'N', viewValue: 'Числовой'},
@@ -35,8 +36,10 @@ export class AttributeEditComponent implements OnInit {
 
   constructor(
     public api: ApiClient,
-    private _ActivatedRoute:ActivatedRoute
-  ) { }
+    private _ActivatedRoute: ActivatedRoute,
+    private _notyf: NotificationService
+  ) {
+  }
 
   ngOnInit(): void {
     this.id = this._ActivatedRoute.snapshot.paramMap.get("id");
@@ -54,11 +57,10 @@ export class AttributeEditComponent implements OnInit {
           this.attribute = data;
           console.log(JSON.stringify(data));
         });
-    }
-    else {
+    } else {
       this.attribute = new Attribute()
       this.attribute.rating = 0;
-      this.api.getSuppliers('', 0 ,100, "SupplierName", "asc").subscribe( (r:any) => {
+      this.api.getSuppliers('', 0, 100, "SupplierName", "asc").subscribe((r: any) => {
         this.supplierList = r.body.data
       });
       this.searchSuppliersCtrl.valueChanges.pipe(
@@ -67,14 +69,16 @@ export class AttributeEditComponent implements OnInit {
         tap(() => {
 
         }),
-        switchMap(value => this.api.getSuppliers(value, 0 ,100, "SupplierName", "asc")
+        switchMap(value => this.api.getSuppliers(value, 0, 100, "SupplierName", "asc")
           .pipe(
             finalize(() => {
 
             }),
           )
         )
-      ).subscribe((data: any) =>  { this.supplierList = data.body.data;});
+      ).subscribe((data: any) => {
+        this.supplierList = data.body.data;
+      });
     }
   }
 
@@ -84,7 +88,7 @@ export class AttributeEditComponent implements OnInit {
   addPossibleValue(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
     const idx = this.attribute?.allValue?.indexOf(value);
-    if (value && idx === -1 ) {
+    if (value && idx === -1) {
       this.attribute?.allValue?.push(value);
     }
     event.chipInput!.clear();
@@ -92,7 +96,7 @@ export class AttributeEditComponent implements OnInit {
 
   removePossibleValue(value: string): void {
     const index = this.attribute?.allValue?.indexOf(value);
-    if (typeof(index) == "number" && index >= 0) {
+    if (typeof (index) == "number" && index >= 0) {
       this.attribute?.allValue?.splice(index, 1);
     }
   }
@@ -100,7 +104,7 @@ export class AttributeEditComponent implements OnInit {
   addPossibleName(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
     const idx = this.attribute?.possibleAttributeName?.indexOf(value);
-    if (value && idx === -1 ) {
+    if (value && idx === -1) {
       this.attribute?.possibleAttributeName?.push(value);
     }
     event.chipInput!.clear();
@@ -108,7 +112,7 @@ export class AttributeEditComponent implements OnInit {
 
   removePossibleName(value: string): void {
     const index = this.attribute?.possibleAttributeName?.indexOf(value);
-    if (typeof(index) == "number" && index >= 0) {
+    if (typeof (index) == "number" && index >= 0) {
       this.attribute?.possibleAttributeName?.splice(index, 1);
     }
   }
@@ -125,7 +129,10 @@ export class AttributeEditComponent implements OnInit {
     }
     console.log('attr', this.attribute)
     this.api.updateAttribute(this.attribute).subscribe(x => {
-      console.log('res', x)
-    })
+        this._notyf.onSuccess('Успешно сохранено')
+      },
+      error => {
+        this._notyf.onError('Ошибка ' + error)
+      })
   }
 }

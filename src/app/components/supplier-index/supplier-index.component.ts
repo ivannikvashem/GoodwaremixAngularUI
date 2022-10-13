@@ -142,6 +142,16 @@ export class SupplierIndexComponent implements OnInit {
       })
   }
 
+  fixSupplierStat() {
+    console.log("fixSupplierStat ");
+    this.api.fixSupplierStat().subscribe( res => {
+        console.log(JSON.stringify(res));
+      },
+      err => {
+        this._notyf.onError("Ошибка: " + JSON.stringify(err));
+      })
+  }
+
   editItem(supplierId: any) {
     this.router.navigate([`supplier-edit/${supplierId}`]);
   }
@@ -195,14 +205,13 @@ export class SupplierIndexComponent implements OnInit {
     this.setCookie();
   }
 
-  downloadTable(table:string, supplierId?:string) {
-    this.api.downloadTableFile(table,supplierId).subscribe((p:any) =>{
-      let blob:any = new Blob([p.body], {type: 'application/json; charset=utf-8'})
+  downloadTable(table: string, id:string) {
+    this.api.downloadTableFile(table, id).subscribe( (resp:any) => {
+      let blob:any = new Blob([resp.body], {type: 'application/json; charset=utf-8'})
       let downloadAction = document.createElement('a')
       downloadAction.download = table;
       downloadAction.href = window.URL.createObjectURL(blob)
       downloadAction.click()
     })
   }
-
 }

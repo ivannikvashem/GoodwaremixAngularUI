@@ -164,6 +164,11 @@ a:hover {
   color: #125699;
 }
 
+a.active {
+  font-weight: bold;
+  color: black;
+}
+
 .terminal {
   position: relative;
   width: 80%;

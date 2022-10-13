@@ -43,4 +43,14 @@ export class AdminPanelComponent implements OnInit {
         this._notyf.onError("Ошибка: " + JSON.stringify(err));
       })
   }
+
+  downloadTable(table:string, supplierId?:string) {
+    this.api.downloadTableFile(table,supplierId).subscribe((p:any) =>{
+      let blob:any = new Blob([p.body], {type: 'application/json; charset=utf-8'})
+      let downloadAction = document.createElement('a')
+      downloadAction.download = table;
+      downloadAction.href = window.URL.createObjectURL(blob)
+      downloadAction.click()
+    })
+  }
 }

@@ -9,11 +9,11 @@
       <h1 matTooltip="{{url}}"> {{title}} &nbsp; </h1>
       <span class="menu-spacer"></span>
       <div>
-        <a mat-button [routerLink]="'/products'"><mat-icon>local_offer</mat-icon> Товары </a>
-        <a mat-button [routerLink]="'/suppliers'"><mat-icon>settings_accessibility</mat-icon> Поставщики </a>
-        <a mat-button [routerLink]="'/attributes'"><mat-icon>list</mat-icon> Атрибуты </a>
-        <a mat-button [routerLink]="'/log'"><mat-icon>receipt_long</mat-icon> Журнал событий </a>
-        <a mat-button [routerLink]="'/admin'"><mat-icon>person</mat-icon> Панель администратора </a>
+        <a mat-button routerLinkActive="active" [routerLink]="'/products'"><mat-icon>local_offer</mat-icon> Товары </a>
+        <a mat-button routerLinkActive="active" [routerLink]="'/suppliers'"><mat-icon>settings_accessibility</mat-icon> Поставщики </a>
+        <a mat-button routerLinkActive="active" [routerLink]="'/attributes'"><mat-icon>list</mat-icon> Атрибуты </a>
+        <a mat-button routerLinkActive="active" [routerLink]="'/log'"><mat-icon>receipt_long</mat-icon> Журнал событий </a>
+        <a mat-button routerLinkActive="active" [routerLink]="'/admin'"><mat-icon>person</mat-icon> Панель администратора </a>
       </div>
       <!--      <span class="flexExpand"></span><span class="material-symbols-outlined">
 receipt_long

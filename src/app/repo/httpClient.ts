@@ -101,7 +101,7 @@ export class ApiClient {
   }
 
   // Product ENDPOINT
-  getProducts(searchQuery: string, withInternalCodeSelector: boolean, selectedSuppId: string, pageIndex: number, pageSize: number) {
+  getProducts(searchQuery: string, withInternalCodeSelector: boolean, selectedSuppId: string, pageIndex: number, pageSize: number, attributes:any) {
     let opt = {
       params: new HttpParams()
         .set('supplierId', selectedSuppId)
@@ -109,6 +109,7 @@ export class ApiClient {
         .set('pageNumber', pageIndex ? pageIndex + 1 : 1)
         .set('pageSize', pageSize ?? 10)
         .set('searchFilter', searchQuery)
+        .set('',attributes)
     };
     opt = Object.assign(opt, this.httpOptions);
     return this.http.get<Product[]>(this.apiURL + '/Products/', opt);
@@ -208,6 +209,7 @@ export class ApiClient {
       opt.params = opt.params.append('supplierId', supplierId);
     }
     opt = Object.assign(opt, {observe:'response', responseType:'blob'});
+    console.log('options', opt)
     return this.http.get(this.apiURL + '/suppliers/DownloadFileJson',opt)
   }
 

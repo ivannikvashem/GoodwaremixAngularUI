@@ -23,6 +23,7 @@ import {ConfirmDialogComponent, ConfirmDialogModel} from "../shared/confirm-dial
 import {NotificationService} from "../../service/notification-service";
 import {Attribute} from "../../models/attribute.model";
 import {MissingImageHandler} from "../../repo/MissingImageHandler";
+import {MatCheckbox} from "@angular/material/checkbox";
 
 export interface DialogData {
   src: '';
@@ -166,9 +167,9 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
       this.setCookie();
     })
 
-    this.api.getAttributes('','',0,10,true,"Rating", "desc").subscribe((r:any) => {
-      this.attributesForFilter = r.body.data
-    });
+    // this.api.getAttributes('','',0,10,true,"Rating", "desc").subscribe((r:any) => {
+    //   this.attributesForFilter = r.body.data
+    // });
   }
 
   ngAfterViewInit(): void {
@@ -203,7 +204,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   }
 
   loadProductPagedData(): any {
-    this.dataSource.loadPagedData(this.searchQueryCtrl.value, this.withInternalCodeCtrl.value, (this.searchSuppliersCtrl.value as Supplier)?.id, this.paginator.pageIndex, this.paginator.pageSize);
+    this.dataSource.loadPagedData(this.searchQueryCtrl.value, this.withInternalCodeCtrl.value, (this.searchSuppliersCtrl.value as Supplier)?.id, this.paginator.pageIndex, this.paginator.pageSize, this.selectedFilterAttributes);
   }
 
   confirmDeleteDialog(id: string, name: string): void {
@@ -225,10 +226,6 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
 
   goToItemDetails(id: any) {
     this.router.navigate([`product-details/${id}`]);
-  }
-
-  addItem() {
-    this.router.navigate(['product-edit'])
   }
 
   goToEditItem(id:string) {
@@ -266,13 +263,30 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     })
   }
 
-  attributeValueChecked(nameAttribute: string, value: string) {
-    const a:SelectedFilterAttributes = new SelectedFilterAttributes()
-    a.attributeName = nameAttribute
-    a.selectedValues.push(value)
+  attributeValueChecked($event: any,nameAttribute: string, value: string) {
+    console.log($event.source._selected)
+    const isChecked = $event.source._selected
+    const selectedAttribute:SelectedFilterAttributes = new SelectedFilterAttributes()
+    if (isChecked) {
+      if (this.selectedFilterAttributes.some(n => n.attributeName === nameAttribute)) {
+        this.selectedFilterAttributes.forEach(att => {
+          if (att.attributeName == nameAttribute) {
+            att.selectedValues.push(value)
+          }
+        })
+      }
+      else {
+        selectedAttribute.attributeName = nameAttribute
+        selectedAttribute.selectedValues.push(value)
+        this.selectedFilterAttributes.push(selectedAttribute)
+      }
+    }
+    else {
 
-    console.log('selected', a)
-    this.selectedFilterAttributes.push(a)
+    }
+
+    this.onQueryChanged();
+    console.log('selected', selectedAttribute)
     console.log('selected list',this.selectedFilterAttributes)
   }
 }

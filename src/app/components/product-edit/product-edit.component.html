@@ -4,7 +4,7 @@
   </div>
 
   <div>
-    <span>{{product?.supplierId == undefined ? "Добавление нового товара" : "Редактирование " + product?.title}}</span>
+    <span>{{productId == undefined ? "Добавление нового товара" : "Редактирование " + product?.title}}</span>
     <strong *ngIf="product.vendorId && product?.supplierId != undefined">  [{{product.vendorId}}]</strong>
   </div>
 </div>
@@ -15,9 +15,9 @@
       <mat-tab-group style="width:465px" animationDuration="0ms">
         <mat-tab  label="Фото">
           <ng-template matTabContent>
-            <button mat-button (click)="fileInput.click()" class="mat-elevation-z2" style="margin:10px">
+            <button mat-button (click)="fileInput.click()" class="mat-elevation-z2" style="margin:10px;width:95%">
               <mat-icon>cloud_upload</mat-icon> Загрузить
-              <input #fileInput type="file" multiple="" accept="image/gif, image/jpeg, image/png, image/jpg" (change)="onFileChange($event)" style="display:none;" />
+              <input #fileInput type="file" multiple="" accept="image/gif, image/jpeg, image/png, image/jpg" (change)="onImageChange($event)" style="display:none;" />
             </button>
 
             <div style="max-height: 600px; overflow-y: auto">

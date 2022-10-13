@@ -84,30 +84,31 @@ tr.element-row:not(.example-expanded-row):active {
 .element-detail {
   overflow: hidden;
   display: flex;
+  width:100%
 }
 
-.element-diagram {
-  min-width: 80px;
-  border: 2px solid black;
-  padding: 8px;
-  font-weight: lighter;
-  margin: 8px 0;
-  height: 104px;
-}
 
-.element-symbol {
-  font-weight: bold;
-  font-size: 40px;
-  line-height: normal;
-}
-
-.element-description {
+.element-brands {
+  flex: 25%;
   padding: 16px;
+  float: left;
 }
 
-.element-description-attribution {
-  opacity: 0.5;
+.element-actions {
+  flex: 75%;
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: none;
+  min-width: 160px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  justify-content: left;
+  word-break: break-word;
+  padding:16px 0 16px 16px;
+  display: table-cell;
+  vertical-align: inherit;
 }
+
 .full-width {
   width: 100%;
 }

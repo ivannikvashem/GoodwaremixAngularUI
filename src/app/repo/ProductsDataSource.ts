@@ -3,7 +3,12 @@ import {BehaviorSubject, Observable, of, tap} from 'rxjs';
 import {catchError, finalize, map} from 'rxjs/operators';
 import {ApiClient} from "./httpClient";
 import {Product} from "../models/product.model";
-import {NotificationService} from "../service/notification-service";
+
+export class SelectedFilterAttributes {
+  attributeName:string
+  selectedValues:string[] = []
+}
+
 
 export class ProductsDataSource implements DataSource<Product> {
 
@@ -13,9 +18,7 @@ export class ProductsDataSource implements DataSource<Product> {
   public loading$ = this.loadingSubject.asObservable();
   public rowCount = 0;
 
-  constructor(
-    private api: ApiClient,
-  ) {}
+  constructor(private api: ApiClient) {}
 
   connect(collectionViewer: CollectionViewer): Observable<Product[]> {
     return this.ProductListSubject.asObservable();
@@ -26,8 +29,8 @@ export class ProductsDataSource implements DataSource<Product> {
     this.loadingSubject.complete();
   }
 
-  loadPagedData(queryString = "", withInternalCodeSelector = false, selectedSuppId = '', pageIndex = 0, pageSize = 10) {
-    this.api.getProducts(queryString, withInternalCodeSelector, selectedSuppId, pageIndex, pageSize)
+  loadPagedData(queryString = "", withInternalCodeSelector = false, selectedSuppId = '', pageIndex = 0, pageSize = 10, selectedAttributes:SelectedFilterAttributes[]) {
+    this.api.getProducts(queryString, withInternalCodeSelector, selectedSuppId, pageIndex, pageSize, selectedAttributes)
       .pipe(
         tap(() => {
           this.loadingSubject.next(true);

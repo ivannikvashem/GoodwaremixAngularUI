@@ -124,7 +124,7 @@
             <button mat-icon-button class="mat-elevation-z2" matTooltip="Заменить" (click)="swapItem(item.attributeName, item.attributeId)">
               <mat-icon>swap_horiz</mat-icon>
             </button>&nbsp;
-            <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить" (click)="deleteAttr(item.attributeId)" *ngIf="!item.fixed">
+            <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить" [disabled]="isDelBtnDisabled" (click)="deleteAttr(item.attributeName, item.attributeId)">
               <mat-icon>delete</mat-icon>
             </button>
           </td>

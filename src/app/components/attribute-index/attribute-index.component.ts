@@ -140,10 +140,6 @@ export class AttributeIndexComponent implements OnInit {
     this.dataSource.loadPagedData(this.searchQueryCtrl.value, (this.searchSuppliersCtrl.value as Supplier)?.id, this.paginator?.pageIndex ?? 0, this.paginator?.pageSize ?? 15, this.withFixedAttrSelectorCtrl.value);
   }
 
-  addItem() {
-    this.router.navigate([`attribute-edit`]);
-  }
-
   editItem(id: any) {
     console.log('id',id)
     this.router.navigate([`attribute-edit/${id}`]);

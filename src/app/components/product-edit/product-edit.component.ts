@@ -123,7 +123,7 @@ export class ProductEditComponent implements OnInit {
   }
 
   // Media
-  onFileChange(event: any) {
+  onImageChange(event: any) {
     if (event.target.files && event.target.files[0]) {
       let filesAmount = event.target.files.length;
       const files:File[] = event.target.files

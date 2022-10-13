@@ -35,34 +35,35 @@
 
       <hr>
 
-      <mat-accordion style="margin-top: 10px" class="full-width" appearance="fill">
-        <mat-expansion-panel *ngFor="let item of attributesForFilter">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              {{item.nameAttribute}}
-              {{item.allValue.length}}
-            </mat-panel-title>
-          </mat-expansion-panel-header>
+<!--      <button mat-button>Apply</button>-->
+<!--      <mat-accordion style="margin-top: 10px" class="full-width" appearance="fill">-->
+<!--        <mat-expansion-panel *ngFor="let item of attributesForFilter">-->
+<!--          <mat-expansion-panel-header>-->
+<!--            <mat-panel-title>-->
+<!--              {{item.nameAttribute}}-->
+<!--              {{item.allValue.length}}-->
+<!--            </mat-panel-title>-->
+<!--          </mat-expansion-panel-header>-->
 
-          <mat-form-field class="full-width" appearance="fill">
-              <mat-label>{{item.nameAttribute}}</mat-label>
-              <mat-select multiple [formControl]="attributeValueFilterCtrl" panelClass="select-long-panel">
-<!--                <mat-select-trigger>-->
+<!--          <mat-form-field class="full-width" appearance="fill">-->
+<!--              <mat-label>{{item.nameAttribute}}</mat-label>-->
+<!--              <mat-select multiple [formControl]="attributeValueFilterCtrl" panelClass="select-long-panel">-->
+<!--&lt;!&ndash;                <mat-select-trigger>&ndash;&gt;-->
 
-<!--                </mat-select-trigger>-->
-                <mat-card style="height: 370px">
-                  <mat-form-field class="full-width" appearance="fill">
-                    <mat-label>Поиск</mat-label>
-                    <input matInput #filterSearch (input)="filtrationSearch(filterSearch, item.id)" [autofocus]="true">
-                  </mat-form-field>
-                  <cdk-virtual-scroll-viewport itemSize="10" class="attributeFilter-viewport" style="height: 300px">
-                    <mat-option *cdkVirtualFor="let value of item.allValue" [value]="value" class="multiline-mat-option">{{value}}</mat-option>
-                  </cdk-virtual-scroll-viewport>
-                </mat-card>
-              </mat-select>
-            </mat-form-field>
-        </mat-expansion-panel>
-      </mat-accordion>
+<!--&lt;!&ndash;                </mat-select-trigger>&ndash;&gt;-->
+<!--                <mat-card style="height: 370px">-->
+<!--                  <mat-form-field class="full-width" appearance="fill">-->
+<!--                    <mat-label>Поиск</mat-label>-->
+<!--                    <input matInput #filterSearch (input)="filtrationSearch(filterSearch, item.id)" [autofocus]="true">-->
+<!--                  </mat-form-field>-->
+<!--                  <cdk-virtual-scroll-viewport itemSize="10" class="attributeFilter-viewport" style="height: 300px">-->
+<!--                    <mat-option *cdkVirtualFor="let value of item.allValue" [value]="value" class="multiline-mat-option" (onSelectionChange)="attributeValueChecked($event ,item.nameAttribute,value)">{{value}}</mat-option>-->
+<!--                  </cdk-virtual-scroll-viewport>-->
+<!--                </mat-card>-->
+<!--              </mat-select>-->
+<!--            </mat-form-field>-->
+<!--        </mat-expansion-panel>-->
+<!--      </mat-accordion>-->
 
     </form>
   </div>
@@ -152,7 +153,7 @@
       <!-- ACTIONS Column -->
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>
-          <button mat-icon-button class="mat-elevation-z2" matTooltip="Добавить товар" (click)="addItem()">
+          <button mat-icon-button class="mat-elevation-z2" matTooltip="Добавить товар" [routerLink]="['/product-add']">
             <mat-icon>add</mat-icon>
           </button>
         </th>

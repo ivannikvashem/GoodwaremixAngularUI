@@ -10,6 +10,10 @@ import {Attribute} from "../../models/attribute.model";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {NotificationService} from "../../service/notification-service";
+import {error} from "@angular/compiler-cli/src/transformers/util";
+import {fakeAsync} from "@angular/core/testing";
+import {ConfirmDialogComponent, ConfirmDialogModel} from "../shared/confirm-dialog/confirm-dialog.component";
+import {MatButton} from "@angular/material/button";
 
 @Component({
   selector: 'app-product-details',
@@ -27,6 +31,7 @@ export class ProductDetailsComponent implements OnInit {
   selectedSafeVideo:SafeResourceUrl
   safeImg360Url: SafeResourceUrl | undefined
   remoteAndLocalImg:string[] = []
+  isDelBtnDisabled:boolean = false
 
   constructor(
     private api: ApiClient,
@@ -38,12 +43,16 @@ export class ProductDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.fetchProductData()
+  }
+
+  fetchProductData() {
     this.productId = this._ActivatedRoute.snapshot.paramMap.get("id");
     this.api.getProductById(this.productId).subscribe(
       data => {
         this.product = data.body;
         if (this.product.videos.length > 0)
-        this.product.videos.forEach((value:any) => {this.safeVideoUrl.push(this._sanitizer.bypassSecurityTrustResourceUrl(value))});
+          this.product.videos.forEach((value:any) => {this.safeVideoUrl.push(this._sanitizer.bypassSecurityTrustResourceUrl(value))});
         this.selectedSafeVideo = this.safeVideoUrl[0]
         this.dataSource = new MatTableDataSource(this.product.attributes);
         this.safeImg360Url = this._sanitizer.bypassSecurityTrustResourceUrl(this.product.image360)
@@ -68,6 +77,7 @@ export class ProductDetailsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.api.swapAttribute(result.oldAttributeId, result.newAttribute.id).subscribe({
         next: next => {
+          this.fetchProductData()
           this._notyf.onSuccess('Данные сохранены успешно');
         },
         error: error => {
@@ -77,10 +87,35 @@ export class ProductDetailsComponent implements OnInit {
     });
   }
 
-  deleteAttr(attributeId: any) {
-    this.api.deleteProductAttribute(attributeId).subscribe(result => {
-      console.log(result)
-    })
+  deleteAttr(attributeName:string, attributeId:string) {
+    this.isDelBtnDisabled = true
+    const message = `Добавить в исключения атрибут ` + attributeName + `?`;
+    const dialogData = new ConfirmDialogModel("Подтверждение", message);
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      minWidth: "300px",
+      maxWidth: "500px",
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult === true) {
+        this.api.deleteProductAttribute(attributeId).subscribe( {
+          next: next => {
+            this.fetchProductData()
+            this._notyf.onSuccess('Успешно исключен')
+            this.isDelBtnDisabled = false
+          },
+          error: error => {
+            this._notyf.onError(error.error())
+            this.isDelBtnDisabled = false
+          }
+        })
+      }
+      else {
+        this.isDelBtnDisabled = false
+      }
+    });
   }
 
   goToEdit(Id: string) {

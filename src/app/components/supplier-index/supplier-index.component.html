@@ -26,7 +26,6 @@
       <th mat-header-cell *matHeaderCellDef>Тип</th>
       <td mat-cell *matCellDef="let row">
         <mat-icon class="material-icons-outlined" *ngIf="row.sourceSettings">{{row.sourceSettings.source == "API" ? "cloud_done" : (row.sourceSettings.source == "MAIL" ? "drafts" : "folder_shared")}}</mat-icon>
-        <mat-icon class="material-icons-outlined" *ngIf="row.sourceSettings.source">{{row.sourceSettings.source == "FTP" ? "folder": ''}}</mat-icon>
         <mat-icon class="material-icons-outlined" *ngIf="row.supplierConfigs != null">{{row.supplierConfigs.type == "XML" ? "code" : (row.supplierConfigs.type == "XLSX" ? "table_view" : "data_object")}}</mat-icon>
       </td>
     </ng-container>
@@ -69,12 +68,12 @@
     <!-- ACTIONS Column -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="Скачать всё" (click)="downloadTable('Supplier')">
-          <mat-icon>cloud_download</mat-icon>
-        </button>&nbsp;
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="Добавить поставщика" (click)="editItem('')">
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="Добавить поставщика" [routerLink]="['/supplier-add']">
           <mat-icon>add</mat-icon>
-        </button>
+        </button>&nbsp;
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="Обновить кол-во товара и бренды" (click)="fixSupplierStat()">
+          <mat-icon>build</mat-icon>
+        </button>&nbsp;
       </th>
       <td mat-cell *matCellDef="let item">
 
@@ -87,22 +86,9 @@
         <button mat-icon-button class="mat-elevation-z2" matTooltip="Изменить" (click)="editItem(item.id)">
           <mat-icon>edit</mat-icon>
         </button>&nbsp;
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="Привязать артикулы" (click)="internalCodeFetch(item.id)">
-          <mat-icon>build</mat-icon>
-        </button>&nbsp;
-
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="Скачать товары" (click)="downloadTable('Product', item.id)">
-          <mat-icon>local_offer</mat-icon>
-        </button>
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="Скачать атрибуты" (click)="downloadTable('Attribute', item.id)">
-          <mat-icon>list</mat-icon>
-        </button>
-
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить товары" (click)="confirmDeleteSuppProdDialog(item.id, item.supplierName)">
-          <mat-icon>remove_shopping_cart</mat-icon>
-        </button>
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить поставщика"  (click)="confirmDeleteSuppDialog(item.id, item.supplierName)">
-          <mat-icon>delete_forever</mat-icon>
+        <button mat-icon-button class="mat-elevation-z2"  aria-label="expand row" (click)="(expandedElement = expandedElement === item ? null : item); $event.stopPropagation()">
+          <mat-icon *ngIf="expandedElement !== item">keyboard_arrow_down</mat-icon>
+          <mat-icon *ngIf="expandedElement === item">keyboard_arrow_up</mat-icon>
         </button>
 
       </td>
@@ -113,11 +99,37 @@
         <div class="element-detail"
              [@detailExpand]="item == expandedElement ? 'expanded' : 'collapsed'">
 
-          <div class="element-description">
+          <div class="element-brands">
+<!--            <div style="max-height: 200px; overflow-y: auto">-->
+<!--              <ul>-->
+<!--                <li *ngFor="let brand of item.stat.brands">{{brand}}</li>-->
+<!--              </ul>-->
+<!--            </div>-->
+
             {{ item.stat.brands != null ? item.stat.brands.join(', ') : ""}}
-
-
           </div>
+
+          <div class="element-actions">
+            <div style="margin-right: 11px">
+              <button mat-icon-button class="mat-elevation-z2" matTooltip="Привязать артикулы" (click)="internalCodeFetch(item.id)">
+                <mat-icon>build</mat-icon>
+              </button>&nbsp;
+
+              <button mat-icon-button class="mat-elevation-z2" matTooltip="Скачать товары" (click)="downloadTable('Product', item.id)">
+                <mat-icon>local_offer</mat-icon>
+              </button>&nbsp;
+
+              <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить товары" (click)="confirmDeleteSuppProdDialog(item.id, item.supplierName)">
+                <mat-icon>remove_shopping_cart</mat-icon>
+              </button>&nbsp;
+              <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить поставщика"  (click)="confirmDeleteSuppDialog(item.id, item.supplierName)">
+                <mat-icon>delete_forever</mat-icon>
+              </button>
+            </div>
+          </div>
+
+
+
         </div>
       </td>
     </ng-container>
