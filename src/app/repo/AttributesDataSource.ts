@@ -53,4 +53,10 @@ export class AttributesDataSource implements DataSource<Attribute> {
         //this._notyf.onError(err.message)
       });
   }
+
+  updateFixedAttributeState(id: string, val: boolean) {
+    console.log("upd fix attr " + id);
+    let newdata = this.AttributeListSubject.value.map(x => (x.id === id ? { ...x, fixed: val } : x));
+    this.AttributeListSubject.next(newdata);
+  }
 }

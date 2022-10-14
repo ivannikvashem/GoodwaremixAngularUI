@@ -200,10 +200,11 @@ export class AttributeIndexComponent implements OnInit {
     });
   }
 
-  switchFixAttr(id: any) {
+  switchFixAttr(id: any, val: boolean) {
     this.api.switchFixAttribute(id).subscribe({
       next: next => {
-        this._notyf.onSuccess("Атрибут переназначен")
+        this.dataSource.updateFixedAttributeState(id, val);
+        this._notyf.onSuccess("Статус атрибута изменен")
       },
       error: error => {
         this._notyf.onError(error.message);
