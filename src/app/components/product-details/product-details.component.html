@@ -34,8 +34,8 @@
         <mat-tab *ngIf="product.videos.length >= 1" label="Видео">
           <ng-template matTabContent>
             <iframe width="100%" height="440" [src]="selectedSafeVideo" frameborder="0" allowfullscreen></iframe>
-            <div *ngIf="safeVideoUrl.length > 1">
-              <button mat-button class="mat-elevation-z2" style="margin: 5px" *ngFor="let video of safeVideoUrl;let i = index" (click)="selectedSafeVideo = video">
+            <div *ngIf="safeVideoUrl.length > 1" class="video-btn-wrapper">
+              <button mat-flat-button class="mat-elevation-z2 video-btn" *ngFor="let video of safeVideoUrl;let i = index" (click)="selectedSafeVideo = video">
                 {{i+1}}
               </button>
             </div>

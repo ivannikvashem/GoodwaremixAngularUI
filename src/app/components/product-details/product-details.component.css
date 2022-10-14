@@ -24,6 +24,16 @@
   width: auto;
   margin: 0 5px
 }
+.video-btn-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin: 3px 0;
+}
+.video-btn {
+  min-width: 36px;
+  width: 100%;
+  margin: 0 3px;
+}
 .mat-list .mat-list-item {
   min-height: 20px; /* default is 72px */
 }
