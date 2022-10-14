@@ -71,6 +71,10 @@ export class ApiClient {
     return this.http.post<any>(this.apiURL + '/Attributes/' + sourceId + '/swap/' + destId, {}, this.httpOptions);
   }
 
+  switchFixAttribute(id: string): Observable<any> {
+    return this.http.post<any>(this.apiURL + '/Attributes/' + id + '/fix/', {}, this.httpOptions);
+  }
+
   updateAttribute (attribute: Attribute) {
     return this.http.post<any>(this.apiURL + '/Attributes/', attribute, this.httpOptions);
   }

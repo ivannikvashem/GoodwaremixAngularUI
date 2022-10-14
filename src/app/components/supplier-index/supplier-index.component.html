@@ -3,7 +3,7 @@
   <mat-form-field appearance="standard" class="full-width">
     <mat-label>Поиск по поставщикам</mat-label>
 <!--    <input matInput (keyup)="applySupplierFilter($event)">-->
-    <input matInput [formControl]="searchQueryCtrl">
+    <input matInput [formControl]="searchQueryCtrl" (keydown)="onQueryChanged()">
     <button *ngIf="searchQueryCtrl.value" matSuffix mat-icon-button aria-label="Clear" type="button" (click)="onClearSearchQuery()">
       <mat-icon>close</mat-icon>
     </button>

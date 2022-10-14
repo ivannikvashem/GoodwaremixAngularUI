@@ -199,5 +199,16 @@ export class AttributeIndexComponent implements OnInit {
       }
     });
   }
+
+  switchFixAttr(id: any) {
+    this.api.switchFixAttribute(id).subscribe({
+      next: next => {
+        this._notyf.onSuccess("Атрибут переназначен")
+      },
+      error: error => {
+        this._notyf.onError(error.message);
+      },
+    });
+  }
 }
 

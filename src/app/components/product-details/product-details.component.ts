@@ -8,12 +8,8 @@ import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {SwapAttributeComponent} from "../shared/swap-attribute/swap-attribute.component";
 import {Attribute} from "../../models/attribute.model";
 import {MatDialog} from "@angular/material/dialog";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {NotificationService} from "../../service/notification-service";
-import {error} from "@angular/compiler-cli/src/transformers/util";
-import {fakeAsync} from "@angular/core/testing";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../shared/confirm-dialog/confirm-dialog.component";
-import {MatButton} from "@angular/material/button";
 
 @Component({
   selector: 'app-product-details',
@@ -25,7 +21,7 @@ export class ProductDetailsComponent implements OnInit {
 
   productId: string | any;
   product: Observable<Product> | any;
-  displayedAttrColumns: string[] = ['name', 'value','unit','etim', 'action'];
+  displayedAttrColumns: string[] = ['etim', 'name', 'value','unit', 'action'];
   dataSource = new MatTableDataSource();
   safeVideoUrl: SafeResourceUrl[] =[];
   selectedSafeVideo:SafeResourceUrl

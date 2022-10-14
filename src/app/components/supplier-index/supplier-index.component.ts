@@ -197,12 +197,15 @@ export class SupplierIndexComponent implements OnInit {
       })
   }
 
-
-  onClearSearchQuery() {
-    this.searchQueryCtrl.setValue('');
+  onQueryChanged() {
     this.paginator.pageIndex = 0;
     this.loadData();
     this.setCookie();
+  }
+
+  onClearSearchQuery() {
+    this.searchQueryCtrl.setValue('');
+    this.onQueryChanged();
   }
 
   downloadTable(table: string, id:string) {
