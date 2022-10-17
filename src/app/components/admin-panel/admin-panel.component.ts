@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ApiClient} from "../../repo/httpClient";
 import {NotificationService} from "../../service/notification-service";
+import {Supplier} from "../../models/supplier.model";
+import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
   selector: 'app-admin-panel',
@@ -11,8 +13,15 @@ export class AdminPanelComponent implements OnInit {
 
   constructor(private api:ApiClient,
               private _notyf:NotificationService) { }
+  supplierList:Supplier[] = []
+  selecetedSuppliersList:Supplier[] =[]
+  displayedColumns: string[] = ['checkbox', 'supplier', 'Stat.ProductQty', 'Stat.lastImport'];
+  supplierDataSource = new MatTableDataSource<Supplier>()
 
   ngOnInit(): void {
+    this.api.getSuppliers('', 0, 100, "SupplierName", "asc").subscribe((r: any) => {
+      this.supplierDataSource = r.body.data
+    });
   }
 
   fetchItem(supplierName: any) {
@@ -52,5 +61,26 @@ export class AdminPanelComponent implements OnInit {
       downloadAction.href = window.URL.createObjectURL(blob)
       downloadAction.click()
     })
+  }
+
+  fetchSelectedItems() {
+    let suppliers = ''
+    for (let i of this.selecetedSuppliersList) {
+      suppliers += i.supplierName+';'
+    }
+    this.api.fetchDataFromSupplier(suppliers).subscribe( res => {
+        this._notyf.onSuccess('Сбор данных начат')
+      }, error =>  {
+        this._notyf.onError('Ошибка' +JSON.stringify(error))
+      }
+    )
+  }
+
+  supplierChecked($event:any, supplier:Supplier) {
+    console.log(supplier)
+    if ($event.checked)
+      this.selecetedSuppliersList.push(supplier)
+    else
+      this.selecetedSuppliersList = this.selecetedSuppliersList.filter(sup => (sup !=supplier))
   }
 }

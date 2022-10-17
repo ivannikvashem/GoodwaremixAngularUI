@@ -2,18 +2,64 @@
   <h3>Панель администратора &nbsp;</h3>
 </div>
 
-<mat-card>
-  <mat-card-subtitle>Поставщики</mat-card-subtitle>
-    <button mat-button class="mat-elevation-z2" (click)="fetchItem('default')">
-      <mat-icon>restart_alt</mat-icon> Запустить сбор всех поставщиков
+<mat-tab-group>
+  <mat-tab label="Поставщики">
+    <mat-card>
+      <mat-card-subtitle>Поставщики</mat-card-subtitle>
+      <button mat-button class="mat-elevation-z2" (click)="fetchItem('default')">
+        <mat-icon>restart_alt</mat-icon> Запустить сбор всех поставщиков
+      </button>&nbsp;
+      <button mat-button class="mat-elevation-z2" (click)="fullInit()">
+        <mat-icon>sync_problem</mat-icon> Инициализировать БД
+      </button>&nbsp;
+      <button mat-button class="mat-elevation-z2" (click)="fixSupplierStat()">
+        <mat-icon>build</mat-icon> Обновить кол-во товара и бренды
+      </button>&nbsp;
+      <button mat-button class="mat-elevation-z2" (click)="downloadTable('Supplier')">
+        <mat-icon>cloud_download</mat-icon>  Скачать всех
+      </button>&nbsp;
+
+      <div style="max-height: 600px;overflow-y: auto;margin-top: 10px">
+
+        <table mat-table [dataSource]="supplierDataSource" class="mat-elevation-z8;" style="width: 100%;padding: 5px">
+          <!-- Checkbox Column -->
+          <ng-container matColumnDef="checkbox">
+            <th mat-header-cell *matHeaderCellDef>#</th>
+            <td mat-cell *matCellDef="let element">
+              <mat-checkbox color="primary" (change)="supplierChecked($event, element)"></mat-checkbox>
+            </td>
+          </ng-container>
+          <!-- Supplier Column -->
+          <ng-container matColumnDef="supplier">
+            <th mat-header-cell *matHeaderCellDef> Поставщик </th>
+            <td mat-cell *matCellDef="let element">
+              {{element.supplierName}}
+            </td>
+          </ng-container>
+          <!-- Stat.ProductQty -->
+          <ng-container matColumnDef="Stat.ProductQty">
+            <th mat-header-cell *matHeaderCellDef> Номенкулатура </th>
+            <td mat-cell *matCellDef="let element"> {{ element.stat.productQty != null && element.stat.productQty > 0 ? element.stat.productQty + " / " : ""}} {{ element.stat.productQtyWithCode != null ? element.stat.productQtyWithCode : ""}} </td>
+          </ng-container>
+          <!-- Stat.lastImport -->
+          <ng-container matColumnDef="Stat.lastImport">
+            <th mat-header-cell *matHeaderCellDef> Последний импорт </th>
+            <td mat-cell *matCellDef="let element"> {{element.stat.lastImport | date:'yyyy-MM-dd'}} </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+
+      <button mat-button class="mat-elevation-z2" style="margin-top: 10px" (click)="fetchSelectedItems()" [disabled]="selecetedSuppliersList.length == 0">
+        <mat-icon>restart_alt</mat-icon>  Сбор выбранных
+      </button>&nbsp;
+    </mat-card>
+  </mat-tab>
+  <mat-tab label="Атрибуты">
+    <button mat-button class="mat-elevation-z2" (click)="downloadTable('Attribute')">
+      <mat-icon>cloud_download</mat-icon>  Скачать все атрибуты
     </button>&nbsp;
-    <button mat-button class="mat-elevation-z2" (click)="fullInit()">
-      <mat-icon>sync_problem</mat-icon> Инициализировать БД
-    </button>&nbsp;
-    <button mat-button class="mat-elevation-z2" (click)="fixSupplierStat()">
-      <mat-icon>build</mat-icon> Обновить кол-во товара и бренды
-    </button>&nbsp;
-    <button mat-button class="mat-elevation-z2" (click)="downloadTable('Supplier')">
-      <mat-icon>cloud_download</mat-icon>  Скачать всех
-    </button>&nbsp;
-</mat-card>
+  </mat-tab>
+</mat-tab-group>
+
