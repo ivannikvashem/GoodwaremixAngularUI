@@ -9,43 +9,42 @@
       </mat-form-field>
 
       <div class="formBlockDouble">
-        <mat-form-field appearance="fill" class="full-width">
+        <mat-form-field appearance="fill" style="width: 60%">
           <mat-label>Тип</mat-label>
           <input matInput formControlName="type">
+        </mat-form-field>&nbsp;
+
+        <mat-form-field appearance="fill" style="width: 40%">
+          <mat-label>Кол-во в упаковке</mat-label>
+          <input matInput formControlName="packQty" type="number" min="0" pattern="\d*">
         </mat-form-field>
       </div>
 
-
-      <div class="formBlockTriple">
+      <div class="formBlockFull">
         <mat-form-field appearance="fill">
-          <mat-label>Высота (см)</mat-label>
-          <input matInput  formControlName="height" type="number" min="0" step="0.5">
+          <mat-label>Ширина (см)</mat-label>
+          <input matInput formControlName="width" #width type="number" min="0" step="0.5">
         </mat-form-field>&nbsp;
 
         <mat-form-field appearance="fill">
-          <mat-label>Ширина (см)</mat-label>
-          <input matInput  formControlName="width" type="number" min="0" step="0.5">
+          <mat-label>Высота (см)</mat-label>
+          <input matInput formControlName="height" #height type="number" min="0" step="0.5">
         </mat-form-field>&nbsp;
 
         <mat-form-field appearance="fill">
           <mat-label>Глубина (см)</mat-label>
-          <input matInput  formControlName="depth" type="number" min="0" step="0.5">
+          <input matInput formControlName="depth" #depth type="number" min="0" step="0.5">
         </mat-form-field>&nbsp;
-      </div>
 
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Объём</mat-label>
-        <input matInput formControlName="volume" type="number" min="0">
-      </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Объём</mat-label>
+          <input matInput formControlName="volume"  value="{{Math.round(((width.value * height.value * depth.value) + Eps) * 100) / 100}}" type="number" min="0">
+        </mat-form-field>
+      </div>
 
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Вес (гр)</mat-label>
         <input matInput formControlName="weight" type="number" min="0">
-      </mat-form-field>
-
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Кол-во в упаковке</mat-label>
-        <input matInput formControlName="packQty" type="number" min="0" pattern="\d*">
       </mat-form-field>
 
     </form>

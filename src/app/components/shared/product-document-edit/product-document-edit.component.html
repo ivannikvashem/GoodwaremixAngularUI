@@ -29,17 +29,32 @@
         </mat-form-field>
       </div>
 
-      <mat-form-field appearance="fill" class="full-width" *ngIf="documentProduct.type">
-        <mat-label>Тип</mat-label>
-        <input matInput formControlName="type">
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Number</mat-label>
+        <input type="text"
+               placeholder="Pick one"
+               aria-label="Number"
+               matInput
+               formControl="type"
+               [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of documentTypesList" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
       </mat-form-field>
 
-      <mat-form-field appearance="fill" class="full-width" *ngIf="!documentProduct.type">
-        <mat-label>Тип</mat-label>
-        <mat-select formControlName="type">
-          <mat-option *ngFor="let type of documentTypesList" [value]="type.descr">{{type.descr}}</mat-option>
-        </mat-select>
-      </mat-form-field>
+<!--      <mat-form-field appearance="fill" class="full-width" *ngIf="documentProduct.type">-->
+<!--        <mat-label>Тип</mat-label>-->
+<!--        <input matInput formControlName="type">-->
+<!--      </mat-form-field>-->
+
+<!--      <mat-form-field appearance="fill" class="full-width" *ngIf="!documentProduct.type">-->
+<!--        <mat-label>Тип</mat-label>-->
+<!--        <mat-select formControlName="type">-->
+<!--          <mat-option *ngFor="let type of documentTypesList" [value]="type.descr">{{type.descr}}</mat-option>-->
+<!--        </mat-select>-->
+<!--      </mat-form-field>-->
 
         <mat-form-field class="example-chip-list" appearance="fill" class="full-width">
           <mat-label>Ссылки</mat-label>

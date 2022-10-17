@@ -21,6 +21,7 @@ export class ProductDocumentEditComponent implements OnInit {
   documentProduct: Document = new Document();
   urlList:string[] = []
   form:FormGroup
+
   documentTypesList = [
     {code: 'SRT', descr: 'Сертификат соответствия'},
     {code: 'DLR', descr: 'Декларация о соответствии'},

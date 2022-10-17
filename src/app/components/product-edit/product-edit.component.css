@@ -107,10 +107,29 @@ tr.mat-row {
 .thumbnail button {
   text-align: center;
   display:block;
-  width:20px;
-  height:20px;
+  width:25px;
+  height:25px;
   position:absolute;
   top:-182px;
   right:8px;
   overflow:hidden;
+  background: white;
+  border-radius: 50px;
+  border-width: 2px;
+  padding: 0px;
+  font-weight: bolder;
+  color:red;
+  cursor: pointer;
+}
+
+.formBlockFull {
+  width: 100%;
+  display: flex;
+  justify-content: space-between
+}
+
+.formBlockDoubleTwo {
+  width: 81%;
+  display: flex;
+  justify-content: space-between
 }

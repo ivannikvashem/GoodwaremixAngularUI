@@ -61,6 +61,8 @@ export class ProductEditComponent implements OnInit {
   countriesList:Country[] = countriesListJson
   searchCountryCtrl = new FormControl<string | any>('')
   filteredCountries: Observable<any[]>
+  Math = Math;
+  Eps = Number.EPSILON;
 
   constructor(public api:ApiClient,
               private _ActivatedRoute:ActivatedRoute,
@@ -131,7 +133,7 @@ export class ProductEditComponent implements OnInit {
         this.imagesToUpload.unshift(i)
       }
       for (let i = 0; i < filesAmount; i++) {
-        var reader = new FileReader();
+        let reader = new FileReader();
         reader.onload = (event:any) => {
           this.imagesView.unshift(event.target.result);
         }
@@ -238,7 +240,6 @@ export class ProductEditComponent implements OnInit {
   openPackageEditorDialog(oldPackage?:any): void {
     const dialogRef = this.dialog.open(ProductPackageEditComponent, {
       width: '900px',
-      height: '650px',
       data: { oldPackage: oldPackage, newPackage: new Package() },
     });
 

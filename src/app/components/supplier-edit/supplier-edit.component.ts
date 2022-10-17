@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Params} from "@angular/router";
 import {FormControl} from "@angular/forms";
 import {Supplier} from "../../models/supplier.model";
@@ -13,10 +13,15 @@ import {Multipliers} from "../../models/multipliers.model";
 import {debounceTime, Observable, ReplaySubject, switchMap, tap} from "rxjs";
 import {finalize} from "rxjs/operators";
 import {NotificationService} from "../../service/notification-service";
-import {ProductAttributeEditComponent} from "../shared/product-attribute-edit/product-attribute-edit.component";
-import {AttributeProduct} from "../../models/attributeProduct.model";
 import {MatDialog} from "@angular/material/dialog";
 import {SupplierAttributeAddComponent} from "../shared/supplier-attribute-add/supplier-attribute-add.component";
+import {MatTable} from "@angular/material/table";
+
+export class HeaderModel {
+  HeaderName:string
+  HeaderValue:string
+  isEditable:boolean = false
+}
 
 @Component({
   selector: 'app-supplier-edit',
@@ -24,6 +29,7 @@ import {SupplierAttributeAddComponent} from "../shared/supplier-attribute-add/su
   styleUrls: ['./supplier-edit.component.css']
 })
 export class SupplierEditComponent implements OnInit {
+  readonly separatorKeysCodes = [ENTER, COMMA] as const;
 
   supplierId: string = '';
   supplier: Supplier;
@@ -35,6 +41,9 @@ export class SupplierEditComponent implements OnInit {
   attributesToAdd:Attribute[] = []
   attributeListCtrl = new FormControl<string | Attribute>('');
   selectedAttr: Attribute | undefined;
+  headerList:HeaderModel[] = []
+  headerTableColumns: string[] = ['headerKey', 'headerValue', 'headerAction'];
+  @ViewChild(MatTable) headerTable: MatTable<any>;
 
   constructor(
     private _ActivatedRoute:ActivatedRoute,
@@ -57,7 +66,9 @@ export class SupplierEditComponent implements OnInit {
           if (s?.body.supplierConfigs?.multipliers == null) {
             s.body.supplierConfigs.multipliers = new Multipliers();
           }
-           this.supplier = s.body as Supplier;
+          this.supplier = s.body as Supplier;
+          this.headerList = JSON.parse(this.supplier.sourceSettings.header)
+          this.headerList.forEach(value => {value.isEditable = false})
           this.attrDataSource.setData(this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys || []);
         });
     }
@@ -140,18 +151,12 @@ export class SupplierEditComponent implements OnInit {
   clearAttrSelection():void {
     this.attrSelectedRow = null;
   }
-
-  addOnBlur = true;
-  readonly separatorKeysCodes = [ENTER, COMMA] as const;
-
   addDateFormat(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-    // Add our value
     const idx = this.supplier.supplierConfigs.dateFormats?.indexOf(value);
     if (value && idx === -1 ) {
       this.supplier.supplierConfigs.dateFormats?.push(value);
     }
-    // Clear the input value
     event.chipInput!.clear();
   }
 
@@ -163,6 +168,8 @@ export class SupplierEditComponent implements OnInit {
   }
 
   submitSupplier() {
+    for (let i of this.headerList) { delete i.isEditable }
+    this.supplier.sourceSettings.header = JSON.stringify(this.headerList)
     this.api.updateSupplier(this.supplier).subscribe( x => {
       this._notyf.onSuccess("Конфигурация сохранена");
         for (let i of this.attributesToAdd) {
@@ -175,25 +182,38 @@ export class SupplierEditComponent implements OnInit {
         this._notyf.onError("Ошибка: " + JSON.stringify(error));
         //todo обработчик ошибок, сервер недоступен или еще чего..
       });
-
-
   }
 
   addNewAttr(element: any) {
     this.openAttributeEditorDialog()
   }
 
-
   openAttributeEditorDialog(): void {
     const dialogRef = this.dialog.open(SupplierAttributeAddComponent, {
       data: { supplierName: this.supplier.supplierName, newAttribute: new Attribute() },
     });
-
     dialogRef.afterClosed().subscribe(result => {
       this.attributesToAdd.push(result.newAttribute)
       this.selectedAttr = result.newAttribute
       this.attributeListCtrl.setValue(result.newAttribute as Attribute);
     });
+  }
+
+  addHeader() {
+    let newHeader = <HeaderModel> {HeaderName : '', HeaderValue : '', isEditable : true }
+    this.headerList.push(newHeader)
+    this.headerTable.renderRows()
+  }
+
+  deleteHeader(element:HeaderModel) {
+    this.headerList = this.headerList.filter(value => (value != element))
+  }
+
+  saveHeader(element:HeaderModel) {
+    if (element.HeaderName != '' && element.HeaderValue != '')
+      element.isEditable = false
+    else
+      this.deleteHeader(element)
   }
 }
 

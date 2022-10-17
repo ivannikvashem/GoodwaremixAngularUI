@@ -17,6 +17,8 @@ export interface AttrDialogData {
 })
 export class ProductPackageEditComponent implements OnInit {
   form:FormGroup
+  Math = Math;
+  Eps = Number.EPSILON;
   constructor(public api: ApiClient,
               public dialogRef: MatDialogRef<ProductDocumentEditComponent>,
               @Inject(MAT_DIALOG_DATA)

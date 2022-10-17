@@ -28,6 +28,6 @@
 
   <div mat-dialog-actions class="actions-div">
     <button mat-button mat-dialog-close (click)="onCancelClick()" type="button">Отмена</button>
-    <button mat-raised-button color="primary" [mat-dialog-close]="data" [disabled]="searchAttributeCtrl.invalid && attributeValuesCtrl.invalid">Добавить</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="data" (click)="submitForm()" [disabled]="searchAttributeCtrl.invalid || attributeValuesCtrl.invalid">Добавить</button>
   </div>
 </div>

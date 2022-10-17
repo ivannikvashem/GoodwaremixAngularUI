@@ -23,7 +23,7 @@
             <div style="max-height: 600px; overflow-y: auto">
               <div class="thumbnail" *ngFor="let img of imagesView" >
                 <img [src]="img" style="object-fit: cover;height:200px; width: 200px; margin-left:10px" alt="thumbnail" (error)="handleMissingImage($event)">
-                <button (click)="removeImage(img)">X</button>
+                <button (click)="removeImage(img)">&#x2715;</button>
               </div>
             </div>
 
@@ -74,7 +74,7 @@
             <mat-form-field appearance="fill" class="full-width" *ngIf="!product?.supplierName">
               <mat-label>Поставщик</mat-label>
               <input matInput placeholder=""
-                     [formControl]="searchSupplierCtrl"
+                     [formControl]="searchSupplierCtrl" required
                      [matAutocomplete]="auto">
               <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displaySupplierFn">
                 <mat-option *ngFor="let option of supplierList" [value]="option">
@@ -88,6 +88,19 @@
               <input matInput name="title" [(ngModel)]="product.title" required>
             </mat-form-field>
 
+            <div class="formBlockDouble">
+              <mat-form-field appearance="fill" class="form-full-width">
+                <mat-label>Бренд</mat-label>
+                <input matInput name="vendor" [(ngModel)]="product.vendor" required>
+              </mat-form-field>&nbsp;
+
+              <mat-form-field appearance="fill" class="form-full-width">
+                <mat-label>Идентификатор товара поставщика</mat-label>
+                <input matInput name="vendorId" [(ngModel)]="product.vendorId" required>
+              </mat-form-field>
+            </div>
+
+
             <mat-form-field appearance="fill" class="form-full-width">
               <mat-label>Полное наименование</mat-label>
               <input matInput name="titleLong" [(ngModel)]="product.titleLong">
@@ -97,18 +110,6 @@
               <mat-label>Описание</mat-label>
               <textarea matInput name="description" [(ngModel)]="product.description" style="min-height:100px"></textarea>
             </mat-form-field>
-
-            <div class="formBlockDouble">
-              <mat-form-field appearance="fill" class="form-full-width">
-                <mat-label>Вендор</mat-label>
-                <input matInput name="vendor" [(ngModel)]="product.vendor" required>
-              </mat-form-field>&nbsp;
-
-              <mat-form-field appearance="fill" class="form-full-width">
-                <mat-label>Вендор ID</mat-label>
-                <input matInput name="vendorId" [(ngModel)]="product.vendorId" required>
-              </mat-form-field>
-            </div>
 
             <mat-form-field appearance="fill" class="form-full-width">
               <mat-label>Страна производства</mat-label>
@@ -203,43 +204,43 @@
                     <input matInput [(ngModel)]="product.netto.barcode" name="barcode" required>
                   </mat-form-field>
 
-                  <div class="formBlockDouble">
+                  <div class="formBlockDoubleTwo">
                     <mat-form-field appearance="fill" class="full-width">
                       <mat-label>Тип</mat-label>
                       <input matInput [(ngModel)]="product.netto.type" name="type">
+                    </mat-form-field>&nbsp;
+
+                    <mat-form-field appearance="fill" class="full-width">
+                      <mat-label>Кол-во в упаковке</mat-label>
+                      <input matInput [(ngModel)]="product.netto.packQty" name="packQty" type="number" min="0" pattern="\d*">
                     </mat-form-field>
                   </div>
 
-                  <div class="formBlockTriple">
+                  <div class="formBlockFull">
                     <mat-form-field appearance="fill">
-                      <mat-label>Высота (см)</mat-label>
-                      <input matInput [(ngModel)]="product.netto.height" name="height"  type="number" min="0" step="0.5">
+                      <mat-label>Ширина (см)</mat-label>
+                      <input matInput [(ngModel)]="product.netto.width" #width name="width" type="number" min="0" step="0.5">
                     </mat-form-field>&nbsp;
 
                     <mat-form-field appearance="fill">
-                      <mat-label>Ширина (см)</mat-label>
-                      <input matInput [(ngModel)]="product.netto.width" name="width" type="number" min="0" step="0.5">
+                      <mat-label>Высота (см)</mat-label>
+                      <input matInput [(ngModel)]="product.netto.height" #height name="height"  type="number" min="0" step="0.5">
                     </mat-form-field>&nbsp;
 
                     <mat-form-field appearance="fill">
                       <mat-label>Глубина (см)</mat-label>
-                      <input matInput [(ngModel)]="product.netto.depth" name="depth" type="number" min="0" step="0.5">
+                      <input matInput [(ngModel)]="product.netto.depth" #depth name="depth" type="number" min="0" step="0.5">
                     </mat-form-field>&nbsp;
-                  </div>
 
-                  <mat-form-field appearance="fill" class="full-width">
-                    <mat-label>Объём</mat-label>
-                    <input matInput [(ngModel)]="product.netto.volume" name="volume" type="number" min="0">
-                  </mat-form-field>
+                    <mat-form-field appearance="fill" class="full-width">
+                      <mat-label>Объём</mat-label>
+                      <input matInput value="{{Math.round(((width.value * height.value * depth.value) + Eps) * 100) / 100}}" [(ngModel)]="product.netto.volume" name="volume" type="number" min="0">
+                    </mat-form-field>
+                  </div>
 
                   <mat-form-field appearance="fill" class="full-width">
                     <mat-label>Вес (гр)</mat-label>
                     <input matInput [(ngModel)]="product.netto.weight" name="weight" type="number" min="0">
-                  </mat-form-field>
-
-                  <mat-form-field appearance="fill" class="full-width">
-                    <mat-label>Кол-во в упаковке</mat-label>
-                    <input matInput [(ngModel)]="product.netto.packQty" name="packQty" type="number" min="0" pattern="\d*">
                   </mat-form-field>
 
                   <div *ngIf="product.netto.barcode">

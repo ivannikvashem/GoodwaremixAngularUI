@@ -66,6 +66,7 @@ export class ProductAttributeEditComponent implements OnInit {
     this.dialogRef.close();
   }
 
+
   displayFn(attribute: Attribute): string {
     return attribute && attribute.nameAttribute ? attribute.nameAttribute : '';
   }
@@ -83,15 +84,19 @@ export class ProductAttributeEditComponent implements OnInit {
     this.data.newAttribute.etimFeature = selectedAttribute.etimFeature
     this.data.newAttribute.etimUnit = selectedAttribute.etimUnit
     this.data.newAttribute.unit = selectedAttribute.unit
+    this.data.newAttribute.value = this.attributeValuesCtrl.value as string;
   }
 
   onAttributeValueSelected() {
     this.onAttributeKeySelected()
-    this.data.newAttribute.value = this.attributeValuesCtrl.value as string;
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.attributeValues.filter(attributeValues => attributeValues.toLowerCase().includes(filterValue));
+  }
+
+  submitForm() {
+    this.data.newAttribute.value = this.attributeValuesCtrl.value
   }
 }
