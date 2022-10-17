@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ApiClient} from "../../repo/httpClient";
 import {MatPaginator} from "@angular/material/paginator";
 import {
@@ -7,6 +7,7 @@ import {
 } from "rxjs";
 import {LogsDataSource} from "../../repo/LogDataSource";
 import {MatSort, SortDirection} from "@angular/material/sort";
+import {Supplier} from "../../models/supplier.model";
 
 @Component({
   selector: 'app-parser-log',
@@ -17,7 +18,6 @@ export class ParserLogComponent implements OnInit {
 
   displayedColumns: string[] = ['SupplierName', 'Date', 'status', 'result', 'actions'];
   dataSource: LogsDataSource;
-
   supplierId = '';
 
   constructor(
@@ -49,4 +49,13 @@ export class ParserLogComponent implements OnInit {
   flushLogTable(): any {
     this.dataSource.deleteAllLogs();
   }
+
+  handleChangeSelectedSupplier(supplier: Supplier): any {
+    this.supplierId = '';
+    if (supplier.hasOwnProperty('id')){
+      this.supplierId = supplier.id;
+    }
+    //console.log("handler: " + supplier.id);
+    this.loadLogData();
+  };
 }

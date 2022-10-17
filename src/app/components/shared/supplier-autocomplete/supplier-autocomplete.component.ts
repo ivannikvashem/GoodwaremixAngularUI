@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {debounceTime, distinctUntilChanged, finalize, switchMap, tap} from "rxjs";
 import {FormControl} from "@angular/forms";
 import {Supplier} from "../../../models/supplier.model";
@@ -13,14 +13,14 @@ export class SupplierAutocompleteComponent implements OnInit {
 
   searchSuppliersCtrl  = new FormControl<string | Supplier>('');
   supplierList:Supplier[];
-  pC: any = {};
+  @Output() selectedSupplier = new EventEmitter();
 
   constructor(
     public api: ApiClient,
   ) { }
 
   ngOnInit(): void {
-    this.api.getSuppliers(this.pC?.searchQuery || "", 0 ,100, "SupplierName", "asc").subscribe( (r:any) => {
+    this.api.getSuppliers(this.searchSuppliersCtrl.value, 0 ,100, "SupplierName", "asc").subscribe( (r:any) => {
       this.supplierList = r.body.data
     });
 
@@ -44,12 +44,13 @@ export class SupplierAutocompleteComponent implements OnInit {
     return supplier && supplier.supplierName ? supplier.supplierName : '';
   }
 
-  onQueryChanged() {
-
+  onSupplierSelected() {
+    //console.log("ac: " + JSON.stringify(((this.searchSuppliersCtrl.value) as Supplier).id));
+    this.selectedSupplier.emit((this.searchSuppliersCtrl.value) as Supplier);
   }
 
   onClearSupplierSelection() {
     this.searchSuppliersCtrl.setValue('');
-    this.onQueryChanged();
+    this.onSupplierSelected();
   }
 }

@@ -3,7 +3,7 @@
   <input type="text" matInput aria-label="Поставщик"
          [formControl]="searchSuppliersCtrl"
          [matAutocomplete]="auto">
-  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onQueryChanged()">
+  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onSupplierSelected()">
     <mat-option *ngFor="let option of supplierList" [value]="option">
       {{option.supplierName}}
     </mat-option>
