@@ -1,8 +1,8 @@
 stages:          # List of stages for jobs, and their order of execution
-  - staging
+  - deploy
 
 staging_stage:
-  stage: staging
+  stage: deploy
   image: docker:stable-git
   services:
     - docker:stable-dind
