@@ -1,22 +1,7 @@
 <div class="header-container" style="display: flex; align-items: baseline;">
-  <h3>Журнал событий</h3>
+  <h3>Журнал событий для [{{supplierId}}]</h3>
   <mat-spinner diameter="35" *ngIf="dataSource.loading$ | async"></mat-spinner>
 </div>
-
-<mat-form-field class="full-width" appearance="fill">
-  <mat-label>Поставщик</mat-label>
-  <input type="text" matInput aria-label="Поставщик"
-         [formControl]="searchSuppliersCtrl"
-         [matAutocomplete]="auto">
-  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onQueryChanged()">
-    <mat-option *ngFor="let option of supplierList" [value]="option">
-      {{option.supplierName}}
-    </mat-option>
-  </mat-autocomplete>
-  <button *ngIf="searchSuppliersCtrl.value" matSuffix mat-icon-button aria-label="Clear" type="button" (click)="onClearSupplierSelection()">
-    <mat-icon>close</mat-icon>
-  </button>
-</mat-form-field>
 
 <div class="mat-elevation-z8">
 

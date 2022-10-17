@@ -60,6 +60,7 @@ import { SupplierAttributeAddComponent } from './components/shared/supplier-attr
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {ScrollingModule} from "@angular/cdk/scrolling";
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
+import {SupplierAutocompleteComponent} from "./components/shared/supplier-autocomplete/supplier-autocomplete.component";
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import { AdminPanelComponent } from './components/admin-panel/admin-panel.compon
     ProductDocumentEditComponent,
     SupplierAttributeAddComponent,
     AdminPanelComponent,
+    SupplierAutocompleteComponent,
   ],
   imports: [
     CommonModule,
