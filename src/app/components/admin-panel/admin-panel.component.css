@@ -1,0 +1,8 @@
+.formBlockFull {
+  width: 100%;
+  justify-content: space-between
+}
+
+.mat-column-checkbox {
+  width: 30px !important;
+}
