@@ -84,6 +84,11 @@
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="form-full-width">
+              <mat-label>Вендор ID</mat-label>
+              <input matInput name="vendorId" [(ngModel)]="product.vendorId" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="form-full-width">
               <mat-label>Наименование</mat-label>
               <input matInput name="title" [(ngModel)]="product.title" required>
             </mat-form-field>
@@ -104,10 +109,7 @@
                 <input matInput name="vendor" [(ngModel)]="product.vendor" required>
               </mat-form-field>&nbsp;
 
-              <mat-form-field appearance="fill" class="form-full-width">
-                <mat-label>Вендор ID</mat-label>
-                <input matInput name="vendorId" [(ngModel)]="product.vendorId" required>
-              </mat-form-field>
+
             </div>
 
             <mat-form-field appearance="fill" class="form-full-width">
