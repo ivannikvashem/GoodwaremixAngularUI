@@ -1,12 +1,32 @@
-<div class="mat-headline">
-  <div style="float:right; margin-right: 10px">
-    <button mat-flat-button color="primary" (click)="submitProduct()">Сохранить</button>
-  </div>
+<div>
+<!--  <div style="float:right; margin-right: 10px">-->
+<!--    <button mat-flat-button color="primary" (click)="submitProduct()">Сохранить</button>-->
+<!--  </div>-->
+<!--  <div>-->
+<!--    <span>{{productId == undefined ? "Добавление нового товара" : "Редактирование " + product?.title}}</span>-->
+<!--    <strong *ngIf="product.vendorId && product?.supplierId != undefined">  [{{product.vendorId}}]</strong>-->
+<!--  </div>-->
+   <div class="formBlockFull">
+      <mat-form-field  appearance="standard" style="width: 60%">
+        <mat-label>Наименование</mat-label>
+        <input matInput name="title" [(ngModel)]="product.title" required>
+      </mat-form-field>&nbsp;
 
-  <div>
-    <span>{{productId == undefined ? "Добавление нового товара" : "Редактирование " + product?.title}}</span>
-    <strong *ngIf="product.vendorId && product?.supplierId != undefined">  [{{product.vendorId}}]</strong>
-  </div>
+      <mat-form-field  appearance="standard" style="width: 200px">
+        <mat-label>Идентификатор товара поставщика</mat-label>
+        <input matInput name="vendorId" [(ngModel)]="product.vendorId" required>
+      </mat-form-field>&nbsp;
+
+      <mat-form-field  appearance="standard" style="width: 200px">
+        <mat-label>Идентификатор товара 1С</mat-label>
+        <input matInput name="internalCode" [(ngModel)]="product.internalCode" required>
+      </mat-form-field>
+
+      <button style="margin: 10px;height: 36px" mat-flat-button color="primary" (click)="submitProduct()">Сохранить</button>
+    </div>
+
+
+    <!--      <strong *ngIf="product.vendorId && product?.supplierId != undefined">  [{{product.vendorId}}]</strong>-->
 </div>
 
 <div class="container">
@@ -67,10 +87,11 @@
 
   <div style="width: 100%">
 
-    <mat-card style="padding-top: 0">
+    <mat-card>
       <mat-tab-group  animationDuration="0ms">
         <mat-tab  label="О товаре">
           <ng-template matTabContent>
+
             <mat-form-field appearance="fill" class="full-width" *ngIf="!product?.supplierName">
               <mat-label>Поставщик</mat-label>
               <input matInput placeholder=""
@@ -83,21 +104,24 @@
               </mat-autocomplete>
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="form-full-width">
-              <mat-label>Наименование</mat-label>
-              <input matInput name="title" [(ngModel)]="product.title" required>
-            </mat-form-field>
 
-            <div class="formBlockDouble">
+            <div class="formBlockFull">
               <mat-form-field appearance="fill" class="form-full-width">
                 <mat-label>Бренд</mat-label>
                 <input matInput name="vendor" [(ngModel)]="product.vendor" required>
               </mat-form-field>&nbsp;
 
               <mat-form-field appearance="fill" class="form-full-width">
-                <mat-label>Идентификатор товара поставщика</mat-label>
-                <input matInput name="vendorId" [(ngModel)]="product.vendorId" required>
-              </mat-form-field>
+                <mat-label>Страна производства</mat-label>
+                <input matInput placeholder=""
+                       [formControl]="searchCountryCtrl"
+                       [matAutocomplete]="auto">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayCountryFn" (optionSelected)="onCountrySelected()">
+                  <mat-option *ngFor="let option of filteredCountries | async" [value]="option">
+                    {{option.name }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>&nbsp;
             </div>
 
 
@@ -110,18 +134,6 @@
               <mat-label>Описание</mat-label>
               <textarea matInput name="description" [(ngModel)]="product.description" style="min-height:100px"></textarea>
             </mat-form-field>
-
-            <mat-form-field appearance="fill" class="form-full-width">
-              <mat-label>Страна производства</mat-label>
-              <input matInput placeholder=""
-                     [formControl]="searchCountryCtrl"
-                     [matAutocomplete]="auto">
-              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayCountryFn" (optionSelected)="onCountrySelected()">
-                <mat-option *ngFor="let option of filteredCountries | async" [value]="option">
-                  {{option.name }}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>&nbsp;
 
             <mat-form-field class="form-full-width" appearance="fill">
               <mat-label>ГТД</mat-label>
@@ -218,18 +230,21 @@
 
                   <div class="formBlockFull">
                     <mat-form-field appearance="fill">
-                      <mat-label>Ширина (см)</mat-label>
+                      <mat-label>Ширина</mat-label>
                       <input matInput [(ngModel)]="product.netto.width" #width name="width" type="number" min="0" step="0.5">
+                      <span matSuffix>см</span>
                     </mat-form-field>&nbsp;
 
                     <mat-form-field appearance="fill">
-                      <mat-label>Высота (см)</mat-label>
+                      <mat-label>Высота</mat-label>
                       <input matInput [(ngModel)]="product.netto.height" #height name="height"  type="number" min="0" step="0.5">
+                      <span matSuffix>см</span>
                     </mat-form-field>&nbsp;
 
                     <mat-form-field appearance="fill">
-                      <mat-label>Глубина (см)</mat-label>
+                      <mat-label>Глубина</mat-label>
                       <input matInput [(ngModel)]="product.netto.depth" #depth name="depth" type="number" min="0" step="0.5">
+                      <span matSuffix>см</span>
                     </mat-form-field>&nbsp;
 
                     <mat-form-field appearance="fill" class="full-width">
@@ -239,8 +254,9 @@
                   </div>
 
                   <mat-form-field appearance="fill" class="full-width">
-                    <mat-label>Вес (гр)</mat-label>
+                    <mat-label>Вес</mat-label>
                     <input matInput [(ngModel)]="product.netto.weight" name="weight" type="number" min="0">
+                    <span matSuffix>гр</span>
                   </mat-form-field>
 
                   <div *ngIf="product.netto.barcode">

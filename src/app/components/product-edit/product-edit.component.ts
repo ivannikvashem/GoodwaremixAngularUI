@@ -239,7 +239,6 @@ export class ProductEditComponent implements OnInit {
 
   openPackageEditorDialog(oldPackage?:any): void {
     const dialogRef = this.dialog.open(ProductPackageEditComponent, {
-      width: '900px',
       data: { oldPackage: oldPackage, newPackage: new Package() },
     });
 

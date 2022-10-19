@@ -100,12 +100,6 @@
              [@detailExpand]="item == expandedElement ? 'expanded' : 'collapsed'">
 
           <div class="element-brands">
-<!--            <div style="max-height: 200px; overflow-y: auto">-->
-<!--              <ul>-->
-<!--                <li *ngFor="let brand of item.stat.brands">{{brand}}</li>-->
-<!--              </ul>-->
-<!--            </div>-->
-
             {{ item.stat.brands != null ? item.stat.brands.join(', ') : ""}}
           </div>
 

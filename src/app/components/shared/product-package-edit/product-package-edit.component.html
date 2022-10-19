@@ -22,18 +22,21 @@
 
       <div class="formBlockFull">
         <mat-form-field appearance="fill">
-          <mat-label>Ширина (см)</mat-label>
+          <mat-label>Ширина</mat-label>
           <input matInput formControlName="width" #width type="number" min="0" step="0.5">
+          <span matSuffix>см</span>
         </mat-form-field>&nbsp;
 
         <mat-form-field appearance="fill">
-          <mat-label>Высота (см)</mat-label>
+          <mat-label>Высота</mat-label>
           <input matInput formControlName="height" #height type="number" min="0" step="0.5">
+          <span matSuffix>см</span>
         </mat-form-field>&nbsp;
 
         <mat-form-field appearance="fill">
-          <mat-label>Глубина (см)</mat-label>
+          <mat-label>Глубина</mat-label>
           <input matInput formControlName="depth" #depth type="number" min="0" step="0.5">
+          <span matSuffix>см</span>
         </mat-form-field>&nbsp;
 
         <mat-form-field appearance="fill" class="full-width">
@@ -43,8 +46,9 @@
       </div>
 
       <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Вес (гр)</mat-label>
+        <mat-label>Вес</mat-label>
         <input matInput formControlName="weight" type="number" min="0">
+        <span matSuffix>гр</span>
       </mat-form-field>
 
     </form>

@@ -100,7 +100,6 @@
                 <div class="imgWrapper">
                   <img [src]="hoverImage"  class="imgInContainer" />
                 </div>
-
                 <div class="containerC">
                   <div *ngFor="let thumbnail of row.thumbnails; index as i" class="hoverBlockC" (mouseover)="changeImage(row, thumbnail)" (click)="openDialog(row.localImages[i])"></div>
                 </div>
