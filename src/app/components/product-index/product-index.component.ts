@@ -23,7 +23,6 @@ import {ConfirmDialogComponent, ConfirmDialogModel} from "../shared/confirm-dial
 import {NotificationService} from "../../service/notification-service";
 import {Attribute} from "../../models/attribute.model";
 import {MissingImageHandler} from "../../repo/MissingImageHandler";
-import {MatCheckbox} from "@angular/material/checkbox";
 
 export interface DialogData {
   src: '';
@@ -130,7 +129,6 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
       this.supplierList = r.body.data
     });
 
-
     this._ActivatedRoute.queryParams.subscribe(params => {
       let supplierId = params['supplierId'];
       if (supplierId) {
@@ -141,8 +139,6 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
         })
       }
     });
-
-
 
     this.searchSuppliersCtrl.valueChanges.pipe(
       distinctUntilChanged(),
@@ -161,10 +157,9 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
 
     this.searchQueryCtrl.valueChanges.pipe(
       distinctUntilChanged(),
-      debounceTime(300)
+      debounceTime(700)
     ).subscribe(()=> {
-      this.loadProductPagedData();
-      this.setCookie();
+      this.onQueryChanged();
     })
 
     // this.api.getAttributes('','',0,10,true,"Rating", "desc").subscribe((r:any) => {
