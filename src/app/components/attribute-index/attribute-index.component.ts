@@ -39,7 +39,7 @@ export class AttributeIndexComponent implements OnInit {
   private sub: any;
 
   constructor(
-    public api: ApiClient,
+    private api: ApiClient,
     private router: Router,
     public dialog: MatDialog,
     private _notyf: NotificationService,
@@ -142,7 +142,7 @@ export class AttributeIndexComponent implements OnInit {
 
   editItem(id: any) {
     console.log('id',id)
-    this.router.navigate([`attribute-edit/${id}`]);
+    this.router.navigate([`attribute-edit/${id}`])
   }
 
   displayFn(supplier: Supplier): string {
@@ -167,7 +167,6 @@ export class AttributeIndexComponent implements OnInit {
   openDialog(nameAttribute: string, id: string): void {
     const dialogRef = this.dialog.open(SwapAttributeComponent, {
       width: '900px',
-      height: '380px',
       data: { oldAttributeId: id, oldAttribute: nameAttribute, newAttribute: new Attribute() },
     });
 

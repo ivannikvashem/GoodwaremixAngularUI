@@ -6,3 +6,12 @@
 .mat-column-checkbox {
   width: 30px !important;
 }
+
+.overflow-div {
+  max-height: 600px;
+  overflow-y: auto;
+  margin-top: 10px
+}
+.full-width {
+  width: 100%;
+}

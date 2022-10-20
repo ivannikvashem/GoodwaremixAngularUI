@@ -14,7 +14,7 @@ export class AdminPanelComponent implements OnInit {
   constructor(private api:ApiClient,
               private _notyf:NotificationService) { }
   supplierList:Supplier[] = []
-  selecetedSuppliersList:Supplier[] =[]
+  selectedSuppliersList:Supplier[] =[]
   displayedColumns: string[] = ['checkbox', 'supplier', 'Stat.ProductQty', 'Stat.lastImport'];
   supplierDataSource = new MatTableDataSource<Supplier>()
 
@@ -25,32 +25,33 @@ export class AdminPanelComponent implements OnInit {
   }
 
   fetchItem(supplierName: any) {
-    this.api.fetchDataFromSupplier(supplierName).subscribe( res => {
+    this.api.fetchDataFromSupplier(supplierName).subscribe({
+      next: next => {
         this._notyf.onSuccess('Сбор данных '+supplierName+' начат')
       },
-      err => {
+      error: err => {
         this._notyf.onError("Ошибка: " + JSON.stringify(err));
-      })
+      },})
   }
 
   fullInit() {
-    console.log("full init");
-    this.api.fullInit().subscribe( res => {
-        console.log(JSON.stringify(res));
+    this.api.fullInit().subscribe({
+      next: next => {
+        this._notyf.onSuccess("Инициализация БД начата")
       },
-      err => {
+      error: err => {
         this._notyf.onError("Ошибка: " + JSON.stringify(err));
-      })
-  }
+      },})
+    }
 
   fixSupplierStat() {
-    console.log("fixSupplierStat ");
-    this.api.fixSupplierStat().subscribe( res => {
-        console.log(JSON.stringify(res));
+    this.api.fixSupplierStat().subscribe({
+      next: next => {
+        this._notyf.onSuccess("Обновление статистики")
       },
-      err => {
+      error: err => {
         this._notyf.onError("Ошибка: " + JSON.stringify(err));
-      })
+      },})
   }
 
   downloadTable(table:string, supplierId?:string) {
@@ -65,22 +66,23 @@ export class AdminPanelComponent implements OnInit {
 
   fetchSelectedItems() {
     let suppliers = ''
-    for (let i of this.selecetedSuppliersList) {
+    for (let i of this.selectedSuppliersList) {
       suppliers += i.supplierName+';'
     }
-    this.api.fetchDataFromSupplier(suppliers).subscribe( res => {
+    this.api.fetchDataFromSupplier(suppliers).subscribe({
+      next:next => {
         this._notyf.onSuccess('Сбор данных начат')
-      }, error =>  {
+      }, error:error => {
         this._notyf.onError('Ошибка' +JSON.stringify(error))
+      }, complete: () => { {this._notyf.onSuccess('Сбор данных закончен')}}
       }
     )
   }
 
   supplierChecked($event:any, supplier:Supplier) {
-    console.log(supplier)
     if ($event.checked)
-      this.selecetedSuppliersList.push(supplier)
+      this.selectedSuppliersList.push(supplier)
     else
-      this.selecetedSuppliersList = this.selecetedSuppliersList.filter(sup => (sup !=supplier))
+      this.selectedSuppliersList = this.selectedSuppliersList.filter(sup => (sup !=supplier))
   }
 }

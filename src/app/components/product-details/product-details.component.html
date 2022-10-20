@@ -1,7 +1,7 @@
 <div class="mat-headline">
   <div style="float:right; margin-right: 10px">
     <button mat-raised-button (click)="goToEdit(productId)">Редактировать</button>&nbsp;
-    <button *ngIf="!product.internalCode" mat-raised-button>В ассортимент</button>
+    <button *ngIf="!product?.internalCode" mat-raised-button>В ассортимент</button>
   </div>
 
   <div>
@@ -46,25 +46,27 @@
     </mat-card>
 
 
-    <mat-accordion  *ngIf="product?.netto?.barcode">
-      <mat-expansion-panel disabled expanded style="margin-right: 10px; margin-bottom: 10px; margin-top: 10px">
+    <mat-accordion  *ngIf="product?.netto">
+      <mat-expansion-panel expanded style="margin-right: 10px; margin-top: 10px">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Нетто</mat-panel-title>
+        </mat-expansion-panel-header>
         <app-package-card [pack]="product?.netto"></app-package-card>
       </mat-expansion-panel>
     </mat-accordion>
 
-    <mat-accordion>
-      <mat-expansion-panel *ngFor="let pack of product?.packages">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <span>{{pack.packQty ? pack.packQty : 1}} {{pack.type}} [{{pack.barcode}}]</span>
-          </mat-panel-title>
-          <mat-panel-description>
-
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <app-package-card [pack]="pack"></app-package-card>
-      </mat-expansion-panel>
-    </mat-accordion>
+    <div style="margin-top: 10px">
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let pack of product?.packages">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span>{{pack.packQty}}<span *ngIf="pack.type">{{' '}}{{pack.type}}</span><span *ngIf="pack.barcode"> [{{pack.barcode}}]</span> </span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-package-card [pack]="pack"></app-package-card>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
 
   </div>
 

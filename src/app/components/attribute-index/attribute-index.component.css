@@ -19,24 +19,16 @@ table {
   text-align: center;
 }
 .mat-column-supplierName {
-  word-wrap: break-word !important;
   white-space: unset !important;
   flex: 0 0 100px !important;
   width: 100px !important;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
   justify-content: center;
-  word-break: break-word;
 }
 .mat-column-Rating {
-  word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 70px !important;
-  width: 70px !important;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
+  flex: 0 0 100px !important;
+  width: 100px !important;
   justify-content: center;
-  word-break: break-word;
 }
 .mat-column-etimFeature {
   word-wrap: break-word !important;

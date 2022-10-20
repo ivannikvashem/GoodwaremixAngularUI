@@ -5,7 +5,6 @@
 <mat-tab-group>
   <mat-tab label="Поставщики">
     <mat-card>
-      <mat-card-subtitle>Поставщики</mat-card-subtitle>
       <button mat-button class="mat-elevation-z2" (click)="fetchItem('default')">
         <mat-icon>restart_alt</mat-icon> Запустить сбор всех поставщиков
       </button>&nbsp;
@@ -19,9 +18,8 @@
         <mat-icon>cloud_download</mat-icon>  Скачать всех
       </button>&nbsp;
 
-      <div style="max-height: 600px;overflow-y: auto;margin-top: 10px">
-
-        <table mat-table [dataSource]="supplierDataSource" class="mat-elevation-z8;" style="width: 100%;padding: 5px">
+      <div class="overflow-div">
+        <table mat-table [dataSource]="supplierDataSource" class="mat-elevation-z8; full-width">
           <!-- Checkbox Column -->
           <ng-container matColumnDef="checkbox">
             <th mat-header-cell *matHeaderCellDef>#</th>
@@ -51,15 +49,17 @@
         </table>
       </div>
 
-      <button mat-button class="mat-elevation-z2" style="margin-top: 10px" (click)="fetchSelectedItems()" [disabled]="selecetedSuppliersList.length == 0">
+      <button mat-button class="mat-elevation-z2" style="margin-top: 10px" (click)="fetchSelectedItems()" [disabled]="selectedSuppliersList.length == 0">
         <mat-icon>restart_alt</mat-icon>  Сбор выбранных
       </button>&nbsp;
     </mat-card>
   </mat-tab>
   <mat-tab label="Атрибуты">
-    <button mat-button class="mat-elevation-z2" (click)="downloadTable('Attribute')">
-      <mat-icon>cloud_download</mat-icon>  Скачать все атрибуты
-    </button>&nbsp;
+    <mat-card>
+      <button mat-button class="mat-elevation-z2" (click)="downloadTable('Attribute')">
+        <mat-icon>cloud_download</mat-icon>  Скачать все атрибуты
+      </button>&nbsp;
+    </mat-card>
   </mat-tab>
 </mat-tab-group>
 
