@@ -88,8 +88,8 @@ tr.mat-row {
 
 .formBlockDouble {
   width: 50%;
+  flex:40%;
   display: flex;
-  justify-content: space-between
 }
 
 .thumbnail {
@@ -116,20 +116,42 @@ tr.mat-row {
   background: white;
   border-radius: 15px;
   border-width: 2px;
-  padding: 0px;
+  padding: 0;
   font-weight: bolder;
   color:red;
   cursor: pointer;
 }
 
-.formBlockFull {
+.headerFormBlock {
   width: 100%;
   display: flex;
   justify-content: space-between
+}
+
+.formBlockFull {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
 }
 
 .formBlockDoubleTwo {
   width: 81%;
   display: flex;
   justify-content: space-between
+}
+
+.package-form-field-fourth {
+  flex: 23%;
+  width: 100%;
+}
+
+.package-form-field-triple {
+  flex: 32%;
+  width: 100%;
+}
+
+.about-form-field-double {
+  flex:49%;
+  width: 100%;
 }

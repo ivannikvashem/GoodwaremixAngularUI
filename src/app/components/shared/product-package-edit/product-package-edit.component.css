@@ -9,7 +9,7 @@
   justify-content: space-between
 }
 .formBlockTriple {
-  width: 73%;
+  width: 100%;
   display: flex;
   justify-content: space-between
 }
@@ -28,6 +28,11 @@
 .formBlockFull {
   width: 100%;
   display: flex;
-  justify-content: space-between
 }
+
+.weight {
+  width: 59.1%
+}
+
+
 

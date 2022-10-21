@@ -8,15 +8,23 @@
         <input matInput formControlName="barcode" required>
       </mat-form-field>
 
-      <div class="formBlockDouble">
-        <mat-form-field appearance="fill" style="width: 60%">
+      <div class="formBlockFull">
+        <mat-form-field appearance="fill" class="full-width">
           <mat-label>Тип</mat-label>
           <input matInput formControlName="type">
+          <span matSuffix>&nbsp;&nbsp;&nbsp;&nbsp;</span>
         </mat-form-field>&nbsp;
 
-        <mat-form-field appearance="fill" style="width: 40%">
+        <mat-form-field appearance="fill" class="full-width">
           <mat-label>Кол-во в упаковке</mat-label>
           <input matInput formControlName="packQty" type="number" min="0" pattern="\d*">
+          <span matSuffix>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </mat-form-field>&nbsp;
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Вес</mat-label>
+          <input matInput formControlName="weight" type="number" min="0">
+          <span matSuffix>гр</span>
         </mat-form-field>
       </div>
 
@@ -42,21 +50,16 @@
         <mat-form-field appearance="fill" class="full-width">
           <mat-label>Объём</mat-label>
           <input matInput formControlName="volume"  value="{{Math.round(((width.value * height.value * depth.value) + Eps) * 100) / 100}}" type="number" min="0">
+          <span matSuffix>см<sup>3</sup> </span>
         </mat-form-field>
       </div>
-
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Вес</mat-label>
-        <input matInput formControlName="weight" type="number" min="0">
-        <span matSuffix>гр</span>
-      </mat-form-field>
 
     </form>
 
   </div>
 
   <div mat-dialog-actions class="actions-div">
-    <button mat-button mat-dialog-close (click)="onCancelClick()" type="button">Отмена</button>
+    <button mat-button mat-dialog-close="" (click)="onCancelClick()" type="button">Отмена</button>
     <button mat-raised-button color="primary" [mat-dialog-close]="data" (click)="onSubmitClick()" [disabled]="form.invalid">Сохранить</button>
   </div>
 </div>

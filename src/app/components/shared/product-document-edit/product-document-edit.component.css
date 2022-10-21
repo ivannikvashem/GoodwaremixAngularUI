@@ -12,9 +12,15 @@
 }
 .information{
   text-align: center;
-  margin: 0px 0px;
+  margin: 0;
   height: 40px;
 }
 .full-width {
   width: 100%;
+}
+
+.formBlockFull {
+  width: 100%;
+  display: flex;
+  justify-content: space-between
 }
