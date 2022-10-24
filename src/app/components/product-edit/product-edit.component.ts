@@ -109,6 +109,10 @@ export class ProductEditComponent implements OnInit {
     return this.countriesList.filter(option => option.name.toLowerCase().includes(filterValue));
   }
 
+  handleChangeSelectedSupplier(supplier: Supplier) {
+    this.selectedSupplier = supplier
+  }
+
   // Media
   onImageChange(event: any) {
     if (event.target.files && event.target.files[0]) {
@@ -159,9 +163,6 @@ export class ProductEditComponent implements OnInit {
     if (index >= 0) {
       this.product.gtd.splice(index,1)
     }
-  }
-  displaySupplierFn(supplier: Supplier): string {
-    return supplier && supplier.supplierName;
   }
 
   displayCountryFn(country: any): string {
@@ -309,10 +310,6 @@ export class ProductEditComponent implements OnInit {
 
   handleMissingImage($event: Event) {
     this.imgHandler.checkImgStatus($event)
-  }
-
-  handleChangeSelectedSupplier(supplier: Supplier) {
-    this.selectedSupplier = supplier
   }
 }
 

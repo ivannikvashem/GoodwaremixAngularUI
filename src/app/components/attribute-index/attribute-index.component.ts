@@ -52,7 +52,6 @@ export class AttributeIndexComponent implements OnInit {
 
   setCookie() {
     // on each interaction - save all controls state to cookies
-    console.log(this.selectedSupplier)
     let supp = this.selectedSupplier;
     this._localStorageService.setDataByPageName(this.constructor.name, {
       searchQuery: this.searchQueryCtrl.value,
@@ -70,11 +69,9 @@ export class AttributeIndexComponent implements OnInit {
     this._localStorageService.getDataByPageName(this.constructor.name); //pretty wrong, upd data
     this.sub = this.pageCookie$.subscribe(x => {
       if (!x) return;
-      console.log("pc: " + JSON.stringify(x));
       this.pC = x;
       this.searchQueryCtrl.setValue(this.pC.searchQuery);
       this.selectedSupplier =  this.pC.supplier as Supplier;
-      console.log('sp', this.selectedSupplier)
       this.withFixedAttrSelectorCtrl.setValue(this.pC.withFixedAttrSelector);
     });
   }
@@ -118,7 +115,6 @@ export class AttributeIndexComponent implements OnInit {
   }
 
   editItem(id: any) {
-    console.log('id',id)
     this.router.navigate([`attribute-edit/${id}`])
   }
 
@@ -181,7 +177,6 @@ export class AttributeIndexComponent implements OnInit {
 
   handleChangeSelectedSupplier(supplier: Supplier) {
     this.selectedSupplier = supplier
-    console.log('selec', this.selectedSupplier)
     this.onQueryChanged()
   }
 }

@@ -16,13 +16,10 @@ export class SupplierAutocompleteComponent implements OnInit {
   @Output() selectedSupplier = new EventEmitter();
   @Input() cookieSupplier:Supplier
 
-  constructor(
-    public api: ApiClient,
-  ) { }
+  constructor(public api: ApiClient) {}
 
   ngOnInit(): void {
-    console.log('ck',this.cookieSupplier)
-    if (this.cookieSupplier.id !== undefined) {
+    if (this.cookieSupplier !== undefined && this.cookieSupplier.id) {
       this.api.getSupplierById(this.cookieSupplier.id).subscribe( s => {
         this.searchSuppliersCtrl.setValue(s.body as Supplier);
       })
@@ -52,7 +49,6 @@ export class SupplierAutocompleteComponent implements OnInit {
   }
 
   onSupplierSelected() {
-    //console.log("ac: " + JSON.stringify(((this.searchSuppliersCtrl.value) as Supplier).id));
     this.selectedSupplier.emit((this.searchSuppliersCtrl.value) as Supplier);
   }
 
