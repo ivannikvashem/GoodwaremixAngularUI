@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {debounceTime, distinctUntilChanged, finalize, switchMap, tap} from "rxjs";
 import {FormControl} from "@angular/forms";
 import {Supplier} from "../../../models/supplier.model";
@@ -14,12 +14,19 @@ export class SupplierAutocompleteComponent implements OnInit {
   searchSuppliersCtrl  = new FormControl<string | Supplier>('');
   supplierList:Supplier[];
   @Output() selectedSupplier = new EventEmitter();
+  @Input() cookieSupplier:Supplier
 
   constructor(
     public api: ApiClient,
   ) { }
 
   ngOnInit(): void {
+    console.log('ck',this.cookieSupplier)
+    if (this.cookieSupplier.id !== undefined) {
+      this.api.getSupplierById(this.cookieSupplier.id).subscribe( s => {
+        this.searchSuppliersCtrl.setValue(s.body as Supplier);
+      })
+    }
     this.api.getSuppliers(this.searchSuppliersCtrl.value, 0 ,100, "SupplierName", "asc").subscribe( (r:any) => {
       this.supplierList = r.body.data
     });

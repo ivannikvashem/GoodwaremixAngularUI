@@ -8,17 +8,7 @@
 </div>
 
 <form>
-  <mat-form-field class="full-width" appearance="fill" *ngIf="!attribute?.id">
-    <mat-label>Поставщик</mat-label>
-    <input type="text" matInput aria-label="Поставщик"
-           [formControl]="searchSuppliersCtrl"
-           [matAutocomplete]="auto">
-    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-      <mat-option *ngFor="let option of supplierList" [value]="option">
-        {{option.supplierName}}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
+  <app-supplier-autocomplete *ngIf="!attribute?.id" class="full-width" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
 
   <div style="width: 100%; display: flex; justify-content: space-between">
     <mat-form-field class="full-width" appearance="fill">

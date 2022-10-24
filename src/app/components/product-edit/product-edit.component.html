@@ -83,18 +83,7 @@
         <mat-tab  label="О товаре">
           <ng-template matTabContent>
 
-            <mat-form-field appearance="fill" class="full-width" *ngIf="!product?.supplierName">
-              <mat-label>Поставщик</mat-label>
-              <input matInput placeholder=""
-                     [formControl]="searchSupplierCtrl" required
-                     [matAutocomplete]="auto">
-              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displaySupplierFn">
-                <mat-option *ngFor="let option of supplierList" [value]="option">
-                  {{option.supplierName}}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-
+            <app-supplier-autocomplete *ngIf="!product?.supplierName" class="full-width" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
 
             <div class="formBlockFull">
               <mat-form-field appearance="fill" class="full-width; about-form-field-double">

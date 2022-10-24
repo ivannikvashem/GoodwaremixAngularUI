@@ -23,6 +23,7 @@ import {ConfirmDialogComponent, ConfirmDialogModel} from "../shared/confirm-dial
 import {NotificationService} from "../../service/notification-service";
 import {Attribute} from "../../models/attribute.model";
 import {MissingImageHandler} from "../../repo/MissingImageHandler";
+import {SupplierAutocompleteComponent} from "../shared/supplier-autocomplete/supplier-autocomplete.component";
 
 export interface DialogData {
   src: '';
@@ -60,15 +61,12 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   hoverRowId: string = "";
 
   attributeValueFilterCtrl = new FormControl('');
-
-
-  searchSuppliersCtrl = new FormControl<string | Supplier>('');
   searchQueryCtrl  = new FormControl<string>('');
   withInternalCodeCtrl  = new FormControl<boolean>(false);
-  public supplierList: Supplier[] | undefined;  // public filteredSupplierList: Observable<Supplier[]> | undefined;
   attributesForFilter:Attribute[]
   selectedFilterAttributes:SelectedFilterAttributes[] = []
   filteredAttributeValues: Observable<string[]>;
+  selectedSupplier:Supplier
 
   isLoading = false;
   productId: string | any;
@@ -89,10 +87,11 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator
+  @ViewChild('supplierAutocomplete') supplierAutocomplete: SupplierAutocompleteComponent
 
   setCookie() {
     // on each interaction - save all controls state to cookies
-    let supp = this.searchSuppliersCtrl.value as Supplier;
+    let supp = this.selectedSupplier;
     this._localStorageService.setDataByPageName(this.constructor.name, {
       searchQuery: this.searchQueryCtrl.value,
       pageIndex: this.paginator?.pageIndex,
@@ -110,13 +109,12 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
       //console.log("pc: " + JSON.stringify(x.pageIndex));
       this.pC = x;
       this.searchQueryCtrl.setValue(this.pC.searchQuery);
+      this.selectedSupplier = this.pC.supplier as Supplier
       this.withInternalCodeCtrl.setValue(this.pC.withInternalCodeSelector);
-      this.searchSuppliersCtrl.setValue(this.pC.supplier as Supplier);
     });
   }
 
   ngOnInit() {
-
     this.getCookie();
 
     Promise.resolve().then(() => {
@@ -125,35 +123,13 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
       this.loadProductPagedData();
     })
 
-    this.api.getSuppliers(this.pC?.searchQuery || "", 0 ,100, "SupplierName", "asc").subscribe( (r:any) => {
-      this.supplierList = r.body.data
-    });
-
     this._ActivatedRoute.queryParams.subscribe(params => {
       let supplierId = params['supplierId'];
       if (supplierId) {
         this.pC.supplierId = supplierId;
-        this.searchSuppliersCtrl.setValue({id: supplierId} as Supplier);
-        this.api.getSupplierById(supplierId).subscribe( s => {
-          this.searchSuppliersCtrl.setValue(s.body as Supplier);
-        })
+        this.selectedSupplier = ({id: supplierId} as Supplier);
       }
     });
-
-    this.searchSuppliersCtrl.valueChanges.pipe(
-      distinctUntilChanged(),
-      debounceTime(300),
-      tap(() => {
-        this.isLoading = true;
-      }),
-      switchMap(value => this.api.getSuppliers(value, 0 ,100,"SupplierName", "asc")
-        .pipe(
-          finalize(() => {
-            this.isLoading = false
-          }),
-        )
-      )
-    ).subscribe((data: any) => { this.supplierList = data.body.data; });
 
     this.searchQueryCtrl.valueChanges.pipe(
       distinctUntilChanged(),
@@ -165,7 +141,6 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     // this.api.getAttributes('','',0,10,true,"Rating", "desc").subscribe((r:any) => {
     //   this.attributesForFilter = r.body.data
     // });
-
   }
 
   ngAfterViewInit(): void {
@@ -182,10 +157,6 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     this.sub.unsubscribe(); //crutch to dispose subs
   }
 
-  displayFn(supplier: Supplier): string {
-    return supplier && supplier.supplierName ? supplier.supplierName : '';
-  }
-
   onQueryChanged() {
     if (this.paginator.pageIndex != 0) {
       this.paginator.pageIndex = 0;
@@ -194,13 +165,8 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     this.setCookie();
   }
 
-  onClearSupplierSelection() {
-    this.searchSuppliersCtrl.setValue('');
-    this.onQueryChanged();
-  }
-
   loadProductPagedData(): any {
-    this.dataSource.loadPagedData(this.searchQueryCtrl.value, this.withInternalCodeCtrl.value, (this.searchSuppliersCtrl.value as Supplier)?.id, this.paginator.pageIndex, this.paginator.pageSize, this.selectedFilterAttributes);
+    this.dataSource.loadPagedData(this.searchQueryCtrl.value, this.withInternalCodeCtrl.value, this.selectedSupplier.id, this.paginator.pageIndex, this.paginator.pageSize, this.selectedFilterAttributes);
   }
 
   confirmDeleteDialog(id: string, name: string): void {
@@ -284,6 +250,11 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     this.onQueryChanged();
     console.log('selected', selectedAttribute)
     console.log('selected list',this.selectedFilterAttributes)
+  }
+
+  handleChangeSelectedSupplier(supplier: Supplier) {
+    this.selectedSupplier = supplier
+    this.onQueryChanged()
   }
 }
 @Component({

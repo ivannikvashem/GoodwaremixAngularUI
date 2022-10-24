@@ -3,9 +3,9 @@ import {MatChipInputEvent} from "@angular/material/chips";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {Attribute} from "../../models/attribute.model";
 import {ApiClient} from "../../repo/httpClient";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {catchError, finalize, map} from "rxjs/operators";
-import {BehaviorSubject, debounceTime, distinctUntilChanged, of, pipe, switchMap, tap} from "rxjs";
+import {BehaviorSubject, debounceTime, distinctUntilChanged, of, switchMap, tap} from "rxjs";
 import {FormControl} from "@angular/forms";
 import {Supplier} from "../../models/supplier.model";
 import {NotificationService} from "../../service/notification-service";
@@ -22,8 +22,7 @@ interface AttributeType {
 })
 export class AttributeEditComponent implements OnInit {
 
-  searchSuppliersCtrl = new FormControl<string | Supplier>('');
-  public supplierList: Supplier[] | undefined;
+  public selectedSupplier:Supplier
   private loadingSubject = new BehaviorSubject<boolean>(true);
   id: string | null | undefined;
   attribute: Attribute;
@@ -38,8 +37,7 @@ export class AttributeEditComponent implements OnInit {
     public api: ApiClient,
     private _ActivatedRoute: ActivatedRoute,
     private _notyf: NotificationService
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.id = this._ActivatedRoute.snapshot.paramMap.get("id");
@@ -60,25 +58,6 @@ export class AttributeEditComponent implements OnInit {
     } else {
       this.attribute = new Attribute()
       this.attribute.rating = 0;
-      this.api.getSuppliers('', 0, 100, "SupplierName", "asc").subscribe((r: any) => {
-        this.supplierList = r.body.data
-      });
-      this.searchSuppliersCtrl.valueChanges.pipe(
-        distinctUntilChanged(),
-        debounceTime(300),
-        tap(() => {
-
-        }),
-        switchMap(value => this.api.getSuppliers(value, 0, 100, "SupplierName", "asc")
-          .pipe(
-            finalize(() => {
-
-            }),
-          )
-        )
-      ).subscribe((data: any) => {
-        this.supplierList = data.body.data;
-      });
     }
   }
 
@@ -123,9 +102,8 @@ export class AttributeEditComponent implements OnInit {
 
   saveAttribute() {
     if (!this.attribute.supplierId) {
-      const supp = this.searchSuppliersCtrl.value as Supplier
-      this.attribute.supplierId = supp.id
-      this.attribute.supplierName = supp.supplierName
+      this.attribute.supplierId = this.selectedSupplier.id
+      this.attribute.supplierName = this.selectedSupplier.supplierName
     }
     console.log('attr', this.attribute)
     this.api.updateAttribute(this.attribute).subscribe(x => {
@@ -134,5 +112,9 @@ export class AttributeEditComponent implements OnInit {
       error => {
         this._notyf.onError('Ошибка ' + error)
       })
+  }
+
+  handleChangeSelectedSupplier(supplier: Supplier) {
+    this.selectedSupplier = supplier
   }
 }

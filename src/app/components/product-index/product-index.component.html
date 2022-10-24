@@ -11,30 +11,15 @@
       <input matInput [formControl]="searchQueryCtrl">
     </mat-form-field>
     <br />
+    <app-supplier-autocomplete class="full-width" (selectedSupplier)="handleChangeSelectedSupplier($event)" [cookieSupplier]="selectedSupplier"></app-supplier-autocomplete>
 
-    <mat-form-field class="full-width" appearance="fill">
-      <mat-label>Поставщик</mat-label>
-      <input type="text" matInput aria-label="Поставщик"
-             [formControl]="searchSuppliersCtrl"
-             [matAutocomplete]="auto">
-      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onQueryChanged()">
-        <mat-option *ngFor="let option of supplierList" [value]="option">
-          {{option.supplierName}}
-        </mat-option>
-      </mat-autocomplete>
-      <button *ngIf="searchSuppliersCtrl.value" matSuffix mat-icon-button aria-label="Clear" type="button" (click)="onClearSupplierSelection()">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-
-    <!--[formControl]="withInternalCode"-->
+      <!--[formControl]="withInternalCode"-->
     <mat-button-toggle-group [formControl]="withInternalCodeCtrl" class="full-width" (change)="onQueryChanged()">
       <mat-button-toggle [value]=false class="full-width">Все товары</mat-button-toggle>
       <mat-button-toggle [value]=true class="full-width">Только с артикулом</mat-button-toggle>
     </mat-button-toggle-group>
 
-      <hr>
-
+<!--      <hr>-->
 <!--      <button mat-button>Apply</button>-->
 <!--      <mat-accordion style="margin-top: 10px" class="full-width" appearance="fill">-->
 <!--        <mat-expansion-panel *ngFor="let item of attributesForFilter">-->

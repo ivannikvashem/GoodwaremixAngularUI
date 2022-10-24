@@ -27,13 +27,13 @@
         </mat-tab>
         <mat-tab *ngIf="product.image360" label="Фото 360">
           <ng-template matTabContent>
-            <iframe width="100%" height="440" [src]="safeImg360Url" title="360ImageViewer" allowfullscreen></iframe>
+            <iframe width="460" height="440" [src]="safeImg360Url" title="360ImageViewer" allowfullscreen></iframe>
           </ng-template>
         </mat-tab>
 
         <mat-tab *ngIf="product.videos.length >= 1" label="Видео">
           <ng-template matTabContent>
-            <iframe width="100%" height="440" [src]="selectedSafeVideo" allowfullscreen></iframe>
+            <iframe width="460" height="440" [src]="selectedSafeVideo" allowfullscreen></iframe>
             <div *ngIf="safeVideoUrl.length > 1" class="video-btn-wrapper">
               <button mat-flat-button class="mat-elevation-z2 video-btn" *ngFor="let video of safeVideoUrl;let i = index" (click)="selectedSafeVideo = video">
                 {{i+1}}

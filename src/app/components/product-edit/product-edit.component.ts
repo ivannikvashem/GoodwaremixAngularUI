@@ -36,9 +36,7 @@ interface Country {
 export class ProductEditComponent implements OnInit {
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   // Supplier
-  public supplierList: Supplier[];  // public filteredSupplierList: Observable<Supplier[]> | undefined;
   selectedSupplier: Supplier;
-  searchSupplierCtrl = new FormControl<string | Supplier>('', Validators.required)
   //Product
   product:Product;
   productId:string = '';
@@ -98,20 +96,7 @@ export class ProductEditComponent implements OnInit {
     }
     else {
       this.product = new Product()
-      this.api.getSuppliers('', 0, 100, "SupplierName", "asc").subscribe((r: any) => {
-        this.supplierList = r.body.data
-      });
     }
-
-    this.searchSupplierCtrl.valueChanges.pipe(
-      distinctUntilChanged(),
-      debounceTime(300),
-      tap(() => {
-      }),
-      switchMap(value => this.api.getSuppliers(value, 0 ,100,"SupplierName", "asc")
-      )
-    ).subscribe((data: any) => { this.supplierList = data.body.data; });
-
     this.filteredCountries = this.searchCountryCtrl.valueChanges.pipe(
       startWith(''),
       map(value => ( value ? this._filter(value) : this.countriesList.slice())),
@@ -299,11 +284,9 @@ export class ProductEditComponent implements OnInit {
   }
 
   submitProduct() {
-    if (!this.product.supplierId)
-    {
-      const supplier = this.searchSupplierCtrl.value as Supplier
-      this.product.supplierId = supplier.id
-      this.product.supplierName = supplier.supplierName
+    if (!this.product.supplierId) {
+      this.product.supplierId = this.selectedSupplier.id
+      this.product.supplierName = this.selectedSupplier.supplierName
     }
     console.log('product',this.product)
     const productToAdd = new ProductImageViewmodel()
@@ -326,6 +309,10 @@ export class ProductEditComponent implements OnInit {
 
   handleMissingImage($event: Event) {
     this.imgHandler.checkImgStatus($event)
+  }
+
+  handleChangeSelectedSupplier(supplier: Supplier) {
+    this.selectedSupplier = supplier
   }
 }
 
