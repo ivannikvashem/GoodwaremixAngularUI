@@ -5,33 +5,27 @@
 </div>
 
 <div class="mat-elevation-z8">
-
-  <table mat-table [dataSource]="dataSource" matSort matSortActive="Date" matSortDisableClear matSortDirection="desc">
-
+  <table mat-table [dataSource]="dataSource" matSort matSortActive="Date" matSortDisableClear matSortDirection="desc" multiTemplateDataRows>
     <!-- Name Column -->
     <ng-container matColumnDef="SupplierName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Поставщик</th>
       <td mat-cell *matCellDef="let row">{{row.supplierName}}</td>
     </ng-container>
-
     <!-- Date Column -->
     <ng-container matColumnDef="Date">
       <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Дата</th>
       <td mat-cell *matCellDef="let row">{{row.date | date:'yyyy-MM-dd, hh:mm'}}</td>
     </ng-container>
-
     <!-- status Column -->
     <ng-container matColumnDef="status">
       <th mat-header-cell *matHeaderCellDef>Статус</th>
       <td mat-cell *matCellDef="let row">{{ row.status }}</td>
     </ng-container>
-
     <!-- stat Column -->
     <ng-container matColumnDef="result">
       <th mat-header-cell *matHeaderCellDef>Результат</th>
       <td mat-cell *matCellDef="let row">{{ row.result }}</td>
     </ng-container>
-
     <!-- ACTIONS Column -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>
@@ -39,11 +33,25 @@
           <mat-icon>delete</mat-icon>
         </button>&nbsp;
       </th>
-      <td mat-cell *matCellDef="let item"></td>
+      <td mat-cell *matCellDef="let item">
+        <button mat-icon-button *ngIf="item.data.length > 0" class="mat-elevation-z2" aria-label="expand row" (click)="(expandedElement = expandedElement === item ? null : item); $event.stopPropagation()">
+          <mat-icon>remove_red_eye</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let item" [attr.colspan]="displayedColumns.length">
+        <div class="element-detail" [@detailExpand]="item == expandedElement ? 'expanded' : 'collapsed'">
+          <ul>
+            <li *ngFor="let log of item.data">{{log}}</li>
+          </ul>
+        </div>
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="element-row" [class.example-expanded-row]="expandedElement === row "></tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
   </table>
   <mat-paginator [length]="dataSource.rowCount" showFirstLastButtons [pageSize]="10" [pageSizeOptions]=[10,20,50,100]></mat-paginator>
 </div>

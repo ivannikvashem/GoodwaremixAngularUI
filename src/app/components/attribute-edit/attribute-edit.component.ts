@@ -5,8 +5,7 @@ import {Attribute} from "../../models/attribute.model";
 import {ApiClient} from "../../repo/httpClient";
 import {ActivatedRoute} from "@angular/router";
 import {catchError, finalize, map} from "rxjs/operators";
-import {BehaviorSubject, debounceTime, distinctUntilChanged, of, switchMap, tap} from "rxjs";
-import {FormControl} from "@angular/forms";
+import {BehaviorSubject, of} from "rxjs";
 import {Supplier} from "../../models/supplier.model";
 import {NotificationService} from "../../service/notification-service";
 
@@ -53,7 +52,6 @@ export class AttributeEditComponent implements OnInit {
         //.subscribe(data => this.AttributeSubject.next(data));
         .subscribe(data => {
           this.attribute = data;
-          console.log(JSON.stringify(data));
         });
     } else {
       this.attribute = new Attribute()
@@ -105,13 +103,15 @@ export class AttributeEditComponent implements OnInit {
       this.attribute.supplierId = this.selectedSupplier.id
       this.attribute.supplierName = this.selectedSupplier.supplierName
     }
-    console.log('attr', this.attribute)
-    this.api.updateAttribute(this.attribute).subscribe(x => {
-        this._notyf.onSuccess('Успешно сохранено')
+    this.api.updateAttribute(this.attribute).subscribe( {
+      next:next => {
+         this._notyf.onSuccess('Успешно сохранено')
       },
-      error => {
+      error:error => {
         this._notyf.onError('Ошибка ' + error)
-      })
+      }, complete: () => { {this._notyf.onSuccess('Успешно сохранено1')}}
+      }
+    )
   }
 
   handleChangeSelectedSupplier(supplier: Supplier) {

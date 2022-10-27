@@ -23,7 +23,7 @@ import {ConfirmDialogComponent, ConfirmDialogModel} from "../shared/confirm-dial
 import {NotificationService} from "../../service/notification-service";
 import {Attribute} from "../../models/attribute.model";
 import {MissingImageHandler} from "../../repo/MissingImageHandler";
-import {SupplierAutocompleteComponent} from "../shared/supplier-autocomplete/supplier-autocomplete.component";
+import {Product} from "../../models/product.model";
 
 export interface DialogData {
   src: '';
@@ -87,7 +87,6 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator
-  @ViewChild('supplierAutocomplete') supplierAutocomplete: SupplierAutocompleteComponent
 
   setCookie() {
     // on each interaction - save all controls state to cookies
@@ -131,12 +130,12 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
       }
     });
 
-    this.searchQueryCtrl.valueChanges.pipe(
-      distinctUntilChanged(),
-      debounceTime(700)
-    ).subscribe(()=> {
-      this.onQueryChanged();
-    })
+    // this.searchQueryCtrl.valueChanges.pipe(
+    //   distinctUntilChanged(),
+    //   debounceTime(700)
+    // ).subscribe(()=> {
+    //   this.onQueryChanged();
+    // })
 
     // this.api.getAttributes('','',0,10,true,"Rating", "desc").subscribe((r:any) => {
     //   this.attributesForFilter = r.body.data
@@ -217,40 +216,40 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     this._notyf.onSuccess('Артикул поставщика скопирован')
   }
 
-  filtrationSearch(filterSearch: HTMLInputElement, attributeId:string) {
-    this.api.getAttributeById(attributeId).subscribe((r:any) => {
-      this.attributesForFilter.find(attr => attr.id === attributeId).allValue = r.body.allValue.filter((value:any) => {
-        return value.toLowerCase().includes(filterSearch.value.toLowerCase())
-      })
-    })
-  }
-
-  attributeValueChecked($event: any,nameAttribute: string, value: string) {
-    console.log($event.source._selected)
-    const isChecked = $event.source._selected
-    const selectedAttribute:SelectedFilterAttributes = new SelectedFilterAttributes()
-    if (isChecked) {
-      if (this.selectedFilterAttributes.some(n => n.attributeName === nameAttribute)) {
-        this.selectedFilterAttributes.forEach(att => {
-          if (att.attributeName == nameAttribute) {
-            att.selectedValues.push(value)
-          }
-        })
-      }
-      else {
-        selectedAttribute.attributeName = nameAttribute
-        selectedAttribute.selectedValues.push(value)
-        this.selectedFilterAttributes.push(selectedAttribute)
-      }
-    }
-    else {
-
-    }
-
-    this.onQueryChanged();
-    console.log('selected', selectedAttribute)
-    console.log('selected list',this.selectedFilterAttributes)
-  }
+  // filtrationSearch(filterSearch: HTMLInputElement, attributeId:string) {
+  //   this.api.getAttributeById(attributeId).subscribe((r:any) => {
+  //     this.attributesForFilter.find(attr => attr.id === attributeId).allValue = r.body.allValue.filter((value:any) => {
+  //       return value.toLowerCase().includes(filterSearch.value.toLowerCase())
+  //     })
+  //   })
+  // }
+  //
+  // attributeValueChecked($event: any,nameAttribute: string, value: string) {
+  //   console.log($event.source._selected)
+  //   const isChecked = $event.source._selected
+  //   const selectedAttribute:SelectedFilterAttributes = new SelectedFilterAttributes()
+  //   if (isChecked) {
+  //     if (this.selectedFilterAttributes.some(n => n.attributeName === nameAttribute)) {
+  //       this.selectedFilterAttributes.forEach(att => {
+  //         if (att.attributeName == nameAttribute) {
+  //           att.selectedValues.push(value)
+  //         }
+  //       })
+  //     }
+  //     else {
+  //       selectedAttribute.attributeName = nameAttribute
+  //       selectedAttribute.selectedValues.push(value)
+  //       this.selectedFilterAttributes.push(selectedAttribute)
+  //     }
+  //   }
+  //   else {
+  //
+  //   }
+  //
+  //   this.onQueryChanged();
+  //   console.log('selected', selectedAttribute)
+  //   console.log('selected list',this.selectedFilterAttributes)
+  // }
 
   handleChangeSelectedSupplier(supplier: Supplier) {
     this.selectedSupplier = supplier

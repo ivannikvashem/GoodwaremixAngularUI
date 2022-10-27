@@ -19,7 +19,7 @@ export class SupplierAutocompleteComponent implements OnInit {
   constructor(public api: ApiClient) {}
 
   ngOnInit(): void {
-    if (this.cookieSupplier !== undefined && this.cookieSupplier.id) {
+    if (this.cookieSupplier !== undefined && this.cookieSupplier.id !== undefined) {
       this.api.getSupplierById(this.cookieSupplier.id).subscribe( s => {
         this.searchSuppliersCtrl.setValue(s.body as Supplier);
       })

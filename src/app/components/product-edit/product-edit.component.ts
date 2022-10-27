@@ -79,10 +79,9 @@ export class ProductEditComponent implements OnInit {
             this.product.netto = new Package()
           }
           if (this.product.country) {
-            const productCountry = this.countriesList.filter(option => option.name.toLowerCase().includes(this.product.country.toLowerCase()) as Country)
+            const productCountry = this.countriesList.find(option => option.name.toLowerCase().includes(this.product.country.toLowerCase()) as Country)
             this.searchCountryCtrl.setValue(productCountry as Country)
           }
-          //return this.countriesList.filter(option => option.name.toLowerCase().includes(filterValue));
           this.attrDataSource.setData(this.product.attributes || []);
           this.packDataSource.setData(this.product.packages || []);
           this.documentDataSource.setData(this.product.documents || []);

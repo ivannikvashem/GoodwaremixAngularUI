@@ -44,9 +44,8 @@
         </mat-tab>
       </mat-tab-group>
     </mat-card>
-
-
-    <mat-accordion  *ngIf="product?.netto">
+    
+    <mat-accordion  *ngIf="(product?.netto | json) != '{}'">
       <mat-expansion-panel expanded style="margin-right: 10px; margin-top: 10px">
         <mat-expansion-panel-header>
           <mat-panel-title>Нетто</mat-panel-title>

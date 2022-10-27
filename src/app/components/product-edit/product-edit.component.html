@@ -34,9 +34,9 @@
               <input #fileInput type="file" multiple="" accept="image/gif, image/jpeg, image/png, image/jpg" (change)="onImageChange($event)" style="display:none;" />
             </button>
 
-            <div style="max-height: 600px; overflow-y: auto" >
-              <div class="thumbnail" *ngFor="let img of imagesView" >
-                <img [src]="img" style="object-fit: cover;height:200px; width: 200px; margin-left:10px" (error)="handleMissingImage($event)" class="mat-elevation-z2" >
+            <div style="max-height: 600px; overflow-y: auto">
+              <div class="thumbnail" *ngFor="let img of imagesView">
+                <img [src]="img" style="object-fit: cover; height:200px; width: 200px;margin-left:10px" (error)="handleMissingImage($event)" class="mat-elevation-z2" >
                 <button (click)="removeImage(img)">&#x2715;</button>
               </div>
             </div>
@@ -98,12 +98,11 @@
                        [matAutocomplete]="auto">
                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayCountryFn" (optionSelected)="onCountrySelected()">
                   <mat-option *ngFor="let option of filteredCountries | async" [value]="option">
-                    {{option.name }}
+                    {{option.name}}
                   </mat-option>
                 </mat-autocomplete>
               </mat-form-field>&nbsp;
             </div>
-
 
             <mat-form-field appearance="fill" class="form-full-width">
               <mat-label>Полное наименование</mat-label>

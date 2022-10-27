@@ -8,15 +8,25 @@ import {
 import {LogsDataSource} from "../../repo/LogDataSource";
 import {MatSort, SortDirection} from "@angular/material/sort";
 import {Supplier} from "../../models/supplier.model";
+import {Log} from "../../models/log.model";
+import {animate, state, style, transition, trigger} from "@angular/animations";
 
 @Component({
   selector: 'app-parser-log',
   templateUrl: './parser-log.component.html',
-  styleUrls: ['./parser-log.component.css']
+  styleUrls: ['./parser-log.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class ParserLogComponent implements OnInit {
 
   displayedColumns: string[] = ['SupplierName', 'Date', 'status', 'result', 'actions'];
+  expandedElement: Log | null | undefined;
   dataSource: LogsDataSource;
   supplierId = '';
 
