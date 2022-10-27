@@ -66,7 +66,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   attributesForFilter:Attribute[]
   selectedFilterAttributes:SelectedFilterAttributes[] = []
   filteredAttributeValues: Observable<string[]>;
-  selectedSupplier:Supplier
+  selectedSupplier:Supplier = new Supplier()
 
   isLoading = false;
   productId: string | any;
@@ -90,7 +90,14 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
 
   setCookie() {
     // on each interaction - save all controls state to cookies
-    let supp = this.selectedSupplier;
+    console.log('set')
+    let supp;
+    if (this.selectedSupplier === undefined) {
+      supp = new Supplier()
+    } else {
+      supp = this.selectedSupplier
+    }
+    console.log(supp)
     this._localStorageService.setDataByPageName(this.constructor.name, {
       searchQuery: this.searchQueryCtrl.value,
       pageIndex: this.paginator?.pageIndex,
@@ -166,7 +173,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   }
 
   loadProductPagedData(): any {
-    this.dataSource.loadPagedData(this.searchQueryCtrl.value, this.withInternalCodeCtrl.value, this.selectedSupplier.id, this.paginator.pageIndex, this.paginator.pageSize, this.selectedFilterAttributes);
+    this.dataSource.loadPagedData(this.searchQueryCtrl.value, this.withInternalCodeCtrl.value, this.selectedSupplier?.id, this.paginator.pageIndex, this.paginator.pageSize, this.selectedFilterAttributes);
   }
 
   confirmDeleteDialog(id: string, name: string): void {
