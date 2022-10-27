@@ -42,6 +42,7 @@ export class LocalStorageService {
     this._myData$.next(data)
     //console.log("set cookie: " + JSON.stringify(data));
     console.log('storage', this._localStorage)
+    console.log('page name', pageName)
   }
 
   clearInfo() {
