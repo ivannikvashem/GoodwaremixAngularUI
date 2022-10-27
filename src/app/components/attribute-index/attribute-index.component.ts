@@ -29,7 +29,7 @@ export class AttributeIndexComponent implements OnInit {
   dataSource: AttributesDataSource;
   displayedColumns: string[] = ['fixed', 'Rating', 'supplierName', 'etimFeature', 'nameAttribute', 'allValue', 'actions'];
   withFixedAttrSelectorCtrl = new FormControl<boolean | null>(null);
-  public selectedSupplier:Supplier
+  public selectedSupplier:Supplier = new Supplier()
   isLoading = false;
   searchQueryCtrl  = new FormControl<string>('');
   pageCookie$ = this._localStorageService.myData$
