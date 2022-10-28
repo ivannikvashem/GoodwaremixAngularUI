@@ -42,9 +42,13 @@
     <ng-container matColumnDef="expandedDetail">
       <td mat-cell *matCellDef="let item" [attr.colspan]="displayedColumns.length">
         <div class="element-detail" [@detailExpand]="item == expandedElement ? 'expanded' : 'collapsed'">
-          <ul>
-            <li *ngFor="let log of item.data">{{log}}</li>
-          </ul>
+<!--          <ul>-->
+<!--            <li *ngFor="let log of item.data">{{log}}</li>-->
+<!--          </ul>-->
+          <cdk-virtual-scroll-viewport [itemSize]="20" class="data-viewport">
+            <div *cdkVirtualFor="let log of item.data.reverse()" class="data-item">{{log}}</div>
+          </cdk-virtual-scroll-viewport>
+
         </div>
       </td>
     </ng-container>
