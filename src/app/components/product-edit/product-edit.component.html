@@ -111,12 +111,12 @@
 
             <mat-form-field appearance="fill" class="form-full-width">
               <mat-label>Описание</mat-label>
-              <textarea matInput name="description" [(ngModel)]="product.description" style="min-height:100px"></textarea>
+              <textarea matInput name="description" cdkTextareaAutosize cdkAutosizeMinRows="3" cdkAutosizeMaxRows="15"  [(ngModel)]="product.description"></textarea>
             </mat-form-field>
 
             <mat-form-field class="form-full-width" appearance="fill">
               <mat-label>ГТД</mat-label>
-              <mat-chip-list #chipList aria-label="Fruit selection">
+              <mat-chip-list #chipList>
                 <mat-chip *ngFor="let item of product.gtd" (removed)="removeGTD(item)">
                   {{item}}
                   <button matChipRemove>

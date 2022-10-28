@@ -91,12 +91,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   setCookie() {
     // on each interaction - save all controls state to cookies
     console.log('set')
-    let supp;
-    if (this.selectedSupplier === undefined) {
-      supp = new Supplier()
-    } else {
-      supp = this.selectedSupplier
-    }
+    let supp = this.selectedSupplier;
     console.log(supp)
     this._localStorageService.setDataByPageName(this.constructor.name, {
       searchQuery: this.searchQueryCtrl.value,
@@ -116,7 +111,11 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
       //console.log("pc: " + JSON.stringify(x.pageIndex));
       this.pC = x;
       this.searchQueryCtrl.setValue(this.pC.searchQuery);
-      this.selectedSupplier = this.pC.supplier as Supplier
+      if (this.pC.supplier === undefined) {
+        this.selectedSupplier = new Supplier()
+      } else {
+        this.selectedSupplier = this.pC.supplier as Supplier
+      }
       this.withInternalCodeCtrl.setValue(this.pC.withInternalCodeSelector);
     });
   }

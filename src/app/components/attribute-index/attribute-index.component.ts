@@ -71,7 +71,11 @@ export class AttributeIndexComponent implements OnInit {
       if (!x) return;
       this.pC = x;
       this.searchQueryCtrl.setValue(this.pC.searchQuery);
-      this.selectedSupplier =  this.pC.supplier as Supplier;
+      if (this.pC.supplier === undefined) {
+        this.selectedSupplier = new Supplier()
+      } else {
+        this.selectedSupplier = this.pC.supplier as Supplier
+      }
       this.withFixedAttrSelectorCtrl.setValue(this.pC.withFixedAttrSelector);
     });
   }
