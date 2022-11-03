@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {FormControl} from "@angular/forms";
-import {Supplier} from "../../models/supplier.model";
+import {Supplier, SupplierConfig} from "../../models/supplier.model";
 import {ApiClient} from "../../repo/httpClient";
 import {ProductAttributeKey} from "../../models/productAttributeKey.model";
 import {DataSource} from "@angular/cdk/collections";
@@ -10,12 +10,12 @@ import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {MatChipInputEvent} from "@angular/material/chips";
 import {Dimensions} from "../../models/dimensions.model";
 import {Multipliers} from "../../models/multipliers.model";
-import {debounceTime, Observable, ReplaySubject, switchMap, tap} from "rxjs";
+import {debounceTime, Observable, Observer, ReplaySubject, switchMap, tap} from "rxjs";
 import {finalize} from "rxjs/operators";
 import {NotificationService} from "../../service/notification-service";
 import {MatDialog} from "@angular/material/dialog";
 import {SupplierAttributeAddComponent} from "../shared/supplier-attribute-add/supplier-attribute-add.component";
-import {MatTable} from "@angular/material/table";
+import {ConfirmDialogComponent, ConfirmDialogModel} from "../shared/confirm-dialog/confirm-dialog.component";
 
 export class HeaderModel {
   HeaderName:string
@@ -35,20 +35,22 @@ export class SupplierEditComponent implements OnInit {
   supplier: Supplier;
   dataToDisplay:any = [];
   attrDataSource = new ProdAttrDataSource(this.dataToDisplay);
+  selectedConfig = new FormControl(0)
+  isConfigTabsLoading:boolean = false
+
   attrTableColumns: string[] = ['idx', 'keySupplier', 'attributeBDName', 'actions'];
   attrSelectedRow: any;
   public attributeList: Attribute[] | undefined;
   attributesToAdd:Attribute[] = []
   attributeListCtrl = new FormControl<string | Attribute>('');
   selectedAttr: Attribute | undefined;
-  headerList:HeaderModel[] = []
   headerTableColumns: string[] = ['headerKey', 'headerValue', 'headerAction'];
-  @ViewChild(MatTable) headerTable: MatTable<any>;
 
   constructor(
     private _ActivatedRoute:ActivatedRoute,
     private _notyf: NotificationService,
     public dialog: MatDialog,
+    private router: Router,
     public api: ApiClient,
   ) { }
 
@@ -57,7 +59,22 @@ export class SupplierEditComponent implements OnInit {
     if (this.supplierId) {
       this.api.getSupplierById(this.supplierId)
         .subscribe( (s:any) => {
-          if (s?.body.supplierConfigs?.nettoConfig?.dimensions == null) {
+          this.supplier = s.body as Supplier;
+
+          for (let config of this.supplier.supplierConfigs) {
+            config.nettoConfig.dimensions = new Dimensions()
+            config.packageConfig.dimensions = new Dimensions()
+            config.multipliers = new Multipliers()
+            this.attrDataSource.setData(config?.attributeConfig?.productAttributeKeys || [])
+            if (config.sourceSettings.header) {
+              let head  = JSON.parse(config.sourceSettings.header)
+              head.forEach((value:any) => {value.isEditable = false})
+              config.sourceSettings.header = head
+            }
+          }
+
+
+/*          if (s?.body.supplierConfigs?.nettoConfig?.dimensions == null) {
             s.body.supplierConfigs.nettoConfig.dimensions = new Dimensions();
           }
           if (s?.body.supplierConfigs?.packageConfig?.dimensions == null) {
@@ -66,10 +83,10 @@ export class SupplierEditComponent implements OnInit {
           if (s?.body.supplierConfigs?.multipliers == null) {
             s.body.supplierConfigs.multipliers = new Multipliers();
           }
-          this.supplier = s.body as Supplier;
+          /*
           this.headerList = JSON.parse(this.supplier.sourceSettings.header)
           this.headerList.forEach(value => {value.isEditable = false})
-          this.attrDataSource.setData(this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys || []);
+          this.attrDataSource.setData(this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys || []);*/
         });
     }
     else {
@@ -90,26 +107,27 @@ export class SupplierEditComponent implements OnInit {
     ).subscribe((data: any) => { this.attributeList = data.body.data; });
   }
 
-  addSuppAttr() {
+  addSuppAttr(table:any,config:any) {
     //if already added -  skip
     // if (this.supplier.supplierConfigs.attributeConfig.productAttributeKeys.some( (x: ProductAttributeKey) => x == '')) {
     //   return;
     // }
+    console.log('conf', config)
 
     let a: ProductAttributeKey = {keySupplier: '', attributeBDName: '', attributeIdBD: '', attributeValid: false, multiplier: ''};
-    this.supplier.supplierConfigs.attributeConfig.productAttributeKeys.push(a);
-
-    this.attrDataSource.setData(this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys);
-    let row = this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys[this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys.length - 1];
+    config.attributeConfig.productAttributeKeys.push(a);
+    this.attrDataSource.setData(config?.attributeConfig?.productAttributeKeys);
+    let row = config.attributeConfig?.productAttributeKeys[config?.attributeConfig?.productAttributeKeys.length - 1];
     this.attributeListCtrl.setValue(row.attributeBDName);
     this.attrSelectedRow = row;
+    table.renderRows()
   }
 
-  deleteSuppAttr(keySupplier: string, attributeBDName:string) {
-    let idx = this.supplier.supplierConfigs.attributeConfig.productAttributeKeys.map((obj:ProductAttributeKey) => obj.keySupplier).indexOf(keySupplier);
+  deleteSuppAttr(keySupplier: string, attributeBDName:string, config:any, table:any) {
+    let idx = config.attributeConfig.productAttributeKeys.map((obj:ProductAttributeKey) => obj.keySupplier).indexOf(keySupplier);
     console.log('to del', attributeBDName)
-    this.supplier.supplierConfigs.attributeConfig.productAttributeKeys.splice(idx, 1);
-    this.attrDataSource.setData(this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys);
+    config.attributeConfig.productAttributeKeys.splice(idx, 1);
+    table.renderRows()
   }
 
   onSelectRow(row: any) {
@@ -127,7 +145,7 @@ export class SupplierEditComponent implements OnInit {
     this.selectedAttr = this.attributeListCtrl.value as Attribute;
   }
 
-  updateSelectedSuppAttr(i: number, row: any) {
+  updateSelectedSuppAttr(i: number, row: any, config:any) {
     //validation
     // Add our value
     // const idx = this.supplier.supplierConfigs.attributeConfig.productAttributeKeys.indexOf(row.attributeIdBD);
@@ -135,41 +153,48 @@ export class SupplierEditComponent implements OnInit {
     // if (row.keySupplier == null && idx != i) {
     //   return;
     // }
-
     //update
     //this.attrSelectedRow = (this.attributeListCtrl.value as Attribute).nameAttribute;
+
     this.attrSelectedRow.attributeBDName = this.selectedAttr?.nameAttribute;
     this.attrSelectedRow.attributeValid = true;
-    this.supplier.supplierConfigs.attributeConfig.productAttributeKeys[i] = this.attrSelectedRow;
+    config.attributeConfig.productAttributeKeys[i] = this.attrSelectedRow;
     console.log("upd: " + JSON.stringify(this.attrSelectedRow));
 
     //prepare for refresh
     this.clearAttrSelection();
-    this.attrDataSource.setData(this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys);
+    this.attrDataSource.setData(config.attributeConfig?.productAttributeKeys);
   }
 
   clearAttrSelection():void {
     this.attrSelectedRow = null;
   }
-  addDateFormat(event: MatChipInputEvent): void {
+  addDateFormat(event: MatChipInputEvent, config:any): void {
     const value = (event.value || '').trim();
-    const idx = this.supplier.supplierConfigs.dateFormats?.indexOf(value);
+    const idx = config.dateFormats?.indexOf(value);
     if (value && idx === -1 ) {
-      this.supplier.supplierConfigs.dateFormats?.push(value);
+      config.dateFormats?.push(value);
     }
     event.chipInput!.clear();
   }
 
-  removeDateFormat(date: string): void {
-    const index = this.supplier.supplierConfigs.dateFormats?.indexOf(date);
+  removeDateFormat(date: string, config:any): void {
+    const index = config.dateFormats?.indexOf(date);
     if (typeof(index) == "number" && index >= 0) {
-      this.supplier.supplierConfigs.dateFormats?.splice(index, 1);
+      config.dateFormats?.splice(index, 1);
     }
   }
 
   submitSupplier() {
-    for (let i of this.headerList) { delete i.isEditable }
-    this.supplier.sourceSettings.header = JSON.stringify(this.headerList)
+    for (let config of this.supplier.supplierConfigs) {
+      if (config.sourceSettings.header != undefined) {
+        for (let header of config.sourceSettings.header) {
+          delete header.isEditable
+        }
+      }
+      config.sourceSettings.header = JSON.stringify(config.sourceSettings.header)
+    }
+
     this.api.updateSupplier(this.supplier).subscribe( x => {
       this._notyf.onSuccess("Конфигурация сохранена");
         for (let i of this.attributesToAdd) {
@@ -199,21 +224,84 @@ export class SupplierEditComponent implements OnInit {
     });
   }
 
-  addHeader() {
-    let newHeader = <HeaderModel> {HeaderName : '', HeaderValue : '', isEditable : true }
-    this.headerList.push(newHeader)
-    this.headerTable.renderRows()
+  addHeader(table:any, config:any) {
+    if (config.sourceSettings.header.filter((value:any) => value.isEditable).length < 1) {
+      let newHeader = <HeaderModel> {HeaderName : '', HeaderValue : '', isEditable : true }
+      config.sourceSettings.header.push(newHeader)
+      table.renderRows()
+    }
   }
 
-  deleteHeader(element:HeaderModel) {
-    this.headerList = this.headerList.filter(value => (value != element))
+  deleteHeader(element:HeaderModel, config:any) {
+    config.sourceSettings.header = config.sourceSettings.header.filter((value:any) => (value != element))
   }
 
-  saveHeader(element:HeaderModel) {
+  saveHeader(element:HeaderModel, config:any) {
     if (element.HeaderName != '' && element.HeaderValue != '')
       element.isEditable = false
     else
-      this.deleteHeader(element)
+      this.deleteHeader(element, config)
+  }
+
+  editConfig() {
+    this.router.navigate([`supplier-config-edit/${this.supplier.supplierConfigs}`]);
+  }
+
+  addInn($event: MatChipInputEvent) {
+    const value = ($event.value || '').trim();
+    const idx = this.supplier.inn?.indexOf(value);
+    if (value && idx === -1 ) {
+      this.supplier.inn?.push(value);
+    }
+    $event.chipInput!.clear();
+  }
+
+  removeInn(inn: string) {
+    const index = this.supplier.inn?.indexOf(inn);
+    if (typeof(index) == "number" && index >= 0) {
+      this.supplier.inn?.splice(index, 1);
+    }
+  }
+
+  addBrand($event: MatChipInputEvent) {
+    const value = ($event.value || '').trim();
+    const idx = this.supplier.brands?.indexOf(value);
+    if (value && idx === -1 ) {
+      this.supplier.brands?.push(value);
+    }
+    $event.chipInput!.clear();
+  }
+
+  removeBrand(brand: string) {
+    const index = this.supplier.brands?.indexOf(brand);
+    if (typeof(index) == "number" && index >= 0) {
+      this.supplier.brands?.splice(index, 1);
+    }
+  }
+
+  addConfig() {
+    const config = new SupplierConfig()
+    config.name = 'Конфигурация'
+    this.supplier.supplierConfigs.push(config)
+    this.selectedConfig.setValue(this.supplier.supplierConfigs.length - 1);
+  }
+
+  deleteConfig(value: any) {
+    const message = `Удалить конфигурацию «` + value.name + `»?`;
+    const dialogData = new ConfirmDialogModel("Подтверждение", message);
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      minWidth: "400px",
+      data: dialogData
+    });
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult === true) {
+        const index = this.supplier.supplierConfigs?.indexOf(value);
+        if (typeof(index) == "number" && index >= 0) {
+          this.supplier.supplierConfigs?.splice(index, 1);
+        }
+        this.selectedConfig.setValue(this.supplier.supplierConfigs.length - 1);
+      }
+    });
   }
 }
 

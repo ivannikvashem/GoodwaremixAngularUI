@@ -157,7 +157,7 @@ export class ApiClient {
   }
 
   fetchDataFromSupplier(supplierName: any): Observable<any> {
-    return this.http.post<any>(this.apiURL + '/suppliers/fetch/' + supplierName, {}, this.httpOptions);
+    return this.http.post<any>(this.apiURL + '/suppliers/FetchList/' + supplierName, {}, this.httpOptions);
   }
 
   stopFetchDataFromSupplier(supplierName: any): Observable<any> {

@@ -6,18 +6,23 @@ import {Multipliers} from "./multipliers.model";
 
 
 export class Supplier {
-  id: string
+  id: string;
   supplierName: string;
   comment: number;
+  version:number;
+  caption:string;
+  inn:string[];
+  sharedLogo:string;
+  brands:string[]
   runParser:boolean = false
   stat: Stat;
-  sourceSettings: SourceSettings
-  supplierConfigs: SupplierConfig
+  supplierConfigs: SupplierConfig[];
 
   constructor() {
-    this.sourceSettings = new SourceSettings()
+    this.inn = []
+    this.brands = []
     this.stat = new Stat()
-    this.supplierConfigs = new SupplierConfig()
+    this.supplierConfigs = [];
   }
 }
 
@@ -32,11 +37,17 @@ export class SourceSettings {
   countPage: string;
   startPage: string;
   multipart?: boolean;
+
+  constructor() {
+    this.header = []
+  }
 }
 
 export class SupplierConfig {
-  type: string
-  stripXMLNamespace: string
+  id:number;
+  name:string;
+  type: string;
+  stripXMLNamespace: string;
   fileEncoding: string;
   prefix: string;
   zippedFileName: string;
@@ -49,6 +60,8 @@ export class SupplierConfig {
   nettoConfig: NettoConfig;
   dateFormats: string[];
   multipliers: Multipliers;
+  sourceSettings: SourceSettings
+
 
   constructor() {
     this.baseConfig = new BaseConfig()
@@ -58,6 +71,7 @@ export class SupplierConfig {
     this.packageConfig = new PackageConfig()
     this.nettoConfig = new NettoConfig()
     this.multipliers = new Multipliers()
+    this.sourceSettings = new SourceSettings()
   }
 }
 

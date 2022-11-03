@@ -10,6 +10,7 @@ import {ParserLogComponent} from "./components/parser-log/parser-log.component";
 import {ProductDetailsComponent} from "./components/product-details/product-details.component";
 import {ProductEditComponent} from "./components/product-edit/product-edit.component";
 import {AdminPanelComponent} from "./components/admin-panel/admin-panel.component";
+import {SupplierConfigEditComponent} from "./components/shared/supplier-config-edit/supplier-config-edit.component";
 
 const routes: Routes = [
 
@@ -23,6 +24,8 @@ const routes: Routes = [
   {path: 'suppliers', component: SupplierIndexComponent},
   {path: 'supplier-add', component: SupplierEditComponent},
   {path: 'supplier-edit/:supplierId', component: SupplierEditComponent},
+  {path: 'supplier-config-add', component: SupplierConfigEditComponent},
+  {path: 'supplier-config-edit/:config', component: SupplierConfigEditComponent},
   {path: 'log', component: ParserLogComponent},
   {path:'admin', component: AdminPanelComponent}
 ];
