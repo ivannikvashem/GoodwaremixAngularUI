@@ -6,7 +6,7 @@
 
   <div>
     <span *ngIf="product?.vendor">{{product?.vendor}}</span>
-    <span> {{product.title !== null ? product.title : product.titleLong}}</span>&nbsp;
+    <span> {{product?.title !== undefined ? product.title : product.titleLong}}</span>&nbsp;
     <span *ngIf="product.vendorId"> <button class="btnAsText" (click)="copyVendorId(product.vendorId)">[<strong>{{product.vendorId}}</strong>]</button> </span>
     <span *ngIf="product.internalCode"> {{product.internalCode}}</span>
 <!--    <mat-icon style="vertical-align:middle;">content_copy</mat-icon>-->
@@ -44,7 +44,7 @@
         </mat-tab>
       </mat-tab-group>
     </mat-card>
-    
+
     <mat-accordion  *ngIf="(product?.netto | json) != '{}'">
       <mat-expansion-panel expanded style="margin-right: 10px; margin-top: 10px">
         <mat-expansion-panel-header>

@@ -24,7 +24,7 @@ export class AttributeEditComponent implements OnInit {
   public selectedSupplier:Supplier
   private loadingSubject = new BehaviorSubject<boolean>(true);
   id: string | null | undefined;
-  attribute: Attribute;
+  attribute: Attribute = new Attribute();
   attrType: AttributeType[] = [
     {value: 'L', viewValue: 'Бинарный'},
     {value: 'N', viewValue: 'Числовой'},
@@ -54,7 +54,6 @@ export class AttributeEditComponent implements OnInit {
           this.attribute = data;
         });
     } else {
-      this.attribute = new Attribute()
       this.attribute.rating = 0;
     }
   }

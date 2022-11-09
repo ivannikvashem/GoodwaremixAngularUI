@@ -1,5 +1,5 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Params, Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
 import {FormControl} from "@angular/forms";
 import {Supplier, SupplierConfig} from "../../models/supplier.model";
 import {ApiClient} from "../../repo/httpClient";
@@ -10,7 +10,7 @@ import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {MatChipInputEvent} from "@angular/material/chips";
 import {Dimensions} from "../../models/dimensions.model";
 import {Multipliers} from "../../models/multipliers.model";
-import {debounceTime, Observable, Observer, ReplaySubject, switchMap, tap} from "rxjs";
+import {debounceTime, Observable, ReplaySubject, switchMap, tap} from "rxjs";
 import {finalize} from "rxjs/operators";
 import {NotificationService} from "../../service/notification-service";
 import {MatDialog} from "@angular/material/dialog";
@@ -32,7 +32,7 @@ export class SupplierEditComponent implements OnInit {
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
 
   supplierId: string = '';
-  supplier: Supplier;
+  supplier: Supplier = new Supplier();
   dataToDisplay:any = [];
   attrDataSource = new ProdAttrDataSource(this.dataToDisplay);
   selectedConfig = new FormControl(0)
@@ -67,30 +67,10 @@ export class SupplierEditComponent implements OnInit {
             config.multipliers = new Multipliers()
             this.attrDataSource.setData(config?.attributeConfig?.productAttributeKeys || [])
             if (config.sourceSettings.header) {
-              let head  = JSON.parse(config.sourceSettings.header)
-              head.forEach((value:any) => {value.isEditable = false})
-              config.sourceSettings.header = head
+              config.sourceSettings.header = JSON.parse(config.sourceSettings.header) as HeaderModel
             }
           }
-
-
-/*          if (s?.body.supplierConfigs?.nettoConfig?.dimensions == null) {
-            s.body.supplierConfigs.nettoConfig.dimensions = new Dimensions();
-          }
-          if (s?.body.supplierConfigs?.packageConfig?.dimensions == null) {
-            s.body.supplierConfigs.packageConfig.dimensions = new Dimensions();
-          }
-          if (s?.body.supplierConfigs?.multipliers == null) {
-            s.body.supplierConfigs.multipliers = new Multipliers();
-          }
-          /*
-          this.headerList = JSON.parse(this.supplier.sourceSettings.header)
-          this.headerList.forEach(value => {value.isEditable = false})
-          this.attrDataSource.setData(this.supplier.supplierConfigs?.attributeConfig?.productAttributeKeys || []);*/
         });
-    }
-    else {
-      this.supplier = new Supplier();
     }
     this.attributeListCtrl.valueChanges.pipe(
       debounceTime(100),
@@ -186,17 +166,19 @@ export class SupplierEditComponent implements OnInit {
   }
 
   submitSupplier() {
-    for (let config of this.supplier.supplierConfigs) {
+    let supplier = this.supplier
+    for (let config of supplier.supplierConfigs) {
       if (config.sourceSettings.header != undefined) {
         for (let header of config.sourceSettings.header) {
           delete header.isEditable
         }
+      } else {
+        config.sourceSettings.header = null
       }
       config.sourceSettings.header = JSON.stringify(config.sourceSettings.header)
     }
-
-    this.api.updateSupplier(this.supplier).subscribe( x => {
-      this._notyf.onSuccess("Конфигурация сохранена");
+    this.api.updateSupplier(supplier).subscribe( x => {
+        this._notyf.onSuccess("Конфигурация сохранена");
         for (let i of this.attributesToAdd) {
           i.supplierId = x.body.id
           i.supplierName = x.body.supplierName
@@ -207,9 +189,14 @@ export class SupplierEditComponent implements OnInit {
         this._notyf.onError("Ошибка: " + JSON.stringify(error));
         //todo обработчик ошибок, сервер недоступен или еще чего..
       });
+
+      for (let config of supplier.supplierConfigs) {                                                //todo  <- shit way, need to be fixed
+        config.sourceSettings.header = JSON.parse(config.sourceSettings.header) as HeaderModel
+      }
+
   }
 
-  addNewAttr(element: any) {
+  addNewAttr() {
     this.openAttributeEditorDialog()
   }
 
@@ -225,11 +212,9 @@ export class SupplierEditComponent implements OnInit {
   }
 
   addHeader(table:any, config:any) {
-    if (config.sourceSettings.header.filter((value:any) => value.isEditable).length < 1) {
-      let newHeader = <HeaderModel> {HeaderName : '', HeaderValue : '', isEditable : true }
-      config.sourceSettings.header.push(newHeader)
-      table.renderRows()
-    }
+    let newHeader = <HeaderModel> {HeaderName : '', HeaderValue : '', isEditable : true }
+    config.sourceSettings.header.push(newHeader)
+    table.renderRows()
   }
 
   deleteHeader(element:HeaderModel, config:any) {

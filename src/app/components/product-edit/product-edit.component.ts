@@ -38,7 +38,7 @@ export class ProductEditComponent implements OnInit {
   // Supplier
   selectedSupplier: Supplier;
   //Product
-  product:Product;
+  product:Product = new Product();
   productId:string = '';
   imagesToUpload:File[] = []
   imagesView:string[] =[]
@@ -92,9 +92,6 @@ export class ProductEditComponent implements OnInit {
             this.product.localImages.forEach((value) => {this.imagesView.unshift(value) })
           }
         });
-    }
-    else {
-      this.product = new Product()
     }
     this.filteredCountries = this.searchCountryCtrl.valueChanges.pipe(
       startWith(''),
