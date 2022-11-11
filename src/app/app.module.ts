@@ -61,6 +61,8 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {ScrollingModule} from "@angular/cdk/scrolling";
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import {SupplierAutocompleteComponent} from "./components/shared/supplier-autocomplete/supplier-autocomplete.component";
+import { TaskIndexComponent } from './components/task-index/task-index.component';
+import { TaskEditComponent } from './components/shared/task-edit/task-edit.component';
 
 @NgModule({
   declarations: [
@@ -84,7 +86,9 @@ import {SupplierAutocompleteComponent} from "./components/shared/supplier-autoco
     ProductDocumentEditComponent,
     SupplierAttributeAddComponent,
     AdminPanelComponent,
-    SupplierAutocompleteComponent
+    SupplierAutocompleteComponent,
+    TaskIndexComponent,
+    TaskEditComponent
   ],
   imports: [
     CommonModule,

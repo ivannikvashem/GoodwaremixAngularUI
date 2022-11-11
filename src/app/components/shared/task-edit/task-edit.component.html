@@ -1,0 +1,50 @@
+<form [formGroup]="fb" (ngSubmit)="onSubmitClick()">
+
+  <app-supplier-autocomplete class="full-width" (selectedSupplier)="handleChangeSelectedSupplier($event)" [cookieSupplier]="selectedSupplier"></app-supplier-autocomplete>
+
+  <mat-form-field appearance="fill" class="form-full-width">
+    <mat-label>Конфигурация</mat-label>
+    <mat-select formControlName="configList" multiple>
+      <mat-option *ngFor="let config of supplier.supplierConfigs" [value]="config">
+        {{config.name}} {{config.type}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="form-full-width">
+    <mat-label>Название задачи</mat-label>
+    <input matInput formControlName="nameTask">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="form-full-width">
+    <mat-label>Описание</mat-label>
+    <input matInput formControlName="description">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="form-full-width">
+    <mat-label>Дата запуска</mat-label>
+    <input matInput type="datetime-local" formControlName="startAt">
+  </mat-form-field>
+
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>Часы</mat-label>
+      <input matInput type="number" formControlName="hours">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Минуты</mat-label>
+      <input matInput type="number" formControlName="minutes">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Секунды</mat-label>
+      <input matInput type="number" formControlName="seconds">
+    </mat-form-field>
+
+  </div>
+
+  <button mat-raised-button color="primary" [mat-dialog-close]="data" (click)="onSubmitClick()" [disabled]="fb.invalid">Сохранить</button>
+</form>
+
+

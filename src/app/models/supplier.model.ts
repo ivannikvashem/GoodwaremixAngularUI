@@ -27,11 +27,11 @@ export class Supplier {
 }
 
 export class SourceSettings {
-  fileName: string
+  fileName: string;
   source: string;
-  urlList: string
-  urlItem: string
-  methodType: string
+  urlList: string;
+  urlItem: string;
+  methodType: string;
   header: any;
   body: any;
   countPage: string;

@@ -125,8 +125,8 @@ export class SupplierIndexComponent implements OnInit {
     this.loadData();
   }*/
 
-  fetchItem(supplierName: any) {
-    this.api.fetchDataFromSupplier(supplierName).subscribe( res => {
+  fetchItem(supplierName: string, id:string) {
+    this.api.fetchDataFromSupplier(id).subscribe( res => {
        this._notyf.onSuccess('Сбор данных '+supplierName+' начат')
       },
       err => {

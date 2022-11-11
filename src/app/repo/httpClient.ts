@@ -7,6 +7,8 @@ import {environment} from '../../environments/environment';
 import {Product} from "../models/product.model";
 import {ProductImageViewmodel} from "../models/viewmodels/productImage.viewmodel";
 import {Attribute} from "../models/attribute.model";
+import {SchedulerTask} from "../models/schedulerTask.model";
+import {resourceChangeTicket} from "@angular/compiler-cli/src/ngtsc/core";
 
 @Injectable({
   providedIn: 'root'
@@ -185,6 +187,34 @@ export class ApiClient {
     return this.http.delete<any>(this.apiURL + '/suppliers/' + id, this.httpOptions);
   }
 
+  //TASK ENDPOINT
+  getTasks(pageIndex: number, pageSize: number, sortField: string, sortDirection: string): Observable<any> {
+    let opt = {
+      params: new HttpParams()
+        .set('filter.pageNumber', pageIndex ? pageIndex + 1 : 1)
+        .set('filter.pageSize', pageSize ?? 10)
+        .set('sortField', sortField)
+        .set('sortDirection', sortDirection == "desc" ? "-1" : "1")
+    };
+    opt = Object.assign(opt, this.httpOptions);
+    return this.http.get<any>(this.apiURL + '/SchedulerTask', opt);
+  }
+
+  updateTask(schedulerTask: SchedulerTask): Observable<any> {
+    return this.http.post<any>(this.apiURL + '/SchedulerTask/', schedulerTask, this.httpOptions)
+  }
+
+  deleteTask(id:any): Observable<any> {
+    return this.http.delete(this.apiURL + '/SchedulerTask/' + id, this.httpOptions);
+  }
+
+  startTask(id:string): Observable<any> {
+    return this.http.post(this.apiURL + '/Quartz/startQuartz/' + id, this.httpOptions)
+  }
+
+  stopTask(id:string): Observable<any> {
+    return this.http.post(this.apiURL + '/Quartz/stopQuartz/' + id, this.httpOptions)
+  }
 
 
   // //fileUpload

@@ -50,7 +50,6 @@ export class SupplierEditComponent implements OnInit {
     private _ActivatedRoute:ActivatedRoute,
     private _notyf: NotificationService,
     public dialog: MatDialog,
-    private router: Router,
     public api: ApiClient,
   ) { }
 
@@ -205,13 +204,17 @@ export class SupplierEditComponent implements OnInit {
       data: { supplierName: this.supplier.supplierName, newAttribute: new Attribute() },
     });
     dialogRef.afterClosed().subscribe(result => {
-      this.attributesToAdd.push(result.newAttribute)
-      this.selectedAttr = result.newAttribute
-      this.attributeListCtrl.setValue(result.newAttribute as Attribute);
+      if (result != undefined) {
+        this.attributesToAdd.push(result.newAttribute)
+        this.selectedAttr = result.newAttribute
+        this.attributeListCtrl.setValue(result.newAttribute as Attribute);
+      }
     });
   }
 
   addHeader(table:any, config:any) {
+    console.log('conf', config)
+    if (config.sourceSettings.header == null) {config.sourceSettings.header = []}
     let newHeader = <HeaderModel> {HeaderName : '', HeaderValue : '', isEditable : true }
     config.sourceSettings.header.push(newHeader)
     table.renderRows()
@@ -226,10 +229,6 @@ export class SupplierEditComponent implements OnInit {
       element.isEditable = false
     else
       this.deleteHeader(element, config)
-  }
-
-  editConfig() {
-    this.router.navigate([`supplier-config-edit/${this.supplier.supplierConfigs}`]);
   }
 
   addInn($event: MatChipInputEvent) {

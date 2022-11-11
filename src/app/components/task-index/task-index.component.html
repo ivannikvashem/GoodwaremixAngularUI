@@ -1,0 +1,46 @@
+<div class="header-container" style="display: flex; align-items: baseline; justify-content: space-between;">
+  <h3>Задачи <span *ngIf="supplierId">для [{{supplierId}}]</span></h3>
+  <mat-spinner diameter="35" *ngIf="dataSource.loading$ | async"></mat-spinner>
+</div>
+
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort matSortActive="Date" matSortDisableClear matSortDirection="desc" class="form-full-width">
+    <!-- Name Column -->
+    <ng-container matColumnDef="task">
+      <th mat-header-cell *matHeaderCellDef>Задача</th>
+      <td mat-cell *matCellDef="let row">{{row.nameTask}}</td>
+    </ng-container>
+    <!-- Date Column -->
+    <ng-container matColumnDef="supplier">
+      <th mat-header-cell *matHeaderCellDef>Дата</th>
+      <td mat-cell *matCellDef="let row">{{row.supplierId}}</td>
+    </ng-container>
+    <!-- ACTIONS Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="Добавить" (click)="addTask()">
+          <mat-icon>add</mat-icon>
+        </button>&nbsp;
+      </th>
+      <td mat-cell *matCellDef="let item">
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="Запустить" (click)="startTask(item.id)">
+          <mat-icon>play_arrow</mat-icon>
+        </button>&nbsp;
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="Остановить" (click)="stopTask(item.id)">
+          <mat-icon>stop</mat-icon>
+        </button>&nbsp;
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="Добавить" (click)="editTask(item)">
+          <mat-icon>edit</mat-icon>
+        </button>&nbsp;
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить" (click)="deleteTask(item.id)">
+          <mat-icon>delete</mat-icon>
+        </button>&nbsp;
+      </td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="element-row"></tr>
+  </table>
+  <mat-paginator [length]="dataSource.rowCount" showFirstLastButtons [pageSize]="10" [pageSizeOptions]=[10,20,50,100]></mat-paginator>
+</div>

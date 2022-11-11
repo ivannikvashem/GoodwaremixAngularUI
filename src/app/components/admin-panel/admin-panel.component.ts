@@ -67,7 +67,7 @@ export class AdminPanelComponent implements OnInit {
   fetchSelectedItems() {
     let suppliers = ''
     for (let i of this.selectedSuppliersList) {
-      suppliers += i.supplierName+';'
+      suppliers += i.id+';'
     }
     this.api.fetchDataFromSupplier(suppliers).subscribe({
       next:next => {
