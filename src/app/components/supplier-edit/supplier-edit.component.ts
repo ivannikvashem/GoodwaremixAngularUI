@@ -167,7 +167,7 @@ export class SupplierEditComponent implements OnInit {
   submitSupplier() {
     let supplier = this.supplier
     for (let config of supplier.supplierConfigs) {
-      if (config.sourceSettings.header != undefined) {
+      if (config.sourceSettings.header != undefined && config.sourceSettings.header.length > 0) {
         for (let header of config.sourceSettings.header) {
           delete header.isEditable
         }

@@ -32,14 +32,13 @@ export class ParserLogComponent implements OnInit {
 
   constructor(
     public api: ApiClient
-  ) {  }
+  ) { this.dataSource = new LogsDataSource(this.api); }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator
   @ViewChild(MatSort) sort: MatSort | any;
 
   ngOnInit(): any {
-    this.dataSource = new LogsDataSource(this.api);
-    this.dataSource.loadPagedData(this.supplierId, 0,10, 'date', 'asc');
+    this.dataSource.loadPagedData(this.supplierId, 0,10, 'Date', 'desc');
   }
 
   ngAfterViewInit(): void {

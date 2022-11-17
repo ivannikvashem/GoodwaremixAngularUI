@@ -43,7 +43,6 @@ export class TaskEditComponent implements OnInit {
       this.api.getSupplierById(this.data.oldTask.supplierId).subscribe(x => {
         this.supplier = x.body as Supplier
       })
-      console.log(this.data.oldTask)
       this.selectedSupplier.id = this.data.oldTask.supplierId
       this.fb.get('nameTask').setValue(this.data.oldTask.nameTask)
       this.fb.get('description').setValue(this.data.oldTask.description)
@@ -70,6 +69,5 @@ export class TaskEditComponent implements OnInit {
 
   handleChangeSelectedSupplier(supplier: Supplier) {
     this.supplier = supplier;
-    console.log(supplier)
   }
 }

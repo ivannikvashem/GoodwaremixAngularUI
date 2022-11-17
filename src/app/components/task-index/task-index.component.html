@@ -23,10 +23,10 @@
         </button>&nbsp;
       </th>
       <td mat-cell *matCellDef="let item">
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="Запустить" (click)="startTask(item.id)">
+        <button *ngIf="!item.isEnable" mat-icon-button class="mat-elevation-z2" matTooltip="Запустить" (click)="executeTask(item.id, true)">
           <mat-icon>play_arrow</mat-icon>
         </button>&nbsp;
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="Остановить" (click)="stopTask(item.id)">
+        <button *ngIf="item.isEnable" mat-icon-button class="mat-elevation-z2" matTooltip="Остановить" (click)="executeTask(item.id, false)">
           <mat-icon>stop</mat-icon>
         </button>&nbsp;
         <button mat-icon-button class="mat-elevation-z2" matTooltip="Добавить" (click)="editTask(item)">

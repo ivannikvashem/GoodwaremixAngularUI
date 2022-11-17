@@ -71,7 +71,7 @@
             <mat-tab-group [selectedIndex]="selectedConfig.value" (selectedIndexChange)="selectedConfig.setValue($event)" animationDuration="0ms">
               <mat-tab *ngFor="let config of supplier.supplierConfigs; let i = index">
                 <ng-template mat-tab-label>
-                  {{config.name}}
+                  <span *ngIf="!config.name">Конфигурация</span> {{config.name}}
                   <button mat-icon-button (click)="deleteConfig(config)"><mat-icon>delete</mat-icon></button>
                 </ng-template>
 
