@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {FormControl} from "@angular/forms";
 import {Supplier, SupplierConfig} from "../../models/supplier.model";
 import {ApiClient} from "../../repo/httpClient";
@@ -171,10 +171,10 @@ export class SupplierEditComponent implements OnInit {
         for (let header of config.sourceSettings.header) {
           delete header.isEditable
         }
+        config.sourceSettings.header = JSON.stringify(config.sourceSettings.header)
       } else {
         config.sourceSettings.header = null
       }
-      config.sourceSettings.header = JSON.stringify(config.sourceSettings.header)
     }
     this.api.updateSupplier(supplier).subscribe( x => {
         this._notyf.onSuccess("Конфигурация сохранена");
