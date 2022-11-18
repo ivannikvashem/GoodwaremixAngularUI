@@ -25,7 +25,6 @@ export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
 
   loadPagedData(pageIndex = 1, pageSize = 10, sortActive = "Date", sortDirection = "desc"):any {
     this.loadingSubject.next(true);
-    console.log("Sort: " + sortActive + ", " + sortDirection);
     this.api.getTasks(pageIndex, pageSize, sortActive, sortDirection)
       .pipe(
         map(res => {
@@ -49,6 +48,38 @@ export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
       err => {
         console.log(err);
       });
+  }
+
+  taskOnChange(task:SchedulerTask) {
+    this.api.updateTask(task).subscribe( res => {
+      let newData;
+      if (task.id) {
+         newData = this.TaskListSubject.value.map(x => {
+          if (x.id === task.id) {
+            return Object.assign(x,task)
+          }
+          return x;
+        });
+      } else {
+        newData = this.TaskListSubject.value;
+        newData.push(task)
+      }
+      this.TaskListSubject.next(newData)
+    })
+  }
+
+  taskOnExecute(id:string, isStart:boolean) {
+    if (isStart) {
+      this.api.startTask(id).subscribe(resp => {
+        let newData = this.TaskListSubject.value.map(x => x.id === id ? {...x, isEnable:isStart}: x)
+        this.TaskListSubject.next(newData)
+      })
+    } else {
+      this.api.stopTask(id).subscribe(resp => {
+        let newData = this.TaskListSubject.value.map(x => x.id === id ? {...x, isEnable:isStart}: x)
+        this.TaskListSubject.next(newData)
+      })
+    }
   }
 
 }

@@ -218,7 +218,7 @@ export class ApiClient {
     return this.http.post<any>(this.apiURL + '/SchedulerTask/', schedulerTask, this.httpOptions)
   }
 
-  deleteTask(id:any): Observable<any> {
+  deleteTask(id:string): Observable<any> {
     return this.http.delete(this.apiURL + '/SchedulerTask/' + id, this.httpOptions);
   }
 

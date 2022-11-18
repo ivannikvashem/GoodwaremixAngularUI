@@ -5,6 +5,8 @@ import {MatDialog} from "@angular/material/dialog";
 import {TaskEditComponent} from "../shared/task-edit/task-edit.component";
 import {SchedulerTask} from "../../models/schedulerTask.model";
 import {MatTable} from "@angular/material/table";
+import {MatPaginator} from "@angular/material/paginator";
+import {merge, tap} from "rxjs";
 
 @Component({
   selector: 'app-task-index',
@@ -20,15 +22,28 @@ export class TaskIndexComponent implements OnInit {
   constructor(
     public api: ApiClient,
     public dialog:MatDialog
-  ) { }
+  ) { this.dataSource = new SchedulerTaskDataSource(this.api) }
+  @ViewChild(MatPaginator) paginator!: MatPaginator
 
   ngOnInit(): void {
-    this.dataSource = new SchedulerTaskDataSource(this.api)
-    this.getTasks()
+    this.loadData()
   }
 
-  getTasks() {
-    this.dataSource.loadPagedData(0,10,'date','asc')
+  ngAfterViewInit(): void {
+    // If the user changes the sort order, reset back to the first page.
+
+    //todo доделать нормальный pipe и обработку ошибок
+    merge(this.paginator.page)
+      .pipe(
+        tap( () => {
+          this.loadData();
+        })
+      )
+      .subscribe();
+  }
+
+  loadData() {
+    this.dataSource.loadPagedData(this.paginator?.pageIndex || 0, this.paginator?.pageSize || 10,'date','asc')
   }
 
   addTask() {
@@ -47,28 +62,18 @@ export class TaskIndexComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined) {
-        this.api.updateTask(result.newTask).subscribe()
-        this.getTasks()
+        this.dataSource.taskOnChange(result.newTask)
       }
+      this.loadData()
     });
   }
 
   deleteTask(id:string) {
     this.dataSource.deleteTask(id)
-    this.getTasks()
   }
 
-  startTask(id:string) {
-    this.api.startTask(id).subscribe( x => {
-      console.log('st tsk', x)
-    })
-    this.getTasks()
+  executeTask(id:string, isStart:boolean) {
+    this.dataSource.taskOnExecute(id,isStart)
   }
 
-  stopTask(id:string) {
-    this.api.stopTask(id).subscribe( x => {
-      console.log('st tsk', x)
-    })
-    this.getTasks()
-  }
 }
