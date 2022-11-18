@@ -17,11 +17,15 @@
       <input matInput name="vendorId" [(ngModel)]="product.vendorId" required>
     </mat-form-field>&nbsp;&nbsp;
 
-    <mat-form-field appearance="standard" style="margin-right: 10px">
+    <mat-form-field appearance="standard" style="margin-right: 10px" *ngIf="product.internalCode">
       <mat-label>Артикул Энергомикс</mat-label>
-      <input matInput name="internalCode" [(ngModel)]="product.internalCode" required>
+      <input  matInput name="internalCode" [(ngModel)]="product.internalCode" disabled>
     </mat-form-field>
-  </div>
+    <div *ngIf="!product.internalCode" style="margin: auto;">
+      <button [disabled]="!productId || !product.supplierId" mat-flat-button (click)="RequestProductInternalCode(productId)">Запросить артикул</button>
+    </div>
+
+    </div>
 </mat-card>
 
 <div class="container" style="margin-top: 10px">
@@ -101,7 +105,7 @@
                     {{option.name}}
                   </mat-option>
                 </mat-autocomplete>
-              </mat-form-field>&nbsp;
+              </mat-form-field>
             </div>
 
             <mat-form-field appearance="fill" class="form-full-width">

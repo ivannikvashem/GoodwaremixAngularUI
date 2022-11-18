@@ -1,6 +1,6 @@
 import {Injectable, Type} from '@angular/core';
 import {HttpClient, HttpEvent, HttpHeaders, HttpParams, HttpRequest} from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import {map, Observable, throwError} from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import {Supplier} from "../models/supplier.model";
 import {environment} from '../../environments/environment';
@@ -125,6 +125,20 @@ export class ApiClient {
     return this.http.get<any>(this.apiURL + '/Products/' +id, this.httpOptions);
   }
 
+  bindProductInternalCodeById(id: string): Observable<any> {
+    return this.http.patch<any>(this.apiURL + '/Products/' + id + '/intCode', this.httpOptions);
+  }
+
+  insertProduct(imgProduct:ProductImageViewmodel): Observable<any> {
+    const formData = new FormData()
+    formData.append('product', JSON.stringify(imgProduct.product))
+/*    for (const photo of imgProduct.files) {
+      console.log(photo)
+      formData.append('files', photo)
+    }*/
+    return this.http.post(this.apiURL + '/Products/', formData, {headers:{"ContentType": "multipart/form-data"}, responseType: 'text'});
+  }
+
   updateProduct(imgProduct:ProductImageViewmodel): Observable<any> {
     const formData = new FormData()
     formData.append('product', JSON.stringify(imgProduct.product))
@@ -132,7 +146,7 @@ export class ApiClient {
       console.log(photo)
       formData.append('files', photo)
     }
-    return this.http.post(this.apiURL + '/Products/', formData, {headers:{"ContentType": "multipart/form-data"}})
+    return this.http.put(this.apiURL + '/Products/', formData, {headers:{"ContentType": "multipart/form-data"}})
   }
 
   deleteProductById(productId:string) {
@@ -249,11 +263,11 @@ export class ApiClient {
 
   // INIT ENDPOINT
   fixSupplierStat() {
-    return this.http.post<any>(this.apiURL + '/init/?action=fix', {}, this.httpOptions);
+    return this.http.post<any>(this.apiURL + '/service/cleanstat', {}, this.httpOptions);
   }
 
   fullInit() {
-    return this.http.post<any>(this.apiURL + '/init/fullInit', {}, this.httpOptions);
+    return this.http.post<any>(this.apiURL + '/service/init', {}, this.httpOptions);
   }
 
   checkImageStatusCode(url:string) {
