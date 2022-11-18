@@ -1,9 +1,10 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
+import { FormControl, FormGroup} from "@angular/forms";
 import {SchedulerTask} from "../../../models/schedulerTask.model";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Supplier} from "../../../models/supplier.model";
 import {ApiClient} from "../../../repo/httpClient";
+
 
 export interface DialogData {
   newTask?: SchedulerTask;
@@ -37,6 +38,7 @@ export class TaskEditComponent implements OnInit {
     seconds: new FormControl(),
     isEnable: new FormControl()
   })
+
 
   ngOnInit(): void {
     if (this.data.oldTask !== undefined) {

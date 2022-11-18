@@ -70,7 +70,6 @@ export class ProductDocumentEditComponent implements OnInit {
   }
 
   onCancelClick() {
-    console.log('closed')
   }
 
   addUrl($event: MatChipInputEvent) {

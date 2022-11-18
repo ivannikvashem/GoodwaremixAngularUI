@@ -127,11 +127,11 @@ export class SupplierEditComponent implements OnInit {
   updateSelectedSuppAttr(i: number, row: any, config:any) {
     //validation
     // Add our value
-    // const idx = this.supplier.supplierConfigs.attributeConfig.productAttributeKeys.indexOf(row.attributeIdBD);
-    // console.log("idx: "+ idx);
-    // if (row.keySupplier == null && idx != i) {
-    //   return;
-    // }
+    const idx = config.attributeConfig.productAttributeKeys.indexOf(row.attributeIdBD);
+    console.log("idx: "+ idx);
+    if (row.keySupplier == null && idx != i) {
+      return;
+    }
     //update
     //this.attrSelectedRow = (this.attributeListCtrl.value as Attribute).nameAttribute;
 

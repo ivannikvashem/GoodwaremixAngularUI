@@ -51,21 +51,43 @@ export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
   }
 
   taskOnChange(task:SchedulerTask) {
-    this.api.updateTask(task).subscribe( res => {
-      let newData;
-      if (task.id) {
-         newData = this.TaskListSubject.value.map(x => {
-          if (x.id === task.id) {
-            return Object.assign(x,task)
-          }
-          return x;
-        });
-      } else {
-        newData = this.TaskListSubject.value;
-        newData.push(task)
-      }
-      this.TaskListSubject.next(newData)
-    })
+    console.log(task.id)
+    if (task.id !== undefined) {
+      console.log('in update')
+      this.api.updateTask(task).subscribe( res => {
+        let newData;
+        if (task.id) {
+          newData = this.TaskListSubject.value.map(x => {
+            if (x.id === task.id) {
+              return Object.assign(x,task)
+            }
+            return x;
+          });
+        } else {
+          newData = this.TaskListSubject.value;
+          newData.push(task)
+        }
+        this.TaskListSubject.next(newData)
+      })
+    } else {
+      console.log('in insert')
+      this.api.insertTask(task).subscribe( res => {
+        let newData;
+        if (task.id) {
+          newData = this.TaskListSubject.value.map(x => {
+            if (x.id === task.id) {
+              return Object.assign(x,task)
+            }
+            return x;
+          });
+        } else {
+          newData = this.TaskListSubject.value;
+          newData.push(task)
+        }
+        this.TaskListSubject.next(newData)
+      })
+    }
+
   }
 
   taskOnExecute(id:string, isStart:boolean) {

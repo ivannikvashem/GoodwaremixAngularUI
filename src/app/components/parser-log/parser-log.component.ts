@@ -64,7 +64,6 @@ export class ParserLogComponent implements OnInit {
     if (supplier.hasOwnProperty('id')){
       this.supplierId = supplier.id;
     }
-    //console.log("handler: " + supplier.id);
     this.loadLogData();
   };
 }

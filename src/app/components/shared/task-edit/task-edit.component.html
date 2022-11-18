@@ -26,7 +26,31 @@
     <input matInput type="datetime-local" formControlName="startAt">
   </mat-form-field>
 
-  <div>
+<!--  <div class="formBlockDouble">
+    <mat-form-field appearance="fill" *ngIf="group.value == 'selection'" class="form-full-width">
+      <mat-label>Планировщик</mat-label>
+      <mat-select>
+        <mat-option [value]="'0 0 12 * * ?'"> Каждый день </mat-option>
+        <mat-option [value]="'0 0 0 ? * * *'"> Каждый месяц </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" *ngIf="group.value == 'input'" class="form-full-width">
+      <mat-label>CRON выражение</mat-label>
+      <input matInput>
+    </mat-form-field>
+
+    <mat-button-toggle-group #group="matButtonToggleGroup" value="selection">
+      <mat-button-toggle value="selection">
+        <mat-icon>touch_app</mat-icon>
+      </mat-button-toggle>
+      <mat-button-toggle value="input">
+        <mat-icon>dialpad</mat-icon>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>-->
+
+    <div>
     <mat-form-field appearance="fill">
       <mat-label>Часы</mat-label>
       <input matInput type="number" formControlName="hours">

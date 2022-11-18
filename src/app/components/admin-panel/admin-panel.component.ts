@@ -3,6 +3,7 @@ import {ApiClient} from "../../repo/httpClient";
 import {NotificationService} from "../../service/notification-service";
 import {Supplier} from "../../models/supplier.model";
 import {MatTableDataSource} from "@angular/material/table";
+import {SelectionModel} from "@angular/cdk/collections";
 
 @Component({
   selector: 'app-admin-panel',
@@ -13,14 +14,13 @@ export class AdminPanelComponent implements OnInit {
 
   constructor(private api:ApiClient,
               private _notyf:NotificationService) { }
-  supplierList:Supplier[] = []
-  selectedSuppliersList:Supplier[] =[]
   displayedColumns: string[] = ['checkbox', 'supplier', 'Stat.ProductQty', 'Stat.lastImport'];
   supplierDataSource = new MatTableDataSource<Supplier>()
+  selection = new SelectionModel<Supplier>(true, []);
 
   ngOnInit(): void {
     this.api.getSuppliers('', 0, 100, "SupplierName", "asc").subscribe((r: any) => {
-      this.supplierDataSource = r.body.data
+      this.supplierDataSource.data = r.body.data
     });
   }
 
@@ -66,7 +66,7 @@ export class AdminPanelComponent implements OnInit {
 
   fetchSelectedItems() {
     let suppliers = ''
-    for (let i of this.selectedSuppliersList) {
+    for (let i of this.selection.selected) {
       suppliers += i.id+';'
     }
     this.api.fetchDataFromSupplier(suppliers).subscribe({
@@ -74,15 +74,25 @@ export class AdminPanelComponent implements OnInit {
         this._notyf.onSuccess('Сбор данных начат')
       }, error:error => {
         this._notyf.onError('Ошибка' +JSON.stringify(error))
-      }, complete: () => { {this._notyf.onSuccess('Сбор данных закончен')}}
-      }
-    )
+      }})
   }
 
-  supplierChecked($event:any, supplier:Supplier) {
-    if ($event.checked)
-      this.selectedSuppliersList.push(supplier)
-    else
-      this.selectedSuppliersList = this.selectedSuppliersList.filter(sup => (sup !=supplier))
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.supplierDataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  toggleAllRows() {
+    if (this.isAllSelected()) {
+      this.selection.clear()
+      return
+    }
+    this.selection.select(...this.supplierDataSource.data)
+  }
+
+  applyFilter($event: Event) {
+    const filterValue = ($event.target as HTMLInputElement).value;
+    this.supplierDataSource.filter = filterValue.trim().toLowerCase();
   }
 }

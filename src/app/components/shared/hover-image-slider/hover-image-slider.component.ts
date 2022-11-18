@@ -1,7 +1,6 @@
 import {Component, Inject, Input, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
 import {DialogData} from "../../product-index/product-index.component";
-import {ApiClient} from "../../../repo/httpClient";
 import {MissingImageHandler} from "../../../repo/MissingImageHandler";
 
 @Component({
@@ -37,7 +36,7 @@ export class HoverImageSliderComponent implements OnInit {
         src: image.replace("", ""),
       }
     };
-    this.dialog.open(DialogDataExampleDialog2, dialogBoxSettings);
+    this.dialog.open(ImageDialog, dialogBoxSettings);
   }
 
   handleMissingImage($event: Event) {
@@ -48,11 +47,9 @@ export class HoverImageSliderComponent implements OnInit {
 @Component({
   selector: 'dialog-data-example-dialog',
   template: `
-    <img (error)="handleMissingImage($event)" style="max-width: 800px;  max-height: 800px;" src='{{data.src}}'>
-<!--    <img (error)="handleMissingImage($event)" style="max-width: 95%;  max-height: 95%; margin: 0 auto; display: flex;object-fit: fill" src='{{data.src}}'>-->
-`
+    <img (error)="handleMissingImage($event)" style="max-width: 800px;  max-height: 800px;" src='{{data.src}}'>`
 })
-export class DialogDataExampleDialog2 {
+export class ImageDialog {
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData, private imgHandler:MissingImageHandler) {}
 
   handleMissingImage($event: Event) {

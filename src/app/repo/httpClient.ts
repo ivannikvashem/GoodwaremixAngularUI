@@ -214,8 +214,12 @@ export class ApiClient {
     return this.http.get<any>(this.apiURL + '/SchedulerTask', opt);
   }
 
-  updateTask(schedulerTask: SchedulerTask): Observable<any> {
+  insertTask(schedulerTask:SchedulerTask): Observable<any> {
     return this.http.post<any>(this.apiURL + '/SchedulerTask/', schedulerTask, this.httpOptions)
+  }
+
+  updateTask(schedulerTask: SchedulerTask): Observable<any> {
+    return this.http.put<any>(this.apiURL + '/SchedulerTask/', schedulerTask, this.httpOptions)
   }
 
   deleteTask(id:string): Observable<any> {

@@ -237,7 +237,6 @@ export class ProductEditComponent implements OnInit {
         if (this.product.packages.filter(x => x.barcode !== result.newPackage?.barcode)) {
           if (result.newPackage !== undefined) {
             if (oldPackage == undefined) {
-              console.log(this.product)
               this.product.packages.unshift(result.newPackage as Package)
               this.packDataSource.setData(this.product.packages || []);
             } else {
@@ -310,7 +309,6 @@ export class ProductEditComponent implements OnInit {
       }
     }
 
-    console.log('product',this.product)
     const productToAdd = new ProductImageViewmodel()
     productToAdd.product = this.product
     productToAdd.files = this.imagesToUpload
@@ -322,12 +320,10 @@ export class ProductEditComponent implements OnInit {
    }
 
    updateProduct(product: ProductImageViewmodel) {
-     console.log("Product Update");
      this.api.updateProduct(product).subscribe(x => {
          this._notyf.onSuccess("Товар изменен");
        },
        error => {
-         console.log("updateSupplierError: " + JSON.stringify(error));
          this._notyf.onError("Ошибка: " + JSON.stringify(error));
          //todo обработчик ошибок, сервер недоступен или еще чего..
        });

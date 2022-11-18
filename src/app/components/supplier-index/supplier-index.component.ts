@@ -103,7 +103,6 @@ export class SupplierIndexComponent implements OnInit {
     this._localStorageService.getDataByPageName(this.constructor.name); //pretty wrong, upd data
     this.sub = this.pageCookie$.subscribe(x => {
       if (!x) return;
-      console.log("pc: " + JSON.stringify(x));
       this.pC = x;
       this.searchQueryCtrl.setValue(this.pC.searchQuery);
     });
@@ -165,7 +164,6 @@ export class SupplierIndexComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult === true) {
-        console.log("Confirm deleting " + id);
         this.dataSource.deleteSupplier(id);
       }
     });
@@ -179,9 +177,7 @@ export class SupplierIndexComponent implements OnInit {
       data: dialogData
     });
     dialogRef.afterClosed().subscribe(dialogResult => {
-      //this.result = dialogResult;
       if (dialogResult === true) {
-        console.log("Confirm deleting " + id);
         this.dataSource.deleteSupplierProducts(id);
       }
     });

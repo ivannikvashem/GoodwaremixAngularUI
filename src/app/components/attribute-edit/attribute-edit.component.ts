@@ -49,7 +49,6 @@ export class AttributeEditComponent implements OnInit {
           catchError(() => of([])),
           finalize(() => this.loadingSubject.next(false))
         )
-        //.subscribe(data => this.AttributeSubject.next(data));
         .subscribe(data => {
           this.attribute = data;
         });
@@ -108,9 +107,7 @@ export class AttributeEditComponent implements OnInit {
       },
       error:error => {
         this._notyf.onError('Ошибка ' + error)
-      }, complete: () => { {this._notyf.onSuccess('Успешно сохранено1')}}
-      }
-    )
+      }})
   }
 
   handleChangeSelectedSupplier(supplier: Supplier) {

@@ -35,7 +35,8 @@
       </th>
       <td mat-cell *matCellDef="let item">
         <button mat-icon-button *ngIf="item.data.length > 0" class="mat-elevation-z2" aria-label="expand row" (click)="(expandedElement = expandedElement === item ? null : item); $event.stopPropagation()">
-          <mat-icon>remove_red_eye</mat-icon>
+          <mat-icon *ngIf="expandedElement !== item">keyboard_arrow_down</mat-icon>
+          <mat-icon *ngIf="expandedElement === item">keyboard_arrow_up</mat-icon>
         </button>
       </td>
     </ng-container>
@@ -50,7 +51,7 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="element-row" [class.example-expanded-row]="expandedElement === row "></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="element-row" (click)="expandedElement = expandedElement === row ? null : row" [class.example-expanded-row]="expandedElement === row " style="cursor: pointer"></tr>
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
   </table>
   <mat-paginator [length]="dataSource.rowCount" showFirstLastButtons [pageSize]="10" [pageSizeOptions]=[10,20,50,100]></mat-paginator>

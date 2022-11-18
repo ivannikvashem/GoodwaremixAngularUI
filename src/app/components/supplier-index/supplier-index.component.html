@@ -27,8 +27,10 @@
       <td mat-cell *matCellDef="let row">
         <table *ngIf="row.supplierConfigs != null">
           <tr *ngFor="let config of row.supplierConfigs">
-            <th> <mat-icon class="material-icons-outlined"> {{config.sourceSettings.source == "API" ? "cloud_done" : (config.sourceSettings.source == "MAIL" ? "drafts" : "folder_shared")}}</mat-icon> </th>
-            <th> <mat-icon class="material-icons-outlined"> {{config.type == "XML" ? "code": (config.type == "XLSX" ? "table_view": "data_object")}} </mat-icon> </th>
+            <th>
+              <mat-icon class="material-icons-outlined"> {{config.sourceSettings.source == "API" ? "cloud_done" : (config.sourceSettings.source == "MAIL" ? "drafts" : "folder_shared")}}</mat-icon>
+              <mat-icon class="material-icons-outlined"> {{config.type == "XML" ? "code": (config.type == "XLSX" ? "table_view": "data_object")}} </mat-icon>
+            </th>
           </tr>
         </table>
       </td>
@@ -38,17 +40,15 @@
       <th mat-header-cell *matHeaderCellDef>Данные</th>
       <td mat-cell *matCellDef="let row">
         <ng-container *ngIf="row.supplierConfigs != null">
-          <table>
-            <tr *ngFor="let config of row.supplierConfigs">
-              <th> <mat-icon class="material-icons-outlined" *ngIf="config.imageConfig != null && config.imageConfig.images != null">{{config.imageConfig.downloadLocally ? "add_a_photo" : "photo_camera"}}</mat-icon></th>
-              <th> <mat-icon class="material-icons-outlined" *ngIf="config.attributeConfig != null && config.attributeConfig.attributeName != null">{{config.attributeConfig.productAttributeKeys.length > 0 ? "playlist_add" : "toc"}}</mat-icon></th>
-              <th> <mat-icon class="material-icons-outlined" *ngIf="config.packageConfig != null && config.packageConfig.netto != null && config.packageConfig.netto.barcode != null">crop</mat-icon></th>
-              <th> <mat-icon class="material-icons-outlined" *ngIf="config.packageConfig != null && config.packageConfig.packQty != null">inventory_2</mat-icon></th>
-              <th> <mat-icon class="material-icons-outlined" *ngIf="config.documentConfig != null && (config.documentConfig.endDate != null || config.documentConfig.certNumber != null)">file_present</mat-icon></th>
-              <th> <mat-icon class="material-icons-outlined" *ngIf="config.attributeConfig != null && config.attributeConfig.etimFeature != null">explicit</mat-icon></th>
-              <th> <mat-icon class="material-icons-outlined" *ngIf="config.baseSuppConfig != null && (config.baseSuppConfig.country !=null || config.baseSuppConfig?.countryCode != null)">public</mat-icon></th>
-            </tr>
-          </table>
+          <div *ngFor="let config of row.supplierConfigs">
+            <mat-icon class="material-icons-outlined" *ngIf="config.imageConfig != null && config.imageConfig.images != null">{{config.imageConfig.downloadLocally ? "add_a_photo" : "photo_camera"}}</mat-icon>
+            <mat-icon class="material-icons-outlined" *ngIf="config.attributeConfig != null && config.attributeConfig.attributeName != null">{{config.attributeConfig.productAttributeKeys.length > 0 ? "playlist_add" : "toc"}}</mat-icon>
+            <mat-icon class="material-icons-outlined" *ngIf="config.packageConfig != null && config.packageConfig.netto != null && config.packageConfig.netto.barcode != null">crop</mat-icon>
+            <mat-icon class="material-icons-outlined" *ngIf="config.packageConfig != null && config.packageConfig.packQty != null">inventory_2</mat-icon>
+            <mat-icon class="material-icons-outlined" *ngIf="config.documentConfig != null && (config.documentConfig.endDate != null || config.documentConfig.certNumber != null)">file_present</mat-icon>
+            <mat-icon class="material-icons-outlined" *ngIf="config.attributeConfig != null && config.attributeConfig.etimFeature != null">explicit</mat-icon>
+            <mat-icon class="material-icons-outlined" *ngIf="config.baseSuppConfig != null && (config.baseSuppConfig.country !=null || config.baseSuppConfig?.countryCode != null)">public</mat-icon>
+          </div>
 
         </ng-container>
       </td>
