@@ -10,6 +10,7 @@ import {ParserLogComponent} from "./components/parser-log/parser-log.component";
 import {ProductDetailsComponent} from "./components/product-details/product-details.component";
 import {ProductEditComponent} from "./components/product-edit/product-edit.component";
 import {AdminPanelComponent} from "./components/admin-panel/admin-panel.component";
+import {TaskIndexComponent} from "./components/task-index/task-index.component";
 
 const routes: Routes = [
 
@@ -24,7 +25,8 @@ const routes: Routes = [
   {path: 'supplier-add', component: SupplierEditComponent},
   {path: 'supplier-edit/:supplierId', component: SupplierEditComponent},
   {path: 'log', component: ParserLogComponent},
-  {path:'admin', component: AdminPanelComponent}
+  {path:'admin', component: AdminPanelComponent},
+  {path: 'task', component: TaskIndexComponent}
 ];
 
 @NgModule({

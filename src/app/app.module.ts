@@ -26,7 +26,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
-import {DialogDataExampleDialog, ProductIndexComponent} from './components/product-index/product-index.component';
+import {DialogDataDialog, ProductIndexComponent} from './components/product-index/product-index.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatTableModule} from "@angular/material/table";
 import {MatIconModule} from "@angular/material/icon";
@@ -40,7 +40,7 @@ import { NgxBarcodeModule } from 'ngx-barcode';
 import { PackageCardComponent } from './components/shared/package-card/package-card.component';
 import {MatBadgeModule} from '@angular/material/badge';
 import {
-  DialogDataExampleDialog2,
+  ImageDialog,
   HoverImageSliderComponent
 } from './components/shared/hover-image-slider/hover-image-slider.component';
 import { ConfirmDialogComponent } from './components/shared/confirm-dialog/confirm-dialog.component';
@@ -61,13 +61,15 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {ScrollingModule} from "@angular/cdk/scrolling";
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import {SupplierAutocompleteComponent} from "./components/shared/supplier-autocomplete/supplier-autocomplete.component";
+import { TaskIndexComponent } from './components/task-index/task-index.component';
+import { TaskEditComponent } from './components/shared/task-edit/task-edit.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProductIndexComponent,
-    DialogDataExampleDialog,
-    DialogDataExampleDialog2,
+    DialogDataDialog,
+    ImageDialog,
     AttributeIndexComponent,
     AttributeEditComponent,
     SupplierIndexComponent,
@@ -85,6 +87,8 @@ import {SupplierAutocompleteComponent} from "./components/shared/supplier-autoco
     SupplierAttributeAddComponent,
     AdminPanelComponent,
     SupplierAutocompleteComponent,
+    TaskIndexComponent,
+    TaskEditComponent
   ],
   imports: [
     CommonModule,

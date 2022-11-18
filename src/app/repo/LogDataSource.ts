@@ -25,7 +25,6 @@ export class LogsDataSource implements DataSource<Log> {
 
   loadPagedData(selectedSuppId = '',pageIndex = 1, pageSize = 10, sortActive = "Date", sortDirection = "desc"): any {
     this.loadingSubject.next(true);
-    console.log("Sort: " + sortActive + ", " + sortDirection);
     this.api.getLogs(selectedSuppId,pageIndex, pageSize, sortActive, sortDirection)
       .pipe(
         map(res => {

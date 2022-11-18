@@ -7,7 +7,17 @@ import {MatChipInputEvent} from "@angular/material/chips";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {AttributeProduct} from "../../models/attributeProduct.model";
 import {DataSource} from "@angular/cdk/collections";
-import {debounceTime, distinctUntilChanged, finalize, Observable, ReplaySubject, startWith, switchMap, tap} from "rxjs";
+import {
+  debounceTime,
+  distinctUntilChanged,
+  finalize,
+  Observable,
+  of,
+  ReplaySubject,
+  startWith,
+  switchMap,
+  tap
+} from "rxjs";
 import {NotificationService} from "../../service/notification-service";
 import {MatTableDataSource} from "@angular/material/table";
 import {ActivatedRoute} from "@angular/router";
@@ -20,7 +30,7 @@ import {ProductDocumentEditComponent} from "../shared/product-document-edit/prod
 import {HttpClient} from "@angular/common/http";
 import {ProductPackageEditComponent} from "../shared/product-package-edit/product-package-edit.component";
 import countriesListJson from "../../countriesList.json"
-import {map} from "rxjs/operators";
+import {catchError, map} from "rxjs/operators";
 import {MissingImageHandler} from "../../repo/MissingImageHandler";
 
 interface Country {
@@ -38,7 +48,7 @@ export class ProductEditComponent implements OnInit {
   // Supplier
   selectedSupplier: Supplier;
   //Product
-  product:Product;
+  product:Product = new Product();
   productId:string = '';
   imagesToUpload:File[] = []
   imagesView:string[] =[]
@@ -92,9 +102,6 @@ export class ProductEditComponent implements OnInit {
             this.product.localImages.forEach((value) => {this.imagesView.unshift(value) })
           }
         });
-    }
-    else {
-      this.product = new Product()
     }
     this.filteredCountries = this.searchCountryCtrl.valueChanges.pipe(
       startWith(''),
@@ -230,7 +237,6 @@ export class ProductEditComponent implements OnInit {
         if (this.product.packages.filter(x => x.barcode !== result.newPackage?.barcode)) {
           if (result.newPackage !== undefined) {
             if (oldPackage == undefined) {
-              console.log(this.product)
               this.product.packages.unshift(result.newPackage as Package)
               this.packDataSource.setData(this.product.packages || []);
             } else {
@@ -284,22 +290,57 @@ export class ProductEditComponent implements OnInit {
   }
 
   submitProduct() {
-    if (!this.product.supplierId) {
-      this.product.supplierId = this.selectedSupplier.id
-      this.product.supplierName = this.selectedSupplier.supplierName
+    if (!this.product.title) {
+      this._notyf.onError("Не задано наименование продукта");
+      return;
     }
-    console.log('product',this.product)
+    if (!this.product.vendorId) {
+      this._notyf.onError("Не задан артикул продукта поставщика");
+      return;
+    }
+
+    if (!this.product.supplierId) { //адский оверхед с сокрытием поля
+      if (this.selectedSupplier && this.selectedSupplier.id) {
+        this.product.supplierId = this.selectedSupplier.id
+        this.product.supplierName = this.selectedSupplier.supplierName
+      } else {
+        this._notyf.onError("Не задан поставщик");
+        return;
+      }
+    }
+
     const productToAdd = new ProductImageViewmodel()
     productToAdd.product = this.product
     productToAdd.files = this.imagesToUpload
-    this.api.updateProduct(productToAdd).subscribe(x => {
-        this._notyf.onSuccess("Товар сохранен");
-      },
+    if (this.productId) {
+      this.updateProduct(productToAdd)
+    } else {
+      this.insertProduct(productToAdd)
+    }
+   }
+
+   updateProduct(product: ProductImageViewmodel) {
+     this.api.updateProduct(product).subscribe(x => {
+         this._notyf.onSuccess("Товар изменен");
+       },
        error => {
-         console.log("updateSupplierError: " + JSON.stringify(error));
          this._notyf.onError("Ошибка: " + JSON.stringify(error));
          //todo обработчик ошибок, сервер недоступен или еще чего..
        });
+   }
+
+   insertProduct(product: ProductImageViewmodel) {
+     console.log("Product Insert");
+     this.api.insertProduct(product)
+       .subscribe(body => {
+         console.warn(">>" + JSON.stringify(body));
+         this._notyf.onSuccess("Товар cоздан");
+         this.productId = body;
+       },
+       error => {
+         console.log("insertSupplierError: " + JSON.stringify(error));
+         this._notyf.onError("Ошибка: " + JSON.stringify(error));
+       } );
    }
 
   onCountrySelected() {
@@ -309,6 +350,18 @@ export class ProductEditComponent implements OnInit {
 
   handleMissingImage($event: Event) {
     this.imgHandler.checkImgStatus($event)
+  }
+
+  RequestProductInternalCode(id: string) {
+    this.api.bindProductInternalCodeById(id).subscribe(x => {
+        this._notyf.onSuccess("Артикул успешно привязан");
+        this.product.internalCode = x;
+        console.warn(x);
+      },
+      error => {
+        console.log("updateSupplierError: " + JSON.stringify(error));
+        this._notyf.onError("Ошибка: " + JSON.stringify(error.error));
+      });
   }
 }
 

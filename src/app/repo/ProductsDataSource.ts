@@ -30,6 +30,7 @@ export class ProductsDataSource implements DataSource<Product> {
   }
 
   loadPagedData(queryString = "", withInternalCodeSelector = false, selectedSuppId = '', pageIndex = 0, pageSize = 10, selectedAttributes:SelectedFilterAttributes[]) {
+    this.loadingSubject.next(true);
     this.api.getProducts(queryString, withInternalCodeSelector, selectedSuppId, pageIndex, pageSize, selectedAttributes)
       .pipe(
         tap(() => {
@@ -50,8 +51,7 @@ export class ProductsDataSource implements DataSource<Product> {
   deleteProduct(id: any) {
     console.log("deleting product " + id);
     this.api.deleteProductById(id).subscribe( res => {
-      console.log('res',res)
-        let newdata = this.ProductListSubject.value.filter(row => row.Id != id );
+        let newdata = this.ProductListSubject.value.filter(row => row.id != id );
         this.ProductListSubject.next(newdata);
       },
       err => {

@@ -90,9 +90,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
 
   setCookie() {
     // on each interaction - save all controls state to cookies
-    console.log('set')
     let supp = this.selectedSupplier;
-    console.log(supp)
     this._localStorageService.setDataByPageName(this.constructor.name, {
       searchQuery: this.searchQueryCtrl.value,
       pageIndex: this.paginator?.pageIndex,
@@ -104,11 +102,9 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
 
   getCookie() {
     //try to get cookie, if there's no cookie - make the blank and save
-    console.log(this._localStorageService.myData$)
     this._localStorageService.getDataByPageName(this.constructor.name) as PageCookieProductIndex; //pretty wrong, upd data
     this.sub = this.pageCookie$.subscribe(x => {
       if (!x) return;
-      //console.log("pc: " + JSON.stringify(x.pageIndex));
       this.pC = x;
       this.searchQueryCtrl.setValue(this.pC.searchQuery);
       if (this.pC.supplier === undefined) {
@@ -212,7 +208,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
         src: image.replace("", ""),
       }
     };
-    this.dialog.open(DialogDataExampleDialog, dialogBoxSettings);
+    this.dialog.open(DialogDataDialog, dialogBoxSettings);
   }
   handleMissingImage($event: Event) {
     this.imgHandler.checkImgStatus($event)
@@ -264,13 +260,13 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   }
 }
 @Component({
-  selector: 'dialog-data-example-dialog',
+  selector: 'dialog-data-dialog',
   template: `
     <img (error)="handleMissingImage($event)" style="max-width: 800px;  max-height: 800px;" src='{{data.src}}'>
 <!--    <img (error)="handleMissingImage($event)" style="max-width: 95%;  max-height: 95%; margin: 0 auto; display: flex" src='{{data.src}}'>-->
 `
 })
-export class DialogDataExampleDialog {
+export class DialogDataDialog {
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData, private imgHandler:MissingImageHandler) {}
 
   handleMissingImage($event: Event) {

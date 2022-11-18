@@ -20,6 +20,27 @@ table {
   text-align: center;
 }
 
+.mat-column-supplierName {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 100px !important;
+  width: 100px !important;
+}
+
+.mat-column-date {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 135px !important;
+  width: 135px !important;
+}
+
+.mat-column-status {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 135px !important;
+  width: 135px !important;
+}
+
 tr.example-detail-row {
   height: 0;
 }

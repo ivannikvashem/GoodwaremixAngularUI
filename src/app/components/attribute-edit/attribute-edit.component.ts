@@ -24,7 +24,7 @@ export class AttributeEditComponent implements OnInit {
   public selectedSupplier:Supplier
   private loadingSubject = new BehaviorSubject<boolean>(true);
   id: string | null | undefined;
-  attribute: Attribute;
+  attribute: Attribute = new Attribute();
   attrType: AttributeType[] = [
     {value: 'L', viewValue: 'Бинарный'},
     {value: 'N', viewValue: 'Числовой'},
@@ -49,12 +49,10 @@ export class AttributeEditComponent implements OnInit {
           catchError(() => of([])),
           finalize(() => this.loadingSubject.next(false))
         )
-        //.subscribe(data => this.AttributeSubject.next(data));
         .subscribe(data => {
           this.attribute = data;
         });
     } else {
-      this.attribute = new Attribute()
       this.attribute.rating = 0;
     }
   }
@@ -109,9 +107,7 @@ export class AttributeEditComponent implements OnInit {
       },
       error:error => {
         this._notyf.onError('Ошибка ' + error)
-      }, complete: () => { {this._notyf.onSuccess('Успешно сохранено1')}}
-      }
-    )
+      }})
   }
 
   handleChangeSelectedSupplier(supplier: Supplier) {

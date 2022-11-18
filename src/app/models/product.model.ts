@@ -3,7 +3,7 @@ import {Document} from "./document.model";
 import {Package} from "./package.model";
 
 export class Product {
-  Id: string;
+  id: string;
   supplierId: string;
   supplierName:string;
   internalCode: string;

@@ -1,6 +1,6 @@
 
 export class Dimensions {
-  tagName: string | undefined;
+  tagName: string;
   format: string = '';
   multiplier: number = 1;
 }

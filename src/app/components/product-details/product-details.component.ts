@@ -59,7 +59,6 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   swapItem(nameAttribute: string, id: string) {
-    console.log(nameAttribute, id)
     this.openDialog(nameAttribute, id);
   }
 
