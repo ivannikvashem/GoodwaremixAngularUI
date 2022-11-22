@@ -3,6 +3,7 @@ import {SchedulerTask} from "../models/schedulerTask.model";
 import {BehaviorSubject, Observable, of} from "rxjs";
 import {catchError, finalize, map} from "rxjs/operators";
 import {ApiClient} from "./httpClient";
+import {NotificationService} from "../service/notification-service";
 
 export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
 
@@ -12,7 +13,7 @@ export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
   public loading$ = this.loadingSubject.asObservable();
   public rowCount = 0;
 
-  constructor(private api:ApiClient) {}
+  constructor(private api:ApiClient, private _notyf: NotificationService) {}
 
   connect(collectionViewer: CollectionViewer): Observable<SchedulerTask[]> {
     return this.TaskListSubject.asObservable();
@@ -40,7 +41,6 @@ export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
   }
 
   deleteTask(id: any) {
-    console.log("deleting supp " + id);
     this.api.deleteTask(id).subscribe( res => {
         let newdata = this.TaskListSubject.value.filter(row => row.id != id );
         this.TaskListSubject.next(newdata);
@@ -50,10 +50,8 @@ export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
       });
   }
 
-  taskOnChange(task:SchedulerTask) {
-    console.log(task.id)
-    if (task.id !== undefined) {
-      console.log('in update')
+  submitSchedulerTask(task:SchedulerTask) {
+    if (task.id) {
       this.api.updateTask(task).subscribe( res => {
         let newData;
         if (task.id) {
@@ -70,8 +68,8 @@ export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
         this.TaskListSubject.next(newData)
       })
     } else {
-      console.log('in insert')
       this.api.insertTask(task).subscribe( res => {
+        console.log('res', res)
         let newData;
         if (task.id) {
           newData = this.TaskListSubject.value.map(x => {
@@ -92,14 +90,26 @@ export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
 
   taskOnExecute(id:string, isStart:boolean) {
     if (isStart) {
-      this.api.startTask(id).subscribe(resp => {
-        let newData = this.TaskListSubject.value.map(x => x.id === id ? {...x, isEnable:isStart}: x)
-        this.TaskListSubject.next(newData)
+      this.api.startTask(id).subscribe( {
+        next:next => {
+          let newData = this.TaskListSubject.value.map(x => x.id === id ? {...x, isEnable:isStart}: x)
+          this.TaskListSubject.next(newData)
+          this._notyf.onSuccess('Задача запущена')
+        },
+        error:error => {
+          this._notyf.onError('Ошибка запуска' + error)
+        }
       })
     } else {
-      this.api.stopTask(id).subscribe(resp => {
-        let newData = this.TaskListSubject.value.map(x => x.id === id ? {...x, isEnable:isStart}: x)
-        this.TaskListSubject.next(newData)
+      this.api.stopTask(id).subscribe({
+        next:next => {
+          let newData = this.TaskListSubject.value.map(x => x.id === id ? {...x, isEnable:isStart}: x)
+          this.TaskListSubject.next(newData)
+          this._notyf.onSuccess('Задача остановлена')
+        },
+        error:error => {
+          this._notyf.onError('Ошибка запуска' + error)
+        }
       })
     }
   }

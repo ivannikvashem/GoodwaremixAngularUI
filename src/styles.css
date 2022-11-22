@@ -27,6 +27,21 @@ a:hover {
   background-color: transparent;
   text-decoration: none;
 }
+
+.success-snackbar {
+  background: green;
+  color:white;
+}
+
+.error-snackbar {
+  background: #f44336;
+  color:white;
+}
+
+.warning-snackbar {
+  background: darkorange;
+  color:white;
+}
 /*a:active {*/
 /*  color: yellow;*/
 /*  background-color: transparent;*/

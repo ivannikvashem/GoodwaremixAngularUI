@@ -24,8 +24,8 @@ export class ProductPackageEditComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA)
               public data: AttrDialogData) {
     this.form = new FormGroup<any>({
-      "barcode": new FormControl<string>('', Validators.required),
-      "type": new FormControl<string>(''),
+      "barcode": new FormControl<string>(null, Validators.required),
+      "type": new FormControl<string>(null),
       "height": new FormControl<number>(null),
       "width": new FormControl<number>(null),
       "depth": new FormControl<number>(null),

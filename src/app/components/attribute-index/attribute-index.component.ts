@@ -25,7 +25,6 @@ export interface AttrDialogData {
   styleUrls: ['./attribute-index.component.css']
 })
 export class AttributeIndexComponent implements OnInit {
-
   dataSource: AttributesDataSource;
   displayedColumns: string[] = ['fixed', 'Rating', 'supplierName', 'etimFeature', 'nameAttribute', 'allValue', 'actions'];
   withFixedAttrSelectorCtrl = new FormControl<boolean | null>(null);
@@ -153,13 +152,11 @@ export class AttributeIndexComponent implements OnInit {
   confirmDeleteDialog(id: string, name: string): void {
     const message = `Удалить атрибут ` + name + `?`;
     const dialogData = new ConfirmDialogModel("Подтверждение", message);
-
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       minWidth: "300px",
       maxWidth: "500px",
       data: dialogData
     });
-
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult === true) {
         this.dataSource.deleteAttribute(id);

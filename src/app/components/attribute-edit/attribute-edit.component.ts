@@ -23,6 +23,8 @@ export class AttributeEditComponent implements OnInit {
 
   public selectedSupplier:Supplier
   private loadingSubject = new BehaviorSubject<boolean>(true);
+  addOnBlur = true;
+  readonly separatorKeysCodes = [ENTER, COMMA] as const;
   id: string | null | undefined;
   attribute: Attribute = new Attribute();
   attrType: AttributeType[] = [
@@ -56,9 +58,6 @@ export class AttributeEditComponent implements OnInit {
       this.attribute.rating = 0;
     }
   }
-
-  addOnBlur = true;
-  readonly separatorKeysCodes = [ENTER, COMMA] as const;
 
   addPossibleValue(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
@@ -101,13 +100,23 @@ export class AttributeEditComponent implements OnInit {
       this.attribute.supplierId = this.selectedSupplier.id
       this.attribute.supplierName = this.selectedSupplier.supplierName
     }
-    this.api.updateAttribute(this.attribute).subscribe( {
-      next:next => {
-         this._notyf.onSuccess('Успешно сохранено')
-      },
-      error:error => {
-        this._notyf.onError('Ошибка ' + error)
-      }})
+    if (this.attribute.id == undefined) {
+      this.api.insertAttribute(this.attribute).subscribe( {
+        next:next => {
+          this._notyf.onSuccess('Успешно добавлено')
+        },
+        error:error => {
+          this._notyf.onError('Ошибка ' + error)
+        }})
+    } else {
+      this.api.updateAttribute(this.attribute).subscribe( {
+        next:next => {
+          this._notyf.onSuccess('Успешно сохранено')
+        },
+        error:error => {
+          this._notyf.onError('Ошибка ' + error)
+        }})
+    }
   }
 
   handleChangeSelectedSupplier(supplier: Supplier) {

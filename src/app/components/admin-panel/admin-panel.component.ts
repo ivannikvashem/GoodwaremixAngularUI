@@ -31,7 +31,7 @@ export class AdminPanelComponent implements OnInit {
       },
       error: err => {
         this._notyf.onError("Ошибка: " + JSON.stringify(err));
-      },})
+      }})
   }
 
   fullInit() {
@@ -56,10 +56,9 @@ export class AdminPanelComponent implements OnInit {
 
   downloadTable(table:string, supplierId?:string) {
     this.api.downloadTableFile(table,supplierId).subscribe((p:any) =>{
-      let blob:any = new Blob([p.body], {type: 'application/json; charset=utf-8'})
       let downloadAction = document.createElement('a')
       downloadAction.download = table;
-      downloadAction.href = window.URL.createObjectURL(blob)
+      downloadAction.href = window.URL.createObjectURL(new Blob([p.body], {type: 'application/json; charset=utf-8'}))
       downloadAction.click()
     })
   }

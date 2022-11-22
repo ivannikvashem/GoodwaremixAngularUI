@@ -5,18 +5,10 @@
 <mat-tab-group>
   <mat-tab label="Поставщики">
     <mat-card>
-      <button mat-button class="mat-elevation-z2" (click)="fetchItem('default')">
-        <mat-icon>restart_alt</mat-icon> Запустить сбор всех поставщиков
-      </button>&nbsp;
-      <button mat-button class="mat-elevation-z2" (click)="fullInit()">
-        <mat-icon>sync_problem</mat-icon> Инициализировать БД
-      </button>&nbsp;
-      <button mat-button class="mat-elevation-z2" (click)="fixSupplierStat()">
-        <mat-icon>build</mat-icon> Обновить кол-во товара и бренды
-      </button>&nbsp;
-      <button mat-button class="mat-elevation-z2" (click)="downloadTable('Supplier')">
-        <mat-icon>cloud_download</mat-icon>  Скачать всех
-      </button>&nbsp;
+      <button mat-button class="mat-elevation-z2" (click)="fetchItem('default')"><mat-icon>restart_alt</mat-icon>Запустить сбор всех поставщиков</button>&nbsp;
+      <button mat-button class="mat-elevation-z2" (click)="fullInit()"><mat-icon>sync_problem</mat-icon>Инициализировать БД</button>&nbsp;
+      <button mat-button class="mat-elevation-z2" (click)="fixSupplierStat()"><mat-icon>build</mat-icon>Обновить кол-во товара и бренды</button>&nbsp;
+      <button mat-button class="mat-elevation-z2" (click)="downloadTable('Supplier')"><mat-icon>cloud_download</mat-icon>  Скачать всех</button>&nbsp;
     </mat-card>
 
     <mat-card style="margin-top: 10px">
@@ -25,7 +17,6 @@
         <input matInput (keyup)="applyFilter($event)">
       </mat-form-field>
       <div class="overflow-div">
-
         <table mat-table [dataSource]="supplierDataSource" class="mat-elevation-z8; full-width">
           <!-- Checkbox Column -->
           <ng-container matColumnDef="checkbox">
@@ -57,24 +48,18 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
       </div>
-      <button mat-button class="mat-elevation-z2" style="margin-top: 10px" (click)="fetchSelectedItems()" [disabled]="selection.selected.length == 0">
-        <mat-icon>restart_alt</mat-icon>  Сбор выбранных
-      </button>
+      <button mat-button class="mat-elevation-z2" style="margin-top: 10px" (click)="fetchSelectedItems()" [disabled]="selection.selected.length == 0"><mat-icon>restart_alt</mat-icon>Сбор выбранных</button>
     </mat-card>
 
   </mat-tab>
   <mat-tab label="Атрибуты">
     <mat-card>
-      <button mat-button class="mat-elevation-z2" (click)="downloadTable('Attribute')">
-        <mat-icon>cloud_download</mat-icon>  Скачать все атрибуты
-      </button>&nbsp;
+      <button mat-button class="mat-elevation-z2" (click)="downloadTable('Attribute')"><mat-icon>cloud_download</mat-icon>  Скачать все атрибуты</button>&nbsp;
     </mat-card>
   </mat-tab>
   <mat-tab label="Товары">
     <mat-card>
-      <button mat-button class="mat-elevation-z2" (click)="downloadTable('Product')">
-        <mat-icon>cloud_download</mat-icon>  Скачать все товары
-      </button>&nbsp;
+      <button mat-button class="mat-elevation-z2" (click)="downloadTable('Product')"><mat-icon>cloud_download</mat-icon>Скачать все товары</button>&nbsp;
     </mat-card>
   </mat-tab>
 </mat-tab-group>

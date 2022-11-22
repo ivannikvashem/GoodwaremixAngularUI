@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {FormControl} from "@angular/forms";
 import {Supplier, SupplierConfig} from "../../models/supplier.model";
 import {ApiClient} from "../../repo/httpClient";
@@ -48,6 +48,7 @@ export class SupplierEditComponent implements OnInit {
 
   constructor(
     private _ActivatedRoute:ActivatedRoute,
+    private router: Router,
     private _notyf: NotificationService,
     public dialog: MatDialog,
     public api: ApiClient,
@@ -88,9 +89,10 @@ export class SupplierEditComponent implements OnInit {
 
   addSuppAttr(table:any,config:any) {
     //if already added -  skip
-    // if (this.supplier.supplierConfigs.attributeConfig.productAttributeKeys.some( (x: ProductAttributeKey) => x == '')) {
-    //   return;
-    // }
+    console.log(config.attributeConfig.productAttributeKeys)
+    if (config.attributeConfig.productAttributeKeys.some( (x: ProductAttributeKey) => x.keySupplier == '')) {
+       return;
+    }
     console.log('conf', config)
 
     let a: ProductAttributeKey = {keySupplier: '', attributeBDName: '', attributeIdBD: '', attributeValid: false, multiplier: ''};
@@ -176,19 +178,32 @@ export class SupplierEditComponent implements OnInit {
         config.sourceSettings.header = null
       }
     }
-    this.api.updateSupplier(supplier).subscribe( x => {
-        this._notyf.onSuccess("Конфигурация сохранена");
-        for (let i of this.attributesToAdd) {
-          i.supplierId = x.body.id
-          i.supplierName = x.body.supplierName
-          this.api.updateAttribute(i).subscribe()
-        }
-      },
-      error => {
-        this._notyf.onError("Ошибка: " + JSON.stringify(error));
-        //todo обработчик ошибок, сервер недоступен или еще чего..
-      });
-
+    if (supplier.id == undefined || supplier.id == null) {
+      this.api.insertSupplier(supplier).subscribe( x => {
+          this._notyf.onSuccess("Конфигурация добавлена");
+          for (let i of this.attributesToAdd) {
+            i.supplierId = x.body
+            i.supplierName = this.supplier.supplierName
+            this.api.updateAttribute(i).subscribe()
+          }
+          this.router.navigate([`supplier-edit/${x.body}`])
+        },
+        error => {
+          this._notyf.onError("Ошибка: " + JSON.stringify(error));
+        });
+    } else {
+      this.api.updateSupplier(supplier).subscribe( x => {
+          this._notyf.onSuccess("Конфигурация сохранена");
+          for (let i of this.attributesToAdd) {
+            i.supplierId = this.supplier.id
+            i.supplierName = this.supplier.supplierName
+            this.api.updateAttribute(i).subscribe()
+          }
+        },
+        error => {
+          this._notyf.onError("Ошибка: " + JSON.stringify(error));
+        });
+    }
       for (let config of supplier.supplierConfigs) {                                                //todo  <- shit way, need to be fixed
         config.sourceSettings.header = JSON.parse(config.sourceSettings.header) as HeaderModel
       }

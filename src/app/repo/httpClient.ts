@@ -5,7 +5,6 @@ import { retry, catchError } from 'rxjs/operators';
 import {Supplier} from "../models/supplier.model";
 import {environment} from '../../environments/environment';
 import {Product} from "../models/product.model";
-import {ProductImageViewmodel} from "../models/viewmodels/productImage.viewmodel";
 import {Attribute} from "../models/attribute.model";
 import {SchedulerTask} from "../models/schedulerTask.model";
 import {resourceChangeTicket} from "@angular/compiler-cli/src/ngtsc/core";
@@ -77,8 +76,12 @@ export class ApiClient {
     return this.http.post<any>(this.apiURL + '/Attributes/' + id + '/fix/', {}, this.httpOptions);
   }
 
-  updateAttribute (attribute: Attribute) {
+  insertAttribute (attribute: Attribute) {
     return this.http.post<any>(this.apiURL + '/Attributes/', attribute, this.httpOptions);
+  }
+
+  updateAttribute (attribute: Attribute) {
+    return this.http.put<any>(this.apiURL + '/Attributes/', attribute, this.httpOptions);
   }
 
   deleteAttribute (id: string) {
@@ -129,20 +132,20 @@ export class ApiClient {
     return this.http.patch<any>(this.apiURL + '/Products/' + id + '/intCode', this.httpOptions);
   }
 
-  insertProduct(imgProduct:ProductImageViewmodel): Observable<any> {
+  insertProduct(product:Product, files:any): Observable<any> {
     const formData = new FormData()
-    formData.append('product', JSON.stringify(imgProduct.product))
-/*    for (const photo of imgProduct.files) {
+    formData.append('product', JSON.stringify(product))
+/*    for (const photo of files) {
       console.log(photo)
       formData.append('files', photo)
     }*/
     return this.http.post(this.apiURL + '/Products/', formData, {headers:{"ContentType": "multipart/form-data"}, responseType: 'text'});
   }
 
-  updateProduct(imgProduct:ProductImageViewmodel): Observable<any> {
+  updateProduct(product:Product, files:any): Observable<any> {
     const formData = new FormData()
-    formData.append('product', JSON.stringify(imgProduct.product))
-    for (const photo of imgProduct.files) {
+    formData.append('product', JSON.stringify(product))
+    for (const photo of files) {
       console.log(photo)
       formData.append('files', photo)
     }
@@ -184,8 +187,12 @@ export class ApiClient {
     return this.http.post<any>(this.apiURL + '/suppliers/internalBind/' + id, {}, this.httpOptions);
   }
 
-  updateSupplier(supplier: Supplier): Observable<any> {
+  insertSupplier(supplier: Supplier): Observable<any> {
     return this.http.post<any>(this.apiURL + '/suppliers/', supplier, this.httpOptions);
+  }
+
+  updateSupplier(supplier: Supplier): Observable<any> {
+    return this.http.put<any>(this.apiURL + '/suppliers/', supplier, this.httpOptions);
   }
 
   postSupplier(supplier: any): Observable<any> {

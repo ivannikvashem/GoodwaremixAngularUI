@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, Validators} from "@angular/forms";
+import {FormControl} from "@angular/forms";
 import {Supplier} from "../../models/supplier.model";
 import {ApiClient} from "../../repo/httpClient";
 import {Product} from "../../models/product.model";
@@ -7,30 +7,19 @@ import {MatChipInputEvent} from "@angular/material/chips";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {AttributeProduct} from "../../models/attributeProduct.model";
 import {DataSource} from "@angular/cdk/collections";
-import {
-  debounceTime,
-  distinctUntilChanged,
-  finalize,
-  Observable,
-  of,
-  ReplaySubject,
-  startWith,
-  switchMap,
-  tap
-} from "rxjs";
+import {Observable, ReplaySubject, startWith} from "rxjs";
 import {NotificationService} from "../../service/notification-service";
 import {MatTableDataSource} from "@angular/material/table";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {ProductAttributeEditComponent} from "../shared/product-attribute-edit/product-attribute-edit.component";
 import {Package} from "../../models/package.model";
-import {ProductImageViewmodel} from "../../models/viewmodels/productImage.viewmodel";
 import {Document} from "../../models/document.model";
 import {ProductDocumentEditComponent} from "../shared/product-document-edit/product-document-edit.component";
 import {HttpClient} from "@angular/common/http";
 import {ProductPackageEditComponent} from "../shared/product-package-edit/product-package-edit.component";
-import countriesListJson from "../../countriesList.json"
-import {catchError, map} from "rxjs/operators";
+import {Countries} from "../../../assets/countriesList"
+import {map} from "rxjs/operators";
 import {MissingImageHandler} from "../../repo/MissingImageHandler";
 
 interface Country {
@@ -55,18 +44,18 @@ export class ProductEditComponent implements OnInit {
   // Attr
   dataToDisplayAttr:any = [];
   attrDataSource = new AttrDataSource(this.dataToDisplayAttr)
-  attributeColumns: string[] = [ 'attributeKey', 'attributeValue', 'action'];
+  attributeColumns: string[] = ['attributeKey', 'attributeValue', 'action'];
   dataSource = new MatTableDataSource<any>()
   // Package
   dataToDisplayPck:any = [];
-  packageColumns: string[] = [ 'package', 'action'];
+  packageColumns: string[] = ['package', 'action'];
   packDataSource = new PackDataSource(this.dataToDisplayPck);
   // Document
   dataToDisplayDoc:any = [];
   documentColumns:string[] = ['title', 'action']
   documentDataSource = new DocumentDataSource(this.dataToDisplayDoc)
   //Misc
-  countriesList:Country[] = countriesListJson
+  countriesList:Country[] = Countries
   searchCountryCtrl = new FormControl<string | any>('')
   filteredCountries: Observable<any[]>
   Math = Math;
@@ -74,6 +63,7 @@ export class ProductEditComponent implements OnInit {
 
   constructor(public api:ApiClient,
               private _ActivatedRoute:ActivatedRoute,
+              private router: Router,
               private _notyf:NotificationService,
               public dialog: MatDialog,
               public http:HttpClient,
@@ -309,18 +299,15 @@ export class ProductEditComponent implements OnInit {
       }
     }
 
-    const productToAdd = new ProductImageViewmodel()
-    productToAdd.product = this.product
-    productToAdd.files = this.imagesToUpload
     if (this.productId) {
-      this.updateProduct(productToAdd)
+      this.updateProduct(this.product, this.imagesToUpload)
     } else {
-      this.insertProduct(productToAdd)
+      this.insertProduct(this.product, this.imagesToUpload)
     }
    }
 
-   updateProduct(product: ProductImageViewmodel) {
-     this.api.updateProduct(product).subscribe(x => {
+   updateProduct(product: Product, files:any) {
+     this.api.updateProduct(product, files).subscribe(x => {
          this._notyf.onSuccess("Товар изменен");
        },
        error => {
@@ -329,13 +316,13 @@ export class ProductEditComponent implements OnInit {
        });
    }
 
-   insertProduct(product: ProductImageViewmodel) {
+   insertProduct(product: Product, files:any) {
      console.log("Product Insert");
-     this.api.insertProduct(product)
+     this.api.insertProduct(product, files)
        .subscribe(body => {
          console.warn(">>" + JSON.stringify(body));
-         this._notyf.onSuccess("Товар cоздан");
-         this.productId = body;
+         this._notyf.onSuccess("Товар добавлен");
+         this.router.navigate([`product-edit/${body}`])
        },
        error => {
          console.log("insertSupplierError: " + JSON.stringify(error));

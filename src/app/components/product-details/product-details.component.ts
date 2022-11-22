@@ -18,7 +18,6 @@ import {ConfirmDialogComponent, ConfirmDialogModel} from "../shared/confirm-dial
 })
 
 export class ProductDetailsComponent implements OnInit {
-
   productId: string | any;
   product: Observable<Product> | any;
   displayedAttrColumns: string[] = ['etim', 'name', 'value','unit', 'action'];
@@ -35,8 +34,7 @@ export class ProductDetailsComponent implements OnInit {
     public dialog: MatDialog,
     private _ActivatedRoute:ActivatedRoute,
     private _sanitizer: DomSanitizer,
-    private _notyf: NotificationService
-  ) { }
+    private _notyf: NotificationService) { }
 
   ngOnInit(): void {
     this.fetchProductData()

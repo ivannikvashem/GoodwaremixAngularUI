@@ -1,12 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ApiClient} from "../../repo/httpClient";
 import {MatPaginator} from "@angular/material/paginator";
-import {
-  merge,
-  tap
-} from "rxjs";
+import {merge, tap} from "rxjs";
 import {LogsDataSource} from "../../repo/LogDataSource";
-import {MatSort, SortDirection} from "@angular/material/sort";
+import {MatSort} from "@angular/material/sort";
 import {Supplier} from "../../models/supplier.model";
 import {Log} from "../../models/log.model";
 import {animate, state, style, transition, trigger} from "@angular/animations";

@@ -6,16 +6,15 @@ import {Injectable} from "@angular/core";
 export class NotificationService {
   horizontalPosition: MatSnackBarHorizontalPosition = 'end'
   verticalPosition: MatSnackBarVerticalPosition = 'top'
-  durationInSeconds = 3;
 
-  constructor(private _snackBar: MatSnackBar) {
-  }
+  constructor(private _snackBar: MatSnackBar) {}
 
   onSuccess(message:string) {
     this._snackBar.open(message,'', {
       horizontalPosition: this.horizontalPosition,
       verticalPosition:this.verticalPosition,
-      duration: 3000
+      duration: 3000,
+      panelClass: ['success-snackbar']
     })
   }
 
@@ -23,7 +22,8 @@ export class NotificationService {
     this._snackBar.open(message,'', {
       horizontalPosition: this.horizontalPosition,
       verticalPosition:this.verticalPosition,
-      duration: 5000
+      duration: 5000,
+      panelClass: ['warning-snackbar']
     })
   }
 
@@ -31,7 +31,8 @@ export class NotificationService {
     this._snackBar.open(message,'', {
       horizontalPosition: this.horizontalPosition,
       verticalPosition:this.verticalPosition,
-      duration: 5000
+      duration: 5000,
+      panelClass: ['error-snackbar']
     })
   }
 }

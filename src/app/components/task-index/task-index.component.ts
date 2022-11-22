@@ -7,6 +7,7 @@ import {SchedulerTask} from "../../models/schedulerTask.model";
 import {MatTable} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {merge, tap} from "rxjs";
+import {NotificationService} from "../../service/notification-service";
 
 @Component({
   selector: 'app-task-index',
@@ -21,8 +22,9 @@ export class TaskIndexComponent implements OnInit {
 
   constructor(
     public api: ApiClient,
-    public dialog:MatDialog
-  ) { this.dataSource = new SchedulerTaskDataSource(this.api) }
+    public dialog:MatDialog,
+    private _notyf:NotificationService
+  ) { this.dataSource = new SchedulerTaskDataSource(this.api,this._notyf) }
   @ViewChild(MatPaginator) paginator!: MatPaginator
 
   ngOnInit(): void {
@@ -62,7 +64,7 @@ export class TaskIndexComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined) {
-        this.dataSource.taskOnChange(result.newTask)
+        this.dataSource.submitSchedulerTask(result.newTask)
       }
       this.loadData()
     });

@@ -95,10 +95,10 @@ th {
 table {
   width: 100%;
 }
-tr.element-row:not(.example-expanded-row):hover {
+tr.element-row:not(.expanded-row):hover {
   background-image: linear-gradient(to right, white , whitesmoke);
 }
-tr.element-row:not(.example-expanded-row):active {
+tr.element-row:not(.expanded-row):active {
   background: #efefef;
 }
 

@@ -41,15 +41,15 @@ table {
   width: 135px !important;
 }
 
-tr.example-detail-row {
+tr.detail-row {
   height: 0;
 }
 
-tr.element-row:not(.example-expanded-row):hover {
+tr.element-row:not(.expanded-row):hover {
   background: whitesmoke;
 }
 
-tr.element-row:not(.example-expanded-row):active {
+tr.element-row:not(.expanded-row):active {
   background: #efefef;
 }
 
