@@ -581,19 +581,19 @@
 
                           <ng-container matColumnDef="keySupplier">
                             <th mat-header-cell *matHeaderCellDef> Атрибут поставщика </th>
-                            <td mat-cell *matCellDef="let element">
-                              <mat-form-field class="full-width" appearance="standard" *ngIf="attrSelectedRow?.keySupplier == element.keySupplier">
+                            <td mat-cell *matCellDef="let i = index; let element">
+                              <mat-form-field class="full-width" appearance="standard" *ngIf="attrSelectedRow?.id == i">
                                 <mat-label>Атрибут в файле поставщика</mat-label>
                                 <input type="text" matInput [value]="element.keySupplier" (keyup)="element.keySupplier=$any($event.target['value'])" required><!--NOT WORKING IN STRICT MODE-->
                               </mat-form-field>
-                              <span *ngIf="attrSelectedRow?.keySupplier != element.keySupplier">{{element.keySupplier}}</span>
+                              <span *ngIf="attrSelectedRow?.id != i">{{element.keySupplier}}</span>
                             </td>
                           </ng-container>
 
                           <ng-container matColumnDef="attributeBDName">
                             <th mat-header-cell *matHeaderCellDef> Наш атрибут </th>
-                            <td mat-cell *matCellDef="let i = index; let element;">
-                              <mat-form-field class="full-width" appearance="standard" *ngIf="attrSelectedRow?.keySupplier == element.keySupplier">
+                            <td mat-cell *matCellDef="let i = index; let element">
+                              <mat-form-field class="full-width" appearance="standard" *ngIf="attrSelectedRow?.id == i">
                                 <mat-label>Целевой атрибут</mat-label>
                                 <input type="text" matInput aria-label="Поставщик"
                                        [formControl]="attributeListCtrl"
@@ -605,7 +605,7 @@
                                   </mat-option>
                                 </mat-autocomplete>
                               </mat-form-field>
-                              <span *ngIf="attrSelectedRow?.keySupplier != element.keySupplier" [style.color]="element.attributeValid ? 'black': 'orangered'">{{element.attributeBDName}}</span>
+                              <span *ngIf="attrSelectedRow?.id != i" [style.color]="element.attributeValid ? 'black': 'orangered'">{{element.attributeBDName}}</span>
                             </td>
                           </ng-container>
 
@@ -616,21 +616,21 @@
                               </button>
                             </th>
                             <td mat-cell *matCellDef="let i = index; let element">
-                              <ng-container *ngIf="attrSelectedRow?.keySupplier != element.keySupplier">
-                                <button mat-icon-button class="mat-elevation-z2" (click)="onSelectRow(element)">
+                              <ng-container *ngIf="attrSelectedRow?.id != i">
+                                <button mat-icon-button class="mat-elevation-z2" (click)="onSelectRow(element, i, config)">
                                   <mat-icon>edit</mat-icon>
                                 </button>&nbsp;
                                 <button mat-icon-button class="mat-elevation-z2" (click)="deleteSuppAttr(element.keySupplier, element.attributeBDName, config, attrTable)">
                                   <mat-icon>delete</mat-icon>
                                 </button>
                               </ng-container>
-                              <button mat-mini-fab color="primary" class="mat-elevation-z2" (click)="addNewAttr()" *ngIf="attrSelectedRow?.keySupplier == element.keySupplier">
+                              <button mat-mini-fab color="primary" class="mat-elevation-z2" (click)="addNewAttr()" *ngIf="attrSelectedRow?.id == i">
                                 <mat-icon>add</mat-icon>
                               </button>&nbsp;
-                              <button mat-mini-fab color="accent" class="mat-elevation-z2" (click)="updateSelectedSuppAttr(i, element, config)" *ngIf="attrSelectedRow?.keySupplier == element.keySupplier" [disabled]="attrSelectedRow?.keySupplier == ''">
+                              <button mat-mini-fab color="accent" class="mat-elevation-z2" (click)="updateSelectedSuppAttr(i, element, config)" *ngIf="attrSelectedRow?.id == i" [disabled]="attrSelectedRow?.keySupplier == ''">
                                 <mat-icon>check</mat-icon>
                               </button>&nbsp;
-                              <button mat-icon-button class="mat-elevation-z2" (click)="onSelectRow({})" *ngIf="attrSelectedRow?.keySupplier == element.keySupplier" [disabled]="attrSelectedRow?.keySupplier == ''">
+                              <button mat-icon-button class="mat-elevation-z2" (click)="onSelectRow({}, {}, null)" *ngIf="attrSelectedRow?.id == i" [disabled]="attrSelectedRow?.keySupplier == ''">
                                 <mat-icon>close</mat-icon>
                               </button>
                             </td>
@@ -665,9 +665,7 @@
                           <mat-chip-list #chipList aria-label="Список возможных форматов даты" name="dateFormats" [(ngModel)]="config.dateFormats">
                             <mat-chip *ngFor="let df of config.dateFormats" (removed)="removeDateFormat(df, config)">
                               {{df}}
-                              <button matChipRemove>
-                                <mat-icon>cancel</mat-icon>
-                              </button>
+                              <button matChipRemove><mat-icon>cancel</mat-icon></button>
                             </mat-chip>
                             <input placeholder="dd/MM/yyyy h:mm:ss tt"
                                    [matChipInputFor]="chipList"
@@ -684,9 +682,7 @@
               </mat-tab>
               <mat-tab disabled class="addNewConfig">
                 <ng-template mat-tab-label class="addNewConfig">
-                  <button mat-icon-button style="float:left" (click)="addConfig()">
-                    <mat-icon>add</mat-icon>
-                  </button>
+                  <button mat-icon-button style="float:left" (click)="addConfig()"><mat-icon>add</mat-icon></button>
                 </ng-template>
               </mat-tab>
             </mat-tab-group>
@@ -695,6 +691,5 @@
         </mat-tab-group>
       </mat-card>
     </div>
-
   </div>
 </form>

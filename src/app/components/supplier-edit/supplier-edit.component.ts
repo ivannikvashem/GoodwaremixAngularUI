@@ -16,6 +16,7 @@ import {NotificationService} from "../../service/notification-service";
 import {MatDialog} from "@angular/material/dialog";
 import {SupplierAttributeAddComponent} from "../shared/supplier-attribute-add/supplier-attribute-add.component";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../shared/confirm-dialog/confirm-dialog.component";
+import {AttributeProduct} from "../../models/attributeProduct.model";
 
 export class HeaderModel {
   HeaderName:string
@@ -34,7 +35,6 @@ export class SupplierEditComponent implements OnInit {
   supplierId: string = '';
   supplier: Supplier = new Supplier();
   dataToDisplay:any = [];
-  attrDataSource = new ProdAttrDataSource(this.dataToDisplay);
   selectedConfig = new FormControl(0)
   isConfigTabsLoading:boolean = false
 
@@ -62,10 +62,10 @@ export class SupplierEditComponent implements OnInit {
           this.supplier = s.body as Supplier;
 
           for (let config of this.supplier.supplierConfigs) {
-            config.nettoConfig.dimensions = new Dimensions()
+/*            config.nettoConfig.dimensions = new Dimensions()
             config.packageConfig.dimensions = new Dimensions()
-            config.multipliers = new Multipliers()
-            this.attrDataSource.setData(config?.attributeConfig?.productAttributeKeys || [])
+            config.multipliers = new Multipliers()*/
+
             if (config.sourceSettings.header) {
               config.sourceSettings.header = JSON.parse(config.sourceSettings.header) as HeaderModel
             }
@@ -89,15 +89,11 @@ export class SupplierEditComponent implements OnInit {
 
   addSuppAttr(table:any,config:any) {
     //if already added -  skip
-    console.log(config.attributeConfig.productAttributeKeys)
     if (config.attributeConfig.productAttributeKeys.some( (x: ProductAttributeKey) => x.keySupplier == '')) {
        return;
     }
-    console.log('conf', config)
-
-    let a: ProductAttributeKey = {keySupplier: '', attributeBDName: '', attributeIdBD: '', attributeValid: false, multiplier: ''};
+    let a: any = { id:config.attributeConfig.productAttributeKeys.length, keySupplier: '', attributeBDName: '', attributeIdBD: '', attributeValid: false, multiplier: ''};
     config.attributeConfig.productAttributeKeys.push(a);
-    this.attrDataSource.setData(config?.attributeConfig?.productAttributeKeys);
     let row = config.attributeConfig?.productAttributeKeys[config?.attributeConfig?.productAttributeKeys.length - 1];
     this.attributeListCtrl.setValue(row.attributeBDName);
     this.attrSelectedRow = row;
@@ -106,20 +102,25 @@ export class SupplierEditComponent implements OnInit {
 
   deleteSuppAttr(keySupplier: string, attributeBDName:string, config:any, table:any) {
     let idx = config.attributeConfig.productAttributeKeys.map((obj:ProductAttributeKey) => obj.keySupplier).indexOf(keySupplier);
-    console.log('to del', attributeBDName)
     config.attributeConfig.productAttributeKeys.splice(idx, 1);
     table.renderRows()
   }
 
-  onSelectRow(row: any) {
-    console.log("onSelectRow clear");
-    this.selectedAttr = this.attributeListCtrl.value as Attribute;
-    this.attributeListCtrl.setValue(this.selectedAttr);
+  onSelectRow(row: any, i:any, config:any) {
+    if (config) {
+      let at = new Attribute()
+      at.nameAttribute = config.attributeConfig.productAttributeKeys[i].attributeBDName
+      this.selectedAttr = at;
+      this.attributeListCtrl.setValue(this.selectedAttr);
+    }
     this.attrSelectedRow = row;
+    this.attrSelectedRow.id = i;
   }
 
   displayFn(attr: Attribute): string {
-    return attr && attr.nameAttribute ? attr.nameAttribute + " [" + attr?.etimFeature + "] от " + attr?.supplierName : '';
+    let res = attr && attr.nameAttribute
+    if (attr?.etimFeature && attr?.supplierName) {res += " [" + attr?.etimFeature + "] от " + attr?.supplierName}
+    return res
   }
 
   onDBAttrSelected() {
@@ -130,21 +131,18 @@ export class SupplierEditComponent implements OnInit {
     //validation
     // Add our value
     const idx = config.attributeConfig.productAttributeKeys.indexOf(row.attributeIdBD);
-    console.log("idx: "+ idx);
     if (row.keySupplier == null && idx != i) {
       return;
     }
     //update
-    //this.attrSelectedRow = (this.attributeListCtrl.value as Attribute).nameAttribute;
-
+    this.attrSelectedRow.nameAttribute = (this.attributeListCtrl.value as Attribute).nameAttribute;
+    this.attrSelectedRow.id = config.attributeConfig.productAttributeKeys.length;
     this.attrSelectedRow.attributeBDName = this.selectedAttr?.nameAttribute;
     this.attrSelectedRow.attributeValid = true;
     config.attributeConfig.productAttributeKeys[i] = this.attrSelectedRow;
-    console.log("upd: " + JSON.stringify(this.attrSelectedRow));
-
+    this.selectedAttr = null
     //prepare for refresh
     this.clearAttrSelection();
-    this.attrDataSource.setData(config.attributeConfig?.productAttributeKeys);
   }
 
   clearAttrSelection():void {
@@ -228,7 +226,6 @@ export class SupplierEditComponent implements OnInit {
   }
 
   addHeader(table:any, config:any) {
-    console.log('conf', config)
     if (config.sourceSettings.header == null) {config.sourceSettings.header = []}
     let newHeader = <HeaderModel> {HeaderName : '', HeaderValue : '', isEditable : true }
     config.sourceSettings.header.push(newHeader)
@@ -280,7 +277,6 @@ export class SupplierEditComponent implements OnInit {
 
   addConfig() {
     const config = new SupplierConfig()
-    config.name = 'Конфигурация'
     this.supplier.supplierConfigs.push(config)
     this.selectedConfig.setValue(this.supplier.supplierConfigs.length - 1);
   }
@@ -301,24 +297,5 @@ export class SupplierEditComponent implements OnInit {
         this.selectedConfig.setValue(this.supplier.supplierConfigs.length - 1);
       }
     });
-  }
-}
-
-class ProdAttrDataSource extends DataSource<ProductAttributeKey> {
-  private _dataStream = new ReplaySubject<ProductAttributeKey[]>();
-
-  constructor(initialData: ProductAttributeKey[]) {
-    super();
-    this.setData(initialData);
-  }
-
-  connect(): Observable<ProductAttributeKey[]> {
-    return this._dataStream;
-  }
-
-  disconnect() {}
-
-  setData(data: ProductAttributeKey[]) {
-    this._dataStream.next(data);
   }
 }
