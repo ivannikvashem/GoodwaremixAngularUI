@@ -67,9 +67,10 @@ export class ProductEditComponent implements OnInit {
               private _notyf:NotificationService,
               public dialog: MatDialog,
               public http:HttpClient,
-              private imgHandler:MissingImageHandler) { }
+              private imgHandler:MissingImageHandler) {}
 
   ngOnInit(): void {
+
     this.productId = this._ActivatedRoute.snapshot.paramMap.get("id");
     if (this.productId) {
       this.api.getProductById(this.productId)
@@ -111,19 +112,21 @@ export class ProductEditComponent implements OnInit {
 
   // Media
   onImageChange(event: any) {
-    if (event.target.files && event.target.files[0]) {
-      let filesAmount = event.target.files.length;
-      const files:File[] = event.target.files
-      for (let i of files) {
-        this.imagesToUpload.unshift(i)
-      }
-      for (let i = 0; i < filesAmount; i++) {
-        let reader = new FileReader();
+    let files:File[] = event.target.files
+    let errorCounter = 0;
+
+    for (let file of files) {
+      let reader = new FileReader();
+      if (file.type.includes('image/')) {
+        this.imagesToUpload.unshift(file)
         reader.onload = (event:any) => {
           this.imagesView.unshift(event.target.result);
         }
-        reader.readAsDataURL(event.target.files[i]);
-      }
+        reader.readAsDataURL(file);
+      } else { errorCounter += 1;}
+    }
+    if (errorCounter > 0) {
+      this._notyf.onError(`Неверный формат фото (${errorCounter})`)
     }
   }
 
@@ -187,8 +190,8 @@ export class ProductEditComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (this.product.attributes.filter(x => x.value !== result.newAttribute?.value)) {
-        if (result.newAttribute?.value !== undefined) {
+      if (result !== undefined) {
+        if (this.product.attributes.filter(x => x.value !== result.newAttribute?.value)) {
           if (oldAttribute == undefined) {
             this.product.attributes.unshift(result.newAttribute as AttributeProduct)
             this.attrDataSource.setData(this.product.attributes || []);
@@ -224,19 +227,19 @@ export class ProductEditComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      if (result !== undefined) {
         if (this.product.packages.filter(x => x.barcode !== result.newPackage?.barcode)) {
-          if (result.newPackage !== undefined) {
-            if (oldPackage == undefined) {
-              this.product.packages.unshift(result.newPackage as Package)
-              this.packDataSource.setData(this.product.packages || []);
-            } else {
-              if (oldPackage !== result.newPackage) {
-                const target = this.product.packages.find((obj) => obj === oldPackage)
-                Object.assign(target, result.newPackage)
-              }
+          if (oldPackage == undefined) {
+            this.product.packages.unshift(result.newPackage as Package)
+            this.packDataSource.setData(this.product.packages || []);
+          } else {
+            if (oldPackage !== result.newPackage) {
+              const target = this.product.packages.find((obj) => obj === oldPackage)
+              Object.assign(target, result.newPackage)
             }
           }
         }
+      }
     });
   }
 
@@ -262,8 +265,8 @@ export class ProductEditComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (this.product.documents.filter(x => x !== result?.newDocument)) {
-        if (result.newDocument !== undefined) {
+      if (result != undefined) {
+        if (this.product.documents.filter(x => x !== result?.newDocument)) {
           if (oldDocument == undefined) {
             this.product.documents.unshift(result.newDocument as Document)
             this.documentDataSource.setData(this.product.documents || []);
@@ -317,7 +320,6 @@ export class ProductEditComponent implements OnInit {
    }
 
    insertProduct(product: Product, files:any) {
-     console.log("Product Insert");
      this.api.insertProduct(product, files)
        .subscribe(body => {
          console.warn(">>" + JSON.stringify(body));
@@ -325,7 +327,6 @@ export class ProductEditComponent implements OnInit {
          this.router.navigate([`product-edit/${body}`])
        },
        error => {
-         console.log("insertSupplierError: " + JSON.stringify(error));
          this._notyf.onError("Ошибка: " + JSON.stringify(error));
        } );
    }
