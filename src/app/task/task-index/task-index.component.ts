@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ApiClient} from "../../repo/httpClient";
-import {SchedulerTaskDataSource} from "../../repo/SchedulerTaskDataSource";
+import {SchedulerTaskDataSource} from "../repo/SchedulerTaskDataSource";
 import {MatDialog} from "@angular/material/dialog";
-import {TaskEditComponent} from "../shared/task-edit/task-edit.component";
+import {TaskEditComponent} from "../task-edit/task-edit.component";
 import {SchedulerTask} from "../../models/schedulerTask.model";
 import {MatTable} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";

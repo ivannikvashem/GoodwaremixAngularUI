@@ -12,15 +12,15 @@ import {NotificationService} from "../../service/notification-service";
 import {MatTableDataSource} from "@angular/material/table";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
-import {ProductAttributeEditComponent} from "../shared/product-attribute-edit/product-attribute-edit.component";
+import {ProductAttributeEditComponent} from "../../components/shared/product-attribute-edit/product-attribute-edit.component";
 import {Package} from "../../models/package.model";
 import {Document} from "../../models/document.model";
-import {ProductDocumentEditComponent} from "../shared/product-document-edit/product-document-edit.component";
+import {ProductDocumentEditComponent} from "../../components/shared/product-document-edit/product-document-edit.component";
 import {HttpClient} from "@angular/common/http";
-import {ProductPackageEditComponent} from "../shared/product-package-edit/product-package-edit.component";
+import {ProductPackageEditComponent} from "../../components/shared/product-package-edit/product-package-edit.component";
 import {Countries} from "../../../assets/countriesList"
 import {map} from "rxjs/operators";
-import {MissingImageHandler} from "../../repo/MissingImageHandler";
+import {MissingImageHandler} from "../MissingImageHandler";
 
 interface Country {
   code?:string

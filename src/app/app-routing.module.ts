@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
-import {ProductIndexComponent} from "./components/product-index/product-index.component";
+import {ProductIndexComponent} from "./product/product-index/product-index.component";
 import {AttributeIndexComponent} from "./attribute/attribute-index/attribute-index.component";
 import {AttributeEditComponent} from "./attribute/attribute-edit/attribute-edit.component";
 import {SupplierIndexComponent} from "./supplier/supplier-index/supplier-index.component";
 import {SupplierEditComponent} from "./supplier/supplier-edit/supplier-edit.component";
 import {ParserLogComponent} from "./log/parser-log/parser-log.component";
-import {ProductDetailsComponent} from "./components/product-details/product-details.component";
-import {ProductEditComponent} from "./components/product-edit/product-edit.component";
+import {ProductDetailsComponent} from "./product/product-details/product-details.component";
+import {ProductEditComponent} from "./product/product-edit/product-edit.component";
 import {AdminPanelComponent} from "./admin/admin-panel/admin-panel.component";
-import {TaskIndexComponent} from "./components/task-index/task-index.component";
+import {TaskIndexComponent} from "./task/task-index/task-index.component";
 
 const routes: Routes = [
 

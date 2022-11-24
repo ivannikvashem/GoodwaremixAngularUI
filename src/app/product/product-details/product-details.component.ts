@@ -5,11 +5,11 @@ import {Observable} from "rxjs";
 import {MatTableDataSource} from "@angular/material/table";
 import {Product} from "../../models/product.model";
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
-import {SwapAttributeComponent} from "../shared/swap-attribute/swap-attribute.component";
+import {SwapAttributeComponent} from "../../components/shared/swap-attribute/swap-attribute.component";
 import {Attribute} from "../../models/attribute.model";
 import {MatDialog} from "@angular/material/dialog";
 import {NotificationService} from "../../service/notification-service";
-import {ConfirmDialogComponent, ConfirmDialogModel} from "../shared/confirm-dialog/confirm-dialog.component";
+import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/shared/confirm-dialog/confirm-dialog.component";
 
 @Component({
   selector: 'app-product-details',

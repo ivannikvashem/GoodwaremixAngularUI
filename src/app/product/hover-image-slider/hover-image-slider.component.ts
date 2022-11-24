@@ -1,7 +1,7 @@
 import {Component, Inject, Input, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
-import {DialogData} from "../../product-index/product-index.component";
-import {MissingImageHandler} from "../../../repo/MissingImageHandler";
+import {DialogData} from "../product-index/product-index.component";
+import {MissingImageHandler} from "../MissingImageHandler";
 
 @Component({
   selector: 'app-hover-image-slider',

@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, Inject, OnInit, ViewChild} from '@angular/core';
-import {ProductsDataSource} from "../../repo/ProductsDataSource";
+import {ProductsDataSource} from "../repo/ProductsDataSource";
 import {ApiClient} from "../../repo/httpClient";
 import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -19,10 +19,10 @@ import {
 import {FormControl} from '@angular/forms';
 import {Supplier} from "../../models/supplier.model";
 import {LocalStorageService} from "../../service/local-storage.service";
-import {ConfirmDialogComponent, ConfirmDialogModel} from "../shared/confirm-dialog/confirm-dialog.component";
+import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/shared/confirm-dialog/confirm-dialog.component";
 import {NotificationService} from "../../service/notification-service";
 import {Attribute} from "../../models/attribute.model";
-import {MissingImageHandler} from "../../repo/MissingImageHandler";
+import {MissingImageHandler} from "../MissingImageHandler";
 import {Product} from "../../models/product.model";
 
 export interface DialogData {

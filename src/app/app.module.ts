@@ -26,21 +26,19 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
-import {DialogDataDialog, ProductIndexComponent} from './components/product-index/product-index.component';
+import {DialogDataDialog} from './product/product-index/product-index.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatTableModule} from "@angular/material/table";
 import {MatIconModule} from "@angular/material/icon";
-import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { NgxBarcodeModule } from 'ngx-barcode';
 import { PackageCardComponent } from './components/shared/package-card/package-card.component';
 import {MatBadgeModule} from '@angular/material/badge';
 import {
   ImageDialog,
   HoverImageSliderComponent
-} from './components/shared/hover-image-slider/hover-image-slider.component';
+} from './product/hover-image-slider/hover-image-slider.component';
 import { ConfirmDialogComponent } from './components/shared/confirm-dialog/confirm-dialog.component';
 import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
-import { ProductEditComponent } from './components/product-edit/product-edit.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import {getRuPaginatorIntl} from  './service/ru-paginator-intl'
 import {MatMenuModule} from "@angular/material/menu";
@@ -54,32 +52,28 @@ import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
 import { SupplierAttributeAddComponent } from './components/shared/supplier-attribute-add/supplier-attribute-add.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {ScrollingModule} from "@angular/cdk/scrolling";
-import { TaskIndexComponent } from './components/task-index/task-index.component';
-import { TaskEditComponent } from './components/shared/task-edit/task-edit.component';
+import { TaskIndexComponent } from './task/task-index/task-index.component';
+import { TaskEditComponent } from './task/task-edit/task-edit.component';
 import {LogModule} from "./log/log.module";
 import {SharedModule} from "./shared/shared.module";
 import {AdminModule} from "./admin/admin.module";
 import {AttributeModule} from "./attribute/attribute.module";
 import {SupplierModule} from "./supplier/supplier.module";
+import {ProductModule} from "./product/product.module";
+import {TaskModule} from "./task/task.module";
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProductIndexComponent,
     DialogDataDialog,
     ImageDialog,
-    ProductDetailsComponent,
     PackageCardComponent,
-    HoverImageSliderComponent,
     ProductAttributeEditComponent,
     ConfirmDialogComponent,
-    ProductEditComponent,
     SwapAttributeComponent,
     ProductPackageEditComponent,
     ProductDocumentEditComponent,
     SupplierAttributeAddComponent,
-    TaskIndexComponent,
-    TaskEditComponent
   ],
   imports: [
     CommonModule,
@@ -125,7 +119,9 @@ import {SupplierModule} from "./supplier/supplier.module";
     SharedModule,
     AdminModule,
     AttributeModule,
-    SupplierModule
+    SupplierModule,
+    ProductModule,
+    TaskModule
   ],
   providers: [
     {

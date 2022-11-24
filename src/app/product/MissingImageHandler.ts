@@ -1,4 +1,4 @@
-import {ApiClient} from "./httpClient";
+import {ApiClient} from "../repo/httpClient";
 import {Injectable} from "@angular/core";
 @Injectable({
   providedIn: 'root'

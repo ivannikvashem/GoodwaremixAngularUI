@@ -1,9 +1,9 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import { FormControl, FormGroup} from "@angular/forms";
-import {SchedulerTask} from "../../../models/schedulerTask.model";
+import {SchedulerTask} from "../../models/schedulerTask.model";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {Supplier} from "../../../models/supplier.model";
-import {ApiClient} from "../../../repo/httpClient";
+import {Supplier} from "../../models/supplier.model";
+import {ApiClient} from "../../repo/httpClient";
 
 
 export interface DialogData {
