@@ -6,7 +6,7 @@ import {AttributeIndexComponent} from "./components/attribute-index/attribute-in
 import {AttributeEditComponent} from "./components/attribute-edit/attribute-edit.component";
 import {SupplierIndexComponent} from "./components/supplier-index/supplier-index.component";
 import {SupplierEditComponent} from "./components/supplier-edit/supplier-edit.component";
-import {ParserLogComponent} from "./components/parser-log/parser-log.component";
+import {ParserLogComponent} from "./log/parser-log/parser-log.component";
 import {ProductDetailsComponent} from "./components/product-details/product-details.component";
 import {ProductEditComponent} from "./components/product-edit/product-edit.component";
 import {AdminPanelComponent} from "./components/admin-panel/admin-panel.component";

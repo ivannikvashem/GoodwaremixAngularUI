@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {debounceTime, distinctUntilChanged, finalize, switchMap, tap} from "rxjs";
 import {FormControl} from "@angular/forms";
-import {Supplier} from "../../../models/supplier.model";
-import {ApiClient} from "../../../repo/httpClient";
+import {Supplier} from "../../models/supplier.model";
+import {ApiClient} from "../../repo/httpClient";
 
 @Component({
   selector: 'app-supplier-autocomplete',

@@ -1,8 +1,8 @@
 import {CollectionViewer, DataSource} from '@angular/cdk/collections';
 import {BehaviorSubject, Observable, of} from 'rxjs';
 import {catchError, finalize, map} from 'rxjs/operators';
-import {ApiClient} from "./httpClient";
-import {Log} from "../models/log.model";
+import {ApiClient} from "../../repo/httpClient";
+import {Log} from "../../models/log.model";
 
 export class LogsDataSource implements DataSource<Log> {
 

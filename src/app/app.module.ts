@@ -34,7 +34,6 @@ import { AttributeIndexComponent } from './components/attribute-index/attribute-
 import { AttributeEditComponent } from './components/attribute-edit/attribute-edit.component';
 import { SupplierIndexComponent } from './components/supplier-index/supplier-index.component';
 import { SupplierEditComponent } from './components/supplier-edit/supplier-edit.component';
-import { ParserLogComponent } from './components/parser-log/parser-log.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { NgxBarcodeModule } from 'ngx-barcode';
 import { PackageCardComponent } from './components/shared/package-card/package-card.component';
@@ -60,9 +59,10 @@ import { SupplierAttributeAddComponent } from './components/shared/supplier-attr
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {ScrollingModule} from "@angular/cdk/scrolling";
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
-import {SupplierAutocompleteComponent} from "./components/shared/supplier-autocomplete/supplier-autocomplete.component";
 import { TaskIndexComponent } from './components/task-index/task-index.component';
 import { TaskEditComponent } from './components/shared/task-edit/task-edit.component';
+import {LogModule} from "./log/log.module";
+import {SharedModule} from "./shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -74,7 +74,6 @@ import { TaskEditComponent } from './components/shared/task-edit/task-edit.compo
     AttributeEditComponent,
     SupplierIndexComponent,
     SupplierEditComponent,
-    ParserLogComponent,
     ProductDetailsComponent,
     PackageCardComponent,
     HoverImageSliderComponent,
@@ -86,7 +85,6 @@ import { TaskEditComponent } from './components/shared/task-edit/task-edit.compo
     ProductDocumentEditComponent,
     SupplierAttributeAddComponent,
     AdminPanelComponent,
-    SupplierAutocompleteComponent,
     TaskIndexComponent,
     TaskEditComponent
   ],
@@ -129,7 +127,9 @@ import { TaskEditComponent } from './components/shared/task-edit/task-edit.compo
     MatDatepickerModule,
     MatNativeDateModule,
     MatCheckboxModule,
-    ScrollingModule
+    ScrollingModule,
+    LogModule,
+    SharedModule
   ],
   providers: [
     {
@@ -138,8 +138,6 @@ import { TaskEditComponent } from './components/shared/task-edit/task-edit.compo
     },
     {provide: MatPaginatorIntl, useValue: getRuPaginatorIntl()},
     { provide: MAT_DATE_LOCALE, useValue: 'ru-RU' }
-
-
   ],
   bootstrap: [AppComponent]
 })

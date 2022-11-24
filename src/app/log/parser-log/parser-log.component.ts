@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {ApiClient} from "../../repo/httpClient";
 import {MatPaginator} from "@angular/material/paginator";
 import {merge, tap} from "rxjs";
-import {LogsDataSource} from "../../repo/LogDataSource";
+import {LogsDataSource} from "../repo/LogsDataSource";
 import {MatSort} from "@angular/material/sort";
 import {Supplier} from "../../models/supplier.model";
 import {Log} from "../../models/log.model";
