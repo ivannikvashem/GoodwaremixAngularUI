@@ -9,7 +9,7 @@ import {SupplierEditComponent} from "./components/supplier-edit/supplier-edit.co
 import {ParserLogComponent} from "./log/parser-log/parser-log.component";
 import {ProductDetailsComponent} from "./components/product-details/product-details.component";
 import {ProductEditComponent} from "./components/product-edit/product-edit.component";
-import {AdminPanelComponent} from "./components/admin-panel/admin-panel.component";
+import {AdminPanelComponent} from "./admin/admin-panel/admin-panel.component";
 import {TaskIndexComponent} from "./components/task-index/task-index.component";
 
 const routes: Routes = [

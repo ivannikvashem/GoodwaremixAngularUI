@@ -58,11 +58,11 @@ import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
 import { SupplierAttributeAddComponent } from './components/shared/supplier-attribute-add/supplier-attribute-add.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {ScrollingModule} from "@angular/cdk/scrolling";
-import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import { TaskIndexComponent } from './components/task-index/task-index.component';
 import { TaskEditComponent } from './components/shared/task-edit/task-edit.component';
 import {LogModule} from "./log/log.module";
 import {SharedModule} from "./shared/shared.module";
+import {AdminModule} from "./admin/admin.module";
 
 @NgModule({
   declarations: [
@@ -84,7 +84,6 @@ import {SharedModule} from "./shared/shared.module";
     ProductPackageEditComponent,
     ProductDocumentEditComponent,
     SupplierAttributeAddComponent,
-    AdminPanelComponent,
     TaskIndexComponent,
     TaskEditComponent
   ],
@@ -129,7 +128,8 @@ import {SharedModule} from "./shared/shared.module";
     MatCheckboxModule,
     ScrollingModule,
     LogModule,
-    SharedModule
+    SharedModule,
+    AdminModule
   ],
   providers: [
     {
