@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {SuppliersDataSource} from "../../repo/SuppliersDataSource";
+import {SuppliersDataSource} from "../repo/SuppliersDataSource";
 import {ApiClient} from "../../repo/httpClient";
 import {MatPaginator} from "@angular/material/paginator";
 import {debounceTime, distinctUntilChanged, merge, tap} from "rxjs";
@@ -7,7 +7,7 @@ import {Router} from "@angular/router";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {Supplier} from "../../models/supplier.model";
 import {MatDialog} from "@angular/material/dialog";
-import {ConfirmDialogComponent, ConfirmDialogModel} from "../shared/confirm-dialog/confirm-dialog.component";
+import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/shared/confirm-dialog/confirm-dialog.component";
 import {MatSort, SortDirection} from "@angular/material/sort";
 import {NotificationService} from "../../service/notification-service";
 import {LocalStorageService} from "../../service/local-storage.service";

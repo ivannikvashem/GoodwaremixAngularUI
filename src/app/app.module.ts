@@ -30,8 +30,6 @@ import {DialogDataDialog, ProductIndexComponent} from './components/product-inde
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatTableModule} from "@angular/material/table";
 import {MatIconModule} from "@angular/material/icon";
-import { SupplierIndexComponent } from './components/supplier-index/supplier-index.component';
-import { SupplierEditComponent } from './components/supplier-edit/supplier-edit.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { NgxBarcodeModule } from 'ngx-barcode';
 import { PackageCardComponent } from './components/shared/package-card/package-card.component';
@@ -62,6 +60,7 @@ import {LogModule} from "./log/log.module";
 import {SharedModule} from "./shared/shared.module";
 import {AdminModule} from "./admin/admin.module";
 import {AttributeModule} from "./attribute/attribute.module";
+import {SupplierModule} from "./supplier/supplier.module";
 
 @NgModule({
   declarations: [
@@ -69,8 +68,6 @@ import {AttributeModule} from "./attribute/attribute.module";
     ProductIndexComponent,
     DialogDataDialog,
     ImageDialog,
-    SupplierIndexComponent,
-    SupplierEditComponent,
     ProductDetailsComponent,
     PackageCardComponent,
     HoverImageSliderComponent,
@@ -127,7 +124,8 @@ import {AttributeModule} from "./attribute/attribute.module";
     LogModule,
     SharedModule,
     AdminModule,
-    AttributeModule
+    AttributeModule,
+    SupplierModule
   ],
   providers: [
     {

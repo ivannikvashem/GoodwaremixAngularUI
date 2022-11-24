@@ -14,8 +14,8 @@ import {debounceTime, Observable, ReplaySubject, switchMap, tap} from "rxjs";
 import {finalize} from "rxjs/operators";
 import {NotificationService} from "../../service/notification-service";
 import {MatDialog} from "@angular/material/dialog";
-import {SupplierAttributeAddComponent} from "../shared/supplier-attribute-add/supplier-attribute-add.component";
-import {ConfirmDialogComponent, ConfirmDialogModel} from "../shared/confirm-dialog/confirm-dialog.component";
+import {SupplierAttributeAddComponent} from "../../components/shared/supplier-attribute-add/supplier-attribute-add.component";
+import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/shared/confirm-dialog/confirm-dialog.component";
 import {AttributeProduct} from "../../models/attributeProduct.model";
 
 export class HeaderModel {
