@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {AttributesDataSource} from "../../repo/AttributesDataSource";
+import {AttributesDataSource} from "../repo/AttributesDataSource";
 import {ApiClient} from "../../repo/httpClient";
 import {ActivatedRoute, Router} from "@angular/router";
 import {tap} from "rxjs";
@@ -8,10 +8,10 @@ import {FormControl} from "@angular/forms";
 import {Supplier} from "../../models/supplier.model";
 import {MatDialog} from "@angular/material/dialog";
 import {Attribute} from "../../models/attribute.model";
-import {SwapAttributeComponent} from "../shared/swap-attribute/swap-attribute.component";
+import {SwapAttributeComponent} from "../../components/shared/swap-attribute/swap-attribute.component";
 import {NotificationService} from "../../service/notification-service";
 import {LocalStorageService} from "../../service/local-storage.service";
-import {ConfirmDialogComponent, ConfirmDialogModel} from "../shared/confirm-dialog/confirm-dialog.component";
+import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/shared/confirm-dialog/confirm-dialog.component";
 
 export interface AttrDialogData {
   oldAttributeId: string;

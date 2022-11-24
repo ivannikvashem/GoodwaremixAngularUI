@@ -5,7 +5,7 @@ import {merge, tap} from "rxjs";
 import {LogsDataSource} from "../repo/LogsDataSource";
 import {MatSort} from "@angular/material/sort";
 import {Supplier} from "../../models/supplier.model";
-import {Log} from "../../models/log.model";
+import {Log} from "../models/log.model";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 
 @Component({

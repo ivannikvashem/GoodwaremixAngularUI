@@ -4,7 +4,7 @@ import {FormControl, Validators} from "@angular/forms";
 import {ApiClient} from "../../../repo/httpClient";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {debounceTime, distinctUntilChanged, finalize, switchMap, tap} from "rxjs";
-import {AttrDialogData} from "../../attribute-index/attribute-index.component";
+import {AttrDialogData} from "../../../attribute/attribute-index/attribute-index.component";
 
 @Component({
   selector: 'app-swap-attribute',

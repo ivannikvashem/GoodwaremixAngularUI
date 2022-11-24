@@ -30,8 +30,6 @@ import {DialogDataDialog, ProductIndexComponent} from './components/product-inde
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatTableModule} from "@angular/material/table";
 import {MatIconModule} from "@angular/material/icon";
-import { AttributeIndexComponent } from './components/attribute-index/attribute-index.component';
-import { AttributeEditComponent } from './components/attribute-edit/attribute-edit.component';
 import { SupplierIndexComponent } from './components/supplier-index/supplier-index.component';
 import { SupplierEditComponent } from './components/supplier-edit/supplier-edit.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
@@ -63,6 +61,7 @@ import { TaskEditComponent } from './components/shared/task-edit/task-edit.compo
 import {LogModule} from "./log/log.module";
 import {SharedModule} from "./shared/shared.module";
 import {AdminModule} from "./admin/admin.module";
+import {AttributeModule} from "./attribute/attribute.module";
 
 @NgModule({
   declarations: [
@@ -70,8 +69,6 @@ import {AdminModule} from "./admin/admin.module";
     ProductIndexComponent,
     DialogDataDialog,
     ImageDialog,
-    AttributeIndexComponent,
-    AttributeEditComponent,
     SupplierIndexComponent,
     SupplierEditComponent,
     ProductDetailsComponent,
@@ -129,7 +126,8 @@ import {AdminModule} from "./admin/admin.module";
     ScrollingModule,
     LogModule,
     SharedModule,
-    AdminModule
+    AdminModule,
+    AttributeModule
   ],
   providers: [
     {

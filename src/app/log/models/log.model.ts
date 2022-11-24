@@ -1,4 +1,4 @@
-import {Deserializable} from "./deserializable.model";
+import {Deserializable} from "../../models/deserializable.model";
 
 export class Log implements Deserializable{
   id: string ;
@@ -8,7 +8,6 @@ export class Log implements Deserializable{
   data: string[];
   status: string;
   result: string;
-  // totalAdded: number;
 
   deserialize(input: any): this {
     return Object.assign(this, input);
