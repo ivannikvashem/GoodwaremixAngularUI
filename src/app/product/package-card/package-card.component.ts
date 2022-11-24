@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Package} from "../../../models/package.model";
+import {Package} from "../../models/package.model";
 
 @Component({
   selector: 'app-package-card',

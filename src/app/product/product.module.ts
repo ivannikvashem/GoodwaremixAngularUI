@@ -6,7 +6,7 @@ import {MatTableModule} from "@angular/material/table";
 import {SharedModule} from "../shared/shared.module";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
-import {ProductIndexComponent} from "./product-index/product-index.component";
+import {DialogDataDialog, ProductIndexComponent} from "./product-index/product-index.component";
 import {ProductDetailsComponent} from "./product-details/product-details.component";
 import {ProductEditComponent} from "./product-edit/product-edit.component";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
@@ -17,14 +17,31 @@ import {MatCardModule} from "@angular/material/card";
 import {MatInputModule} from "@angular/material/input";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatChipsModule} from "@angular/material/chips";
-import {HoverImageSliderComponent} from "./hover-image-slider/hover-image-slider.component";
+import {HoverImageSliderComponent, ImageDialog} from "./hover-image-slider/hover-image-slider.component";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {NgxBarcodeModule} from "ngx-barcode";
+import {MatMenuModule} from "@angular/material/menu";
+import {PackageCardComponent} from "./package-card/package-card.component";
+import {ProductPackageEditComponent} from "./product-package-edit/product-package-edit.component";
+import {ProductDocumentEditComponent} from "./product-document-edit/product-document-edit.component";
+import {ProductAttributeEditComponent} from "./product-attribute-edit/product-attribute-edit.component";
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
     ProductIndexComponent,
     ProductDetailsComponent,
     ProductEditComponent,
-    HoverImageSliderComponent
+    HoverImageSliderComponent,
+    ImageDialog,
+    DialogDataDialog,
+    PackageCardComponent,
+    ProductPackageEditComponent,
+    ProductDocumentEditComponent,
+    ProductAttributeEditComponent,
   ],
   imports: [
     CommonModule,
@@ -33,16 +50,23 @@ import {HoverImageSliderComponent} from "./hover-image-slider/hover-image-slider
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
-    SharedModule,
     MatButtonModule,
     MatIconModule,
     MatButtonToggleModule,
     MatFormFieldModule,
-    ReactiveFormsModule,
-    MatTabsModule,
     MatCardModule,
     MatExpansionModule,
     MatChipsModule,
+    MatTooltipModule,
+    ReactiveFormsModule,
+    NgxBarcodeModule,
+    MatTabsModule,
+    MatMenuModule,
+    MatDialogModule,
+    SharedModule,
+    MatDatepickerModule,
+    MatAutocompleteModule,
+    MatSelectModule
   ]
 })
 export class ProductModule { }

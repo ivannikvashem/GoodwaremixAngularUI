@@ -1,8 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {ApiClient} from "../../../service/httpClient";
+import {ApiClient} from "../../service/httpClient";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {Package} from "../../../models/package.model";
+import {Package} from "../../models/package.model";
 import {ProductDocumentEditComponent} from "../product-document-edit/product-document-edit.component";
 
 export interface AttrDialogData {

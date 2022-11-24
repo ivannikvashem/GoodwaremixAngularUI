@@ -1,8 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {ApiClient} from "../../../service/httpClient";
+import {ApiClient} from "../../service/httpClient";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {Attribute} from "../../../models/attribute.model";
-import {AttributeProduct} from "../../../models/attributeProduct.model";
+import {Attribute} from "../../models/attribute.model";
+import {AttributeProduct} from "../../models/attributeProduct.model";
 import {FormControl, Validators} from "@angular/forms";
 import {debounceTime, distinctUntilChanged, finalize, Observable, startWith, switchMap, tap} from "rxjs";
 import {map} from "rxjs/operators";

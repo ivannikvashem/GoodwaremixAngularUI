@@ -31,12 +31,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatTableModule} from "@angular/material/table";
 import {MatIconModule} from "@angular/material/icon";
 import { NgxBarcodeModule } from 'ngx-barcode';
-import { PackageCardComponent } from './components/shared/package-card/package-card.component';
+import { PackageCardComponent } from './product/package-card/package-card.component';
 import {MatBadgeModule} from '@angular/material/badge';
-import {
-  ImageDialog,
-  HoverImageSliderComponent
-} from './product/hover-image-slider/hover-image-slider.component';
 import { ConfirmDialogComponent } from './components/shared/confirm-dialog/confirm-dialog.component';
 import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
 import {MatTabsModule} from "@angular/material/tabs";
@@ -44,16 +40,14 @@ import {getRuPaginatorIntl} from  './service/ru-paginator-intl'
 import {MatMenuModule} from "@angular/material/menu";
 import '@angular/common/locales/global/ru';
 import { SwapAttributeComponent } from './components/shared/swap-attribute/swap-attribute.component'
-import {ProductAttributeEditComponent} from "./components/shared/product-attribute-edit/product-attribute-edit.component";
-import { ProductPackageEditComponent } from './components/shared/product-package-edit/product-package-edit.component';
-import { ProductDocumentEditComponent } from './components/shared/product-document-edit/product-document-edit.component';
+import {ProductAttributeEditComponent} from "./product/product-attribute-edit/product-attribute-edit.component";
+import { ProductPackageEditComponent } from './product/product-package-edit/product-package-edit.component';
+import { ProductDocumentEditComponent } from './product/product-document-edit/product-document-edit.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
 import { SupplierAttributeAddComponent } from './components/shared/supplier-attribute-add/supplier-attribute-add.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {ScrollingModule} from "@angular/cdk/scrolling";
-import { TaskIndexComponent } from './task/task-index/task-index.component';
-import { TaskEditComponent } from './task/task-edit/task-edit.component';
 import {LogModule} from "./log/log.module";
 import {SharedModule} from "./shared/shared.module";
 import {AdminModule} from "./admin/admin.module";
@@ -65,14 +59,8 @@ import {TaskModule} from "./task/task.module";
 @NgModule({
   declarations: [
     AppComponent,
-    DialogDataDialog,
-    ImageDialog,
-    PackageCardComponent,
-    ProductAttributeEditComponent,
     ConfirmDialogComponent,
     SwapAttributeComponent,
-    ProductPackageEditComponent,
-    ProductDocumentEditComponent,
     SupplierAttributeAddComponent,
   ],
   imports: [
@@ -108,7 +96,6 @@ import {TaskModule} from "./task/task.module";
     MatToolbarModule,
     MatTooltipModule,
     ReactiveFormsModule,
-    NgxBarcodeModule,
     MatTabsModule,
     MatMenuModule,
     MatDatepickerModule,

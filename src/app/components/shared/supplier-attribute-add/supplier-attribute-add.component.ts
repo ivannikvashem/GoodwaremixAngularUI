@@ -9,7 +9,7 @@ import {catchError, finalize, map} from "rxjs/operators";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {MatChipInputEvent} from "@angular/material/chips";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {ProductDocumentEditComponent} from "../product-document-edit/product-document-edit.component";
+import {ProductDocumentEditComponent} from "../../../product/product-document-edit/product-document-edit.component";
 import {Document} from "../../../models/document.model";
 
 interface AttributeType {

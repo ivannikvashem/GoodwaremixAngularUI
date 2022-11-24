@@ -18,6 +18,12 @@ import {SupplierEditComponent} from "./supplier-edit/supplier-edit.component";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatCardModule} from "@angular/material/card";
 import {MatStepperModule} from "@angular/material/stepper";
+import {RouterModule} from "@angular/router";
+import {MatExpansionModule} from "@angular/material/expansion";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {NgxBarcodeModule} from "ngx-barcode";
+import {MatMenuModule} from "@angular/material/menu";
 
 @NgModule({
   declarations: [
@@ -35,15 +41,20 @@ import {MatStepperModule} from "@angular/material/stepper";
     MatButtonToggleModule,
     FormsModule,
     MatFormFieldModule,
-    ReactiveFormsModule,
     MatChipsModule,
     MatSelectModule,
     MatButtonModule,
     MatInputModule,
     MatDialogModule,
-    MatTabsModule,
     MatCardModule,
-    MatStepperModule
+    MatStepperModule,
+    RouterModule,
+    MatExpansionModule,
+    MatToolbarModule,
+    MatTooltipModule,
+    ReactiveFormsModule,
+    MatTabsModule,
+    MatMenuModule,
   ]
 })
 export class SupplierModule { }
