@@ -3,7 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Supplier} from "../../../models/supplier.model";
 import {BehaviorSubject, debounceTime, distinctUntilChanged, of, switchMap, tap} from "rxjs";
 import {Attribute} from "../../../models/attribute.model";
-import {ApiClient} from "../../../repo/httpClient";
+import {ApiClient} from "../../../service/httpClient";
 import {ActivatedRoute} from "@angular/router";
 import {catchError, finalize, map} from "rxjs/operators";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";

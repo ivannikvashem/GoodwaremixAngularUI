@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {SuppliersDataSource} from "../repo/SuppliersDataSource";
-import {ApiClient} from "../../repo/httpClient";
+import {ApiClient} from "../../service/httpClient";
 import {MatPaginator} from "@angular/material/paginator";
 import {debounceTime, distinctUntilChanged, merge, tap} from "rxjs";
 import {Router} from "@angular/router";

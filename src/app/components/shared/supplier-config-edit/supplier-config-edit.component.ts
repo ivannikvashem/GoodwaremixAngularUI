@@ -10,7 +10,7 @@ import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {ActivatedRoute} from "@angular/router";
 import {NotificationService} from "../../../service/notification-service";
 import {MatDialog} from "@angular/material/dialog";
-import {ApiClient} from "../../../repo/httpClient";
+import {ApiClient} from "../../../service/httpClient";
 import {finalize} from "rxjs/operators";
 import {MatChipInputEvent} from "@angular/material/chips";
 import {SupplierAttributeAddComponent} from "../supplier-attribute-add/supplier-attribute-add.component";

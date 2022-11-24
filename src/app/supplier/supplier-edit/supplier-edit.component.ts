@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormControl} from "@angular/forms";
 import {Supplier, SupplierConfig} from "../../models/supplier.model";
-import {ApiClient} from "../../repo/httpClient";
+import {ApiClient} from "../../service/httpClient";
 import {ProductAttributeKey} from "../../models/productAttributeKey.model";
 import {DataSource} from "@angular/cdk/collections";
 import { Attribute } from 'src/app/models/attribute.model';

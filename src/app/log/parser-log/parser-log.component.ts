@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {ApiClient} from "../../repo/httpClient";
+import {ApiClient} from "../../service/httpClient";
 import {MatPaginator} from "@angular/material/paginator";
 import {merge, tap} from "rxjs";
 import {LogsDataSource} from "../repo/LogsDataSource";

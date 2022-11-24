@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {ApiClient} from "../../repo/httpClient";
+import {ApiClient} from "../../service/httpClient";
 import {Observable} from "rxjs";
 import {MatTableDataSource} from "@angular/material/table";
 import {Product} from "../../models/product.model";

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {MatChipInputEvent} from "@angular/material/chips";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {Attribute} from "../../models/attribute.model";
-import {ApiClient} from "../../repo/httpClient";
+import {ApiClient} from "../../service/httpClient";
 import {ActivatedRoute} from "@angular/router";
 import {catchError, finalize, map} from "rxjs/operators";
 import {BehaviorSubject, of} from "rxjs";

@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {ApiClient} from "../../../repo/httpClient";
+import {ApiClient} from "../../../service/httpClient";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Document} from "../../../models/document.model";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";

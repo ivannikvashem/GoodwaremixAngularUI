@@ -3,7 +3,7 @@ import { FormControl, FormGroup} from "@angular/forms";
 import {SchedulerTask} from "../../models/schedulerTask.model";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Supplier} from "../../models/supplier.model";
-import {ApiClient} from "../../repo/httpClient";
+import {ApiClient} from "../../service/httpClient";
 
 
 export interface DialogData {

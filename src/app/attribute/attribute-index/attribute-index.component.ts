@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {AttributesDataSource} from "../repo/AttributesDataSource";
-import {ApiClient} from "../../repo/httpClient";
+import {ApiClient} from "../../service/httpClient";
 import {ActivatedRoute, Router} from "@angular/router";
 import {tap} from "rxjs";
 import {MatPaginator} from "@angular/material/paginator";

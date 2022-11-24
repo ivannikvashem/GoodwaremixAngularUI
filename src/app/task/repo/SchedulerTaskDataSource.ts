@@ -2,7 +2,7 @@ import {CollectionViewer, DataSource} from "@angular/cdk/collections";
 import {SchedulerTask} from "../../models/schedulerTask.model";
 import {BehaviorSubject, Observable, of} from "rxjs";
 import {catchError, finalize, map} from "rxjs/operators";
-import {ApiClient} from "../../repo/httpClient";
+import {ApiClient} from "../../service/httpClient";
 import {NotificationService} from "../../service/notification-service";
 
 export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {

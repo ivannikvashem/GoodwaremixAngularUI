@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ApiClient} from "../../repo/httpClient";
+import {ApiClient} from "../../service/httpClient";
 import {NotificationService} from "../../service/notification-service";
 import {Supplier} from "../../models/supplier.model";
 import {MatTableDataSource} from "@angular/material/table";

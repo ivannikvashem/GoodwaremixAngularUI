@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {ApiClient} from "../../repo/httpClient";
+import {ApiClient} from "../../service/httpClient";
 import {SchedulerTaskDataSource} from "../repo/SchedulerTaskDataSource";
 import {MatDialog} from "@angular/material/dialog";
 import {TaskEditComponent} from "../task-edit/task-edit.component";
