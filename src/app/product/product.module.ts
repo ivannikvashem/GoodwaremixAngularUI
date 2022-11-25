@@ -30,6 +30,8 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatSelectModule} from "@angular/material/select";
 import {MatListModule} from "@angular/material/list";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {RouterModule} from "@angular/router";
 
 @NgModule({
   declarations: [
@@ -68,7 +70,9 @@ import {MatListModule} from "@angular/material/list";
     MatDatepickerModule,
     MatAutocompleteModule,
     MatSelectModule,
-    MatListModule
+    MatListModule,
+    MatProgressSpinnerModule,
+    RouterModule
   ]
 })
 export class ProductModule { }

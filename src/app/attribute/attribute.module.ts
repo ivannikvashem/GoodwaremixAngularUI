@@ -15,6 +15,8 @@ import {MatChipsModule} from "@angular/material/chips";
 import {MatSelectModule} from "@angular/material/select";
 import {MatInputModule} from "@angular/material/input";
 import {MatDialogModule} from "@angular/material/dialog";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {RouterModule} from "@angular/router";
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import {MatDialogModule} from "@angular/material/dialog";
     MatSelectModule,
     MatButtonModule,
     MatInputModule,
-    MatDialogModule
+    MatDialogModule,
+    MatProgressSpinnerModule,
+    RouterModule
   ]
 })
 export class AttributeModule { }

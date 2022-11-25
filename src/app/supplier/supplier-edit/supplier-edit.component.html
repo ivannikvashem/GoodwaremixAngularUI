@@ -87,19 +87,19 @@
                         <mat-form-field appearance="fill">
                           <mat-label>Источник</mat-label>
                           <mat-select name="source" #source [(ngModel)]="config.sourceSettings.source">
-                            <mat-option value="API">API</mat-option>
-                            <mat-option value="SOAP">SOAP</mat-option>
-                            <mat-option value="FTP">FTP</mat-option>
-                            <mat-option value="MAIL">MAIL</mat-option>
-                            <mat-option value="FILE">FILE</mat-option>
+                            <mat-option [value]="'API'">API</mat-option>
+                            <mat-option [value]="'SOAP'">SOAP</mat-option>
+                            <mat-option [value]="'FTP'">FTP</mat-option>
+                            <mat-option [value]="'MAIL'">MAIL</mat-option>
+                            <mat-option [value]="'FILE'">FILE</mat-option>
                           </mat-select>
                         </mat-form-field>&nbsp;
                         <mat-form-field appearance="fill">
                           <mat-label>Тип запроса</mat-label>
                           <mat-select name="methodType" #methodType [(ngModel)]="config.sourceSettings.methodType">
-                            <mat-option value="GET">GET</mat-option>
-                            <mat-option value="POST">POST</mat-option>
-                            <mat-option value="BINARY">BINARY</mat-option>
+                            <mat-option [value]="'GET'">GET</mat-option>
+                            <mat-option [value]="'POST'">POST</mat-option>
+                            <mat-option [value]="'BINARY'">BINARY</mat-option>
                           </mat-select>
                         </mat-form-field>&nbsp;
                         <mat-form-field appearance="fill" *ngIf="this.methodType.value == 'POST'">
@@ -143,7 +143,7 @@
                           <ng-container matColumnDef="headerKey">
                             <th mat-header-cell *matHeaderCellDef> HeaderName </th>
                             <td mat-cell *matCellDef="let element; let i = index">
-                              <mat-form-field [appearance]="!element.isEditable ? 'none':'standard'" class="full-width">
+                              <mat-form-field appearance="{{!element.isEditable ? 'none':'standard'}}" class="full-width">
                                 <input type="text" matInput [(ngModel)]="element.HeaderName" [readonly]="!element.isEditable" [name]="'headerName'+i">
                               </mat-form-field>
                             </td>
@@ -152,7 +152,7 @@
                           <ng-container matColumnDef="headerValue">
                             <th mat-header-cell *matHeaderCellDef> HeaderValue </th>
                             <td mat-cell *matCellDef="let element; let i = index">
-                              <mat-form-field [appearance]="!element.isEditable ? 'none':'standard'"  class="full-width">
+                              <mat-form-field appearance="{{!element.isEditable ? 'none':'standard'}}"  class="full-width">
                                 <input matInput class="full-width" [(ngModel)]="element.HeaderValue" [readonly]="!element.isEditable" [name]="'headerValue'+i">
                               </mat-form-field>
                             </td>
@@ -188,13 +188,13 @@
                     <mat-step>
                       <ng-template matStepLabel>Файл данных поставщика</ng-template>
                       <div class="formBlockDouble">
-                        <mat-form-field appearance="fill" required>
+                        <mat-form-field appearance="fill">
                           <mat-label>Тип файла</mat-label>
-                          <mat-select name="type" #fileType [(ngModel)]="config.type">
-                            <mat-option value="JSON">JSON</mat-option>
-                            <mat-option value="XML">XML</mat-option>
-                            <mat-option value="XLSX">XLSX</mat-option>
-                            <mat-option value="CSV">CSV</mat-option>
+                          <mat-select name="type" #fileType [(ngModel)]="config.type" required>
+                            <mat-option [value]="'JSON'">JSON</mat-option>
+                            <mat-option [value]="'XML'">XML</mat-option>
+                            <mat-option [value]="'XLSX'">XLSX</mat-option>
+                            <mat-option [value]="'CSV'">CSV</mat-option>
                           </mat-select>
                         </mat-form-field>
                         &nbsp;
@@ -299,13 +299,13 @@
                         </mat-form-field>
                       </div>
                       <div class="formBlockDouble">
-                        <mat-form-field appearance="fill" required>
+                        <mat-form-field appearance="fill">
                           <mat-label>Скачивать изображения</mat-label>
-                          <mat-select name="downloadClientType" #fileType [(ngModel)]="config.imageConfig.downloadClientType">
-                            <mat-option value="">Не загружать локально</mat-option>
-                            <mat-option value="Http">Http</mat-option>
-                            <mat-option value="FTP">FTP</mat-option>
-                            <mat-option value="YDisk">YDisk</mat-option>
+                          <mat-select name="downloadClientType" #fileType [(ngModel)]="config.imageConfig.downloadClientType" required>
+                            <mat-option [value]="''">Не загружать локально</mat-option>
+                            <mat-option [value]="'Http'">Http</mat-option>
+                            <mat-option [value]="'FTP'">FTP</mat-option>
+                            <mat-option [value]="'YDisk'">YDisk</mat-option>
                           </mat-select>
                         </mat-form-field>&nbsp;
                         <mat-form-field appearance="fill">

@@ -22,41 +22,42 @@ import {RouterModule} from "@angular/router";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatTooltipModule} from "@angular/material/tooltip";
-import {NgxBarcodeModule} from "ngx-barcode";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 @NgModule({
   declarations: [
     SupplierIndexComponent,
     SupplierEditComponent,
   ],
-    imports: [
-        CommonModule,
-        MatPaginatorModule,
-        MatSortModule,
-        MatTableModule,
-        SharedModule,
-        MatButtonModule,
-        MatIconModule,
-        MatButtonToggleModule,
-        FormsModule,
-        MatFormFieldModule,
-        MatChipsModule,
-        MatSelectModule,
-        MatButtonModule,
-        MatInputModule,
-        MatDialogModule,
-        MatCardModule,
-        MatStepperModule,
-        RouterModule,
-        MatExpansionModule,
-        MatToolbarModule,
-        MatTooltipModule,
-        ReactiveFormsModule,
-        MatTabsModule,
-        MatMenuModule,
-        MatSlideToggleModule,
-    ]
+  imports: [
+    CommonModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableModule,
+    SharedModule,
+    MatButtonModule,
+    MatIconModule,
+    MatButtonToggleModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatChipsModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatInputModule,
+    MatDialogModule,
+    MatCardModule,
+    MatStepperModule,
+    RouterModule,
+    MatExpansionModule,
+    MatToolbarModule,
+    MatTooltipModule,
+    ReactiveFormsModule,
+    MatTabsModule,
+    MatMenuModule,
+    MatSlideToggleModule,
+    MatAutocompleteModule,
+  ]
 })
 export class SupplierModule { }
