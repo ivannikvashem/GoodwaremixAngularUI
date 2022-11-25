@@ -108,7 +108,7 @@ export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
           this._notyf.onSuccess('Задача остановлена')
         },
         error:error => {
-          this._notyf.onError('Ошибка запуска' + error)
+          this._notyf.onError('Ошибка остановки' + error)
         }
       })
     }

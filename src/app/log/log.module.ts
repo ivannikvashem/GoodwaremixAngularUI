@@ -7,19 +7,21 @@ import {MatTableModule} from "@angular/material/table";
 import {SharedModule} from "../shared/shared.module";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
+import {ScrollingModule} from "@angular/cdk/scrolling";
 
 @NgModule({
   declarations: [
     ParserLogComponent,
   ],
-  imports: [
-    CommonModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatTableModule,
-    SharedModule,
-    MatButtonModule,
-    MatIconModule
-  ]
+    imports: [
+        CommonModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatTableModule,
+        SharedModule,
+        MatButtonModule,
+        MatIconModule,
+        ScrollingModule
+    ]
 })
 export class LogModule { }

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Inject, Injectable, OnInit, ViewChild} from '@angular/core';
 import {ProductsDataSource} from "../repo/ProductsDataSource";
 import {ApiClient} from "../../service/httpClient";
 import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
@@ -23,7 +23,6 @@ import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/share
 import {NotificationService} from "../../service/notification-service";
 import {Attribute} from "../../models/attribute.model";
 import {MissingImageHandler} from "../MissingImageHandler";
-import {Product} from "../../models/product.model";
 
 export interface DialogData {
   src: '';

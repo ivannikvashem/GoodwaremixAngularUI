@@ -29,6 +29,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatSelectModule} from "@angular/material/select";
+import {MatListModule} from "@angular/material/list";
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import {MatSelectModule} from "@angular/material/select";
     SharedModule,
     MatDatepickerModule,
     MatAutocompleteModule,
-    MatSelectModule
+    MatSelectModule,
+    MatListModule
   ]
 })
 export class ProductModule { }
