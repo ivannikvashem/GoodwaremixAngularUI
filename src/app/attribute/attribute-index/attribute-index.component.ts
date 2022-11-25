@@ -25,6 +25,8 @@ export interface AttrDialogData {
   styleUrls: ['./attribute-index.component.css']
 })
 export class AttributeIndexComponent implements OnInit {
+
+  pageTitle = 'AttributeIndex'
   dataSource: AttributesDataSource;
   displayedColumns: string[] = ['fixed', 'Rating', 'supplierName', 'etimFeature', 'nameAttribute', 'allValue', 'actions'];
   withFixedAttrSelectorCtrl = new FormControl<boolean | null>(null);
@@ -52,7 +54,7 @@ export class AttributeIndexComponent implements OnInit {
   setCookie() {
     // on each interaction - save all controls state to cookies
     let supp = this.selectedSupplier;
-    this._localStorageService.setDataByPageName(this.constructor.name, {
+    this._localStorageService.setDataByPageName(this.pageTitle, {
       searchQuery: this.searchQueryCtrl.value,
       pageIndex: this.paginator?.pageIndex,
       pageSize: this.paginator?.pageSize,
@@ -65,7 +67,7 @@ export class AttributeIndexComponent implements OnInit {
 
   getCookie() {
     //try to get cookie, if there's no cookie - make the blank and save
-    this._localStorageService.getDataByPageName(this.constructor.name); //pretty wrong, upd data
+    this._localStorageService.getDataByPageName(this.pageTitle); //pretty wrong, upd data
     this.sub = this.pageCookie$.subscribe(x => {
       if (!x) return;
       this.pC = x;

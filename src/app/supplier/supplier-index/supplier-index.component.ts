@@ -27,6 +27,8 @@ import {FormControl} from "@angular/forms";
 })
 export class SupplierIndexComponent implements OnInit {
 
+  pageTitle:string = 'SupplierIndex';
+
   displayedColumns: string[] = ['SupplierName', 'type', 'fullfill', 'brands', 'Stat.ProductQty', 'Stat.lastImport', 'actions'];
   dataSource: SuppliersDataSource;
   searchQueryCtrl  = new FormControl<string>('');
@@ -89,7 +91,7 @@ export class SupplierIndexComponent implements OnInit {
 
   setCookie() {
     // on each interaction - save all controls state to cookies
-    this._localStorageService.setDataByPageName(this.constructor.name, {
+    this._localStorageService.setDataByPageName(this.pageTitle, {
       searchQuery: this.searchQueryCtrl.value,
       pageIndex: this.paginator?.pageIndex,
       pageSize: this.paginator?.pageSize,
@@ -100,7 +102,7 @@ export class SupplierIndexComponent implements OnInit {
 
   getCookie() {
     //try to get cookie, if there's no cookie - make the blank and save
-    this._localStorageService.getDataByPageName(this.constructor.name); //pretty wrong, upd data
+    this._localStorageService.getDataByPageName(this.pageTitle); //pretty wrong, upd data
     this.sub = this.pageCookie$.subscribe(x => {
       if (!x) return;
       this.pC = x;

@@ -53,6 +53,7 @@ class PageCookieProductIndex {
 })
 export class ProductIndexComponent implements OnInit, AfterViewInit {
 
+  pageTitle:string = 'ProductIndex';
   displayedColumns: string[] = ['preview', 'internalCode' ,'name', 'supplierName', 'actions'];
   dataSource: ProductsDataSource;
 
@@ -90,7 +91,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   setCookie() {
     // on each interaction - save all controls state to cookies
     let supp = this.selectedSupplier;
-    this._localStorageService.setDataByPageName(this.constructor.name, {
+    this._localStorageService.setDataByPageName(this.pageTitle, {
       searchQuery: this.searchQueryCtrl.value,
       pageIndex: this.paginator?.pageIndex,
       pageSize: this.paginator?.pageSize,
@@ -101,7 +102,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
 
   getCookie() {
     //try to get cookie, if there's no cookie - make the blank and save
-    this._localStorageService.getDataByPageName(this.constructor.name) as PageCookieProductIndex; //pretty wrong, upd data
+    this._localStorageService.getDataByPageName(this.pageTitle) as PageCookieProductIndex; //pretty wrong, upd data
     this.sub = this.pageCookie$.subscribe(x => {
       if (!x) return;
       this.pC = x;
