@@ -97,6 +97,7 @@ tr.mat-row {
   height:200px;
   position:relative;
   display: inline;
+  margin-left: 10px;
 }
 
 .thumbnail img {
@@ -113,9 +114,8 @@ tr.mat-row {
   top:-182px;
   right:8px;
   overflow:hidden;
-  background: white;
   border-radius: 15px;
-  border-width: 2px;
+  border-width: 0;
   padding: 0;
   font-weight: bolder;
   color:red;

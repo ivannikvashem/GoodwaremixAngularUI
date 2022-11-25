@@ -21,6 +21,7 @@ import {ProductPackageEditComponent} from "../product-package-edit/product-packa
 import {Countries} from "../../../assets/countriesList"
 import {map} from "rxjs/operators";
 import {MissingImageHandler} from "../MissingImageHandler";
+import {ImageDialog} from "../hover-image-slider/hover-image-slider.component";
 
 interface Country {
   code?:string
@@ -350,6 +351,22 @@ export class ProductEditComponent implements OnInit {
         console.log("updateSupplierError: " + JSON.stringify(error));
         this._notyf.onError("Ошибка: " + JSON.stringify(error.error));
       });
+  }
+
+  onCountryClearSelection() {
+    this.searchCountryCtrl.setValue('')
+    this.onCountrySelected()
+  }
+
+  openImageDialog(image: string) {
+    let dialogBoxSettings = {
+      margin: '0 auto',
+      hasBackdrop: true,
+      data: {
+        src: image.replace("", ""),
+      }
+    };
+    this.dialog.open(ImageDialog, dialogBoxSettings);
   }
 }
 

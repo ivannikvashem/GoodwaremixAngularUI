@@ -35,13 +35,13 @@
           <ng-template matTabContent>
             <button mat-button (click)="fileInput.click()" class="mat-elevation-z2" style="margin:10px;width:95%">
               <mat-icon>cloud_upload</mat-icon> Загрузить
-              <input #fileInput type="file" multiple="" accept="image/gif, image/jpeg, image/png, image/jpg" (change)="onImageChange($event)" style="display:none;" />
+              <input #fileInput type="file" multiple="" accept="image/gif, image/jpeg, image/png, image/jpg" (change)="onImageChange($event)" style="display:none;"/>
             </button>
 
-            <div style="max-height: 600px; overflow-y: auto">
+            <div style="max-height: 600px; overflow-y: auto;">
               <div class="thumbnail" *ngFor="let img of imagesView">
-                <img [src]="img" style="object-fit: cover; height:200px; width: 200px;margin-left:10px" (error)="handleMissingImage($event)" class="mat-elevation-z2" >
-                <button (click)="removeImage(img)">&#x2715;</button>
+                <img [src]="img" style="object-fit: cover; height:200px; width: 200px;margin-left:10px" (error)="handleMissingImage($event)" class="mat-elevation-z2" (click)="openImageDialog(img)">
+                <button (click)="removeImage(img)" class="mat-elevation-z8">&#x2715;</button>
               </div>
             </div>
 
@@ -107,6 +107,9 @@
                     {{option.name}}
                   </mat-option>
                 </mat-autocomplete>
+                <button *ngIf="searchCountryCtrl.value" matSuffix mat-icon-button aria-label="Clear" type="button" (click)="onCountryClearSelection()">
+                  <mat-icon>close</mat-icon>
+                </button>
               </mat-form-field>
             </div>
 
@@ -182,54 +185,58 @@
                     <mat-panel-title>Базовые параметры</mat-panel-title>
                     <mat-panel-description> {{product.netto?.barcode}}</mat-panel-description>
                   </mat-expansion-panel-header>
-                  <mat-form-field appearance="fill" class="full-width">
-                    <mat-label>Штрихкод</mat-label>
-                    <input matInput [(ngModel)]="product.netto.barcode" name="barcode" required>
-                  </mat-form-field>
 
-                  <div class="formBlockFull">
-                    <mat-form-field appearance="fill" class="full-width; package-form-field-triple">
-                      <mat-label>Тип</mat-label>
-                      <input matInput [(ngModel)]="product.netto.type" name="type">
-                    </mat-form-field>&nbsp;
-
-                    <mat-form-field appearance="fill" class="full-width; package-form-field-triple">
-                      <mat-label>Кол-во в упаковке</mat-label>
-                      <input matInput [(ngModel)]="product.netto.packQty" name="packQty" type="number" min="0" pattern="\d*">
-                    </mat-form-field>&nbsp;
-
-                    <mat-form-field appearance="fill" class="full-width; package-form-field-triple">
-                      <mat-label>Вес</mat-label>
-                      <input matInput [(ngModel)]="product.netto.weight" name="weight" type="number" min="0">
-                      <span matSuffix>гр</span>
+                  <div style="justify-content: space-around;">
+                    <mat-form-field appearance="fill" class="full-width">
+                      <mat-label>Штрихкод</mat-label>
+                      <input matInput [(ngModel)]="product.netto.barcode" name="barcode" required>
                     </mat-form-field>
+
+                    <div class="formBlockFull">
+                      <mat-form-field appearance="fill" class="full-width; package-form-field-triple">
+                        <mat-label>Тип</mat-label>
+                        <input matInput [(ngModel)]="product.netto.type" name="type">
+                      </mat-form-field>&nbsp;
+
+                      <mat-form-field appearance="fill" class="full-width; package-form-field-triple">
+                        <mat-label>Кол-во в упаковке</mat-label>
+                        <input matInput [(ngModel)]="product.netto.packQty" name="packQty" type="number" min="0" pattern="\d*">
+                      </mat-form-field>&nbsp;
+
+                      <mat-form-field appearance="fill" class="full-width; package-form-field-triple">
+                        <mat-label>Вес</mat-label>
+                        <input matInput [(ngModel)]="product.netto.weight" name="weight" type="number" min="0">
+                        <span matSuffix>гр</span>
+                      </mat-form-field>
+                    </div>
+
+                    <div class="formBlockFull" style="padding: 0">
+                      <mat-form-field appearance="fill" class="full-width; package-form-field-fourth">
+                        <mat-label>Ширина</mat-label>
+                        <input matInput [(ngModel)]="product.netto.width" #width name="width" type="number" min="0" step="0.5">
+                        <span matSuffix>см</span>
+                      </mat-form-field>&nbsp;
+
+                      <mat-form-field appearance="fill" class="full-width; package-form-field-fourth">
+                        <mat-label>Высота</mat-label>
+                        <input matInput [(ngModel)]="product.netto.height" #height name="height"  type="number" min="0" step="0.5">
+                        <span matSuffix>см</span>
+                      </mat-form-field>&nbsp;
+
+                      <mat-form-field appearance="fill" class="full-width; package-form-field-fourth">
+                        <mat-label>Глубина</mat-label>
+                        <input matInput [(ngModel)]="product.netto.depth" #depth name="depth" type="number" min="0" step="0.5">
+                        <span matSuffix>см</span>
+                      </mat-form-field>&nbsp;
+
+                      <mat-form-field appearance="fill" class="full-width; package-form-field-fourth">
+                        <mat-label>Объём</mat-label>
+                        <input matInput value="{{Math.round(((width.value * height.value * depth.value) + Eps) * 100) / 100}}" [(ngModel)]="product.netto.volume" name="volume" type="number" min="0">
+                        <span matSuffix>см<sup>3</sup></span>
+                      </mat-form-field>
+                    </div>
                   </div>
 
-                  <div class="formBlockFull" style="padding: 0">
-                    <mat-form-field appearance="fill" class="full-width; package-form-field-fourth">
-                      <mat-label>Ширина</mat-label>
-                      <input matInput [(ngModel)]="product.netto.width" #width name="width" type="number" min="0" step="0.5">
-                      <span matSuffix>см</span>
-                    </mat-form-field>&nbsp;
-
-                    <mat-form-field appearance="fill" class="full-width; package-form-field-fourth">
-                      <mat-label>Высота</mat-label>
-                      <input matInput [(ngModel)]="product.netto.height" #height name="height"  type="number" min="0" step="0.5">
-                      <span matSuffix>см</span>
-                    </mat-form-field>&nbsp;
-
-                    <mat-form-field appearance="fill" class="full-width; package-form-field-fourth">
-                      <mat-label>Глубина</mat-label>
-                      <input matInput [(ngModel)]="product.netto.depth" #depth name="depth" type="number" min="0" step="0.5">
-                      <span matSuffix>см</span>
-                    </mat-form-field>&nbsp;
-
-                    <mat-form-field appearance="fill" class="full-width; package-form-field-fourth">
-                      <mat-label>Объём</mat-label>
-                      <input matInput value="{{Math.round(((width.value * height.value * depth.value) + Eps) * 100) / 100}}" [(ngModel)]="product.netto.volume" name="volume" type="number" min="0">
-                      <span matSuffix>см<sup>3</sup></span>
-                    </mat-form-field>
-                  </div>
                   <div *ngIf="product.netto.barcode"><app-package-card [pack]="product.netto"></app-package-card></div>
                 </mat-expansion-panel>
               </mat-accordion>
