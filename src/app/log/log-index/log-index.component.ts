@@ -1,17 +1,17 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ApiClient} from "../../service/httpClient";
 import {MatPaginator} from "@angular/material/paginator";
-import {merge, tap} from "rxjs";
+import {merge, Observable, Subject, tap} from "rxjs";
 import {LogsDataSource} from "../repo/LogsDataSource";
 import {MatSort} from "@angular/material/sort";
-import {Supplier} from "../../models/supplier.model";
 import {Log} from "../models/log.model";
 import {animate, state, style, transition, trigger} from "@angular/animations";
+import {DatastateService} from "../../shared/datastate.service";
 
 @Component({
-  selector: 'app-parser-log',
-  templateUrl: './parser-log.component.html',
-  styleUrls: ['./parser-log.component.css'],
+  selector: 'app-log-index',
+  templateUrl: './log-index.component.html',
+  styleUrls: ['./log-index.component.css'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({height: '0px', minHeight: '0'})),
@@ -20,15 +20,16 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
     ]),
   ],
 })
-export class ParserLogComponent implements OnInit {
+export class LogIndexComponent implements OnInit {
 
   displayedColumns: string[] = ['SupplierName', 'Date', 'status', 'result', 'actions'];
   expandedElement: Log | null | undefined;
   dataSource: LogsDataSource;
-  supplierId = '';
+  supplierId: string;
 
   constructor(
-    public api: ApiClient
+    public api: ApiClient,
+    public dss: DatastateService
   ) { this.dataSource = new LogsDataSource(this.api); }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator
@@ -36,6 +37,13 @@ export class ParserLogComponent implements OnInit {
 
   ngOnInit(): any {
     this.dataSource.loadPagedData(this.supplierId, 0,10, 'Date', 'desc');
+
+    this.dss.selectedSupplierId.subscribe(
+      id => {
+        this.supplierId = id;
+        this.loadLogData();
+      }
+    )
   }
 
   ngAfterViewInit(): void {
@@ -49,18 +57,11 @@ export class ParserLogComponent implements OnInit {
   }
 
   loadLogData(): any {
+    console.log("log index suppId:" + this.supplierId);
     this.dataSource.loadPagedData(this.supplierId,this.paginator?.pageIndex ?? 0, this.paginator?.pageSize ?? 10, this.sort.active, this.sort.direction);
   }
 
   flushLogTable(): any {
     this.dataSource.deleteAllLogs();
   }
-
-  handleChangeSelectedSupplier(supplier: Supplier): any {
-    this.supplierId = '';
-    if (supplier.hasOwnProperty('id')){
-      this.supplierId = supplier.id;
-    }
-    this.loadLogData();
-  };
 }

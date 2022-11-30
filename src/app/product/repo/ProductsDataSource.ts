@@ -9,7 +9,6 @@ export class SelectedFilterAttributes {
   selectedValues:string[] = []
 }
 
-
 export class ProductsDataSource implements DataSource<Product> {
 
   private ProductListSubject = new BehaviorSubject<Product[]>([]);
@@ -30,6 +29,7 @@ export class ProductsDataSource implements DataSource<Product> {
   }
 
   loadPagedData(queryString = "", withInternalCodeSelector = false, selectedSuppId = '', pageIndex = 0, pageSize = 10, selectedAttributes:SelectedFilterAttributes[]) {
+    console.log("DS: suppId: " + queryString )
     this.loadingSubject.next(true);
     this.api.getProducts(queryString, withInternalCodeSelector, selectedSuppId, pageIndex, pageSize, selectedAttributes)
       .pipe(

@@ -3,6 +3,7 @@ import {debounceTime, distinctUntilChanged, finalize, switchMap, tap} from "rxjs
 import {FormControl} from "@angular/forms";
 import {Supplier} from "../../models/supplier.model";
 import {ApiClient} from "../../service/httpClient";
+import {DatastateService} from "../datastate.service";
 
 @Component({
   selector: 'app-supplier-autocomplete',
@@ -13,10 +14,12 @@ export class SupplierAutocompleteComponent implements OnInit {
 
   searchSuppliersCtrl  = new FormControl<string | Supplier>('');
   supplierList:Supplier[];
-  @Output() selectedSupplier = new EventEmitter();
+  @Output() selectedSupplier = new EventEmitter<Supplier>();
   @Input() cookieSupplier:Supplier
 
-  constructor(public api: ApiClient) {}
+  constructor(public api: ApiClient,
+              public dss: DatastateService
+  ) {}
 
   ngOnInit(): void {
     if (this.cookieSupplier !== undefined && this.cookieSupplier.id !== undefined) {
@@ -50,6 +53,7 @@ export class SupplierAutocompleteComponent implements OnInit {
 
   onSupplierSelected() {
     this.selectedSupplier.emit((this.searchSuppliersCtrl.value) as Supplier);
+    this.dss.selectedSupplierId.next(((this.searchSuppliersCtrl.value) as Supplier).id)
   }
 
   onClearSupplierSelection() {

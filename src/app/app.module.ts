@@ -26,12 +26,9 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
-import {DialogDataDialog} from './product/product-index/product-index.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatTableModule} from "@angular/material/table";
 import {MatIconModule} from "@angular/material/icon";
-import { NgxBarcodeModule } from 'ngx-barcode';
-import { PackageCardComponent } from './product/package-card/package-card.component';
 import {MatBadgeModule} from '@angular/material/badge';
 import { ConfirmDialogComponent } from './components/shared/confirm-dialog/confirm-dialog.component';
 import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
@@ -40,9 +37,6 @@ import {getRuPaginatorIntl} from  './service/ru-paginator-intl'
 import {MatMenuModule} from "@angular/material/menu";
 import '@angular/common/locales/global/ru';
 import { SwapAttributeComponent } from './components/shared/swap-attribute/swap-attribute.component'
-import {ProductAttributeEditComponent} from "./product/product-attribute-edit/product-attribute-edit.component";
-import { ProductPackageEditComponent } from './product/product-package-edit/product-package-edit.component';
-import { ProductDocumentEditComponent } from './product/product-document-edit/product-document-edit.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
 import { SupplierAttributeAddComponent } from './components/shared/supplier-attribute-add/supplier-attribute-add.component';
@@ -55,6 +49,7 @@ import {AttributeModule} from "./attribute/attribute.module";
 import {SupplierModule} from "./supplier/supplier.module";
 import {ProductModule} from "./product/product.module";
 import {TaskModule} from "./task/task.module";
+import {DatastateService} from "./shared/datastate.service";
 
 @NgModule({
   declarations: [
@@ -116,7 +111,8 @@ import {TaskModule} from "./task/task.module";
       useValue: { displayDefaultIndicatorType: false }
     },
     {provide: MatPaginatorIntl, useValue: getRuPaginatorIntl()},
-    { provide: MAT_DATE_LOCALE, useValue: 'ru-RU' }
+    { provide: MAT_DATE_LOCALE, useValue: 'ru-RU' },
+    DatastateService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ParserLogComponent } from './parser-log.component';
+import { LogComponent } from './log.component';
 
-describe('ParserLogComponent', () => {
-  let component: ParserLogComponent;
-  let fixture: ComponentFixture<ParserLogComponent>;
+describe('LogPageComponent', () => {
+  let component: LogComponent;
+  let fixture: ComponentFixture<LogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ParserLogComponent ]
+      declarations: [ LogComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ParserLogComponent);
+    fixture = TestBed.createComponent(LogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

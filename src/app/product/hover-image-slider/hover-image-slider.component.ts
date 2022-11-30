@@ -1,7 +1,7 @@
 import {Component, Inject, Input, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
-import {DialogData} from "../product-index/product-index.component";
 import {MissingImageHandler} from "../MissingImageHandler";
+import {ImagePreviewDialogData} from "../models/ImagePreviewDialogData";
 
 @Component({
   selector: 'app-hover-image-slider',
@@ -50,7 +50,7 @@ export class HoverImageSliderComponent implements OnInit {
     <img (error)="handleMissingImage($event)" style="max-width: 800px;  max-height: 800px;" src='{{data.src}}'>`
 })
 export class ImageDialog {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData, private imgHandler:MissingImageHandler) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: ImagePreviewDialogData, private imgHandler:MissingImageHandler) {}
 
   handleMissingImage($event: Event) {
     this.imgHandler.checkImgStatus($event)

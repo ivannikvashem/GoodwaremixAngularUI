@@ -6,7 +6,7 @@ import {MatTableModule} from "@angular/material/table";
 import {SharedModule} from "../shared/shared.module";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
-import {DialogDataDialog, ProductIndexComponent} from "./product-index/product-index.component";
+import {ProductIndexComponent} from "./product-index/product-index.component";
 import {ProductDetailsComponent} from "./product-details/product-details.component";
 import {ProductEditComponent} from "./product-edit/product-edit.component";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
@@ -32,6 +32,8 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatListModule} from "@angular/material/list";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {RouterModule} from "@angular/router";
+import { ProductComponent } from './product.component';
+import { ImagePreviewDialogComponent } from './image-preview-dialog/image-preview-dialog.component';
 
 @NgModule({
   declarations: [
@@ -40,11 +42,12 @@ import {RouterModule} from "@angular/router";
     ProductEditComponent,
     HoverImageSliderComponent,
     ImageDialog,
-    DialogDataDialog,
     PackageCardComponent,
     ProductPackageEditComponent,
     ProductDocumentEditComponent,
     ProductAttributeEditComponent,
+    ProductComponent,
+    ImagePreviewDialogComponent,
   ],
   imports: [
     CommonModule,

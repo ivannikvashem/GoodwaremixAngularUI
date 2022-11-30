@@ -1,0 +1,9 @@
+<div class="header-container" style="display: flex; align-items: baseline; justify-content: space-between;">
+  <h3>Товары &nbsp;</h3>
+  <!--<span *ngIf="selectedSupplierId">для [{{selectedSupplierId}}]</span>-->
+  <!--  <mat-spinner diameter="35" *ngIf="dataSource.loading$ | async"></mat-spinner>-->
+  <app-supplier-autocomplete style="width: 25%" [cookieSupplier]="selectedSupplier"></app-supplier-autocomplete>
+  <!--<app-supplier-autocomplete style="width: 50%" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>-->
+</div>
+
+<app-product-index></app-product-index>

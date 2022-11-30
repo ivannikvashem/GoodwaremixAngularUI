@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, Inject, Injectable, OnInit, ViewChild} from '@angular/core';
 import {ProductsDataSource} from "../repo/ProductsDataSource";
 import {ApiClient} from "../../service/httpClient";
-import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
+import {MatDialog} from "@angular/material/dialog";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatPaginator} from "@angular/material/paginator";
 import {
@@ -22,11 +22,9 @@ import {LocalStorageService} from "../../service/local-storage.service";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/shared/confirm-dialog/confirm-dialog.component";
 import {NotificationService} from "../../service/notification-service";
 import {Attribute} from "../../models/attribute.model";
+import {ImagePreviewDialogComponent} from "../image-preview-dialog/image-preview-dialog.component";
+import {DatastateService} from "../../shared/datastate.service";
 import {MissingImageHandler} from "../MissingImageHandler";
-
-export interface DialogData {
-  src: '';
-}
 
 export class SelectedFilterAttributes {
   attributeName:string
@@ -66,13 +64,12 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   attributesForFilter:Attribute[]
   selectedFilterAttributes:SelectedFilterAttributes[] = []
   filteredAttributeValues: Observable<string[]>;
-  selectedSupplier:Supplier = new Supplier()
+      selectedSupplierId: string;
 
   isLoading = false;
   productId: string | any;
   pageCookie$ = this._localStorageService.myData$
   pC: any = {};
-  private sub: any;
 
   constructor(
     public api: ApiClient,
@@ -81,7 +78,8 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     private _ActivatedRoute:ActivatedRoute,
     private _localStorageService: LocalStorageService,
     private _notyf: NotificationService,
-    private imgHandler:MissingImageHandler
+    private imgHandler:MissingImageHandler,
+    private dss: DatastateService
   ) {
     this.dataSource = new ProductsDataSource(this.api);
   }
@@ -90,59 +88,45 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
 
   setCookie() {
     // on each interaction - save all controls state to cookies
-    let supp = this.selectedSupplier;
+   // let supp = this.selectedSupplierId;
     this._localStorageService.setDataByPageName(this.pageTitle, {
       searchQuery: this.searchQueryCtrl.value,
       pageIndex: this.paginator?.pageIndex,
       pageSize: this.paginator?.pageSize,
       withInternalCodeSelector: this.withInternalCodeCtrl.value,
-      supplier: {id: supp.id, supplierName: supp.supplierName} as Supplier
+      //supplierId: this.selectedSupplierId
     });
   }
 
   getCookie() {
     //try to get cookie, if there's no cookie - make the blank and save
     this._localStorageService.getDataByPageName(this.pageTitle) as PageCookieProductIndex; //pretty wrong, upd data
-    this.sub = this.pageCookie$.subscribe(x => {
+    /*this.sub = */this.pageCookie$.subscribe(x => {
       if (!x) return;
       this.pC = x;
       this.searchQueryCtrl.setValue(this.pC.searchQuery);
-      if (this.pC.supplier === undefined) {
-        this.selectedSupplier = new Supplier()
-      } else {
-        this.selectedSupplier = this.pC.supplier as Supplier
-      }
       this.withInternalCodeCtrl.setValue(this.pC.withInternalCodeSelector);
+      //this.dss.setSelectedSupplierId(this.pC.supplierId);
     });
   }
 
   ngOnInit() {
-    this.getCookie();
+    this.dss.selectedSupplierId.subscribe(
+      id => {
+        console.log("supp changed: " + id );
+        this.selectedSupplierId = id;
+        this.onQueryChanged();
+      }
+    )
 
-    Promise.resolve().then(() => {
+    //this.getCookie();
+
+/*    Promise.resolve().then(() => {
       this.paginator.pageIndex = this.pC.pageIndex;
       this.paginator.pageSize = this.pC.pageSize;
+      console.log("init presolve: ");
       this.loadProductPagedData();
-    })
-
-    this._ActivatedRoute.queryParams.subscribe(params => {
-      let supplierId = params['supplierId'];
-      if (supplierId) {
-        this.pC.supplierId = supplierId;
-        this.selectedSupplier = ({id: supplierId} as Supplier);
-      }
-    });
-
-    // this.searchQueryCtrl.valueChanges.pipe(
-    //   distinctUntilChanged(),
-    //   debounceTime(700)
-    // ).subscribe(()=> {
-    //   this.onQueryChanged();
-    // })
-
-    // this.api.getAttributes('','',0,10,true,"Rating", "desc").subscribe((r:any) => {
-    //   this.attributesForFilter = r.body.data
-    // });
+    })*/
   }
 
   ngAfterViewInit(): void {
@@ -150,25 +134,22 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
       .pipe(
         tap( () => {
           this.loadProductPagedData();
-          this.setCookie();
+          //this.setCookie();
         })
       ).subscribe();
   }
 
-  ngOnDestroy() {
-    this.sub.unsubscribe(); //crutch to dispose subs
-  }
-
   onQueryChanged() {
-    if (this.paginator.pageIndex != 0) {
+    if (this.paginator?.pageIndex) {
       this.paginator.pageIndex = 0;
     }
     this.loadProductPagedData();
-    this.setCookie();
+    //this.setCookie();
   }
 
   loadProductPagedData(): any {
-    this.dataSource.loadPagedData(this.searchQueryCtrl.value, this.withInternalCodeCtrl.value, this.selectedSupplier?.id, this.paginator.pageIndex, this.paginator.pageSize, this.selectedFilterAttributes);
+    console.log("loadProductPagedData: suppId: " + this.selectedSupplierId)
+    this.dataSource.loadPagedData(this.searchQueryCtrl.value, this.withInternalCodeCtrl.value, this.selectedSupplierId, this.paginator?.pageIndex, this.paginator?.pageSize, this.selectedFilterAttributes);
   }
 
   confirmDeleteDialog(id: string, name: string): void {
@@ -208,10 +189,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
         src: image.replace("", ""),
       }
     };
-    this.dialog.open(DialogDataDialog, dialogBoxSettings);
-  }
-  handleMissingImage($event: Event) {
-    this.imgHandler.checkImgStatus($event)
+    this.dialog.open(ImagePreviewDialogComponent, dialogBoxSettings);
   }
 
   copyVendorId(vendorId: string) {
@@ -219,6 +197,9 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     this._notyf.onSuccess('Артикул поставщика скопирован')
   }
 
+  handleMissingImage($event: Event) {
+    this.imgHandler.checkImgStatus($event)
+  }
   // filtrationSearch(filterSearch: HTMLInputElement, attributeId:string) {
   //   this.api.getAttributeById(attributeId).subscribe((r:any) => {
   //     this.attributesForFilter.find(attr => attr.id === attributeId).allValue = r.body.allValue.filter((value:any) => {
@@ -254,22 +235,8 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   //   console.log('selected list',this.selectedFilterAttributes)
   // }
 
-  handleChangeSelectedSupplier(supplier: Supplier) {
+/*  handleChangeSelectedSupplier(supplier: Supplier) {
     this.selectedSupplier = supplier
     this.onQueryChanged()
-  }
-}
-@Component({
-  selector: 'dialog-data-dialog',
-  template: `
-    <img (error)="handleMissingImage($event)" style="max-width: 800px;  max-height: 800px;" src='{{data.src}}'>
-<!--    <img (error)="handleMissingImage($event)" style="max-width: 95%;  max-height: 95%; margin: 0 auto; display: flex" src='{{data.src}}'>-->
-`
-})
-export class DialogDataDialog {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData, private imgHandler:MissingImageHandler) {}
-
-  handleMissingImage($event: Event) {
-    this.imgHandler.checkImgStatus($event)
-  }
+  }*/
 }

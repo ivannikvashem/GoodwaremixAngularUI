@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {ParserLogComponent} from "./parser-log/parser-log.component";
+import {LogIndexComponent} from "./log-index/log-index.component";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
 import {MatTableModule} from "@angular/material/table";
@@ -9,10 +9,12 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {ScrollingModule} from "@angular/cdk/scrolling";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import { LogComponent } from './log.component';
 
 @NgModule({
   declarations: [
-    ParserLogComponent,
+    LogIndexComponent,
+    LogComponent,
   ],
   imports: [
     CommonModule,

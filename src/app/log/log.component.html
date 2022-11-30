@@ -1,0 +1,8 @@
+<div class="header-container" style="display: flex; align-items: baseline; justify-content: space-between;">
+  <h3>Журнал событий <span *ngIf="selectedSupplierId">для [{{selectedSupplierId}}]</span></h3>
+<!--  <mat-spinner diameter="35" *ngIf="dataSource.loading$ | async"></mat-spinner>-->
+  <app-supplier-autocomplete style="width: 25%"></app-supplier-autocomplete>
+  <!--<app-supplier-autocomplete style="width: 50%" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>-->
+</div>
+
+<app-log-index></app-log-index>
