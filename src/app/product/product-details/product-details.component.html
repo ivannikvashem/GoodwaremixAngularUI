@@ -1,7 +1,7 @@
 <div class="mat-headline">
   <div style="float:right; margin-right: 10px">
     <button mat-raised-button (click)="goToEdit(productId)">Редактировать</button>&nbsp;
-    <button *ngIf="!product?.internalCode" mat-raised-button>В ассортимент</button>
+    <button mat-raised-button *ngIf="!product?.internalCode">В ассортимент</button>
   </div>
 
   <div>
@@ -76,10 +76,10 @@
       </mat-card-subtitle>
       <div [innerHTML]="product.description"></div>
       <ul>
-        <li *ngIf="product.country" matTooltip="Код страны{{product.id}}">Страна производства - {{product.country}} (Код {{product.countryCode}})</li>
+        <li *ngIf="product.country">Страна производства - {{product.country}} <span *ngIf="product.countryCode">(Код {{product.countryCode}})</span></li>
         <li *ngIf="product.internalCode">Артикул 1С - {{product.internalCode}}</li>
         <li *ngIf="product.vendorId">Артикул поставщика - {{product.vendorId}}</li>
-        <li *ngIf="product.vendor">Вендор - {{product.vendor}}</li>
+        <li *ngIf="product.vendor">Бренд - {{product.vendor}}</li>
         <li *ngIf="product.supplierName">Поставщик - {{product.supplierName}}</li>
       </ul>
     </mat-card>

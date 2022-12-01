@@ -80,7 +80,7 @@
                   <input matInput type="text" [(ngModel)]="config.name" name="configName">
                 </mat-form-field>
                 <form>
-                  <mat-stepper orientation="vertical" [linear]="false" #stepper>
+                  <mat-stepper orientation="vertical" [linear]="false">
                     <mat-step>
                       <ng-template matStepLabel>Подключение к ресурсу поставщика</ng-template>
                       <div class="formBlockDouble">
@@ -439,17 +439,18 @@
                       <div class="formBlockDouble">
                         <mat-form-field appearance="fill">
                           <mat-label>Таг ШВГ размеров</mat-label>
-                          <input matInput name="packagetagName" placeholder="" [ngModel]="config.packageConfig.dimensions?.tagName">
+                          <input matInput name="packagetagName" placeholder="" [(ngModel)]="config.packageConfig.dimensions.tagName">
                         </mat-form-field>&nbsp;
                         <mat-form-field appearance="fill">
                           <mat-label>Разделитель ШВГ</mat-label>
-                          <input matInput name="packageformat" placeholder="" [ngModel]="config.packageConfig.dimensions?.format">
+                          <input matInput name="packageformat" placeholder="" [(ngModel)]="config.packageConfig.dimensions.format">
                         </mat-form-field>&nbsp;
                         <!--        автокомплит, со значениями типа: мм в см, м в см и так далее-->
                         <mat-form-field appearance="fill">
                           <mat-label>Множитель ШВГ</mat-label>
-                          <input matInput name="packagemultiplier" placeholder="" [ngModel]="config.packageConfig.dimensions?.multiplier">
+                          <input matInput name="packagemultiplier" placeholder="" [(ngModel)]="config.packageConfig.dimensions.multiplier">
                         </mat-form-field>
+
                       </div>
 
                     </mat-step>
@@ -636,7 +637,7 @@
                             </td>
                           </ng-container>
 
-                          <tr mat-header-row *matHeaderRowDef="attrTableColumns"></tr>
+                          <tr mat-header-row *matHeaderRowDef="attrTableColumns; sticky:true"></tr>
                           <tr mat-row *matRowDef="let i = index; let row; columns: attrTableColumns;"></tr>
                         </table>
                       </div>

@@ -4,19 +4,15 @@ import {FormControl} from "@angular/forms";
 import {Supplier, SupplierConfig} from "../../models/supplier.model";
 import {ApiClient} from "../../service/httpClient";
 import {ProductAttributeKey} from "../../models/productAttributeKey.model";
-import {DataSource} from "@angular/cdk/collections";
 import { Attribute } from 'src/app/models/attribute.model';
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {MatChipInputEvent} from "@angular/material/chips";
-import {Dimensions} from "../../models/dimensions.model";
-import {Multipliers} from "../../models/multipliers.model";
-import {debounceTime, Observable, ReplaySubject, switchMap, tap} from "rxjs";
+import {debounceTime, switchMap, tap} from "rxjs";
 import {finalize} from "rxjs/operators";
 import {NotificationService} from "../../service/notification-service";
 import {MatDialog} from "@angular/material/dialog";
 import {SupplierAttributeAddComponent} from "../../components/shared/supplier-attribute-add/supplier-attribute-add.component";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/shared/confirm-dialog/confirm-dialog.component";
-import {AttributeProduct} from "../../models/attributeProduct.model";
 
 export class HeaderModel {
   HeaderName:string
@@ -60,7 +56,6 @@ export class SupplierEditComponent implements OnInit {
       this.api.getSupplierById(this.supplierId)
         .subscribe( (s:any) => {
           this.supplier = s.body as Supplier;
-
           for (let config of this.supplier.supplierConfigs) {
 /*            config.nettoConfig.dimensions = new Dimensions()
             config.packageConfig.dimensions = new Dimensions()
@@ -176,7 +171,7 @@ export class SupplierEditComponent implements OnInit {
         config.sourceSettings.header = null
       }
     }
-    if (supplier.id == undefined || supplier.id == null) {
+    if (supplier.id == undefined) {
       this.api.insertSupplier(supplier).subscribe( x => {
           this._notyf.onSuccess("Конфигурация добавлена");
           for (let i of this.attributesToAdd) {
