@@ -22,6 +22,8 @@ export class SupplierAutocompleteComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.cookieSupplier = this.dss.selectedSupplierState.value
+
     if (this.cookieSupplier !== undefined && this.cookieSupplier.id !== undefined) {
       this.api.getSupplierById(this.cookieSupplier.id).subscribe( s => {
         this.searchSuppliersCtrl.setValue(s.body as Supplier);
@@ -53,7 +55,7 @@ export class SupplierAutocompleteComponent implements OnInit {
 
   onSupplierSelected() {
     this.selectedSupplier.emit((this.searchSuppliersCtrl.value) as Supplier);
-    this.dss.selectedSupplierId.next(((this.searchSuppliersCtrl.value) as Supplier).id)
+    this.dss.selectedSupplierState.next((this.searchSuppliersCtrl.value) as Supplier)
   }
 
   onClearSupplierSelection() {

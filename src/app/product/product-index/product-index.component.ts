@@ -71,6 +71,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   pageCookie$ = this._localStorageService.myData$
   pC: any = {};
 
+
   constructor(
     public api: ApiClient,
     public dialog: MatDialog,
@@ -87,14 +88,12 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator
 
   setCookie() {
-    // on each interaction - save all controls state to cookies
-   // let supp = this.selectedSupplierId;
+
     this._localStorageService.setDataByPageName(this.pageTitle, {
       searchQuery: this.searchQueryCtrl.value,
       pageIndex: this.paginator?.pageIndex,
       pageSize: this.paginator?.pageSize,
       withInternalCodeSelector: this.withInternalCodeCtrl.value,
-      //supplierId: this.selectedSupplierId
     });
   }
 
@@ -106,49 +105,49 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
       this.pC = x;
       this.searchQueryCtrl.setValue(this.pC.searchQuery);
       this.withInternalCodeCtrl.setValue(this.pC.withInternalCodeSelector);
-      //this.dss.setSelectedSupplierId(this.pC.supplierId);
     });
   }
 
   ngOnInit() {
-    this.dss.selectedSupplierId.subscribe(
-      id => {
-        console.log("supp changed: " + id );
-        this.selectedSupplierId = id;
-        this.onQueryChanged();
-      }
-    )
+    this.getCookie();
 
-    //this.getCookie();
+    this.dss.selectedSupplierState.subscribe(x => {
+      console.log('X', x)
+      if (x) {
+        this.selectedSupplierId = x.id
+        this.onQueryChanged()
+      }
+    })
+    console.log('x',this.selectedSupplierId)
+    this.onQueryChanged()
 
 /*    Promise.resolve().then(() => {
       this.paginator.pageIndex = this.pC.pageIndex;
       this.paginator.pageSize = this.pC.pageSize;
-      console.log("init presolve: ");
       this.loadProductPagedData();
     })*/
   }
 
   ngAfterViewInit(): void {
-    this.paginator.page
+/*    this.paginator.page
       .pipe(
         tap( () => {
           this.loadProductPagedData();
           //this.setCookie();
         })
-      ).subscribe();
+      ).subscribe();*/
   }
 
   onQueryChanged() {
     if (this.paginator?.pageIndex) {
       this.paginator.pageIndex = 0;
     }
+    this.setCookie();
     this.loadProductPagedData();
-    //this.setCookie();
   }
 
   loadProductPagedData(): any {
-    console.log("loadProductPagedData: suppId: " + this.selectedSupplierId)
+    console.log('load data', this.selectedSupplierId)
     this.dataSource.loadPagedData(this.searchQueryCtrl.value, this.withInternalCodeCtrl.value, this.selectedSupplierId, this.paginator?.pageIndex, this.paginator?.pageSize, this.selectedFilterAttributes);
   }
 

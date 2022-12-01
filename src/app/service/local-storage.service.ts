@@ -32,7 +32,6 @@ export class LocalStorageService {
   getDataByPageName(name: string): any {
     const data = JSON.parse(this._localStorage.getItem(name));
     this._myData$.next(data);
-    //console.log("got cookie: " + JSON.stringify(data));
   }
 
   setDataByPageName(pageName: string, data: any) {

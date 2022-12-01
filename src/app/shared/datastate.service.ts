@@ -1,19 +1,22 @@
 import {Supplier} from "../models/supplier.model";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {Injectable} from "@angular/core";
+import {LocalStorageService} from "../service/local-storage.service";
+import {SupplierAutocompleteComponent} from "./supplier-autocomplete/supplier-autocomplete.component";
 
 @Injectable()
 export class DatastateService {
 
   // availableSuppliersList: Supplier[];
-  // selectedSupplier: Supplier;
-  selectedSupplierId: BehaviorSubject<string> = new BehaviorSubject('');
+  selectedSupplier: Supplier;
+
+  selectedSupplierState: BehaviorSubject<Supplier> = new BehaviorSubject(new Supplier());
+  data$: Observable<Supplier> = this.selectedSupplierState.asObservable()
 
   constructor() {
   }
 
-  setSelectedSupplierId(id: string) {
-    this.selectedSupplierId.next(id)
-    console.log("id selected: " + id);
+  setSelectedSupplier(supplier: Supplier) {
+    this.selectedSupplierState.next(supplier)
   }
 }

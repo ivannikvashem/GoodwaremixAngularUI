@@ -7,6 +7,7 @@ import {MatSort} from "@angular/material/sort";
 import {Log} from "../models/log.model";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {DatastateService} from "../../shared/datastate.service";
+import {Supplier} from "../../models/supplier.model";
 
 @Component({
   selector: 'app-log-index',
@@ -25,7 +26,7 @@ export class LogIndexComponent implements OnInit {
   displayedColumns: string[] = ['SupplierName', 'Date', 'status', 'result', 'actions'];
   expandedElement: Log | null | undefined;
   dataSource: LogsDataSource;
-  supplierId: string;
+  selectedSupplier: Supplier;
 
   constructor(
     public api: ApiClient,
@@ -36,11 +37,11 @@ export class LogIndexComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort | any;
 
   ngOnInit(): any {
-    this.dataSource.loadPagedData(this.supplierId, 0,10, 'Date', 'desc');
+    this.dataSource.loadPagedData(this.selectedSupplier.id, 0,10, 'Date', 'desc');
 
-    this.dss.selectedSupplierId.subscribe(
+    this.dss.selectedSupplierState.subscribe(
       id => {
-        this.supplierId = id;
+        this.selectedSupplier = id;
         this.loadLogData();
       }
     )
@@ -57,8 +58,8 @@ export class LogIndexComponent implements OnInit {
   }
 
   loadLogData(): any {
-    console.log("log index suppId:" + this.supplierId);
-    this.dataSource.loadPagedData(this.supplierId,this.paginator?.pageIndex ?? 0, this.paginator?.pageSize ?? 10, this.sort.active, this.sort.direction);
+    console.log("log index suppId:" + this.selectedSupplier);
+    this.dataSource.loadPagedData(this.selectedSupplier.id,this.paginator?.pageIndex ?? 0, this.paginator?.pageSize ?? 10, this.sort?.active, this.sort?.direction);
   }
 
   flushLogTable(): any {

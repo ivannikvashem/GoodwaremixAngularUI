@@ -13,6 +13,7 @@ import {NotificationService} from "../../service/notification-service";
 import {MatDialog} from "@angular/material/dialog";
 import {SupplierAttributeAddComponent} from "../../components/shared/supplier-attribute-add/supplier-attribute-add.component";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/shared/confirm-dialog/confirm-dialog.component";
+import {Dimensions} from "../../models/dimensions.model";
 
 export class HeaderModel {
   HeaderName:string
@@ -57,10 +58,9 @@ export class SupplierEditComponent implements OnInit {
         .subscribe( (s:any) => {
           this.supplier = s.body as Supplier;
           for (let config of this.supplier.supplierConfigs) {
-/*            config.nettoConfig.dimensions = new Dimensions()
+            config.nettoConfig.dimensions = new Dimensions()
             config.packageConfig.dimensions = new Dimensions()
-            config.multipliers = new Multipliers()*/
-
+            /*config.multipliers = new Multipliers()*/
             if (config.sourceSettings.header) {
               config.sourceSettings.header = JSON.parse(config.sourceSettings.header) as HeaderModel
             }

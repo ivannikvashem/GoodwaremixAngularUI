@@ -18,19 +18,21 @@ export class ProductComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.dss.selectedSupplierId.subscribe(
-      id => {
-        this.selectedSupplier = {
-          id: id,
-        } as Supplier;
+    this.dss.selectedSupplierState.subscribe(
+      supplier => {
+        this.selectedSupplier = supplier
       }
     );
     this._ActivatedRoute.queryParams.subscribe(params => {
       let supplierId = params['supplierId'];
       if (supplierId) {
         console.warn("Got q param: " + supplierId );
-        this.dss.setSelectedSupplierId(supplierId);
+        this.dss.setSelectedSupplier(supplierId);
       }
     });
+  }
+
+  handleChangeSelectedSupplier(supplier: Supplier) {
+    this.dss.setSelectedSupplier(supplier)
   }
 }
