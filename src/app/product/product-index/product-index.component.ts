@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Inject, Injectable, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Inject, Injectable, Input, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {ProductsDataSource} from "../repo/ProductsDataSource";
 import {ApiClient} from "../../service/httpClient";
 import {MatDialog} from "@angular/material/dialog";
@@ -59,8 +59,11 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   hoverRowId: string = "";
 
   attributeValueFilterCtrl = new FormControl('');
-  searchQueryCtrl  = new FormControl<string>('');
-  withInternalCodeCtrl  = new FormControl<boolean>(false);
+  @Input() searchQuery = "";
+  @Input() withInternalCode = false;
+
+  // searchQueryCtrl  = new FormControl<string>('');
+  // withInternalCodeCtrl  = new FormControl<boolean>(false);
   attributesForFilter:Attribute[]
   selectedFilterAttributes:SelectedFilterAttributes[] = []
   filteredAttributeValues: Observable<string[]>;
@@ -87,7 +90,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator
 
-  setCookie() {
+/*  setCookie() {
 
     this._localStorageService.setDataByPageName(this.pageTitle, {
       searchQuery: this.searchQueryCtrl.value,
@@ -100,16 +103,19 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   getCookie() {
     //try to get cookie, if there's no cookie - make the blank and save
     this._localStorageService.getDataByPageName(this.pageTitle) as PageCookieProductIndex; //pretty wrong, upd data
-    /*this.sub = */this.pageCookie$.subscribe(x => {
+    /!*this.sub = *!/this.pageCookie$.subscribe(x => {
       if (!x) return;
       this.pC = x;
       this.searchQueryCtrl.setValue(this.pC.searchQuery);
       this.withInternalCodeCtrl.setValue(this.pC.withInternalCodeSelector);
     });
+  }*/
+  ngOnChanges(changes: SimpleChanges): void {
+    this.loadProductPagedData();
+    console.log(changes);
   }
-
   ngOnInit() {
-    this.getCookie();
+    //this.getCookie();
 
     this.dss.selectedSupplierState.subscribe(x => {
       console.log('X', x)
@@ -142,13 +148,13 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     if (this.paginator?.pageIndex) {
       this.paginator.pageIndex = 0;
     }
-    this.setCookie();
+    //this.setCookie();
     this.loadProductPagedData();
   }
 
   loadProductPagedData(): any {
-    console.log('load data', this.selectedSupplierId)
-    this.dataSource.loadPagedData(this.searchQueryCtrl.value, this.withInternalCodeCtrl.value, this.selectedSupplierId, this.paginator?.pageIndex, this.paginator?.pageSize, this.selectedFilterAttributes);
+    console.log('LOAD DATA: ', this.selectedSupplierId)
+    this.dataSource.loadPagedData(this.searchQuery, this.withInternalCode, this.selectedSupplierId, this.paginator?.pageIndex, this.paginator?.pageSize, this.selectedFilterAttributes);
   }
 
   confirmDeleteDialog(id: string, name: string): void {

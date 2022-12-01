@@ -1,11 +1,28 @@
 <div class="header-container" style="display: flex; align-items: baseline; justify-content: space-between;">
   <h3>Товары &nbsp;</h3>
-  <!--<span *ngIf="selectedSupplierId">для [{{selectedSupplierId}}]</span>-->
   <!--  <mat-spinner diameter="35" *ngIf="dataSource.loading$ | async"></mat-spinner>-->
-<!--
-  <app-supplier-autocomplete style="width: 25%" [cookieSupplier]="selectedSupplier"></app-supplier-autocomplete>
--->
+
+  <div class="toolbox-container">
+    <div class="toolbox-item">
+      <mat-button-toggle-group [formControl]="withInternalCodeCtrl">
+        <mat-button-toggle [value]=false class="full-width" matTooltip="Все товары"><mat-icon>all_inclusive</mat-icon></mat-button-toggle>
+        <mat-button-toggle [value]=true class="full-width" matTooltip="Только с артикулом"><mat-icon>sell</mat-icon></mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+
+    <mat-form-field appearance="standard" class="toolbox-item-xl">
+      <mat-label>Поиск</mat-label>
+      <input matInput [formControl]="searchQueryCtrl">
+      <button *ngIf="searchQueryCtrl.value" matSuffix mat-icon-button aria-label="Clear" (click)="searchQueryCtrl.setValue('')">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <app-supplier-autocomplete class="toolbox-item-xl" [cookieSupplier]="selectedSupplier"></app-supplier-autocomplete>
+  </div>
   <!--<app-supplier-autocomplete style="width: 50%" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>-->
 </div>
 
-<app-product-index></app-product-index>
+
+<!--Тут нужно обернуть значения контролов, чтобы на каждый введенный символ не происходил новый запрос к api-->
+<app-product-index [searchQuery]="searchQueryCtrl.value" [withInternalCode]="withInternalCodeCtrl.value"></app-product-index>
