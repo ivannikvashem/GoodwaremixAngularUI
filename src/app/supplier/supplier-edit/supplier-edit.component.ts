@@ -171,7 +171,7 @@ export class SupplierEditComponent implements OnInit {
         config.sourceSettings.header = null
       }
     }
-    if (supplier.id == undefined) {
+    if (supplier.id == undefined || supplier.id == null) {
       this.api.insertSupplier(supplier).subscribe( x => {
           this._notyf.onSuccess("Конфигурация добавлена");
           for (let i of this.attributesToAdd) {
