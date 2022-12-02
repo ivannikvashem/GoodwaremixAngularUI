@@ -22,7 +22,7 @@
       <input  matInput name="internalCode" [(ngModel)]="product.internalCode" disabled>
     </mat-form-field>
     <div *ngIf="!product.internalCode" style="margin: auto;">
-      <button [disabled]="!productId || !product.supplierId" mat-flat-button (click)="RequestProductInternalCode(productId)">Запросить артикул</button>
+      <button [disabled]="!isAvaibleForIntCodeReq" mat-flat-button (click)="RequestProductInternalCode(productId)">Запросить артикул</button>
     </div>
 
     </div>

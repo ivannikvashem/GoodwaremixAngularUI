@@ -4,6 +4,7 @@ import {FormControl} from "@angular/forms";
 import {Supplier} from "../../models/supplier.model";
 import {ApiClient} from "../../service/httpClient";
 import {DatastateService} from "../datastate.service";
+import {LocalStorageService} from "../../service/local-storage.service";
 
 @Component({
   selector: 'app-supplier-autocomplete',
@@ -16,19 +17,22 @@ export class SupplierAutocompleteComponent implements OnInit {
   supplierList:Supplier[];
   @Output() selectedSupplier = new EventEmitter<Supplier>();
   @Input() cookieSupplier:Supplier
+  pageCookie$ = this._localStorageService.myData$
+  pC: any = {};
 
   constructor(public api: ApiClient,
-              public dss: DatastateService
+              public dss: DatastateService,
+              private _localStorageService:LocalStorageService
   ) {}
 
   ngOnInit(): void {
-    this.cookieSupplier = this.dss.selectedSupplierState.value
-
+    this.getCookie()
     if (this.cookieSupplier !== undefined && this.cookieSupplier.id !== undefined) {
       this.api.getSupplierById(this.cookieSupplier.id).subscribe( s => {
         this.searchSuppliersCtrl.setValue(s.body as Supplier);
       })
     }
+
     this.api.getSuppliers(this.searchSuppliersCtrl.value, 0 ,100, "SupplierName", "asc").subscribe( (r:any) => {
       this.supplierList = r.body.data
     });
@@ -54,12 +58,30 @@ export class SupplierAutocompleteComponent implements OnInit {
   }
 
   onSupplierSelected() {
-    this.selectedSupplier.emit((this.searchSuppliersCtrl.value) as Supplier);
-    this.dss.selectedSupplierState.next((this.searchSuppliersCtrl.value) as Supplier)
+    let supp = this.searchSuppliersCtrl.value as Supplier
+    this.selectedSupplier.emit(({id:supp.id, supplierName:supp.supplierName}) as Supplier);
+    this.dss.selectedSupplierState.next(({id:supp.id, supplierName:supp.supplierName}) as Supplier)
+    this.setCookie({id:supp.id, supplierName:supp.supplierName} as Supplier)
   }
 
   onClearSupplierSelection() {
     this.searchSuppliersCtrl.setValue('');
     this.onSupplierSelected();
+  }
+
+  setCookie(supplier:Supplier) {
+    this._localStorageService.setDataByPageName('SelectedSupplier', {
+      supplier:supplier
+    });
+  }
+
+  getCookie() {
+    this._localStorageService.getDataByPageName('SelectedSupplier');
+    this.pageCookie$.subscribe(x => {
+      if (!x) return;
+      this.pC = x;
+      this.cookieSupplier = this.pC.supplier
+      this.dss.setSelectedSupplier(this.pC.supplier?.id,this.pC.supplier?.supplierName)
+    });
   }
 }

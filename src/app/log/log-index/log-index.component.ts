@@ -26,7 +26,7 @@ export class LogIndexComponent implements OnInit {
   displayedColumns: string[] = ['SupplierName', 'Date', 'status', 'result', 'actions'];
   expandedElement: Log | null | undefined;
   dataSource: LogsDataSource;
-  selectedSupplier: Supplier;
+  selectedSupplier: Supplier = this.dss.selectedSupplierState.value;
 
   constructor(
     public api: ApiClient,
@@ -37,10 +37,11 @@ export class LogIndexComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort | any;
 
   ngOnInit(): any {
-    this.dataSource.loadPagedData(this.selectedSupplier.id, 0,10, 'Date', 'desc');
+    this.dataSource.loadPagedData(this.selectedSupplier?.id, 0,10, 'Date', 'desc');
 
     this.dss.selectedSupplierState.subscribe(
       id => {
+        console.log('sup from dss', id)
         this.selectedSupplier = id;
         this.loadLogData();
       }

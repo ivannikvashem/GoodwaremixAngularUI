@@ -54,8 +54,8 @@ export class SupplierIndexComponent implements OnInit {
   ngOnInit(): any {
     this.getCookie();
     Promise.resolve().then(() => {
-      this.paginator.pageIndex = this.pC.pageIndex;
-      this.paginator.pageSize = this.pC.pageSize;
+/*      this.paginator.pageIndex = this.pC.pageIndex;
+      this.paginator.pageSize = this.pC.pageSize;*/
       this.sort.direction = this.pC.sortDirection;
       this.sort.active = this.pC.sortField;
       this.loadData();

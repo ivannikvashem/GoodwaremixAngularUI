@@ -16,7 +16,9 @@ export class DatastateService {
   constructor() {
   }
 
-  setSelectedSupplier(supplier: Supplier) {
-    this.selectedSupplierState.next(supplier)
+  setSelectedSupplier(id:string, name:string) {
+    console.log('RECEIVED TO SET', id)
+    console.log('RECEIVED TO SET', name)
+    this.selectedSupplierState.next({id:id, supplierName:name} as Supplier)
   }
 }

@@ -34,6 +34,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {RouterModule} from "@angular/router";
 import { ProductComponent } from './product.component';
 import { ImagePreviewDialogComponent } from './image-preview-dialog/image-preview-dialog.component';
+import { AttributeFilterComponent } from './attribute-filter/attribute-filter.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { ImagePreviewDialogComponent } from './image-preview-dialog/image-previe
     ProductAttributeEditComponent,
     ProductComponent,
     ImagePreviewDialogComponent,
+    AttributeFilterComponent,
   ],
   imports: [
     CommonModule,

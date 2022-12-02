@@ -1,23 +1,4 @@
-<div class="header-container" style="display: inline-flex; align-items: center;">
-  <h3>Атрибуты товара &nbsp;</h3>
-  <mat-spinner diameter="35" *ngIf="dataSource.loading$ | async"></mat-spinner>
-</div>
-
 <div class="page-container">
-  <div class="left-panel">
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Поиск</mat-label>
-      <input matInput [formControl]="searchQueryCtrl" (keydown.enter)="onQueryChanged()">
-    </mat-form-field>
-    <br/>
-    <app-supplier-autocomplete class="full-width" (selectedSupplier)="handleChangeSelectedSupplier($event)" [cookieSupplier]="selectedSupplier"></app-supplier-autocomplete>
-    <mat-button-toggle-group [formControl]="withFixedAttrSelectorCtrl" class="full-width" (change)="onQueryChanged()">
-      <mat-button-toggle [value]=null class="full-width">Все</mat-button-toggle>
-      <mat-button-toggle [value]=false class="full-width">Открытые</mat-button-toggle>
-      <mat-button-toggle [value]=true class="full-width">Фиксированные</mat-button-toggle>
-    </mat-button-toggle-group>
-  </div>
-
   <div class="mat-elevation-z8 full-width">
     <table mat-table [dataSource]="dataSource">
       <!-- Name Column -->

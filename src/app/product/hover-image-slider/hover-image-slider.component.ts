@@ -45,7 +45,7 @@ export class HoverImageSliderComponent implements OnInit {
 
 }
 @Component({
-  selector: 'dialog-data-example-dialog',
+  selector: 'image-data-dialog',
   template: `
     <img (error)="handleMissingImage($event)" style="max-width: 800px;  max-height: 800px;" src='{{data.src}}'>`
 })

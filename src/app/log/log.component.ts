@@ -9,13 +9,13 @@ import {Supplier} from "../models/supplier.model";
 })
 export class LogComponent implements OnInit {
 
-  selectedSupplierId: Supplier;
+  selectedSupplier: Supplier;
 
   constructor(private dss: DatastateService) { }
 
   ngOnInit(): void {
     this.dss.selectedSupplierState.subscribe(x => {
-      this.selectedSupplierId = x;
+      this.selectedSupplier = x;
     });
   }
 }

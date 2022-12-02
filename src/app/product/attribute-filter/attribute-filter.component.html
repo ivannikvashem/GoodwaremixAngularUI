@@ -1,0 +1,49 @@
+<!--  <div class="left-panel">
+    <form>
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Поиск</mat-label>
+      <input matInput [formControl]="searchQueryCtrl" (keydown.enter)="onQueryChanged()">
+    </mat-form-field>
+    <br />
+&lt;!&ndash;
+    <app-supplier-autocomplete class="full-width" (selectedSupplier)="handleChangeSelectedSupplier($event)" [cookieSupplier]="selectedSupplier"></app-supplier-autocomplete>
+&ndash;&gt;
+      &lt;!&ndash;[formControl]="withInternalCode"&ndash;&gt;
+    <mat-button-toggle-group [formControl]="withInternalCodeCtrl" class="full-width" (change)="onQueryChanged()">
+      <mat-button-toggle [value]=false class="full-width">Все товары</mat-button-toggle>
+      <mat-button-toggle [value]=true class="full-width">Только с артикулом</mat-button-toggle>
+    </mat-button-toggle-group>
+
+&lt;!&ndash;      <hr>&ndash;&gt;
+&lt;!&ndash;      <button mat-button>Apply</button>&ndash;&gt;
+&lt;!&ndash;      <mat-accordion style="margin-top: 10px" class="full-width" appearance="fill">&ndash;&gt;
+&lt;!&ndash;        <mat-expansion-panel *ngFor="let item of attributesForFilter">&ndash;&gt;
+&lt;!&ndash;          <mat-expansion-panel-header>&ndash;&gt;
+&lt;!&ndash;            <mat-panel-title>&ndash;&gt;
+&lt;!&ndash;              {{item.nameAttribute}}&ndash;&gt;
+&lt;!&ndash;              {{item.allValue.length}}&ndash;&gt;
+&lt;!&ndash;            </mat-panel-title>&ndash;&gt;
+&lt;!&ndash;          </mat-expansion-panel-header>&ndash;&gt;
+
+&lt;!&ndash;          <mat-form-field class="full-width" appearance="fill">&ndash;&gt;
+&lt;!&ndash;              <mat-label>{{item.nameAttribute}}</mat-label>&ndash;&gt;
+&lt;!&ndash;              <mat-select multiple [formControl]="attributeValueFilterCtrl" panelClass="select-long-panel">&ndash;&gt;
+&lt;!&ndash;&lt;!&ndash;                <mat-select-trigger>&ndash;&gt;&ndash;&gt;
+
+&lt;!&ndash;&lt;!&ndash;                </mat-select-trigger>&ndash;&gt;&ndash;&gt;
+&lt;!&ndash;                <mat-card style="height: 370px">&ndash;&gt;
+&lt;!&ndash;                  <mat-form-field class="full-width" appearance="fill">&ndash;&gt;
+&lt;!&ndash;                    <mat-label>Поиск</mat-label>&ndash;&gt;
+&lt;!&ndash;                    <input matInput #filterSearch (input)="filtrationSearch(filterSearch, item.id)" [autofocus]="true">&ndash;&gt;
+&lt;!&ndash;                  </mat-form-field>&ndash;&gt;
+&lt;!&ndash;                  <cdk-virtual-scroll-viewport itemSize="10" class="attributeFilter-viewport" style="height: 300px">&ndash;&gt;
+&lt;!&ndash;                    <mat-option *cdkVirtualFor="let value of item.allValue" [value]="value" class="multiline-mat-option" (onSelectionChange)="attributeValueChecked($event ,item.nameAttribute,value)">{{value}}</mat-option>&ndash;&gt;
+&lt;!&ndash;                  </cdk-virtual-scroll-viewport>&ndash;&gt;
+&lt;!&ndash;                </mat-card>&ndash;&gt;
+&lt;!&ndash;              </mat-select>&ndash;&gt;
+&lt;!&ndash;            </mat-form-field>&ndash;&gt;
+&lt;!&ndash;        </mat-expansion-panel>&ndash;&gt;
+&lt;!&ndash;      </mat-accordion>&ndash;&gt;
+
+    </form>
+  </div>-->

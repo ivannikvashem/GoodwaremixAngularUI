@@ -1,14 +1,16 @@
 <div class="header-container" style="display: flex; align-items: baseline; justify-content: space-between;">
-  <h3>Товары &nbsp;</h3>
-  <!--  <mat-spinner diameter="35" *ngIf="dataSource.loading$ | async"></mat-spinner>-->
+  <h3>Атрибуты товаров</h3>
 
   <div class="toolbox-container">
+
     <div class="toolbox-item">
-      <mat-button-toggle-group [formControl]="withInternalCodeCtrl">
-        <mat-button-toggle [value]=false class="full-width" matTooltip="Все товары"><mat-icon>all_inclusive</mat-icon></mat-button-toggle>
-        <mat-button-toggle [value]=true class="full-width" matTooltip="Только с артикулом"><mat-icon>sell</mat-icon></mat-button-toggle>
+      <mat-button-toggle-group [formControl]="withFixedAttrSelectorCtrl" class="full-width" (change)="onQueryChanged()">
+        <mat-button-toggle [value]=null class="full-width">Все</mat-button-toggle>
+        <mat-button-toggle [value]=false class="full-width">Открытые</mat-button-toggle>
+        <mat-button-toggle [value]=true class="full-width">Фиксированные</mat-button-toggle>
       </mat-button-toggle-group>
     </div>
+
 
     <mat-form-field appearance="standard" class="toolbox-item-xl">
       <mat-label>Поиск</mat-label>
@@ -21,8 +23,7 @@
     <app-supplier-autocomplete class="toolbox-item-xl" [cookieSupplier]="selectedSupplier"></app-supplier-autocomplete>
   </div>
   <!--<app-supplier-autocomplete style="width: 50%" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>-->
+
 </div>
 
-
-<!--Тут нужно обернуть значения контролов, чтобы на каждый введенный символ не происходил новый запрос к api-->
-<app-product-index [searchQuery]="searchQuery" [withInternalCode]="withInternalCodeCtrl.value"></app-product-index>
+<app-attribute-index [searchQuery]="searchQuery" [withFixedAttrSelector]="withFixedAttrSelectorCtrl.value"></app-attribute-index>

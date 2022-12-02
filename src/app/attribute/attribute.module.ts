@@ -17,11 +17,13 @@ import {MatInputModule} from "@angular/material/input";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {RouterModule} from "@angular/router";
+import { AttributeComponent } from './attribute.component';
 
 @NgModule({
   declarations: [
     AttributeIndexComponent,
     AttributeEditComponent,
+    AttributeComponent,
   ],
   imports: [
     CommonModule,

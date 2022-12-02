@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import {RouterModule, Routes} from "@angular/router";
-import {ProductIndexComponent} from "./product/product-index/product-index.component";
-import {AttributeIndexComponent} from "./attribute/attribute-index/attribute-index.component";
 import {AttributeEditComponent} from "./attribute/attribute-edit/attribute-edit.component";
 import {SupplierIndexComponent} from "./supplier/supplier-index/supplier-index.component";
 import {SupplierEditComponent} from "./supplier/supplier-edit/supplier-edit.component";
@@ -11,6 +9,7 @@ import {AdminPanelComponent} from "./admin/admin-panel/admin-panel.component";
 import {TaskIndexComponent} from "./task/task-index/task-index.component";
 import {LogComponent} from "./log/log.component";
 import {ProductComponent} from "./product/product.component";
+import {AttributeComponent} from "./attribute/attribute.component";
 
 const routes: Routes = [
 
@@ -18,7 +17,7 @@ const routes: Routes = [
   {path: 'product-details/:id', component: ProductDetailsComponent},
   {path: 'product-add', component: ProductEditComponent},
   {path: 'product-edit/:id', component: ProductEditComponent},
-  {path: 'attributes', component: AttributeIndexComponent},
+  {path: 'attributes', component: AttributeComponent},
   {path: 'attribute-add', component: AttributeEditComponent},
   {path: 'attribute-edit/:id', component: AttributeEditComponent},
   {path: 'suppliers', component: SupplierIndexComponent},

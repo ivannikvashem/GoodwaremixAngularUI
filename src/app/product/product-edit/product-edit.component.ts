@@ -42,6 +42,7 @@ export class ProductEditComponent implements OnInit {
   productId:string = '';
   imagesToUpload:File[] = []
   imagesView:string[] =[]
+  isAvaibleForIntCodeReq:boolean = true
   // Attr
   dataToDisplayAttr:any = [];
   attrDataSource = new AttrDataSource(this.dataToDisplayAttr)
@@ -342,14 +343,17 @@ export class ProductEditComponent implements OnInit {
   }
 
   RequestProductInternalCode(id: string) {
+    this.isAvaibleForIntCodeReq = false
     this.api.bindProductInternalCodeById(id).subscribe(x => {
         this._notyf.onSuccess("Артикул успешно привязан");
         this.product.internalCode = x;
+        this.isAvaibleForIntCodeReq = true
         console.warn(x);
       },
       error => {
         console.log("updateSupplierError: " + JSON.stringify(error));
         this._notyf.onError("Ошибка: " + JSON.stringify(error.error));
+        this.isAvaibleForIntCodeReq = true
       });
   }
 
