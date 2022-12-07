@@ -35,6 +35,7 @@ import {RouterModule} from "@angular/router";
 import { ProductComponent } from './product.component';
 import { ImagePreviewDialogComponent } from './image-preview-dialog/image-preview-dialog.component';
 import { AttributeFilterComponent } from './attribute-filter/attribute-filter.component';
+import { ProductIcFilterSwitchComponent } from './product-ic-filter-switch/product-ic-filter-switch.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { AttributeFilterComponent } from './attribute-filter/attribute-filter.co
     ProductComponent,
     ImagePreviewDialogComponent,
     AttributeFilterComponent,
+    ProductIcFilterSwitchComponent,
   ],
   imports: [
     CommonModule,

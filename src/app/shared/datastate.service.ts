@@ -1,8 +1,6 @@
 import {Supplier} from "../models/supplier.model";
 import {BehaviorSubject, Observable} from "rxjs";
 import {Injectable} from "@angular/core";
-import {LocalStorageService} from "../service/local-storage.service";
-import {SupplierAutocompleteComponent} from "./supplier-autocomplete/supplier-autocomplete.component";
 
 @Injectable()
 export class DatastateService {
@@ -17,8 +15,7 @@ export class DatastateService {
   }
 
   setSelectedSupplier(id:string, name:string) {
-    console.log('RECEIVED TO SET', id)
-    console.log('RECEIVED TO SET', name)
+    console.log(`DSS: ${id} - ${name}`);
     this.selectedSupplierState.next({id:id, supplierName:name} as Supplier)
   }
 }

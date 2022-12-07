@@ -2,7 +2,7 @@ import {Component, Input, OnInit, SimpleChanges, ViewChild} from '@angular/core'
 import {AttributesDataSource} from "../repo/AttributesDataSource";
 import {ApiClient} from "../../service/httpClient";
 import {ActivatedRoute, Router} from "@angular/router";
-import {tap} from "rxjs";
+import {Subscription, tap} from "rxjs";
 import {MatPaginator} from "@angular/material/paginator";
 import {Supplier} from "../../models/supplier.model";
 import {MatDialog} from "@angular/material/dialog";
@@ -35,7 +35,7 @@ export class AttributeIndexComponent implements OnInit {
   @Input() searchQuery = "";
   @Input() withFixedAttrSelector = false;
   @Input() selectedSupplier: Supplier | null;
-  private sub: any;
+  private sub: Subscription;
 
 
   constructor(
@@ -119,10 +119,6 @@ export class AttributeIndexComponent implements OnInit {
       ).subscribe();
   }
 
-  ngOnDestroy() {
-    this.sub.unsubscribe(); //crutch to dispose subs
-  }
-
   loadData(): any {
     this.dataSource.loadPagedData(this.searchQuery, this.selectedSupplier?.id, this.paginator?.pageIndex ?? 0, this.paginator?.pageSize ?? 15, this.withFixedAttrSelector);
   }
@@ -132,7 +128,8 @@ export class AttributeIndexComponent implements OnInit {
   }
 
   onQueryChanged() {
-    this.paginator.pageIndex = 0;
+    if (this.paginator)
+      this.paginator.pageIndex = 0;
     this.loadData();
     //this.setCookie();
   }

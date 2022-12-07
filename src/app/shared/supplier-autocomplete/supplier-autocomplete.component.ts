@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {debounceTime, distinctUntilChanged, finalize, switchMap, tap} from "rxjs";
+import {debounceTime, distinctUntilChanged, finalize, Subscription, switchMap, tap} from "rxjs";
 import {FormControl} from "@angular/forms";
 import {Supplier} from "../../models/supplier.model";
 import {ApiClient} from "../../service/httpClient";
@@ -19,6 +19,8 @@ export class SupplierAutocompleteComponent implements OnInit {
   @Input() cookieSupplier:Supplier
   pageCookie$ = this._localStorageService.myData$
   pC: any = {};
+
+  private subscription: Subscription;
 
   constructor(public api: ApiClient,
               public dss: DatastateService,
@@ -77,11 +79,15 @@ export class SupplierAutocompleteComponent implements OnInit {
 
   getCookie() {
     this._localStorageService.getDataByPageName('SelectedSupplier');
-    this.pageCookie$.subscribe(x => {
+    this.subscription = this.pageCookie$.subscribe(x => {
       if (!x) return;
       this.pC = x;
       this.cookieSupplier = this.pC.supplier
       this.dss.setSelectedSupplier(this.pC.supplier?.id,this.pC.supplier?.supplierName)
     });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

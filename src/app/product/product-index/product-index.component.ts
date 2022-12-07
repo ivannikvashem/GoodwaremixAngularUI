@@ -12,7 +12,6 @@ import {LocalStorageService} from "../../service/local-storage.service";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/shared/confirm-dialog/confirm-dialog.component";
 import {NotificationService} from "../../service/notification-service";
 import {ImagePreviewDialogComponent} from "../image-preview-dialog/image-preview-dialog.component";
-import {DatastateService} from "../../shared/datastate.service";
 import {MissingImageHandler} from "../MissingImageHandler";
 
 @Component({
@@ -31,7 +30,8 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
 
   @Input() searchQuery = "";
   @Input() withInternalCode = false;
-  selectedSupplier: Supplier = this.dss.selectedSupplierState.value
+  //selectedSupplier: Supplier = this.dss.selectedSupplierState.value
+  @Input() selectedSupplier: Supplier;
 
   productId: string | any;
   pageCookie$ = this._localStorageService.myData$
@@ -45,8 +45,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     private _ActivatedRoute:ActivatedRoute,
     private _localStorageService: LocalStorageService,
     private _notyf: NotificationService,
-    private imgHandler:MissingImageHandler,
-    private dss: DatastateService
+    private imgHandler:MissingImageHandler
   ) {
     this.dataSource = new ProductsDataSource(this.api);
   }
@@ -77,29 +76,16 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.getCookie();
-
-    Promise.resolve().then(() => {
-      this.paginator.pageIndex = this.pC.pageIndex;
-      this.paginator.pageSize = this.pC.pageSize;
-      this.loadProductPagedData();
-    })
-
+    //this.getCookie();
+    this.dataSource.loadPagedData('', this.withInternalCode, this.selectedSupplier?.id, 0, 15, null);
   }
 
   ngAfterViewInit(): void {
-    this.dss.selectedSupplierState.subscribe(
-      id => {
-        this.selectedSupplier = id;
-        this.loadProductPagedData()
-      }
-    )
-
     this.paginator.page
       .pipe(
         tap( () => {
           this.loadProductPagedData();
-          this.setCookie();
+          //this.setCookie();
         })
       ).subscribe();
   }
@@ -108,7 +94,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     if (this.paginator?.pageIndex) {
       this.paginator.pageIndex = 0;
     }
-    this.setCookie();
+    //this.setCookie();
     this.loadProductPagedData();
   }
 

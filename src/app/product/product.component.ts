@@ -4,6 +4,7 @@ import {DatastateService} from "../shared/datastate.service";
 import {Supplier} from "../models/supplier.model";
 import {FormControl} from "@angular/forms";
 import {LocalStorageService} from "../service/local-storage.service";
+import {Subscription} from "rxjs";
 
 class PageCookieProductIndex {
   pageIndex: number = 1;
@@ -28,10 +29,13 @@ export class ProductComponent implements OnInit {
   selectedSupplier: Supplier;
   searchQueryCtrl  = new FormControl<string>('');
   searchQuery:string = ''
-  withInternalCodeCtrl  = new FormControl<boolean>(false);
+  //withInternalCodeCtrl  = new FormControl<boolean>(false);
 
   pageCookie$ = this._localStorageService.myData$
   pC: any = {};
+  withICFilter: boolean = false;
+
+  private subscription: Subscription;
 
   constructor(
     private _ActivatedRoute:ActivatedRoute,
@@ -48,18 +52,18 @@ export class ProductComponent implements OnInit {
       this.pC = x;
       this.searchQueryCtrl.setValue(this.pC.searchQuery);
       this.searchQuery = this.pC.searchQuery
-      this.withInternalCodeCtrl.setValue(this.pC.withInternalCodeSelector);
+      //this.withInternalCodeCtrl.setValue(this.pC.withInternalCodeSelector);
     });
   }
 
-
   ngOnInit(): void {
-    this.getCookie()
-    this.dss.selectedSupplierState.subscribe(
+    //this.getCookie()
+
+    this.subscription = this.dss.selectedSupplierState.subscribe(
       supplier => {
         this.selectedSupplier = supplier
-      }
-    );
+      });
+
     this._ActivatedRoute.queryParams.subscribe(params => {
       let supplierId = params['supplierId'];
       if (supplierId) {
@@ -70,7 +74,7 @@ export class ProductComponent implements OnInit {
   }
 
   handleChangeSelectedSupplier(supplier: Supplier) {
-    this.dss.setSelectedSupplier(supplier.id, supplier.supplierName)
+    this.dss.setSelectedSupplier(supplier.id, supplier.supplierName);
   }
 
   searchQueryChanged() {
@@ -80,5 +84,13 @@ export class ProductComponent implements OnInit {
   searchQueryClear() {
     this.searchQueryCtrl.setValue('');
     this.searchQuery = ''
+  }
+
+  onICFilterChanged($event: boolean) {
+    this.withICFilter = $event;
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

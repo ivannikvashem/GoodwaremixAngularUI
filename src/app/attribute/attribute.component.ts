@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {DatastateService} from "../shared/datastate.service";
 import {Supplier} from "../models/supplier.model";
 import {FormControl} from "@angular/forms";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-attribute',
@@ -13,22 +14,18 @@ export class AttributeComponent implements OnInit {
   pageTitle:string = 'AttributeIndex'
   selectedSupplier: Supplier;
   searchQueryCtrl  = new FormControl<string>('');
-  searchQuery:string = '';
+  searchQuery: string = '';
   attributeFixedFilterState: boolean | null = null;
 
-  private subscription: any;
+  private subscription: Subscription;
 
   constructor(private dss: DatastateService) { }
 
   ngOnInit(): void {
-    this.dss.selectedSupplierState.subscribe(x => {
-      this.selectedSupplier = x;
-    });
-
     this.subscription = this.dss.selectedSupplierState.subscribe(
-      id => {
-        console.log('sup from dss', id)
-        this.selectedSupplier = id;
+      supplier => {
+        console.log('sup from dss', supplier)
+        this.selectedSupplier = supplier;
       }
     )
   }
@@ -51,6 +48,6 @@ export class AttributeComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe(); //crutch to dispose subs
+    this.subscription.unsubscribe();
   }
 }
