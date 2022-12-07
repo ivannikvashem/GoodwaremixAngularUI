@@ -4,13 +4,8 @@
   <div class="toolbox-container">
 
     <div class="toolbox-item">
-      <mat-button-toggle-group [formControl]="withFixedAttrSelectorCtrl" class="full-width" (change)="onQueryChanged()">
-        <mat-button-toggle [value]=null class="full-width">Все</mat-button-toggle>
-        <mat-button-toggle [value]=false class="full-width">Открытые</mat-button-toggle>
-        <mat-button-toggle [value]=true class="full-width">Фиксированные</mat-button-toggle>
-      </mat-button-toggle-group>
+      <app-attrtibute-state-switch [state]="attributeFixedFilterState" (stateEmitter)="onAttributeStateFilterChanged($event)"></app-attrtibute-state-switch>
     </div>
-
 
     <mat-form-field appearance="standard" class="toolbox-item-xl">
       <mat-label>Поиск</mat-label>
@@ -26,4 +21,4 @@
 
 </div>
 
-<app-attribute-index [searchQuery]="searchQuery" [withFixedAttrSelector]="withFixedAttrSelectorCtrl.value"></app-attribute-index>
+<app-attribute-index [searchQuery]="searchQuery" [withFixedAttrSelector]="attributeFixedFilterState" [selectedSupplier]="selectedSupplier"></app-attribute-index>

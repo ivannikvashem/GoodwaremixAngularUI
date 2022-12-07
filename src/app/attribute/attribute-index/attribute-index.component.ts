@@ -4,7 +4,6 @@ import {ApiClient} from "../../service/httpClient";
 import {ActivatedRoute, Router} from "@angular/router";
 import {tap} from "rxjs";
 import {MatPaginator} from "@angular/material/paginator";
-import {FormControl} from "@angular/forms";
 import {Supplier} from "../../models/supplier.model";
 import {MatDialog} from "@angular/material/dialog";
 import {Attribute} from "../../models/attribute.model";
@@ -12,7 +11,6 @@ import {SwapAttributeComponent} from "../../components/shared/swap-attribute/swa
 import {NotificationService} from "../../service/notification-service";
 import {LocalStorageService} from "../../service/local-storage.service";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/shared/confirm-dialog/confirm-dialog.component";
-import {DatastateService} from "../../shared/datastate.service";
 
 export interface AttrDialogData {
   oldAttributeId: string;
@@ -36,8 +34,9 @@ export class AttributeIndexComponent implements OnInit {
 
   @Input() searchQuery = "";
   @Input() withFixedAttrSelector = false;
-  selectedSupplier: Supplier = this.dss.selectedSupplierState.value
+  @Input() selectedSupplier: Supplier | null;
   private sub: any;
+
 
   constructor(
     private api: ApiClient,
@@ -46,7 +45,6 @@ export class AttributeIndexComponent implements OnInit {
     private _notyf: NotificationService,
     private _ActivatedRoute:ActivatedRoute,
     private _localStorageService: LocalStorageService,
-    public dss: DatastateService
   ) {
     this.dataSource = new AttributesDataSource(this.api);
   }
@@ -87,21 +85,11 @@ export class AttributeIndexComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.onQueryChanged()
+    this.onQueryChanged();
   }
 
   ngOnInit(): any {
-
-    this.dataSource.loadPagedData('',this.selectedSupplier?.id, 0,10, false);
-
-    this.dss.selectedSupplierState.subscribe(
-      id => {
-        console.log('sup from dss', id)
-        this.selectedSupplier = id;
-        this.loadData();
-      }
-    )
-
+    this.dataSource.loadPagedData('', this.selectedSupplier?.id, 0,10, false);
 
 /*    this.getCookie();
 
@@ -112,7 +100,6 @@ export class AttributeIndexComponent implements OnInit {
       //this.sort.active = this.pC.sortField;
       this.loadData();
     })*/
-
 /*    this._ActivatedRoute.queryParams.subscribe(params => {
       let supplierId = params['supplierId'];
       if (supplierId) {
@@ -127,27 +114,27 @@ export class AttributeIndexComponent implements OnInit {
       .pipe(
         tap( () => {
           this.loadData();
-          this.setCookie();
+          //this.setCookie();
         })
       ).subscribe();
   }
 
-/*  ngOnDestroy() {
+  ngOnDestroy() {
     this.sub.unsubscribe(); //crutch to dispose subs
-  }*/
+  }
 
   loadData(): any {
     this.dataSource.loadPagedData(this.searchQuery, this.selectedSupplier?.id, this.paginator?.pageIndex ?? 0, this.paginator?.pageSize ?? 15, this.withFixedAttrSelector);
   }
 
   editItem(id: any) {
-    this.router.navigate([`attribute-edit/${id}`])
+    this.router.navigate(['attribute-edit', id]);
   }
 
   onQueryChanged() {
     this.paginator.pageIndex = 0;
     this.loadData();
-    this.setCookie();
+    //this.setCookie();
   }
 
   swapItem(nameAttribute: string, id: string) {
@@ -204,4 +191,3 @@ export class AttributeIndexComponent implements OnInit {
     this.onQueryChanged()
   }
 }
-

@@ -18,12 +18,14 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {RouterModule} from "@angular/router";
 import { AttributeComponent } from './attribute.component';
+import { AttrtibuteStateSwitchComponent } from './attrtibute-state-switch/attrtibute-state-switch.component';
 
 @NgModule({
   declarations: [
     AttributeIndexComponent,
     AttributeEditComponent,
     AttributeComponent,
+    AttrtibuteStateSwitchComponent,
   ],
   imports: [
     CommonModule,

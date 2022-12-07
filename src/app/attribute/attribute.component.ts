@@ -13,14 +13,24 @@ export class AttributeComponent implements OnInit {
   pageTitle:string = 'AttributeIndex'
   selectedSupplier: Supplier;
   searchQueryCtrl  = new FormControl<string>('');
-  withFixedAttrSelectorCtrl = new FormControl<boolean | null>(null);
-  searchQuery:string = ''
+  searchQuery:string = '';
+  attributeFixedFilterState: boolean | null = null;
+
+  private subscription: any;
+
   constructor(private dss: DatastateService) { }
 
   ngOnInit(): void {
     this.dss.selectedSupplierState.subscribe(x => {
       this.selectedSupplier = x;
     });
+
+    this.subscription = this.dss.selectedSupplierState.subscribe(
+      id => {
+        console.log('sup from dss', id)
+        this.selectedSupplier = id;
+      }
+    )
   }
 
   handleChangeSelectedSupplier(supplier: Supplier) {
@@ -36,7 +46,11 @@ export class AttributeComponent implements OnInit {
     this.searchQuery = ''
   }
 
-  onQueryChanged() {
+  onAttributeStateFilterChanged($event: boolean) {
+    this.attributeFixedFilterState = $event;
+  }
 
+  ngOnDestroy() {
+    this.subscription.unsubscribe(); //crutch to dispose subs
   }
 }
