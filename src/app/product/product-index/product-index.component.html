@@ -38,10 +38,10 @@
               </div>
               <div class="containerCmain" *ngIf="hoverRowId!=row.id">
                 <div class="imgWrapper">
-                  <img  [src]="row.localImages[0]" class="imgInContainer"/>
+                  <img  [src]="row.thumbnails[0]" class="imgInContainer"/>
                 </div>
                 <div class="containerC">
-                  <div *ngFor="let image of row.localImages; index as i" class="hoverBlockC" (mouseover)="changeImage(row, image)"></div>
+                  <div *ngFor="let image of row.thumbnails; index as i" class="hoverBlockC" (mouseover)="changeImage(row, image)"></div>
                 </div>
               </div>
             </div>
