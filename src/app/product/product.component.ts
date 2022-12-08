@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {DatastateService} from "../shared/datastate.service";
+import {DataStateService} from "../shared/data-state.service";
 import {Supplier} from "../models/supplier.model";
 import {FormControl} from "@angular/forms";
 import {LocalStorageService} from "../service/local-storage.service";
@@ -25,10 +25,10 @@ class PageCookieProductIndex {
 })
 export class ProductComponent implements OnInit {
 
-  pageTitle:string = 'ProductIndex'
+  pageTitle:string = 'ProductIndex';
   selectedSupplier: Supplier;
   searchQueryCtrl  = new FormControl<string>('');
-  searchQuery:string = ''
+  searchQuery:string = '';
   //withInternalCodeCtrl  = new FormControl<boolean>(false);
 
   pageCookie$ = this._localStorageService.myData$
@@ -39,7 +39,7 @@ export class ProductComponent implements OnInit {
 
   constructor(
     private _ActivatedRoute:ActivatedRoute,
-    private dss: DatastateService,
+    private dss: DataStateService,
     private _localStorageService: LocalStorageService
   ) { }
 
@@ -61,16 +61,16 @@ export class ProductComponent implements OnInit {
 
     this.subscription = this.dss.selectedSupplierState.subscribe(
       supplier => {
-        this.selectedSupplier = supplier
+        this.selectedSupplier = supplier;
       });
 
-    this._ActivatedRoute.queryParams.subscribe(params => {
+/*    this._ActivatedRoute.queryParams.subscribe(params => {
       let supplierId = params['supplierId'];
       if (supplierId) {
-        console.warn("Got q param: " + supplierId );
+        console.warn("Got q param: setSelectedSupplier: " + supplierId );
         this.dss.setSelectedSupplier(supplierId, null);
       }
-    });
+    });*/
   }
 
   handleChangeSelectedSupplier(supplier: Supplier) {
@@ -78,12 +78,12 @@ export class ProductComponent implements OnInit {
   }
 
   searchQueryChanged() {
-    this.searchQuery = this.searchQueryCtrl.value
+    this.searchQuery = this.searchQueryCtrl.value;
   }
 
   searchQueryClear() {
     this.searchQueryCtrl.setValue('');
-    this.searchQuery = ''
+    this.searchQuery = '';
   }
 
   onICFilterChanged($event: boolean) {

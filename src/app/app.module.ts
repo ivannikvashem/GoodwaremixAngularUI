@@ -49,7 +49,7 @@ import {AttributeModule} from "./attribute/attribute.module";
 import {SupplierModule} from "./supplier/supplier.module";
 import {ProductModule} from "./product/product.module";
 import {TaskModule} from "./task/task.module";
-import {DatastateService} from "./shared/datastate.service";
+import {DataStateService} from "./shared/data-state.service";
 
 @NgModule({
   declarations: [
@@ -112,7 +112,7 @@ import {DatastateService} from "./shared/datastate.service";
     },
     {provide: MatPaginatorIntl, useValue: getRuPaginatorIntl()},
     { provide: MAT_DATE_LOCALE, useValue: 'ru-RU' },
-    DatastateService
+    DataStateService
   ],
   bootstrap: [AppComponent]
 })

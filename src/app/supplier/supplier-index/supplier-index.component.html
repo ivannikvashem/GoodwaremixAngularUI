@@ -1,11 +1,3 @@
-<!--<div class="header-container" style="display: flex; align-items: baseline; flex: 1;">
-  <mat-form-field appearance="standard" class="full-width">
-    <mat-label>Поиск по поставщикам</mat-label>
-    <input matInput [formControl]="searchQueryCtrl" (keydown)="onQueryChanged()">
-    <button *ngIf="searchQueryCtrl.value" matSuffix mat-icon-button aria-label="Clear" type="button" (click)="onClearSearchQuery()"><mat-icon>close</mat-icon></button>
-  </mat-form-field>
-</div>-->
-
 <div class="header-container" style="display: flex; align-items: baseline; justify-content: space-between;">
   <h3>Поставщики &nbsp;</h3>
   <mat-form-field appearance="standard" style="width: 33%">
@@ -14,12 +6,13 @@
     <button *ngIf="searchQueryCtrl.value" matSuffix mat-icon-button aria-label="Clear" type="button" (click)="onClearSearchQuery()"><mat-icon>close</mat-icon></button>
   </mat-form-field>
 </div>
+
 <div class="mat-elevation-z8">
   <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort matSortActive="SupplierName" matSortDisableClear matSortDirection="asc">
     <!-- Name Column -->
     <ng-container matColumnDef="SupplierName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Наименование</th>
-      <td mat-cell *matCellDef="let row"><a [routerLink]="['/products']" [queryParams]="{supplierId: row.id}">{{row.supplierName}} ({{row.supplierConfigs.prefix}})</a></td>
+      <td mat-cell *matCellDef="let row"><a (click)="gotoProductsBySupplier(row)">{{row.supplierName}} <span *ngIf="row.supplierConfigs[0] && row.supplierConfigs[0].prefix" style="font-style: italic; background-color: lightgray; padding: 0 0.3em;">{{row.supplierConfigs[0].prefix}}</span></a></td>
     </ng-container>
     <!-- Type Column -->
     <ng-container matColumnDef="type">

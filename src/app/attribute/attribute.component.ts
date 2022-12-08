@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {DatastateService} from "../shared/datastate.service";
+import {DataStateService} from "../shared/data-state.service";
 import {Supplier} from "../models/supplier.model";
 import {FormControl} from "@angular/forms";
 import {Subscription} from "rxjs";
@@ -19,7 +19,7 @@ export class AttributeComponent implements OnInit {
 
   private subscription: Subscription;
 
-  constructor(private dss: DatastateService) { }
+  constructor(private dss: DataStateService) { }
 
   ngOnInit(): void {
     this.subscription = this.dss.selectedSupplierState.subscribe(

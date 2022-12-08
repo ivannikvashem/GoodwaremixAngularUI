@@ -9,7 +9,7 @@ import {Subject} from "rxjs";
 export class AttrtibuteStateSwitchComponent {
 
   @Input() state: boolean | null = null;
-  stateTitle: string = "Все";
+  stateTitle: string = "Все атрибуты";
 
   @Output() stateEmitter = new Subject<boolean | null>();
 
@@ -27,7 +27,7 @@ export class AttrtibuteStateSwitchComponent {
       }
       case true: {
         this.state = null;
-        this.stateTitle = "Все";
+        this.stateTitle = "Все атрибуты";
         break;
       }
     }

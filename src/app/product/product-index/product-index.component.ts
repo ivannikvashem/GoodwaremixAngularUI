@@ -72,7 +72,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.onQueryChanged()
+    this.onQueryChanged();
   }
 
   ngOnInit() {
@@ -143,11 +143,11 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   }
 
   copyVendorId(vendorId: string) {
-    navigator.clipboard.writeText(vendorId)
+    navigator.clipboard.writeText(vendorId);
     this._notyf.onSuccess('Артикул поставщика скопирован')
   }
 
   handleMissingImage($event: Event) {
-    this.imgHandler.checkImgStatus($event)
+    this.imgHandler.checkImgStatus($event);
   }
 }

@@ -86,7 +86,7 @@
       <mat-tab-group animationDuration="0ms">
         <mat-tab  label="О товаре">
           <ng-template matTabContent>
-            <app-supplier-autocomplete *ngIf="!product?.supplierName" class="full-width" [cookieSupplier]="selectedSupplier" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
+            <app-supplier-autocomplete *ngIf="!product?.supplierName" class="full-width" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
             <mat-form-field *ngIf="product?.supplierName" appearance="fill" class="full-width">
               <mat-label>Поставщик</mat-label>
               <input matInput [value]="product.supplierName" disabled>

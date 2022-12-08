@@ -1,12 +1,12 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ApiClient} from "../../service/httpClient";
 import {MatPaginator} from "@angular/material/paginator";
-import {merge, Observable, Subject, tap} from "rxjs";
+import {merge, tap} from "rxjs";
 import {LogsDataSource} from "../repo/LogsDataSource";
 import {MatSort} from "@angular/material/sort";
 import {Log} from "../models/log.model";
 import {animate, state, style, transition, trigger} from "@angular/animations";
-import {DatastateService} from "../../shared/datastate.service";
+import {DataStateService} from "../../shared/data-state.service";
 import {Supplier} from "../../models/supplier.model";
 
 @Component({
@@ -26,11 +26,11 @@ export class LogIndexComponent implements OnInit {
   displayedColumns: string[] = ['SupplierName', 'Date', 'status', 'result', 'actions'];
   expandedElement: Log | null | undefined;
   dataSource: LogsDataSource;
-  selectedSupplier: Supplier = this.dss.selectedSupplierState.value;
+  selectedSupplier: Supplier;
 
   constructor(
     public api: ApiClient,
-    public dss: DatastateService
+    public dss: DataStateService
   ) { this.dataSource = new LogsDataSource(this.api); }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator
@@ -40,9 +40,8 @@ export class LogIndexComponent implements OnInit {
     this.dataSource.loadPagedData(this.selectedSupplier?.id, 0,10, 'Date', 'desc');
 
     this.dss.selectedSupplierState.subscribe(
-      id => {
-        console.log('sup from dss', id)
-        this.selectedSupplier = id;
+      (supplier) => {
+        this.selectedSupplier = supplier;
         this.loadLogData();
       }
     )
@@ -59,8 +58,8 @@ export class LogIndexComponent implements OnInit {
   }
 
   loadLogData(): any {
-    console.log("log index suppId:" + this.selectedSupplier);
-    this.dataSource.loadPagedData(this.selectedSupplier.id,this.paginator?.pageIndex ?? 0, this.paginator?.pageSize ?? 10, this.sort?.active, this.sort?.direction);
+    //console.log("log index suppId:" + this.selectedSupplier?.id);
+    this.dataSource.loadPagedData(this.selectedSupplier?.id,this.paginator?.pageIndex ?? 0, this.paginator?.pageSize ?? 10, this.sort?.active, this.sort?.direction);
   }
 
   flushLogTable(): any {

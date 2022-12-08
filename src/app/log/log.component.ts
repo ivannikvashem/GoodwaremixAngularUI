@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {DatastateService} from "../shared/datastate.service";
+import {DataStateService} from "../shared/data-state.service";
 import {Supplier} from "../models/supplier.model";
 
 @Component({
@@ -11,7 +11,7 @@ export class LogComponent implements OnInit {
 
   selectedSupplier: Supplier;
 
-  constructor(private dss: DatastateService) { }
+  constructor(private dss: DataStateService) { }
 
   ngOnInit(): void {
     this.dss.selectedSupplierState.subscribe(x => {

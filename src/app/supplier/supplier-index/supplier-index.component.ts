@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {SuppliersDataSource} from "../repo/SuppliersDataSource";
 import {ApiClient} from "../../service/httpClient";
 import {MatPaginator} from "@angular/material/paginator";
-import {debounceTime, distinctUntilChanged, merge, tap} from "rxjs";
+import {debounceTime, distinctUntilChanged, merge, Subscription, tap} from "rxjs";
 import {Router} from "@angular/router";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {Supplier} from "../../models/supplier.model";
@@ -12,6 +12,7 @@ import {MatSort, SortDirection} from "@angular/material/sort";
 import {NotificationService} from "../../service/notification-service";
 import {LocalStorageService} from "../../service/local-storage.service";
 import {FormControl} from "@angular/forms";
+import {DataStateService} from "../../shared/data-state.service";
 
 @Component({
   selector: 'app-supplier-index',
@@ -36,22 +37,23 @@ export class SupplierIndexComponent implements OnInit {
   expandedElement: Supplier | null | undefined;
   pageCookie$ = this._localStorageService.myData$
   pC: any = {};
-  private sub: any;
+  private sub: Subscription;
 
   constructor(
     public api: ApiClient,
     private router: Router,
     public dialog: MatDialog,
     private _notyf: NotificationService,
-    private _localStorageService: LocalStorageService
+    private _localStorageService: LocalStorageService,
+    private dss: DataStateService
   ) {
     this.dataSource = new SuppliersDataSource(this.api);
   }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator
-  @ViewChild(MatSort) sort: MatSort | any;
+  @ViewChild(MatSort) sort: MatSort;
 
-  ngOnInit(): any {
+  ngOnInit(): void {
     this.getCookie();
     Promise.resolve().then(() => {
 /*      this.paginator.pageIndex = this.pC.pageIndex;
@@ -110,21 +112,9 @@ export class SupplierIndexComponent implements OnInit {
     });
   }
 
-  loadData(): any {
+  loadData(): void {
     this.dataSource.loadPagedData(this.searchQueryCtrl.value, this.paginator?.pageIndex || 0, this.paginator?.pageSize || 15, this.sort?.active, this.sort?.direction);
   }
-
-  addItem() {
-    //this.addTmpSupplier();
-  }
-
-/*  applySupplierFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    //this.searchQuery = filterValue;
-    this.paginator.pageIndex = 0;
-    this.setCookie();
-    this.loadData();
-  }*/
 
   fetchItem(supplierName: string, id:string) {
     this.api.fetchDataFromSupplier(id).subscribe( res => {
@@ -134,7 +124,8 @@ export class SupplierIndexComponent implements OnInit {
         this._notyf.onError("Ошибка: " + JSON.stringify(err));
       })
   }
-  stopFetchItem(supplierName: any) {
+
+  stopFetchItem(supplierName: string) {
     this.api.stopFetchDataFromSupplier(supplierName).subscribe( res => {
         this._notyf.onSuccess('Сбор данных '+supplierName+' остановлен')
       },
@@ -153,7 +144,7 @@ export class SupplierIndexComponent implements OnInit {
       })
   }
 
-  editItem(supplierId: any) {
+  editItem(supplierId: string) {
     this.router.navigate([`supplier-edit/${supplierId}`]);
   }
 
@@ -207,12 +198,17 @@ export class SupplierIndexComponent implements OnInit {
   }
 
   downloadTable(table: string, id:string) {
-    this.api.downloadTableFile(table, id).subscribe( (resp:any) => {
+    this.api.downloadTableFile(table, id).subscribe( (resp: any) => {
       let blob:any = new Blob([resp.body], {type: 'application/json; charset=utf-8'})
       let downloadAction = document.createElement('a')
       downloadAction.download = table;
       downloadAction.href = window.URL.createObjectURL(blob)
       downloadAction.click()
     })
+  }
+
+  gotoProductsBySupplier(row: Supplier) {
+    this.dss.setSelectedSupplier(row.id, row.supplierName);
+    this.router.navigate(["/products"]);
   }
 }

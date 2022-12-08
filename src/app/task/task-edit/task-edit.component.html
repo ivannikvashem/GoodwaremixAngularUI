@@ -1,6 +1,6 @@
 <form [formGroup]="fb" (ngSubmit)="onSubmitClick()">
 
-  <app-supplier-autocomplete class="full-width" (selectedSupplier)="handleChangeSelectedSupplier($event)" [cookieSupplier]="selectedSupplier"></app-supplier-autocomplete>
+  <app-supplier-autocomplete class="full-width" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
 
   <mat-form-field appearance="fill" class="form-full-width">
     <mat-label>Конфигурация</mat-label>
