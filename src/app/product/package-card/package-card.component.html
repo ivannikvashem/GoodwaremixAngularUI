@@ -1,13 +1,11 @@
 <div style="margin-top: 10px; margin-right: 30px; width:100%;" *ngIf="pack && (pack.barcode || pack.packQty || pack.volume || pack.weight)">
   <div class="centered-element" *ngIf="!isLoading">
     <div class="column leftColumn">
-      <div style="margin-top:25px;">
-        <div *ngIf="pack.barcode">
-          <ngx-barcode [bc-width]="1.7" [bc-height]="40" [bc-margin]="0" [bc-margin-top]="4" [bc-margin-right] ="0" [bc-margin-left]="0" [bc-value]="pack.barcode" [bc-display-value]="true" class="bcode"></ngx-barcode>
-        </div>
-        <div *ngIf="!pack.barcode">
-          <ngx-barcode [bc-width]="1.7" [bc-height]="40" [bc-margin]="0" [bc-margin-top]="4" [bc-margin-right] ="0" [bc-margin-left]="0" [bc-value]="'0000000000000'" [bc-display-value]="true" class="bcode"></ngx-barcode>
-        </div>
+      <div *ngIf="pack.barcode">
+        <ngx-barcode [bc-width]="1.7" [bc-height]="30" [bc-margin]="0" [bc-margin-top]="4" [bc-margin-right] ="0" [bc-margin-left]="0" [bc-value]="pack.barcode" [bc-display-value]="true" class="bcode"></ngx-barcode>
+      </div>
+      <div *ngIf="!pack.barcode">
+        <ngx-barcode [bc-width]="1.7" [bc-height]="30" [bc-margin]="0" [bc-margin-top]="4" [bc-margin-right] ="0" [bc-margin-left]="0" [bc-value]="'0000000000000'" [bc-display-value]="true" class="bcode"></ngx-barcode>
       </div>
     </div>
     <div class="column rightColumn">
@@ -17,9 +15,6 @@
         </mat-list-item>
         <mat-list-item *ngIf="pack.volume">
           <div matTooltip="{{pack.width | number : '1.0-2'}} x {{pack.height | number : '1.0-2'}} x {{pack.depth | number : '1.0-2'}}"><mat-icon>view_in_ar</mat-icon> {{Math.round((pack.volume + Eps) * 100) / 100}} см<sup>3</sup> <sup *ngIf="isCalculatedVolume">*</sup></div>
-        </mat-list-item>
-        <mat-list-item *ngIf="pack.type || pack.packQty">
-          <div><mat-icon>format_size</mat-icon> {{pack.packQty}} {{' '}}<span *ngIf="pack.type">{{pack.type}}</span></div>
         </mat-list-item>
         <mat-list-item *ngIf="pack.width || pack.height || pack.depth">
           <div><mat-icon>straighten</mat-icon> {{pack.width | number : '1.0-2'}} x {{pack.height | number : '1.0-2'}} x {{pack.depth | number : '1.0-2'}} см</div>

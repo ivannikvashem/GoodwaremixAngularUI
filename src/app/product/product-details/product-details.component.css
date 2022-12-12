@@ -106,3 +106,12 @@ tr.mat-row {
   cursor: pointer;
   font:400 24px/32px Roboto, "Helvetica Neue", sans-serif
 }
+
+.card-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+::ng-deep .mat-expansion-panel-body{
+  padding: 0 !important;
+}

@@ -8,7 +8,6 @@
     <span *ngIf="product?.vendor">{{product?.vendor}}</span>
     <span> {{product?.title !== undefined ? product.title : product.titleLong}}</span>&nbsp;
     <span *ngIf="product.vendorId"> <button class="btnAsText" (click)="copyVendorId(product.vendorId)">[<strong>{{product.vendorId}}</strong>]</button> </span>
-    <span *ngIf="product.internalCode"> {{product.internalCode}}</span>
 <!--    <mat-icon style="vertical-align:middle;">content_copy</mat-icon>-->
   </div>
 </div>
@@ -49,6 +48,7 @@
       <mat-expansion-panel expanded style="margin-right: 10px; margin-top: 10px">
         <mat-expansion-panel-header>
           <mat-panel-title>Нетто</mat-panel-title>
+          <mat-panel-description><mat-icon>format_size</mat-icon> {{product?.netto.packQty}} {{product?.netto.type}}</mat-panel-description>
         </mat-expansion-panel-header>
         <app-package-card [pack]="product?.netto"></app-package-card>
       </mat-expansion-panel>
@@ -57,7 +57,7 @@
     <div style="margin-top: 10px">
       <mat-accordion>
         <mat-expansion-panel *ngFor="let pack of product?.packages">
-          <mat-expansion-panel-header>
+          <mat-expansion-panel-header [expandedHeight]="'35px'">
             <mat-panel-title>
               <span>{{pack.packQty}}<span *ngIf="pack.type">{{' '}}{{pack.type}}</span><span *ngIf="pack.barcode"> [{{pack.barcode}}]</span> </span>
             </mat-panel-title>
@@ -72,12 +72,14 @@
   <div style="width: 100%">
     <mat-card>
       <mat-card-subtitle>
+        <div class="card-container">
           <h2>О товаре</h2>
+          <h4 *ngIf="product.internalCode">арт. <span style="font-size: 1.5em">{{product.internalCode}}</span></h4>
+        </div>
       </mat-card-subtitle>
       <div [innerHTML]="product.description"></div>
       <ul>
         <li *ngIf="product.country">Страна производства - {{product.country}} <span *ngIf="product.countryCode">(Код {{product.countryCode}})</span></li>
-        <li *ngIf="product.internalCode">Артикул 1С - {{product.internalCode}}</li>
         <li *ngIf="product.vendorId">Артикул поставщика - {{product.vendorId}}</li>
         <li *ngIf="product.vendor">Бренд - {{product.vendor}}</li>
         <li *ngIf="product.supplierName">Поставщик - {{product.supplierName}}</li>
@@ -126,12 +128,12 @@
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let item">
-            <button mat-icon-button matTooltip="Заменить" (click)="swapItem(item.attributeName, item.attributeId)">
+            <!--<button mat-icon-button matTooltip="Заменить" (click)="swapItem(item.attributeName, item.attributeId)">
               <mat-icon>swap_horiz</mat-icon>
             </button>&nbsp;
             <button mat-icon-button matTooltip="Удалить" [disabled]="isDelBtnDisabled" (click)="deleteAttr(item.attributeName, item.attributeId)">
               <mat-icon>delete</mat-icon>
-            </button>
+            </button>-->
           </td>
         </ng-container>
         <tr mat-row *matRowDef="let row; columns: displayedAttrColumns;"></tr>

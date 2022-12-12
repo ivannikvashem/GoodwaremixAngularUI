@@ -12,7 +12,6 @@
   padding: 12px;
   width: 245px;
   min-height: 100px;
-
 }
 .bc_placeholder {
   height: 45px;
@@ -31,6 +30,10 @@
   font-size: 15px;
   height: auto;
   padding: 3px;
+}
+
+.mat-list-base {
+  padding-top: 0;
 }
 
 .material-icons {
