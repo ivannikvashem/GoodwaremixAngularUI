@@ -84,16 +84,16 @@
       <!-- ACTIONS Column -->
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>
-          <button mat-icon-button class="mat-elevation-z2" matTooltip="Добавить товар" [routerLink]="['/product-add']">
+          <button mat-icon-button matTooltip="Добавить товар" [routerLink]="['/product-add']">
             <mat-icon>add</mat-icon>
           </button>
         </th>
         <td mat-cell *matCellDef="let item">
 
-          <button mat-icon-button class="mat-elevation-z2" matTooltip="Изменить товар" (click)="goToEditItem(item.id)">
+          <button mat-icon-button matTooltip="Изменить товар" (click)="goToEditItem(item.id)">
             <mat-icon>edit</mat-icon>
           </button>&nbsp;
-          <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить товар" (click)="confirmDeleteDialog(item.id, item.title)">
+          <button mat-icon-button matTooltip="Удалить товар" (click)="confirmDeleteDialog(item.id, item.title)">
             <mat-icon>delete</mat-icon>
           </button>
 

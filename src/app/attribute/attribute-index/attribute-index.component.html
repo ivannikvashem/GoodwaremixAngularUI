@@ -35,12 +35,12 @@
       <!-- ACTIONS Column -->
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>
-          <button mat-icon-button class="mat-elevation-z2" matTooltip="Добавить" [routerLink]="['/attribute-add']"><mat-icon>add</mat-icon></button>
+          <button mat-icon-button matTooltip="Добавить" [routerLink]="['/attribute-add']"><mat-icon>add</mat-icon></button>
         </th>
         <td mat-cell *matCellDef="let item">
-          <button *ngIf="!item.fixed" mat-icon-button class="mat-elevation-z2" matTooltip="Заменить" (click)="swapItem(item.nameAttribute, item.id)"><mat-icon>swap_horiz</mat-icon></button>&nbsp;
-          <button mat-icon-button class="mat-elevation-z2" matTooltip="Изменить" (click)="editItem(item.id)"><mat-icon>edit</mat-icon></button>&nbsp;
-          <button *ngIf="!item.fixed" mat-icon-button class="mat-elevation-z2" matTooltip="Удалить" (click)="confirmDeleteDialog(item.id, item.nameAttribute)"><mat-icon>delete</mat-icon></button>
+          <button *ngIf="!item.fixed" mat-icon-button matTooltip="Заменить" (click)="swapItem(item.nameAttribute, item.id)"><mat-icon>swap_horiz</mat-icon></button>&nbsp;
+          <button mat-icon-button matTooltip="Изменить" (click)="editItem(item.id)"><mat-icon>edit</mat-icon></button>&nbsp;
+          <button *ngIf="!item.fixed" mat-icon-button matTooltip="Удалить" (click)="confirmDeleteDialog(item.id, item.nameAttribute)"><mat-icon>delete</mat-icon></button>
         </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
