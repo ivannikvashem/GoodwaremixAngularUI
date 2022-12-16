@@ -284,4 +284,39 @@ export class ApiClient {
   checkImageStatusCode(url:string) {
     return this.http.get(url)
   }
+
+
+  // User ENDPOINT
+  getUsers(pageIndex: number, pageSize: number, sortField: string, sortDirection: string): Observable<any> {
+    let opt = {
+      params: new HttpParams()
+        .set('filter.pageNumber', pageIndex ? pageIndex + 1 : 1)
+        .set('filter.pageSize', pageSize ?? 10)
+        .set('sortField', sortField)
+        .set('sortDirection', sortDirection == "desc" ? "-1" : "1")
+    };
+    opt = Object.assign(opt, this.httpOptions);
+    return this.http.get<any>(this.apiURL + '/users', opt);
+  }
+
+  getUserById(id: string): Observable<any> {
+    console.log("getUserById " + id);
+    return this.http.get<any>(this.apiURL + '/users/' + id, this.httpOptions);
+  }
+
+  addUser(user: any): Observable<any> {
+    delete user.id;
+    delete user.lastLogin;
+    console.log("SENDING: " + JSON.stringify(user));
+    return this.http.post(this.apiURL + '/users/', user, this.httpOptions);
+  }
+
+  updateUser(id: string, user: any): Observable<any> {
+    console.log(JSON.stringify(user));
+    return this.http.post(this.apiURL + '/users/' + id, user, this.httpOptions);
+  }
+
+  deleteUser(id: string) {
+    return this.http.delete(this.apiURL + '/users/' + id, this.httpOptions);
+  }
 }

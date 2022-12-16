@@ -42,6 +42,9 @@ a:hover {
   background: darkorange;
   color:white;
 }
+.flexExpand {
+  flex: 1 1 auto;
+}
 /*a:active {*/
 /*  color: yellow;*/
 /*  background-color: transparent;*/

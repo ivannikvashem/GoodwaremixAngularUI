@@ -1,0 +1,49 @@
+<div class="mat-elevation-z8 full-width">
+  <table mat-table [dataSource]="dataSource"
+         matSort matSortActive="created">
+
+    <ng-container matColumnDef="username">
+      <th mat-header-cell *matHeaderCellDef>Username</th>
+      <td mat-cell *matCellDef="let row">{{row.username}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>name</th>
+      <td mat-cell *matCellDef="let row">{{row.name}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="role">
+      <th mat-header-cell *matHeaderCellDef>role</th>
+      <td mat-cell *matCellDef="let row">{{row.role}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="linkedSuppliers">
+      <th mat-header-cell *matHeaderCellDef>Linked suppliers list</th>
+      <td mat-cell *matCellDef="let row">
+        <span *ngFor="let item of row.linkedSuppliers">{{item.name}} </span>
+      </td>
+    </ng-container>
+
+    <!-- ACTIONS Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="Добавить" (click)="goToAddUser()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </th>
+      <td mat-cell *matCellDef="let item">
+
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="Изменить" (click)="goToEditUser(item.id)">
+          <mat-icon>edit</mat-icon>
+        </button>&nbsp;
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить" (click)="confirmDeleteDialog(item.id, item.username)">
+          <mat-icon>delete</mat-icon>
+        </button>
+
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

@@ -50,6 +50,8 @@ import {SupplierModule} from "./supplier/supplier.module";
 import {ProductModule} from "./product/product.module";
 import {TaskModule} from "./task/task.module";
 import {DataStateService} from "./shared/data-state.service";
+import {AuthModule} from "./auth/auth.module";
+import {UsersModule} from "./users/users.module";
 
 @NgModule({
   declarations: [
@@ -103,7 +105,9 @@ import {DataStateService} from "./shared/data-state.service";
     AttributeModule,
     SupplierModule,
     ProductModule,
-    TaskModule
+    TaskModule,
+    AuthModule,
+    UsersModule
   ],
   providers: [
     {

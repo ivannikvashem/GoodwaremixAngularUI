@@ -1,0 +1,2 @@
+<button mat-flat-button *ngIf="isLoggedIn$ | async" (click)="logout()">{{user$ | async}} &nbsp;<mat-icon>exit_to_app</mat-icon></button>
+<button mat-flat-button *ngIf="!isLoggedIn$ | async" (click)="login()">Войти<mat-icon>login</mat-icon></button>

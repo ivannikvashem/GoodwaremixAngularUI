@@ -10,22 +10,55 @@ import {TaskIndexComponent} from "./task/task-index/task-index.component";
 import {LogComponent} from "./log/log.component";
 import {ProductComponent} from "./product/product.component";
 import {AttributeComponent} from "./attribute/attribute.component";
+import {AuthGuard} from "./auth/auth.guard";
+import {UserIndexComponent} from "./users/user-index/user-index.component";
+import {UserDetailsComponent} from "./users/user-details/user-details.component";
 
-const routes: Routes = [
+let routes: Routes;
+routes = [
 
-  {path: 'products', component: ProductComponent},
-  {path: 'product-details/:id', component: ProductDetailsComponent},
-  {path: 'product-add', component: ProductEditComponent},
-  {path: 'product-edit/:id', component: ProductEditComponent},
-  {path: 'attributes', component: AttributeComponent},
-  {path: 'attribute-add', component: AttributeEditComponent},
-  {path: 'attribute-edit/:id', component: AttributeEditComponent},
-  {path: 'suppliers', component: SupplierIndexComponent},
-  {path: 'supplier-add', component: SupplierEditComponent},
-  {path: 'supplier-edit/:supplierId', component: SupplierEditComponent},
-  {path: 'log', component: LogComponent},
-  {path: 'admin', component: AdminPanelComponent},
-  {path: 'task', component: TaskIndexComponent}
+  {path: 'products', component: ProductComponent, canActivate: [AuthGuard], data: {roles: ['goodware-users']}},
+  {
+    path: 'product-details/:id',
+    component: ProductDetailsComponent,
+    canActivate: [AuthGuard],
+    data: {roles: ['goodware-users']}
+  },
+  {path: 'product-add', component: ProductEditComponent, canActivate: [AuthGuard], data: {roles: ['goodware-manager']}},
+  {
+    path: 'product-edit/:id',
+    component: ProductEditComponent,
+    canActivate: [AuthGuard],
+    data: {roles: ['goodware-manager']}
+  },
+  {path: 'attributes', component: AttributeComponent, canActivate: [AuthGuard], data: {roles: ['goodware-manager']}},
+  {
+    path: 'attribute-add',
+    component: AttributeEditComponent,
+    canActivate: [AuthGuard],
+    data: {roles: ['goodware-manager']}
+  },
+  {
+    path: 'attribute-edit/:id',
+    component: AttributeEditComponent,
+    canActivate: [AuthGuard],
+    data: {roles: ['goodware-manager']}
+  },
+  {path: 'suppliers', component: SupplierIndexComponent, canActivate: [AuthGuard], data: {roles: ['goodware-manager']}},
+  {path: 'supplier-add', component: SupplierEditComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
+  {
+    path: 'supplier-edit/:supplierId',
+    component: SupplierEditComponent,
+    canActivate: [AuthGuard],
+    data: {roles: ['goodware-admin']}
+  },
+  {path: 'log', component: LogComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
+  {path: 'admin', component: AdminPanelComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
+  {path: 'task', component: TaskIndexComponent},
+  {path: 'users', component: UserIndexComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
+  {path: 'user-edit', component: UserDetailsComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
+  {path: 'user-edit/:id', component: UserDetailsComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}}
+
 ];
 
 @NgModule({

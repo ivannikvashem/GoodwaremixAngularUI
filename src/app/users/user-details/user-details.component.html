@@ -1,0 +1,50 @@
+<div style="width: 500px; margin: 0 auto;">
+
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="form-full-width">
+
+    <mat-form-field class="form-full-width" appearance="fill">
+      <mat-label>Полное имя</mat-label>
+      <input matInput maxlength="30" formControlName="name">
+    </mat-form-field>
+
+    <mat-form-field class="form-full-width" appearance="fill">
+      <mat-label>Логин</mat-label>
+      <input matInput maxlength="30" formControlName="username">
+    </mat-form-field>
+
+    <mat-form-field class="form-full-width" appearance="fill">
+    <mat-label>Роль</mat-label>
+    <mat-select name="source" formControlName="role">
+      <mat-option value="goodware-users">Гость</mat-option>
+      <mat-option value="goodware-manager">Менеджер</mat-option>
+      <mat-option value="goodware-admin">Администратор</mat-option>
+    </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="form-full-width" appearance="fill">
+      <mat-label>Список доступных поставщиков</mat-label>
+      <mat-chip-list #chipList aria-label="Список доступных поставщиков" formControlName="linkedSuppliers">
+        <mat-chip *ngFor="let supplier of userForm.value.linkedSuppliers"
+                  (removed)="removeSupplierFromUser(supplier)">
+          {{supplier.name}}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+        <input placeholder="Введите имя объединенного поставщика"
+               [formControl]="suppliersSearchCtrl"
+               #suppliersSearchInput
+               [matAutocomplete]="auto"
+               [matChipInputFor]="chipList"
+               [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+      </mat-chip-list>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="supplierAutocompleteSelected($event)">
+        <mat-option *ngFor="let supplier of filteredSuppliers | async" [value]="supplier">
+          {{ supplier.supplierName }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" style="float: right; width: 150px;">Сохранить</button>
+  </form>
+</div>

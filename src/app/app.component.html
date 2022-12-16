@@ -9,11 +9,15 @@
       <h1 matTooltip="{{url}}"> {{title}} &nbsp; </h1>
       <span class="menu-spacer"></span>
       <div>
-        <a mat-button routerLinkActive="active" [routerLink]="'/products'"><mat-icon>local_offer</mat-icon> Товары </a>
-        <a mat-button routerLinkActive="active" [routerLink]="'/suppliers'"><mat-icon>settings_accessibility</mat-icon> Поставщики </a>
-        <a mat-button routerLinkActive="active" [routerLink]="'/attributes'"><mat-icon>list</mat-icon> Атрибуты </a>
-        <a mat-button routerLinkActive="active" [routerLink]="'/log'"><mat-icon>receipt_long</mat-icon> Журнал событий </a>
+        <a mat-button routerLinkActive="active" *ngIf="roles.includes('goodware-users')" [routerLink]="'/products'"><mat-icon>local_offer</mat-icon> Товары </a>
+        <a mat-button routerLinkActive="active" *ngIf="roles.includes('goodware-admin')" [routerLink]="'/suppliers'"><mat-icon>settings_accessibility</mat-icon> Поставщики </a>
+        <a mat-button routerLinkActive="active" *ngIf="roles.includes('goodware-manager')" [routerLink]="'/attributes'"><mat-icon>list</mat-icon> Атрибуты </a>
+        <a mat-button routerLinkActive="active" *ngIf="roles.includes('goodware-admin')" [routerLink]="'/log'"><mat-icon>receipt_long</mat-icon> Журнал событий </a>
+        <a mat-button routerLinkActive="active" *ngIf="roles.includes('goodware-admin')" [routerLink]="'/admin'"><mat-icon>settings</mat-icon> Сервис </a>
+        <a mat-button routerLinkActive="active" *ngIf="roles.includes('goodware-admin')" [routerLink]="'/users'"><mat-icon>manage_accounts</mat-icon> Пользователи </a>
       </div>
+      <span class="flexExpand"></span>
+      <app-auth-toolbar></app-auth-toolbar>
       <!--      <span class="flexExpand"></span><span class="material-symbols-outlined">
 receipt_long
 </span>
