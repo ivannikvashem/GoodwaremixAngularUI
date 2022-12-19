@@ -10,8 +10,8 @@ export function initializeKeycloak(keycloak: KeycloakService): () => Promise<boo
     },
     initOptions: {
       onLoad: 'login-required',
-      /*        onLoad: 'check-sso',
-              checkLoginIframe: false*/
+              //onLoad: 'check-sso',
+              checkLoginIframe: false
     },
     enableBearerInterceptor: true,
     bearerPrefix: 'Bearer',

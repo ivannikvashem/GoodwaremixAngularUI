@@ -44,7 +44,7 @@ export class AuthService {
     return this.keycloakService.getUserRoles();
   }
 
-  public getToken(): Promise<string> {
+  public getToken(): any {
     return this.keycloakService.getToken();
   }
 }

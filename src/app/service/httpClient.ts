@@ -7,7 +7,7 @@ import {environment} from '../../environments/environment';
 import {Product} from "../models/product.model";
 import {Attribute} from "../models/attribute.model";
 import {SchedulerTask} from "../models/schedulerTask.model";
-import {resourceChangeTicket} from "@angular/compiler-cli/src/ngtsc/core";
+import {AuthService} from "../auth/service/auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +22,7 @@ export class ApiClient {
   //apiURL = 'http://172.16.50.123:5105/api';
   //apiURL = 'http://172.16.41.246:5105/api';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private auth: AuthService) { }
 
   /*========================================
     CRUD Methods for consuming RESTful API
@@ -33,7 +33,7 @@ export class ApiClient {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      // Authorization: 'Bearer ' + window.sessionStorage.getItem('access-token'),
+       Authorization: 'Bearer ' + this.auth.getToken(),
       'Access-Control-Allow-Headers': 'access-control-allow-methods,access-control-allow-origin,authorization,content-type',
       'Access-Control-Allow-Origin': 'http://localhost:4200',
       'Access-Control-Allow-Methods': 'GET,HEAD,PUT,PATCH,POST,DELETE'
@@ -62,8 +62,7 @@ export class ApiClient {
     opt = Object.assign(opt, this.httpOptions);
     return this.http.get<any>(this.apiURL + '/Attributes', opt);
   }
-
-
+  
   getAttributeById(id: string): Observable<any> {
     return this.http.get<any>(this.apiURL + '/Attributes/'+ id, this.httpOptions);
   }
