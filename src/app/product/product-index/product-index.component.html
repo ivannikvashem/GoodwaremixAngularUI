@@ -89,14 +89,12 @@
           </button>
         </th>
         <td mat-cell *matCellDef="let item">
-
           <button mat-icon-button matTooltip="Изменить товар" (click)="goToEditItem(item.id)">
             <mat-icon>edit</mat-icon>
           </button>&nbsp;
           <button mat-icon-button matTooltip="Удалить товар" (click)="confirmDeleteDialog(item.id, item.title)">
             <mat-icon>delete</mat-icon>
           </button>
-
         </td>
       </ng-container>
 

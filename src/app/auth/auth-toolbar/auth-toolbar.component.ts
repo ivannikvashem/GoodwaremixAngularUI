@@ -21,7 +21,7 @@ export class AuthToolbarComponent implements OnInit {
     this.isLoggedIn$ = defer(() => from(this.auth.isLoggedIn()));
     this.user$ = defer(() => from(this.auth.loadUserProfile()).pipe(map((x) => x.username)));
     this.roles = this.auth.getRoles();
-
+    console.log('_____TOKEN_____',this.auth.getToken())
     //TODO make a proper redirect to a specific profile and not here!!
     //default page with a method. resolving the role and perform another redirect. that's it
   }

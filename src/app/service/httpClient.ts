@@ -62,7 +62,7 @@ export class ApiClient {
     opt = Object.assign(opt, this.httpOptions);
     return this.http.get<any>(this.apiURL + '/Attributes', opt);
   }
-  
+
   getAttributeById(id: string): Observable<any> {
     return this.http.get<any>(this.apiURL + '/Attributes/'+ id, this.httpOptions);
   }
@@ -158,10 +158,11 @@ export class ApiClient {
   // Suppliers ENDPOINT
 
   getSuppliers(searchQuery: any, pageIndex: number, pageSize: number, sortField: string, sortDirection: string) {
+    console.log(searchQuery, pageIndex, pageSize, sortField, sortDirection)
     let opt = {
       params: new HttpParams()
-        .set('filter.pageNumber', pageIndex ? pageIndex + 1 : 1)
-        .set('filter.pageSize', pageSize ?? 10)
+        .set('pagination.pageNumber', pageIndex ? pageIndex + 1 : 1)
+        .set('pagination.pageSize', pageSize ?? 15)
         .set('searchFilter', searchQuery)
         .set('sortField', sortField)
         .set('sortDirection', sortDirection == "desc" ? "-1" : "1")
