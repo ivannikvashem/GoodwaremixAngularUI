@@ -1,7 +1,6 @@
-import {Injectable, Type} from '@angular/core';
-import {HttpClient, HttpEvent, HttpHeaders, HttpParams, HttpRequest} from '@angular/common/http';
-import {map, Observable, throwError} from 'rxjs';
-import { retry, catchError } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {Observable} from 'rxjs';
 import {Supplier} from "../models/supplier.model";
 import {environment} from '../../environments/environment';
 import {Product} from "../models/product.model";
@@ -158,7 +157,6 @@ export class ApiClient {
   // Suppliers ENDPOINT
 
   getSuppliers(searchQuery: any, pageIndex: number, pageSize: number, sortField: string, sortDirection: string) {
-    console.log(searchQuery, pageIndex, pageSize, sortField, sortDirection)
     let opt = {
       params: new HttpParams()
         .set('pagination.pageNumber', pageIndex ? pageIndex + 1 : 1)

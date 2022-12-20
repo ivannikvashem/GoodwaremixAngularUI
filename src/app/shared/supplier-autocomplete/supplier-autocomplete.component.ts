@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {debounceTime, distinctUntilChanged, finalize, Subscription, switchMap, tap} from "rxjs";
 import {FormControl} from "@angular/forms";
 import {Supplier} from "../../models/supplier.model";
@@ -32,7 +32,7 @@ export class SupplierAutocompleteComponent implements OnInit {
       }
     )
 
-    this.api.getSuppliers(this.searchSuppliersCtrl.value, 0 ,100, "SupplierName", "asc").subscribe( (r:any) => {
+    this.api.getSuppliers("", 0 ,100, "SupplierName", "asc").subscribe( (r:any) => {
       this.supplierList = r.body.data
     });
 
@@ -58,13 +58,19 @@ export class SupplierAutocompleteComponent implements OnInit {
 
   onSupplierSelected() {
     let supp = this.searchSuppliersCtrl.value as Supplier
-    this.selectedSupplier.emit(({id:supp.id, supplierName:supp.supplierName}) as Supplier);
-    this.dss.selectedSupplierState.next(({id:supp.id, supplierName:supp.supplierName}) as Supplier)
+    if (supp.supplierName && supp.id) {
+      this.selectedSupplier.emit(({id:supp.id, supplierName:supp.supplierName}) as Supplier);
+      this.dss.selectedSupplierState.next(({id:supp.id, supplierName:supp.supplierName}) as Supplier)
+    } else {
+      this.selectedSupplier.emit(new Supplier());
+      this.dss.selectedSupplierState.next(new Supplier())
+    }
   }
 
   onClearSupplierSelection() {
     this.searchSuppliersCtrl.setValue('');
     this.onSupplierSelected();
+    console.log(this.searchSuppliersCtrl.value)
   }
 
   ngOnDestroy() {

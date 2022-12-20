@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Inject, Injectable, Input, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {ProductsDataSource} from "../repo/ProductsDataSource";
 import {ApiClient} from "../../service/httpClient";
 import {MatDialog} from "@angular/material/dialog";
@@ -77,7 +77,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     //this.getCookie();
-    this.dataSource.loadPagedData('', this.withInternalCode, this.selectedSupplier?.id, 0, 15, null);
+    //this.dataSource.loadPagedData('', this.withInternalCode, this.selectedSupplier?.id, 0, 15, null);
   }
 
   ngAfterViewInit(): void {
