@@ -151,15 +151,6 @@ export class ApiClient {
 
   updateProduct(product:Product, files:any): Observable<any> {
     const formData = new FormData()
-    let formData2 = new FormData()
-/*    Object.entries(product).forEach(([key, value]) => {
-      if (typeof value == "object"){
-        for (let nestedKey in product[key]) {
-          formData.append(key[nestedKey], product[key][nestedKey])
-        }
-      }
-    })*/
-
 
     Object.entries(product).forEach(([key, value], i1) => {
 
@@ -167,44 +158,20 @@ export class ApiClient {
         Object.entries(value as Object).forEach(([nestedKey, nestedValue],  i2) => {
 
           if (typeof nestedValue == "object") {
-            let fd = new FormData();
-            Object.entries(nestedValue as Object).forEach(([nestedKey1, nestedValue1], i3) => {
-
-
-
+            Object.entries(nestedValue as Object).forEach(([nestedKey1, nestedValue1]) => {
               formData.append( 'product.'+key+ `[${i2}].${nestedKey1}`, nestedValue1)
             })
 
           } else {
-
-            let keyperfix = `product[${i1.toString()}].${key}`
-
-            /*let d = {
-              [keyperfix]: value,
-            }*/
-            formData.append(key,JSON.stringify(value) )
-
-            let fd = new FormData()
-            fd.append(nestedKey, nestedValue);
-            formData.append(key, JSON.stringify(fd))
-
             formData.append( 'product.'+key+`[${i1}].${nestedKey}`, nestedValue)
-
-
           }
         });
       } else {
-        /*let keyperfix = `product[${i1.toString()}].${key}`
-
-        let d = {
-          [keyperfix]: value,
-        }*/
         formData.append('product.'+key,JSON.stringify(value) )
         console.log(`${key} ${value}`);
       }
     });
 
-    console.log("DATA_----->>",JSON.stringify(formData))
     console.log('----------------------------------------------------')
     console.log('----------------------------------------------------')
     formData.forEach((value: FormDataEntryValue, key: string) => {
