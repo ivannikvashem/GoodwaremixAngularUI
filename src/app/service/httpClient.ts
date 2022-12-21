@@ -7,7 +7,6 @@ import {Product} from "../models/product.model";
 import {Attribute} from "../models/attribute.model";
 import {SchedulerTask} from "../models/schedulerTask.model";
 import {AuthService} from "../auth/service/auth.service";
-import {typeCheckFilePath} from "@angular/compiler-cli/src/ngtsc/typecheck";
 
 @Injectable({
   providedIn: 'root'
