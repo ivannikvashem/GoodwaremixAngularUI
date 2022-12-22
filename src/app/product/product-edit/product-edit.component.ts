@@ -303,10 +303,13 @@ export class ProductEditComponent implements OnInit {
         return;
       }
     }
+    let date = new Date()
 
+    this.product.updatedAt = date.toISOString();
     if (this.productId) {
       this.updateProduct(this.product, this.imagesToUpload)
     } else {
+      this.product.createdAt = date.toISOString();
       this.insertProduct(this.product, this.imagesToUpload)
     }
    }

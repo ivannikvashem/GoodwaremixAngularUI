@@ -24,8 +24,8 @@ export class Product {
   image360: string;
   videos: string[];
   attributes: AttributeProduct[];
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: any;
+  updatedAt: any;
 
   constructor() {
     this.gtd = []

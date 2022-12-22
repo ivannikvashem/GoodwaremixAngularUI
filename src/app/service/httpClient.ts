@@ -133,51 +133,52 @@ export class ApiClient {
   insertProduct(product:Product, files:any): Observable<any> {
     const formData = new FormData()
 
-    Object.entries(product).forEach(([key, value]) => {
-      console.log(`${key} ${value}`);
-      formData.append(key,value)
+    Object.entries(product).forEach(([key, value], i) => {
+
+      if (typeof value == "object") {
+        Object.entries(value as Object).forEach(([nestedKey, nestedValue],  j) => {
+
+          if (typeof nestedValue == "object") {
+            Object.entries(nestedValue as Object).forEach(([nestedKey1, nestedValue1]) => {
+              formData.append('product.'+key+`[${j}].${nestedKey1}`, nestedValue1)
+            })
+
+          } else {
+            formData.append('product.'+key+`[${i}].${nestedKey}`, nestedValue)
+          }
+        });
+      } else {
+        formData.append('product.'+key,value)
+      }
     });
-    console.log(JSON.stringify(formData))
 
-
-    //formData.append('product', product)
-/*    for (const photo of files) {
-      console.log(photo)
+    for (const photo of files) {
       formData.append('files', photo)
-    }*/
+    }
     return this.http.put(this.apiURL + '/Products/', formData, {headers:{"ContentType": "multipart/form-data"}, responseType: 'text'});
   }
 
   updateProduct(product:Product, files:any): Observable<any> {
     const formData = new FormData()
 
-    Object.entries(product).forEach(([key, value], i1) => {
+    Object.entries(product).forEach(([key, value], i) => {
 
       if (typeof value == "object") {
-        Object.entries(value as Object).forEach(([nestedKey, nestedValue],  i2) => {
+        Object.entries(value as Object).forEach(([nestedKey, nestedValue],  j) => {
 
           if (typeof nestedValue == "object") {
             Object.entries(nestedValue as Object).forEach(([nestedKey1, nestedValue1]) => {
-              formData.append( 'product.'+key+ `[${i2}].${nestedKey1}`, nestedValue1)
+              formData.append('product.'+key+`[${j}].${nestedKey1}`, nestedValue1)
             })
 
           } else {
-            formData.append( 'product.'+key+`[${i1}].${nestedKey}`, nestedValue)
+            formData.append('product.'+key+`[${i}].${nestedKey}`, nestedValue)
           }
         });
       } else {
-        formData.append('product.'+key,JSON.stringify(value) )
-        console.log(`${key} ${value}`);
+        formData.append('product.'+key,value)
       }
     });
-
-    console.log('----------------------------------------------------')
-    console.log('----------------------------------------------------')
-    formData.forEach((value: FormDataEntryValue, key: string) => {
-      console.log(key, value);
-    })
-    console.log('----------------------------------------------------')
-    console.log('----------------------------------------------------')
 
     for (const photo of files) {
       console.log(photo)
