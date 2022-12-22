@@ -21,7 +21,7 @@ export class PackageCardComponent implements OnInit {
   ngOnInit(): void {
     this.isLoading = true
     setTimeout(() => {
-      if (this.pack.height && this.pack.width && this.pack.depth) {
+      if (this.pack?.height && this.pack?.width && this.pack?.depth) {
         this.pack.volume = this.pack.height * this.pack.width * this.pack.depth;
         this.isCalculatedVolume = true;
       }
