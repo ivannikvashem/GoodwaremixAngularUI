@@ -89,7 +89,7 @@ export class AttributeIndexComponent implements OnInit {
   }
 
   ngOnInit(): any {
-    this.dataSource.loadPagedData('', this.selectedSupplier?.id, 0,10, false);
+    //this.dataSource.loadPagedData('', this.selectedSupplier?.id, 0,10, false);
 
 /*    this.getCookie();
 

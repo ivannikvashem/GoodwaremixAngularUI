@@ -1,6 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
+import {Component, OnInit,} from '@angular/core';
 import {UsersDataSource} from "../repo/UsersDataSource";
 import {Router} from "@angular/router";
 import {
@@ -40,7 +38,7 @@ export class UserIndexComponent implements OnInit {
   }
 
   goToAddUser() {
-    this.router.navigate([`user-edit/`]);
+    this.router.navigate([`user-add/`]);
   }
 
   goToEditUser(id:string) {

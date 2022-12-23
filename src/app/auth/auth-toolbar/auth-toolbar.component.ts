@@ -18,6 +18,9 @@ export class AuthToolbarComponent implements OnInit {
   ngOnInit(): void {
     this.isLoggedIn$ = defer(() => from(this.auth.isLoggedIn()));
     this.user$ = defer(() => from(this.auth.loadUserProfile()).pipe(map((x) => x.username)));
+
+    console.log(this.user$);
+
     this.roles = this.auth.getRoles();
     console.log('_____TOKEN_____',this.auth.getToken().__zone_symbol__value)
     //TODO make a proper redirect to a specific profile and not here!!

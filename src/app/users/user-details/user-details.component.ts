@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {debounceTime, distinctUntilChanged, Observable, of} from "rxjs";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
-import {catchError, finalize, map} from "rxjs/operators";
+import {map} from "rxjs/operators";
 import {ApiClient} from "../../service/httpClient";
 
 @Component({
@@ -49,20 +49,24 @@ export class UserDetailsComponent implements OnInit {
       this.loadFilteredSuppliersData(this.suppliersSearchCtrl.value);
     })
 
-    this.loadUserData(this.userId);
+    if (this.userId) {
+      this.loadUserData(this.userId);
+    }
   }
 
   removeSupplierFromUser(item: any): void {
-/*    const index = this.userForm.value.linkedSuppliers?.indexOf(item);
+    const index = this.userForm.value.linkedSuppliers?.indexOf(item);
     if (typeof(index) == "number" && index >= 0) {
       this.userForm.value.linkedSuppliers?.splice(index, 1);
-    }*/
+    }
   }
 
   supplierAutocompleteSelected(event: MatAutocompleteSelectedEvent): void {
-    console.log(event.option.value.id);
-    this.userForm.value.linkedSuppliers.push({id: event.option.value.id, name: event.option.viewValue});
-    //this.userForm.value.linkedSuppliers.set(event.option.value.id, event.option.viewValue);
+    const value = (event.option.value.id || '').trim();
+    const idx = this.userForm.value.linkedSuppliers.find(x => x.id == value);
+    if (!idx) {
+      this.userForm.value.linkedSuppliers.push({id: event.option.value.id, name: event.option.viewValue});
+    }
     this.suppliersSearchInput.nativeElement.value = '';
     this.suppliersSearchCtrl.setValue(null);
   }

@@ -56,7 +56,7 @@ routes = [
   {path: 'admin', component: AdminPanelComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'task', component: TaskIndexComponent},
   {path: 'users', component: UserIndexComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
-  {path: 'user-edit', component: UserDetailsComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
+  {path: 'user-add', component: UserDetailsComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'user-edit/:id', component: UserDetailsComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}}
 
 ];
