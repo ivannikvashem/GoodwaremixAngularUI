@@ -40,7 +40,7 @@ export class ApiClient {
     observe: 'response' as 'body' // it's possible to see response status
   };
 
-  // Attributes ENDPOINTS
+  //#region Attributes ENDPOINTS
   getAttributes(searchQuery: any, supplierId: string, pageIndex: number, pageSize: number, fixed?: boolean, sortField?: string, sortDirection?: string): Observable<any> {
     let opt = {
       params: new HttpParams()
@@ -89,7 +89,9 @@ export class ApiClient {
   deleteProductAttribute (id:string)  {
     return this.http.delete(this.apiURL+ '/Attributes/' + id, this.httpOptions)
   }
-  // Log ENDPOINT
+  //#endregion
+
+  //#region Log ENDPOINT
   getLogs(supplierId:string, pageIndex: number, pageSize: number, sortField: string, sortDirection: string): Observable<any> {
     let opt = {
       params: new HttpParams()
@@ -107,7 +109,9 @@ export class ApiClient {
     return this.http.delete<any>(this.apiURL + '/Logs', this.httpOptions);
   }
 
-  // Product ENDPOINT
+  //#endregion
+
+  //#region Product ENDPOINT
   getProducts(searchQuery: string, withInternalCodeSelector: boolean, selectedSuppId: string, pageIndex: number, pageSize: number, attributes:any) {
     let opt = {
       params: new HttpParams()
@@ -127,7 +131,8 @@ export class ApiClient {
   }
 
   bindProductInternalCodeById(id: string): Observable<any> {
-    return this.http.patch<any>(this.apiURL + '/Products/' + id + '/intCode', this.httpOptions);
+    //also possible to extract internal name here and on API
+    return this.http.patch<any>(this.apiURL + '/products/' + id + '/intCode', this.httpOptions);
   }
 
   insertProduct(product:Product, files:any): Observable<any> {
@@ -190,8 +195,9 @@ export class ApiClient {
   deleteProductById(productId:string) {
     return this.http.delete<any>(this.apiURL + '/Products/' + productId, this.httpOptions);
   }
+  //#endregion
 
-  // Suppliers ENDPOINT
+  //#region Suppliers ENDPOINT
 
   getSuppliers(searchQuery: any, pageIndex: number, pageSize: number, sortField: string, sortDirection: string) {
     let opt = {
@@ -243,7 +249,10 @@ export class ApiClient {
     return this.http.delete<any>(this.apiURL + '/suppliers/' + id, this.httpOptions);
   }
 
-  //TASK ENDPOINT
+  //#endregion
+
+  //#region TASK ENDPOINT
+
   getTasks(pageIndex: number, pageSize: number, sortField: string, sortDirection: string): Observable<any> {
     let opt = {
       params: new HttpParams()
@@ -276,6 +285,7 @@ export class ApiClient {
     return this.http.post(this.apiURL + '/Quartz/stopQuartz/' + id, this.httpOptions)
   }
 
+  //#endregion
 
   // //fileUpload
   // upload(file: File): Observable<HttpEvent<any>> {
@@ -321,7 +331,7 @@ export class ApiClient {
   }
 
 
-  // User ENDPOINT
+  //#region User ENDPOINT
   getUsers(pageIndex: number, pageSize: number, sortField: string, sortDirection: string): Observable<any> {
     let opt = {
       params: new HttpParams()
@@ -354,4 +364,5 @@ export class ApiClient {
   deleteUser(id: string) {
     return this.http.delete(this.apiURL + '/users/' + id, this.httpOptions);
   }
+  //#endregion
 }

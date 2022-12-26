@@ -16,7 +16,6 @@ import {ProductAttributeEditComponent} from "../product-attribute-edit/product-a
 import {Package} from "../../models/package.model";
 import {Document} from "../../models/document.model";
 import {ProductDocumentEditComponent} from "../product-document-edit/product-document-edit.component";
-import {HttpClient} from "@angular/common/http";
 import {ProductPackageEditComponent} from "../product-package-edit/product-package-edit.component";
 import {Countries} from "../../../assets/countriesList"
 import {map} from "rxjs/operators";
@@ -42,7 +41,7 @@ export class ProductEditComponent implements OnInit {
   productId:string = '';
   imagesToUpload:File[] = []
   imagesView:string[] =[]
-  isAvaibleForIntCodeReq:boolean = true
+  internalCodeFetching:boolean = true
   // Attr
   dataToDisplayAttr:any = [];
   attrDataSource = new AttrDataSource(this.dataToDisplayAttr)
@@ -63,12 +62,11 @@ export class ProductEditComponent implements OnInit {
   Math = Math;
   Eps = Number.EPSILON;
 
-  constructor(public api:ApiClient,
+  constructor(private api:ApiClient,
               private _ActivatedRoute:ActivatedRoute,
               private router: Router,
               private _notyf:NotificationService,
               public dialog: MatDialog,
-              public http:HttpClient,
               private imgHandler:MissingImageHandler) {}
 
   ngOnInit(): void {
@@ -346,17 +344,16 @@ export class ProductEditComponent implements OnInit {
   }
 
   RequestProductInternalCode(id: string) {
-    this.isAvaibleForIntCodeReq = false
+    this.internalCodeFetching = false
     this.api.bindProductInternalCodeById(id).subscribe(x => {
         this._notyf.onSuccess("Артикул успешно привязан");
         this.product.internalCode = x;
-        this.isAvaibleForIntCodeReq = true
-        console.warn(x);
+        this.internalCodeFetching = true
       },
       error => {
         console.log("updateSupplierError: " + JSON.stringify(error));
         this._notyf.onError("Ошибка: " + JSON.stringify(error.error));
-        this.isAvaibleForIntCodeReq = true
+        this.internalCodeFetching = true
       });
   }
 
