@@ -21,6 +21,7 @@ import {Countries} from "../../../assets/countriesList"
 import {map} from "rxjs/operators";
 import {MissingImageHandler} from "../MissingImageHandler";
 import {ImageDialog} from "../hover-image-slider/hover-image-slider.component";
+import {ObjectFormDataConverterService} from "../../service/objectFormDataConverter.service";
 
 interface Country {
   code?:string
@@ -36,6 +37,7 @@ export class ProductEditComponent implements OnInit {
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   // Supplier
   selectedSupplier: Supplier;
+  isSupplierSingle:boolean = false;
   //Product
   product:Product = new Product();
   productId:string = '';
@@ -134,6 +136,7 @@ export class ProductEditComponent implements OnInit {
     this.imagesView = this.imagesView.filter(img => (img != url));
     this.product.images = this.product.images.filter(img => (img != url));
     this.product.localImages = this.product.localImages.filter(img => (img != url));
+    this.product.thumbnails = this.product.thumbnails.filter(img => (img != url));
   }
 
   addVideo($event: MatChipInputEvent) {
@@ -177,8 +180,10 @@ export class ProductEditComponent implements OnInit {
     this.openAttributeEditorDialog(row);
   }
 
-  deleteAttrRow(attribute: any) {
-    this.product.attributes = this.product.attributes.filter(item => item.attributeId !== attribute.attributeId)
+  deleteAttrRow(attrIndex: any) {
+    if (attrIndex >= 0) {
+      this.product.attributes.splice(attrIndex,1)
+    }
     this.attrDataSource.setData(this.product.attributes || []);
   }
 
@@ -193,7 +198,7 @@ export class ProductEditComponent implements OnInit {
       if (result !== undefined) {
         if (this.product.attributes.filter(x => x.value !== result.newAttribute?.value)) {
           if (oldAttribute == undefined) {
-            this.product.attributes.unshift(result.newAttribute as AttributeProduct)
+            this.product.attributes.push(result.newAttribute as AttributeProduct)
             this.attrDataSource.setData(this.product.attributes || []);
           }
           else {

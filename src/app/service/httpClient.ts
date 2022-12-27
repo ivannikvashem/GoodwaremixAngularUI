@@ -7,6 +7,8 @@ import {Product} from "../models/product.model";
 import {Attribute} from "../models/attribute.model";
 import {SchedulerTask} from "../models/schedulerTask.model";
 import {AuthService} from "../auth/service/auth.service";
+import {keyframes} from "@angular/animations";
+import {ObjectFormDataConverterService} from "./objectFormDataConverter.service";
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +23,7 @@ export class ApiClient {
   //apiURL = 'http://172.16.50.123:5105/api';
   //apiURL = 'http://172.16.41.246:5105/api';
 
-  constructor(private http: HttpClient, private auth: AuthService) { }
+  constructor(private http: HttpClient, private auth: AuthService, private productConverter:ObjectFormDataConverterService) { }
 
   /*========================================
     CRUD Methods for consuming RESTful API
@@ -136,26 +138,7 @@ export class ApiClient {
   }
 
   insertProduct(product:Product, files:any): Observable<any> {
-    const formData = new FormData()
-
-    Object.entries(product).forEach(([key, value], i) => {
-
-      if (typeof value == "object") {
-        Object.entries(value as Object).forEach(([nestedKey, nestedValue],  j) => {
-
-          if (typeof nestedValue == "object") {
-            Object.entries(nestedValue as Object).forEach(([nestedKey1, nestedValue1]) => {
-              formData.append('product.'+key+`[${j}].${nestedKey1}`, nestedValue1)
-            })
-
-          } else {
-            formData.append('product.'+key+`[${i}].${nestedKey}`, nestedValue)
-          }
-        });
-      } else {
-        formData.append('product.'+key,value)
-      }
-    });
+    let formData = this.productConverter.productEntriesIteration(product, null, '');
 
     for (const photo of files) {
       formData.append('files', photo)
@@ -164,29 +147,9 @@ export class ApiClient {
   }
 
   updateProduct(product:Product, files:any): Observable<any> {
-    const formData = new FormData()
-
-    Object.entries(product).forEach(([key, value], i) => {
-
-      if (typeof value == "object") {
-        Object.entries(value as Object).forEach(([nestedKey, nestedValue],  j) => {
-
-          if (typeof nestedValue == "object") {
-            Object.entries(nestedValue as Object).forEach(([nestedKey1, nestedValue1]) => {
-              formData.append('product.'+key+`[${j}].${nestedKey1}`, nestedValue1)
-            })
-
-          } else {
-            formData.append('product.'+key+`[${i}].${nestedKey}`, nestedValue)
-          }
-        });
-      } else {
-        formData.append('product.'+key,value)
-      }
-    });
+    let formData = this.productConverter.productEntriesIteration(product, null, '');
 
     for (const photo of files) {
-      console.log(photo)
       formData.append('files', photo)
     }
     return this.http.post(this.apiURL + '/Products/', formData, {headers:{"ContentType": "multipart/form-data"}})

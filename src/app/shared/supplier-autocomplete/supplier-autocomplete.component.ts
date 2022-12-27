@@ -1,11 +1,13 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Injectable, OnInit, Output} from '@angular/core';
 import {debounceTime, distinctUntilChanged, finalize, Subscription, switchMap, tap} from "rxjs";
 import {FormControl} from "@angular/forms";
 import {Supplier} from "../../models/supplier.model";
 import {ApiClient} from "../../service/httpClient";
 import {DataStateService} from "../data-state.service";
 import {LocalStorageService} from "../../service/local-storage.service";
-
+@Injectable({
+  providedIn: 'root'
+})
 @Component({
   selector: 'app-supplier-autocomplete',
   templateUrl: './supplier-autocomplete.component.html',
@@ -14,8 +16,9 @@ import {LocalStorageService} from "../../service/local-storage.service";
 export class SupplierAutocompleteComponent implements OnInit {
 
   searchSuppliersCtrl  = new FormControl<string | Supplier>('');
-  supplierList:Supplier[];
+  supplierList:Supplier[] = [];
   @Output() selectedSupplier = new EventEmitter<Supplier>();
+  @Output() isSingle = new EventEmitter<boolean>();
 
   private subscription: Subscription;
 
@@ -35,7 +38,9 @@ export class SupplierAutocompleteComponent implements OnInit {
     this.api.getSuppliers("", 0 ,100, "SupplierName", "asc").subscribe( (r:any) => {
       this.supplierList = r.body.data
       if (this.supplierList.length == 1) {
+        this.isSingle.emit(true);
         this.searchSuppliersCtrl.setValue(this.supplierList[0])
+        this.onSupplierSelected();
       }
     });
 
@@ -54,6 +59,7 @@ export class SupplierAutocompleteComponent implements OnInit {
       )
     ).subscribe((data: any) => { this.supplierList = data.body.data; });
   }
+
 
   displayFn(supplier: Supplier): string {
     return supplier && supplier.supplierName ? supplier.supplierName : '';
@@ -74,9 +80,5 @@ export class SupplierAutocompleteComponent implements OnInit {
     this.searchSuppliersCtrl.setValue('');
     this.onSupplierSelected();
     console.log(this.searchSuppliersCtrl.value)
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 }

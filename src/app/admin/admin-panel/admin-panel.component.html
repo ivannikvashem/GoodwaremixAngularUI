@@ -3,63 +3,65 @@
 </div>
 
 <mat-tab-group>
+  <mat-tab label="Работа с БД">
+    <mat-card>
+      <mat-card-title>Работа с БД</mat-card-title>
+      <div class="full-width workWithDBBtn">
+        <button mat-button class="mat-elevation-z2" (click)="fullInit()"><mat-icon>sync_problem</mat-icon> Инициализировать БД</button>
+        <button mat-button class="mat-elevation-z2" (click)="fixSupplierStat()"><mat-icon>build</mat-icon> Обновить кол-во товара и бренды</button>
+        <button mat-button class="mat-elevation-z2" (click)="downloadTable('Supplier')"><mat-icon>cloud_download</mat-icon> Скачать всех поставщиков</button>
+        <button mat-button class="mat-elevation-z2" (click)="downloadTable('Attribute')"><mat-icon>cloud_download</mat-icon>  Скачать все атрибуты</button>
+        <button mat-button class="mat-elevation-z2" (click)="downloadTable('Product')"><mat-icon>cloud_download</mat-icon> Скачать все товары</button>&nbsp;
+      </div>
+    </mat-card>
+  </mat-tab>
   <mat-tab label="Поставщики">
     <mat-card>
-      <button mat-button class="mat-elevation-z2" (click)="fetchItem('default')"><mat-icon>restart_alt</mat-icon>Запустить сбор всех поставщиков</button>&nbsp;
-      <button mat-button class="mat-elevation-z2" (click)="fullInit()"><mat-icon>sync_problem</mat-icon>Инициализировать БД</button>&nbsp;
-      <button mat-button class="mat-elevation-z2" (click)="fixSupplierStat()"><mat-icon>build</mat-icon>Обновить кол-во товара и бренды</button>&nbsp;
-      <button mat-button class="mat-elevation-z2" (click)="downloadTable('Supplier')"><mat-icon>cloud_download</mat-icon>  Скачать всех</button>&nbsp;
+      <mat-card-title>Поставщики</mat-card-title>
+      <mat-form-field appearance="standard" class="full-width">
+        <mat-label>Поиск</mat-label>
+        <input matInput (keyup)="applyFilter($event)" #searchInput>
+        <button *ngIf="searchInput.value" matSuffix mat-icon-button aria-label="Clear" type="button" (click)="searchInput.value = ''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
     </mat-card>
 
     <mat-card style="margin-top: 10px">
-      <mat-form-field appearance="standard" class="full-width">
-        <mat-label>Поиск</mat-label>
-        <input matInput (keyup)="applyFilter($event)">
-      </mat-form-field>
-      <div class="overflow-div">
-        <table mat-table [dataSource]="supplierDataSource" class="mat-elevation-z8; full-width">
-          <!-- Checkbox Column -->
-          <ng-container matColumnDef="checkbox">
-            <th mat-header-cell *matHeaderCellDef>
-              <mat-checkbox (change)="$event ? toggleAllRows() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()"></mat-checkbox>
-            </th>
-            <td mat-cell *matCellDef="let element">
-              <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(element) : null" [checked]="selection.isSelected(element)"></mat-checkbox>
-            </td>
-          </ng-container>
-          <!-- Supplier Column -->
-          <ng-container matColumnDef="supplier">
-            <th mat-header-cell *matHeaderCellDef> Поставщик </th>
-            <td mat-cell *matCellDef="let element">
-              {{element.supplierName}}
-            </td>
-          </ng-container>
-          <!-- Stat.ProductQty -->
-          <ng-container matColumnDef="Stat.ProductQty">
-            <th mat-header-cell *matHeaderCellDef> Номенкулатура </th>
-            <td mat-cell *matCellDef="let element"> {{ element.stat.productQty != null && element.stat.productQty > 0 ? element.stat.productQty + " / " : ""}} {{ element.stat.productQtyWithCode != null ? element.stat.productQtyWithCode : ""}} </td>
-          </ng-container>
-          <!-- Stat.lastImport -->
-          <ng-container matColumnDef="Stat.lastImport">
-            <th mat-header-cell *matHeaderCellDef> Последний импорт </th>
-            <td mat-cell *matCellDef="let element"> {{element.stat.lastImport | date:'yyyy-MM-dd'}} </td>
-          </ng-container>
-          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-      </div>
-      <button mat-button class="mat-elevation-z2" style="margin-top: 10px" (click)="fetchSelectedItems()" [disabled]="selection.selected.length == 0"><mat-icon>restart_alt</mat-icon>Сбор выбранных</button>
+      <table mat-table [dataSource]="supplierDataSource" class="mat-elevation-z8; full-width">
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="checkbox">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? toggleAllRows() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()"></mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(element) : null" [checked]="selection.isSelected(element)"></mat-checkbox>
+          </td>
+        </ng-container>
+        <!-- Supplier Column -->
+        <ng-container matColumnDef="supplier">
+          <th mat-header-cell *matHeaderCellDef> Поставщик </th>
+          <td mat-cell *matCellDef="let element">
+            {{element.supplierName}}
+          </td>
+        </ng-container>
+        <!-- Stat.ProductQty -->
+        <ng-container matColumnDef="Stat.ProductQty">
+          <th mat-header-cell *matHeaderCellDef> Номенкулатура </th>
+          <td mat-cell *matCellDef="let element"> {{ element.stat.productQty != null && element.stat.productQty > 0 ? element.stat.productQty + " / " : ""}} {{ element.stat.productQtyWithCode != null ? element.stat.productQtyWithCode : ""}} </td>
+        </ng-container>
+        <!-- Stat.lastImport -->
+        <ng-container matColumnDef="Stat.lastImport">
+          <th mat-header-cell *matHeaderCellDef> Последний импорт </th>
+          <td mat-cell *matCellDef="let element"> {{element.stat.lastImport | date:'yyyy-MM-dd'}} </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <button mat-raised-button color="accent" class="mat-elevation-z2; floatButton" (click)="fetchSelectedItems()" [disabled]="selection.selected.length == 0"><mat-icon>restart_alt</mat-icon> Сбор выбранных <span *ngIf="selection.selected.length > 0">({{selection.selected.length}})</span></button>
+
     </mat-card>
 
-  </mat-tab>
-  <mat-tab label="Атрибуты">
-    <mat-card>
-      <button mat-button class="mat-elevation-z2" (click)="downloadTable('Attribute')"><mat-icon>cloud_download</mat-icon>  Скачать все атрибуты</button>&nbsp;
-    </mat-card>
-  </mat-tab>
-  <mat-tab label="Товары">
-    <mat-card>
-      <button mat-button class="mat-elevation-z2" (click)="downloadTable('Product')"><mat-icon>cloud_download</mat-icon>Скачать все товары</button>&nbsp;
-    </mat-card>
   </mat-tab>
 </mat-tab-group>

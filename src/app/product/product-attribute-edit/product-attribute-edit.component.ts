@@ -97,6 +97,7 @@ export class ProductAttributeEditComponent implements OnInit {
   }
 
   submitForm() {
+    console.log(this.data)
     this.data.newAttribute.value = this.attributeValuesCtrl.value
   }
 }

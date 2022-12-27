@@ -7,11 +7,45 @@
   width: 30px !important;
 }
 
-.overflow-div {
-  max-height: 500px;
-  overflow-y: auto;
-  margin-top: 10px
-}
 .full-width {
   width: 100%;
+}
+
+.floatButton {
+  position: fixed !important;
+  bottom: 45px;
+  right: 7%;
+}
+
+.mat-card {
+  margin: 15px;
+}
+
+.workWithDBBtn {
+  display: inline-block;
+  justify-content: space-between;
+}
+
+.workWithDBBtn button {
+  margin: 10px;
+}
+
+:host /deep/ .mat-tab-group {
+  flex-direction: row;
+}
+:host /deep/ .mat-tab-header {
+  border-bottom: none;
+}
+:host /deep/ .mat-tab-header-pagination {
+  display: none !important;
+}
+:host /deep/ .mat-tab-labels {
+  flex-direction: column;
+}
+:host /deep/ .mat-ink-bar {
+  height: 100%;
+  left: 98% !important;
+}
+:host /deep/ .mat-tab-body-wrapper {
+  flex: 1 1 auto;
 }

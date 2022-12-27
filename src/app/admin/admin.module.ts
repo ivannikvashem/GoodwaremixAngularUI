@@ -8,20 +8,22 @@ import {MatCardModule} from "@angular/material/card";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatInputModule} from "@angular/material/input";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
     AdminPanelComponent,
   ],
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatIconModule,
-    MatTableModule,
-    MatCardModule,
-    MatTabsModule,
-    MatInputModule,
-    MatCheckboxModule
-  ]
+    imports: [
+        CommonModule,
+        MatButtonModule,
+        MatIconModule,
+        MatTableModule,
+        MatCardModule,
+        MatTabsModule,
+        MatInputModule,
+        MatCheckboxModule,
+        MatTooltipModule
+    ]
 })
 export class AdminModule { }
