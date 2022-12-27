@@ -190,6 +190,7 @@ export class ProductEditComponent implements OnInit {
   openAttributeEditorDialog(oldAttribute?:any): void {
     const dialogRef = this.dialog.open(ProductAttributeEditComponent, {
       width: '900px',
+      height: '315px',
       data: { oldAttribute: oldAttribute, newAttribute: new AttributeProduct() },
       autoFocus:false
     });
@@ -318,13 +319,15 @@ export class ProductEditComponent implements OnInit {
    }
 
    updateProduct(product: Product, files:any) {
-     this.api.updateProduct(product, files).subscribe(x => {
-         this._notyf.onSuccess("Товар изменен");
-       },
-       error => {
-         this._notyf.onError("Ошибка: " + JSON.stringify(error));
-         //todo обработчик ошибок, сервер недоступен или еще чего..
-       });
+    setTimeout(() => {
+      this.api.updateProduct(product, files).subscribe(x => {
+          this._notyf.onSuccess("Товар изменен");
+        },
+        error => {
+          this._notyf.onError("Ошибка: " + JSON.stringify(error));
+          //todo обработчик ошибок, сервер недоступен или еще чего..
+        });
+    }, 2000)
    }
 
    insertProduct(product: Product, files:any) {

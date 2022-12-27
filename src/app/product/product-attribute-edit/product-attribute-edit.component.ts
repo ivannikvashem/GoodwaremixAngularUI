@@ -25,6 +25,7 @@ export class ProductAttributeEditComponent implements OnInit {
   attributesList: Attribute[] = [];
   searchAttributeCtrl = new FormControl<string | Attribute>('', Validators.required);
   attributeValuesCtrl = new FormControl<string>('', Validators.required);
+  isOldAttributeLoading: boolean = false;
 
   constructor(public api: ApiClient,
               public dialogRef: MatDialogRef<ProductAttributeEditComponent>,
@@ -33,7 +34,12 @@ export class ProductAttributeEditComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.data.oldAttribute !== undefined) {
-      this.api.getAttributeById(this.data.oldAttribute.attributeId).subscribe((response) => {
+      this.isOldAttributeLoading = true;
+      this.api.getAttributeById(this.data.oldAttribute.attributeId).pipe(
+        tap( () => {
+          this.isOldAttributeLoading = true
+        }),
+        finalize( () => this.isOldAttributeLoading = false)).subscribe((response) => {
         if (response.status == 200) {
           this.attributeProduct = response.body;
           this.searchAttributeCtrl.setValue(this.attributeProduct);
@@ -61,6 +67,7 @@ export class ProductAttributeEditComponent implements OnInit {
         )
       )
     ).subscribe((response: any) => { this.attributesList = response.body.data; });
+    console.log(this.data)
   }
   onCancelClick(): void {
     this.dialogRef.close();

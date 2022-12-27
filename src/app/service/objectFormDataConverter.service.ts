@@ -13,19 +13,22 @@ export class ObjectFormDataConverterService {
       if (value) {
         if (typeof value == "string") {
           this.appendSingleField(key, nestedKey,j,value);
-        } else if (typeof value == "number") {
-          if ( Number(value) === +Number(value) && Number(value) !== (Number(value) | 0)) {
+        }
+        else if (typeof value == "number") {
+          if ( Number(value) === Number(value) && Number(value) !== (Number(value) | 0)) {
             value = value.toString().replace(".", ',')
           }
           this.appendSingleField(key,nestedKey,j,value)
-        } else if (typeof value.getMonth === 'function') {
+        }
+        else if (typeof value.getMonth === 'function') {
           this.appendSingleField(key, nestedKey, j, value.toISOString())
         }
         else if (Array.isArray(value)) {
           for (let val in value) {
             if (typeof value[val] == "object") {
               this.productEntriesIteration(value[val],  Number(val), key)
-            }  else if (typeof value[val] == "number"){
+            }
+            else if (typeof value[val] == "number"){
               this.appendSingleField(key, nestedKey, j, value[val])
             }
             else {
