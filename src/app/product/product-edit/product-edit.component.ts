@@ -120,30 +120,30 @@ export class ProductEditComponent implements OnInit {
       let reader = new FileReader();
       if (file.type.includes('image/')) {
         file = new File([file], crypto.randomUUID()+ '.' + file.type.split('image/')[1], {type:file.type});
-        let fileName = file.name + '.' + file.type.split('image/')[1]
         this.imagesToUpload.push(file)
-        this.product.images.push(fileName)
-        this.product.thumbnails.push(fileName)
+        this.product.localImages.push(file.name)
+        this.product.thumbnails.push(file.name)
         reader.onload = (event:any) => {
           this.imagesView.unshift(event.target.result);
         }
         reader.readAsDataURL(file);
       } else { errorCounter += 1;}
+      event.target.value = null
     }
     if (errorCounter > 0) {
       this._notyf.onError(`Неверный формат фото (${errorCounter})`)
     }
+    console.log(this.imagesView)
   }
 
-  removeImage(url:any){
-    this.imagesView = this.imagesView.filter(img => (img != url));
-    this.product.images = this.product.images.filter(img => (img != url));
-    this.product.localImages = this.product.localImages.filter(img => (img != url));
-    this.product.thumbnails = this.product.thumbnails.filter(img => (img != url));
-    this.imagesToUpload = this.imagesToUpload.filter(img => (!url.contains(img.name)));
-
-    let index = this.imagesToUpload[url];
-    console.log()
+  removeImage(index:any){
+    if (index >= 0) {
+      this.imagesView.splice(index, 1);
+      this.imagesToUpload.splice(index, 1);
+      this.product.images.splice(index, 1);
+      this.product.localImages.splice(index, 1);
+      this.product.thumbnails.splice(index, 1);
+    }
   }
 
   addVideo($event: MatChipInputEvent) {
@@ -318,13 +318,17 @@ export class ProductEditComponent implements OnInit {
     let date = new Date()
     this.product.updatedAt = date.toISOString();
 
-    if (this.imagesToUpload.length > 0)
+    if (this.imagesToUpload.length > 0) {
       this.uploadPhotos(this.imagesToUpload, this.product.supplierId)
-    if (this.productId)
+    }
+    if (this.product.id != null) {
       this.updateProduct(this.product)
-    else
+    }
+    else if (this.product.id == null) {
+      console.log('id null')
       this.product.createdAt = date.toISOString();
       this.insertProduct(this.product)
+    }
    }
 
    uploadPhotos(photos:File[], supplierId:string) {
@@ -343,8 +347,7 @@ export class ProductEditComponent implements OnInit {
    }
 
    insertProduct(product: Product) {
-     this.api.insertProduct(product)
-       .subscribe(x => {
+     this.api.insertProduct(product).subscribe(x => {
          console.warn(">>" + JSON.stringify(x));
          this._notyf.onSuccess("Товар добавлен");
          this.router.navigate([`product-edit/${x.body}`])

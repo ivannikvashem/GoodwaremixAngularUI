@@ -140,7 +140,6 @@ export class ApiClient {
   }
 
   updateProduct(product:Product): Observable<any> {
-    console.log('---------------------',product.images)
     return this.http.post(this.apiURL + '/Products/', product, this.httpOptions)
   }
 

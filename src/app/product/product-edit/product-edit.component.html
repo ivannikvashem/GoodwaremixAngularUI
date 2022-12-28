@@ -41,12 +41,17 @@
             </button>
 
             <div style="max-height: 600px; overflow-y: auto;">
-              <div class="thumbnail" *ngFor="let img of imagesView">
+              <div class="thumbnail" *ngFor="let img of imagesView; let i = index">
                 <img [src]="img" style="object-fit: cover; height:200px; width: 200px;margin-left:10px" (error)="handleMissingImage($event)" class="mat-elevation-z2" (click)="openImageDialog(img)">
-                <button (click)="removeImage(img)" class="mat-elevation-z8">&#x2715;</button>
+                <button (click)="removeImage(i)" class="mat-elevation-z8">&#x2715;</button>
               </div>
             </div>
 
+            <pre>
+              {{imagesToUpload | json }}
+              {{product.id}}
+
+            </pre>
           </ng-template>
         </mat-tab>
 
