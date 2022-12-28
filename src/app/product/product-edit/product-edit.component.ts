@@ -119,7 +119,7 @@ export class ProductEditComponent implements OnInit {
     for (let file of files) {
       let reader = new FileReader();
       if (file.type.includes('image/')) {
-        file = new File([file], crypto.randomUUID() + file.type.split('image/')[1], {type:file.type});
+        file = new File([file], crypto.randomUUID()+ '.' + file.type.split('image/')[1], {type:file.type});
         let fileName = file.name + '.' + file.type.split('image/')[1]
         this.imagesToUpload.push(file)
         this.product.images.push(fileName)
