@@ -67,7 +67,6 @@ export class ProductAttributeEditComponent implements OnInit {
         )
       )
     ).subscribe((response: any) => { this.attributesList = response.body.data; });
-    console.log(this.data)
   }
   onCancelClick(): void {
     this.dialogRef.close();
@@ -104,7 +103,6 @@ export class ProductAttributeEditComponent implements OnInit {
   }
 
   submitForm() {
-    console.log(this.data)
     this.data.newAttribute.value = this.attributeValuesCtrl.value
   }
 }

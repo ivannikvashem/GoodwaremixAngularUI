@@ -13,6 +13,7 @@ import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/share
 import {NotificationService} from "../../service/notification-service";
 import {ImagePreviewDialogComponent} from "../image-preview-dialog/image-preview-dialog.component";
 import {MissingImageHandler} from "../MissingImageHandler";
+import {AuthService} from "../../auth/service/auth.service";
 
 @Component({
   selector: 'app-product-index',
@@ -24,6 +25,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   pageTitle:string = 'ProductIndex';
   displayedColumns: string[] = ['preview', 'internalCode' ,'name', 'supplierName', 'actions'];
   dataSource: ProductsDataSource;
+  roles: string[] = [];
 
   hoverImage: string = "";
   hoverRowId: string = "";
@@ -45,9 +47,11 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     private _ActivatedRoute:ActivatedRoute,
     private _localStorageService: LocalStorageService,
     private _notyf: NotificationService,
-    private imgHandler:MissingImageHandler
+    private imgHandler:MissingImageHandler,
+    private auth:AuthService
   ) {
     this.dataSource = new ProductsDataSource(this.api);
+    this.roles = this.auth.getRoles();
   }
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator
