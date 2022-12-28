@@ -119,9 +119,9 @@ export class ProductEditComponent implements OnInit {
     for (let file of files) {
       let reader = new FileReader();
       if (file.type.includes('image/')) {
-        file = new File([file], crypto.randomUUID(), {type:file.type});
+        file = new File([file], crypto.randomUUID() + file.type.split('image/')[1], {type:file.type});
         let fileName = file.name + '.' + file.type.split('image/')[1]
-        this.imagesToUpload.unshift(file)
+        this.imagesToUpload.push(file)
         this.product.images.push(fileName)
         this.product.thumbnails.push(fileName)
         reader.onload = (event:any) => {
@@ -140,6 +140,10 @@ export class ProductEditComponent implements OnInit {
     this.product.images = this.product.images.filter(img => (img != url));
     this.product.localImages = this.product.localImages.filter(img => (img != url));
     this.product.thumbnails = this.product.thumbnails.filter(img => (img != url));
+    this.imagesToUpload = this.imagesToUpload.filter(img => (!url.contains(img.name)));
+
+    let index = this.imagesToUpload[url];
+    console.log()
   }
 
   addVideo($event: MatChipInputEvent) {
@@ -314,7 +318,7 @@ export class ProductEditComponent implements OnInit {
     let date = new Date()
     this.product.updatedAt = date.toISOString();
 
-    if (this.imagesToUpload)
+    if (this.imagesToUpload.length > 0)
       this.uploadPhotos(this.imagesToUpload, this.product.supplierId)
     if (this.productId)
       this.updateProduct(this.product)

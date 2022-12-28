@@ -7,7 +7,6 @@ import {Product} from "../models/product.model";
 import {Attribute} from "../models/attribute.model";
 import {SchedulerTask} from "../models/schedulerTask.model";
 import {AuthService} from "../auth/service/auth.service";
-import {keyframes} from "@angular/animations";
 
 @Injectable({
   providedIn: 'root'
