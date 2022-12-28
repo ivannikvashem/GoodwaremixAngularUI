@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams, HttpRequest} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Supplier} from "../models/supplier.model";
 import {environment} from '../../environments/environment';
@@ -240,25 +240,12 @@ export class ApiClient {
 
   //fileUpload
   uploadFiles(files: File[], supplierId:string): Observable<any> {
-   let formData = new FormData();
-
+    let formData = new FormData();
     for (const photo of files) {
-      console.log(photo.name)
       formData.append('files', photo)
     }
-    formData.forEach((value: FormDataEntryValue, key: string) => {
-      console.log(key, value);
-    })
-    //formData.append('supplierId', supplierId)
-
-   return this.http.post(this.apiURL + '/files/'+supplierId, formData, {headers:{"ContentType": "multipart/form-data"}})
-
-    //const req = new HttpRequest('POST', `${this.apiURL}/files/SaveFiles`, formData, {
-    //   reportProgress: true,
-    //   responseType: 'json'
-    // });
-    //return this.http.request(req)
-    }
+    return this.http.post(this.apiURL + '/files/'+supplierId, formData, {headers:{"ContentType": "multipart/form-data"}})
+  }
   //
   // getFiles(): Observable<any> {
   //   return this.http.get(`${this.apiURL}/files`);

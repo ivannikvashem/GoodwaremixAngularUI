@@ -128,12 +128,10 @@ export class ProductEditComponent implements OnInit {
         }
         reader.readAsDataURL(file);
       } else { errorCounter += 1;}
-      event.target.value = null
     }
     if (errorCounter > 0) {
       this._notyf.onError(`Неверный формат фото (${errorCounter})`)
     }
-    console.log(this.imagesView)
   }
 
   removeImage(index:any){
@@ -325,7 +323,6 @@ export class ProductEditComponent implements OnInit {
       this.updateProduct(this.product)
     }
     else if (this.product.id == null) {
-      console.log('id null')
       this.product.createdAt = date.toISOString();
       this.insertProduct(this.product)
     }

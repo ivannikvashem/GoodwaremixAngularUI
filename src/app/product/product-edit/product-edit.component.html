@@ -35,7 +35,7 @@
       <mat-tab-group style="width:465px" animationDuration="0ms">
         <mat-tab  label="Фото">
           <ng-template matTabContent>
-            <button mat-button (click)="fileInput.click()" class="mat-elevation-z2" style="margin:10px;width:95%">
+            <button mat-button (click)="fileInput.value= ''; fileInput.click()" class="mat-elevation-z2" style="margin:10px;width:95%">
               <mat-icon>cloud_upload</mat-icon> Загрузить
               <input #fileInput type="file" multiple="" accept="image/gif, image/jpeg, image/png, image/jpg" (change)="onImageChange($event)" style="display:none;"/>
             </button>
@@ -46,12 +46,6 @@
                 <button (click)="removeImage(i)" class="mat-elevation-z8">&#x2715;</button>
               </div>
             </div>
-
-            <pre>
-              {{imagesToUpload | json }}
-              {{product.id}}
-
-            </pre>
           </ng-template>
         </mat-tab>
 
