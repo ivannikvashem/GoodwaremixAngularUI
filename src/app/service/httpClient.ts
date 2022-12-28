@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams, HttpRequest} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Supplier} from "../models/supplier.model";
 import {environment} from '../../environments/environment';
@@ -8,7 +8,6 @@ import {Attribute} from "../models/attribute.model";
 import {SchedulerTask} from "../models/schedulerTask.model";
 import {AuthService} from "../auth/service/auth.service";
 import {keyframes} from "@angular/animations";
-import {ObjectFormDataConverterService} from "./objectFormDataConverter.service";
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +22,7 @@ export class ApiClient {
   //apiURL = 'http://172.16.50.123:5105/api';
   //apiURL = 'http://172.16.41.246:5105/api';
 
-  constructor(private http: HttpClient, private auth: AuthService, private productConverter:ObjectFormDataConverterService) { }
+  constructor(private http: HttpClient, private auth: AuthService) { }
 
   /*========================================
     CRUD Methods for consuming RESTful API
@@ -137,22 +136,13 @@ export class ApiClient {
     return this.http.patch<any>(this.apiURL + '/products/' + id + '/intCode', this.httpOptions);
   }
 
-  insertProduct(product:Product, files:any): Observable<any> {
-    let formData = this.productConverter.productEntriesIteration(product, null, '');
-
-    for (const photo of files) {
-      formData.append('files', photo)
-    }
-    return this.http.put(this.apiURL + '/Products/', formData, {headers:{"ContentType": "multipart/form-data"}, responseType: 'text'});
+  insertProduct(product:Product): Observable<any> {
+    return this.http.put(this.apiURL + '/Products/', product, this.httpOptions);
   }
 
-  updateProduct(product:Product, files:any): Observable<any> {
-    let formData = this.productConverter.productEntriesIteration(product, null, '');
-
-    for (const photo of files) {
-      formData.append('files', photo)
-    }
-    return this.http.post(this.apiURL + '/Products/', formData, {headers:{"ContentType": "multipart/form-data"}})
+  updateProduct(product:Product): Observable<any> {
+    console.log('---------------------',product.images)
+    return this.http.post(this.apiURL + '/Products/', product, this.httpOptions)
   }
 
   deleteProductById(productId:string) {
@@ -250,19 +240,27 @@ export class ApiClient {
 
   //#endregion
 
-  // //fileUpload
-  // upload(file: File): Observable<HttpEvent<any>> {
-  //   const formData: FormData = new FormData();
-  //
-  //   formData.append('file', file);
-  //
-  //   const req = new HttpRequest('POST', `${this.apiURL}/upload`, formData, {
-  //     reportProgress: true,
-  //     responseType: 'json'
-  //   });
-  //
-  //   return this.http.request(req);
-  // }
+  //fileUpload
+  uploadFiles(files: File[], supplierId:string): Observable<any> {
+   let formData = new FormData();
+
+    for (const photo of files) {
+      console.log(photo.name)
+      formData.append('files', photo)
+    }
+    formData.forEach((value: FormDataEntryValue, key: string) => {
+      console.log(key, value);
+    })
+    //formData.append('supplierId', supplierId)
+
+   return this.http.post(this.apiURL + '/files/'+supplierId, formData, {headers:{"ContentType": "multipart/form-data"}})
+
+    //const req = new HttpRequest('POST', `${this.apiURL}/files/SaveFiles`, formData, {
+    //   reportProgress: true,
+    //   responseType: 'json'
+    // });
+    //return this.http.request(req)
+    }
   //
   // getFiles(): Observable<any> {
   //   return this.http.get(`${this.apiURL}/files`);

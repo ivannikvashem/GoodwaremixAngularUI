@@ -21,7 +21,6 @@ import {Countries} from "../../../assets/countriesList"
 import {map} from "rxjs/operators";
 import {MissingImageHandler} from "../MissingImageHandler";
 import {ImageDialog} from "../hover-image-slider/hover-image-slider.component";
-import {ObjectFormDataConverterService} from "../../service/objectFormDataConverter.service";
 
 interface Country {
   code?:string
@@ -120,7 +119,11 @@ export class ProductEditComponent implements OnInit {
     for (let file of files) {
       let reader = new FileReader();
       if (file.type.includes('image/')) {
+        file = new File([file], crypto.randomUUID(), {type:file.type});
+        let fileName = file.name + '.' + file.type.split('image/')[1]
         this.imagesToUpload.unshift(file)
+        this.product.images.push(fileName)
+        this.product.thumbnails.push(fileName)
         reader.onload = (event:any) => {
           this.imagesView.unshift(event.target.result);
         }
@@ -307,35 +310,40 @@ export class ProductEditComponent implements OnInit {
         return;
       }
     }
+
     let date = new Date()
-
     this.product.updatedAt = date.toISOString();
-    if (this.productId) {
-      this.updateProduct(this.product, this.imagesToUpload)
-    } else {
+
+    if (this.imagesToUpload)
+      this.uploadPhotos(this.imagesToUpload, this.product.supplierId)
+    if (this.productId)
+      this.updateProduct(this.product)
+    else
       this.product.createdAt = date.toISOString();
-      this.insertProduct(this.product, this.imagesToUpload)
-    }
+      this.insertProduct(this.product)
    }
 
-   updateProduct(product: Product, files:any) {
-    setTimeout(() => {
-      this.api.updateProduct(product, files).subscribe(x => {
-          this._notyf.onSuccess("Товар изменен");
-        },
-        error => {
-          this._notyf.onError("Ошибка: " + JSON.stringify(error));
-          //todo обработчик ошибок, сервер недоступен или еще чего..
-        });
-    }, 2000)
+   uploadPhotos(photos:File[], supplierId:string) {
+    this.api.uploadFiles(photos, supplierId).subscribe(x => {
+
+    })
    }
 
-   insertProduct(product: Product, files:any) {
-     this.api.insertProduct(product, files)
-       .subscribe(body => {
-         console.warn(">>" + JSON.stringify(body));
+   updateProduct(product: Product) {
+    this.api.updateProduct(product).subscribe(x => {
+        this._notyf.onSuccess("Товар изменен");
+      },
+      error => {
+        this._notyf.onError("Ошибка: " + JSON.stringify(error));
+      });
+   }
+
+   insertProduct(product: Product) {
+     this.api.insertProduct(product)
+       .subscribe(x => {
+         console.warn(">>" + JSON.stringify(x));
          this._notyf.onSuccess("Товар добавлен");
-         this.router.navigate([`product-edit/${body}`])
+         this.router.navigate([`product-edit/${x.body}`])
        },
        error => {
          this._notyf.onError("Ошибка: " + JSON.stringify(error));
