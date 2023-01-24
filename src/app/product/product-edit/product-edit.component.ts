@@ -134,7 +134,8 @@ export class ProductEditComponent implements OnInit {
     }
   }
 
-  removeImage(index:any){
+  removeImage(image:any){
+    const index = this.imagesView.indexOf(image);
     if (index >= 0) {
       this.imagesView.splice(index, 1);
       this.imagesToUpload.splice(index, 1);
@@ -312,13 +313,19 @@ export class ProductEditComponent implements OnInit {
         return;
       }
     }
-
-    let date = new Date()
-    this.product.updatedAt = date.toISOString();
-
     if (this.imagesToUpload.length > 0) {
       this.uploadPhotos(this.imagesToUpload, this.product.supplierId)
     }
+    let date = new Date()
+    this.product.updatedAt = date.toISOString();
+    for (let i of this.imagesToUpload)
+    {
+      console.log('file',i.name);
+    }
+    for (let i of this.product.localImages) {
+      console.log('sting name', i);
+    }
+
     if (this.product.id != null) {
       this.updateProduct(this.product)
     }
@@ -326,6 +333,8 @@ export class ProductEditComponent implements OnInit {
       this.product.createdAt = date.toISOString();
       this.insertProduct(this.product)
     }
+
+
    }
 
    uploadPhotos(photos:File[], supplierId:string) {

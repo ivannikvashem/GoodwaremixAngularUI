@@ -11,7 +11,7 @@
              [matAutocomplete]="auto" >
       <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onAttributeKeySelected()">
         <mat-option *ngFor="let option of attributesList" [value]="option" >
-           <mat-icon>{{option.fixed ? 'check_circle' : 'radio_button_unchecked'}}</mat-icon> <mat-icon>{{option.etimFeature? 'explicit' : 'crop_square'}}</mat-icon> {{option.nameAttribute}}
+           <mat-icon>{{option.fixed ? 'check_circle' : 'radio_button_unchecked'}}</mat-icon> <mat-icon>{{option.etimFeature? 'explicit' : 'crop_square'}}</mat-icon> {{option.nameAttribute}} <span *ngIf="option.unit && option.fixed">({{option.unit}})</span>
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
