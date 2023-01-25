@@ -47,6 +47,26 @@
               </div>
             </div>
 
+            <pre>
+              <span *ngFor="let i of imagesToUpload; let b = index">
+                {{b}} {{i.name}}
+              </span>
+            </pre>
+
+            local img
+            <pre>
+              <span *ngFor="let i of product.localImages;let b = index">
+                {{b}} {{i}}
+              </span>
+            </pre>
+
+            local thumb
+            <pre>
+              <span *ngFor="let i of product.thumbnails; let b = index">
+                {{b}} {{i}}
+              </span>
+            </pre>
+
 
           </ng-template>
         </mat-tab>

@@ -120,9 +120,9 @@ export class ProductEditComponent implements OnInit {
       let reader = new FileReader();
       if (file.type.includes('image/')) {
         file = new File([file], crypto.randomUUID()+ '.' + file.type.split('image/')[1], {type:file.type});
-        this.imagesToUpload.push(file)
-        this.product.localImages.push(file.name)
-        this.product.thumbnails.push(file.name)
+        this.imagesToUpload.unshift(file)
+        this.product.localImages.unshift(file.name)
+        this.product.thumbnails.unshift(file.name)
         reader.onload = (event:any) => {
           this.imagesView.unshift(event.target.result);
         }
@@ -317,6 +317,14 @@ export class ProductEditComponent implements OnInit {
     }
     let date = new Date()
     this.product.updatedAt = date.toISOString();
+    for (let i of this.imagesToUpload)
+    {
+      console.log('file',i.name);
+    }
+    for (let i of this.product.localImages) {
+      console.log('sting name', i);
+    }
+
     if (this.product.id != null) {
       this.updateProduct(this.product)
     }
