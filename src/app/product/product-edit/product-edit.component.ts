@@ -41,6 +41,7 @@ export class ProductEditComponent implements OnInit {
   product:Product = new Product();
   productId:string = '';
   imagesToUpload:File[] = []
+  preloadImagesView:string[] =[]
   imagesView:string[] =[]
   internalCodeFetching:boolean = true
   // Attr
@@ -71,7 +72,6 @@ export class ProductEditComponent implements OnInit {
               private imgHandler:MissingImageHandler) {}
 
   ngOnInit(): void {
-
     this.productId = this._ActivatedRoute.snapshot.paramMap.get("id");
     if (this.productId) {
       this.api.getProductById(this.productId)
@@ -120,11 +120,11 @@ export class ProductEditComponent implements OnInit {
       let reader = new FileReader();
       if (file.type.includes('image/')) {
         file = new File([file], crypto.randomUUID()+ '.' + file.type.split('image/')[1], {type:file.type});
-        this.imagesToUpload.unshift(file)
-        this.product.localImages.unshift(file.name)
-        this.product.thumbnails.unshift(file.name)
+        this.imagesToUpload.push(file)
+        /*this.product.localImages.push(file.name)
+        this.product.thumbnails.push(file.name)*/
         reader.onload = (event:any) => {
-          this.imagesView.unshift(event.target.result);
+          this.preloadImagesView.push(event.target.result);
         }
         reader.readAsDataURL(file);
       } else { errorCounter += 1;}
@@ -135,13 +135,25 @@ export class ProductEditComponent implements OnInit {
   }
 
   removeImage(index:any){
-    if (index >= 0) {
-      this.imagesView.splice(index, 1);
-      this.imagesToUpload.splice(index, 1);
-      this.product.images.splice(index, 1);
-      this.product.localImages.splice(index, 1);
-      this.product.thumbnails.splice(index, 1);
-    }
+    console.log(index)
+    this.product.localImages.splice(index,1);
+    this.product.thumbnails.splice(index,1);
+    this.product.images.splice(index, 1);
+    this.imagesView.splice(index, 1)
+    //let removed = this.imagesView.find(x => x = i)
+
+
+
+/*    if (this.imagesToUpload.length >= 1 && img) {
+      console.log('not null')
+      this.imagesToUpload = this.imagesToUpload.filter(i => (i.name != img.name))
+    }*/
+  }
+
+  removeUploadedImage(i:any) {
+    console.log(i)
+    this.preloadImagesView.splice(i, 1)
+    this.imagesToUpload.splice(i,1)
   }
 
   addVideo($event: MatChipInputEvent) {
@@ -313,17 +325,15 @@ export class ProductEditComponent implements OnInit {
       }
     }
     if (this.imagesToUpload.length > 0) {
+      for (let i of this.imagesToUpload) {
+        this.product.localImages.push(i.name)
+        this.product.thumbnails.push(i.name)
+      }
       this.uploadPhotos(this.imagesToUpload, this.product.supplierId)
+      this.preloadImagesView = null
     }
     let date = new Date()
     this.product.updatedAt = date.toISOString();
-    for (let i of this.imagesToUpload)
-    {
-      console.log('file',i.name);
-    }
-    for (let i of this.product.localImages) {
-      console.log('sting name', i);
-    }
 
     if (this.product.id != null) {
       this.updateProduct(this.product)
@@ -336,7 +346,7 @@ export class ProductEditComponent implements OnInit {
 
    uploadPhotos(photos:File[], supplierId:string) {
     this.api.uploadFiles(photos, supplierId).subscribe(x => {
-
+      console.log(x)
     })
    }
 

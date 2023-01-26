@@ -40,32 +40,39 @@
               <input #fileInput type="file" multiple="" accept="image/gif, image/jpeg, image/png, image/jpg" (change)="onImageChange($event)" style="display:none;"/>
             </button>
 
-            <div style="max-height: 600px; overflow-y: auto;">
-              <div class="thumbnail" *ngFor="let img of imagesView; let i = index">
-                <img [src]="img" style="object-fit: cover; height:200px; width: 200px;margin-left:10px" (error)="handleMissingImage($event)" class="mat-elevation-z2" (click)="openImageDialog(img)">
-                <button (click)="removeImage(i)" class="mat-elevation-z8">&#x2715;</button>
+            <div class="mat-elevation-z2" style="margin: 10px">
+              <div class="imgContainer" *ngFor="let img of preloadImagesView; let i = index">
+                <img [src]="img" style="object-fit: cover; height:100px; width: 100px;" (error)="handleMissingImage($event)" class="mat-elevation-z2" (click)="openImageDialog(img)">
+                <button (click)="removeUploadedImage(i)">X</button>
               </div>
             </div>
 
-            <pre>
-              <span *ngFor="let i of imagesToUpload; let b = index">
-                {{b}} {{i.name}}
-              </span>
-            </pre>
+          <!--  <div class="imgBox" *ngFor="let img of imagesView; let i = index">
+              <button type="button" class="delete" (click)="removeImage(i)">{{i}}</button>
+              <div class="image">
+                <img [src]="img" style="object-fit: cover; height:200px; width: 200px;margin-left:10px" (error)="handleMissingImage($event)" class="mat-elevation-z2" (click)="openImageDialog(img)">
+              </div>
+            </div>-->
 
-            local img
-            <pre>
-              <span *ngFor="let i of product.localImages;let b = index">
-                {{b}} {{i}}
-              </span>
-            </pre>
+            <div class="box mat-elevation-z2" *ngFor="let img of imagesView; let i = index">
+              <button type="button" class="delete" (click)="removeImage(i)">
+                <span>&times;</span>
+              </button>
+              <div class="image">
+                <img [src]="img" style="object-fit: cover;" (error)="handleMissingImage($event)" class="mat-elevation-z2" (click)="openImageDialog(img)">
+              </div>
+            </div>
 
-            local thumb
-            <pre>
-              <span *ngFor="let i of product.thumbnails; let b = index">
-                {{b}} {{i}}
-              </span>
-            </pre>
+            <div>
+
+
+<!--              <div class="thumbnail" *ngFor="let img of imagesView; let i = index">
+                <img [src]="img" style="object-fit: cover; height:200px; width: 200px;margin-left:10px" (error)="handleMissingImage($event)" class="mat-elevation-z2" (click)="openImageDialog(img)">
+                <button (click)="removeImage(i)" class="mat-elevation-z8">&#x2715;</button>
+              </div>-->
+            </div>
+
+
 
 
           </ng-template>
