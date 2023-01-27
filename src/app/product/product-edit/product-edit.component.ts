@@ -7,7 +7,7 @@ import {MatChipInputEvent} from "@angular/material/chips";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {AttributeProduct} from "../../models/attributeProduct.model";
 import {DataSource} from "@angular/cdk/collections";
-import {Observable, ReplaySubject, startWith} from "rxjs";
+import {debounceTime, distinctUntilChanged, finalize, Observable, ReplaySubject, startWith, switchMap, tap} from "rxjs";
 import {NotificationService} from "../../service/notification-service";
 import {MatTableDataSource} from "@angular/material/table";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -27,6 +27,11 @@ interface Country {
   name?:string
 }
 
+interface FileObject {
+  id:number
+  file:any
+}
+
 @Component({
   selector: 'app-product-edit',
   templateUrl: './product-edit.component.html',
@@ -41,7 +46,7 @@ export class ProductEditComponent implements OnInit {
   product:Product = new Product();
   productId:string = '';
   imagesToUpload:File[] = []
-  preloadImagesView:string[] =[]
+  preloadImagesView:FileObject[] =[]
   imagesView:string[] =[]
   internalCodeFetching:boolean = true
   // Attr
@@ -61,6 +66,8 @@ export class ProductEditComponent implements OnInit {
   countriesList:Country[] = Countries
   searchCountryCtrl = new FormControl<string | any>('')
   filteredCountries: Observable<any[]>
+  brandsList:string[] = []
+  searchBrandCtrl = new FormControl<string>('')
   Math = Math;
   Eps = Number.EPSILON;
 
@@ -84,14 +91,15 @@ export class ProductEditComponent implements OnInit {
             const productCountry = this.countriesList.find(option => option.name.toLowerCase().includes(this.product.country.toLowerCase()) as Country)
             this.searchCountryCtrl.setValue(productCountry as Country)
           }
+          if (this.product.vendor) {
+            this.searchBrandCtrl.setValue(this.product.vendor)
+          }
           this.attrDataSource.setData(this.product.attributes || []);
           this.packDataSource.setData(this.product.packages || []);
           this.documentDataSource.setData(this.product.documents || []);
-          if (this.product.images) {
-            this.product.images.forEach((value) => {this.imagesView.push(value) })
-          }
+
           if (this.product.thumbnails) {
-            this.product.localImages.forEach((value) => {this.imagesView.push(value) })
+            this.product.localImages.forEach((value) => {this.preloadImagesView.push({id: null, file:value})})
           }
         });
     }
@@ -99,6 +107,21 @@ export class ProductEditComponent implements OnInit {
       startWith(''),
       map(value => ( value ? this._filter(value) : this.countriesList.slice())),
       );
+
+    this.searchBrandCtrl.valueChanges.pipe(
+      distinctUntilChanged(),
+      debounceTime(300),
+      tap(() => {
+        //this.isLoading = true;
+      }),
+      switchMap(value => this.api.getBrands(value)
+        .pipe(
+          finalize(() => {
+            //this.isLoading = false
+          }),
+        )
+      )
+    ).subscribe((data: any) => {this.brandsList = data.body; });
   }
   private _filter(value: any): any[] {
     let filterValue = ''
@@ -113,20 +136,21 @@ export class ProductEditComponent implements OnInit {
 
   // Media
   onImageChange(event: any) {
-    let files:File[] = event.target.files
+    let files:any[] = Array.from(event.target.files);
     let errorCounter = 0;
 
-    for (let file of files) {
+    for (let i in files) {
       let reader = new FileReader();
-      if (file.type.includes('image/')) {
-        file = new File([file], crypto.randomUUID()+ '.' + file.type.split('image/')[1], {type:file.type});
-        this.imagesToUpload.push(file)
-        /*this.product.localImages.push(file.name)
-        this.product.thumbnails.push(file.name)*/
-        reader.onload = (event:any) => {
-          this.preloadImagesView.push(event.target.result);
+      if (files[i].type.includes('image/')) {
+        files[i] = new File([files[i]], crypto.randomUUID()+ '.' + files[i].type.split('image/')[1], {type:files[i].type});
+
+        reader.onload = (fl:any) => {
+          this.preloadImagesView.push({id: Number(i), file:fl.target.result})
         }
-        reader.readAsDataURL(file);
+        this.imagesToUpload.push(files[i])
+        this.product.localImages.push(files[i].name)
+        this.product.thumbnails.push(files[i].name)
+        reader.readAsDataURL(files[i]);
       } else { errorCounter += 1;}
     }
     if (errorCounter > 0) {
@@ -134,24 +158,21 @@ export class ProductEditComponent implements OnInit {
     }
   }
 
-  removeImage(index:any){
-    console.log(index)
+  removeImage(index:any, loadedImgIndex:any){
     this.product.localImages.splice(index,1);
     this.product.thumbnails.splice(index,1);
     this.product.images.splice(index, 1);
-    this.imagesView.splice(index, 1)
-    //let removed = this.imagesView.find(x => x = i)
+    this.imagesView.splice(index, 1);
+    this.imagesToUpload.splice(index, 1);
 
-
-
-/*    if (this.imagesToUpload.length >= 1 && img) {
-      console.log('not null')
-      this.imagesToUpload = this.imagesToUpload.filter(i => (i.name != img.name))
-    }*/
+    if (loadedImgIndex) {
+      this.preloadImagesView.splice(loadedImgIndex, 1)
+    } else {
+      this.preloadImagesView.splice(index, 1)
+    }
   }
 
   removeUploadedImage(i:any) {
-    console.log(i)
     this.preloadImagesView.splice(i, 1)
     this.imagesToUpload.splice(i,1)
   }
@@ -325,15 +346,11 @@ export class ProductEditComponent implements OnInit {
       }
     }
     if (this.imagesToUpload.length > 0) {
-      for (let i of this.imagesToUpload) {
-        this.product.localImages.push(i.name)
-        this.product.thumbnails.push(i.name)
-      }
       this.uploadPhotos(this.imagesToUpload, this.product.supplierId)
-      this.preloadImagesView = null
     }
     let date = new Date()
     this.product.updatedAt = date.toISOString();
+    this.product.vendor = this.searchBrandCtrl.value
 
     if (this.product.id != null) {
       this.updateProduct(this.product)

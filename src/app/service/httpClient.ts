@@ -200,6 +200,15 @@ export class ApiClient {
     return this.http.delete<any>(this.apiURL + '/suppliers/' + id, this.httpOptions);
   }
 
+  getBrands(searchQuery: any) {
+    let opt = {
+      params: new HttpParams()
+        .set('searchFilter', searchQuery)
+    }
+    opt = Object.assign(opt, this.httpOptions);
+    return this.http.get(this.apiURL+ '/Suppliers/Brend', opt)
+  }
+
   //#endregion
 
   //#region TASK ENDPOINT
