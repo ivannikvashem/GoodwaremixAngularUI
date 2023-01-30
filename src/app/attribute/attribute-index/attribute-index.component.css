@@ -18,12 +18,6 @@ table {
   text-align: -webkit-center;
   text-align: center;
 }
-.mat-column-supplierName {
-  white-space: unset !important;
-  flex: 0 0 100px !important;
-  width: 100px !important;
-  justify-content: center;
-}
 .mat-column-Rating {
   white-space: unset !important;
   flex: 0 0 100px !important;

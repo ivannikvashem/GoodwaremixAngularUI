@@ -8,11 +8,6 @@
           <button mat-icon-button matTooltip="Fix" (click)="switchFixAttr(row.id, !row.fixed)"><mat-icon>{{row.fixed ? 'check_circle' : 'radio_button_unchecked'}}</mat-icon></button>
         </td>
       </ng-container>
-      <!-- Supp Name Column -->
-      <ng-container matColumnDef="supplierName">
-        <th mat-header-cell *matHeaderCellDef>Пост.</th>
-        <td mat-cell *matCellDef="let row">{{row.supplierName}}</td>
-      </ng-container>
       <!-- etimFeature Column -->
       <ng-container matColumnDef="etimFeature">
         <th mat-header-cell *matHeaderCellDef>ETIM</th>
