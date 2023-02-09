@@ -14,8 +14,6 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {ProductAttributeEditComponent} from "../product-attribute-edit/product-attribute-edit.component";
 import {Package} from "../../models/package.model";
-import {Document} from "../../models/document.model";
-import {ProductDocumentEditComponent} from "../product-document-edit/product-document-edit.component";
 import {ProductPackageEditComponent} from "../product-package-edit/product-package-edit.component";
 import {Countries} from "../../../assets/countriesList"
 import {map} from "rxjs/operators";
@@ -25,11 +23,6 @@ import {ImageDialog} from "../hover-image-slider/hover-image-slider.component";
 interface Country {
   code?:string
   name?:string
-}
-
-interface FileObject {
-  id:number
-  file:any
 }
 
 @Component({
@@ -46,7 +39,7 @@ export class ProductEditComponent implements OnInit {
   product:Product = new Product();
   productId:string = '';
   imagesToUpload:File[] = []
-  preloadImagesView:FileObject[] =[]
+  preloadImagesView:any[] =[]
   imagesView:string[] =[]
   internalCodeFetching:boolean = true
   // Attr
@@ -58,11 +51,7 @@ export class ProductEditComponent implements OnInit {
   dataToDisplayPck:any = [];
   packageColumns: string[] = ['package', 'action'];
   packDataSource = new PackDataSource(this.dataToDisplayPck);
-  // Document
-  dataToDisplayDoc:any = [];
-  documentColumns:string[] = ['title', 'action']
-  documentDataSource = new DocumentDataSource(this.dataToDisplayDoc)
-  //Misc
+
   countriesList:Country[] = Countries
   searchCountryCtrl = new FormControl<string | any>('')
   filteredCountries: Observable<any[]>
@@ -81,49 +70,33 @@ export class ProductEditComponent implements OnInit {
   ngOnInit(): void {
     this.productId = this._ActivatedRoute.snapshot.paramMap.get("id");
     if (this.productId) {
-      this.api.getProductById(this.productId)
-        .subscribe( (s:any) => {
+      this.api.getProductById(this.productId).subscribe( (s:any) => {
           this.product = s.body as Product;
+          if (this.product.thumbnails) {
+            this.product.localImages.forEach((value) => {this.preloadImagesView.push({id: null, file:value})})
+          }
           if (this.product.netto == null) {
             this.product.netto = new Package()
           }
           if (this.product.country) {
-            const productCountry = this.countriesList.find(option => option.name.toLowerCase().includes(this.product.country.toLowerCase()) as Country)
-            this.searchCountryCtrl.setValue(productCountry as Country)
+            this.searchCountryCtrl.setValue(this.countriesList.find(option => option.name.toLowerCase().includes(this.product.country.toLowerCase()) as Country))
           }
           if (this.product.vendor) {
             this.searchBrandCtrl.setValue(this.product.vendor)
           }
           this.attrDataSource.setData(this.product.attributes || []);
           this.packDataSource.setData(this.product.packages || []);
-          this.documentDataSource.setData(this.product.documents || []);
-
-          if (this.product.thumbnails) {
-            this.product.localImages.forEach((value) => {this.preloadImagesView.push({id: null, file:value})})
-          }
         });
     }
     this.filteredCountries = this.searchCountryCtrl.valueChanges.pipe(
       startWith(''),
-      map(value => ( value ? this._filter(value) : this.countriesList.slice())),
-      );
+      map(value => ( value ? this.countryFilter(value) : this.countriesList.slice())));
 
     this.searchBrandCtrl.valueChanges.pipe(
-      distinctUntilChanged(),
-      debounceTime(300),
-      tap(() => {
-        //this.isLoading = true;
-      }),
-      switchMap(value => this.api.getBrands(value)
-        .pipe(
-          finalize(() => {
-            //this.isLoading = false
-          }),
-        )
-      )
-    ).subscribe((data: any) => {this.brandsList = data.body; });
+      distinctUntilChanged(), debounceTime(300),
+      switchMap(value => this.api.getBrands(value))).subscribe((data: any) => {this.brandsList = data.body; });
   }
-  private _filter(value: any): any[] {
+  private countryFilter(value: any): any[] {
     let filterValue = ''
     try { filterValue = value.name.toLowerCase() }
     catch (ex) { filterValue = value.toLowerCase() }
@@ -132,18 +105,17 @@ export class ProductEditComponent implements OnInit {
 
   handleChangeSelectedSupplier(supplier: Supplier) {
     this.selectedSupplier = supplier
+    this.product.supplierId = supplier.id
   }
 
   // Media
   onImageChange(event: any) {
     let files:any[] = Array.from(event.target.files);
     let errorCounter = 0;
-
     for (let i in files) {
       let reader = new FileReader();
       if (files[i].type.includes('image/')) {
-        files[i] = new File([files[i]], self.crypto.randomUUID()+ '.' + files[i].type.split('image/')[1], {type:files[i].type});
-
+        files[i] = new File([files[i]], crypto.randomUUID()+ '.' + files[i].type.split('image/')[1], {type:files[i].type});
         reader.onload = (fl:any) => {
           this.preloadImagesView.push({id: Number(i), file:fl.target.result})
         }
@@ -170,11 +142,6 @@ export class ProductEditComponent implements OnInit {
     } else {
       this.preloadImagesView.splice(index, 1)
     }
-  }
-
-  removeUploadedImage(i:any) {
-    this.preloadImagesView.splice(i, 1)
-    this.imagesToUpload.splice(i,1)
   }
 
   addVideo($event: MatChipInputEvent) {
@@ -210,21 +177,6 @@ export class ProductEditComponent implements OnInit {
   }
 
   // Attribute
-  AddNewRowAttribute() {
-    this.openAttributeEditorDialog();
-  }
-
-  editAttrRow(row:any) {
-    this.openAttributeEditorDialog(row);
-  }
-
-  deleteAttrRow(attrIndex: any) {
-    if (attrIndex >= 0) {
-      this.product.attributes.splice(attrIndex,1)
-    }
-    this.attrDataSource.setData(this.product.attributes || []);
-  }
-
   openAttributeEditorDialog(oldAttribute?:any): void {
     const dialogRef = this.dialog.open(ProductAttributeEditComponent, {
       width: '900px',
@@ -232,15 +184,13 @@ export class ProductEditComponent implements OnInit {
       data: { oldAttribute: oldAttribute, newAttribute: new AttributeProduct() },
       autoFocus:false
     });
-
     dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined) {
         if (this.product.attributes.filter(x => x.value !== result.newAttribute?.value)) {
           if (oldAttribute == undefined) {
             this.product.attributes.push(result.newAttribute as AttributeProduct)
             this.attrDataSource.setData(this.product.attributes || []);
-          }
-          else {
+          } else {
             if (oldAttribute !== result.newAttribute) {
               const target = this.product.attributes.find((obj) => obj.value === oldAttribute.value)
               Object.assign(target, result.newAttribute)
@@ -251,23 +201,17 @@ export class ProductEditComponent implements OnInit {
     });
   }
 
+  deleteAttrRow(attrIndex: any) {
+    if (attrIndex >= 0) {
+      this.product.attributes.splice(attrIndex,1)
+    }
+    this.attrDataSource.setData(this.product.attributes || []);
+  }
+
   // Package
-  addNewPackage() {
-    this.openPackageEditorDialog()
-  }
-
-  editPackageRow(row:any) {
-    this.openPackageEditorDialog(row)
-  }
-
-  deletePackageRow(row:any) {
-    this.product.packages = this.product.packages.filter(dc => (dc != row))
-    this.packDataSource.setData(this.product.packages || []);
-  }
-
   openPackageEditorDialog(oldPackage?:any): void {
     const dialogRef = this.dialog.open(ProductPackageEditComponent, {
-      data: { oldPackage: oldPackage, newPackage: new Package() },
+      data: {oldPackage: oldPackage, newPackage: new Package() },
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -287,43 +231,9 @@ export class ProductEditComponent implements OnInit {
     });
   }
 
-  // Document
-  AddNewDocument() {
-    this.openDocumentEditorDialog()
-  }
-
-  editDocRow(row:any) {
-    this.openDocumentEditorDialog(row)
-  }
-
-  deleteDocRow(row:any) {
-    this.product.documents = this.product.documents.filter(dc => (dc != row))
-    this.documentDataSource.setData(this.product.documents || []);
-  }
-
-  openDocumentEditorDialog(oldDocument?:any): void {
-    const dialogRef = this.dialog.open(ProductDocumentEditComponent, {
-      width: '900px',
-      height: '600px',
-      data: { oldDocument: oldDocument, newDocument: new Document() },
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result != undefined) {
-        if (this.product.documents.filter(x => x !== result?.newDocument)) {
-          if (oldDocument == undefined) {
-            this.product.documents.unshift(result.newDocument as Document)
-            this.documentDataSource.setData(this.product.documents || []);
-          }
-          else {
-            if (oldDocument !== result.newDocument) {
-              const target = this.product.documents.find((obj) => obj === oldDocument)
-              Object.assign(target, result.newDocument)
-            }
-          }
-        }
-      }
-    });
+  deletePackageRow(row:any) {
+    this.product.packages = this.product.packages.filter(dc => (dc != row))
+    this.packDataSource.setData(this.product.packages || []);
   }
 
   submitProduct() {
@@ -345,26 +255,24 @@ export class ProductEditComponent implements OnInit {
         return;
       }
     }
+    console.log(this.imagesToUpload.length)
     if (this.imagesToUpload.length > 0) {
       this.uploadPhotos(this.imagesToUpload, this.product.supplierId)
     }
-    let date = new Date()
-    this.product.updatedAt = date.toISOString();
+    this.product.updatedAt = new Date().toISOString();
     this.product.vendor = this.searchBrandCtrl.value
-
+    console.log(this.product)
     if (this.product.id != null) {
       this.updateProduct(this.product)
     }
     else if (this.product.id == null) {
-      this.product.createdAt = date.toISOString();
+      this.product.createdAt = new Date().toISOString();
       this.insertProduct(this.product)
     }
    }
 
    uploadPhotos(photos:File[], supplierId:string) {
-    this.api.uploadFiles(photos, supplierId).subscribe(x => {
-      console.log(x)
-    })
+    this.api.uploadPhoto(photos, supplierId).subscribe()
    }
 
    updateProduct(product: Product) {
@@ -378,7 +286,6 @@ export class ProductEditComponent implements OnInit {
 
    insertProduct(product: Product) {
      this.api.insertProduct(product).subscribe(x => {
-         console.warn(">>" + JSON.stringify(x));
          this._notyf.onSuccess("Товар добавлен");
          this.router.navigate([`product-edit/${x.body}`])
        },
@@ -404,7 +311,6 @@ export class ProductEditComponent implements OnInit {
         this.internalCodeFetching = true
       },
       error => {
-        console.log("updateSupplierError: " + JSON.stringify(error));
         this._notyf.onError("Ошибка: " + JSON.stringify(error.error));
         this.internalCodeFetching = true
       });
@@ -416,14 +322,12 @@ export class ProductEditComponent implements OnInit {
   }
 
   openImageDialog(image: string) {
-    let dialogBoxSettings = {
-      margin: '0 auto',
-      hasBackdrop: true,
-      data: {
-        src: image.replace("", ""),
-      }
-    };
+    let dialogBoxSettings = {margin: '0 auto', hasBackdrop: true, data: { src: image.replace("", "")}};
     this.dialog.open(ImageDialog, dialogBoxSettings);
+  }
+
+  onDocumentsChanged(documents: string[]) {
+    this.product.documents = documents
   }
 }
 
@@ -454,21 +358,6 @@ class PackDataSource extends DataSource<Package> {
   }
   disconnect() {}
   setData(data: Package[]) {
-    this._dataStream.next(data);
-  }
-}
-
-class DocumentDataSource extends DataSource<Document> {
-  private _dataStream = new ReplaySubject<Document[]>();
-  constructor(initialData: Document[]) {
-    super();
-    this.setData(initialData);
-  }
-  connect(): Observable<Document[]> {
-    return this._dataStream;
-  }
-  disconnect() {}
-  setData(data: Document[]) {
     this._dataStream.next(data);
   }
 }

@@ -10,11 +10,7 @@
   display: flex;
   justify-content: space-between;
 }
-.information{
-  text-align: center;
-  margin: 0;
-  height: 40px;
-}
+
 .full-width {
   width: 100%;
 }
@@ -24,3 +20,27 @@
   display: flex;
   justify-content: space-between
 }
+
+.header-div {
+  display: flex;
+  justify-content: space-between;}
+
+:host::ng-deep .mat-tab-header {
+  display: none!important;
+}
+
+mat-chip {
+  max-width: 840px;
+}
+
+/*
+:host ::ng-deep .mat-tab-body-wrapper {
+  height: 600px;
+}
+*/
+
+/*
+:host ::ng-deep .mat-tab-body.mat-tab-body-active {
+  height: auto;
+}
+*/

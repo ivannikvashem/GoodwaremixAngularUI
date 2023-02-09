@@ -36,6 +36,8 @@ import { ProductComponent } from './product.component';
 import { ImagePreviewDialogComponent } from './image-preview-dialog/image-preview-dialog.component';
 import { AttributeFilterComponent } from './attribute-filter/attribute-filter.component';
 import { ProductIcFilterSwitchComponent } from './product-ic-filter-switch/product-ic-filter-switch.component';
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import { ProductDocumentListComponent } from './product-document-list/product-document-list.component';
 
 @NgModule({
   declarations: [
@@ -52,34 +54,36 @@ import { ProductIcFilterSwitchComponent } from './product-ic-filter-switch/produ
     ImagePreviewDialogComponent,
     AttributeFilterComponent,
     ProductIcFilterSwitchComponent,
+    ProductDocumentListComponent,
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatInputModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatTableModule,
-    MatButtonModule,
-    MatIconModule,
-    MatButtonToggleModule,
-    MatFormFieldModule,
-    MatCardModule,
-    MatExpansionModule,
-    MatChipsModule,
-    MatTooltipModule,
-    ReactiveFormsModule,
-    NgxBarcodeModule,
-    MatTabsModule,
-    MatMenuModule,
-    MatDialogModule,
-    SharedModule,
-    MatDatepickerModule,
-    MatAutocompleteModule,
-    MatSelectModule,
-    MatListModule,
-    MatProgressSpinnerModule,
-    RouterModule
-  ]
+    imports: [
+        CommonModule,
+        FormsModule,
+        MatInputModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatTableModule,
+        MatButtonModule,
+        MatIconModule,
+        MatButtonToggleModule,
+        MatFormFieldModule,
+        MatCardModule,
+        MatExpansionModule,
+        MatChipsModule,
+        MatTooltipModule,
+        ReactiveFormsModule,
+        NgxBarcodeModule,
+        MatTabsModule,
+        MatMenuModule,
+        MatDialogModule,
+        SharedModule,
+        MatDatepickerModule,
+        MatAutocompleteModule,
+        MatSelectModule,
+        MatListModule,
+        MatProgressSpinnerModule,
+        RouterModule,
+        MatCheckboxModule
+    ]
 })
 export class ProductModule { }

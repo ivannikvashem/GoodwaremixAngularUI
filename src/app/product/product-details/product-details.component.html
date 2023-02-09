@@ -89,7 +89,7 @@
     <mat-card style="margin-top: 10px;" *ngIf="product.documents && product.documents.length > 0">
       <mat-card-subtitle><h2>Документы</h2></mat-card-subtitle>
       <mat-list>
-        <mat-list-item *ngFor="let d of product.documents" style="height: auto">
+        <mat-list-item *ngFor="let d of productDocuments" style="height: auto">
           <div mat-line><strong *ngIf="d.type">{{d.type}}</strong> <strong *ngIf="!d.type">Документ</strong> <span style="font-style: italic" *ngIf="d.startDate !== '0001-01-01T00:00:00Z' || d.endDate !== '0001-01-01T00:00:00Z'">  ({{d.startDate | date:'dd-MM-yyyy'}} - {{d.endDate | date:'dd-MM-yyyy'}})</span></div>
           <div mat-line>{{d.certTitle}}</div>
           <a mat-icon-button *ngIf="d.url.length > 0" style="color:black" href="{{d.url}}" target="_blank"><mat-icon>download</mat-icon></a>

@@ -7,11 +7,14 @@ import {MatInputModule} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
+import {DocumentComponent} from "../document/document.component";
+import {MatTableModule} from "@angular/material/table";
 
 @NgModule({
-  declarations: [
-    SupplierAutocompleteComponent,
-  ],
+    declarations: [
+        SupplierAutocompleteComponent,
+        DocumentComponent,
+    ],
   imports: [
     CommonModule,
     MatAutocompleteModule,
@@ -19,10 +22,12 @@ import {MatButtonModule} from "@angular/material/button";
     MatInputModule,
     ReactiveFormsModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatTableModule
   ],
-  exports: [
-    SupplierAutocompleteComponent
-  ]
+    exports: [
+        SupplierAutocompleteComponent,
+        DocumentComponent
+    ]
 })
 export class SharedModule { }

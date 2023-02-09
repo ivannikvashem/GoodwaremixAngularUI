@@ -5,7 +5,7 @@ export class Document {
   url: string[] = []
   certTitle: string
   certNumber: string
-  file: string
+  files: string[] = []
   certOrganizNumber: string
   certOrganizDescr: string
   startDate: Date

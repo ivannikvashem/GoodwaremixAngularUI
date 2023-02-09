@@ -20,7 +20,7 @@ export class Product {
   images: string[];
   thumbnails: string[];
   localImages: string[];
-  documents: Document[];
+  documents: string[];
   image360: string;
   videos: string[];
   attributes: AttributeProduct[];
@@ -34,7 +34,7 @@ export class Product {
     this.images = []
     this.thumbnails = []
     this.localImages = []
-    this.documents = [] as Document[]
+    this.documents = []
     this.videos = []
     this.attributes = [] as AttributeProduct[]
   }

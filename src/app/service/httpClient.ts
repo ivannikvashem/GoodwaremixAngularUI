@@ -247,19 +247,19 @@ export class ApiClient {
 
   //#endregion
 
-  //fileUpload
-  uploadFiles(files: File[], supplierId:string): Observable<any> {
+  //uploadPhoto
+  uploadPhoto(files: File[], supplierId:string): Observable<any> {
+    console.log(files)
     let formData = new FormData();
     for (const photo of files) {
       formData.append('files', photo)
     }
-    return this.http.post(this.apiURL + '/files/'+supplierId, formData, {headers:{"ContentType": "multipart/form-data"}})
+    return this.http.post(this.apiURL + '/files/images/'+supplierId, formData, {headers:{"ContentType": "multipart/form-data"}})
   }
   //
   // getFiles(): Observable<any> {
   //   return this.http.get(`${this.apiURL}/files`);
   // }
-
 
   // DOWNLOAD FILE ENDPOINT
   downloadTableFile(table:string, supplierId:string) {
@@ -284,7 +284,6 @@ export class ApiClient {
   checkImageStatusCode(url:string) {
     return this.http.get(url)
   }
-
 
   //#region User ENDPOINT
   getUsers(pageIndex: number, pageSize: number, sortField: string, sortDirection: string): Observable<any> {
@@ -318,6 +317,31 @@ export class ApiClient {
 
   deleteUser(id: string) {
     return this.http.delete(this.apiURL + '/users/' + id, this.httpOptions);
+  }
+  //#endregion
+
+  //#region Document ENDPOINT
+  getDocumentById(id:string): Observable<any> {
+    return this.http.get(this.apiURL + '/documents?documetId=' + id, this.httpOptions);
+  }
+  addDocument(document:any): Observable<any> {
+    return this.http.post(this.apiURL + '/documents/', document, this.httpOptions);
+  }
+
+  updateDocument(document:any): Observable<any> {
+    return this.http.put(this.apiURL + '/documents/', document, this.httpOptions);
+  }
+
+  deleteDocument(id:string) {
+    return this.http.delete(this.apiURL + '/documents/' + id, this.httpOptions);
+  }
+
+  uploadDocument(files: File[], supplierId:string): Observable<any> {
+    let formData = new FormData();
+    for (const doc of files) {
+      formData.append('files', doc)
+    }
+    return this.http.post(this.apiURL + '/files/documents/'+supplierId, formData, {headers:{"ContentType": "multipart/form-data"}})
   }
   //#endregion
 }

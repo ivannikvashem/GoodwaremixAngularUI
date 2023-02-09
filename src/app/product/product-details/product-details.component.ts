@@ -10,6 +10,7 @@ import {Attribute} from "../../models/attribute.model";
 import {MatDialog} from "@angular/material/dialog";
 import {NotificationService} from "../../service/notification-service";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/shared/confirm-dialog/confirm-dialog.component";
+import {Document} from "../../models/document.model";
 
 @Component({
   selector: 'app-product-details',
@@ -27,6 +28,7 @@ export class ProductDetailsComponent implements OnInit {
   safeImg360Url: SafeResourceUrl | undefined
   remoteAndLocalImg:string[] = []
   isDelBtnDisabled:boolean = false
+  productDocuments:Document[] = []
 
   constructor(
     private api: ApiClient,
@@ -52,6 +54,13 @@ export class ProductDetailsComponent implements OnInit {
         this.safeImg360Url = this._sanitizer.bypassSecurityTrustResourceUrl(this.product.image360)
         if (this.product.images) { this.product.images.forEach((value:any) => {this.remoteAndLocalImg.push(value)})}
         if (this.product.localImages) { this.product.localImages.forEach((value:any) => {this.remoteAndLocalImg.push(value)})}
+        if (this.product.documents) {
+          for (let i of this.product.documents) {
+            this.api.getDocumentById(i).subscribe(x => {
+              this.productDocuments.push(x);
+            })
+          }
+        }
       }
     );
   }

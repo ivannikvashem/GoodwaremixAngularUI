@@ -1,0 +1,24 @@
+<table mat-table [dataSource]="documentDataSource" class="mat-elevation-z8; form-full-width" style="display: table">
+  <!-- title Column -->
+  <ng-container matColumnDef="title" class="full-width">
+    <th mat-header-cell *matHeaderCellDef> Документ </th>
+    <td mat-cell *matCellDef="let row">
+      <div mat-line><strong>{{row.type}}</strong> <span style="font-style: italic">  ({{row.startDate | date:'dd-MM-yyyy'}} - {{row.endDate | date:'dd-MM-yyyy'}})</span></div>
+      <div mat-line><small>{{row.certTitle}}</small></div>
+    </td>
+  </ng-container>
+  <!-- actions Column -->
+  <ng-container matColumnDef="action" class="full-width">
+    <th mat-header-cell *matHeaderCellDef>
+      <button mat-icon-button (click)="openDocumentEditorDialog()"><mat-icon>add</mat-icon></button>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <a mat-icon-button *ngIf="row.url.length > 0" style="color:black" href="{{row.url}}" target="_blank"><mat-icon>download</mat-icon></a>&nbsp;
+      <button mat-icon-button matTooltip="Редактировать" (click)="openDocumentEditorDialog(row)"><mat-icon>edit</mat-icon></button>&nbsp;
+      <button mat-icon-button matTooltip="Удалить" (click)="deleteDocRow(row)"><mat-icon>delete</mat-icon></button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="documentColumns; sticky: true" ></tr>
+  <tr mat-row *matRowDef="let row; columns: documentColumns;"></tr>
+</table>
