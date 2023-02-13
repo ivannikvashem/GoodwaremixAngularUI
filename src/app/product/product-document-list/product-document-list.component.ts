@@ -59,7 +59,7 @@ export class ProductDocumentListComponent implements OnInit {
                 Object.assign(target, result.newDocument)
               }
             }
-            this.documentList.emit(this.documentsView.map(x => x.id))
+            this.documentList.next(this.documentsView.map(x => x.id))
           }
         }
       });

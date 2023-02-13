@@ -1,5 +1,4 @@
 import {AttributeProduct} from "./attributeProduct.model";
-import {Document} from "./document.model";
 import {Package} from "./package.model";
 
 export class Product {
