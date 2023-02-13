@@ -160,7 +160,8 @@ export class SupplierEditComponent implements OnInit {
   }
 
   submitSupplier() {
-    let supplier = this.supplier
+    let supplier = JSON.parse(JSON.stringify(this.supplier))
+
     for (let config of supplier.supplierConfigs) {
       if (config.sourceSettings.header != undefined && config.sourceSettings.header.length > 0) {
         for (let header of config.sourceSettings.header) {
@@ -171,6 +172,7 @@ export class SupplierEditComponent implements OnInit {
         config.sourceSettings.header = null
       }
     }
+
     if (supplier.id == undefined || supplier.id == null) {
       this.api.insertSupplier(supplier).subscribe( x => {
           this._notyf.onSuccess("Конфигурация добавлена");
@@ -197,10 +199,6 @@ export class SupplierEditComponent implements OnInit {
           this._notyf.onError("Ошибка: " + JSON.stringify(error));
         });
     }
-      for (let config of supplier.supplierConfigs) {                                                //todo  <- shit way, need to be fixed
-        config.sourceSettings.header = JSON.parse(config.sourceSettings.header) as HeaderModel
-      }
-
   }
 
   addNewAttr() {

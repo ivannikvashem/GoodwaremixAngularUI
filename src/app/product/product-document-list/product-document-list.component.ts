@@ -41,12 +41,13 @@ export class ProductDocumentListComponent implements OnInit {
   openDocumentEditorDialog(oldDocument?:any): void {
     if (this.supplierId) {
       const dialogRef = this.dialog.open(ProductDocumentEditComponent, {
-        width: '950px',
+        width: '1200px',
+        height: '600px',
         autoFocus: false,
         data: {supplierId:this.supplierId, oldDocument: oldDocument, newDocument: new Document() },
       });
       dialogRef.afterClosed().subscribe(result => {
-        if (result != undefined) {
+        if (result != undefined && result != '') {
           console.log(result)
           if (this.documentsView.filter(x => x !== result?.newDocument)) {
             if (oldDocument == undefined) {

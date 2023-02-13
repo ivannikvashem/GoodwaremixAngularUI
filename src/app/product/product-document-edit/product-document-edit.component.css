@@ -33,14 +33,24 @@ mat-chip {
   max-width: 840px;
 }
 
-/*
-:host ::ng-deep .mat-tab-body-wrapper {
-  height: 600px;
+:host::ng-deep .mat-dialog-content {
+  overflow: unset;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
 }
-*/
+:host::ng-deep .mat-dialog-content app-product-document-edit {
+  display: flex;
+  flex-direction: column;
+  min-height: 1px;
+}
 
-/*
-:host ::ng-deep .mat-tab-body.mat-tab-body-active {
-  height: auto;
+.row {
+  display: flex;
+  width: 100%;
 }
-*/
+
+.column {
+  margin: 5px;
+  flex: 50%;
+}
