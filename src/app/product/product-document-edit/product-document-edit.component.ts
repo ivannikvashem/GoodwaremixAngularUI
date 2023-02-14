@@ -98,7 +98,7 @@ export class ProductDocumentEditComponent implements OnInit {
         const oldFileName = file.name
         file = new File([file], crypto.randomUUID()+ '.' + this.mimeExt.find(x => x.mime == file.type).type, {type:file.type});
         reader.onload = (fl:any) => {
-          this.preloadDocumentsView.push({id:i+=1, fileContent:fl.target.result, newName:file.name, oldName:oldFileName, size:file.size})
+          this.preloadDocumentsView.push({id:i+=1, fileContent:file, newName:file.name, oldName:oldFileName, size:file.size})
         }
         reader.readAsDataURL(file);
       } else { errorCounter += 1;}
@@ -124,6 +124,7 @@ export class ProductDocumentEditComponent implements OnInit {
 
       this.preloadDocumentsView.forEach((value) => {
         if (value.oldName && value != null) {
+          console.log(value)
           this.documentsToUpload.push(value.fileContent);
         }
         if (value.newName != null) {
@@ -138,9 +139,11 @@ export class ProductDocumentEditComponent implements OnInit {
         })
       } else {
         this.api.addDocument(this.data.newDocument).subscribe(x => {
+          console.log(x)
           this.data.newDocument.id = x.body
         })
       }
+      console.log(this.data.newDocument.id)
       this.api.uploadDocument(this.documentsToUpload, this.data.supplierId).subscribe(x => {
         console.log(x)
       })

@@ -59,7 +59,9 @@ export class ProductDocumentListComponent implements OnInit {
                 Object.assign(target, result.newDocument)
               }
             }
-            this.documentList.next(this.documentsView.map(x => x.id))
+            if (result.newDocument.id != undefined) {
+              this.documentList.next(this.documentsView.map(x => x.id))
+            }
           }
         }
       });

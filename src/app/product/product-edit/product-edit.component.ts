@@ -255,7 +255,6 @@ export class ProductEditComponent implements OnInit {
         return;
       }
     }
-    console.log(this.imagesToUpload.length)
     if (this.imagesToUpload.length > 0) {
       this.uploadPhotos(this.imagesToUpload, this.product.supplierId)
     }
@@ -328,6 +327,14 @@ export class ProductEditComponent implements OnInit {
 
   onDocumentsChanged(documents: string[]) {
     console.log(documents)
+/*
+    for (let doc of documents) {
+      if (doc != undefined || doc != null) {
+        this.product.documents = []
+        this.product.documents.push(doc)
+      }
+    }
+*/
     this.product.documents = documents
     console.log(this.product.documents)
   }
