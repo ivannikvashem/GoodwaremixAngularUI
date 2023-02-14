@@ -133,23 +133,27 @@ export class ProductDocumentEditComponent implements OnInit {
       })
 
       if (this.data.oldDocument != undefined) {
-        this.data.newDocument.id = this.data.oldDocument.id
-        this.api.updateDocument(this.data.newDocument).subscribe(x => {
-
-        })
+        this.updateDocument(this.data.newDocument)
       } else {
-        this.api.addDocument(this.data.newDocument).subscribe(x => {
-          console.log(x)
-          this.data.newDocument.id = x.body
-        })
+        this.insertDocument(this.data.newDocument)
       }
-      console.log(this.data.newDocument.id)
-      this.api.uploadDocument(this.documentsToUpload, this.data.supplierId).subscribe(x => {
-        console.log(x)
-      })
+      this.api.uploadDocument(this.documentsToUpload, this.data.supplierId).subscribe()
     }
   }
 
+  insertDocument(newDocument:Document) {
+    this.api.addDocument(newDocument).subscribe(x => {
+      this.data.newDocument.id = x.body
+    })
+  }
+
+  updateDocument(document:Document) {
+    this.data.newDocument.id = this.data.oldDocument.id
+    this.api.updateDocument(document).subscribe(x => {
+    })
+  }
+
   onCancelClick() {
+    this.dialogRef.close()
   }
 }

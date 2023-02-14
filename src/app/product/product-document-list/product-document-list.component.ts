@@ -31,6 +31,7 @@ export class ProductDocumentListComponent implements OnInit {
     if (this.document) {
       for (let i of this.document) {
         this.api.getDocumentById(i).subscribe((response) => {
+          if (response.status == 200)
             this.documentsView.push(response.body)
             this.documentDataSource.setData(this.documentsView || []);
           })
@@ -59,9 +60,8 @@ export class ProductDocumentListComponent implements OnInit {
                 Object.assign(target, result.newDocument)
               }
             }
-            if (result.newDocument.id != undefined) {
-              this.documentList.next(this.documentsView.map(x => x.id))
-            }
+            console.log('----------------',result.newDocument.id)
+            this.documentList.next(this.documentsView.map(x => x.id))
           }
         }
       });
