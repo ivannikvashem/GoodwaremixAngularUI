@@ -37,6 +37,11 @@ export class ProductDocumentListComponent implements OnInit {
           })
       }
     }
+
+    this.documentList.subscribe( x => {
+      console.log('event emmiter', x)
+      //this.documentList.emit(x)
+    })
   }
 
   openDocumentEditorDialog(oldDocument?:any): void {
@@ -61,7 +66,8 @@ export class ProductDocumentListComponent implements OnInit {
               }
             }
             console.log('----------------',result.newDocument.id)
-            this.documentList.next(this.documentsView.map(x => x.id))
+
+            setTimeout(() => { this.documentList.next( this.documentsView.map(x => x.id))}, 1000)
           }
         }
       });
