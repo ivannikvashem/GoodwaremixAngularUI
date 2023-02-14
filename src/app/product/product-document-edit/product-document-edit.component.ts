@@ -124,33 +124,45 @@ export class ProductDocumentEditComponent implements OnInit {
 
       this.preloadDocumentsView.forEach((value) => {
         if (value.oldName && value != null) {
-          console.log(value)
           this.documentsToUpload.push(value.fileContent);
         }
         if (value.newName != null) {
           this.data.newDocument.files.push(value.newName)
         }
       })
+      this.uploadDocumentFiles()
 
       if (this.data.oldDocument != undefined) {
         this.updateDocument(this.data.newDocument)
       } else {
         this.insertDocument(this.data.newDocument)
       }
-      this.api.uploadDocument(this.documentsToUpload, this.data.supplierId).subscribe()
+
+
     }
   }
 
   insertDocument(newDocument:Document) {
-    this.api.addDocument(newDocument).subscribe(x => {
+/*    this.api.addDocument(newDocument).subscribe(x => {
       this.data.newDocument.id = x.body
-    })
+    })*/
+
+    this.api.addDocument(newDocument).subscribe((x:any) => {
+      this.data.newDocument.id = x.body
+      })
   }
 
   updateDocument(document:Document) {
     this.data.newDocument.id = this.data.oldDocument.id
-    this.api.updateDocument(document).subscribe(x => {
+    this.api.updateDocument(document).subscribe(() => {
+      if (this.documentsToUpload) {
+        this.uploadDocumentFiles()
+      }
     })
+  }
+
+  uploadDocumentFiles() {
+    this.api.uploadDocument(this.documentsToUpload, this.data.supplierId).subscribe()
   }
 
   onCancelClick() {

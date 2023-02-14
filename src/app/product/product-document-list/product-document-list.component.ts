@@ -37,11 +37,6 @@ export class ProductDocumentListComponent implements OnInit {
           })
       }
     }
-
-    this.documentList.subscribe( x => {
-      console.log('event emmiter', x)
-      //this.documentList.emit(x)
-    })
   }
 
   openDocumentEditorDialog(oldDocument?:any): void {
@@ -54,20 +49,19 @@ export class ProductDocumentListComponent implements OnInit {
       });
       dialogRef.afterClosed().subscribe(result => {
         if (result != undefined && result != '') {
-          console.log(result)
           if (this.documentsView.filter(x => x !== result?.newDocument)) {
             if (oldDocument == undefined) {
-              this.documentsView.push(result.newDocument as Document)
-              this.documentDataSource.setData(this.documentsView || []);
+              setTimeout(() => {
+                this.documentsView.push(result.newDocument as Document)
+                this.documentDataSource.setData(this.documentsView || []);
+                this.documentList.next( this.documentsView.map(x => x.id))
+              },200)
             } else {
               if (oldDocument !== result.newDocument) {
                 const target = this.documentsView.find((obj) => obj === oldDocument)
                 Object.assign(target, result.newDocument)
               }
             }
-            console.log('----------------',result.newDocument.id)
-
-            setTimeout(() => { this.documentList.next( this.documentsView.map(x => x.id))}, 1000)
           }
         }
       });

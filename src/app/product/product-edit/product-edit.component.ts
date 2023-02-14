@@ -326,17 +326,7 @@ export class ProductEditComponent implements OnInit {
   }
 
   onDocumentsChanged(documents: string[]) {
-    console.log(documents)
-/*
-    for (let doc of documents) {
-      if (doc != undefined || doc != null) {
-        this.product.documents = []
-        this.product.documents.push(doc)
-      }
-    }
-*/
     this.product.documents = documents
-    console.log(this.product.documents)
   }
 }
 
