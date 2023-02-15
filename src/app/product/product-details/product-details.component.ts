@@ -57,7 +57,7 @@ export class ProductDetailsComponent implements OnInit {
         if (this.product.documents) {
           for (let i of this.product.documents) {
             this.api.getDocumentById(i).subscribe(x => {
-              this.productDocuments.push(x);
+              this.productDocuments.push(x.body);
             })
           }
         }
