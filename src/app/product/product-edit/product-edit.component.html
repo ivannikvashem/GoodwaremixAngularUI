@@ -1,6 +1,6 @@
 <div class="mat-headline">
   <span>{{productId == undefined ? "Добавление нового товара" : "Редактирование товара"}}</span>
-  <span *ngIf="selectedSupplier?.supplierName"> поставщика {{selectedSupplier.supplierName}}</span>
+  <span *ngIf="product?.supplierName"> поставщика {{product.supplierName}}</span>
   <div style="float:right; margin-right: 10px">
     <button mat-flat-button color="primary" (click)="submitProduct()" [disabled]="!product.vendorId || !product.title"> Сохранить </button>
   </div>
@@ -90,10 +90,10 @@
       <mat-tab-group animationDuration="0ms">
         <mat-tab  label="О товаре">
           <ng-template matTabContent>
-            <div *ngIf="!product?.supplierName">
+            <div *ngIf="!product.id">
               <app-supplier-autocomplete *ngIf="isSupplierSingle == false" (isSingle)="isSupplierSingle = $event" class="full-width" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
             </div>
-            <mat-form-field *ngIf="product?.supplierName" appearance="fill" class="full-width">
+            <mat-form-field *ngIf="product?.supplierName && product.id" appearance="fill" class="full-width">
               <mat-label>Поставщик</mat-label>
               <input matInput [value]="product.supplierName" disabled>
             </mat-form-field>

@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ProductDocumentEditComponent} from "../product-document-edit/product-document-edit.component";
 import {Document} from "../../models/document.model";
 import {DataSource} from "@angular/cdk/collections";
-import {finalize, Observable, ReplaySubject, tap} from "rxjs";
+import {Observable, ReplaySubject} from "rxjs";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatDialog} from "@angular/material/dialog";
 import {NotificationService} from "../../service/notification-service";
@@ -29,13 +29,15 @@ export class ProductDocumentListComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.document) {
-      for (let i of this.document) {
-        this.api.getDocumentById(i).subscribe((response) => {
-          if (response.status == 200)
-            this.documentsView.push(response.body)
-            this.documentDataSource.setData(this.documentsView || []);
-          })
-      }
+      this.api.getDocumentsById(this.document).subscribe((response) => {
+        if (response.status == 200)
+          if (response.body.length > 0) {
+            for (let i of response.body) {
+              this.documentsView.push(i)
+            }
+          }
+          this.documentDataSource.setData(this.documentsView || []);
+        })
     }
   }
 
@@ -43,7 +45,6 @@ export class ProductDocumentListComponent implements OnInit {
     if (this.supplierId) {
       const dialogRef = this.dialog.open(ProductDocumentEditComponent, {
         width: '1200px',
-        height: '600px',
         autoFocus: false,
         data: {supplierId:this.supplierId, oldDocument: oldDocument, newDocument: new Document() },
       });
@@ -51,6 +52,7 @@ export class ProductDocumentListComponent implements OnInit {
         if (result != undefined && result != '') {
           if (this.documentsView.filter(x => x !== result?.newDocument)) {
             if (oldDocument == undefined) {
+              console.log(result)
               setTimeout(() => {
                 this.documentsView.push(result.newDocument as Document)
                 this.documentDataSource.setData(this.documentsView || []);

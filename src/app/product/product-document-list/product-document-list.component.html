@@ -13,7 +13,7 @@
       <button mat-icon-button (click)="openDocumentEditorDialog()"><mat-icon>add</mat-icon></button>
     </th>
     <td mat-cell *matCellDef="let row">
-      <a mat-icon-button *ngIf="row.url.length > 0" style="color:black" href="{{row.url}}" target="_blank"><mat-icon>download</mat-icon></a>&nbsp;
+      <a mat-icon-button *ngIf="row.url" style="color:black" href="{{row.url}}" target="_blank"><mat-icon>download</mat-icon></a>&nbsp;
       <button mat-icon-button matTooltip="Редактировать" (click)="openDocumentEditorDialog(row)"><mat-icon>edit</mat-icon></button>&nbsp;
       <button mat-icon-button matTooltip="Удалить" (click)="deleteDocRow(row)"><mat-icon>delete</mat-icon></button>
     </td>

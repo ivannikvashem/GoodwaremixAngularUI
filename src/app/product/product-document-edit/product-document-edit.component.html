@@ -11,69 +11,45 @@
     <mat-tab *ngIf="!data.oldDocument">
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Поиск</mat-label>
-        <input matInput>
+        <input matInput [formControl]="searchQueryCtrl" (keydown.enter)="searchQueryChanged(searchQueryCtrl.value)">
+        <button *ngIf="searchQueryCtrl.value" matSuffix mat-icon-button aria-label="Clear" (click)="searchQueryCtrl.setValue(''); searchQueryChanged('')">
+          <mat-icon>close</mat-icon>
+        </button>
       </mat-form-field>
 
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
-      ** Таблица с документами и их выбор **
+      <cdk-virtual-scroll-viewport appendOnly itemSize="50" class="example-viewport">
+        <div *cdkVirtualFor="let doc of documentsList" class="example-item">
+          <mat-card class="box mat-elevation-z2">
+
+            <div class="row">
+              <div class="column">
+                <img src="https://material.angular.io/assets/img/examples/shiba2.jpg" style="height: 80px; width: 150px">
+              </div>
+
+              <div class="center-column">
+                <mat-card-title>{{doc.type}}</mat-card-title>
+                <mat-card-subtitle><strong>№ {{doc.certNumber}}</strong><span style="font-style: italic">  ({{doc.startDate | date:'dd-MM-yyyy'}} - {{doc.endDate | date:'dd-MM-yyyy'}})</span></mat-card-subtitle>
+              </div>
+
+              <div class="column">
+                <mat-card-actions align="end">
+                  <a mat-icon-button *ngIf="doc.url" style="color:black" href="{{doc.url}}" target="_blank"><mat-icon>remove_red_eye</mat-icon></a>
+                  <button mat-flat-button color="primary" [mat-dialog-close]="data" (click)="data.newDocument = doc">Добавить</button>
+                </mat-card-actions>
+              </div>
+            </div>
+
+
+          </mat-card>
+        </div>
+      </cdk-virtual-scroll-viewport>
+
+
 
     </mat-tab>
     <mat-tab>
 
-      <div class="row">
-        <div class="column">
+
           <form [formGroup]="form" (ngSubmit)="onSubmitClick()">
             <mat-form-field appearance="fill" class="full-width">
               <mat-label>Название</mat-label>
@@ -114,50 +90,36 @@
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="full-width">
-              <mat-label>Ссылки</mat-label>
-              <mat-chip-list #chipList>
-                <mat-chip *ngFor="let url of urlList" (removed)="removeUrl(url)">
-                  {{url}}
-                  <button matChipRemove>
-                    <mat-icon>cancel</mat-icon>
-                  </button>
-                </mat-chip>
-                <input [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addUrl($event)" required>
-              </mat-chip-list>
-            </mat-form-field>
+              <mat-label>Ссылка</mat-label>
+              <input matInput formControlName="url" name="url">
+            </mat-form-field>&nbsp;
+
           </form>
-        </div>
-        <div class="column">
-          <mat-card style="height: 90%">
-            <mat-card-title>
 
-              <button mat-button (click)="fileInput.value= ''; fileInput.click()" class="mat-elevation-z2 full-width">
+          <mat-card>
+            <div>
+              <button mat-raised-button (click)="fileInput.value=''; fileInput.click()">
                 <mat-icon>cloud_upload</mat-icon> Загрузить
-                <input #fileInput type="file" multiple="" accept="image/jpeg, image/jpg, application/pdf" (change)="onDocumentChange($event)"  style="display:none;"/>
               </button>
-            </mat-card-title>
+              <input #fileInput type="file" accept="application/pdf" (click)="fileInput.value= ''; fileInput.click()" (change)="onDocumentChange($event)"  style="display:none;"/>
 
-            <mat-chip-list>
-              <mat-chip *ngFor="let i of preloadDocumentsView">
-                <mat-icon *ngIf="i.oldName.split('.')[1] == 'pdf';else pictureIcon">picture_as_pdf</mat-icon>
-                <ng-template #pictureIcon><mat-icon>photo_library</mat-icon></ng-template>
-                &nbsp;<span>{{i.oldName}}</span>&nbsp;
-                <span *ngIf="i.size >= 1000000"> ({{(i.size / (1024*1024)).toFixed(1)}} mb)</span>
-                <span *ngIf="i.size >= 1000 && i.size < 1000000"> ({{(i.size / 1024).toFixed(1)}} kb)</span>
-                <button matChipRemove (click)="deletePreloadDoc(i.id)"><mat-icon>delete</mat-icon></button>
+              <mat-chip *ngIf="preloadDocumentView" style="vertical-align: middle;margin-left: 10px">
+                <mat-icon>picture_as_pdf</mat-icon>
+                &nbsp; <span>{{preloadDocumentView.oldName}}</span>&nbsp;
+                <span *ngIf="preloadDocumentView.size >= 1000000"> ({{(preloadDocumentView.size / (1024*1024)).toFixed(1)}} mb)</span>
+                <span *ngIf="preloadDocumentView.size >= 1000 && preloadDocumentView.size < 1000000"> ({{(preloadDocumentView.size / 1024).toFixed(1)}} kb)</span>
+                <button matChipRemove (click)="deletePreloadDoc()"><mat-icon>delete</mat-icon></button>
               </mat-chip>
-            </mat-chip-list>
+            </div>
           </mat-card>
-        </div>
-      </div>
+
+          <div class="actions-div">
+            <button mat-button mat-dialog-close="" (click)="onCancelClick()" type="button">Отмена</button>
+            <button mat-raised-button color="primary" [mat-dialog-close]="data" (click)="onSubmitClick()" [disabled]="form.invalid">Сохранить</button>
+          </div>
+
     </mat-tab>
   </mat-tab-group>
 
 </mat-dialog-content>
 
-<mat-dialog-actions>
-  <div mat-dialog-actions class="actions-div">
-    <button mat-button mat-dialog-close="" (click)="onCancelClick()" type="button">Отмена</button>
-    <button mat-raised-button color="primary" [mat-dialog-close]="data" (click)="onSubmitClick()" [disabled]="form.invalid">Сохранить</button>
-  </div>
-</mat-dialog-actions>

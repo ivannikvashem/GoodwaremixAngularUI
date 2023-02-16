@@ -7,7 +7,7 @@ import {MatChipInputEvent} from "@angular/material/chips";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {AttributeProduct} from "../../models/attributeProduct.model";
 import {DataSource} from "@angular/cdk/collections";
-import {debounceTime, distinctUntilChanged, finalize, Observable, ReplaySubject, startWith, switchMap, tap} from "rxjs";
+import {debounceTime, distinctUntilChanged, Observable, ReplaySubject, startWith, switchMap} from "rxjs";
 import {NotificationService} from "../../service/notification-service";
 import {MatTableDataSource} from "@angular/material/table";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -106,6 +106,7 @@ export class ProductEditComponent implements OnInit {
   handleChangeSelectedSupplier(supplier: Supplier) {
     this.selectedSupplier = supplier
     this.product.supplierId = supplier.id
+    this.product.supplierName = supplier.supplierName
   }
 
   // Media
@@ -138,7 +139,7 @@ export class ProductEditComponent implements OnInit {
     this.imagesToUpload.splice(index, 1);
 
     if (loadedImgIndex) {
-      this.preloadImagesView.splice(loadedImgIndex, 1)
+      this.preloadImagesView = this.preloadImagesView.filter(x => x.id !== loadedImgIndex)
     } else {
       this.preloadImagesView.splice(index, 1)
     }
@@ -246,21 +247,16 @@ export class ProductEditComponent implements OnInit {
       return;
     }
 
-    if (!this.product.supplierId) { //адский оверхед с сокрытием поля
-      if (this.selectedSupplier && this.selectedSupplier.id) {
-        this.product.supplierId = this.selectedSupplier.id
-        this.product.supplierName = this.selectedSupplier.supplierName
-      } else {
-        this._notyf.onError("Не задан поставщик");
-        return;
-      }
+    if (!this.product.supplierId && !this.product.supplierName) {
+      this._notyf.onError("Не задан поставщик");
+      return;
     }
+
     if (this.imagesToUpload.length > 0) {
       this.uploadPhotos(this.imagesToUpload, this.product.supplierId)
     }
     this.product.updatedAt = new Date().toISOString();
     this.product.vendor = this.searchBrandCtrl.value
-    console.log(this.product)
     if (this.product.id != null) {
       this.updateProduct(this.product)
     }
@@ -275,7 +271,7 @@ export class ProductEditComponent implements OnInit {
    }
 
    updateProduct(product: Product) {
-    this.api.updateProduct(product).subscribe(x => {
+    this.api.updateProduct(product).subscribe(() => {
         this._notyf.onSuccess("Товар изменен");
       },
       error => {
@@ -326,6 +322,7 @@ export class ProductEditComponent implements OnInit {
   }
 
   onDocumentsChanged(documents: string[]) {
+    console.log(documents)
     this.product.documents = documents
   }
 }

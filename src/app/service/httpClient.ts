@@ -321,9 +321,32 @@ export class ApiClient {
   //#endregion
 
   //#region Document ENDPOINT
-  getDocumentById(id:string): Observable<any> {
-    return this.http.get(this.apiURL + '/documents?documetId=' + id, this.httpOptions);
+  getDocuments(searchString:string, pageIndex: number, pageSize: number, sortField: string, sortDirection: string): Observable<any> {
+    let opt = {
+      params: new HttpParams()
+        .set('searchFilter', searchString)
+        .set('filter.pageNumber', pageIndex ? pageIndex + 1 : 1)
+        .set('filter.pageSize', pageSize ?? 10)
+        .set('sortField', sortField)
+        .set('sortDirection', sortDirection == "desc" ? "-1" : "1")
+    };
+    opt = Object.assign(opt, this.httpOptions);
+    return this.http.get<any>(this.apiURL + '/documents', opt);
   }
+
+  getDocumentById(id:string): Observable<any> {
+    return this.http.get<any>(this.apiURL + '/documents/document/' + id, this.httpOptions);
+  }
+
+  getDocumentsById(ids:string[]): Observable<any> {
+    let query = ''
+    for (let id of ids) {
+      query += 'documentsId='+id+'&'
+    }
+    return this.http.get<any>(this.apiURL + '/documents/documents?' + query, this.httpOptions);
+  }
+
+
   addDocument(document:any): Observable<any> {
     return this.http.post(this.apiURL + '/documents/', document, this.httpOptions);
   }
@@ -336,11 +359,9 @@ export class ApiClient {
     return this.http.delete(this.apiURL + '/documents/' + id, this.httpOptions);
   }
 
-  uploadDocument(files: File[], supplierId:string): Observable<any> {
+  uploadDocument(file: File, supplierId:string): Observable<any> {
     let formData = new FormData();
-    for (const doc of files) {
-      formData.append('files', doc)
-    }
+    formData.append('file', file)
     return this.http.post(this.apiURL + '/files/documents/'+supplierId, formData, {headers:{"ContentType": "multipart/form-data"}})
   }
   //#endregion
