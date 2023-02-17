@@ -119,10 +119,10 @@ export class ProductEditComponent implements OnInit {
         files[i] = new File([files[i]], crypto.randomUUID()+ '.' + files[i].type.split('image/')[1], {type:files[i].type});
         reader.onload = (fl:any) => {
           this.preloadImagesView.push({id: Number(i), file:fl.target.result})
+          this.imagesToUpload.push(files[i])
+          this.product.localImages.push(files[i].name)
+          this.product.thumbnails.push(files[i].name)
         }
-        this.imagesToUpload.push(files[i])
-        this.product.localImages.push(files[i].name)
-        this.product.thumbnails.push(files[i].name)
         reader.readAsDataURL(files[i]);
       } else { errorCounter += 1;}
     }

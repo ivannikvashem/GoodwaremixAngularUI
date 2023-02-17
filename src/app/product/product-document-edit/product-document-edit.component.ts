@@ -20,7 +20,6 @@ export class ProductDocumentEditComponent implements OnInit {
   documentProduct: Document = new Document();
   searchQueryCtrl  = new FormControl<string>('');
   form:FormGroup
-  documentsToUpload:File[] = []
   preloadDocumentView:any
   isLoading:boolean = false
   documentsList:Document[] = []
@@ -120,7 +119,7 @@ export class ProductDocumentEditComponent implements OnInit {
   updateDocument(document:Document) {
     this.data.newDocument.id = this.data.oldDocument.id
     this.api.updateDocument(document).subscribe(() => {
-      if (this.documentsToUpload) {
+      if (this.preloadDocumentView) {
         this.uploadDocumentFiles()
       }
     })
