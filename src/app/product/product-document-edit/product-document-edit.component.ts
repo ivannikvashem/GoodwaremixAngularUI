@@ -5,6 +5,7 @@ import {Document} from "../../models/document.model";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {NotificationService} from "../../service/notification-service";
+import {waitForAsync} from "@angular/core/testing";
 export interface AttrDialogData {
   supplierId?:string;
   newDocument?: Document;
@@ -99,8 +100,10 @@ export class ProductDocumentEditComponent implements OnInit {
       this.data.newDocument.type = this.form.get("type").value
       this.data.newDocument.url =  this.form.get("url").value
       this.data.newDocument.supplierId = this.data.supplierId
-      this.data.newDocument.file = this.preloadDocumentView.newName
-      this.uploadDocumentFiles()
+      if (this.preloadDocumentView) {
+        this.data.newDocument.file = this.preloadDocumentView.newName
+        this.uploadDocumentFiles()
+      }
 
       if (this.data.oldDocument != undefined) {
         this.updateDocument(this.data.newDocument)
@@ -110,10 +113,20 @@ export class ProductDocumentEditComponent implements OnInit {
     }
   }
 
-  insertDocument(newDocument:Document) {
-    this.api.addDocument(newDocument).subscribe((x:any) => {
-      this.data.newDocument.id = x.body
+
+
+  async insertDocument(newDocument:Document) {
+    let promise = new Promise((resolve, reject) => {
+      this.api.addDocument(newDocument).subscribe((x:any) => {
+        if (x.body) {
+          this.data.newDocument.id = x.body
+          resolve(true)
+        }
       })
+    })
+    let res = await promise
+    if (res)
+      this.dialogRef.close(this.data)
   }
 
   updateDocument(document:Document) {
