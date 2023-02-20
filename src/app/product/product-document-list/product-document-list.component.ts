@@ -52,12 +52,9 @@ export class ProductDocumentListComponent implements OnInit {
         if (result != undefined && result != '') {
           if (this.documentsView.filter(x => x !== result?.newDocument)) {
             if (oldDocument == undefined) {
-              console.log(result)
-              setTimeout(() => {
-                this.documentsView.push(result.newDocument as Document)
-                this.documentDataSource.setData(this.documentsView || []);
-                this.documentList.next( this.documentsView.map(x => x.id))
-              },200)
+              this.documentsView.push(result.newDocument as Document)
+              this.documentDataSource.setData(this.documentsView || []);
+              this.documentList.next( this.documentsView.map(x => x.id))
             } else {
               if (oldDocument !== result.newDocument) {
                 const target = this.documentsView.find((obj) => obj === oldDocument)

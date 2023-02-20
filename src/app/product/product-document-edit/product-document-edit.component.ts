@@ -63,7 +63,7 @@ export class ProductDocumentEditComponent implements OnInit {
       this.form.get("type").setValue(this.documentProduct.type)
       this.form.get("url").setValue(this.documentProduct.url)
       if (this.documentProduct.file != null) {
-        this.preloadDocumentView = { oldName:this.documentProduct.file}
+        this.preloadDocumentView = { fileName:this.documentProduct.file}
       }
     } else {
       this.api.getDocuments('', 0,100, '', 'desc').subscribe(x => {
@@ -76,10 +76,10 @@ export class ProductDocumentEditComponent implements OnInit {
     let reader = new FileReader()
     let file = event.target.files[0];
     if (this.mimeExt.some(x => x.mime == file.type) && file.type != '') {
-      const oldFileName = file.name
-      file = new File([file], crypto.randomUUID()+ '.' + this.mimeExt.find(x => x.mime == file.type).type, {type:file.type});
+      //const oldFileName = file.name
+      //file = new File([file], crypto.randomUUID()+ '.' + this.mimeExt.find(x => x.mime == file.type).type, {type:file.type});
       reader.onload = () => {
-        this.preloadDocumentView = {fileContent:file, newName:file.name, oldName:oldFileName, size:file.size}
+        this.preloadDocumentView = {fileContent:file, fileName:file.name, size:file.size}
       }
       reader.readAsDataURL(file);
     } else {
@@ -100,8 +100,9 @@ export class ProductDocumentEditComponent implements OnInit {
       this.data.newDocument.type = this.form.get("type").value
       this.data.newDocument.url =  this.form.get("url").value
       this.data.newDocument.supplierId = this.data.supplierId
-      if (this.preloadDocumentView) {
-        this.data.newDocument.file = this.preloadDocumentView.newName
+      this.data.newDocument.file = this.preloadDocumentView.fileName
+
+      if (this.preloadDocumentView.fileContent) {
         this.uploadDocumentFiles()
       }
 
@@ -131,11 +132,8 @@ export class ProductDocumentEditComponent implements OnInit {
 
   updateDocument(document:Document) {
     this.data.newDocument.id = this.data.oldDocument.id
-    this.api.updateDocument(document).subscribe(() => {
-      if (this.preloadDocumentView) {
-        this.uploadDocumentFiles()
-      }
-    })
+    this.api.updateDocument(document).subscribe(() => {})
+    this.dialogRef.close(this.data)
   }
 
   uploadDocumentFiles() {

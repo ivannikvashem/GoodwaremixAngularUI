@@ -105,7 +105,7 @@
 
               <mat-chip *ngIf="preloadDocumentView" style="vertical-align: middle;margin-left: 10px">
                 <mat-icon>picture_as_pdf</mat-icon>
-                &nbsp; <span>{{preloadDocumentView.oldName}}</span>&nbsp;
+                &nbsp; <span>{{preloadDocumentView.fileName}}</span>&nbsp;
                 <span *ngIf="preloadDocumentView.size >= 1000000"> ({{(preloadDocumentView.size / (1024*1024)).toFixed(1)}} mb)</span>
                 <span *ngIf="preloadDocumentView.size >= 1000 && preloadDocumentView.size < 1000000"> ({{(preloadDocumentView.size / 1024).toFixed(1)}} kb)</span>
                 <button matChipRemove (click)="deletePreloadDoc()"><mat-icon>delete</mat-icon></button>
