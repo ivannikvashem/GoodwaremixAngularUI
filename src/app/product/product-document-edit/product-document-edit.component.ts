@@ -100,11 +100,12 @@ export class ProductDocumentEditComponent implements OnInit {
       this.data.newDocument.type = this.form.get("type").value
       this.data.newDocument.url =  this.form.get("url").value
       this.data.newDocument.supplierId = this.data.supplierId
-      this.data.newDocument.file = this.preloadDocumentView.fileName
 
-      if (this.preloadDocumentView.fileContent) {
+      if (this.preloadDocumentView?.fileName != undefined)
+        this.data.newDocument.file = this.preloadDocumentView.fileName
+
+      if (this.preloadDocumentView?.fileContent != undefined)
         this.uploadDocumentFiles()
-      }
 
       if (this.data.oldDocument != undefined) {
         this.updateDocument(this.data.newDocument)
@@ -113,8 +114,6 @@ export class ProductDocumentEditComponent implements OnInit {
       }
     }
   }
-
-
 
   async insertDocument(newDocument:Document) {
     let promise = new Promise((resolve, reject) => {

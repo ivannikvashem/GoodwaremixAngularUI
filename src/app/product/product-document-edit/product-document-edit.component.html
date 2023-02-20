@@ -1,8 +1,8 @@
 <div mat-dialog-title class="header-div">
   <h3 mat-dialog-title>{{documentProduct?.certTitle == undefined ? "Добавление документа" : "Редактирование документа"}}</h3>
   <div *ngIf="!data.oldDocument">
-    <button mat-button (click)="matTabGroup.selectedIndex = 0"><mat-icon>search</mat-icon></button>
-    <button mat-button (click)="matTabGroup.selectedIndex = 1"><mat-icon>add</mat-icon></button>
+    <button mat-button (click)="matTabGroup.selectedIndex = 0"><mat-icon>search</mat-icon> Поиск</button>
+    <button mat-button (click)="matTabGroup.selectedIndex = 1"><mat-icon>add</mat-icon> Добавить</button>
   </div>
 </div>
 
@@ -17,8 +17,8 @@
         </button>
       </mat-form-field>
 
-      <cdk-virtual-scroll-viewport appendOnly itemSize="50" class="example-viewport">
-        <div *cdkVirtualFor="let doc of documentsList" class="example-item">
+      <cdk-virtual-scroll-viewport appendOnly itemSize="50" class="viewport">
+        <div *cdkVirtualFor="let doc of documentsList">
           <mat-card class="box mat-elevation-z2">
 
             <div class="row">
@@ -28,7 +28,7 @@
 
               <div class="center-column">
                 <mat-card-title>{{doc.type}}</mat-card-title>
-                <mat-card-subtitle><strong>№ {{doc.certNumber}}</strong><span style="font-style: italic">  ({{doc.startDate | date:'dd-MM-yyyy'}} - {{doc.endDate | date:'dd-MM-yyyy'}})</span></mat-card-subtitle>
+                <mat-card-subtitle><strong>№ {{doc.certNumber}}</strong><span style="font-style: italic">  ({{doc.startDate | date:'dd.MM.yyyy'}} - {{doc.endDate | date:'dd.MM.yyyy'}})</span></mat-card-subtitle>
               </div>
 
               <div class="column">

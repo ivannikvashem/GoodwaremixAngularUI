@@ -69,14 +69,8 @@ mat-chip {
   position: relative;*/
 }
 
-.example-viewport {
+.viewport {
   height: 600px;
   width: 100%;
-  /*
-  border: 1px solid black;
-  */
 }
 
-.example-item {
-  /*height: 50px;*/
-}
