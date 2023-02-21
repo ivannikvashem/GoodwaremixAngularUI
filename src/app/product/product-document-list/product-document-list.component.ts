@@ -1,8 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ProductDocumentEditComponent} from "../product-document-edit/product-document-edit.component";
 import {Document} from "../../models/document.model";
-import {DataSource} from "@angular/cdk/collections";
-import {Observable, ReplaySubject} from "rxjs";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatDialog} from "@angular/material/dialog";
 import {NotificationService} from "../../service/notification-service";
@@ -15,10 +13,10 @@ import {ApiClient} from "../../service/httpClient";
 })
 export class ProductDocumentListComponent implements OnInit {
 
-  dataToDisplayDoc:any = [];
-  documentColumns:string[] = ['title', 'action']
+  //TEMP
+  imgPlaceholder:string = "https://mosbetontorg.ru/upload/iblock/17d/17d912c7a93426a0214cf2ca955cd8eb.jpg";
+
   dataSource = new MatTableDataSource<any>()
-  documentDataSource = new DocumentDataSource(this.dataToDisplayDoc)
   documentsView:Document[] = []
   isLoading:boolean = false;
   constructor(public dialog: MatDialog, private _notyf: NotificationService, private api:ApiClient) { }
@@ -36,7 +34,6 @@ export class ProductDocumentListComponent implements OnInit {
               this.documentsView.push(i)
             }
           }
-          this.documentDataSource.setData(this.documentsView || []);
         })
     }
   }
@@ -53,7 +50,6 @@ export class ProductDocumentListComponent implements OnInit {
           if (this.documentsView.filter(x => x !== result?.newDocument)) {
             if (oldDocument == undefined) {
               this.documentsView.push(result.newDocument as Document)
-              this.documentDataSource.setData(this.documentsView || []);
               this.documentList.next( this.documentsView.map(x => x.id))
             } else {
               if (oldDocument !== result.newDocument) {
@@ -73,21 +69,5 @@ export class ProductDocumentListComponent implements OnInit {
   deleteDocRow(row:any) {
     this.documentsView = this.documentsView.filter(dc => (dc != row))
     this.documentList.next(this.documentsView.map(x => x.id))
-    this.documentDataSource.setData(this.documentsView || [])
-  }
-}
-
-class DocumentDataSource extends DataSource<Document> {
-  private _dataStream = new ReplaySubject<Document[]>();
-  constructor(initialData: Document[]) {
-    super();
-    this.setData(initialData);
-  }
-  connect(): Observable<Document[]> {
-    return this._dataStream;
-  }
-  disconnect() {}
-  setData(data: Document[]) {
-    this._dataStream.next(data);
   }
 }

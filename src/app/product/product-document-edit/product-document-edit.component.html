@@ -2,7 +2,7 @@
   <h3 mat-dialog-title>{{documentProduct?.certTitle == undefined ? "Добавление документа" : "Редактирование документа"}}</h3>
   <div *ngIf="!data.oldDocument">
     <button mat-button (click)="matTabGroup.selectedIndex = 0"><mat-icon>search</mat-icon> Поиск</button>
-    <button mat-button (click)="matTabGroup.selectedIndex = 1"><mat-icon>add</mat-icon> Добавить</button>
+    <button mat-button (click)="matTabGroup.selectedIndex = 1"><mat-icon>add</mat-icon> Добавить новый</button>
   </div>
 </div>
 
@@ -18,30 +18,30 @@
       </mat-form-field>
 
       <cdk-virtual-scroll-viewport appendOnly itemSize="50" class="viewport">
-        <div *cdkVirtualFor="let doc of documentsList">
-          <mat-card class="box mat-elevation-z2">
+        <mat-card class="box" *ngFor="let doc of documentsList" [ngStyle]="{'background-image': 'linear-gradient(to bottom, rgba(255, 255, 255,1), rgba(255,255,255,0.5)), url(&quot;' + doc.preview + '&quot;)', 'background-size':'cover'}">
 
-            <div class="row">
-              <div class="column">
-                <img src="https://material.angular.io/assets/img/examples/shiba2.jpg" style="height: 80px; width: 150px">
-              </div>
+          <mat-card-header *ngIf="doc.type">
+            <div mat-card-avatar><mat-icon>picture_as_pdf</mat-icon></div>
+            <mat-card-subtitle><b style="color:black">{{doc.type}}</b><strong *ngIf="doc.certNumber"> № {{doc.certNumber}}</strong></mat-card-subtitle>
+          </mat-card-header>
 
-              <div class="center-column">
-                <mat-card-title>{{doc.type}}</mat-card-title>
-                <mat-card-subtitle><strong>№ {{doc.certNumber}}</strong><span style="font-style: italic">  ({{doc.startDate | date:'dd.MM.yyyy'}} - {{doc.endDate | date:'dd.MM.yyyy'}})</span></mat-card-subtitle>
-              </div>
+          <mat-card-content>
+            <small>
 
-              <div class="column">
-                <mat-card-actions align="end">
-                  <a mat-icon-button *ngIf="doc.url" style="color:black" href="{{doc.url}}" target="_blank"><mat-icon>remove_red_eye</mat-icon></a>
-                  <button mat-flat-button color="primary" [mat-dialog-close]="data" (click)="data.newDocument = doc">Добавить</button>
-                </mat-card-actions>
-              </div>
-            </div>
+              <div *ngIf="doc.certTitle"><strong>Наименование: {{doc.certTitle}}</strong></div>
+              <div *ngIf="doc.startDate && doc.endDate"><strong>Срок действия: <i>{{doc.startDate | date:'dd.MM.yyyy'}} - {{doc.endDate | date:'dd.MM.yyyy'}}</i></strong></div>
+            </small>
+          </mat-card-content>
 
+          <mat-card-actions align="end">
+            <a mat-icon-button *ngIf="doc.url" style="color:black" href="{{doc.url}}" target="_blank"><mat-icon>remove_red_eye</mat-icon></a>&nbsp;
+           <!-- <button mat-icon-button (click)="openDocumentEditorDialog(doc)"><mat-icon>edit</mat-icon></button>
+            <button mat-icon-button (click)="deleteDocRow(doc)"><mat-icon>delete</mat-icon></button>-->
+            <button mat-raised-button [mat-dialog-close]="data" (click)="data.newDocument = doc">Добавить</button>
 
-          </mat-card>
-        </div>
+          </mat-card-actions>
+        </mat-card>
+
       </cdk-virtual-scroll-viewport>
 
 

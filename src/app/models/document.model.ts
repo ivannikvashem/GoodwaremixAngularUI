@@ -5,6 +5,7 @@ export class Document {
   url: string
   certTitle: string
   certNumber: string
+  preview:string
   file: string
   certOrganizNumber: string
   certOrganizDescr: string

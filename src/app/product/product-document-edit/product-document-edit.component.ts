@@ -89,6 +89,7 @@ export class ProductDocumentEditComponent implements OnInit {
 
   deletePreloadDoc() {
     this.preloadDocumentView = null
+    this.data.newDocument.preview = null
   }
 
   onSubmitClick() {
@@ -103,6 +104,7 @@ export class ProductDocumentEditComponent implements OnInit {
 
       if (this.preloadDocumentView?.fileName != undefined)
         this.data.newDocument.file = this.preloadDocumentView.fileName
+        this.data.newDocument.preview = this.preloadDocumentView.fileName.split('.')[0] + '.png'
 
       if (this.preloadDocumentView?.fileContent != undefined)
         this.uploadDocumentFiles()
