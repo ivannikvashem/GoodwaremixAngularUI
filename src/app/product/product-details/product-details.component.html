@@ -86,15 +86,35 @@
       </ul>
     </mat-card>
 
-    <mat-card style="margin-top: 10px;" *ngIf="product.documents && product.documents.length > 0">
+    <mat-card style="margin-top: 10px" *ngIf="product.documents && product.documents.length > 0">
       <mat-card-subtitle><h2>Документы</h2></mat-card-subtitle>
-      <mat-list>
+
+      <div>
+        <mat-card class="box" *ngFor="let doc of productDocuments" [ngStyle]="{'background-image': 'linear-gradient(to bottom, rgba(255, 255, 255,1), rgba(255,255,255,0.5)), url(&quot;' + doc.preview + '&quot;)', 'background-size':'cover'}">
+          <mat-card-header *ngIf="doc.type">
+            <div mat-card-avatar><mat-icon>picture_as_pdf</mat-icon></div>
+            <mat-card-subtitle><b style="color:black">{{doc.type}}</b><strong *ngIf="doc.certNumber"> № {{doc.certNumber}}</strong></mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <small>
+              <div *ngIf="doc.certTitle"><strong>Наименование: {{doc.certTitle}}</strong></div>
+              <div *ngIf="doc.startDate && doc.endDate"><strong>Срок действия: <i>{{doc.startDate | date:'dd.MM.yyyy'}} - {{doc.endDate | date:'dd.MM.yyyy'}}</i></strong></div>
+            </small>
+          </mat-card-content>
+          <mat-card-actions align="end">
+            <a mat-mini-fab style="background-color: white;color:black" *ngIf="doc.url" href="{{doc.url}}" target="_blank"><mat-icon>remove_red_eye</mat-icon></a>&nbsp;
+            <!--          <button mat-mini-fab color="" (click)="openDocumentEditorDialog(doc)"><mat-icon>edit</mat-icon></button>&nbsp;
+                      <button mat-mini-fab color="" (click)="deleteDocRow(doc)"><mat-icon>delete</mat-icon></button>-->
+          </mat-card-actions>
+        </mat-card>
+      </div>
+<!--      <mat-list>
         <mat-list-item *ngFor="let d of productDocuments" style="height: auto">
           <div mat-line><strong *ngIf="d.type">{{d.type}}</strong> <strong *ngIf="!d.type">Документ</strong> <span style="font-style: italic" *ngIf="d.startDate !== '0001-01-01T00:00:00Z' || d.endDate !== '0001-01-01T00:00:00Z'">  ({{d.startDate | date:'dd-MM-yyyy'}} - {{d.endDate | date:'dd-MM-yyyy'}})</span></div>
           <div mat-line>{{d.certTitle}}</div>
           <a mat-icon-button *ngIf="d.url" style="color:black" href="{{d.url}}" target="_blank"><mat-icon>download</mat-icon></a>
         </mat-list-item>
-      </mat-list>
+      </mat-list>-->
     </mat-card>
 
     <mat-card style="margin-top: 10px;" *ngIf="product.attributes && product.attributes.length > 0">

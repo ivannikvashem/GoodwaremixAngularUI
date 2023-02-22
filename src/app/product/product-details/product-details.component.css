@@ -67,7 +67,7 @@ td, th, .mat-line {
 tr.mat-row {
   height: 35px;
 }
-.mat-line {
+/*.mat-line {
   white-space: pre-wrap;
   word-wrap: break-word;
   max-width: 100%;
@@ -75,7 +75,7 @@ tr.mat-row {
 ::ng-deep .mat-list .mat-list-item .mat-line{
   word-wrap: break-word;
   white-space: pre-wrap;
-}
+}*/
 /*::ng-deep.mat-tab-label-active{*/
 /*  opacity: 1.0!important;*/
 /*}*/
@@ -114,4 +114,49 @@ tr.mat-row {
 
 ::ng-deep .mat-expansion-panel-body{
   padding: 0 !important;
+}
+
+.box{
+  margin: 5px;
+  width: 275px;
+  height: 170px;
+  float: left;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.add-document {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.mat-card{
+  display:flex;
+  flex-direction: column;
+}
+
+.mat-card-header {
+  flex-shrink: 0;
+}
+
+.mat-card-content{
+  flex-grow: 1;
+  overflow: auto;
+  margin-bottom: 0;
+}
+
+.mat-card-actions {
+  padding: 0;
+}
+
+.mat-card-avatar {
+  height:24px;
+  width:24px;
+}
+
+:host::ng-deep .mat-card-header-text {
+  margin: 0 6px;
 }
