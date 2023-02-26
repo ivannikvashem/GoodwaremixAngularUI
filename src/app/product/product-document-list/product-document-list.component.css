@@ -48,3 +48,10 @@
   height: 100%;
   width: 100%;
 }*/
+
+.card-low-stripe {
+  margin: auto;
+  background-color: #ffffffaa;
+  padding: 4px 7px;
+  border-radius: 14px;
+}

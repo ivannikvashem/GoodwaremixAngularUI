@@ -13,6 +13,14 @@
       <input matInput name="title" [(ngModel)]="product.title" required>
     </mat-form-field>&nbsp;&nbsp;
 
+    <div *ngIf="!product.id">
+      <app-supplier-autocomplete *ngIf="isSupplierSingle == false" (isSingle)="isSupplierSingle = $event" class="full-width" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
+    </div>
+    <mat-form-field *ngIf="product?.supplierName && product.id" appearance="standard">
+      <mat-label>Поставщик</mat-label>
+      <input matInput [value]="product.supplierName" disabled>
+    </mat-form-field>&nbsp;&nbsp;
+
     <mat-form-field appearance="standard">
       <mat-label>Идентификатор товара поставщика</mat-label>
       <input matInput name="vendorId" [(ngModel)]="product.vendorId" required minlength="1">
@@ -20,7 +28,7 @@
 
     <mat-form-field *ngIf="product.internalCode" appearance="standard">
       <mat-label>Артикул Энергомикс</mat-label>
-      <input  matInput name="internalCode" [(ngModel)]="product.internalCode" disabled>
+      <input matInput name="internalCode" [(ngModel)]="product.internalCode" disabled>
     </mat-form-field>
     <div *ngIf="!product.internalCode" style="margin: auto;">
       <button type="button" [disabled]="!internalCodeFetching || !product.vendorId" mat-flat-button (click)="RequestProductInternalCode(productId)">
@@ -91,13 +99,6 @@
       <mat-tab-group animationDuration="0ms">
         <mat-tab  label="О товаре">
           <ng-template matTabContent>
-            <div *ngIf="!product.id">
-              <app-supplier-autocomplete *ngIf="isSupplierSingle == false" (isSingle)="isSupplierSingle = $event" class="full-width" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
-            </div>
-            <mat-form-field *ngIf="product?.supplierName && product.id" appearance="fill" class="full-width">
-              <mat-label>Поставщик</mat-label>
-              <input matInput [value]="product.supplierName" disabled>
-            </mat-form-field>
             <div class="formBlockFull">
               <mat-form-field appearance="fill" class="full-width; about-form-field-double">
                 <mat-label>Бренд</mat-label>

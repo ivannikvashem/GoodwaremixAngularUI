@@ -19,6 +19,7 @@ import {Countries} from "../../../assets/countriesList"
 import {map} from "rxjs/operators";
 import {MissingImageHandler} from "../MissingImageHandler";
 import {ImageDialog} from "../hover-image-slider/hover-image-slider.component";
+import {DataStateService} from "../../shared/data-state.service";
 
 interface Country {
   code?:string
@@ -65,7 +66,9 @@ export class ProductEditComponent implements OnInit {
               private router: Router,
               private _notyf:NotificationService,
               public dialog: MatDialog,
-              private imgHandler:MissingImageHandler) {}
+              private imgHandler:MissingImageHandler,
+              private dss: DataStateService
+  ) {}
 
   ngOnInit(): void {
     this.productId = this._ActivatedRoute.snapshot.paramMap.get("id");
@@ -94,7 +97,14 @@ export class ProductEditComponent implements OnInit {
 
     this.searchBrandCtrl.valueChanges.pipe(
       distinctUntilChanged(), debounceTime(300),
-      switchMap(value => this.api.getBrands(value))).subscribe((data: any) => {this.brandsList = data.body; });
+      switchMap(value => this.api.getBrands(value))
+    ).subscribe((data: any) => {this.brandsList = data.body; });
+
+    this.selectedSupplier = this.dss.selectedSupplierState.getValue();
+
+    if (this.selectedSupplier) {
+      this.handleChangeSelectedSupplier(this.selectedSupplier);
+    }
   }
   private countryFilter(value: any): any[] {
     let filterValue = ''

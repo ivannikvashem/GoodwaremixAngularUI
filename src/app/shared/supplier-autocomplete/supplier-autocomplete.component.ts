@@ -81,4 +81,8 @@ export class SupplierAutocompleteComponent implements OnInit {
     this.onSupplierSelected();
     console.log(this.searchSuppliersCtrl.value)
   }
+
+  onDestroy() {
+    this.subscription.unsubscribe();
+  }
 }
