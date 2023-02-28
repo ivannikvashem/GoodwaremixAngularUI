@@ -48,8 +48,8 @@
 
     </mat-tab>
     <mat-tab>
-
-
+      <div class="row">
+        <div class="column">
           <form [formGroup]="form" (ngSubmit)="onSubmitClick()">
             <mat-form-field appearance="fill" class="full-width">
               <mat-label>Название</mat-label>
@@ -61,21 +61,15 @@
               <input matInput formControlName="certNumber" name="certNumber" required>
             </mat-form-field>
 
-            <div class="formBlockFull">
-              <mat-form-field appearance="fill" class="full-width">
-                <mat-label>Дата начала</mat-label>
-                <input matInput [matDatepicker]="startDate" formControlName="startDate" name="startDate">
-                <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
-                <mat-datepicker #startDate></mat-datepicker>
-              </mat-form-field>&nbsp;
-
-              <mat-form-field appearance="fill" class="full-width">
-                <mat-label>Дата окончания</mat-label>
-                <input matInput [matDatepicker]="endDate" formControlName="endDate" name="endDate" [min]="form.get('startDate').value">
-                <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
-                <mat-datepicker #endDate></mat-datepicker>
-              </mat-form-field>
-            </div>
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label>Срок действия</mat-label>
+              <mat-date-range-input [formGroup]="form.get('range')" [rangePicker]="picker">
+                <input matStartDate formControlName="startDate" placeholder="Начало">
+                <input matEndDate formControlName="endDate" placeholder="Конец">
+              </mat-date-range-input>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
 
             <mat-form-field appearance="fill" class="full-width" *ngIf="documentProduct?.type">
               <mat-label>Тип</mat-label>
@@ -95,28 +89,38 @@
             </mat-form-field>&nbsp;
 
           </form>
-
-          <mat-card>
-            <div>
-              <button mat-raised-button (click)="fileInput.value=''; fileInput.click()">
-                <mat-icon>cloud_upload</mat-icon> Загрузить
-              </button>
-              <input #fileInput type="file" accept="application/pdf" (click)="fileInput.value= ''; fileInput.click()" (change)="onDocumentChange($event)"  style="display:none;"/>
-
-              <mat-chip *ngIf="preloadDocumentView" style="vertical-align: middle;margin-left: 10px">
-                <mat-icon>picture_as_pdf</mat-icon>
-                &nbsp; <span>{{preloadDocumentView.fileName}}</span>&nbsp;
-                <span *ngIf="preloadDocumentView.size >= 1000000"> ({{(preloadDocumentView.size / (1024*1024)).toFixed(1)}} mb)</span>
-                <span *ngIf="preloadDocumentView.size >= 1000 && preloadDocumentView.size < 1000000"> ({{(preloadDocumentView.size / 1024).toFixed(1)}} kb)</span>
-                <button matChipRemove (click)="deletePreloadDoc()"><mat-icon>delete</mat-icon></button>
-              </mat-chip>
+        </div>
+        <div class="column">
+          <mat-card style="height: 83%">
+            <div class="uploadArea" *ngIf="!preloadDocumentView" (click)="fileInput.value=''; fileInput.click()" (drop)="onDocumentChange($event,true)" (dragover)="onDragOver($event)">
+                <input #fileInput type="file" accept="application/pdf" (change)="onDocumentChange($event, false)"  style="display:none;"/>
+                <mat-icon class="customIconSize">note_add</mat-icon>
+                <div>
+                  <span>Выберите PDF файл</span>
+                  <small style="display: block">или перетащите его в эту зону</small>
+                </div>
             </div>
-          </mat-card>
 
-          <div class="actions-div">
-            <button mat-button mat-dialog-close="" (click)="onCancelClick()" type="button">Отмена</button>
-            <button mat-raised-button color="primary" (click)="onSubmitClick()" [disabled]="form.invalid">Сохранить</button>
-          </div>
+            <div class="previewImgArea" *ngIf="preloadDocumentView">
+
+              <img [src]="documentProduct.preview" (error)="handleMissingImage($event)" height="300" width="100%" style="object-fit: cover" class="mat-elevation-z2"/>
+              <mat-list class="full-width">
+                <mat-list-item>
+                  <mat-icon mat-list-icon>picture_as_pdf</mat-icon>
+                  <span class="documentTitle">{{preloadDocumentView.fileName}}</span>
+                  <button mat-icon-button (click)="deletePreloadDoc()"><mat-icon>close</mat-icon></button>
+                </mat-list-item>
+              </mat-list>
+            </div>
+
+          </mat-card>
+        </div>
+      </div>
+
+      <div class="actions-div">
+        <button mat-button mat-dialog-close="" (click)="onCancelClick()" type="button">Отмена</button>
+        <button mat-raised-button color="primary" (click)="onSubmitClick()" [disabled]="form.invalid">Сохранить</button>
+      </div>
 
     </mat-tab>
   </mat-tab-group>

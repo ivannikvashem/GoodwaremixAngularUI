@@ -1,6 +1,6 @@
 <mat-form-field class="full-width" appearance="standard">
   <mat-label>Поставщик</mat-label>
-  <input type="text" matInput aria-label="Поставщик"
+  <input type="text" matInput aria-label="Поставщик" (keydown)="keyPressValidation($event)"
          [formControl]="searchSuppliersCtrl"
          [matAutocomplete]="auto">
   <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onSupplierSelected()">

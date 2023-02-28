@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Injectable, OnInit, Output} from '@angular/core';
 import {debounceTime, distinctUntilChanged, finalize, Subscription, switchMap, tap} from "rxjs";
-import {FormControl} from "@angular/forms";
+import {FormControl, Validators} from "@angular/forms";
 import {Supplier} from "../../models/supplier.model";
 import {ApiClient} from "../../service/httpClient";
 import {DataStateService} from "../data-state.service";
@@ -84,5 +84,14 @@ export class SupplierAutocompleteComponent implements OnInit {
 
   onDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  keyPressValidation($event: KeyboardEvent) {
+    if (/[a-zA-Z0-9а-яА-Я]/.test($event.key)){
+      return true
+    } else {
+      $event.preventDefault()
+      return  false
+    }
   }
 }

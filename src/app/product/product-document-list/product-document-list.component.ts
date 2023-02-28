@@ -43,7 +43,7 @@ export class ProductDocumentListComponent implements OnInit {
       const dialogRef = this.dialog.open(ProductDocumentEditComponent, {
         width: '1200px',
         autoFocus: false,
-        data: {supplierId:this.supplierId, oldDocument: oldDocument, newDocument: new Document() },
+        data: {documentIds:this.documentsView.map(x => x.id), supplierId:this.supplierId, oldDocument: oldDocument, newDocument: new Document() },
       });
       dialogRef.afterClosed().subscribe(result => {
         if (result != undefined && result != '') {
