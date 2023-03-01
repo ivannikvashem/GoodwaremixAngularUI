@@ -3,6 +3,7 @@ import {BehaviorSubject, Observable, of} from 'rxjs';
 import {catchError, finalize, map} from 'rxjs/operators';
 import {ApiClient} from "../../service/httpClient";
 import {Supplier} from "../../models/supplier.model";
+import {Stat} from "../../models/Stat.model";
 
 export class SuppliersDataSource implements DataSource<Supplier> {
 
@@ -54,6 +55,14 @@ export class SuppliersDataSource implements DataSource<Supplier> {
     console.log("deleting supp " + id + " products");
     this.api.deleteSupplierProducts(id).subscribe( res => {
         console.log(JSON.stringify(res));
+
+        const newSuppliers = this.SupplierListSubject.getValue().map(s =>
+          s.id === id
+            ? { ...s, stat: new Stat() }
+            : s
+        );
+
+        this.SupplierListSubject.next(newSuppliers);
       },
       err => {
         console.log(err);

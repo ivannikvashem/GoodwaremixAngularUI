@@ -1,6 +1,7 @@
-
 export class Stat {
-  productQty: number;
-  productQtyWithCode: number;
-  lastImport: Date;
+  constructor(
+    public productQty: number = 0,
+    public productQtyWithCode: number = 0,
+    public lastImport: Date = new Date()
+  ) {}
 }
