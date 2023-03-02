@@ -29,11 +29,17 @@
             <small>
 
               <div *ngIf="doc.certTitle"><strong>Наименование: {{doc.certTitle}}</strong></div>
-              <div *ngIf="doc.startDate && doc.endDate"><strong>Срок действия: <i>{{doc.startDate | date:'dd.MM.yyyy'}} - {{doc.endDate | date:'dd.MM.yyyy'}}</i></strong></div>
             </small>
           </mat-card-content>
 
           <mat-card-actions align="end">
+
+            <div class="card-low-stripe">
+              <small>
+                <div *ngIf="doc.startDate && doc.endDate"><strong><i>{{doc.startDate | date:'MM.yyyy'}} - {{doc.endDate | date:'MM.yyyy'}}</i></strong></div>
+              </small>
+            </div>
+
             <a mat-icon-button *ngIf="doc.url" style="color:black" href="{{doc.url}}" target="_blank"><mat-icon>remove_red_eye</mat-icon></a>&nbsp;
            <!-- <button mat-icon-button (click)="openDocumentEditorDialog(doc)"><mat-icon>edit</mat-icon></button>
             <button mat-icon-button (click)="deleteDocRow(doc)"><mat-icon>delete</mat-icon></button>-->
@@ -101,17 +107,18 @@
                 </div>
             </div>
 
-            <div class="previewImgArea" *ngIf="preloadDocumentView">
-
-              <img [src]="documentProduct.preview" (error)="handleMissingImage($event)" height="300" width="100%" style="object-fit: cover" class="mat-elevation-z2"/>
+            <ng-container *ngIf="preloadDocumentView">
+              <img mat-card-image [src]="documentProduct.preview" (error)="handleMissingImage($event)" height="300" width="100%" style="object-fit: cover"/>
               <mat-list class="full-width">
                 <mat-list-item>
-                  <mat-icon mat-list-icon>picture_as_pdf</mat-icon>
-                  <span class="documentTitle">{{preloadDocumentView.fileName}}</span>
-                  <button mat-icon-button (click)="deletePreloadDoc()"><mat-icon>close</mat-icon></button>
+                  <div class="document">
+                    <mat-icon mat-list-icon>picture_as_pdf</mat-icon>
+                    <span class="documentTitle">{{preloadDocumentView.fileName}}</span>
+                    <button mat-icon-button (click)="deletePreloadDoc()"><mat-icon>close</mat-icon></button>
+                  </div>
                 </mat-list-item>
               </mat-list>
-            </div>
+            </ng-container>
 
           </mat-card>
         </div>

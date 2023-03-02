@@ -33,7 +33,7 @@ export class SupplierEditComponent implements OnInit {
   supplier: Supplier = new Supplier();
   dataToDisplay:any = [];
   selectedConfig = new FormControl(0)
-  isConfigTabsLoading:boolean = false
+  isConfigsLoaded:boolean = false
 
   attrTableColumns: string[] = ['idx', 'keySupplier', 'attributeBDName', 'actions'];
   attrSelectedRow: any;
@@ -54,18 +54,20 @@ export class SupplierEditComponent implements OnInit {
   ngOnInit(): void {
     this.supplierId = this._ActivatedRoute.snapshot.paramMap.get("supplierId");
     if (this.supplierId) {
-      this.api.getSupplierById(this.supplierId)
-        .subscribe( (s:any) => {
-          this.supplier = s.body as Supplier;
-          for (let config of this.supplier.supplierConfigs) {
-            config.nettoConfig.dimensions = new Dimensions()
-            config.packageConfig.dimensions = new Dimensions()
-            /*config.multipliers = new Multipliers()*/
-            if (config.sourceSettings.header) {
-              config.sourceSettings.header = JSON.parse(config.sourceSettings.header) as HeaderModel
-            }
+      this.api.getSupplierById(this.supplierId).subscribe({next: (s) => {
+        this.supplier = s.body as Supplier;
+        for (let config of this.supplier.supplierConfigs) {
+          config.nettoConfig.dimensions = new Dimensions()
+          config.packageConfig.dimensions = new Dimensions()
+          /*config.multipliers = new Multipliers()*/
+          if (config.sourceSettings.header) {
+            config.sourceSettings.header = JSON.parse(config.sourceSettings.header) as HeaderModel
           }
-        });
+          this.isConfigsLoaded = true;
+        }
+      }, error: () => {
+        this.router.navigate(['page-not-found'])
+      }});
     }
     this.attributeListCtrl.valueChanges.pipe(
       debounceTime(100),
@@ -173,7 +175,7 @@ export class SupplierEditComponent implements OnInit {
       }
     }
 
-    if (supplier.id == undefined || supplier.id == null) {
+    if (supplier.id == undefined) {
       this.api.insertSupplier(supplier).subscribe( x => {
           this._notyf.onSuccess("Конфигурация добавлена");
           for (let i of this.attributesToAdd) {
@@ -187,7 +189,7 @@ export class SupplierEditComponent implements OnInit {
           this._notyf.onError("Ошибка: " + JSON.stringify(error));
         });
     } else {
-      this.api.updateSupplier(supplier).subscribe( x => {
+      this.api.updateSupplier(supplier).subscribe( () => {
           this._notyf.onSuccess("Конфигурация сохранена");
           for (let i of this.attributesToAdd) {
             i.supplierId = this.supplier.id

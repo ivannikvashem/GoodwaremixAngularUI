@@ -160,3 +160,10 @@ tr.mat-row {
 :host::ng-deep .mat-card-header-text {
   margin: 0 6px;
 }
+
+:host::ng-deep .mat-card-subtitle {
+  margin: 0;
+}
+:host::ng-deep .mat-card {
+  padding-top: 0;
+}

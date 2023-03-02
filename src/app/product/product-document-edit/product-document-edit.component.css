@@ -9,7 +9,6 @@
 .actions-div {
   display: flex;
   justify-content: space-between;
-  margin-top: 30px;
 }
 
 .full-width {
@@ -53,13 +52,11 @@ mat-chip {
 
 .column {
   margin: 5px;
-  flex: 33%;
+  flex: 50%;
 }
 
 .box{
   margin: 5px;
-  width: 270px;
-  height: 170px;
   float: left;
   box-sizing: border-box;
   position: relative;
@@ -99,6 +96,7 @@ mat-chip {
 }
 :host::ng-deep .mat-list-item-content {
   padding: 0 !important;
+  width: 100%;
 }
 
 :host::ng-deep .mat-list-base {
@@ -115,10 +113,6 @@ mat-chip {
   cursor: pointer;
 }
 
-.previewImgArea {
-  height: 350px
-}
-
 .documentTitle {
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -126,8 +120,37 @@ mat-chip {
   width: 400px;
 }
 
+.document {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 50px;
+  align-items: center
+}
+
 .customIconSize {
   font-size: 50px;
   height: 50px ;
   width: 50px ;
+}
+
+.card-low-stripe {
+  margin: auto;
+  background-color: #ffffffaa;
+  padding: 4px 7px;
+  border-radius: 14px;
+}
+
+@media only screen and (min-width: 1030px) {
+  /* Full: */
+  .box {width: 360px; height: 170px}
+}
+
+@media only screen and (max-width: 900px) {
+  /* Compact: */
+  .box {width: 100%; height: 140px}
+  .cardHeader {display: flex}
+  .documentNumber {margin-left: 10px;}
+  :host::ng-deep .mat-card-subtitle { padding: 0}
+  :host::ng-deep .mat-card-header-text { margin: 0; }
 }

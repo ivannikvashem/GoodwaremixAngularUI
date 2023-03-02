@@ -73,23 +73,25 @@ export class ProductEditComponent implements OnInit {
   ngOnInit(): void {
     this.productId = this._ActivatedRoute.snapshot.paramMap.get("id");
     if (this.productId) {
-      this.api.getProductById(this.productId).subscribe( (s:any) => {
-          this.product = s.body as Product;
-          if (this.product.thumbnails) {
-            this.product.localImages.forEach((value) => {this.preloadImagesView.push({id: null, file:value})})
-          }
-          if (this.product.netto == null) {
-            this.product.netto = new Package()
-          }
-          if (this.product.country) {
-            this.searchCountryCtrl.setValue(this.countriesList.find(option => option.name.toLowerCase().includes(this.product.country.toLowerCase()) as Country))
-          }
-          if (this.product.vendor) {
-            this.searchBrandCtrl.setValue(this.product.vendor)
-          }
-          this.attrDataSource.setData(this.product.attributes || []);
-          this.packDataSource.setData(this.product.packages || []);
-        });
+      this.api.getProductById(this.productId).subscribe({ next: (s) => {
+        this.product = s.body as Product;
+        if (this.product.thumbnails) {
+          this.product.localImages.forEach((value) => {this.preloadImagesView.push({id: null, file:value})})
+        }
+        if (this.product.netto == null) {
+          this.product.netto = new Package()
+        }
+        if (this.product.country) {
+          this.searchCountryCtrl.setValue(this.countriesList.find(option => option.name.toLowerCase().includes(this.product.country.toLowerCase()) as Country))
+        }
+        if (this.product.vendor) {
+          this.searchBrandCtrl.setValue(this.product.vendor)
+        }
+        this.attrDataSource.setData(this.product.attributes || []);
+        this.packDataSource.setData(this.product.packages || [])
+        }, error: () => {
+          this.router.navigate(['page-not-found'])
+        }})
     }
     this.filteredCountries = this.searchCountryCtrl.valueChanges.pipe(
       startWith(''),

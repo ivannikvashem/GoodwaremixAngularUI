@@ -1,8 +1,10 @@
 <mat-card class="box" *ngFor="let doc of documentsView" [ngStyle]="{'background-image': 'linear-gradient(to bottom, rgba(255, 255, 255,1), rgba(255,255,255,0.5)), url(&quot;' + doc.preview + '&quot;)', 'background-size':'cover'}">
   <mat-card-header *ngIf="doc.type">
     <div mat-card-avatar><mat-icon>picture_as_pdf</mat-icon></div>
-    <mat-card-subtitle><strong>{{doc.type}}</strong></mat-card-subtitle>
-    <mat-card-subtitle><strong *ngIf="doc.certNumber"> № {{doc.certNumber}}</strong></mat-card-subtitle>
+    <div class="cardHeader">
+      <mat-card-subtitle><strong>{{doc.type}}</strong></mat-card-subtitle>
+      <strong class="documentNumber" *ngIf="doc.certNumber"> № {{doc.certNumber}}</strong>
+    </div>
   </mat-card-header>
   <mat-card-content>
 
@@ -26,5 +28,6 @@
 </mat-card>
 
 <mat-card class="box" style="cursor: pointer;" (click)="openDocumentEditorDialog()">
-  <div class="add-document"><mat-icon>add</mat-icon></div>
+  <div class="add-document"><mat-icon style="vertical-align: middle">add</mat-icon><span  style="vertical-align: middle">Добавить</span></div>
 </mat-card>
+

@@ -44,8 +44,7 @@ export class ProductDetailsComponent implements OnInit {
 
   fetchProductData() {
     this.productId = this._ActivatedRoute.snapshot.paramMap.get("id");
-    this.api.getProductById(this.productId).subscribe(
-      data => {
+    this.api.getProductById(this.productId).subscribe( {next:(data) => {
         this.product = data.body;
         if (this.product.videos.length > 0)
           this.product.videos.forEach((value:any) => {this.safeVideoUrl.push(this._sanitizer.bypassSecurityTrustResourceUrl(value))});
@@ -61,8 +60,9 @@ export class ProductDetailsComponent implements OnInit {
             })
           }
         }
-      }
-    );
+      }, error: () => {
+        this.router.navigate(['page-not-found'])
+      }});
   }
 
   swapItem(nameAttribute: string, id: string) {

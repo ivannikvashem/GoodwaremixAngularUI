@@ -19,7 +19,7 @@
               </div>
               <div class="containerCmain" *ngIf="hoverRowId!=row.id">
                 <div class="imgWrapper">
-                  <img (error)="handleMissingImage($event)" [src]="row.images[0]" class="imgInContainer"/>
+                  <img (error)="handleMissingImage($event)" [src]="row.thumbnails[0]" class="imgInContainer"/>
                 </div>
                 <div class="containerC">
                   <div *ngFor="let image of row.images; index as i" class="hoverBlockC" (mouseover)="changeImage(row, image)"></div>

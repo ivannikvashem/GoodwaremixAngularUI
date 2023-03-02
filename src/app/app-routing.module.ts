@@ -13,6 +13,7 @@ import {AttributeComponent} from "./attribute/attribute.component";
 import {AuthGuard} from "./auth/auth.guard";
 import {UserIndexComponent} from "./users/user-index/user-index.component";
 import {UserDetailsComponent} from "./users/user-details/user-details.component";
+import {PageNotFoundComponent} from "./shared/page-not-found/page-not-found.component";
 
 let routes: Routes;
 routes = [
@@ -57,7 +58,9 @@ routes = [
   {path: 'task', component: TaskIndexComponent},
   {path: 'users', component: UserIndexComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'user-add', component: UserDetailsComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
-  {path: 'user-edit/:id', component: UserDetailsComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}}
+  {path: 'user-edit/:id', component: UserDetailsComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
+  {path: 'page-not-found', component: PageNotFoundComponent},
+  {path: '**', pathMatch: 'full', redirectTo: '/page-not-found'},
 
 ];
 

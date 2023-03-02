@@ -9,11 +9,13 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {DocumentComponent} from "../document/document.component";
 import {MatTableModule} from "@angular/material/table";
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
     declarations: [
         SupplierAutocompleteComponent,
         DocumentComponent,
+        PageNotFoundComponent,
     ],
   imports: [
     CommonModule,

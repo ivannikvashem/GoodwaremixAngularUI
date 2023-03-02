@@ -1,0 +1,12 @@
+.not-found-message {
+  position: absolute;
+  left: 50%;
+  top: 30%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.not-found-message span {
+  font-size: 90px;
+  display: block;
+}

@@ -3,7 +3,7 @@ import {MatChipInputEvent} from "@angular/material/chips";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {Attribute} from "../../models/attribute.model";
 import {ApiClient} from "../../service/httpClient";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {catchError, finalize, map} from "rxjs/operators";
 import {BehaviorSubject, of} from "rxjs";
 import {Supplier} from "../../models/supplier.model";
@@ -37,6 +37,7 @@ export class AttributeEditComponent implements OnInit {
   constructor(
     public api: ApiClient,
     private _ActivatedRoute: ActivatedRoute,
+    private router: Router,
     private _notyf: NotificationService
   ) {}
 
@@ -51,9 +52,11 @@ export class AttributeEditComponent implements OnInit {
           catchError(() => of([])),
           finalize(() => this.loadingSubject.next(false))
         )
-        .subscribe(data => {
-          this.attribute = data;
-        });
+        .subscribe({next: (data) => {
+            this.attribute = data;
+          }, error: () => {
+            this.router.navigate(['page-not-found'])
+          }});
     } else {
       this.attribute.rating = 0;
     }

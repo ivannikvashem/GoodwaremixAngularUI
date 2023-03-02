@@ -6,51 +6,53 @@
   </div>
 </div>
 
-<mat-card style="padding-top: 0; padding-bottom: 0">
-  <div class="headerFormBlock">
-    <mat-form-field appearance="standard" class="full-width">
-      <mat-label>Наименование</mat-label>
-      <input matInput name="title" [(ngModel)]="product.title" required>
-    </mat-form-field>&nbsp;&nbsp;
+<div class="productLayoutCard">
+  <mat-card style="padding-top: 0; padding-bottom: 0">
+    <div class="headerFormBlock">
 
-    <div *ngIf="!product.id">
-      <app-supplier-autocomplete *ngIf="isSupplierSingle == false" (isSingle)="isSupplierSingle = $event" class="full-width" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
-    </div>
-    <mat-form-field *ngIf="product?.supplierName && product.id" appearance="standard">
-      <mat-label>Поставщик</mat-label>
-      <input matInput [value]="product.supplierName" disabled>
-    </mat-form-field>&nbsp;&nbsp;
+      <mat-form-field appearance="standard" class="full-width">
+        <mat-label>Наименование</mat-label>
+        <input matInput name="title" [(ngModel)]="product.title" required>
+      </mat-form-field>&nbsp;&nbsp;
 
-    <mat-form-field appearance="standard">
-      <mat-label>Идентификатор товара поставщика</mat-label>
-      <input matInput name="vendorId" [(ngModel)]="product.vendorId" required minlength="1">
-    </mat-form-field>&nbsp;&nbsp;
+      <div *ngIf="!product.id">
+        <app-supplier-autocomplete *ngIf="isSupplierSingle == false" (isSingle)="isSupplierSingle = $event" class="full-width" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
+      </div>
+      <mat-form-field *ngIf="product?.supplierName && product.id" appearance="standard">
+        <mat-label>Поставщик</mat-label>
+        <input matInput [value]="product.supplierName" disabled>
+      </mat-form-field>&nbsp;&nbsp;
 
-    <mat-form-field *ngIf="product.internalCode" appearance="standard">
-      <mat-label>Артикул Энергомикс</mat-label>
-      <input matInput name="internalCode" [(ngModel)]="product.internalCode" disabled>
-    </mat-form-field>
-    <div *ngIf="!product.internalCode" style="margin: auto;">
-      <button type="button" [disabled]="!internalCodeFetching || !product.vendorId" mat-flat-button (click)="RequestProductInternalCode(productId)">
+      <mat-form-field appearance="standard">
+        <mat-label>Идентификатор товара поставщика</mat-label>
+        <input matInput name="vendorId" [(ngModel)]="product.vendorId" required minlength="1">
+      </mat-form-field>&nbsp;&nbsp;
+
+      <mat-form-field *ngIf="product.internalCode" appearance="standard">
+        <mat-label>Артикул Энергомикс</mat-label>
+        <input matInput name="internalCode" [(ngModel)]="product.internalCode" disabled>
+      </mat-form-field>
+      <button *ngIf="!product.internalCode" style="margin: auto; width: 220px" type="button" [disabled]="!internalCodeFetching || !product.vendorId" mat-flat-button (click)="RequestProductInternalCode(productId)">
         Запросить артикул
       </button>
     </div>
-  </div>
-</mat-card>
+  </mat-card>
 
-<div class="container" style="margin-top: 10px">
-  <mat-card style="padding-top: 0;">
-      <mat-tab-group style="width:465px" animationDuration="0ms">
+  <div class="container" style="margin-top: 10px">
+    <mat-card class="mediaTabGroup">
+      <mat-tab-group animationDuration="0ms">
         <mat-tab  label="Фото">
           <ng-template matTabContent>
-            <button mat-button (click)="fileInput.value= ''; fileInput.click()" class="mat-elevation-z2" style="margin:10px;width:95%">
-              <mat-icon>cloud_upload</mat-icon> Загрузить
-              <input #fileInput type="file" multiple="" accept="image/gif, image/jpeg, image/png, image/jpg" (change)="onImageChange($event)" style="display:none;"/>
-            </button>
+            <div>
+              <button mat-button (click)="fileInput.value= ''; fileInput.click()" class="mat-elevation-z2" style="margin: 10px 0 10px 5px;">
+                <mat-icon>cloud_upload</mat-icon> Загрузить
+                <input #fileInput type="file" multiple="" accept="image/gif, image/jpeg, image/png, image/jpg" (change)="onImageChange($event)" style="display:none;"/>
+              </button>
+            </div>
 
             <div class="box mat-elevation-z2" *ngFor="let img of preloadImagesView; let i = index">
-              <button type="button" class="delete" (click)="removeImage(i, img.id)">
-                <span>&times;</span>
+              <button type="button" class="deleteImgBtn" (click)="removeImage(i, img.id)">
+                <span><mat-icon style="font-size: 20px">delete</mat-icon></span>
               </button>
               <div class="image">
                 <img [src]="img.file" style="object-fit: cover;" (error)="handleMissingImage($event)" class="mat-elevation-z2" (click)="openImageDialog(img.file)">
@@ -93,11 +95,10 @@
         </mat-tab>
       </mat-tab-group>
     </mat-card>
-  <div style="width: 100%">
 
-    <mat-card style="padding-top: 0">
+    <mat-card style="padding-top: 0" class="aboutProductGroup">
       <mat-tab-group animationDuration="0ms">
-        <mat-tab  label="О товаре">
+        <mat-tab label="О товаре">
           <ng-template matTabContent>
             <div class="formBlockFull">
               <mat-form-field appearance="fill" class="full-width; about-form-field-double">
@@ -280,3 +281,4 @@
     </mat-card>
   </div>
 </div>
+

@@ -45,8 +45,8 @@
     </mat-card>
 
     <mat-accordion  *ngIf="(product?.netto | json) != '{}'">
-      <mat-expansion-panel expanded style="margin-right: 10px; margin-top: 10px">
-        <mat-expansion-panel-header>
+      <mat-expansion-panel expanded style="margin-right: 10px; margin-top: 10px;" hideToggle>
+        <mat-expansion-panel-header #panelH (click)="panelH._toggle()" style="cursor: default">
           <mat-panel-title>Нетто</mat-panel-title>
           <mat-panel-description><mat-icon>format_size</mat-icon> {{product?.netto?.packQty}} {{product?.netto?.type}}</mat-panel-description>
         </mat-expansion-panel-header>
