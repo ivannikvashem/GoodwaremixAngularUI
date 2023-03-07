@@ -39,6 +39,7 @@ import { ProductIcFilterSwitchComponent } from './product-ic-filter-switch/produ
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import { ProductDocumentListComponent } from './product-document-list/product-document-list.component';
 import {ScrollingModule} from "@angular/cdk/scrolling";
+import {DocumentCardComponent} from "../document/document-card/document-card.component";
 
 @NgModule({
   declarations: [
@@ -56,36 +57,37 @@ import {ScrollingModule} from "@angular/cdk/scrolling";
     AttributeFilterComponent,
     ProductIcFilterSwitchComponent,
     ProductDocumentListComponent,
+    DocumentCardComponent
   ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        MatInputModule,
-        MatPaginatorModule,
-        MatSortModule,
-        MatTableModule,
-        MatButtonModule,
-        MatIconModule,
-        MatButtonToggleModule,
-        MatFormFieldModule,
-        MatCardModule,
-        MatExpansionModule,
-        MatChipsModule,
-        MatTooltipModule,
-        ReactiveFormsModule,
-        NgxBarcodeModule,
-        MatTabsModule,
-        MatMenuModule,
-        MatDialogModule,
-        SharedModule,
-        MatDatepickerModule,
-        MatAutocompleteModule,
-        MatSelectModule,
-        MatListModule,
-        MatProgressSpinnerModule,
-        RouterModule,
-        MatCheckboxModule,
-        ScrollingModule
-    ]
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatInputModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    MatButtonToggleModule,
+    MatFormFieldModule,
+    MatCardModule,
+    MatExpansionModule,
+    MatChipsModule,
+    MatTooltipModule,
+    ReactiveFormsModule,
+    NgxBarcodeModule,
+    MatTabsModule,
+    MatMenuModule,
+    MatDialogModule,
+    SharedModule,
+    MatDatepickerModule,
+    MatAutocompleteModule,
+    MatSelectModule,
+    MatListModule,
+    MatProgressSpinnerModule,
+    RouterModule,
+    MatCheckboxModule,
+    ScrollingModule,
+  ]
 })
 export class ProductModule { }

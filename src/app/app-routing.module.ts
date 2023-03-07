@@ -60,7 +60,7 @@ routes = [
   {path: 'user-add', component: UserDetailsComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'user-edit/:id', component: UserDetailsComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'page-not-found', component: PageNotFoundComponent},
-  {path: '**', pathMatch: 'full', redirectTo: '/page-not-found'},
+  {path: '**', pathMatch: 'full', redirectTo: '/products'},
 
 ];
 

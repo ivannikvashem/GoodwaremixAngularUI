@@ -5,7 +5,6 @@ import {Document} from "../../models/document.model";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {NotificationService} from "../../service/notification-service";
-import {waitForAsync} from "@angular/core/testing";
 import {MissingImageHandler} from "../MissingImageHandler";
 export interface AttrDialogData {
   documentIds:string[]
@@ -179,5 +178,10 @@ export class ProductDocumentEditComponent implements OnInit {
   onDragOver($event: DragEvent) {
     $event.stopPropagation()
     $event.preventDefault()
+  }
+
+  onDocumentSelected(document: any) {
+    this.data.newDocument = document.document
+    this.dialogRef.close(this.data)
   }
 }

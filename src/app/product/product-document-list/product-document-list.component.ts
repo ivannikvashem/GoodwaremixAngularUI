@@ -12,16 +12,14 @@ import {ApiClient} from "../../service/httpClient";
   styleUrls: ['./product-document-list.component.css']
 })
 export class ProductDocumentListComponent implements OnInit {
-
-  //TEMP
-  imgPlaceholder:string = "https://mosbetontorg.ru/upload/iblock/17d/17d912c7a93426a0214cf2ca955cd8eb.jpg";
-
   dataSource = new MatTableDataSource<any>()
   documentsView:Document[] = []
   isLoading:boolean = false;
   constructor(public dialog: MatDialog, private _notyf: NotificationService, private api:ApiClient) { }
   @Input() document:string[] = []
   @Input() supplierId:string
+  @Input() isChangeable:boolean
+  @Input() isSelectable:boolean
   @Output() documentList = new EventEmitter<string[]>();
 
 
@@ -41,7 +39,7 @@ export class ProductDocumentListComponent implements OnInit {
   openDocumentEditorDialog(oldDocument?:any): void {
     if (this.supplierId) {
       const dialogRef = this.dialog.open(ProductDocumentEditComponent, {
-        width: '1200px',
+        width: '1050px',
         autoFocus: false,
         data: {documentIds:this.documentsView.map(x => x.id), supplierId:this.supplierId, oldDocument: oldDocument, newDocument: new Document() },
       });
@@ -66,8 +64,12 @@ export class ProductDocumentListComponent implements OnInit {
     }
   }
 
-  deleteDocRow(row:any) {
-    this.documentsView = this.documentsView.filter(dc => (dc != row))
-    this.documentList.next(this.documentsView.map(x => x.id))
+  onDocumentSelected(doc: any) {
+    if (doc.toDelete) {
+      this.documentsView = this.documentsView.filter(dc => (dc.id != doc.document.id))
+      this.documentList.next(this.documentsView.map(x => x.id))
+    } else {
+      this.documentsView.push(doc.document as Document)
+    }
   }
 }

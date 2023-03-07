@@ -10,18 +10,20 @@
   <mat-card style="padding-top: 0; padding-bottom: 0">
     <div class="headerFormBlock">
 
-      <mat-form-field appearance="standard" class="full-width">
-        <mat-label>Наименование</mat-label>
-        <input matInput name="title" [(ngModel)]="product.title" required>
-      </mat-form-field>&nbsp;&nbsp;
+      <div class="full-width" style="display: flex">
+        <mat-form-field appearance="standard" style="width: 70%">
+          <mat-label>Наименование</mat-label>
+          <input matInput name="title" [(ngModel)]="product.title" required>
+        </mat-form-field>&nbsp;&nbsp;
 
-      <div *ngIf="!product.id">
-        <app-supplier-autocomplete *ngIf="isSupplierSingle == false" (isSingle)="isSupplierSingle = $event" class="full-width" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
+        <div *ngIf="!product.id" style="width: 30%">
+          <app-supplier-autocomplete *ngIf="isSupplierSingle == false" (isSingle)="isSupplierSingle = $event" class="full-width" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
+        </div>
+        <mat-form-field *ngIf="product?.supplierName && product.id" appearance="standard" style="width: 30%">
+          <mat-label>Поставщик</mat-label>
+          <input matInput [value]="product.supplierName" disabled>
+        </mat-form-field>&nbsp;&nbsp;
       </div>
-      <mat-form-field *ngIf="product?.supplierName && product.id" appearance="standard">
-        <mat-label>Поставщик</mat-label>
-        <input matInput [value]="product.supplierName" disabled>
-      </mat-form-field>&nbsp;&nbsp;
 
       <mat-form-field appearance="standard">
         <mat-label>Идентификатор товара поставщика</mat-label>
@@ -40,19 +42,17 @@
 
   <div class="container" style="margin-top: 10px">
     <mat-card class="mediaTabGroup">
-      <mat-tab-group animationDuration="0ms">
-        <mat-tab  label="Фото">
+      <mat-tab-group animationDuration="0ms" style="width:320px">
+        <mat-tab label="Фото">
           <ng-template matTabContent>
-            <div>
-              <button mat-button (click)="fileInput.value= ''; fileInput.click()" class="mat-elevation-z2" style="margin: 10px 0 10px 5px;">
-                <mat-icon>cloud_upload</mat-icon> Загрузить
-                <input #fileInput type="file" multiple="" accept="image/gif, image/jpeg, image/png, image/jpg" (change)="onImageChange($event)" style="display:none;"/>
-              </button>
-            </div>
+            <button mat-button (click)="fileInput.value= ''; fileInput.click()" class="mat-elevation-z2" style="margin: 5px; width: 97%">
+              <mat-icon>cloud_upload</mat-icon> Загрузить
+              <input #fileInput type="file" multiple="" accept="image/gif, image/jpeg, image/png, image/jpg" (change)="onImageChange($event)" style="display:none;"/>
+            </button>
 
             <div class="box mat-elevation-z2" *ngFor="let img of preloadImagesView; let i = index">
-              <button type="button" class="deleteImgBtn" (click)="removeImage(i, img.id)">
-                <span><mat-icon style="font-size: 20px">delete</mat-icon></span>
+              <button disableRipple mat-mini-fab type="button" class="deleteImgBtn" (click)="removeImage(i, img.id)">
+                <mat-icon>delete</mat-icon>
               </button>
               <div class="image">
                 <img [src]="img.file" style="object-fit: cover;" (error)="handleMissingImage($event)" class="mat-elevation-z2" (click)="openImageDialog(img.file)">
@@ -96,7 +96,7 @@
       </mat-tab-group>
     </mat-card>
 
-    <mat-card style="padding-top: 0" class="aboutProductGroup">
+    <mat-card class="aboutProductGroup">
       <mat-tab-group animationDuration="0ms">
         <mat-tab label="О товаре">
           <ng-template matTabContent>
@@ -274,7 +274,7 @@
 
         <mat-tab label="Документы">
           <ng-template matTabContent>
-            <app-product-document-list [supplierId]="product.supplierId" [document]="product.documents" (documentList)="onDocumentsChanged($event)"></app-product-document-list>
+            <app-product-document-list [supplierId]="product.supplierId" [document]="product.documents" [isChangeable]="true" [isSelectable]="false" (documentList)="onDocumentsChanged($event)"></app-product-document-list>
           </ng-template>
         </mat-tab>
       </mat-tab-group>
