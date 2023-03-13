@@ -15,7 +15,7 @@
 
       <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="diaplayFn" (optionSelected)="onAttributeSelected()">
         <mat-option *ngFor="let option of attributes" [value]="option">
-          {{option.fixed ? "■" : ''}} {{option.etimFeature}} {{option.nameAttribute}} [{{option.supplierName}}]
+          {{option.isFixed ? "■" : ''}} {{option.etimFeature}} {{option.nameAttribute}} [{{option.supplierName}}]
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>

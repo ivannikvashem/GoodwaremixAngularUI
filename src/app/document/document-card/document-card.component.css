@@ -60,6 +60,6 @@
   /* Compact: */
   .documentNumber {margin-left: 10px}
   .documentTitle {margin-top: 10px}
-  .box {width: 100%; height: 130px}
+  .box {width: 98%; height: 130px}
   .cardHeader {display: flex}
 }

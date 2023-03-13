@@ -336,10 +336,6 @@ export class ProductEditComponent implements OnInit {
   onDocumentsChanged(documents: string[]) {
     this.product.documents = documents
   }
-
-  openDocumentEditorDialog() {
-
-  }
 }
 
 // Service

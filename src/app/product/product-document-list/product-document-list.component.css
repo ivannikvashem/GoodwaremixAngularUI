@@ -60,12 +60,12 @@
 
 @media only screen and (max-width: 1210px) {
   /* Compact: */
-  .box {width: 100%; height: 40px}
+  .box {width: 98%; height: 40px}
 }
 
 @media only screen and (max-width: 900px) {
   /* Compact: */
-  .box {width: 100%; height: 40px}
+  .box {width: 98%; height: 40px;}
   .cardHeader {display: flex}
   :host::ng-deep .mat-card-subtitle { padding: 0}
   :host::ng-deep .mat-card-header-text { margin: 0; }

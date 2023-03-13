@@ -5,7 +5,7 @@ export class Attribute {
   supplierName: string
   unit: string
   type: string
-  fixed: boolean
+  isFixed: boolean
   nameAttribute: string
   etimFeature: string
   etimUnit: string

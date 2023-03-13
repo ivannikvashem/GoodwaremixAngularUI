@@ -6,7 +6,7 @@
   <div style="width: 100%; display: flex; justify-content: space-between">
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Фиксация</mat-label>
-      <mat-select name="fixed" [(ngModel)]="attribute.fixed">
+      <mat-select name="fixed" [(ngModel)]="attribute.isFixed">
         <mat-option [value]="false"></mat-option>
         <mat-option [value]="true">Фиксирован</mat-option>
       </mat-select>
@@ -63,7 +63,7 @@
     </mat-chip-list>
   </mat-form-field>
 
-  <mat-form-field class="chip-list" appearance="fill" *ngIf="attribute?.fixed">
+  <mat-form-field class="chip-list" appearance="fill" *ngIf="attribute?.isFixed">
     <mat-label>Список возможных имен атрибута</mat-label>
     <mat-chip-list #chipList aria-label="Список возможных имен атрибута">
       <mat-chip *ngFor="let pn of attribute?.possibleAttributeName" (removed)="removePossibleName(pn)">
