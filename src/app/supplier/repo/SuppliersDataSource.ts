@@ -24,7 +24,7 @@ export class SuppliersDataSource implements DataSource<Supplier> {
     this.loadingSubject.complete();
   }
 
-  loadPagedData(searchQuery = "", pageIndex = 0, pageSize = 15, sortActive = "SupplierName", sortDirection = "asc") {
+  loadPagedData(searchQuery = "", pageIndex = 0, pageSize = 15, sortActive = "supplierName", sortDirection = "asc") {
     this.loadingSubject.next(true);
     this.api.getSuppliers(searchQuery, pageIndex, pageSize, sortActive, sortDirection)
       .pipe(

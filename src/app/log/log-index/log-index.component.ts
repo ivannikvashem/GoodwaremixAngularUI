@@ -23,7 +23,7 @@ import {Supplier} from "../../models/supplier.model";
 })
 export class LogIndexComponent implements OnInit {
 
-  displayedColumns: string[] = ['SupplierName', 'Date', 'status', 'result', 'actions'];
+  displayedColumns: string[] = ['supplierName', 'date', 'status', 'result', 'actions'];
   expandedElement: Log | null | undefined;
   dataSource: LogsDataSource;
   selectedSupplier: Supplier;

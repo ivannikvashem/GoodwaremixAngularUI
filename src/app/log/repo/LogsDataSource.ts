@@ -23,7 +23,7 @@ export class LogsDataSource implements DataSource<Log> {
     this.loadingSubject.complete();
   }
 
-  loadPagedData(selectedSuppId = '',pageIndex = 1, pageSize = 10, sortActive = "Date", sortDirection = "desc"): any {
+  loadPagedData(selectedSuppId = '',pageIndex = 1, pageSize = 10, sortActive = "date", sortDirection = "desc"): any {
     this.loadingSubject.next(true);
     this.api.getLogs(selectedSuppId,pageIndex, pageSize, sortActive, sortDirection)
       .pipe(

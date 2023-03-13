@@ -1,12 +1,12 @@
 <div class="mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource" matSort matSortActive="Date" matSortDisableClear matSortDirection="desc" multiTemplateDataRows>
+  <table mat-table [dataSource]="dataSource" matSort matSortActive="date" matSortDisableClear matSortDirection="desc" multiTemplateDataRows>
     <!-- Name Column -->
-    <ng-container matColumnDef="SupplierName">
+    <ng-container matColumnDef="supplierName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Поставщик</th>
       <td mat-cell *matCellDef="let row">{{row.supplierName}}</td>
     </ng-container>
     <!-- Date Column -->
-    <ng-container matColumnDef="Date">
+    <ng-container matColumnDef="date">
       <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Дата</th>
       <td mat-cell *matCellDef="let row">{{row.date | date:'yyyy-MM-dd, H:mm'}}</td>
     </ng-container>

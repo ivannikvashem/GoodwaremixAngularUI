@@ -99,30 +99,25 @@ export class AttributeEditComponent implements OnInit {
   }
 
   saveAttribute() {
-    console.log(this.attribute)
     if (!this.attribute.supplierId) {
       this.attribute.supplierId = this.selectedSupplier.id
       this.attribute.supplierName = this.selectedSupplier.supplierName
     }
     if (this.attribute.id == undefined) {
-      console.log('new one')
       this.api.insertAttribute(this.attribute).subscribe( {
-        next:next => {
+        next:() => {
           this._notyf.onSuccess('Успешно добавлено')
         },
-        error:error => {
-          this._notyf.onError('Ошибка ' + error)
-          console.log(JSON.stringify(error))
+        error:ex => {
+          this._notyf.onError('Ошибка ' + ex.error)
         }})
     } else {
-      console.log('old one')
       this.api.updateAttribute(this.attribute).subscribe( {
-        next:next => {
+        next:() => {
           this._notyf.onSuccess('Успешно сохранено')
         },
-        error:error => {
-          this._notyf.onError('Ошибка ' + error)
-          console.log(JSON.stringify(error))
+        error:ex => {
+          this._notyf.onError('Ошибка ' + ex.error)
         }})
     }
   }
