@@ -37,8 +37,6 @@ export class LogIndexComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort | any;
 
   ngOnInit(): any {
-    this.dataSource.loadPagedData(this.selectedSupplier?.id, 0,10, 'Date', 'desc');
-
     this.dss.selectedSupplierState.subscribe(
       (supplier) => {
         this.selectedSupplier = supplier;

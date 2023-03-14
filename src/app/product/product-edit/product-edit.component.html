@@ -50,6 +50,10 @@
               <input #fileInput type="file" multiple="" accept="image/gif, image/jpeg, image/png, image/jpg" (change)="onImageChange($event)" style="display:none;"/>
             </button>
 
+            <pre>
+              {{preloadImagesView | json}}
+            </pre>
+
             <div class="box mat-elevation-z2" *ngFor="let img of preloadImagesView; let i = index">
               <button disableRipple mat-mini-fab type="button" class="deleteImgBtn" (click)="removeImage(i, img.id)">
                 <mat-icon>delete</mat-icon>
