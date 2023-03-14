@@ -78,6 +78,8 @@ export class ProductEditComponent implements OnInit {
         console.log('prod', this.product)
         if (this.product.thumbnails) {
           this.product.localImages.forEach((value) => {this.preloadImagesView.push({id: null, file:value})})
+        } else {
+          this.product.images.forEach((value) => {this.preloadImagesView.push({id:null, file:value})})
         }
         console.log('th', this.product.thumbnails)
         console.log('l img', this.product.localImages)
