@@ -75,9 +75,13 @@ export class ProductEditComponent implements OnInit {
     if (this.productId) {
       this.api.getProductById(this.productId).subscribe({ next: (s) => {
         this.product = s.body as Product;
+        console.log('prod', this.product)
         if (this.product.thumbnails) {
           this.product.localImages.forEach((value) => {this.preloadImagesView.push({id: null, file:value})})
         }
+        console.log('th', this.product.thumbnails)
+        console.log('l img', this.product.localImages)
+        console.log('pre', this.preloadImagesView)
         if (this.product.netto == null) {
           this.product.netto = new Package()
         }
