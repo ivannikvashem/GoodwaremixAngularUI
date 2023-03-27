@@ -1,31 +1,31 @@
-<mat-card class="box" [ngStyle]="{'background-image': 'linear-gradient(to bottom, rgba(255, 255, 255,1), rgba(255,255,255,0.5)), url(&quot;' + document.preview + '&quot;)', 'background-size':'cover'}">
-  <mat-card-header *ngIf="document.type">
-    <div mat-card-avatar><mat-icon>picture_as_pdf</mat-icon></div>
-    <div class="cardHeader">
-      <a *ngIf="document.url" [href]="document.url" target="_blank"><mat-card-subtitle><strong><u>{{document.type}}</u></strong></mat-card-subtitle></a>
-      <mat-card-subtitle *ngIf="!document.url"><strong>{{document.type}}</strong></mat-card-subtitle>
-      <i class="documentNumber" *ngIf="document.certNumber"> № {{document.certNumber}}</i>
-    </div>
-  </mat-card-header>
-  <mat-card-content>
+ <mat-card class="box" [ngStyle]="{'background-image': 'linear-gradient(to bottom, rgba(255, 255, 255,1), rgba(255,255,255,0.5)), url(&quot;' + document.preview + '&quot;)', 'background-size':'cover'}">
+    <mat-card-header *ngIf="document.type">
+      <div mat-card-avatar><mat-icon>picture_as_pdf</mat-icon></div>
+      <div class="cardHeader">
+        <a *ngIf="document.url" [href]="document.url" target="_blank"><mat-card-subtitle><strong><u>{{document.type}}</u></strong></mat-card-subtitle></a>
+        <mat-card-subtitle *ngIf="!document.url"><strong>{{document.type}}</strong></mat-card-subtitle>
+        <i class="documentNumber" *ngIf="document.certNumber"> № {{document.certNumber}}</i>
+      </div>
+    </mat-card-header>
+    <mat-card-content>
 
-    <small>
-      <div class="documentTitle" *ngIf="document.certTitle">{{document.certTitle}}</div>
-    </small>
-
-  </mat-card-content>
-  <mat-card-actions align="end">
-
-    <div class="card-low-stripe">
       <small>
-        <div *ngIf="document.startDate && document.endDate"><strong><i>{{document.startDate | date:'MM.yyyy'}} - {{document.endDate | date:'MM.yyyy'}}</i></strong></div>
+        <div class="documentTitle" *ngIf="document.certTitle">{{document.certTitle}}</div>
       </small>
-    </div>
-    <div *ngIf="isChangeable">
-      <button mat-mini-fab color="" (click)="openDocumentEditorDialog(document)"><mat-icon>edit</mat-icon></button>&nbsp;
-      <button mat-mini-fab color="" (click)="onSelected(true,document)"><mat-icon>delete</mat-icon></button>
-    </div>
-    <button *ngIf="isSelectable" mat-icon-button (click)="onSelected(false,document)" matTooltip="Привязать документ"><mat-icon>attach_file</mat-icon></button>
 
-  </mat-card-actions>
-</mat-card>
+    </mat-card-content>
+    <mat-card-actions align="end">
+
+      <div class="card-low-stripe">
+        <small>
+          <div *ngIf="document.startDate && document.endDate"><strong><i>{{document.startDate | date:'MM.yyyy'}} - {{document.endDate | date:'MM.yyyy'}}</i></strong></div>
+        </small>
+      </div>
+      <div *ngIf="isChangeable">
+        <button mat-mini-fab color="" (click)="openDocumentEditorDialog(document)"><mat-icon>edit</mat-icon></button>&nbsp;
+        <button mat-mini-fab color="" (click)="onSelected(true,document)"><mat-icon>delete</mat-icon></button>
+      </div>
+      <button *ngIf="isSelectable" mat-icon-button (click)="onSelected(false,document)" matTooltip="Привязать документ"><mat-icon>attach_file</mat-icon></button>
+
+    </mat-card-actions>
+  </mat-card>

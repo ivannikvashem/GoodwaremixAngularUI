@@ -30,7 +30,7 @@ export class SupplierIndexComponent implements OnInit {
 
   pageTitle:string = 'SupplierIndex';
 
-  displayedColumns: string[] = ['SupplierName', 'type', 'fullfill', 'brands', 'Stat.ProductQty', 'Stat.lastImport', 'actions'];
+  displayedColumns: string[] = ['supplierName', 'type', 'fullfill', 'brands', 'Stat.ProductQty', 'Stat.lastImport', 'actions'];
   dataSource: SuppliersDataSource;
   searchQueryCtrl  = new FormControl<string>('');
   //searchQuery = "";

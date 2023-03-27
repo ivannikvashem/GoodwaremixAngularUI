@@ -19,7 +19,7 @@ export class AdminPanelComponent implements OnInit {
   selection = new SelectionModel<Supplier>(true, []);
 
   ngOnInit(): void {
-    this.api.getSuppliers('', 0, 100, "SupplierName", "asc").subscribe((r: any) => {
+    this.api.getSuppliers('', 0, 100, "supplierName", "asc").subscribe((r: any) => {
       this.supplierDataSource.data = r.body.data
     });
   }

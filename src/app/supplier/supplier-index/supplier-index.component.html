@@ -8,9 +8,9 @@
 </div>
 
 <div class="mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort matSortActive="SupplierName" matSortDisableClear matSortDirection="asc">
+  <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort matSortActive="supplierName" matSortDisableClear matSortDirection="asc">
     <!-- Name Column -->
-    <ng-container matColumnDef="SupplierName">
+    <ng-container matColumnDef="supplierName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Наименование</th>
       <td mat-cell *matCellDef="let row"><a (click)="gotoProductsBySupplier(row)">{{row.supplierName}} <span *ngIf="row.supplierConfigs[0] && row.supplierConfigs[0].prefix" style="font-style: italic; background-color: lightgray; padding: 0 0.3em;">{{row.supplierConfigs[0].prefix}}</span></a></td>
     </ng-container>
