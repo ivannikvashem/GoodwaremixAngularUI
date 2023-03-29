@@ -72,7 +72,7 @@ export class ProductDocumentEditComponent implements OnInit {
         this.preloadDocumentView = { fileName:this.documentProduct.file}
       }
     } else {
-      this.api.getDocuments('', 0,100, '', 'desc').subscribe(x => {
+      this.api.getDocuments('', 0,600, '', 'desc').subscribe(x => {
         this.documentsList = x.body.data
         for (let i of this.documentsList) {
           if (this.data.documentIds.find(x => x == i.id)) {
@@ -129,7 +129,7 @@ export class ProductDocumentEditComponent implements OnInit {
       if (this.preloadDocumentView?.fileContent != undefined)
         this.uploadDocumentFiles()
 
-      if (this.data.oldDocument != undefined) {
+      if (this.data.oldDocument.id != undefined) {
         this.updateDocument(this.data.newDocument)
       } else {
         this.insertDocument(this.data.newDocument)

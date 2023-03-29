@@ -52,6 +52,7 @@ import {TaskModule} from "./task/task.module";
 import {DataStateService} from "./shared/data-state.service";
 import {AuthModule} from "./auth/auth.module";
 import {UsersModule} from "./users/users.module";
+import { DocumentIndexComponent } from './document/document-index/document-index.component';
 
 @NgModule({
     declarations: [
@@ -59,6 +60,7 @@ import {UsersModule} from "./users/users.module";
         ConfirmDialogComponent,
         SwapAttributeComponent,
         SupplierAttributeAddComponent,
+        DocumentIndexComponent,
     ],
     imports: [
         CommonModule,

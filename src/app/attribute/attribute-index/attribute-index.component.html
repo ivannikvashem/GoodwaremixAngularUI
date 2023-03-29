@@ -30,7 +30,7 @@
       <!-- ACTIONS Column -->
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>
-          <button mat-icon-button matTooltip="Добавить" [routerLink]="['/attribute-add']"><mat-icon>add</mat-icon></button>
+          <button mat-button [routerLink]="['/attribute-add']"><mat-icon>add</mat-icon> Добавить</button>
         </th>
         <td mat-cell *matCellDef="let item">
           <button *ngIf="!item.fixed" mat-icon-button matTooltip="Заменить" (click)="swapItem(item.nameAttribute, item.id)"><mat-icon>swap_horiz</mat-icon></button>&nbsp;

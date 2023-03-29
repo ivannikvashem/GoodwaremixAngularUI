@@ -59,15 +59,16 @@ export class SupplierEditComponent implements OnInit {
         for (let config of this.supplier.supplierConfigs) {
           config.nettoConfig.dimensions = new Dimensions()
           config.packageConfig.dimensions = new Dimensions()
-          /*config.multipliers = new Multipliers()*/
           if (config.sourceSettings.header) {
             config.sourceSettings.header = JSON.parse(config.sourceSettings.header) as HeaderModel
           }
-          this.isConfigsLoaded = true;
         }
-      }, error: () => {
+          this.isConfigsLoaded = true;
+        }, error: () => {
         this.router.navigate(['page-not-found'])
       }});
+    } else {
+      this.isConfigsLoaded = true
     }
     this.attributeListCtrl.valueChanges.pipe(
       debounceTime(100),
