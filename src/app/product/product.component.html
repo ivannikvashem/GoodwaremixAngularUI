@@ -28,4 +28,4 @@
 
 
 <!--Тут нужно обернуть значения контролов, чтобы на каждый введенный символ не происходил новый запрос к api-->
-<app-product-index [searchQuery]="searchQuery" [withInternalCode]="withICFilter" [selectedSupplier]="selectedSupplier"></app-product-index>
+<app-product-index [searchQuery]="searchQuery" [withInternalCode]="withICFilter" [selectedSupplier]="selectedSupplier" [pageIndex]="pageIndex" [pageSize]="pageSize" (pageParams)="onPageParamsChanged($event)"></app-product-index>

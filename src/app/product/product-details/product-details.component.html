@@ -6,8 +6,8 @@
 
   <div>
     <span *ngIf="product?.vendor">{{product?.vendor}}</span>
-    <span> {{product?.title !== undefined ? product.title : product.titleLong}}</span>&nbsp;
-    <span *ngIf="product.vendorId"> <button class="btnAsText" (click)="copyVendorId(product.vendorId)">[<strong>{{product.vendorId}}</strong>]</button> </span>
+    <span> {{product?.title !== undefined ? product?.title : product.titleLong}}</span>&nbsp;
+    <span *ngIf="product?.vendorId"> <button class="btnAsText" (click)="copyVendorId(product.vendorId)">[<strong>{{product.vendorId}}</strong>]</button> </span>
 <!--    <mat-icon style="vertical-align:middle;">content_copy</mat-icon>-->
   </div>
 </div>
@@ -24,13 +24,13 @@
             </div>
           </ng-template>
         </mat-tab>
-        <mat-tab *ngIf="product.image360" label="Фото 360">
+        <mat-tab *ngIf="product?.image360" label="Фото 360">
           <ng-template matTabContent>
             <!--<iframe width="460" height="440" [src]="safeImg360Url" title="360ImageViewer" allowfullscreen></iframe>-->
           </ng-template>
         </mat-tab>
 
-        <mat-tab *ngIf="product.videos.length >= 1" label="Видео">
+        <mat-tab *ngIf="product?.videos.length >= 1" label="Видео">
           <ng-template matTabContent>
             <iframe width="460" height="440" [src]="selectedSafeVideo" allowfullscreen></iframe>
             <div *ngIf="safeVideoUrl.length > 1" class="video-btn-wrapper">
@@ -74,24 +74,24 @@
       <mat-card-subtitle>
         <div class="card-container">
           <h2>О товаре</h2>
-          <h4 *ngIf="product.internalCode">арт. <span style="font-size: 1.5em">{{product.internalCode}}</span></h4>
+          <h4 *ngIf="product?.internalCode">арт. <span style="font-size: 1.5em">{{product.internalCode}}</span></h4>
         </div>
       </mat-card-subtitle>
-      <div [innerHTML]="product.description"></div>
+      <div [innerHTML]="product?.description"></div>
       <ul>
-        <li *ngIf="product.country">Страна производства - {{product.country}} <span *ngIf="product.countryCode">(Код {{product.countryCode}})</span></li>
-        <li *ngIf="product.vendorId">Артикул поставщика - {{product.vendorId}}</li>
-        <li *ngIf="product.vendor">Бренд - {{product.vendor}}</li>
-        <li *ngIf="product.supplierName">Поставщик - {{product.supplierName}}</li>
+        <li *ngIf="product?.country">Страна производства - {{product.country}} <span *ngIf="product.countryCode">(Код {{product.countryCode}})</span></li>
+        <li *ngIf="product?.vendorId">Артикул поставщика - {{product.vendorId}}</li>
+        <li *ngIf="product?.vendor">Бренд - {{product.vendor}}</li>
+        <li *ngIf="product?.supplierName">Поставщик - {{product.supplierName}}</li>
       </ul>
     </mat-card>
 
-    <mat-card style="margin-top: 10px" *ngIf="product.documents && product.documents.length > 0">
+    <mat-card style="margin-top: 10px" *ngIf="product?.documents && product?.documents.length > 0">
       <mat-card-subtitle><h2>Документы</h2></mat-card-subtitle>
       <div><app-document-card *ngFor="let doc of productDocuments" [document]="doc"></app-document-card></div>
     </mat-card>
 
-    <mat-card style="margin-top: 10px;" *ngIf="product.attributes && product.attributes.length > 0">
+    <mat-card style="margin-top: 10px;" *ngIf="product?.attributes && product?.attributes.length > 0">
       <mat-card-subtitle><h2>Характеристики</h2></mat-card-subtitle>
       <table mat-table [dataSource]="dataSource" class="full-width">
         <!-- Etim Column -->

@@ -8,7 +8,7 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
 import {Supplier} from "../../models/supplier.model";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/shared/confirm-dialog/confirm-dialog.component";
-import {MatSort, SortDirection} from "@angular/material/sort";
+import {MatSort} from "@angular/material/sort";
 import {NotificationService} from "../../service/notification-service";
 import {LocalStorageService} from "../../service/local-storage.service";
 import {FormControl} from "@angular/forms";
@@ -144,9 +144,9 @@ export class SupplierIndexComponent implements OnInit {
       })
   }
 
-  editItem(supplierId: string) {
+  /*editItem(supplierId: string) {
     this.router.navigate([`supplier-edit/${supplierId}`]);
-  }
+  }*/
 
   confirmDeleteSuppDialog(id: string, name: string): void {
     const message = `Удалить поставщика ` + name + `?`;

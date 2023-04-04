@@ -21,4 +21,4 @@
 
 </div>
 
-<app-attribute-index [searchQuery]="searchQuery" [withFixedAttrSelector]="attributeFixedFilterState" [selectedSupplier]="selectedSupplier"></app-attribute-index>
+<app-attribute-index [searchQuery]="searchQuery" [withFixedAttrSelector]="attributeFixedFilterState" [pageIndex]="pageIndex" [pageSize]="pageSize" (pageParams)="onPageParamsChanged($event)" [selectedSupplier]="selectedSupplier"></app-attribute-index>

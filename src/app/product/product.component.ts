@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {DataStateService} from "../shared/data-state.service";
 import {Supplier} from "../models/supplier.model";
@@ -6,32 +6,20 @@ import {FormControl} from "@angular/forms";
 import {LocalStorageService} from "../service/local-storage.service";
 import {Subscription} from "rxjs";
 
-class PageCookieProductIndex {
-  pageIndex: number = 1;
-  pageSize: number = 10;
-  searchQuery: string = "";
-  withInternalCodeSelector: boolean = false;
-  supplier: Supplier;
-
-  constructor() {
-    this.supplier = new Supplier()
-  }
-}
-
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css']
 })
 export class ProductComponent implements OnInit {
-
-  pageTitle:string = 'ProductIndex';
   selectedSupplier: Supplier;
-  searchQueryCtrl  = new FormControl<string>('');
+  searchQueryCtrl  = new FormControl<string>(null);
   searchQuery:string = '';
-  //withInternalCodeCtrl  = new FormControl<boolean>(false);
+  withInternalCodeCtrl  = new FormControl<boolean>(false);
+  pageIndex:number = 0;
+  pageSize:number = 10;
 
-  pageCookie$ = this._localStorageService.myData$
+  pageCookie$ = this._localStorageService.myData$;
   pC: any = {};
   withICFilter: boolean = false;
 
@@ -40,57 +28,71 @@ export class ProductComponent implements OnInit {
   constructor(
     private _ActivatedRoute:ActivatedRoute,
     private dss: DataStateService,
-    private _localStorageService: LocalStorageService
+    private _localStorageService: LocalStorageService,
   ) { }
 
   getCookie() {
-    //try to get cookie, if there's no cookie - make the blank and save
-    this._localStorageService.getDataByPageName(this.pageTitle) as PageCookieProductIndex; //pretty wrong, upd data
-    /*this.sub = */this.pageCookie$.subscribe(x => {
-      if (x !== undefined) return;
-      console.log(x)
-      this.pC = x;
-      this.searchQueryCtrl.setValue(this.pC.searchQuery);
-      this.searchQuery = this.pC.searchQuery
-      //this.withInternalCodeCtrl.setValue(this.pC.withInternalCodeSelector);
+    this._localStorageService.getDataByPageName("ProductIndex")
+    this.pageCookie$.subscribe(localStorageContent => {
+      if (localStorageContent) {
+        this.pC = localStorageContent;
+        this.searchQueryCtrl.setValue(this.pC.searchQuery);
+        this.searchQuery = this.pC.searchQuery;
+        this.withInternalCodeCtrl.setValue(this.pC.withInternalCodeSelector);
+        this.withICFilter = this.pC.withInternalCodeSelector;
+        this.pageIndex = this.pC.pageIndex;
+        this.pageSize = this.pC.pageSize;
+      }
+    });
+  }
+
+  setCookie() {
+    this._localStorageService.setDataByPageName("ProductIndex", {
+      searchQuery: this.searchQuery,
+      withInternalCodeSelector: this.withICFilter,
+      pageIndex: this.pageIndex,
+      pageSize: this.pageSize
     });
   }
 
   ngOnInit(): void {
-    //this.getCookie()
-
     this.subscription = this.dss.selectedSupplierState.subscribe(
       supplier => {
+        console.log('sup from dss', supplier)
         this.selectedSupplier = supplier;
-      });
-
-/*    this._ActivatedRoute.queryParams.subscribe(params => {
-      let supplierId = params['supplierId'];
-      if (supplierId) {
-        console.warn("Got q param: setSelectedSupplier: " + supplierId );
-        this.dss.setSelectedSupplier(supplierId, null);
       }
-    });*/
-  }
-
-  handleChangeSelectedSupplier(supplier: Supplier) {
-    this.dss.setSelectedSupplier(supplier.id, supplier.supplierName);
+    )
+    setTimeout(() => {
+      this.getCookie();
+    })
   }
 
   searchQueryChanged() {
+    this.pageIndex = 0;
     this.searchQuery = this.searchQueryCtrl.value;
+    this.setCookie();
   }
 
   searchQueryClear() {
+    this.pageIndex = 0;
     this.searchQueryCtrl.setValue('');
     this.searchQuery = '';
+    this.setCookie();
   }
 
-  onICFilterChanged($event: boolean) {
-    this.withICFilter = $event;
+  onICFilterChanged(icFilterState: boolean) {
+    this.pageIndex = 0;
+    this.withICFilter = icFilterState;
+    this.setCookie();
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  onPageParamsChanged(params: any) {
+    this.pageIndex = params.pageIndex;
+    this.pageSize = params.pageSize;
+    this.setCookie();
   }
 }

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {ProductsDataSource} from "../repo/ProductsDataSource";
 import {ApiClient} from "../../service/httpClient";
 import {MatDialog} from "@angular/material/dialog";
@@ -8,7 +8,6 @@ import {
   tap
 } from "rxjs";
 import {Supplier} from "../../models/supplier.model";
-import {LocalStorageService} from "../../service/local-storage.service";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/shared/confirm-dialog/confirm-dialog.component";
 import {NotificationService} from "../../service/notification-service";
 import {ImagePreviewDialogComponent} from "../image-preview-dialog/image-preview-dialog.component";
@@ -21,8 +20,6 @@ import {AuthService} from "../../auth/service/auth.service";
   styleUrls: ['./product-index.component.css']
 })
 export class ProductIndexComponent implements OnInit, AfterViewInit {
-
-  pageTitle:string = 'ProductIndex';
   displayedColumns: string[] = ['preview', 'internalCode' ,'name', 'supplierName', 'actions'];
   dataSource: ProductsDataSource;
   roles: string[] = [];
@@ -30,22 +27,20 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   hoverImage: string = "";
   hoverRowId: string = "";
 
-  @Input() searchQuery = "";
+  @Input() searchQuery:string;
   @Input() withInternalCode = false;
   //selectedSupplier: Supplier = this.dss.selectedSupplierState.value
   @Input() selectedSupplier: Supplier;
-
+  @Input() pageIndex:number;
+  @Input() pageSize:number;
+  @Output() pageParams:EventEmitter<any> = new EventEmitter()
   productId: string | any;
-  pageCookie$ = this._localStorageService.myData$
-  pC: any = {};
-
 
   constructor(
     public api: ApiClient,
     public dialog: MatDialog,
     public router: Router,
     private _ActivatedRoute:ActivatedRoute,
-    private _localStorageService: LocalStorageService,
     private _notyf: NotificationService,
     private imgHandler:MissingImageHandler,
     private auth:AuthService
@@ -56,60 +51,29 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator
 
-  setCookie() {
-    this._localStorageService.setDataByPageName(this.pageTitle, {
-      searchQuery: this.searchQuery,
-      pageIndex: this.paginator?.pageIndex,
-      pageSize: this.paginator?.pageSize,
-      withInternalCodeSelector: this.withInternalCode,
-    });
-  }
-
-  getCookie() {
-    this._localStorageService.getDataByPageName(this.pageTitle);
-    this.pageCookie$.subscribe(x => {
-      if (!x) return;
-      this.pC = x;
-  /*    this.paginator.pageIndex = this.pC.pageIndex
-      this.paginator.pageSize = this.pC.pageSize*/
-    });
-  }
+  ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.onQueryChanged();
-  }
-
-  ngOnInit() {
-    //this.getCookie();
-    //this.dataSource.loadPagedData('', this.withInternalCode, this.selectedSupplier?.id, 0, 15, null);
+    this.loadProductPagedData(false)
   }
 
   ngAfterViewInit(): void {
     this.paginator.page
       .pipe(
         tap( () => {
-          this.loadProductPagedData();
-          //this.setCookie();
-        })
-      ).subscribe();
+          this.loadProductPagedData(true)
+          this.pageParams.next({pageIndex: this.paginator.pageIndex, pageSize:this.paginator.pageSize})
+        })).subscribe();
   }
 
-  onQueryChanged() {
-    if (this.paginator?.pageIndex) {
-      this.paginator.pageIndex = 0;
-    }
-    //this.setCookie();
-    this.loadProductPagedData();
+  loadProductPagedData(isPaginatorParams:boolean): any {
+    this.dataSource.loadPagedData(this.searchQuery, this.withInternalCode, this.selectedSupplier?.id, isPaginatorParams ? this.paginator?.pageIndex : this.pageIndex, isPaginatorParams ? this.paginator?.pageSize : this.pageSize, null);
   }
 
-  loadProductPagedData(): any {
-    this.dataSource.loadPagedData(this.searchQuery, this.withInternalCode, this.selectedSupplier?.id, this.paginator?.pageIndex || 0, this.paginator?.pageSize || 15, null);
-  }
 
   confirmDeleteDialog(id: string, name: string): void {
     const message = `Удалить товар ` + name + `?`;
     const dialogData = new ConfirmDialogModel("Подтверждение", message);
-
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       minWidth: "300px",
       maxWidth: "500px",

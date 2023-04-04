@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Injectable, OnInit, Output} from '@angular/core';
 import {debounceTime, distinctUntilChanged, finalize, Subscription, switchMap, tap} from "rxjs";
-import {FormControl, Validators} from "@angular/forms";
+import {FormControl} from "@angular/forms";
 import {Supplier} from "../../models/supplier.model";
 import {ApiClient} from "../../service/httpClient";
 import {DataStateService} from "../data-state.service";
@@ -19,7 +19,6 @@ export class SupplierAutocompleteComponent implements OnInit {
   supplierList:Supplier[] = [];
   @Output() selectedSupplier = new EventEmitter<Supplier>();
   @Output() isSingle = new EventEmitter<boolean>();
-
   private subscription: Subscription;
 
   constructor(public api: ApiClient,
@@ -28,7 +27,6 @@ export class SupplierAutocompleteComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
     this.subscription = this.dss.selectedSupplierState.subscribe(
       (supplier: Supplier) => {
         this.searchSuppliersCtrl.setValue(supplier);
@@ -50,7 +48,7 @@ export class SupplierAutocompleteComponent implements OnInit {
       tap(() => {
         //this.isLoading = true;
       }),
-      switchMap(value => this.api.getSuppliers(value, 0 ,100,"SupplierName", "asc")
+      switchMap(value => this.api.getSuppliers(value, 0 ,100,"supplierName", "asc")
         .pipe(
           finalize(() => {
             //this.isLoading = false
@@ -86,7 +84,7 @@ export class SupplierAutocompleteComponent implements OnInit {
   }
 
   keyPressValidation($event: KeyboardEvent) {
-    if (/[a-zA-Z0-9а-яА-Я]/.test($event.key)){
+    if (/[a-zA-Z0-9а-яА-Я ]/.test($event.key)){
       return true
     } else {
       $event.preventDefault()
