@@ -7,15 +7,16 @@ import {MatInputModule} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
-import {DocumentComponent} from "../document/document.component";
 import {MatTableModule} from "@angular/material/table";
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import {DocumentCardComponent} from "../document/document-card/document-card.component";
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
     declarations: [
         SupplierAutocompleteComponent,
-        DocumentComponent,
         PageNotFoundComponent,
+        DocumentCardComponent
     ],
   imports: [
     CommonModule,
@@ -25,11 +26,12 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     ReactiveFormsModule,
     MatIconModule,
     MatButtonModule,
-    MatTableModule
+    MatTableModule,
+    MatCardModule,
   ],
     exports: [
         SupplierAutocompleteComponent,
-        DocumentComponent
+        DocumentCardComponent
     ]
 })
 export class SharedModule { }

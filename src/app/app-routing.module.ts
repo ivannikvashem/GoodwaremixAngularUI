@@ -14,7 +14,7 @@ import {AuthGuard} from "./auth/auth.guard";
 import {UserIndexComponent} from "./users/user-index/user-index.component";
 import {UserDetailsComponent} from "./users/user-details/user-details.component";
 import {PageNotFoundComponent} from "./shared/page-not-found/page-not-found.component";
-import {DocumentIndexComponent} from "./document/document-index/document-index.component";
+import {DocumentComponent} from "./document/document.component";
 
 let routes: Routes;
 routes = [
@@ -36,7 +36,7 @@ routes = [
   {path: 'user-add', component: UserDetailsComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'user-edit/:id', component: UserDetailsComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'page-not-found', component: PageNotFoundComponent},
-  {path: 'documents', component: DocumentIndexComponent, canActivate: [AuthGuard], data: {roles: ['goodware-users']}},
+  {path: 'documents', component: DocumentComponent, canActivate: [AuthGuard], data: {roles: ['goodware-users']}},
   {path: '**', pathMatch: 'full', redirectTo: '/products'}
 ];
 

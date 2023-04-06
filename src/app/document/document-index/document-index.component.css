@@ -1,5 +1,33 @@
-.header-container {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
+table {
+  width: 100%;
+}
+
+.mat-column-preview {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  text-align: -webkit-center;
+  text-align: center;
+  width: 100px;
+}
+
+.mat-column-actions {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 90px !important;
+  width: 90px !important;
+  overflow-wrap: break-word;
+  justify-content: center;
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+
+  text-align: -webkit-center;
+  text-align: center;
+}
+
+.documentContent {
+  margin-top: 5px;
 }

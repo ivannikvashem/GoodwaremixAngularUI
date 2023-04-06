@@ -25,7 +25,6 @@ export interface AttrDialogData {
 })
 export class AttributeIndexComponent implements OnInit {
 
-  pageTitle = 'AttributeIndex'
   dataSource: AttributesDataSource;
   displayedColumns: string[] = ['fixed', 'Rating', 'etimFeature', 'nameAttribute', 'allValue', 'actions'];
   isLoading = false;

@@ -1,1 +1,18 @@
-<span>documents works</span>
+<div class="header-container">
+  <h3>Документы</h3>
+
+  <div class="toolbox-container">
+
+    <mat-form-field appearance="standard" class="toolbox-item-xl">
+      <mat-label>Поиск</mat-label>
+      <input matInput [formControl]="searchQueryCtrl" (keydown.enter)="searchQueryChanged()">
+      <button *ngIf="searchQueryCtrl.value" matSuffix mat-icon-button aria-label="Clear" (click)="searchQueryClear()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <app-supplier-autocomplete class="toolbox-item-xl"></app-supplier-autocomplete>
+  </div>
+
+</div>
+<app-document-index [searchQuery]="searchQuery" [pageIndex]="pageIndex" [pageSize]="pageSize" (pageParams)="onPageParamsChanged($event)"></app-document-index>

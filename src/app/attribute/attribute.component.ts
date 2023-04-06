@@ -25,7 +25,7 @@ export class AttributeComponent implements OnInit {
 
   private subscription: Subscription;
 
-  constructor(private dss: DataStateService, private _localStorageService: LocalStorageService,) { }
+  constructor(private dss: DataStateService, private _localStorageService: LocalStorageService) { }
 
   getCookie() {
     this._localStorageService.getDataByPageName("AttributeIndex")

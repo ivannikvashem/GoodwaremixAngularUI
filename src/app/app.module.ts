@@ -52,7 +52,7 @@ import {TaskModule} from "./task/task.module";
 import {DataStateService} from "./shared/data-state.service";
 import {AuthModule} from "./auth/auth.module";
 import {UsersModule} from "./users/users.module";
-import { DocumentIndexComponent } from './document/document-index/document-index.component';
+import {DocumentModule} from "./document/document.module";
 
 @NgModule({
     declarations: [
@@ -60,7 +60,6 @@ import { DocumentIndexComponent } from './document/document-index/document-index
         ConfirmDialogComponent,
         SwapAttributeComponent,
         SupplierAttributeAddComponent,
-        DocumentIndexComponent,
     ],
     imports: [
         CommonModule,
@@ -109,7 +108,8 @@ import { DocumentIndexComponent } from './document/document-index/document-index
         ProductModule,
         TaskModule,
         AuthModule,
-        UsersModule
+        UsersModule,
+        DocumentModule
     ],
     providers: [
         {
@@ -117,9 +117,10 @@ import { DocumentIndexComponent } from './document/document-index/document-index
             useValue: {displayDefaultIndicatorType: false}
         },
         {provide: MatPaginatorIntl, useValue: getRuPaginatorIntl()},
-        { provide: MAT_DATE_LOCALE, useValue: 'ru-RU' },
+        {provide: MAT_DATE_LOCALE, useValue: 'ru-RU'},
         DataStateService
     ],
+    exports: [],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
