@@ -2,10 +2,10 @@
   <div class="centered-element" *ngIf="!isLoading">
     <div class="column leftColumn">
       <div *ngIf="pack.barcode">
-        <ngx-barcode [bc-width]="1.7" [bc-height]="30" [bc-margin]="0" [bc-margin-top]="4" [bc-margin-right] ="0" [bc-margin-left]="0" [bc-value]="pack.barcode" [bc-display-value]="true" class="bcode"></ngx-barcode>
+        <ngx-barcode6 [bc-width]="1.7" [bc-height]="30" [bc-margin]="0" [bc-margin-top]="4" [bc-margin-right] ="0" [bc-margin-left]="0" [bc-value]="pack.barcode" [bc-display-value]="true" class="bcode"></ngx-barcode6>
       </div>
       <div *ngIf="!pack.barcode">
-        <ngx-barcode [bc-width]="1.7" [bc-height]="30" [bc-margin]="0" [bc-margin-top]="4" [bc-margin-right] ="0" [bc-margin-left]="0" [bc-value]="'0000000000000'" [bc-display-value]="true" class="bcode"></ngx-barcode>
+        <ngx-barcode6 [bc-width]="1.7" [bc-height]="30" [bc-margin]="0" [bc-margin-top]="4" [bc-margin-right] ="0" [bc-margin-left]="0" [bc-value]="'0000000000000'" [bc-display-value]="true" class="bcode"></ngx-barcode6>
       </div>
     </div>
     <div class="column rightColumn">
