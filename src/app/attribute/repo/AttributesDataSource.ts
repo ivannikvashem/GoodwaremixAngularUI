@@ -26,7 +26,7 @@ export class AttributesDataSource implements DataSource<Attribute> {
   loadPagedData(queryString = "", supplierId: string = '', pageIndex = 1, pageSize = 10, fixed?: boolean ): any {
     //console.log(`LOAD Data: qs=${queryString}, sID=${supplierId}, pageIndex=${pageIndex}, fixed=${fixed}\``)
     this.loadingSubject.next(true);
-    this.api.getAttributes(queryString, supplierId, pageIndex, pageSize, fixed, "Rating", "desc")
+    this.api.getAttributes(queryString, supplierId, pageIndex, pageSize, fixed, "rating", "desc")
       .pipe(
         tap( () => {
           this.loadingSubject.next(true)

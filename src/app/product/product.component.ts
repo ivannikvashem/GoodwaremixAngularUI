@@ -15,7 +15,6 @@ export class ProductComponent implements OnInit {
   selectedSupplier: Supplier;
   searchQueryCtrl  = new FormControl<string>(null);
   searchQuery:string = '';
-  withInternalCodeCtrl  = new FormControl<boolean>(false);
   pageIndex:number = 0;
   pageSize:number = 10;
 
@@ -38,7 +37,6 @@ export class ProductComponent implements OnInit {
         this.pC = localStorageContent;
         this.searchQueryCtrl.setValue(this.pC.searchQuery);
         this.searchQuery = this.pC.searchQuery;
-        this.withInternalCodeCtrl.setValue(this.pC.withInternalCodeSelector);
         this.withICFilter = this.pC.withInternalCodeSelector;
         this.pageIndex = this.pC.pageIndex;
         this.pageSize = this.pC.pageSize;

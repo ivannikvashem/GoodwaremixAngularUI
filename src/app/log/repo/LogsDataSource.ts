@@ -41,13 +41,12 @@ export class LogsDataSource implements DataSource<Log> {
 
   deleteAllLogs() {
     console.log("deleting log data");
-    this.api.flushLogs().subscribe( res => {
-        console.log('res',res)
+    this.api.flushLogs().subscribe( {next: () => {
         let newdata = new Array<Log>();
         this.LogListSubject.next(newdata);
       },
-      err => {
+      error: err => {
         //this._notyf.onError(err.message)
-      });
+      }});
   }
 }

@@ -15,7 +15,7 @@ export class ProductsDataSource implements DataSource<Product> {
   private loadingSubject = new BehaviorSubject<boolean>(false);
 
   public loading$ = this.loadingSubject.asObservable();
-  public rowCount = 0;
+  public rowCount:number = null;
 
   constructor(private api: ApiClient) {}
 

@@ -78,10 +78,10 @@ export class AttributeIndexComponent implements OnInit {
   }
 
   swapItem(nameAttribute: string, id: string) {
-    this.openDialog(nameAttribute, id);
+    this.openAttributeSwapDialog(nameAttribute, id);
   }
 
-  openDialog(nameAttribute: string, id: string): void {
+  openAttributeSwapDialog(nameAttribute: string, id: string): void {
     const dialogRef = this.dialog.open(SwapAttributeComponent, {
       width: '900px',
       data: { oldAttributeId: id, oldAttribute: nameAttribute, newAttribute: new Attribute() },
@@ -89,7 +89,7 @@ export class AttributeIndexComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.api.swapAttribute(result.oldAttributeId, result.newAttribute.id).subscribe({
-        next: next => {
+        next: () => {
           this._notyf.onSuccess("Атрибут переназначен")
         },
         error: error => {
@@ -116,7 +116,7 @@ export class AttributeIndexComponent implements OnInit {
 
   switchFixAttr(id: any, val: boolean) {
     this.api.switchFixAttribute(id).subscribe({
-      next: next => {
+      next: () => {
         this.dataSource.updateFixedAttributeState(id, val);
         this._notyf.onSuccess("Статус атрибута изменен")
       },
