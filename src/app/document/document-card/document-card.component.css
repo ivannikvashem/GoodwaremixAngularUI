@@ -1,10 +1,5 @@
 .box{
-  margin: 5px;
-  width: 32%;
-  height: 180px;
-  float: left;
-  box-sizing: border-box;
-  position: relative;
+  min-height: 150px;
 }
 
 .mat-card{
@@ -23,6 +18,7 @@
 
 .mat-card-actions {
   padding: 0;
+  vertical-align: bottom;
 }
 
 .mat-card-avatar {
@@ -56,10 +52,27 @@
   margin-top: 10px;
 }
 
+/*
 @media only screen and (max-width: 1210px) {
-  /* Compact: */
+  !* Compact: *!
   .documentNumber {margin-left: 10px}
   .documentTitle {margin-top: 10px}
+  !*
   .box {width: 98%; height: 130px}
+  *!
   .cardHeader {display: flex}
 }
+*/
+
+
+
+/* Tablet */
+@media only screen and (min-width: 600px) {
+
+}
+
+/* Desktop */
+@media only screen and (min-width: 1024px) {
+
+}
+

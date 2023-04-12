@@ -1,55 +1,53 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {DataStateService} from "../shared/data-state.service";
-import {Supplier} from "../models/supplier.model";
+import { Component, OnInit } from '@angular/core';
 import {FormControl} from "@angular/forms";
+import {Supplier} from "../models/supplier.model";
+import {DataStateService} from "../shared/data-state.service";
 import {LocalStorageService} from "../service/local-storage.service";
 import {Subscription} from "rxjs";
 
 @Component({
-  selector: 'app-product',
-  templateUrl: './product.component.html',
-  styleUrls: ['./product.component.css']
+  selector: 'app-supplier',
+  templateUrl: './supplier.component.html',
+  styleUrls: ['./supplier.component.css']
 })
-export class ProductComponent implements OnInit {
+export class SupplierComponent implements OnInit {
+
   selectedSupplier: Supplier;
   searchQueryCtrl  = new FormControl<string>(null);
   searchQuery:string = '';
   pageIndex:number = 0;
   pageSize:number = 10;
+  sortDirection:string = 'asc'
+  sortActive:string = 'supplierName'
 
   pageCookie$ = this._localStorageService.myData$;
   pC: any = {};
-  withICFilter: boolean = false;
-
   private subscription: Subscription;
 
-  constructor(
-    private _ActivatedRoute:ActivatedRoute,
-    private dss: DataStateService,
-    private _localStorageService: LocalStorageService,
-  ) { }
+  constructor(private dss: DataStateService, private _localStorageService: LocalStorageService,) { }
 
   getCookie() {
-    this._localStorageService.getDataByPageName("ProductIndex")
+    this._localStorageService.getDataByPageName("SupplierIndex")
     this.pageCookie$.subscribe(localStorageContent => {
       if (localStorageContent) {
         this.pC = localStorageContent;
         this.searchQueryCtrl.setValue(this.pC.searchQuery);
         this.searchQuery = this.pC.searchQuery;
-        this.withICFilter = this.pC.withInternalCodeSelector;
         this.pageIndex = this.pC.pageIndex;
         this.pageSize = this.pC.pageSize;
+        this.sortDirection = this.pC.sortDirection;
+        this.sortActive = this.pC.sortActive;
       }
     });
   }
 
   setCookie() {
-    this._localStorageService.setDataByPageName("ProductIndex", {
+    this._localStorageService.setDataByPageName("SupplierIndex", {
       searchQuery: this.searchQuery,
-      withInternalCodeSelector: this.withICFilter,
       pageIndex: this.pageIndex,
-      pageSize: this.pageSize
+      pageSize: this.pageSize,
+      sortDirection: this.sortDirection,
+      sortActive: this.sortActive,
     });
   }
 
@@ -78,15 +76,15 @@ export class ProductComponent implements OnInit {
     this.setCookie();
   }
 
-  onICFilterChanged(icFilterState: boolean) {
-    this.pageIndex = 0;
-    this.withICFilter = icFilterState;
-    this.setCookie();
-  }
-
   onPageParamsChanged(params: any) {
     this.pageIndex = params.pageIndex;
     this.pageSize = params.pageSize;
+    this.setCookie();
+  }
+
+  onSortParamsChanged(params: any) {
+    this.sortActive = params.active;
+    this.sortDirection = params.direction;
     this.setCookie();
   }
 

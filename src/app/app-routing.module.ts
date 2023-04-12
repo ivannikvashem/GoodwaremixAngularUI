@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import {RouterModule, Routes} from "@angular/router";
 import {AttributeEditComponent} from "./attribute/attribute-edit/attribute-edit.component";
-import {SupplierIndexComponent} from "./supplier/supplier-index/supplier-index.component";
 import {SupplierEditComponent} from "./supplier/supplier-edit/supplier-edit.component";
 import {ProductDetailsComponent} from "./product/product-details/product-details.component";
 import {ProductEditComponent} from "./product/product-edit/product-edit.component";
@@ -15,6 +14,7 @@ import {UserIndexComponent} from "./users/user-index/user-index.component";
 import {UserDetailsComponent} from "./users/user-details/user-details.component";
 import {PageNotFoundComponent} from "./shared/page-not-found/page-not-found.component";
 import {DocumentComponent} from "./document/document.component";
+import {SupplierComponent} from "./supplier/supplier.component";
 
 let routes: Routes;
 routes = [
@@ -26,7 +26,7 @@ routes = [
   {path: 'attributes', component: AttributeComponent, canActivate: [AuthGuard], data: {roles: ['goodware-manager']}},
   {path: 'attribute-add', component: AttributeEditComponent, canActivate: [AuthGuard], data: {roles: ['goodware-manager']}},
   {path: 'attribute-edit/:id', component: AttributeEditComponent, canActivate: [AuthGuard], data: {roles: ['goodware-manager']}},
-  {path: 'suppliers', component: SupplierIndexComponent, canActivate: [AuthGuard], data: {roles: ['goodware-manager']}},
+  {path: 'suppliers', component: SupplierComponent, canActivate: [AuthGuard], data: {roles: ['goodware-manager']}},
   {path: 'supplier-add', component: SupplierEditComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'supplier-edit/:supplierId', component: SupplierEditComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'log', component: LogComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},

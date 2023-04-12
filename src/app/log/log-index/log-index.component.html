@@ -38,14 +38,14 @@
       <td mat-cell *matCellDef="let item" [attr.colspan]="displayedColumns.length">
         <div class="element-detail" [@detailExpand]="item == expandedElement ? 'expanded' : 'collapsed'">
           <cdk-virtual-scroll-viewport [itemSize]="20" class="data-viewport">
-            <div *cdkVirtualFor="let log of item.data.reverse()" class="data-item">{{log}}</div>
+            <div *cdkVirtualFor="let log of item.data.reverse()">{{log}}</div>
           </cdk-virtual-scroll-viewport>
         </div>
       </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="element-row" (click)="expandedElement = expandedElement === row ? null : row" [class.expanded-row]="expandedElement === row " style="cursor: pointer"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="element-row" (click)="row.data.length > 0 ? expandedElement = expandedElement === row ? null : row: null" [class.expanded-row]="row.data.length > 0 ? expandedElement === row : null" style="cursor: pointer"></tr>
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
   </table>
   <mat-paginator [length]="dataSource.rowCount" showFirstLastButtons [pageSize]="10" [pageSizeOptions]=[10,20,50,100]></mat-paginator>

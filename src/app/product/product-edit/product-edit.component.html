@@ -274,7 +274,7 @@
 
         <mat-tab label="Документы">
           <ng-template matTabContent>
-            <app-product-document-list [supplierId]="product.supplierId" [document]="product.documents" [isChangeable]="true" [isSelectable]="false" (documentList)="onDocumentsChanged($event)"></app-product-document-list>
+            <app-product-document-list style="margin: 10px;" [supplierId]="product.supplierId" [document]="product.documents" [isChangeable]="true" [isSelectable]="false" (documentList)="onDocumentsChanged($event)"></app-product-document-list>
           </ng-template>
         </mat-tab>
       </mat-tab-group>

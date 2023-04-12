@@ -6,8 +6,6 @@ table {
   white-space: unset !important;
   flex: 0 0 135px !important;
   width: 135px !important;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
   justify-content: center;
   word-break: break-word;
 
@@ -67,8 +65,4 @@ tr.element-row:not(.expanded-row):active {
   height: 200px;
   width: 100%;
   border: 1px solid rgba(0,0,0,.12);
-}
-
-.data-item {
-  height: 20px;
 }

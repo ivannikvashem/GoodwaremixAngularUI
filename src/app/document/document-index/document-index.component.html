@@ -52,7 +52,7 @@
 
   <mat-tab label="Карточки">
     <mat-card class="mat-elevation-z8">
-      <div style="display: inline-block;width: 100%">
+      <div class="cards">
         <app-document-card *ngFor="let doc of documentList" [document]="doc" [isChangeable]="true" (selectedDocument)="onDocumentSelected($event)"></app-document-card>
       </div>
       <mat-paginator (page)="handlePageEvent($event)" [length]="totalRecordsLength" [pageSize]="12" [showFirstLastButtons]="true" [pageSizeOptions]="[12, 24, 48]" [pageIndex]="0"></mat-paginator>

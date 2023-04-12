@@ -88,7 +88,7 @@
 
     <mat-card style="margin-top: 10px" *ngIf="product?.documents && product?.documents.length > 0">
       <mat-card-subtitle><h2>Документы</h2></mat-card-subtitle>
-      <div><app-document-card *ngFor="let doc of productDocuments" [document]="doc"></app-document-card></div>
+      <div class="cards"><app-document-card *ngFor="let doc of productDocuments" [document]="doc"></app-document-card></div>
     </mat-card>
 
     <mat-card style="margin-top: 10px;" *ngIf="product?.attributes && product?.attributes.length > 0">

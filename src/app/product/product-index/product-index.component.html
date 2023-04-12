@@ -96,10 +96,14 @@
           </button>
         </td>
       </ng-container>
-
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="element-row"></tr>
     </table>
+
+    <mat-card *ngIf="dataSource.rowCount == 0" style="margin: 10px">
+      <mat-card-content>По вашему запросу ничего не найдено, попробуйте изменить критерии поиска</mat-card-content>
+    </mat-card>
+
     <mat-paginator [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[10,20,50,100] aria-label="Страница">
     </mat-paginator>
   </div>

@@ -33,7 +33,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   @Input() selectedSupplier: Supplier;
   @Input() pageIndex:number;
   @Input() pageSize:number;
-  @Output() pageParams:EventEmitter<any> = new EventEmitter()
+  @Output() pageParams:EventEmitter<any> = new EventEmitter();
   productId: string | any;
 
   constructor(

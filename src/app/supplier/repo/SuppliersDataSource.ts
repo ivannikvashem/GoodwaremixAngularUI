@@ -12,6 +12,7 @@ export class SuppliersDataSource implements DataSource<Supplier> {
 
   public loading$ = this.loadingSubject.asObservable();
   public rowCount = 0;
+  public pageCount = 0;
 
   constructor(private api: ApiClient) {  }
 
@@ -24,11 +25,13 @@ export class SuppliersDataSource implements DataSource<Supplier> {
     this.loadingSubject.complete();
   }
 
-  loadPagedData(searchQuery = "", pageIndex = 0, pageSize = 15, sortActive = "supplierName", sortDirection = "asc") {
+  loadPagedData(searchQuery:string, pageIndex:number, pageSize:number, sortActive:string, sortDirection:string) {
+    console.log(sortActive, sortDirection)
     this.loadingSubject.next(true);
     this.api.getSuppliers(searchQuery, pageIndex, pageSize, sortActive, sortDirection)
       .pipe(
         map(res => {
+          console.log(res)
           return res.body;
         }),
       catchError(() => of([])),
@@ -37,6 +40,7 @@ export class SuppliersDataSource implements DataSource<Supplier> {
       .subscribe(body => {
         this.SupplierListSubject.next(body.data)
         this.rowCount = body.totalRecords;
+        this.pageCount = body.data.length;
       });
   }
 

@@ -1,8 +1,8 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {SuppliersDataSource} from "../repo/SuppliersDataSource";
 import {ApiClient} from "../../service/httpClient";
 import {MatPaginator} from "@angular/material/paginator";
-import {debounceTime, distinctUntilChanged, merge, Subscription, tap} from "rxjs";
+import {tap} from "rxjs";
 import {Router} from "@angular/router";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {Supplier} from "../../models/supplier.model";
@@ -11,8 +11,9 @@ import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/share
 import {MatSort} from "@angular/material/sort";
 import {NotificationService} from "../../service/notification-service";
 import {LocalStorageService} from "../../service/local-storage.service";
-import {FormControl} from "@angular/forms";
 import {DataStateService} from "../../shared/data-state.service";
+import {SelectionModel} from "@angular/cdk/collections";
+import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
   selector: 'app-supplier-index',
@@ -30,14 +31,20 @@ export class SupplierIndexComponent implements OnInit {
 
   pageTitle:string = 'SupplierIndex';
 
-  displayedColumns: string[] = ['supplierName', 'type', 'fullfill', 'brands', 'Stat.ProductQty', 'Stat.lastImport', 'actions'];
+  displayedColumns: string[] = ['checkbox', 'supplierName', 'type', 'fullfill', 'brands', 'stat.productQty', 'stat.lastImport', 'actions'];
   dataSource: SuppliersDataSource;
-  searchQueryCtrl  = new FormControl<string>('');
-  //searchQuery = "";
+  @Input() searchQuery:string;
+  @Input() selectedSupplier: Supplier;
+  @Input() pageIndex:number;
+  @Input() pageSize:number;
+  @Input() sortActive:string;
+  @Input() sortDirection:string;
+  @Output() pageParams:EventEmitter<any> = new EventEmitter();
+  @Output() sortParams:EventEmitter<any> = new EventEmitter();
   expandedElement: Supplier | null | undefined;
-  pageCookie$ = this._localStorageService.myData$
-  pC: any = {};
-  private sub: Subscription;
+
+  supplierDataSource = new MatTableDataSource<Supplier>()
+  selection = new SelectionModel<Supplier>(true, []);
 
   constructor(
     public api: ApiClient,
@@ -50,70 +57,36 @@ export class SupplierIndexComponent implements OnInit {
     this.dataSource = new SuppliersDataSource(this.api);
   }
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator
   @ViewChild(MatSort) sort: MatSort;
 
-  ngOnInit(): void {
-    this.getCookie();
-    Promise.resolve().then(() => {
-/*      this.paginator.pageIndex = this.pC.pageIndex;
-      this.paginator.pageSize = this.pC.pageSize;*/
-      this.sort.direction = this.pC.sortDirection;
-      this.sort.active = this.pC.sortField;
-      this.loadData();
-    })
+  ngOnInit() {}
 
-    this.searchQueryCtrl.valueChanges.pipe(
-      distinctUntilChanged(),
-      debounceTime(300)
-    ).subscribe(()=> {
-      this.loadData();
-      this.setCookie();
-    })
+  ngOnChanges(changes: SimpleChanges): void {
+    this.loadProductPagedData(false)
   }
 
   ngAfterViewInit(): void {
-    // If the user changes the sort order, reset back to the first page.
-    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
-
-    //todo доделать нормальный pipe и обработку ошибок
-    merge(this.sort.sortChange, this.paginator.page)
+    this.paginator.page
       .pipe(
         tap( () => {
-          this.loadData();
-          this.setCookie();
-        })
-      )
-      .subscribe();
+          this.loadProductPagedData(true)
+          this.pageParams.next({pageIndex: this.paginator.pageIndex, pageSize:this.paginator.pageSize})
+          this.selection.clear();
+          console.log(this.selection.selected.length, '<----')
+        })).subscribe();
   }
 
-  ngOnDestroy() {
-    this.sub.unsubscribe(); //crutch to dispose subs
+  loadProductPagedData(isPaginatorParams:boolean): any {
+    this.dataSource.loadPagedData(this.searchQuery, isPaginatorParams ? this.paginator?.pageIndex : this.pageIndex, isPaginatorParams ? this.paginator?.pageSize : this.pageSize, this.sortActive,  this.sortDirection);
+    this.dataSource.connect(null).subscribe(x => {
+      this.supplierDataSource.data = x;
+    })
   }
 
-  setCookie() {
-    // on each interaction - save all controls state to cookies
-    this._localStorageService.setDataByPageName(this.pageTitle, {
-      searchQuery: this.searchQueryCtrl.value,
-      pageIndex: this.paginator?.pageIndex,
-      pageSize: this.paginator?.pageSize,
-      sortDirection: this.sort?.direction,
-      sortField: this.sort?.active
-    });
-  }
-
-  getCookie() {
-    //try to get cookie, if there's no cookie - make the blank and save
-    this._localStorageService.getDataByPageName(this.pageTitle); //pretty wrong, upd data
-    this.sub = this.pageCookie$.subscribe(x => {
-      if (!x) return;
-      this.pC = x;
-      this.searchQueryCtrl.setValue(this.pC.searchQuery);
-    });
-  }
-
-  loadData(): void {
-    this.dataSource.loadPagedData(this.searchQueryCtrl.value, this.paginator?.pageIndex || 0, this.paginator?.pageSize || 15, this.sort?.active, this.sort?.direction);
+  sortData(sort: any) {
+    this.selection.clear()
+    this.sortParams.next({direction: sort.direction, active:sort.active});
   }
 
   fetchItem(supplierName: string, id:string) {
@@ -143,10 +116,6 @@ export class SupplierIndexComponent implements OnInit {
         this._notyf.onError("Ошибка: " + JSON.stringify(err));
       })
   }
-
-  /*editItem(supplierId: string) {
-    this.router.navigate([`supplier-edit/${supplierId}`]);
-  }*/
 
   confirmDeleteSuppDialog(id: string, name: string): void {
     const message = `Удалить поставщика ` + name + `?`;
@@ -186,17 +155,6 @@ export class SupplierIndexComponent implements OnInit {
       })
   }
 
-  onQueryChanged() {
-    this.paginator.pageIndex = 0;
-    this.loadData();
-    this.setCookie();
-  }
-
-  onClearSearchQuery() {
-    this.searchQueryCtrl.setValue('');
-    this.onQueryChanged();
-  }
-
   downloadTable(table: string, id:string) {
     this.api.downloadTableFile(table, id).subscribe( (resp: any) => {
       let blob:any = new Blob([resp.body], {type: 'application/json; charset=utf-8'})
@@ -210,5 +168,33 @@ export class SupplierIndexComponent implements OnInit {
   gotoProductsBySupplier(row: Supplier) {
     this.dss.setSelectedSupplier(row.id, row.supplierName);
     this.router.navigate(["/products"]);
+  }
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.supplierDataSource.data.length;
+    console.log(numSelected, '---' , numRows)
+    return numSelected === numRows;
+  }
+
+  toggleAllRows() {
+    if (this.isAllSelected()) {
+      this.selection.clear()
+      return
+    }
+    this.selection.select(...this.supplierDataSource.data)
+  }
+
+  fetchSelectedItems() {
+    let suppliers = ''
+    for (let i of this.selection.selected) {
+      suppliers += i.id+';'
+    }
+    this.api.fetchDataFromSupplier(suppliers).subscribe({
+      next:next => {
+        this._notyf.onSuccess('Сбор данных начат')
+      }, error:error => {
+        this._notyf.onError('Ошибка' +JSON.stringify(error))
+      }})
   }
 }

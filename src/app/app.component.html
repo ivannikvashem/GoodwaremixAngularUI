@@ -2,10 +2,7 @@
 <div class="toolbar">
   <mat-toolbar color="secondary">
     <mat-toolbar-row>
-
       <mat-icon style="font-size: 32px; height: 32px; width: 32px;">view_in_ar</mat-icon>
-
-      <!--<h1><a [routerLink]="'/home'"> PhotoHost UI </a> &nbsp; </h1>-->
       <h1 matTooltip="{{url}}"> {{title}} &nbsp; </h1>
       <span class="menu-spacer"></span>
       <div>
@@ -14,17 +11,9 @@
         <a mat-button routerLinkActive="active" *ngIf="roles.includes('goodware-admin')" [routerLink]="'/attributes'"><mat-icon>list</mat-icon> Атрибуты </a>
         <a mat-button routerLinkActive="active" *ngIf="roles.includes('goodware-admin')" [routerLink]="'/documents'"><mat-icon>insert_drive_file</mat-icon> Документы </a>
         <a mat-button routerLinkActive="active" *ngIf="roles.includes('goodware-admin')" [routerLink]="'/log'"><mat-icon>receipt_long</mat-icon> Журнал событий </a>
-        <a mat-button routerLinkActive="active" *ngIf="roles.includes('goodware-admin')" [routerLink]="'/admin'"><mat-icon>settings</mat-icon> Сервис </a>
-        <a mat-button routerLinkActive="active" *ngIf="roles.includes('goodware-admin')" [routerLink]="'/users'"><mat-icon>manage_accounts</mat-icon> Пользователи </a>
       </div>
       <span class="flexExpand"></span>
       <app-auth-toolbar></app-auth-toolbar>
-      <!--      <span class="flexExpand"></span><span class="material-symbols-outlined">
-receipt_long
-</span>
-            <div class="spacer"></div>
-            <button mat-button (click)="logout()" *ngIf="isLoggedIn"><mat-icon>exit_to_app</mat-icon></button>
-            <button mat-button (click)="login()" *ngIf="!isLoggedIn"><mat-icon>login</mat-icon></button>-->
     </mat-toolbar-row>
   </mat-toolbar>
 </div>

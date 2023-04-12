@@ -3,18 +3,8 @@
   justify-content: space-between
 }
 
-.mat-column-checkbox {
-  width: 30px !important;
-}
-
 .full-width {
   width: 100%;
-}
-
-.floatButton {
-  position: fixed !important;
-  bottom: 45px;
-  right: 7%;
 }
 
 .mat-card {
@@ -28,24 +18,4 @@
 
 .workWithDBBtn button {
   margin: 10px;
-}
-
-:host /deep/ .mat-tab-group {
-  flex-direction: row;
-}
-:host /deep/ .mat-tab-header {
-  border-bottom: none;
-}
-:host /deep/ .mat-tab-header-pagination {
-  display: none !important;
-}
-:host /deep/ .mat-tab-labels {
-  flex-direction: column;
-}
-:host /deep/ .mat-ink-bar {
-  height: 100%;
-  left: 98% !important;
-}
-:host /deep/ .mat-tab-body-wrapper {
-  flex: 1 1 auto;
 }

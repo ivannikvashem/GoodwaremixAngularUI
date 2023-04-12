@@ -33,7 +33,7 @@ export class DocumentCardComponent implements OnInit {
       });
   }
 
-  onSelected(toDelete:boolean,document: Document) {
+  onAttach(toDelete:boolean, document: Document) {
     this.selectedDocument.emit({toDelete:toDelete, document:document})
   }
 }

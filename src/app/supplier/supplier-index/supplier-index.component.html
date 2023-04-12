@@ -1,14 +1,14 @@
-<div class="header-container">
-  <h3>Поставщики &nbsp;</h3>
-  <mat-form-field appearance="standard" style="width: 33%">
-    <mat-label>Поиск</mat-label>
-    <input matInput [formControl]="searchQueryCtrl" (keydown)="onQueryChanged()">
-    <button *ngIf="searchQueryCtrl.value" matSuffix mat-icon-button aria-label="Clear" type="button" (click)="onClearSearchQuery()"><mat-icon>close</mat-icon></button>
-  </mat-form-field>
-</div>
-
 <div class="mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort matSortActive="supplierName" matSortDisableClear matSortDirection="asc">
+  <table mat-table [dataSource]="supplierDataSource" multiTemplateDataRows matSort  [matSortActive]="sortActive" matSortDirection="{{sortDirection}}" (matSortChange)="sortData($event)" matSortDisableClear>
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="checkbox">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-checkbox (change)="$event ? toggleAllRows() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()"></mat-checkbox>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(element) : null" [checked]="selection.isSelected(element)"></mat-checkbox>
+      </td>
+    </ng-container>
     <!-- Name Column -->
     <ng-container matColumnDef="supplierName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Наименование</th>
@@ -56,12 +56,12 @@
       </td>
     </ng-container>
     <!-- stat Column -->
-    <ng-container matColumnDef="Stat.ProductQty">
+    <ng-container matColumnDef="stat.productQty">
       <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Номенкулатура</th>
       <td mat-cell *matCellDef="let row">{{ row.stat.productQty != null && row.stat.productQty > 0 ? row.stat.productQty + " / " : ""}} {{ row.stat.productQtyWithCode != null ? row.stat.productQtyWithCode : ""}}</td>
     </ng-container>
     <!-- lastImport Column -->
-    <ng-container matColumnDef="Stat.lastImport">
+    <ng-container matColumnDef="stat.lastImport">
       <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Последний импорт</th>
       <td mat-cell *matCellDef="let row">{{ row.stat.lastImport | date:'yyyy-MM-dd'}} </td>
     </ng-container>
@@ -108,5 +108,7 @@
     <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="element-row" [class.expanded-row]="expandedElement === element"></tr>
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
   </table>
-  <mat-paginator [length]="dataSource.rowCount" showFirstLastButtons [pageSize]="15" [pageSizeOptions]=[10,15,50,100]></mat-paginator>
+  <mat-paginator [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[10,20,50,100]></mat-paginator>
+
+  <button mat-fab color="accent" class="mat-elevation-z2; floatButton" (click)="fetchSelectedItems()" [class.cdk-visually-hidden]="selection.selected.length == 0" [matTooltip]="'Сбор выбранных ' + selection.selected.length"><mat-icon>restart_alt</mat-icon></button>
 </div>

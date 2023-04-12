@@ -1,26 +1,27 @@
 table {
   width: 100%;
 }
+.mat-column-checkbox {
+  width: 50px;
+}
 .mat-column-actions {
   word-wrap: break-word !important;
   white-space: unset !important;
   flex: none;
   min-width: 160px !important;
   overflow-wrap: break-word;
-  word-wrap: break-word;
   justify-content: center;
   word-break: break-word;
 
   text-align: -webkit-center;
   text-align: center;
 }
-.mat-column-name {
+.mat-column-supplierName {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 135px !important;
-  min-width: 135px !important;
+  flex: 0 0 155px !important;
+  min-width: 155px !important;
   overflow-wrap: break-word;
-  word-wrap: break-word;
   justify-content: center;
   word-break: break-word;
 }
@@ -30,7 +31,6 @@ table {
   flex: 0 0 70px !important;
   width: 70px !important;
   overflow-wrap: break-word;
-  word-wrap: break-word;
   justify-content: center;
   word-break: break-word;
 }
@@ -40,7 +40,6 @@ table {
   flex: 0 0 135px !important;
   width: 135px !important;
   overflow-wrap: break-word;
-  word-wrap: break-word;
   justify-content: center;
   word-break: break-word;
 }
@@ -50,7 +49,6 @@ table {
   flex: 0 0 155px !important;
   width: 155px !important;
   overflow-wrap: break-word;
-  word-wrap: break-word;
   justify-content: center;
   word-break: break-word;
 }
@@ -60,7 +58,6 @@ table {
   flex: 0 0 830px !important;
   width: 830px !important;
   overflow-wrap: break-word;
-  word-wrap: break-word;
   justify-content: center;
   word-break: break-word;
 }
@@ -101,7 +98,6 @@ tr.element-row:not(.expanded-row):active {
   flex: none;
   min-width: 160px !important;
   overflow-wrap: break-word;
-  word-wrap: break-word;
   justify-content: left;
   word-break: break-word;
   padding:16px 0 16px 16px;
@@ -117,4 +113,10 @@ tr.element-row:not(.expanded-row):active {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
+}
+
+.floatButton {
+  position: fixed !important;
+  bottom: 45px;
+  right: 2%;
 }

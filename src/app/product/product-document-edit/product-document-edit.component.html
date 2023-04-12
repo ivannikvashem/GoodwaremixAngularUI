@@ -18,7 +18,9 @@
       </mat-form-field>
 
       <cdk-virtual-scroll-viewport appendOnly itemSize="50" class="viewport">
-        <app-document-card *cdkVirtualFor="let doc of documentsList" [document]="doc" [isChangeable]="false" [isSelectable]="true" (selectedDocument)="onDocumentSelected($event)"></app-document-card>
+        <div class="cards">
+          <app-document-card *cdkVirtualFor="let doc of documentsList" [document]="doc" [isChangeable]="false" [isSelectable]="true" (selectedDocument)="onDocumentSelected($event)"></app-document-card>
+        </div>
       </cdk-virtual-scroll-viewport>
 
     </mat-tab>

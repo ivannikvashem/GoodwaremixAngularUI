@@ -9,7 +9,7 @@
   <div class="container">
     <div class="full-width">
       <mat-card>
-        <mat-tab-group animationDuration="0ms">
+        <mat-tab-group animationDuration="0ms" class="mainTabGroup">
           <mat-tab label="Профиль">
             <div class="formBlockFull">
               <mat-form-field appearance="fill">
@@ -82,7 +82,7 @@
                   <mat-stepper orientation="vertical" [linear]="false">
                     <mat-step>
                       <ng-template matStepLabel>Подключение к ресурсу поставщика</ng-template>
-                      <div class="formBlockDouble">
+                      <div class="formBlockTriple">
                         <mat-form-field appearance="fill">
                           <mat-label>Источник</mat-label>
                           <mat-select name="source" #source [(ngModel)]="config.sourceSettings.source">
@@ -108,6 +108,15 @@
                             <mat-option [value]="true">Multipart Form Body</mat-option>
                             <mat-option [value]="false">RAW Body</mat-option>
                           </mat-select>
+                        </mat-form-field>&nbsp;
+
+                        <mat-form-field appearance="fill">
+                          <mat-label>startPage</mat-label>
+                          <input matInput name="startPage" placeholder="" [(ngModel)]="config.sourceSettings.startPage">
+                        </mat-form-field>&nbsp;
+                        <mat-form-field appearance="fill">
+                          <mat-label>countPage</mat-label>
+                          <input matInput name="countPage" placeholder="" [(ngModel)]="config.sourceSettings.countPage">
                         </mat-form-field>
                       </div>
                       <div class="formBlockFull" *ngIf="source.value !='MAIL'">
@@ -119,14 +128,7 @@
                         </div>
                         &nbsp;
                         <div style="display: inline-flex">
-                          <mat-form-field appearance="fill">
-                            <mat-label>startPage</mat-label>
-                            <input matInput name="startPage" placeholder="" [(ngModel)]="config.sourceSettings.startPage">
-                          </mat-form-field>&nbsp;
-                          <mat-form-field appearance="fill">
-                            <mat-label>countPage</mat-label>
-                            <input matInput name="countPage" placeholder="" [(ngModel)]="config.sourceSettings.countPage">
-                          </mat-form-field>
+
                         </div>
                       </div>
                       <div class="formBlockTriple"  *ngIf="source.value !='MAIL'">
@@ -136,7 +138,7 @@
                         </mat-form-field>
                       </div>
 
-                      <div style="width: 100%; display: inline-flex;" *ngIf="source.value !='MAIL'">
+                      <div style="width: 78%; display: inline-flex;" *ngIf="source.value !='MAIL'">
                         <table mat-table #table [dataSource]="config.sourceSettings.header" class="mat-elevation-z2">
                           <!-- Key Column -->
                           <ng-container matColumnDef="headerKey">
@@ -176,11 +178,13 @@
                           <tr mat-row *matRowDef="let row; columns: headerTableColumns;"></tr>
                         </table>
                       </div>
-                      &nbsp;
-                      <mat-form-field appearance="fill" *ngIf="this.methodType.value == 'POST'">
-                        <mat-label>body</mat-label>
-                        <textarea matInput name="body" placeholder="" style="height: 100px;" [(ngModel)]="config.sourceSettings.body"></textarea>
-                      </mat-form-field>
+
+                      <div class="formBlockTriple">
+                        <mat-form-field appearance="fill" *ngIf="this.methodType.value == 'POST'">
+                          <mat-label>body</mat-label>
+                          <textarea matInput name="body" placeholder="" style="height: 100px;" [(ngModel)]="config.sourceSettings.body"></textarea>
+                        </mat-form-field>
+                      </div>
 
                     </mat-step>
 

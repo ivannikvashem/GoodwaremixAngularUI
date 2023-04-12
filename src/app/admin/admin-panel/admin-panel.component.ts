@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ApiClient} from "../../service/httpClient";
 import {NotificationService} from "../../service/notification-service";
-import {Supplier} from "../../models/supplier.model";
-import {MatTableDataSource} from "@angular/material/table";
-import {SelectionModel} from "@angular/cdk/collections";
 
 @Component({
   selector: 'app-admin-panel',
@@ -12,27 +9,9 @@ import {SelectionModel} from "@angular/cdk/collections";
 })
 export class AdminPanelComponent implements OnInit {
 
-  constructor(private api:ApiClient,
-              private _notyf:NotificationService) { }
-  displayedColumns: string[] = ['checkbox', 'supplier', 'Stat.ProductQty', 'Stat.lastImport'];
-  supplierDataSource = new MatTableDataSource<Supplier>()
-  selection = new SelectionModel<Supplier>(true, []);
+  constructor(private api:ApiClient, private _notyf:NotificationService) { }
 
-  ngOnInit(): void {
-    this.api.getSuppliers('', 0, 100, "supplierName", "asc").subscribe((r: any) => {
-      this.supplierDataSource.data = r.body.data
-    });
-  }
-
-  fetchItem(supplierName: any) {
-    this.api.fetchDataFromSupplier(supplierName).subscribe({
-      next: next => {
-        this._notyf.onSuccess('Сбор данных '+supplierName+' начат')
-      },
-      error: err => {
-        this._notyf.onError("Ошибка: " + JSON.stringify(err));
-      }})
-  }
+  ngOnInit(): void {}
 
   fullInit() {
     this.api.fullInit().subscribe({
@@ -61,37 +40,5 @@ export class AdminPanelComponent implements OnInit {
       downloadAction.href = window.URL.createObjectURL(new Blob([p.body], {type: 'application/json; charset=utf-8'}))
       downloadAction.click()
     })
-  }
-
-  fetchSelectedItems() {
-    let suppliers = ''
-    for (let i of this.selection.selected) {
-      suppliers += i.id+';'
-    }
-    this.api.fetchDataFromSupplier(suppliers).subscribe({
-      next:next => {
-        this._notyf.onSuccess('Сбор данных начат')
-      }, error:error => {
-        this._notyf.onError('Ошибка' +JSON.stringify(error))
-      }})
-  }
-
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.supplierDataSource.data.length;
-    return numSelected === numRows;
-  }
-
-  toggleAllRows() {
-    if (this.isAllSelected()) {
-      this.selection.clear()
-      return
-    }
-    this.selection.select(...this.supplierDataSource.data)
-  }
-
-  applyFilter($event: Event) {
-    const filterValue = ($event.target as HTMLInputElement).value;
-    this.supplierDataSource.filter = filterValue.trim().toLowerCase();
   }
 }

@@ -25,39 +25,43 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import { SupplierComponent } from './supplier.component';
 
 @NgModule({
   declarations: [
     SupplierIndexComponent,
     SupplierEditComponent,
+    SupplierComponent,
   ],
-  imports: [
-    CommonModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatTableModule,
-    SharedModule,
-    MatButtonModule,
-    MatIconModule,
-    MatButtonToggleModule,
-    FormsModule,
-    MatFormFieldModule,
-    MatChipsModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatInputModule,
-    MatDialogModule,
-    MatCardModule,
-    MatStepperModule,
-    RouterModule,
-    MatExpansionModule,
-    MatToolbarModule,
-    MatTooltipModule,
-    ReactiveFormsModule,
-    MatTabsModule,
-    MatMenuModule,
-    MatSlideToggleModule,
-    MatAutocompleteModule,
-  ]
+    imports: [
+        CommonModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatTableModule,
+        SharedModule,
+        MatButtonModule,
+        MatIconModule,
+        MatButtonToggleModule,
+        FormsModule,
+        MatFormFieldModule,
+        MatChipsModule,
+        MatSelectModule,
+        MatButtonModule,
+        MatInputModule,
+        MatDialogModule,
+        MatCardModule,
+        MatStepperModule,
+        RouterModule,
+        MatExpansionModule,
+        MatToolbarModule,
+        MatTooltipModule,
+        ReactiveFormsModule,
+        MatTabsModule,
+        MatMenuModule,
+        MatSlideToggleModule,
+        MatAutocompleteModule,
+        MatCheckboxModule,
+    ]
 })
 export class SupplierModule { }

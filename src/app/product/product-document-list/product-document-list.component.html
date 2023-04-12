@@ -1,4 +1,6 @@
-<mat-card class="box" style="cursor: pointer;" (click)="openDocumentEditorDialog()">
-  <div class="add-document"><mat-icon style="vertical-align: middle">add</mat-icon><span  style="vertical-align: middle">Добавить</span></div>
-</mat-card>
-<app-document-card *ngFor="let doc of documentsView" [document]="doc" [isChangeable]="isChangeable" [isSelectable]="isSelectable" (selectedDocument)="onDocumentSelected($event)"></app-document-card>
+<div class="cards">
+  <mat-card style="cursor: pointer;" (click)="openDocumentEditorDialog()">
+    <div class="add-document"><mat-icon style="vertical-align: middle">add</mat-icon><span  style="vertical-align: middle">Добавить</span></div>
+  </mat-card>
+  <app-document-card *ngFor="let doc of documentsView" [document]="doc" [isChangeable]="isChangeable" [isSelectable]="isSelectable" (selectedDocument)="onDocumentSelected($event)"></app-document-card>
+</div>
