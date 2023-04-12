@@ -3,12 +3,6 @@
   <!--  <mat-spinner diameter="35" *ngIf="dataSource.loading$ | async"></mat-spinner>-->
 
   <div class="toolbox-container">
-<!--    <div class="toolbox-item">
-      <mat-button-toggle-group [formControl]="withInternalCodeCtrl">
-        <mat-button-toggle [value]=false class="full-width" matTooltip="Все товары"><mat-icon>all_inclusive</mat-icon></mat-button-toggle>
-        <mat-button-toggle [value]=true class="full-width" matTooltip="Только с артикулом"><mat-icon>sell</mat-icon></mat-button-toggle>
-      </mat-button-toggle-group>
-    </div>-->
     <div class="toolbox-item">
       <app-product-ic-filter-switch [withICFilter]="withICFilter" (withICFilterEmitter)="onICFilterChanged($event)"></app-product-ic-filter-switch>
     </div>

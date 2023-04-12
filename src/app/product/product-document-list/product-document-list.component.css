@@ -62,18 +62,31 @@
   gap: 1rem;
 }
 
+.cardsToCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.addDocumentBtn {
+  cursor: pointer;
+  min-height: 10px;
+  min-width: 200px;
+  margin: 0 1px 5px 1px;
+}
+
 /* Screen larger than 600px? 1 column */
 @media (min-width: 600px) {
   .cards { grid-template-columns: repeat(1, 1fr); }
 }
 
-/* Screen larger than 910px? 2 columns */
-@media (min-width: 910px) {
+/* Screen larger than 1280? 2 columns */
+@media (min-width: 1280px) {
   .cards { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* Screen larger than 1200px? 3 columns */
-@media (min-width: 1200px) {
+/* Screen larger than 1670? 3 columns */
+@media (min-width: 1670px) {
   .cards { grid-template-columns: repeat(3, 1fr); }
 }
 

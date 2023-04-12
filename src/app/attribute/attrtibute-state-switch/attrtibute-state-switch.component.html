@@ -1,2 +1,3 @@
-<button mat-stroked-button matTooltip=""style="width: 165px;" (click)="switchAttrStateFilter()"><mat-icon>{{state == null ? 'flaky' : state == true ? 'check_circle' : 'radio_button_unchecked' }}</mat-icon> &nbsp;{{stateTitle}} <span style="  width: 100%;
-  display: inline-flex;"> </span></button>
+<button mat-stroked-button matTooltip=""style="width: 165px;" (click)="switchAttrStateFilter()">
+  <mat-icon>{{state == null ? 'flaky' : state == true ? 'check_circle' : 'radio_button_unchecked' }}</mat-icon> &nbsp;{{state == null ? 'Все атрибуты' : state == true ? 'Фиксированные' : 'Открытые'}} <span style="width: 100%; display: inline-flex;"> </span>
+</button>

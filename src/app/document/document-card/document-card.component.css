@@ -1,5 +1,6 @@
 .box{
-  min-height: 150px;
+  height: 150px;
+  width: 370px;
 }
 
 .mat-card{

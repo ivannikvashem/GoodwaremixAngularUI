@@ -67,8 +67,7 @@ tr.mat-row {
 }
 
 .card {
-  margin-top: 15px;
-  margin-left: 20px;
+  margin-right: 0;
 }
 
 .modifH2{
@@ -198,4 +197,61 @@ tr.mat-row {
   :host::ng-deep .mediaTabGroup mat-card {
     padding: 0!important;
   }
+}
+
+.mat-card-actions {
+  padding: 0;
+}
+
+.card {
+  height: 140px
+}
+.cards {
+  margin: 1px;
+  display: grid;
+  gap: 1rem;
+}
+
+.cardsToCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.matPackageCardActions {
+  position: absolute;
+  bottom: 0;
+  right: 16px;
+  display: grid;
+  grid-auto-flow: column;
+  grid-column-gap: 5px;
+}
+
+.addPackageBtn {
+  cursor: pointer;
+  min-height: 10px;
+  min-width: 200px;
+  margin: 0 1px 5px 1px;
+}
+
+.add-package {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Screen larger than 600px? 1 column */
+@media (min-width: 600px) {
+  .cards { grid-template-columns: repeat(1, 1fr); }
+}
+
+/* Screen larger than 910px? 2 columns */
+@media (min-width: 1300px) {
+  .cards { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Screen larger than 1200px? 3 columns */
+@media (min-width: 1700px) {
+  .cards { grid-template-columns: repeat(3, 1fr); }
 }

@@ -112,10 +112,6 @@ tr.mat-row {
   justify-content: space-between;
 }
 
-::ng-deep .mat-expansion-panel-body{
-  padding: 0 !important;
-}
-
 .add-document {
   position: absolute;
   left: 50%;
@@ -166,18 +162,18 @@ tr.mat-row {
   gap: 1rem;
 }
 
-/* Screen larger than 1040px? 1 column */
-@media (min-width: 1040px) {
+.cardsToCenter {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+}
+
+/* Screen larger than 600px? 1 column */
+@media (min-width: 600px) {
   .cards { grid-template-columns: repeat(1, 1fr); }
 }
 
-/* Screen larger than 1100px? 2 columns */
-@media (min-width: 1100px) {
+/* Screen larger than 768px? 2 columns */
+@media (min-width: 1430px) {
   .cards { grid-template-columns: repeat(2, 1fr); }
 }
-
-/* Screen larger than 1400px? 3 columns */
-@media (min-width: 1400px) {
-  .cards { grid-template-columns: repeat(3, 1fr); }
-}
-

@@ -20,41 +20,18 @@
   text-align: center;
 }
 
-.blockSingle {
-  width: 25%;
+.wrapper {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  width: 370px;
+}
+
+.packageBadge {
+  margin: 18px 5px 0 0;
+}
+
+.packageBarcode {
   display: flex;
-  justify-content: space-between
-}
-
-.mat-list .mat-list-item {
-  font-size: 15px;
-  height: auto;
-  padding: 3px;
-}
-
-.mat-list-base {
-  padding-top: 0;
-}
-
-.material-icons {
-  vertical-align: -5px;
-}
-
-.column {
-  float:left;
-}
-.leftColumn {
-  width: 55%;
-}
-.rightColumn {
-  width: 45%;
-}
-.row:after{
-  content:"";
-  display: table;
-  clear: both;
-}
-
-.centered-element {
-  vertical-align: middle;
+  justify-content: center;
+  align-items: center;
 }

@@ -52,6 +52,9 @@
 
   <mat-tab label="Карточки">
     <mat-card class="mat-elevation-z8">
+      <div class="cardsToCenter">
+
+      </div>
       <div class="cards">
         <app-document-card *ngFor="let doc of documentList" [document]="doc" [isChangeable]="true" (selectedDocument)="onDocumentSelected($event)"></app-document-card>
       </div>

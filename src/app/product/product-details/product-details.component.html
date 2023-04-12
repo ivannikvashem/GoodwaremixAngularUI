@@ -59,7 +59,7 @@
         <mat-expansion-panel *ngFor="let pack of product?.packages">
           <mat-expansion-panel-header [expandedHeight]="'35px'">
             <mat-panel-title>
-              <span>{{pack.packQty}}<span *ngIf="pack.type">{{' '}}{{pack.type}}</span><span *ngIf="pack.barcode"> [{{pack.barcode}}]</span> </span>
+              <span>{{pack.packQty}}<span *ngIf="pack.type">{{' '}}{{pack.type}}</span> [{{pack.barcode ? pack.barcode : 'Штрихкод отсутствует'}}]</span>
             </mat-panel-title>
           </mat-expansion-panel-header>
           <app-package-card [pack]="pack"></app-package-card>
@@ -88,7 +88,9 @@
 
     <mat-card style="margin-top: 10px" *ngIf="product?.documents && product?.documents.length > 0">
       <mat-card-subtitle><h2>Документы</h2></mat-card-subtitle>
-      <div class="cards"><app-document-card *ngFor="let doc of productDocuments" [document]="doc"></app-document-card></div>
+      <div class="cardsToCenter">
+        <div class="cards"><app-document-card *ngFor="let doc of productDocuments" [document]="doc"></app-document-card></div>
+      </div>
     </mat-card>
 
     <mat-card style="margin-top: 10px;" *ngIf="product?.attributes && product?.attributes.length > 0">

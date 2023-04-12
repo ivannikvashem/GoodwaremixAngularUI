@@ -18,8 +18,10 @@
       </mat-form-field>
 
       <cdk-virtual-scroll-viewport appendOnly itemSize="50" class="viewport">
-        <div class="cards">
-          <app-document-card *cdkVirtualFor="let doc of documentsList" [document]="doc" [isChangeable]="false" [isSelectable]="true" (selectedDocument)="onDocumentSelected($event)"></app-document-card>
+        <div class="cardsToCenter">
+          <div class="cards">
+            <app-document-card *cdkVirtualFor="let doc of documentsList" [document]="doc" [isChangeable]="false" [isSelectable]="true" (selectedDocument)="onDocumentSelected($event)"></app-document-card>
+          </div>
         </div>
       </cdk-virtual-scroll-viewport>
 

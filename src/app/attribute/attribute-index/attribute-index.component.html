@@ -5,7 +5,7 @@
       <ng-container matColumnDef="fixed">
         <th mat-header-cell *matHeaderCellDef>Фикс.</th>
         <td mat-cell *matCellDef="let row">
-          <button mat-icon-button matTooltip="Fix" (click)="switchFixAttr(row.id, !row.fixed)"><mat-icon>{{row.fixed ? 'check_circle' : 'radio_button_unchecked'}}</mat-icon></button>
+          <button mat-icon-button matTooltip="Fix" (click)="switchFixAttr(row.id, !row.isFixed)"><mat-icon>{{row.isFixed ? 'check_circle' : 'radio_button_unchecked'}}</mat-icon></button>
         </td>
       </ng-container>
       <!-- etimFeature Column -->

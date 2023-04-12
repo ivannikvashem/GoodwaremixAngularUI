@@ -49,9 +49,7 @@ export class ProductEditComponent implements OnInit {
   attributeColumns: string[] = ['attributeKey', 'attributeValue', 'action'];
   dataSource = new MatTableDataSource<any>()
   // Package
-  dataToDisplayPck:any = [];
   packageColumns: string[] = ['package', 'action'];
-  packDataSource = new PackDataSource(this.dataToDisplayPck);
 
   countriesList:Country[] = Countries
   searchCountryCtrl = new FormControl<string | any>('')
@@ -90,7 +88,6 @@ export class ProductEditComponent implements OnInit {
           this.searchBrandCtrl.setValue(this.product.vendor)
         }
         this.attrDataSource.setData(this.product.attributes || []);
-        this.packDataSource.setData(this.product.packages || [])
         }, error: () => {
           this.router.navigate(['page-not-found'])
         }})
@@ -234,7 +231,6 @@ export class ProductEditComponent implements OnInit {
         if (this.product.packages.filter(x => x.barcode !== result.newPackage?.barcode)) {
           if (oldPackage == undefined) {
             this.product.packages.unshift(result.newPackage as Package)
-            this.packDataSource.setData(this.product.packages || []);
           } else {
             if (oldPackage !== result.newPackage) {
               const target = this.product.packages.find((obj) => obj === oldPackage)
@@ -248,7 +244,6 @@ export class ProductEditComponent implements OnInit {
 
   deletePackageRow(row:any) {
     this.product.packages = this.product.packages.filter(dc => (dc != row))
-    this.packDataSource.setData(this.product.packages || []);
   }
 
   submitProduct() {
@@ -352,21 +347,6 @@ class AttrDataSource extends DataSource<AttributeProduct> {
   }
   disconnect() {}
   setData(data: AttributeProduct[]) {
-    this._dataStream.next(data);
-  }
-}
-
-class PackDataSource extends DataSource<Package> {
-  private _dataStream = new ReplaySubject<Package[]>();
-  constructor(initialData: Package[]) {
-    super();
-    this.setData(initialData);
-  }
-  connect(): Observable<Package[]> {
-    return this._dataStream;
-  }
-  disconnect() {}
-  setData(data: Package[]) {
     this._dataStream.next(data);
   }
 }

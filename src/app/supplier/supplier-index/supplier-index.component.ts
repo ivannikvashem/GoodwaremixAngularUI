@@ -173,7 +173,6 @@ export class SupplierIndexComponent implements OnInit {
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.supplierDataSource.data.length;
-    console.log(numSelected, '---' , numRows)
     return numSelected === numRows;
   }
 

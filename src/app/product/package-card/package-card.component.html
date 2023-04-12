@@ -1,36 +1,19 @@
-<div *ngIf="pack && (pack.barcode || pack.packQty || pack.volume || pack.weight)">
-  <div class="centered-element" *ngIf="!isLoading">
-    <div class="column leftColumn">
-      <div *ngIf="pack.barcode">
-        <ngx-barcode6 [bc-width]="1.7" [bc-height]="30" [bc-margin]="0" [bc-margin-top]="4" [bc-margin-right] ="0" [bc-margin-left]="0" [bc-value]="pack.barcode" [bc-display-value]="true" class="bcode"></ngx-barcode6>
-      </div>
-      <div *ngIf="!pack.barcode">
-        <ngx-barcode6 [bc-width]="1.7" [bc-height]="30" [bc-margin]="0" [bc-margin-top]="4" [bc-margin-right] ="0" [bc-margin-left]="0" [bc-value]="'0000000000000'" [bc-display-value]="true" class="bcode"></ngx-barcode6>
-      </div>
-    </div>
-    <div class="column rightColumn">
-      <div>
-        <div *ngIf="pack.weight"><mat-icon>scale </mat-icon> {{Math.round((pack.weight + Eps) * 100) / 100}} гр. </div>
-        <div *ngIf="pack.volume" matTooltip="{{pack.width | number : '1.0-2'}} x {{pack.height | number : '1.0-2'}} x {{pack.depth | number : '1.0-2'}}"><mat-icon>view_in_ar</mat-icon> {{Math.round((pack.volume + Eps) * 100) / 100}} см<sup>3</sup> <sup *ngIf="isCalculatedVolume">*</sup></div>
-        <div *ngIf="pack.width || pack.height || pack.depth"><mat-icon>straighten</mat-icon> {{pack.width | number : '1.0-2'}} x {{pack.height | number : '1.0-2'}} x {{pack.depth | number : '1.0-2'}} см</div>
-      </div>
-
-<!--      <mat-list>
-        <mat-list-item *ngIf="pack.weight">
-          <div><mat-icon>scale </mat-icon> {{Math.round((pack.weight + Eps) * 100) / 100}} гр. </div>
-        </mat-list-item>
-        <mat-list-item *ngIf="pack.volume">
-          <div matTooltip="{{pack.width | number : '1.0-2'}} x {{pack.height | number : '1.0-2'}} x {{pack.depth | number : '1.0-2'}}"><mat-icon>view_in_ar</mat-icon> {{Math.round((pack.volume + Eps) * 100) / 100}} см<sup>3</sup> <sup *ngIf="isCalculatedVolume">*</sup></div>
-        </mat-list-item>
-        <mat-list-item *ngIf="pack.width || pack.height || pack.depth">
-          <div><mat-icon>straighten</mat-icon> {{pack.width | number : '1.0-2'}} x {{pack.height | number : '1.0-2'}} x {{pack.depth | number : '1.0-2'}} см</div>
-        </mat-list-item>
-      </mat-list>-->
-    </div>
+<div class="wrapper" *ngIf="pack && (pack.barcode || pack.packQty || pack.volume || pack.weight)">
+  <div class="packageBadge">
+    <div *ngIf="pack.weight"><mat-icon>scale </mat-icon> {{Math.round((pack.weight + Eps) * 100) / 100}} гр. </div>
+    <div *ngIf="pack.volume" matTooltip="{{pack.width | number : '1.0-2'}} x {{pack.height | number : '1.0-2'}} x {{pack.depth | number : '1.0-2'}}"><mat-icon>view_in_ar</mat-icon> {{Math.round((pack.volume + Eps) * 100) / 100}} см<sup>3</sup> <sup *ngIf="isCalculatedVolume">*</sup></div>
+    <div *ngIf="pack.width || pack.height || pack.depth"><mat-icon>straighten</mat-icon> {{pack.width | number : '1.0-2'}} x {{pack.height | number : '1.0-2'}} <span *ngIf="pack.depth">x {{pack.depth | number : '1.0-2'}}</span> см</div>
   </div>
-
-  <div class="centered-element" *ngIf="isLoading">
-    <mat-spinner></mat-spinner>
+  <div *ngIf="pack.barcode" class="packageBarcode">
+    <ngx-barcode6 [bc-width]="1.5" [bc-height]="30" [bc-margin]="0" [bc-margin-top]="4" [bc-margin-right] ="0" [bc-margin-left]="0" [bc-value]="pack.barcode" [bc-display-value]="true" class="bcode"></ngx-barcode6>
+  </div>
+  <div *ngIf="!pack.barcode" class="packageBarcode">
+    <b>Штрихкод отсутствует</b>
   </div>
 </div>
+
+<div class="centered-element" *ngIf="isLoading">
+  <mat-spinner></mat-spinner>
+</div>
+
 

@@ -26,12 +26,10 @@ export class SuppliersDataSource implements DataSource<Supplier> {
   }
 
   loadPagedData(searchQuery:string, pageIndex:number, pageSize:number, sortActive:string, sortDirection:string) {
-    console.log(sortActive, sortDirection)
     this.loadingSubject.next(true);
     this.api.getSuppliers(searchQuery, pageIndex, pageSize, sortActive, sortDirection)
       .pipe(
         map(res => {
-          console.log(res)
           return res.body;
         }),
       catchError(() => of([])),

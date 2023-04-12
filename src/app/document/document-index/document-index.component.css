@@ -38,17 +38,24 @@ table {
   gap: 1rem;
 }
 
-/* Screen larger than 600px? 2 column */
+.cardsToCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @media (min-width: 600px) {
+  .cards { grid-template-columns: repeat(1, 1fr); }
+}
+
+@media (min-width: 890px) {
   .cards { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* Screen larger than 900px? 3 columns */
-@media (min-width: 900px) {
+@media (min-width: 1300px) {
   .cards { grid-template-columns: repeat(3, 1fr); }
 }
 
-/* Screen larger than 900px? 3 columns */
-@media (min-width: 1200px) {
+@media (min-width: 1600px) {
   .cards { grid-template-columns: repeat(4, 1fr); }
 }

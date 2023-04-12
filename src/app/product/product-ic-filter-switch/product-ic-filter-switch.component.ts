@@ -8,21 +8,17 @@ import {Subject} from "rxjs";
 })
 export class ProductIcFilterSwitchComponent{
 
-  @Input() withICFilter: boolean = false;
-  withICFilterTitle: string = "Все товары";
-
+  @Input() withICFilter: boolean = null;
   @Output() withICFilterEmitter = new Subject<boolean>();
 
   switchAttrStateFilter() {
     switch (this.withICFilter) {
       case true: {
         this.withICFilter = false;
-        this.withICFilterTitle = "Все товары";
         break;
       }
       case false: {
         this.withICFilter = true;
-        this.withICFilterTitle = "C артикулом";
         break;
       }
     }
