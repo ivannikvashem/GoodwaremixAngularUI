@@ -278,7 +278,7 @@ export class ApiClient {
   }
 
   fullInit() {
-    return this.http.post<any>(this.apiURL + '/service/init', {}, this.httpOptions);
+    return this.http.post<any>(this.apiURL + '/service/initOld', {}, this.httpOptions);
   }
 
   checkImageStatusCode(url:string) {
