@@ -15,7 +15,7 @@ export class AdminPanelComponent implements OnInit {
 
   fullInit() {
     this.api.fullInit().subscribe({
-      next: next => {
+      next: () => {
         this._notyf.onSuccess("Инициализация БД начата")
       },
       error: err => {
@@ -25,7 +25,7 @@ export class AdminPanelComponent implements OnInit {
 
   fixSupplierStat() {
     this.api.fixSupplierStat().subscribe({
-      next: next => {
+      next: () => {
         this._notyf.onSuccess("Обновление статистики")
       },
       error: err => {

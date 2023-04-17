@@ -1,5 +1,5 @@
 <div class="mat-elevation-z8">
-  <table mat-table [dataSource]="supplierDataSource" multiTemplateDataRows matSort  [matSortActive]="sortActive" matSortDirection="{{sortDirection}}" (matSortChange)="sortData($event)" matSortDisableClear>
+  <table mat-table [dataSource]="supplierDataSource" multiTemplateDataRows matSort [matSortActive]="sortActive" matSortDirection="{{sortDirection}}" (matSortChange)="sortData($event)" matSortDisableClear>
     <!-- Checkbox Column -->
     <ng-container matColumnDef="checkbox">
       <th mat-header-cell *matHeaderCellDef>

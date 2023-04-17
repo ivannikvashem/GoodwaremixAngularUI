@@ -4,3 +4,14 @@
 .full-width {
   width: 100%;
 }
+
+.formArea {
+  width: 100%;
+  display: flex;
+  justify-content: space-between
+}
+
+.header-container {
+  display: flex;
+  justify-content : space-between;
+}

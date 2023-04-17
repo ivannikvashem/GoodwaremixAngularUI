@@ -1,16 +1,12 @@
-<div class="mat-headline">
-  <div style="float:right">
-    <button mat-raised-button color="primary" (click)="saveAttribute()">Сохранить</button>&nbsp;
-  </div>
-  <div>
-    <span> {{attribute?.id == undefined ? "Добавление нового атрибута" : "Атрибут "+ id}}</span>
-  </div>
+<div class="mat-headline header-container">
+  <span> {{attribute?.id == undefined ? "Добавление нового атрибута" : "Атрибут "+ id}}</span>
+  <button mat-raised-button color="primary" (click)="saveAttribute()">Сохранить</button>
 </div>
 
 <form>
   <app-supplier-autocomplete *ngIf="!attribute?.id" class="full-width" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
 
-  <div style="width: 100%; display: flex; justify-content: space-between">
+  <div class="formArea">
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Фиксация</mat-label>
       <mat-select name="fixed" [(ngModel)]="attribute.isFixed">
@@ -44,7 +40,7 @@
     </mat-form-field>
   </div>
   <div>
-    <mat-form-field style="width: 100%;" appearance="fill">
+    <mat-form-field class="full-width" appearance="fill">
       <mat-label>Наименование атрибута</mat-label>
       <input matInput placeholder="Наименование" name="nameAttribute" [(ngModel)]="attribute.nameAttribute">
     </mat-form-field>&nbsp;
@@ -53,8 +49,8 @@
   <mat-form-field class="chip-list" appearance="fill">
     <mat-label>Список возможных значений</mat-label>
     <mat-chip-list #chipList aria-label="Список возможных значений">
-      <mat-chip *ngFor="let v of attribute?.allValue" (removed)="removePossibleValue(v)">
-        {{v}}
+      <mat-chip *ngFor="let value of attribute?.allValues" (removed)="removePossibleValue(value)">
+        {{value}}
         <button matChipRemove>
           <mat-icon>cancel</mat-icon>
         </button>
@@ -70,7 +66,7 @@
   <mat-form-field class="chip-list" appearance="fill" *ngIf="attribute?.isFixed">
     <mat-label>Список возможных имен атрибута</mat-label>
     <mat-chip-list #chipList aria-label="Список возможных имен атрибута">
-      <mat-chip *ngFor="let pn of attribute?.possibleAttributeName" (removed)="removePossibleName(pn)">
+      <mat-chip *ngFor="let pn of attribute?.altValues" (removed)="removePossibleName(pn)">
         {{pn}}
         <button matChipRemove>
           <mat-icon>cancel</mat-icon>
@@ -84,5 +80,3 @@
     </mat-chip-list>
   </mat-form-field>
 </form>
-
-

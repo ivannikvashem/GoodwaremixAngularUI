@@ -14,6 +14,7 @@ import {Supplier} from "../../models/supplier.model";
 import {DocumentsDataSource} from "../repo/DocumentsDataSource";
 import {tap} from "rxjs";
 import {MissingImageHandler} from "../../product/MissingImageHandler";
+import {MatSort} from "@angular/material/sort";
 
 @Component({
   selector: 'app-document-index',
@@ -35,7 +36,10 @@ export class DocumentIndexComponent implements OnInit {
   @Input() selectedSupplier: Supplier;
   @Input() pageIndex:number;
   @Input() pageSize:number;
-  @Output() pageParams:EventEmitter<any> = new EventEmitter()
+  @Input() sortActive:string;
+  @Input() sortDirection:string;
+  @Output() pageParams:EventEmitter<any> = new EventEmitter();
+  @Output() sortParams:EventEmitter<any> = new EventEmitter();
 
   constructor(
     private api: ApiClient,
@@ -44,6 +48,7 @@ export class DocumentIndexComponent implements OnInit {
   ) { this.dataSource = new DocumentsDataSource(this.api) }
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator
+  @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit(): void {
     this.loadDocuments()
@@ -51,10 +56,6 @@ export class DocumentIndexComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.loadDocumentPagedData(false)
-  }
-
-  searchQueryChanged(searchQuery:string) {
-    this.loadDocuments(searchQuery)
   }
 
   loadDocuments(searchQuery?:string, pageIndex?:number, pageSize?:number) {
@@ -75,7 +76,7 @@ export class DocumentIndexComponent implements OnInit {
 
 
   loadDocumentPagedData(isPaginatorParams:boolean): any {
-    this.dataSource.loadPagedData(this.searchQuery, this.selectedSupplier?.id, isPaginatorParams ? this.paginator?.pageIndex : this.pageIndex,isPaginatorParams ? this.paginator?.pageSize : this.pageSize);
+    this.dataSource.loadPagedData(this.searchQuery, this.selectedSupplier?.id, isPaginatorParams ? this.paginator?.pageIndex : this.pageIndex,isPaginatorParams ? this.paginator?.pageSize : this.pageSize, this.sortActive, this.sortDirection);
   }
 
   handlePageEvent(pageEvent: PageEvent) {
@@ -134,4 +135,7 @@ export class DocumentIndexComponent implements OnInit {
     this.imgHandler.checkImgStatus($event);
   }
 
+  sortData(sort: any) {
+    this.sortParams.next({direction: sort.direction, active:sort.active});
+  }
 }

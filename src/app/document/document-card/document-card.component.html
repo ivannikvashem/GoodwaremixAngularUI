@@ -18,7 +18,7 @@
 
       <div class="card-low-stripe">
         <small>
-          <div *ngIf="document.startDate && document.endDate"><strong><i>{{document.startDate | date:'MM.yyyy'}} - {{document.endDate | date:'MM.yyyy'}}</i></strong></div>
+          <div *ngIf="document.startDate && document.endDate"><strong><i [style.color]="this.isDateValid(this.document.endDate) ? 'black': '#990000'">{{document.startDate | date:'MM.yyyy'}} - {{document.endDate | date:'MM.yyyy'}}</i></strong></div>
         </small>
       </div>
       <div *ngIf="isChangeable">

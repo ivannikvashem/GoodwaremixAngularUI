@@ -1,17 +1,13 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup} from "@angular/forms";
 import {Supplier} from "../../../models/supplier.model";
-import {BehaviorSubject, debounceTime, distinctUntilChanged, of, switchMap, tap} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 import {Attribute} from "../../../models/attribute.model";
 import {ApiClient} from "../../../service/httpClient";
 import {ActivatedRoute} from "@angular/router";
-import {catchError, finalize, map} from "rxjs/operators";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {MatChipInputEvent} from "@angular/material/chips";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {ProductDocumentEditComponent} from "../../../product/product-document-edit/product-document-edit.component";
-import {Document} from "../../../models/document.model";
-
 interface AttributeType {
   value: string;
   viewValue: string;
@@ -62,33 +58,33 @@ export class SupplierAttributeAddComponent implements OnInit {
 
   addPossibleValue(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-    const idx = this.attribute?.allValue?.indexOf(value);
+    const idx = this.attribute?.allValues?.indexOf(value);
     if (value && idx === -1 ) {
-      this.attribute?.allValue?.push(value);
+      this.attribute?.allValues?.push(value);
     }
     event.chipInput!.clear();
   }
 
   removePossibleValue(value: string): void {
-    const index = this.attribute?.allValue?.indexOf(value);
+    const index = this.attribute?.allValues?.indexOf(value);
     if (typeof(index) == "number" && index >= 0) {
-      this.attribute?.allValue?.splice(index, 1);
+      this.attribute?.allValues?.splice(index, 1);
     }
   }
 
   addPossibleName(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-    const idx = this.attribute?.possibleAttributeName?.indexOf(value);
+    const idx = this.attribute?.altValues?.indexOf(value);
     if (value && idx === -1 ) {
-      this.attribute?.possibleAttributeName?.push(value);
+      this.attribute?.altValues?.push(value);
     }
     event.chipInput!.clear();
   }
 
   removePossibleName(value: string): void {
-    const index = this.attribute?.possibleAttributeName?.indexOf(value);
+    const index = this.attribute?.altValues?.indexOf(value);
     if (typeof(index) == "number" && index >= 0) {
-      this.attribute?.possibleAttributeName?.splice(index, 1);
+      this.attribute?.altValues?.splice(index, 1);
     }
   }
 

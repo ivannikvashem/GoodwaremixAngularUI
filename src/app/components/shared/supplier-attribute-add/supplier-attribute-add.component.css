@@ -14,3 +14,9 @@
   display: flex;
   justify-content: space-between;
 }
+
+.formArea {
+  width: 100%;
+  display: flex;
+  justify-content: space-between
+}

@@ -58,6 +58,8 @@ export class AttributeComponent implements OnInit {
       supplier => {
         console.log('sup from dss', supplier)
         this.selectedSupplier = supplier;
+        this.pageIndex = 0;
+        this.setCookie();
       }
     )
     setTimeout(() => {

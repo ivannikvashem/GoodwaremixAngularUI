@@ -44,7 +44,7 @@ export class ProductAttributeEditComponent implements OnInit {
           this.attributeProduct = response.body;
           this.searchAttributeCtrl.setValue(this.attributeProduct);
           this.attributeValuesCtrl.setValue(this.data.oldAttribute.value);
-          this.attributeValues = this.attributeProduct.allValue
+          this.attributeValues = this.attributeProduct.allValues
           this.filteredAttributeValues = this.attributeValuesCtrl.valueChanges.pipe(
             startWith(''),
             map(value => this._filter(value)),
@@ -59,7 +59,7 @@ export class ProductAttributeEditComponent implements OnInit {
       tap(() => {
         // this.isLoading = true;
       }),
-      switchMap(value => this.api.getAttributes(value, '' ,0, 10, undefined, "Rating", "desc")
+      switchMap(value => this.api.getAttributes(value, '' ,0, 50, undefined, "rating", "desc")
         .pipe(
           finalize(() => {
             //this.isLoading = false
@@ -84,7 +84,7 @@ export class ProductAttributeEditComponent implements OnInit {
       map(value => this._filter(value)),
     );
 
-    this.attributeValues = selectedAttribute.allValue
+    this.attributeValues = selectedAttribute.allValues
     this.data.newAttribute.attributeId = selectedAttribute.id
     this.data.newAttribute.attributeName = selectedAttribute.nameAttribute
     this.data.newAttribute.etimFeature = selectedAttribute.etimFeature
@@ -99,7 +99,7 @@ export class ProductAttributeEditComponent implements OnInit {
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-    return this.attributeValues.filter(attributeValues => attributeValues.toLowerCase().includes(filterValue));
+    return this.attributeValues.filter(attributeValues => attributeValues.toLowerCase().includes(filterValue)).sort((a ,b) => a.localeCompare(b, undefined, {numeric: true, sensitivity: 'base', ignorePunctuation: true}));
   }
 
   submitForm() {

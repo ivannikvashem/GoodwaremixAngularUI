@@ -14,11 +14,13 @@ export class DocumentComponent implements OnInit {
 
   selectedSupplier: Supplier;
   searchQueryCtrl  = new FormControl<string>('');
-  searchQuery: string = '';
-  attributeFixedFilterState: boolean | null = null;
-
+  searchQuery:string = '';
   pageIndex:number = 0;
   pageSize:number = 10;
+  attributeFixedFilterState: boolean | null = null;
+  sortDirection:string = 'asc'
+  sortActive:string = ''
+
 
   pageCookie$ = this._localStorageService.myData$
   pC: any = {};
@@ -34,11 +36,10 @@ export class DocumentComponent implements OnInit {
         this.pC = localStorageContent;
         this.searchQueryCtrl.setValue(this.pC.searchQuery);
         this.searchQuery = this.pC.searchQuery
-        /*
-                this.setValue(this.pC.withInternalCodeSelector);
-        */
         this.pageIndex = this.pC.pageIndex
         this.pageSize = this.pC.pageSize
+        this.sortDirection = this.pC.sortDirection;
+        this.sortActive = this.pC.sortActive;
       }
     });
   }
@@ -47,7 +48,9 @@ export class DocumentComponent implements OnInit {
     this._localStorageService.setDataByPageName("DocumentIndex", {
       searchQuery: this.searchQuery,
       pageIndex: this.pageIndex,
-      pageSize: this.pageSize
+      pageSize: this.pageSize,
+      sortDirection: this.sortDirection,
+      sortActive: this.sortActive,
     });
   }
 
@@ -86,14 +89,21 @@ export class DocumentComponent implements OnInit {
     this.setCookie();
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+  onSortParamsChanged(params: any) {
+    this.sortActive = params.active;
+    this.sortDirection = params.direction;
+    this.setCookie();
   }
 
   onPageParamsChanged(params: any) {
+    console.log(params)
     this.pageIndex = params.pageIndex;
     this.pageSize = params.pageSize;
     this.setCookie();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
 

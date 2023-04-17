@@ -13,6 +13,7 @@ import {ProductModule} from "../product/product.module";
 import {CommonModule} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";
 import {MatInputModule} from "@angular/material/input";
+import {MatSortModule} from "@angular/material/sort";
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import {MatInputModule} from "@angular/material/input";
     ProductModule,
     MatButtonModule,
     MatInputModule,
+    MatSortModule,
   ]
 })
 export class DocumentModule { }

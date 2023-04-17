@@ -3,7 +3,7 @@
 </div>
 
 <form>
-  <div style="width: 100%; display: flex; justify-content: space-between">
+  <div class="formArea">
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Фиксация</mat-label>
       <mat-select name="fixed" [(ngModel)]="attribute.isFixed">
@@ -40,7 +40,7 @@
   </div>
 
   <div>
-    <mat-form-field style="width: 100%;" appearance="fill">
+    <mat-form-field class="full-width" appearance="fill">
       <mat-label>Наименование атрибута</mat-label>
       <input matInput placeholder="Наименование" name="nameAttribute" [(ngModel)]="attribute.nameAttribute">
     </mat-form-field>&nbsp;
@@ -49,7 +49,7 @@
   <mat-form-field class="chip-list" appearance="fill">
     <mat-label>Список возможных значений</mat-label>
     <mat-chip-list #chipList aria-label="Список возможных значений">
-      <mat-chip *ngFor="let v of attribute?.allValue" (removed)="removePossibleValue(v)">
+      <mat-chip *ngFor="let v of attribute?.allValues" (removed)="removePossibleValue(v)">
         {{v}}
         <button matChipRemove>
           <mat-icon>cancel</mat-icon>
@@ -66,7 +66,7 @@
   <mat-form-field class="chip-list" appearance="fill" *ngIf="attribute?.isFixed">
     <mat-label>Список возможных имен атрибута</mat-label>
     <mat-chip-list #chipList aria-label="Список возможных имен атрибута">
-      <mat-chip *ngFor="let pn of attribute?.possibleAttributeName" (removed)="removePossibleName(pn)">
+      <mat-chip *ngFor="let pn of attribute?.altValues" (removed)="removePossibleName(pn)">
         {{pn}}
         <button matChipRemove>
           <mat-icon>cancel</mat-icon>
@@ -85,6 +85,3 @@
     <button mat-raised-button color="primary" [mat-dialog-close]="data" (click)="saveAttribute()">Сохранить</button>
   </div>
 </form>
-
-
-<!--<button mat-raised-button color="primary" [mat-dialog-close]="data" (click)="saveAttribute()">Сохранить</button>&nbsp;-->

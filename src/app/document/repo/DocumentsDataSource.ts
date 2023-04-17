@@ -23,10 +23,10 @@ export class DocumentsDataSource implements DataSource<Document> {
     this.loadingSubject.complete();
   }
 
-  loadPagedData(queryString = "", supplierId: string = '', pageIndex = 1, pageSize = 10): any {
+  loadPagedData(queryString:string, supplierId:string, pageIndex:number, pageSize:number, sortActive:string, sortDirection:string): any {
     //console.log(`LOAD Data: qs=${queryString}, sID=${supplierId}, pageIndex=${pageIndex}, fixed=${fixed}\``)
     this.loadingSubject.next(true);
-    this.api.getDocuments(queryString, pageIndex, pageSize,"", "desc")
+    this.api.getDocuments(queryString, pageIndex, pageSize,sortActive, sortDirection)
       .pipe(
         tap( () => {
           this.loadingSubject.next(true)

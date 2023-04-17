@@ -64,33 +64,33 @@ export class AttributeEditComponent implements OnInit {
 
   addPossibleValue(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-    const idx = this.attribute?.allValue?.indexOf(value);
+    const idx = this.attribute?.allValues?.indexOf(value);
     if (value && idx === -1) {
-      this.attribute?.allValue?.push(value);
+      this.attribute?.allValues?.push(value);
     }
     event.chipInput!.clear();
   }
 
   removePossibleValue(value: string): void {
-    const index = this.attribute?.allValue?.indexOf(value);
+    const index = this.attribute?.allValues?.indexOf(value);
     if (typeof (index) == "number" && index >= 0) {
-      this.attribute?.allValue?.splice(index, 1);
+      this.attribute?.allValues?.splice(index, 1);
     }
   }
 
   addPossibleName(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-    const idx = this.attribute?.possibleAttributeName?.indexOf(value);
+    const idx = this.attribute?.altValues?.indexOf(value);
     if (value && idx === -1) {
-      this.attribute?.possibleAttributeName?.push(value);
+      this.attribute?.altValues?.push(value);
     }
     event.chipInput!.clear();
   }
 
   removePossibleName(value: string): void {
-    const index = this.attribute?.possibleAttributeName?.indexOf(value);
+    const index = this.attribute?.altValues?.indexOf(value);
     if (typeof (index) == "number" && index >= 0) {
-      this.attribute?.possibleAttributeName?.splice(index, 1);
+      this.attribute?.altValues?.splice(index, 1);
     }
   }
 
