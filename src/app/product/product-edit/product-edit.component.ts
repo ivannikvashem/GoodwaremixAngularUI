@@ -192,7 +192,6 @@ export class ProductEditComponent implements OnInit {
   openAttributeEditorDialog(oldAttribute?:any): void {
     const dialogRef = this.dialog.open(ProductAttributeEditComponent, {
       width: '900px',
-      height: '315px',
       data: { oldAttribute: oldAttribute, newAttribute: new AttributeProduct() },
       autoFocus:false
     });

@@ -3,6 +3,25 @@
 html, body { height: 96%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+.unitMark {
+  padding: 3px;
+  background-color: rgba(0,0,0,.06);
+  border: lightgray;
+}
+
+.energomixStamp {
+  padding: 3px;
+  color: white;
+  background-color: #0009;
+  border-radius: 9px;
+}
+
+.supplierStamp {
+  padding: 3px;
+  border: black 1px solid;
+  border-radius: 9px;
+}
+
 .form {
   min-width: 150px;
   max-width: 500px;

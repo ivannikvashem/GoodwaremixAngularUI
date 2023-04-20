@@ -166,7 +166,7 @@
               <!-- attributeValue Column -->
               <ng-container matColumnDef="attributeValue" class="full-width">
                 <th mat-header-cell *matHeaderCellDef> Значение </th>
-                <td mat-cell *matCellDef="let row">{{row.value}}</td>
+                <td mat-cell *matCellDef="let row">{{row.value}} <span class="unitMark" *ngIf="row.unit">{{row.unit}}</span></td>
               </ng-container>
               <!-- actions Column -->
               <ng-container matColumnDef="action" class="full-width">

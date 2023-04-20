@@ -35,7 +35,7 @@ export class SupplierEditComponent implements OnInit {
   selectedConfig = new FormControl(0)
   isConfigsLoaded:boolean = false
 
-  attrTableColumns: string[] = ['idx', 'keySupplier', 'attributeBDName', 'actions'];
+  attrTableColumns: string[] = ['idx', 'keySupplier', 'attributeBDName', 'action'];
   attrSelectedRow: any;
   public attributeList: Attribute[] | undefined;
   attributesToAdd:Attribute[] = []
@@ -75,7 +75,7 @@ export class SupplierEditComponent implements OnInit {
       tap(() => {
 
       }),
-      switchMap(value => this.api.getAttributes(value, '' ,0, 10, undefined, "Rating", "desc")
+      switchMap(value => this.api.getAttributes(value, '' ,0, 50, undefined, "rating", "desc")
         .pipe(
           finalize(() => {
 

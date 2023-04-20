@@ -19,7 +19,7 @@ export interface AttrDialogData {
 })
 export class ProductAttributeEditComponent implements OnInit {
 
-  attributeProduct: Attribute = new Attribute();
+  selectedAttribute: Attribute;
   attributeValues: string[] = [];
   filteredAttributeValues: Observable<string[]>;
   attributesList: Attribute[] = [];
@@ -41,10 +41,10 @@ export class ProductAttributeEditComponent implements OnInit {
         }),
         finalize( () => this.isOldAttributeLoading = false)).subscribe((response) => {
         if (response.status == 200) {
-          this.attributeProduct = response.body;
-          this.searchAttributeCtrl.setValue(this.attributeProduct);
+          this.selectedAttribute = response.body;
+          this.searchAttributeCtrl.setValue(this.selectedAttribute);
           this.attributeValuesCtrl.setValue(this.data.oldAttribute.value);
-          this.attributeValues = this.attributeProduct.allValues
+          this.attributeValues = this.selectedAttribute.allValues
           this.filteredAttributeValues = this.attributeValuesCtrl.valueChanges.pipe(
             startWith(''),
             map(value => this._filter(value)),
@@ -78,18 +78,18 @@ export class ProductAttributeEditComponent implements OnInit {
   }
 
   onAttributeKeySelected() {
-    let selectedAttribute = this.searchAttributeCtrl.value as Attribute;
+    this.selectedAttribute = this.searchAttributeCtrl.value as Attribute;
     this.filteredAttributeValues = this.attributeValuesCtrl.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value)),
     );
 
-    this.attributeValues = selectedAttribute.allValues
-    this.data.newAttribute.attributeId = selectedAttribute.id
-    this.data.newAttribute.attributeName = selectedAttribute.nameAttribute
-    this.data.newAttribute.etimFeature = selectedAttribute.etimFeature
-    this.data.newAttribute.etimUnit = selectedAttribute.etimUnit
-    this.data.newAttribute.unit = selectedAttribute.unit
+    this.attributeValues = this.selectedAttribute.allValues
+    this.data.newAttribute.attributeId = this.selectedAttribute.id
+    this.data.newAttribute.attributeName = this.selectedAttribute.nameAttribute
+    this.data.newAttribute.etimFeature = this.selectedAttribute.etimFeature
+    this.data.newAttribute.etimUnit = this.selectedAttribute.etimUnit
+    this.data.newAttribute.unit = this.selectedAttribute.unit
     this.data.newAttribute.value = this.attributeValuesCtrl.value as string;
   }
 

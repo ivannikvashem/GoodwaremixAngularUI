@@ -54,6 +54,7 @@ export class AttributeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getCookie();
     this.subscription = this.dss.selectedSupplierState.subscribe(
       supplier => {
         console.log('sup from dss', supplier)
@@ -62,9 +63,6 @@ export class AttributeComponent implements OnInit {
         this.setCookie();
       }
     )
-    setTimeout(() => {
-      this.getCookie();
-    })
   }
 
   handleChangeSelectedSupplier(supplier: Supplier) {

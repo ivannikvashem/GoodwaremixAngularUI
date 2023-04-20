@@ -41,8 +41,8 @@ p {
 .mat-column-action {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 120px !important;
-  width: 250px !important;
+  flex: 0 0 100px !important;
+  width: 100px !important;
   justify-content: center;
   text-align: -webkit-center;
   text-align: center;
@@ -64,7 +64,7 @@ p {
   max-height: 500px;
   overflow-y: scroll;
   overflow: auto;
-  width: 73%;
+  width: 100%;
 }
 
 .mat-column-headerAction {

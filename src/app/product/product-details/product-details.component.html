@@ -112,12 +112,7 @@
         <!-- Value Column -->
         <ng-container matColumnDef="value">
           <th mat-header-cell *matHeaderCellDef> Значение </th>
-          <td mat-cell *matCellDef="let row"> {{row.value}} </td>
-        </ng-container>
-        <!-- unit Column -->
-        <ng-container matColumnDef="unit">
-          <th mat-header-cell *matHeaderCellDef> Ед. Изменерния </th>
-          <td mat-cell *matCellDef="let row"> {{row.unit}} </td>
+          <td mat-cell *matCellDef="let row"> {{row.value}} <span *ngIf="row.unit" class="unitMark">{{row.unit}}</span></td>
         </ng-container>
 
         <!-- action Column -->

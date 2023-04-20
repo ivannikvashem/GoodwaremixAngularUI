@@ -3,8 +3,6 @@ import {ProductAttributeKey} from "./productAttributeKey.model";
 import { Dimensions } from './dimensions.model';
 import {Multipliers} from "./multipliers.model";
 
-
-
 export class Supplier {
   id: string;
   supplierName: string;
@@ -62,7 +60,6 @@ export class SupplierConfig {
   multipliers: Multipliers;
   sourceSettings: SourceSettings
 
-
   constructor() {
     this.baseConfig = new BaseConfig()
     this.documentConfig = new DocumentConfig()
@@ -85,10 +82,8 @@ export class BaseConfig {
   image360: string;
   videos: string;
   country: string;
-  countryCode:
-    string;
+  countryCode: string;
   gtd: string;
-  //
 }
 
 export class DocumentConfig {

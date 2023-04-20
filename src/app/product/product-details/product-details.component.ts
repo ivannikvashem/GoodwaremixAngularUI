@@ -21,7 +21,7 @@ import {Document} from "../../models/document.model";
 export class ProductDetailsComponent implements OnInit {
   productId: string | any;
   product: Observable<Product> | any;
-  displayedAttrColumns: string[] = ['etim', 'name', 'value','unit', 'action'];
+  displayedAttrColumns: string[] = ['etim', 'name', 'value', 'action'];
   dataSource = new MatTableDataSource();
   safeVideoUrl: SafeResourceUrl[] =[];
   selectedSafeVideo:SafeResourceUrl

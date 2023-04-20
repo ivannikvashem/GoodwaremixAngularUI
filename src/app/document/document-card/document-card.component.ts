@@ -38,9 +38,6 @@ export class DocumentCardComponent implements OnInit {
   }
 
   isDateValid(endDate:any) {
-    if (endDate.includes('0001-01-01')) {
-      return true;
-    }
     return endDate > new Date().toISOString()
   }
 }

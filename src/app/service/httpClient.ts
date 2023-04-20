@@ -193,7 +193,7 @@ export class ApiClient {
   }
 
   deleteSupplierProducts(id: any): Observable<any> {
-    return this.http.delete<any>(this.apiURL + '/suppliers/' + id + '/products/', this.httpOptions);
+    return this.http.delete<any>(this.apiURL + '/products/' + id, this.httpOptions);
   }
 
   deleteSupplier(id: any): Observable<any> {

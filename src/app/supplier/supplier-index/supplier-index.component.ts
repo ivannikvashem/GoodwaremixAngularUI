@@ -73,7 +73,6 @@ export class SupplierIndexComponent implements OnInit {
           this.loadProductPagedData(true)
           this.pageParams.next({pageIndex: this.paginator.pageIndex, pageSize:this.paginator.pageSize})
           this.selection.clear();
-          console.log(this.selection.selected.length, '<----')
         })).subscribe();
   }
 
