@@ -54,6 +54,9 @@ table {
   word-break: break-word;
 }
 
+.mat-column-type {
+  width: 80px !important;
+}
 
 .left-panel {
   width: 350px;

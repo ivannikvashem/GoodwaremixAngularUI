@@ -32,9 +32,16 @@
       </ng-container>
       <!-- unit Column -->
       <ng-container matColumnDef="unit">
-        <th mat-header-cell *matHeaderCellDef>Ед. Изм</th>
+        <th mat-header-cell *matHeaderCellDef>Ед. Изм.</th>
         <td mat-cell *matCellDef="let row">
           <span *ngIf="row.unit" class="unitMark">{{row.unit}}</span>
+        </td>
+      </ng-container>
+      <!-- type Column -->
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef>Тип</th>
+        <td mat-cell *matCellDef="let row">
+          <span *ngIf="row.type">{{row.type}}</span>
         </td>
       </ng-container>
       <!-- allValue Column -->

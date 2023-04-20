@@ -26,7 +26,7 @@ export interface AttrDialogData {
 export class AttributeIndexComponent implements OnInit {
 
   dataSource: AttributesDataSource;
-  displayedColumns: string[] = ['fixed', 'rating', 'supplierName', 'etimFeature', 'nameAttribute', 'unit', 'allValue', 'actions'];
+  displayedColumns: string[] = ['fixed', 'rating', 'supplierName', 'etimFeature', 'nameAttribute', 'unit', 'type', 'allValue', 'actions'];
   isLoading = false;
   pageCookie$ = this._localStorageService.myData$
   pC: any = {};

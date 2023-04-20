@@ -11,11 +11,15 @@
       <input matInput placeholder=""
              [formControl]="searchAttributeCtrl"
              [matAutocomplete]="auto">
-      <!--                   name="newAttribute" [(ngModel)]="data.newAttribute" (ngModelChange)="UpdateAutocomplete($event)" -->
 
       <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="diaplayFn" (optionSelected)="onAttributeSelected()">
         <mat-option *ngFor="let option of attributes" [value]="option">
-          {{option.isFixed ? "■" : ''}} {{option.etimFeature}} {{option.nameAttribute}} [{{option.supplierName}}]
+          <mat-icon>{{option.isFixed ? 'check_circle' : 'radio_button_unchecked'}}</mat-icon>
+          <span [ngClass]="{'energomixStamp': option.supplierName == 'Энергомикс', 'supplierStamp': option.supplierName != 'Энергомикс'}">{{option.supplierName}}</span>
+          <span *ngIf="option.etimFeature" style="font-style:italic"> [{{option.etimFeature}}]</span>
+          <strong *ngIf="option.type"> {{option.type}}</strong>
+          <span> {{option.nameAttribute}} </span>
+          <span *ngIf="option.unit && option.isFixed" class="unitMark">{{option.unit}}</span>
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>

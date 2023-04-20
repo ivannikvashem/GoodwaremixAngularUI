@@ -21,7 +21,8 @@
         <mat-option *ngFor="let option of attributesList" [value]="option" > <!--<mat-icon>{{option.etimFeature? 'explicit' : 'crop_square'}}</mat-icon>-->
           <mat-icon>{{option.isFixed ? 'check_circle' : 'radio_button_unchecked'}}</mat-icon>
           <span [ngClass]="{'energomixStamp': option.supplierName == 'Энергомикс', 'supplierStamp': option.supplierName != 'Энергомикс'}">{{option.supplierName}}</span>
-          <span *ngIf="option.etimFeature" style="font-style:italic "> [{{option.etimFeature}}]</span>
+          <span *ngIf="option.etimFeature" style="font-style:italic"> [{{option.etimFeature}}]</span>
+          <strong *ngIf="option.type"> {{option.type}}</strong>
           <span> {{option.nameAttribute}} </span>
           <span *ngIf="option.unit && option.isFixed" class="unitMark">{{option.unit}}</span>
         </mat-option>

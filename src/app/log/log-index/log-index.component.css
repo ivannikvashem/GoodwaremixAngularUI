@@ -21,15 +21,15 @@ table {
 .mat-column-supplierName {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 100px !important;
-  width: 100px !important;
+  flex: 0 0 150px !important;
+  width: 150px !important;
 }
 
 .mat-column-date {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 135px !important;
-  width: 135px !important;
+  flex: 0 0 155px !important;
+  width: 155px !important;
 }
 
 .mat-column-status {
