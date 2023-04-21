@@ -294,4 +294,15 @@ export class SupplierEditComponent implements OnInit {
       }
     });
   }
+
+  fetchSupplierProducts() {
+    this.api.fetchDataFromSupplier(this.supplier.id).subscribe( res => {
+        this._notyf.onSuccess('Сбор данных '+this.supplier.supplierName+' начат')
+      },
+      err => {
+        this._notyf.onError("Ошибка: " + JSON.stringify(err));
+      })
+
+    this.router.navigate(['suppliers'])
+  }
 }

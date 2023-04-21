@@ -90,6 +90,7 @@ export class AttributeIndexComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.api.swapAttribute(result.oldAttributeId, result.newAttribute.id).subscribe({
         next: () => {
+          this.dataSource.updateSwappedAttribute(result.oldAttributeId)
           this._notyf.onSuccess("Атрибут переназначен")
         },
         error: error => {
@@ -110,6 +111,7 @@ export class AttributeIndexComponent implements OnInit {
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult === true) {
         this.dataSource.deleteAttribute(id);
+        this._notyf.onSuccess("Атрибут удалён")
       }
     });
   }

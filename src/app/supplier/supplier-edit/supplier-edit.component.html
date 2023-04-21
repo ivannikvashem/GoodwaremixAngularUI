@@ -1,6 +1,7 @@
 <div class="full-width" style="display: flex; justify-content: space-between; padding-right: 20px;">
   <h3>{{supplierId == undefined ? "Создание нового поставщика" : "Поставщик " + supplier?.supplierName}}</h3>
   <div style="vertical-align: bottom; margin: auto 0;">
+    <button mat-icon-button color="" *ngIf="supplier.id" (click)="fetchSupplierProducts()" class="mat-elevation-z2"><mat-icon>start</mat-icon></button>&nbsp;
     <button mat-flat-button color="primary" type="submit" (click)="submitSupplier()">Сохранить</button>
   </div>
 </div>

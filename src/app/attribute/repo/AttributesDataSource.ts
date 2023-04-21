@@ -3,6 +3,7 @@ import {BehaviorSubject, Observable, of, tap} from 'rxjs';
 import {catchError, finalize, map} from 'rxjs/operators';
 import {Attribute} from '../../models/attribute.model';
 import {ApiClient} from "../../service/httpClient";
+import {NotificationService} from "../../service/notification-service";
 
 export class AttributesDataSource implements DataSource<Attribute> {
 
@@ -56,6 +57,11 @@ export class AttributesDataSource implements DataSource<Attribute> {
 
   updateFixedAttributeState(id: string, val: boolean) {
     let newdata = this.AttributeListSubject.value.map(x => (x.id === id ? { ...x, fixed: val } : x));
+    this.AttributeListSubject.next(newdata);
+  }
+
+  updateSwappedAttribute(oldAttrId:string) {
+    let newdata = this.AttributeListSubject.value.filter(row => row.id != oldAttrId );
     this.AttributeListSubject.next(newdata);
   }
 }
