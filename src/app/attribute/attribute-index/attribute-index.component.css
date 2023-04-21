@@ -27,8 +27,8 @@ table {
 .mat-column-supplierName {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 100px !important;
-  min-width: 100px !important;
+  flex: 0 0 160px !important;
+  min-width: 160px !important;
   overflow-wrap: break-word;
   justify-content: center;
   word-break: break-word;
