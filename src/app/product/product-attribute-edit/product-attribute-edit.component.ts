@@ -59,7 +59,7 @@ export class ProductAttributeEditComponent implements OnInit {
       tap(() => {
         // this.isLoading = true;
       }),
-      switchMap(value => this.api.getAttributes(value, '' ,0, 50, undefined, "rating", "desc")
+      switchMap(value => this.api.getAttributes(value, '' ,0, 100, undefined, "rating", "desc")
         .pipe(
           finalize(() => {
             //this.isLoading = false
