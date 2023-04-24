@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {ApiClient} from "../../service/httpClient";
 import {NotificationService} from "../../service/notification-service";
+import {
+  ConfirmDialogComponent,
+  ConfirmDialogModel
+} from "../../components/shared/confirm-dialog/confirm-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-admin-panel',
@@ -9,19 +14,29 @@ import {NotificationService} from "../../service/notification-service";
 })
 export class AdminPanelComponent implements OnInit {
 
-  constructor(private api:ApiClient, private _notyf:NotificationService) { }
+  constructor(private api:ApiClient, private _notyf:NotificationService, public dialog: MatDialog) { }
 
   ngOnInit(): void {}
 
   fullInit() {
-    this.api.fullInit().subscribe({
-      next: () => {
-        this._notyf.onSuccess("Инициализация БД начата")
-      },
-      error: err => {
-        this._notyf.onError("Ошибка: " + JSON.stringify(err));
-      },})
-    }
+    const message = `Запустить инициализацию БД ?`;
+    const dialogData = new ConfirmDialogModel("Подтверждение", message);
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: "500px",
+      data: dialogData
+    });
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult === true) {
+        this.api.fullInit().subscribe({
+          next: () => {
+            this._notyf.onSuccess("Инициализация БД начата")
+          },
+          error: err => {
+            this._notyf.onError("Ошибка: " + JSON.stringify(err));
+          },})
+      }
+    });
+  }
 
   fixSupplierStat() {
     this.api.fixSupplierStat().subscribe({
@@ -41,4 +56,5 @@ export class AdminPanelComponent implements OnInit {
       downloadAction.click()
     })
   }
+
 }
