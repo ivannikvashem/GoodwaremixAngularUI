@@ -1,5 +1,5 @@
 <mat-card class="box" [ngStyle]="{'background-image': 'linear-gradient(to bottom, rgba(255, 255, 255,1), rgba(255,255,255,0.5)), url(&quot;' + document.preview + '&quot;)', 'background-size':'cover'}">
-    <mat-card-header *ngIf="document.type">
+    <mat-card-header>
       <div mat-card-avatar><mat-icon>picture_as_pdf</mat-icon></div>
       <div class="cardHeader">
         <a *ngIf="document.url" [href]="document.url" target="_blank"><mat-card-subtitle><strong><u>{{document.type ? document.type : document.certTitle ? document.certTitle : 'Документ'}}</u></strong></mat-card-subtitle></a>
