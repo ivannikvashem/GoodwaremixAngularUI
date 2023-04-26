@@ -3,7 +3,7 @@
       <div mat-card-avatar><mat-icon>picture_as_pdf</mat-icon></div>
       <div class="cardHeader">
         <a *ngIf="document.url" [href]="document.url" target="_blank"><mat-card-subtitle><strong><u>{{document.type ? document.type : document.certTitle ? document.certTitle : 'Документ'}}</u></strong></mat-card-subtitle></a>
-        <mat-card-subtitle *ngIf="!document.url"><strong>{{document.type}}</strong></mat-card-subtitle>
+        <mat-card-subtitle *ngIf="!document.url"><strong>{{document.type ? document.type : document.certTitle ? document.certTitle : 'Документ'}}</strong></mat-card-subtitle>
         <i class="documentNumber" *ngIf="document.certNumber"> № {{document.certNumber}}</i>
       </div>
     </mat-card-header>
