@@ -26,10 +26,8 @@ export class DocumentIndexComponent implements OnInit {
   dataSource: DocumentsDataSource;
   searchQueryCtrl = new FormControl<string>('');
   documentList:Document[] = []
-  totalRecordsLength:number
-
   // table view
-  displayedColumns: string[] = ['preview', 'number', 'title', 'actions'];
+  displayedColumns: string[] = ['preview', 'number', 'certTitle', 'endDate', 'actions'];
 
   @Input() searchQuery:string;
   //selectedSupplier: Supplier = this.dss.selectedSupplierState.value
@@ -50,19 +48,10 @@ export class DocumentIndexComponent implements OnInit {
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator
   @ViewChild(MatSort) sort: MatSort;
 
-  ngOnInit(): void {
-    this.loadDocuments()
-  }
+  ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
     this.loadDocumentPagedData(false)
-  }
-
-  loadDocuments(searchQuery?:string, pageIndex?:number, pageSize?:number) {
-    this.api.getDocuments(searchQuery || '', pageIndex || 0, pageSize || 12,'','desc').subscribe(x => {
-      this.documentList = x.body.data
-      this.totalRecordsLength = x.body.totalRecords
-    });
   }
 
   ngAfterViewInit(): void {
@@ -72,15 +61,18 @@ export class DocumentIndexComponent implements OnInit {
           this.loadDocumentPagedData(true);
           this.pageParams.next({pageIndex: this.paginator.pageIndex, pageSize:this.paginator.pageSize})
         })).subscribe();
-  }
 
+    this.dataSource.connect(null).subscribe(x => {
+      this.documentList = x;
+    })
+
+  }
 
   loadDocumentPagedData(isPaginatorParams:boolean): any {
     this.dataSource.loadPagedData(this.searchQuery, this.selectedSupplier?.id, isPaginatorParams ? this.paginator?.pageIndex : this.pageIndex,isPaginatorParams ? this.paginator?.pageSize : this.pageSize, this.sortActive, this.sortDirection);
-  }
-
-  handlePageEvent(pageEvent: PageEvent) {
-    this.loadDocuments('', pageEvent.pageIndex, pageEvent.pageSize)
+    this.dataSource.connect(null).subscribe(x => {
+      this.documentList = x;
+    })
   }
 
   onDocumentSelected(selected: any) {
@@ -137,5 +129,9 @@ export class DocumentIndexComponent implements OnInit {
 
   sortData(sort: any) {
     this.sortParams.next({direction: sort.direction, active:sort.active});
+  }
+
+  isDateValid(endDate:any) {
+    return endDate > new Date().toISOString()
   }
 }

@@ -34,9 +34,6 @@ export class AttributeComponent implements OnInit {
         this.pC = localStorageContent;
         this.searchQueryCtrl.setValue(this.pC.searchQuery);
         this.searchQuery = this.pC.searchQuery
-/*
-        this.setValue(this.pC.withInternalCodeSelector);
-*/
         this.attributeFixedFilterState = this.pC.attributeFixedFilterState
         this.pageIndex = this.pC.pageIndex
         this.pageSize = this.pC.pageSize
@@ -47,9 +44,9 @@ export class AttributeComponent implements OnInit {
   setCookie() {
     this._localStorageService.setDataByPageName("AttributeIndex", {
       searchQuery: this.searchQuery,
-      attributeFixedFilterState: this.attributeFixedFilterState,
       pageIndex: this.pageIndex,
-      pageSize: this.pageSize
+      pageSize: this.pageSize,
+      attributeFixedFilterState: this.attributeFixedFilterState
     });
   }
 
@@ -57,10 +54,7 @@ export class AttributeComponent implements OnInit {
     this.getCookie();
     this.subscription = this.dss.selectedSupplierState.subscribe(
       supplier => {
-        console.log('sup from dss', supplier)
         this.selectedSupplier = supplier;
-        this.pageIndex = 0;
-        this.setCookie();
       }
     )
   }
@@ -88,13 +82,13 @@ export class AttributeComponent implements OnInit {
     this.setCookie();
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
-
   onPageParamsChanged(params: any) {
     this.pageIndex = params.pageIndex;
     this.pageSize = params.pageSize;
     this.setCookie();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

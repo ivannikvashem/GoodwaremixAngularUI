@@ -26,7 +26,7 @@ export class DocumentsDataSource implements DataSource<Document> {
   loadPagedData(queryString:string, supplierId:string, pageIndex:number, pageSize:number, sortActive:string, sortDirection:string): any {
     //console.log(`LOAD Data: qs=${queryString}, sID=${supplierId}, pageIndex=${pageIndex}, fixed=${fixed}\``)
     this.loadingSubject.next(true);
-    this.api.getDocuments(queryString, pageIndex, pageSize,sortActive, sortDirection)
+    this.api.getDocuments(queryString, pageIndex, pageSize, supplierId, sortActive, sortDirection)
       .pipe(
         tap( () => {
           this.loadingSubject.next(true)

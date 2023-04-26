@@ -52,7 +52,7 @@ mat-chip {
 
 .column {
   margin: 5px;
-  flex: 50%;
+  width: 500px;
 }
 
 .viewport {

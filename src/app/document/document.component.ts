@@ -17,9 +17,8 @@ export class DocumentComponent implements OnInit {
   searchQuery:string = '';
   pageIndex:number = 0;
   pageSize:number = 10;
-  attributeFixedFilterState: boolean | null = null;
   sortDirection:string = 'asc'
-  sortActive:string = ''
+  sortActive:string = 'endDate'
 
 
   pageCookie$ = this._localStorageService.myData$
@@ -55,15 +54,12 @@ export class DocumentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getCookie();
     this.subscription = this.dss.selectedSupplierState.subscribe(
       supplier => {
-        console.log('sup from dss', supplier)
         this.selectedSupplier = supplier;
       }
     )
-    setTimeout(() => {
-      this.getCookie();
-    })
   }
 
   handleChangeSelectedSupplier(supplier: Supplier) {
@@ -83,12 +79,6 @@ export class DocumentComponent implements OnInit {
     this.setCookie();
   }
 
-  onAttributeStateFilterChanged(attributeFilterState: boolean) {
-    this.pageIndex = 0;
-    this.attributeFixedFilterState = attributeFilterState;
-    this.setCookie();
-  }
-
   onSortParamsChanged(params: any) {
     this.sortActive = params.active;
     this.sortDirection = params.direction;
@@ -96,7 +86,6 @@ export class DocumentComponent implements OnInit {
   }
 
   onPageParamsChanged(params: any) {
-    console.log(params)
     this.pageIndex = params.pageIndex;
     this.pageSize = params.pageSize;
     this.setCookie();

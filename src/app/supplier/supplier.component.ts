@@ -55,7 +55,6 @@ export class SupplierComponent implements OnInit {
     this.getCookie();
     this.subscription = this.dss.selectedSupplierState.subscribe(
       supplier => {
-        console.log('sup from dss', supplier)
         this.selectedSupplier = supplier;
       }
     )

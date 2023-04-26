@@ -321,7 +321,7 @@ export class ApiClient {
   //#endregion
 
   //#region Document ENDPOINT
-  getDocuments(searchString:string, pageIndex: number, pageSize: number, sortField: string, sortDirection: string): Observable<any> {
+  getDocuments(searchString:string, pageIndex: number, pageSize: number, supplierId:string, sortField: string, sortDirection: string): Observable<any> {
     let opt = {
       params: new HttpParams()
         .set('searchFilter', searchString)
@@ -330,6 +330,9 @@ export class ApiClient {
         .set('sortField', sortField)
         .set('sortDirection', sortDirection == "desc" ? "-1" : "1")
     };
+    if (supplierId != undefined) {
+      opt.params = opt.params.append('supplierId', supplierId);
+    }
     opt = Object.assign(opt, this.httpOptions);
     return this.http.get<any>(this.apiURL + '/documents', opt);
   }

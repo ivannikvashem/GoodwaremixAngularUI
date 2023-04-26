@@ -15,4 +15,4 @@
   </div>
 
 </div>
-<app-document-index [searchQuery]="searchQuery" [pageIndex]="pageIndex" [pageSize]="pageSize" (pageParams)="onPageParamsChanged($event)" (sortParams)="onSortParamsChanged($event)"></app-document-index>
+<app-document-index [searchQuery]="searchQuery" [selectedSupplier]="selectedSupplier"  [pageIndex]="pageIndex" [pageSize]="pageSize" [sortActive]="sortActive" [sortDirection]="sortDirection" (pageParams)="onPageParamsChanged($event)" (sortParams)="onSortParamsChanged($event)"></app-document-index>

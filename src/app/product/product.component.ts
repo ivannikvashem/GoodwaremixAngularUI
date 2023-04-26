@@ -34,12 +34,13 @@ export class ProductComponent implements OnInit {
     this._localStorageService.getDataByPageName("ProductIndex")
     this.pageCookie$.subscribe(localStorageContent => {
       if (localStorageContent) {
+        console.log(localStorageContent)
         this.pC = localStorageContent;
         this.searchQueryCtrl.setValue(this.pC.searchQuery);
         this.searchQuery = this.pC.searchQuery;
-        this.withICFilter = this.pC.withInternalCodeSelector;
         this.pageIndex = this.pC.pageIndex;
         this.pageSize = this.pC.pageSize;
+        this.withICFilter = this.pC.withInternalCodeSelector;
       }
     });
   }
@@ -47,9 +48,9 @@ export class ProductComponent implements OnInit {
   setCookie() {
     this._localStorageService.setDataByPageName("ProductIndex", {
       searchQuery: this.searchQuery,
-      withInternalCodeSelector: this.withICFilter,
       pageIndex: this.pageIndex,
-      pageSize: this.pageSize
+      pageSize: this.pageSize,
+      withInternalCodeSelector: this.withICFilter
     });
   }
 
@@ -57,10 +58,7 @@ export class ProductComponent implements OnInit {
     this.getCookie();
     this.subscription = this.dss.selectedSupplierState.subscribe(
       supplier => {
-        console.log('sup from dss', supplier)
         this.selectedSupplier = supplier;
-        this.pageIndex = 0;
-        this.setCookie();
       }
     )
   }
