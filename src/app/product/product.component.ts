@@ -34,7 +34,6 @@ export class ProductComponent implements OnInit {
     this._localStorageService.getDataByPageName("ProductIndex")
     this.pageCookie$.subscribe(localStorageContent => {
       if (localStorageContent) {
-        console.log(localStorageContent)
         this.pC = localStorageContent;
         this.searchQueryCtrl.setValue(this.pC.searchQuery);
         this.searchQuery = this.pC.searchQuery;
