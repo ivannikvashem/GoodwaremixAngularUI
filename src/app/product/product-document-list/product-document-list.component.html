@@ -1,4 +1,5 @@
-<div class="tabPanel mat-elevation-z2">
+<mat-spinner *ngIf="isDocumentsLoading"></mat-spinner>
+<div *ngIf="!isDocumentsLoading" class="tabPanel mat-elevation-z2">
   <span>К товару прикреплено {{documentsView.length}} док.</span>
   <button mat-button (click)="openDocumentEditorDialog()"><mat-icon>add</mat-icon> Добавить</button>
 </div>

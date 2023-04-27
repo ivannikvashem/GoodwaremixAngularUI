@@ -14,7 +14,7 @@ import {ApiClient} from "../../service/httpClient";
 export class ProductDocumentListComponent implements OnInit {
   dataSource = new MatTableDataSource<any>()
   documentsView:Document[] = []
-  isLoading:boolean = false;
+  isDocumentsLoading:boolean = false;
   constructor(public dialog: MatDialog, private _notyf: NotificationService, private api:ApiClient) { }
   @Input() document:string[] = []
   @Input() supplierId:string
@@ -28,9 +28,11 @@ export class ProductDocumentListComponent implements OnInit {
       this.api.getDocumentsById(this.document).subscribe((response) => {
         if (response.status == 200)
           if (response.body.length > 0) {
+            this.isDocumentsLoading = true
             for (let i of response.body) {
               this.documentsView.push(i)
             }
+            this.isDocumentsLoading = false
           }
         })
     }
