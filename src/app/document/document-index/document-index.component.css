@@ -44,9 +44,13 @@ table {
   align-items: center;
 }
 
-.documentLink {
-  color: black;
-  text-decoration: underline;
+.linkButton {
+  color:black;
+  padding: 5px;
+}
+
+.linkButton mat-icon {
+  vertical-align: middle;
 }
 
 @media (min-width: 600px) {

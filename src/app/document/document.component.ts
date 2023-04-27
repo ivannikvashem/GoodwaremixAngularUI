@@ -17,7 +17,7 @@ export class DocumentComponent implements OnInit {
   searchQuery:string = '';
   pageIndex:number = 0;
   pageSize:number = 10;
-  sortDirection:string = 'asc'
+  sortDirection:string = 'desc'
   sortActive:string = 'endDate'
 
 

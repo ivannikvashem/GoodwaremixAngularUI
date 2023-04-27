@@ -16,7 +16,7 @@
 
   <div>
     <mat-card style="padding-top: 0">
-      <mat-tab-group style="width:465px" animationDuration="0ms">
+      <mat-tab-group style="width:420px" animationDuration="0ms">
         <mat-tab *ngIf="product?.images || product?.localImages" label="Фото">
           <ng-template matTabContent>
             <div>
@@ -67,6 +67,25 @@
       </mat-accordion>
     </div>
 
+    <div *ngIf="product?.documents && product?.documents.length > 0" style="margin-top: 10px">
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>Документы / Сертификаты</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="cardsToCenter">
+            <div class="cards"><app-document-card *ngFor="let doc of productDocuments" [document]="doc"></app-document-card></div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+<!--    <mat-card style="margin-top: 10px" *ngIf="product?.documents && product?.documents.length > 0">
+      <mat-card-subtitle><h2>Документы</h2></mat-card-subtitle>
+      <div class="cardsToCenter">
+        <div class="cards"><app-document-card *ngFor="let doc of productDocuments" [document]="doc"></app-document-card></div>
+      </div>
+    </mat-card>-->
   </div>
 
   <div style="width: 100%">
@@ -84,13 +103,6 @@
         <li *ngIf="product?.vendor">Бренд - {{product.vendor}}</li>
         <li *ngIf="product?.supplierName">Поставщик - {{product.supplierName}}</li>
       </ul>
-    </mat-card>
-
-    <mat-card style="margin-top: 10px" *ngIf="product?.documents && product?.documents.length > 0">
-      <mat-card-subtitle><h2>Документы</h2></mat-card-subtitle>
-      <div class="cardsToCenter">
-        <div class="cards"><app-document-card *ngFor="let doc of productDocuments" [document]="doc"></app-document-card></div>
-      </div>
     </mat-card>
 
     <mat-card style="margin-top: 10px;" *ngIf="product?.attributes && product?.attributes.length > 0">

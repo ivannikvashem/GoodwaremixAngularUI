@@ -39,7 +39,7 @@ export class ProductDocumentListComponent implements OnInit {
   openDocumentEditorDialog(oldDocument?:any): void {
     if (this.supplierId) {
       const dialogRef = this.dialog.open(ProductDocumentEditComponent, {
-        width: '1050px',
+        width: '900px',
         autoFocus: false,
         data: {documentIds:this.documentsView.map(x => x.id), supplierId:this.supplierId, oldDocument: oldDocument, newDocument: new Document() },
       });

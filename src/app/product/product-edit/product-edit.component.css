@@ -186,6 +186,18 @@ tr.mat-row {
   height:fit-content;
 }
 
+.tabPanel {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px
+}
+
+.tabPanel span {
+  display: grid;
+  align-items: center;
+  padding: 10px;
+}
+
 @media only screen and (min-width: 910px) {
   .aboutProductGroup {width:100%}
   .productLayoutCard {width: 100%}
@@ -225,20 +237,6 @@ tr.mat-row {
   display: grid;
   grid-auto-flow: column;
   grid-column-gap: 5px;
-}
-
-.addPackageBtn {
-  cursor: pointer;
-  min-height: 10px;
-  min-width: 200px;
-  margin: 0 1px 5px 1px;
-}
-
-.add-package {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
 }
 
 /* Screen larger than 600px? 1 column */

@@ -305,7 +305,7 @@
                       <div class="formBlockDouble">
                         <mat-form-field appearance="fill">
                           <mat-label>Скачивать изображения</mat-label>
-                          <mat-select name="downloadClientType" #fileType [(ngModel)]="config.imageConfig.downloadClientType" required>
+                          <mat-select name="downloadClientType" #fileType [(ngModel)]="config.imageConfig.downloadClientType">
                             <mat-option [value]="''">Не загружать локально</mat-option>
                             <mat-option [value]="'Http'">Http</mat-option>
                             <mat-option [value]="'FTP'">FTP</mat-option>
@@ -519,7 +519,9 @@
                         </mat-form-field>
                       </div>
 
+<!--
                       <mat-slide-toggle [(ngModel)]="config.documentConfig.downloadLocally" name="docDownloadLocally">Загружать локально</mat-slide-toggle>
+-->
 
                     </mat-step>
 
@@ -671,7 +673,7 @@
                       </div>
                       <div class="formBlockDouble">
                         <mat-form-field class="chip-list" appearance="fill" *ngIf="config.dateFormats">
-                          <mat-label>Список возможных имен атрибута</mat-label>
+                          <mat-label>Список возможных форматов даты</mat-label>
                           <mat-chip-list #chipList aria-label="Список возможных форматов даты" name="dateFormats" [(ngModel)]="config.dateFormats">
                             <mat-chip *ngFor="let df of config.dateFormats" (removed)="removeDateFormat(df, config)">
                               {{df}}

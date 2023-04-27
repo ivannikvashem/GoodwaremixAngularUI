@@ -1,12 +1,11 @@
 .containerCmain {
   position: relative;
-  height: 455px;
-  width: 455px;
+  height: 100%;
+  width: 100%;
 }
 .imgInContainer {
-  margin: 10px 2px;
-  height: 440px;
-  width:450px;
+  height: 100%;
+  width: 100%;
   position: absolute;
   top: 0;
   left: 0;

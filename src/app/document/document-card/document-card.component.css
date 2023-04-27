@@ -53,6 +53,15 @@
   margin-top: 10px;
 }
 
+.linkButton {
+  color:black;
+  padding: 5px;
+}
+
+.linkButton mat-icon {
+  vertical-align: middle;
+}
+
 /*
 @media only screen and (max-width: 1210px) {
   !* Compact: *!

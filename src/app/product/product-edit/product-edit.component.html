@@ -45,13 +45,17 @@
       <mat-tab-group animationDuration="0ms" style="width:320px">
         <mat-tab label="Фото">
           <ng-template matTabContent>
-            <button mat-button (click)="fileInput.value= ''; fileInput.click()" class="mat-elevation-z2" style="margin: 5px; width: 97%">
-              <mat-icon>cloud_upload</mat-icon> Загрузить
-              <input #fileInput type="file" multiple="" accept="image/gif, image/jpeg, image/png, image/jpg" (change)="onImageChange($event)" style="display:none;"/>
-            </button>
+
+            <div class="tabPanel mat-elevation-z2">
+              <span>Прикреплено {{preloadImagesView.length}} фото</span>
+              <button mat-icon-button matTooltip="Прикрепить фото" (click)="fileInput.value= ''; fileInput.click()">
+                <mat-icon>cloud_upload</mat-icon>
+                <input #fileInput type="file" multiple="" accept="image/gif, image/jpeg, image/png, image/jpg" (change)="onImageChange($event)" style="display:none;"/>
+              </button>
+            </div>
 
             <div class="box mat-elevation-z2" *ngFor="let img of preloadImagesView; let i = index">
-              <button disableRipple mat-mini-fab type="button" class="deleteImgBtn" (click)="removeImage(i, img.id)">
+              <button disableRipple mat-mini-fab color="warn" type="button" class="deleteImgBtn" (click)="removeImage(i, img.id)">
                 <mat-icon>delete</mat-icon>
               </button>
               <div class="image">
@@ -244,9 +248,12 @@
         </mat-tab>
 
         <mat-tab  label="Упаковка">
-          <mat-card class="addPackageBtn" (click)="openPackageEditorDialog()">
-            <div class="add-package"><mat-icon style="vertical-align: middle ">add</mat-icon><span style="vertical-align: middle">Добавить</span></div>
-          </mat-card>
+
+          <div class="tabPanel mat-elevation-z2">
+            <span>К товару прикреплено {{product.packages.length}} упак.</span>
+            <button mat-button (click)="openPackageEditorDialog()"><mat-icon>add</mat-icon> Добавить</button>
+          </div>
+
           <div class="cardsToCenter">
             <div class="cards">
               <mat-card *ngFor="let pack of product.packages" class="card">

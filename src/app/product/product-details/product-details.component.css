@@ -164,16 +164,5 @@ tr.mat-row {
 
 .cardsToCenter {
   display: flex;
-  justify-content: start;
-  align-items: start;
-}
-
-/* Screen larger than 600px? 1 column */
-@media (min-width: 600px) {
-  .cards { grid-template-columns: repeat(1, 1fr); }
-}
-
-/* Screen larger than 768px? 2 columns */
-@media (min-width: 1430px) {
-  .cards { grid-template-columns: repeat(2, 1fr); }
+  justify-content: center;
 }

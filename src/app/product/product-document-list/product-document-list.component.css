@@ -1,11 +1,3 @@
-.add-document {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-}
-
 .mat-card{
   display:flex;
   flex-direction: column;
@@ -68,11 +60,16 @@
   align-items: center;
 }
 
-.addDocumentBtn {
-  cursor: pointer;
-  min-height: 10px;
-  min-width: 200px;
-  margin: 0 1px 5px 1px;
+.tabPanel {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px
+}
+
+.tabPanel span {
+  display: grid;
+  align-items: center;
+  padding: 10px;
 }
 
 /* Screen larger than 600px? 1 column */
