@@ -2,6 +2,6 @@
         matTooltip=""
         style="width: 165px;"
         (click)="switchAttrStateFilter()">
-  <mat-icon>{{withICFilter == false ? 'all_inclusive' : 'sell' }}</mat-icon> &nbsp;{{withICFilter == false ? 'Все товары' : 'С артикулом'}}
-  <span style="  width: 100%; display: inline-flex;"> </span>
+  <mat-icon>{{state == null ? 'all_inclusive' : state == true ? 'label' : 'label_off' }}</mat-icon> &nbsp;{{state == null ? 'Все товары' : state == true ? 'С артикулом' : 'Без артикула'}} <span style="width: 100%; display: inline-flex;"> </span>
+
 </button>

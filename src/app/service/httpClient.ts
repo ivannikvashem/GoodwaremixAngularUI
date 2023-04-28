@@ -112,16 +112,18 @@ export class ApiClient {
   //#endregion
 
   //#region Product ENDPOINT
-  getProducts(searchQuery: string, withInternalCodeSelector: boolean, selectedSuppId: string, pageIndex: number, pageSize: number, attributes:any) {
+  getProducts(searchQuery: string, selectedSuppId: string, pageIndex: number, pageSize: number, attributes:any, withInternalCodeSelector?: boolean,) {
     let opt = {
       params: new HttpParams()
         .set('supplierId', selectedSuppId)
-        .set('withInternalCode', withInternalCodeSelector ?? false)
         .set('pageNumber', pageIndex ? pageIndex + 1 : 1)
         .set('pageSize', pageSize ?? 10)
         .set('searchFilter', searchQuery)
         .set('',attributes)
     };
+    if (typeof (withInternalCodeSelector) == "boolean") {
+      opt.params = opt.params.append('withInternalCode', withInternalCodeSelector);
+    }
     opt = Object.assign(opt, this.httpOptions);
     return this.http.get<Product[]>(this.apiURL + '/Products/', opt);
   }

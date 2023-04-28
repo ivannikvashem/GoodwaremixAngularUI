@@ -8,20 +8,24 @@ import {Subject} from "rxjs";
 })
 export class ProductIcFilterSwitchComponent{
 
-  @Input() withICFilter: boolean = null;
-  @Output() withICFilterEmitter = new Subject<boolean>();
+  @Input() state: boolean | null = null;
+  @Output() withICFilterEmitter = new Subject<boolean | null>();
 
   switchAttrStateFilter() {
-    switch (this.withICFilter) {
-      case true: {
-        this.withICFilter = false;
+    switch (this.state) {
+      case null: {
+        this.state = false;
         break;
       }
       case false: {
-        this.withICFilter = true;
+        this.state = true;
+        break;
+      }
+      case true: {
+        this.state = null;
         break;
       }
     }
-    this.withICFilterEmitter.next(this.withICFilter);
+    this.withICFilterEmitter.next(this.state);
   }
 }

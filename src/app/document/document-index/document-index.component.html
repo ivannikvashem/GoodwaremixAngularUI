@@ -63,6 +63,10 @@
   </mat-tab>
 
   <mat-tab label="Карточки">
+    <div class="cardTopPanel mat-elevation-z2">
+      <span (click)="sortData({direction: sort.direction == 'desc' ? 'asc': 'desc', active: 'endDate'})">Срок действия  <mat-icon>{{ sort?.direction == 'desc' ? 'arrow_downward' : 'arrow_upward'}}</mat-icon></span>
+      <button mat-button (click)="addDocumentDialog()"><mat-icon>add</mat-icon> Добавить</button>
+    </div>
     <mat-card class="mat-elevation-z8">
       <div class="cardsToCenter">
         <div class="cards">

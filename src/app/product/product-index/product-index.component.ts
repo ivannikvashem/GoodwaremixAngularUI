@@ -13,6 +13,7 @@ import {NotificationService} from "../../service/notification-service";
 import {ImagePreviewDialogComponent} from "../image-preview-dialog/image-preview-dialog.component";
 import {MissingImageHandler} from "../MissingImageHandler";
 import {AuthService} from "../../auth/service/auth.service";
+import {Product} from "../../models/product.model";
 
 @Component({
   selector: 'app-product-index',
@@ -23,6 +24,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['preview', 'internalCode' ,'name', 'supplierName', 'actions'];
   dataSource: ProductsDataSource;
   roles: string[] = [];
+  productsList:Product[] = []
 
   hoverImage: string = "";
   hoverRowId: string = "";
@@ -67,7 +69,10 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   }
 
   loadProductPagedData(isPaginatorParams:boolean): any {
-    this.dataSource.loadPagedData(this.searchQuery, this.withInternalCode, this.selectedSupplier?.id, isPaginatorParams ? this.paginator?.pageIndex : this.pageIndex, isPaginatorParams ? this.paginator?.pageSize : this.pageSize, null);
+    this.dataSource.loadPagedData(this.searchQuery, this.selectedSupplier?.id, isPaginatorParams ? this.paginator?.pageIndex : this.pageIndex, isPaginatorParams ? this.paginator?.pageSize : this.pageSize, null, this.withInternalCode);
+    this.dataSource.connect(null).subscribe(x => {
+      this.productsList = x
+    })
   }
 
 
@@ -108,11 +113,6 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
       }
     };
     this.dialog.open(ImagePreviewDialogComponent, dialogBoxSettings);
-  }
-
-  copyVendorId(vendorId: string) {
-    navigator.clipboard.writeText(vendorId);
-    this._notyf.onSuccess('Артикул поставщика скопирован')
   }
 
   handleMissingImage($event: Event) {

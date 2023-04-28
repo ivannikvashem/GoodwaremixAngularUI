@@ -3,7 +3,12 @@
     <img (error)="handleMissingImage($event)"  [src]="hoverImage" class="imgInContainer"/>
   </div>
 
-  <div class="containerC" >
+  <div class="containerC" *ngIf="imgListThumb.length > 0">
+    <div *ngFor="let p of imgListThumb; index as i" class="hoverBlockC" (mouseover)="changeImage(p)" (click)="openDialog(imgList[i])"></div>
+  </div>
+
+  <div class="containerC" *ngIf="imgListThumb.length == 0">
     <div *ngFor="let p of imgList; index as i" class="hoverBlockC" (mouseover)="changeImage(p)" (click)="openDialog(p)"></div>
   </div>
 </div>
+

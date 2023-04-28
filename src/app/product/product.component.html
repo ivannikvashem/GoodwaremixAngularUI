@@ -4,7 +4,7 @@
 
   <div class="toolbox-container">
     <div class="toolbox-item">
-      <app-product-ic-filter-switch [withICFilter]="withICFilter" (withICFilterEmitter)="onICFilterChanged($event)"></app-product-ic-filter-switch>
+      <app-product-ic-filter-switch [state]="withICFilter" (withICFilterEmitter)="onICFilterChanged($event)"></app-product-ic-filter-switch>
     </div>
 
     <mat-form-field appearance="standard" class="toolbox-item-xl">

@@ -39,6 +39,7 @@ import { ProductIcFilterSwitchComponent } from './product-ic-filter-switch/produ
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import { ProductDocumentListComponent } from './product-document-list/product-document-list.component';
 import {ScrollingModule} from "@angular/cdk/scrolling";
+import { ProductCardComponent } from './product-card/product-card.component';
 
 @NgModule({
     declarations: [
@@ -56,6 +57,7 @@ import {ScrollingModule} from "@angular/cdk/scrolling";
         AttributeFilterComponent,
         ProductIcFilterSwitchComponent,
         ProductDocumentListComponent,
+        ProductCardComponent,
     ],
   exports: [
   ],

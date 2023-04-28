@@ -1,0 +1,25 @@
+<mat-card class="card mat-elevation-z3"  (mouseover)="mouseOver = true" (mouseleave)="mouseOver = false">
+  <div class="cardTop">
+      <a mat-mini-fab class="mat-elevation-z2" [style.visibility]="mouseOver ? 'visible': 'hidden'" [href]="'product-edit/' + product.id">
+        <mat-icon>edit</mat-icon>
+      </a>
+  </div>
+
+  <div class="supplierNameContainer" [style.visibility]="mouseOver ? 'visible': 'hidden'">
+    <strong class="supplierName">{{product.supplierName}}</strong>
+  </div>
+  <div style="height: 250px;">
+    <app-hover-image-slider style="height: 250px; width: 250px" [imgList]="product.images.length > 0 ? product.images : product.localImages" [imgListThumb]="product.thumbnails" ></app-hover-image-slider>
+
+  </div>
+  <span class="internalCode" *ngIf="product.internalCode">{{product.internalCode}}</span>
+
+  <h4 class="titleContainer">
+    <a [href]="'product-details/' + product.id"> <span class="title">{{product.title}}</span> </a>
+  </h4>
+
+  <span class="cardContent">
+    <strong *ngIf="product.vendor">{{product.vendor}}</strong>
+    <strong class="vendorId" *ngIf="product.vendorId" (click)="copyVendorId(product.vendorId)">{{product.vendorId}}</strong>
+  </span>
+</mat-card>

@@ -19,7 +19,7 @@
       <mat-tab-group style="width:420px" animationDuration="0ms">
         <mat-tab *ngIf="product?.images || product?.localImages" label="Фото">
           <ng-template matTabContent>
-            <div>
+            <div style="height: 455px">
               <app-hover-image-slider [imgList]="remoteAndLocalImg"></app-hover-image-slider>
             </div>
           </ng-template>

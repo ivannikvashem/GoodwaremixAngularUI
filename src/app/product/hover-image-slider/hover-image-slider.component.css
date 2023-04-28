@@ -12,7 +12,7 @@
   object-fit: contain;
 }
 .containerC {
-  height: 455px;
+  height: 100%;
   display: flex;
 }
 .hoverBlockC {

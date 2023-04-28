@@ -14,13 +14,16 @@ export class HoverImageSliderComponent implements OnInit {
   hoverRowId = "";
 
   @Input() imgList:any = [];
+  @Input() imgListThumb:any = [];
   constructor(
     public dialog: MatDialog,
     private imgHandler:MissingImageHandler
     ) { }
 
   ngOnInit(): void {
-    if (this.imgList.length > 0) {
+    if (this.imgListThumb.length > 0) {
+      this.hoverImage = this.imgListThumb[0];
+    } else {
       this.hoverImage = this.imgList[0];
     }
   }

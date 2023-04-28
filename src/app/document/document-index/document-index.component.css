@@ -53,6 +53,19 @@ table {
   vertical-align: middle;
 }
 
+.cardTopPanel {
+  display: flex;
+  justify-content: end;
+  margin-bottom: 10px
+}
+
+.cardTopPanel span {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+}
+
 @media (min-width: 600px) {
   .cards { grid-template-columns: repeat(1, 1fr); }
 }

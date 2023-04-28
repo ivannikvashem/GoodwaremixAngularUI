@@ -1,116 +1,3 @@
-table {
-  width: 100%;
-}
-.mat-column-actions {
-  word-wrap: break-word !important;
-  white-space: unset !important;
-  flex: 0 0 90px !important;
-  width: 90px !important;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  justify-content: center;
-  word-break: break-word;
-
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
-
-  text-align: -webkit-center;
-  text-align: center;
-}
-.mat-column-internalCode {
-  word-wrap: break-word !important;
-  white-space: unset !important;
-  flex: 0 0 100px !important;
-  width: 100px !important;
-  text-align: -webkit-center;
-  text-align: center;
-}
-.mat-column-name {
-  word-wrap: break-word !important;
-  white-space: unset !important;
-  vertical-align: top;
-}
-th {
-  text-align: center !important;
-  vertical-align: middle !important;
-}
-.mat-column-preview {
-  word-wrap: break-word !important;
-  white-space: unset !important;
-  flex: 0 0 250px !important;
-  width: 260px !important;
-  text-align: -webkit-center;
-  text-align: center;
-}
-.left-panel {
-  width: 350px;
-  min-width: 300px;
-  margin-right: 20px;
-}
-.page-container {
-  flex: 1;
-  display: flex;
-  flex-direction: row;
-}
-.containerCmain {
-  position: relative;
-}
-.imgWrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 250px;
-  display: flex;
-  align-items: center;
-  height: 100%;
-}
-
-.imgInContainer {
-  object-fit: contain;
-  height: auto;
-  margin: auto;
-  vertical-align: middle;
-  max-height: 150px;
-  max-width: 250px;
-}
-.containerC {
-  height: 173px;
-  display: flex;
-}
-.hoverBlockC {
-  border-bottom: 3px solid lightgray;
-  flex: 1 1 auto;
-  z-index:5;
-  margin: 0 2px;
-}
-.hoverBlockC:hover {
-  border-bottom: 3px solid black;
-  z-index:5;
-}
-.full-width {
-  width: 100%;
-}
-table {
-  width: 100%;
-}
-tr.element-row:not(.expanded-row):hover {
-  background-image: linear-gradient(to right, white , whitesmoke);
-}
-tr.element-row:not(.expanded-row):active {
-  background: #efefef;
-}
-
-.btnAsText {
-  background:none;
-  border-style: none;
-  margin:0;
-  padding:0;
-  cursor: pointer;
-  font:400 24px/32px Roboto, "Helvetica Neue", sans-serif
-}
-
 .attributeFilter-viewport {
   height: 150px;
   /*width: 250px;*/
@@ -134,4 +21,32 @@ tr.element-row:not(.expanded-row):active {
   height: unset;
   padding-top: 0.9em;
   padding-bottom: 0.9em;
+}
+
+.cards {
+  margin: 0 auto;
+  display: grid;
+  gap: 1rem;
+}
+
+.cardsToCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (min-width: 600px) {
+  .cards { grid-template-columns: repeat(1, 1fr); }
+}
+
+@media (min-width: 890px) {
+  .cards { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1300px) {
+  .cards { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (min-width: 1600px) {
+  .cards { grid-template-columns: repeat(5, 1fr); }
 }
