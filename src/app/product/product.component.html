@@ -1,6 +1,7 @@
+<!--
 <div class="header-container">
   <h3>Товары &nbsp;</h3>
-  <!--  <mat-spinner diameter="35" *ngIf="dataSource.loading$ | async"></mat-spinner>-->
+  &lt;!&ndash;  <mat-spinner diameter="35" *ngIf="dataSource.loading$ | async"></mat-spinner>&ndash;&gt;
 
   <div class="toolbox-container">
     <div class="toolbox-item">
@@ -17,9 +18,40 @@
 
     <app-supplier-autocomplete class="toolbox-item-xl"></app-supplier-autocomplete>
   </div>
-  <!--<app-supplier-autocomplete style="width: 50%" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>-->
+</div>
+-->
+
+<div class="cardTopPanel mat-elevation-z2">
+  <h3>Товары</h3>
+
+  <div class="toolbox-container">
+    <div class="toolbox-item">
+      <app-product-ic-filter-switch [state]="withICFilter" (withICFilterEmitter)="onICFilterChanged($event)"></app-product-ic-filter-switch>
+    </div>
+
+    <mat-form-field appearance="standard" class="toolbox-item-xl">
+      <mat-label>Поиск</mat-label>
+      <input matInput [formControl]="searchQueryCtrl" (keydown.enter)="searchQueryChanged()">
+      <button *ngIf="searchQueryCtrl.value" matSuffix mat-icon-button aria-label="Clear" (click)="searchQueryClear()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <app-supplier-autocomplete class="toolbox-item"></app-supplier-autocomplete>
+
+    <div class="toolbox-item">
+      <mat-form-field appearance="legacy">
+        <mat-label>Сортировка</mat-label>
+        <select matNativeControl [(ngModel)]="selectedSort" (change)="sortData()">
+          <option *ngFor="let option of sortOptions" [ngValue]="option.value">{{option.displayText}}</option>
+        </select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <button mat-button matTooltip="Добавить товар" [routerLink]="['/product-add']">
+    <mat-icon>add</mat-icon> Добавить
+  </button>
 </div>
 
-
-<!--Тут нужно обернуть значения контролов, чтобы на каждый введенный символ не происходил новый запрос к api-->
-<app-product-index [searchQuery]="searchQuery" [withInternalCode]="withICFilter" [selectedSupplier]="selectedSupplier" [pageIndex]="pageIndex" [pageSize]="pageSize" (pageParams)="onPageParamsChanged($event)"></app-product-index>
+<app-product-index [searchQuery]="searchQuery" [withInternalCode]="withICFilter" [selectedSupplier]="selectedSupplier" [pageIndex]="pageIndex" [pageSize]="pageSize" [sortParams]="{active:sortActive, direction:sortDirection}" (pageParams)="onPageParamsChanged($event)"></app-product-index>

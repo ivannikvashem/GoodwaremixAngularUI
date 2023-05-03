@@ -1,14 +1,22 @@
 <div class="cardsToCenter">
-  <div class="cards">
+  <div class="cards" *ngIf="dataSource.rowCount != 0 && !isLoading">
     <app-product-card *ngFor="let product of productsList" [product]="product"></app-product-card>
   </div>
-</div>
 
-<div class="full-width">
-  <mat-card *ngIf="dataSource.rowCount == 0" style="margin: 10px">
-    <mat-card-content>По вашему запросу ничего не найдено, попробуйте изменить критерии поиска</mat-card-content>
+  <div class="cards" *ngIf="isLoading">
+    <mat-card class="card" *ngFor="let i of [].constructor(pageSize)">
+      <div class="productImage"></div>
+      <div class="titleContainer"></div>
+      <div class="cardContent">
+        <div class="cardContentPlaceholder"></div>
+        <div class="cardContentPlaceholder"></div>
+      </div>
+    </mat-card>
+  </div>
+
+  <mat-card *ngIf="dataSource.rowCount == 0 && !isLoading" style="margin: 5px 12px; width: 100%">
+       По вашему запросу ничего не найдено, попробуйте изменить критерии поиска
   </mat-card>
-
-  <mat-paginator [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[10,20,50,100] aria-label="Страница">
-  </mat-paginator>
 </div>
+
+<mat-paginator [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[10,20,50,100] aria-label="Страница"></mat-paginator>

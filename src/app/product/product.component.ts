@@ -17,10 +17,23 @@ export class ProductComponent implements OnInit {
   searchQuery:string = '';
   pageIndex:number = 0;
   pageSize:number = 10;
+  sortDirection:string = 'asc'
+  sortActive:string = null;
 
   pageCookie$ = this._localStorageService.myData$;
   pC: any = {};
   withICFilter: boolean = false;
+
+  sortOptions =[
+    { displayText: 'По умолчанию',  value: { active: null, direction: null} },
+    { displayText: 'По названию ↑', value: { active: 'title', direction: 'asc' } },
+    { displayText: 'По названию ↓', value: { active: 'title', direction: 'desc' } },
+    { displayText: 'По vendorId ↑', value: { active: 'vendorId', direction: 'asc' } },
+    { displayText: 'По vendorId ↓', value: { active: 'vendorId', direction: 'desc' } },
+    { displayText: 'По артикулу ↑', value: { active: 'internalCode', direction: 'asc' } },
+    { displayText: 'По артикулу ↓', value: { active: 'internalCode', direction: 'desc' } },
+  ];
+  selectedSort:any = {};
 
   private subscription: Subscription;
 
@@ -58,6 +71,9 @@ export class ProductComponent implements OnInit {
     this.subscription = this.dss.selectedSupplierState.subscribe(
       supplier => {
         this.selectedSupplier = supplier;
+        if (supplier) {
+          this.pageIndex = 0;
+        }
       }
     )
   }
@@ -89,5 +105,10 @@ export class ProductComponent implements OnInit {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  sortData() {
+    this.sortActive = this.selectedSort.active;
+    this.sortDirection = this.selectedSort.direction;
   }
 }

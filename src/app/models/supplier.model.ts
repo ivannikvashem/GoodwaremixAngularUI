@@ -52,7 +52,7 @@ export class SupplierConfig {
   baseConfig: BaseConfig;
   //categoryConfig: any;
   documentConfig: DocumentConfig;
-  imageConfig: ImageConfig ;
+  imageConfig: ImageConfig;
   attributeConfig: AttributeConfig;
   packageConfig: PackageConfig;
   nettoConfig: NettoConfig;
@@ -87,31 +87,30 @@ export class BaseConfig {
 }
 
 export class DocumentConfig {
-  documentsStartTag: string
-  documentsURL: string
-  type: string
-  url: string
-  certTitle: string
-  certNumber: string
-  file: string
-  certOrganizNumber: string
-  certOrganizDescr: string
-  startDate: Date
-  endDate: Date
-  blankNumber: string
-  isDeleted: boolean
-  keywords: string
-  downloadLocally: boolean
-  //
-  //certDescr:string
+  documentsStartTag: string;
+  documentsURL: string;
+  type: string;
+  url: string;
+  certTitle: string;
+  certNumber: string;
+  file: string;
+  certOrganizNumber: string;
+  certOrganizDescr: string;
+  startDate: Date;
+  endDate: Date;
+  blankNumber: string;
+  isDeleted: boolean;
+  keywords: string;
+  downloadLocally: boolean;
+  convertImageToPDF: boolean;
 }
 
 export class ImageConfig {
-  imageUrl: string ;
+  imageUrl: string;
   imageStartTag: string;
   images: string;
   supplierImageBaseUrl: string;
-  downloadClientType:string
+  downloadClientType:string;
 }
 
 export class AttributeConfig {

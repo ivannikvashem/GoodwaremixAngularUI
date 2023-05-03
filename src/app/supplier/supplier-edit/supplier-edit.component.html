@@ -111,11 +111,11 @@
                           </mat-select>
                         </mat-form-field>&nbsp;
 
-                        <mat-form-field appearance="fill">
+                        <mat-form-field appearance="fill" *ngIf="source.value !='MAIL'">
                           <mat-label>startPage</mat-label>
                           <input matInput name="startPage" placeholder="" [(ngModel)]="config.sourceSettings.startPage">
                         </mat-form-field>&nbsp;
-                        <mat-form-field appearance="fill">
+                        <mat-form-field appearance="fill" *ngIf="source.value !='MAIL'">
                           <mat-label>countPage</mat-label>
                           <input matInput name="countPage" placeholder="" [(ngModel)]="config.sourceSettings.countPage">
                         </mat-form-field>
@@ -461,6 +461,25 @@
 
                     <mat-step>
                       <ng-template matStepLabel>Парсер. Документы и сертификаты</ng-template>
+
+                      <div class="formBlockDouble">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Загружать локально</mat-label>
+                          <mat-select name="downloadLocally" [(ngModel)]="config.documentConfig.downloadLocally">
+                            <mat-option [value]="true">Да</mat-option>
+                            <mat-option [value]="false">Нет</mat-option>
+                          </mat-select>
+                        </mat-form-field>&nbsp;
+
+                        <mat-form-field appearance="fill">
+                          <mat-label>Преобразовывать фото в pdf</mat-label>
+                          <mat-select name="convertImageToPDF" [(ngModel)]="config.documentConfig.convertImageToPDF">
+                            <mat-option [value]="true">Да</mat-option>
+                            <mat-option [value]="false">Нет</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+
                       <div class="formBlockDouble">
                         <mat-form-field appearance="fill">
                           <mat-label>Стартовый таг</mat-label>

@@ -25,6 +25,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   dataSource: ProductsDataSource;
   roles: string[] = [];
   productsList:Product[] = []
+  isLoading:boolean;
 
   hoverImage: string = "";
   hoverRowId: string = "";
@@ -35,6 +36,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   @Input() selectedSupplier: Supplier;
   @Input() pageIndex:number;
   @Input() pageSize:number;
+  @Input() sortParams:any;
   @Output() pageParams:EventEmitter<any> = new EventEmitter();
   productId: string | any;
 
@@ -53,7 +55,11 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.dataSource.loading$.subscribe(x => {
+      this.isLoading = x
+    })
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.loadProductPagedData(false)
@@ -69,7 +75,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   }
 
   loadProductPagedData(isPaginatorParams:boolean): any {
-    this.dataSource.loadPagedData(this.searchQuery, this.selectedSupplier?.id, isPaginatorParams ? this.paginator?.pageIndex : this.pageIndex, isPaginatorParams ? this.paginator?.pageSize : this.pageSize, null, this.withInternalCode);
+    this.dataSource.loadPagedData(this.searchQuery, this.selectedSupplier?.id, isPaginatorParams ? this.paginator?.pageIndex : this.pageIndex, isPaginatorParams ? this.paginator?.pageSize : this.pageSize, null, this.sortParams.active, this.sortParams.direction, this.withInternalCode);
     this.dataSource.connect(null).subscribe(x => {
       this.productsList = x
     })

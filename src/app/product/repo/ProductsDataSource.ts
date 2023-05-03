@@ -28,9 +28,9 @@ export class ProductsDataSource implements DataSource<Product> {
     this.loadingSubject.complete();
   }
 
-  loadPagedData(queryString = "", selectedSuppId = '', pageIndex = 0, pageSize = 10, selectedAttributes:SelectedFilterAttributes[], withInternalCodeSelector?:boolean,) {
+  loadPagedData(queryString = "", selectedSuppId = '', pageIndex = 0, pageSize = 10, selectedAttributes:SelectedFilterAttributes[], sortActive:string, sortDirection:string, withInternalCodeSelector?:boolean) {
     this.loadingSubject.next(true);
-    this.api.getProducts(queryString, selectedSuppId, pageIndex, pageSize, selectedAttributes, withInternalCodeSelector)
+    this.api.getProducts(queryString, selectedSuppId, pageIndex, pageSize, selectedAttributes, sortActive, sortDirection, withInternalCodeSelector)
       .pipe(
         tap(() => {
           this.loadingSubject.next(true);
