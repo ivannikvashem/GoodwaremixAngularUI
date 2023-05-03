@@ -55,34 +55,8 @@
 
 .linkButton {
   color:black;
-  padding: 5px;
 }
 
 .linkButton mat-icon {
   vertical-align: middle;
 }
-
-/*
-@media only screen and (max-width: 1210px) {
-  !* Compact: *!
-  .documentNumber {margin-left: 10px}
-  .documentTitle {margin-top: 10px}
-  !*
-  .box {width: 98%; height: 130px}
-  *!
-  .cardHeader {display: flex}
-}
-*/
-
-
-
-/* Tablet */
-@media only screen and (min-width: 600px) {
-
-}
-
-/* Desktop */
-@media only screen and (min-width: 1024px) {
-
-}
-
