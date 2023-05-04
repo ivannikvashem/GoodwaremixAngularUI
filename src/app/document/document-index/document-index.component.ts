@@ -51,14 +51,13 @@ export class DocumentIndexComponent implements OnInit {
   ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.loadDocumentPagedData(false)
+    this.loadDocumentPagedData()
   }
 
   ngAfterViewInit(): void {
     this.paginator.page
       .pipe(
         tap( () => {
-          this.loadDocumentPagedData(true);
           this.pageParams.next({pageIndex: this.paginator.pageIndex, pageSize:this.paginator.pageSize})
         })).subscribe();
 
@@ -68,8 +67,8 @@ export class DocumentIndexComponent implements OnInit {
 
   }
 
-  loadDocumentPagedData(isPaginatorParams:boolean): any {
-    this.dataSource.loadPagedData(this.searchQuery, this.selectedSupplier?.id, isPaginatorParams ? this.paginator?.pageIndex : this.pageIndex,isPaginatorParams ? this.paginator?.pageSize : this.pageSize, this.sortActive, this.sortDirection);
+  loadDocumentPagedData(): any {
+    this.dataSource.loadPagedData(this.searchQuery, this.selectedSupplier?.id,  this.pageIndex, this.pageSize, this.sortActive, this.sortDirection);
     this.dataSource.connect(null).subscribe(x => {
       this.documentList = x;
     })
@@ -118,7 +117,7 @@ export class DocumentIndexComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined && result != '') {
-        this.loadDocumentPagedData(false)
+        this.loadDocumentPagedData()
       }
     });
   }

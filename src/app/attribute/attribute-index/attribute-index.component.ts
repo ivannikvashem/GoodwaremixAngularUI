@@ -57,20 +57,19 @@ export class AttributeIndexComponent implements OnInit {
   ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.loadAttributePagedData(false)
+    this.loadAttributePagedData()
   }
 
   ngAfterViewInit(): void {
     this.paginator.page
       .pipe(
         tap( () => {
-          this.loadAttributePagedData(true);
           this.pageParams.next({pageIndex: this.paginator.pageIndex, pageSize:this.paginator.pageSize})
         })).subscribe();
   }
 
-  loadAttributePagedData(isPaginatorParams:boolean): any {
-    this.dataSource.loadPagedData(this.searchQuery, this.selectedSupplier?.id, isPaginatorParams ? this.paginator?.pageIndex : this.pageIndex,isPaginatorParams ? this.paginator?.pageSize : this.pageSize, this.withFixedAttrSelector);
+  loadAttributePagedData(): any {
+    this.dataSource.loadPagedData(this.searchQuery, this.selectedSupplier?.id, this.pageIndex, this.pageSize, this.withFixedAttrSelector);
   }
 
   editItem(id: any) {

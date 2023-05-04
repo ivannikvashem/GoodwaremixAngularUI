@@ -63,21 +63,20 @@ export class SupplierIndexComponent implements OnInit {
   ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.loadProductPagedData(false)
+    this.loadProductPagedData()
   }
 
   ngAfterViewInit(): void {
     this.paginator.page
       .pipe(
         tap( () => {
-          this.loadProductPagedData(true)
           this.pageParams.next({pageIndex: this.paginator.pageIndex, pageSize:this.paginator.pageSize})
           this.selection.clear();
         })).subscribe();
   }
 
-  loadProductPagedData(isPaginatorParams:boolean): any {
-    this.dataSource.loadPagedData(this.searchQuery, isPaginatorParams ? this.paginator?.pageIndex : this.pageIndex, isPaginatorParams ? this.paginator?.pageSize : this.pageSize, this.sortActive,  this.sortDirection);
+  loadProductPagedData(): any {
+    this.dataSource.loadPagedData(this.searchQuery, this.pageIndex, this.pageSize, this.sortActive,  this.sortDirection);
     this.dataSource.connect(null).subscribe(x => {
       this.supplierDataSource.data = x;
     })

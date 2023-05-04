@@ -5,6 +5,7 @@ import {MissingImageHandler} from "../MissingImageHandler";
 import {MatDialog} from "@angular/material/dialog";
 import {NotificationService} from "../../service/notification-service";
 import {Router} from "@angular/router";
+import {Clipboard} from "@angular/cdk/clipboard";
 
 @Component({
   selector: 'app-product-card',
@@ -21,7 +22,8 @@ export class ProductCardComponent implements OnInit {
     private imgHandler:MissingImageHandler,
     public dialog: MatDialog,
     public router: Router,
-    public _notyf: NotificationService
+    public _notyf: NotificationService,
+    private clipboard:Clipboard
   ) { }
 
   ngOnInit(): void {
@@ -48,9 +50,9 @@ export class ProductCardComponent implements OnInit {
     this.imgHandler.checkImgStatus($event);
   }
 
-  copyVendorId(vendorId: string) {
-    navigator.clipboard.writeText(vendorId);
-    this._notyf.onSuccess('Артикул поставщика скопирован')
+  copyString(stringToCopy: string) {
+    this.clipboard.copy(stringToCopy)
+    this._notyf.onSuccess('Скопировано')
   }
 
   goToEditItem(id:string) {

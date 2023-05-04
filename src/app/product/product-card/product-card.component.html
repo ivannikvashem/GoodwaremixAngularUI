@@ -11,7 +11,7 @@
   <div style="height: 250px;">
     <app-hover-image-slider style="height: 250px; width: 250px" [imgList]="product.images.length > 0 ? product.images : product.localImages" [imgListThumb]="product.thumbnails" ></app-hover-image-slider>
   </div>
-  <span class="internalCode" *ngIf="product.internalCode">{{product.internalCode}}</span>
+  <span class="internalCode copyString" *ngIf="product.internalCode" (click)="copyString(product.internalCode)">{{product.internalCode}}</span>
 
   <h4 class="titleContainer">
     <a [href]="'product-details/' + product.id"> <span class="title">{{product.title}}</span> </a>
@@ -19,6 +19,6 @@
 
   <span class="cardContent">
     <strong *ngIf="product.vendor">{{product.vendor}}</strong>
-    <strong class="vendorId" *ngIf="product.vendorId" (click)="copyVendorId(product.vendorId)">{{product.vendorId}}</strong>
+    <strong class="copyString" *ngIf="product.vendorId" (click)="copyString(product.vendorId)">{{product.vendorId}}</strong>
   </span>
 </mat-card>

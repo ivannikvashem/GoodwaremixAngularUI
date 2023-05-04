@@ -17,7 +17,7 @@ export class DocumentCardComponent implements OnInit {
   @Output() selectedDocument = new EventEmitter<{toDelete:boolean, document:Document}>();
 
   ngOnInit(): void {
-
+    console.log(this.document)
   }
 
   openDocumentEditorDialog(oldDocument?:any): void {

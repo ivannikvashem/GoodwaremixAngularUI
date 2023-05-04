@@ -115,16 +115,19 @@ export class ApiClient {
   getProducts(searchQuery: string, selectedSuppId: string, pageIndex: number, pageSize: number, attributes:any, sortField:string, sortDirection:string, withInternalCodeSelector?: boolean) {
     let opt = {
       params: new HttpParams()
-        .set('supplierId', selectedSuppId)
         .set('pageNumber', pageIndex ? pageIndex + 1 : 1)
         .set('pageSize', pageSize ?? 10)
-        .set('searchFilter', searchQuery)
-        .set('sortField', sortField)
         .set('sortDirection', sortDirection == "desc" ? "-1" : "1")
     };
-    if (typeof (withInternalCodeSelector) == "boolean") {
+
+    if (selectedSuppId)
+      opt.params = opt.params.append('supplierId', selectedSuppId);
+    if (searchQuery)
+      opt.params = opt.params.append('searchFilter', searchQuery);
+    if (typeof (withInternalCodeSelector) == "boolean")
       opt.params = opt.params.append('withInternalCode', withInternalCodeSelector);
-    }
+    if (sortField)
+      opt.params = opt.params.append('sortField', sortField);
     opt = Object.assign(opt, this.httpOptions);
     return this.http.get<Product[]>(this.apiURL + '/Products/', opt);
   }

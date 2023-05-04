@@ -17,7 +17,7 @@ export class ProductComponent implements OnInit {
   searchQuery:string = '';
   pageIndex:number = 0;
   pageSize:number = 10;
-  sortDirection:string = 'asc'
+  sortDirection:string;
   sortActive:string = null;
 
   pageCookie$ = this._localStorageService.myData$;
@@ -25,7 +25,7 @@ export class ProductComponent implements OnInit {
   withICFilter: boolean = false;
 
   sortOptions =[
-    { displayText: 'По умолчанию',  value: { active: null, direction: null} },
+    { displayText: 'По умолчанию',  value: { active: null, direction: 'asc'} },
     { displayText: 'По названию ↑', value: { active: 'title', direction: 'asc' } },
     { displayText: 'По названию ↓', value: { active: 'title', direction: 'desc' } },
     { displayText: 'По vendorId ↑', value: { active: 'vendorId', direction: 'asc' } },
@@ -33,7 +33,7 @@ export class ProductComponent implements OnInit {
     { displayText: 'По артикулу ↑', value: { active: 'internalCode', direction: 'asc' } },
     { displayText: 'По артикулу ↓', value: { active: 'internalCode', direction: 'desc' } },
   ];
-  selectedSort:any = {};
+  selectedSort:any = this.sortOptions[0].value;
 
   private subscription: Subscription;
 

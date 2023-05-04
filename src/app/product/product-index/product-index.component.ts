@@ -56,26 +56,25 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator
 
   ngOnInit() {
-    this.dataSource.loading$.subscribe(x => {
-      this.isLoading = x
+    this.dataSource.loading$.subscribe(loadState => {
+      this.isLoading = loadState
     })
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.loadProductPagedData(false)
+    this.loadProductPagedData()
   }
 
   ngAfterViewInit(): void {
     this.paginator.page
       .pipe(
         tap( () => {
-          this.loadProductPagedData(true)
           this.pageParams.next({pageIndex: this.paginator.pageIndex, pageSize:this.paginator.pageSize})
         })).subscribe();
   }
 
-  loadProductPagedData(isPaginatorParams:boolean): any {
-    this.dataSource.loadPagedData(this.searchQuery, this.selectedSupplier?.id, isPaginatorParams ? this.paginator?.pageIndex : this.pageIndex, isPaginatorParams ? this.paginator?.pageSize : this.pageSize, null, this.sortParams.active, this.sortParams.direction, this.withInternalCode);
+  loadProductPagedData(): any {
+    this.dataSource.loadPagedData(this.searchQuery, this.selectedSupplier?.id,  this.pageIndex, this.pageSize, null, this.sortParams.active, this.sortParams.direction, this.withInternalCode);
     this.dataSource.connect(null).subscribe(x => {
       this.productsList = x
     })
