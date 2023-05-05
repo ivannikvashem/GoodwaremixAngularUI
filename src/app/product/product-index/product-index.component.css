@@ -82,18 +82,18 @@
 }
 /* Product card placeholder end */
 
-@media (min-width: 600px) {
-  .cards { grid-template-columns: repeat(1, 1fr); }
-}
-
-@media (min-width: 890px) {
+@media (min-width: 730px) {
   .cards { grid-template-columns: repeat(2, 1fr); }
 }
 
-@media (min-width: 1300px) {
+@media (min-width: 1065px) {
+  .cards { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 1400px) {
   .cards { grid-template-columns: repeat(4, 1fr); }
 }
 
-@media (min-width: 1600px) {
+@media (min-width: 1700px) {
   .cards { grid-template-columns: repeat(5, 1fr); }
 }

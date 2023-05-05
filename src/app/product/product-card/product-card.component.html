@@ -5,11 +5,12 @@
       </a>
   </div>
 
-  <div class="supplierNameContainer" [style.visibility]="mouseOver ? 'visible': 'hidden'">
+<!--  <div class="supplierNameContainer" [style.visibility]="mouseOver ? 'visible': 'hidden'">
     <strong class="supplierName">{{product.supplierName}}</strong>
-  </div>
+  </div>-->
   <div style="height: 250px;">
-    <app-hover-image-slider style="height: 250px; width: 250px" [imgList]="product.images.length > 0 ? product.images : product.localImages" [imgListThumb]="product.thumbnails" ></app-hover-image-slider>
+    <div *ngIf="!isImageLoaded" class="imagePlaceholder"></div>
+    <app-hover-image-slider [style.visibility]="isImageLoaded ? 'visible': 'collapse'" [imgList]="product.images.length > 0 ? product.images : product.localImages" [imgListThumb]="product.thumbnails" (onLoad)="imageLoaded($event)"></app-hover-image-slider>
   </div>
   <span class="internalCode copyString" *ngIf="product.internalCode" (click)="copyString(product.internalCode)">{{product.internalCode}}</span>
 
@@ -17,8 +18,8 @@
     <a [href]="'product-details/' + product.id"> <span class="title">{{product.title}}</span> </a>
   </h4>
 
-  <span class="cardContent">
-    <strong *ngIf="product.vendor">{{product.vendor}}</strong>
+  <span class="cardContent" [style.justify-content]="product.vendor ? 'space-between' : 'flex-end'">
+    <strong style="cursor: help" *ngIf="product.vendor" matTooltip="Вендор товара" matTooltipPosition="right">{{product.vendor}}</strong>
     <strong class="copyString" *ngIf="product.vendorId" (click)="copyString(product.vendorId)">{{product.vendorId}}</strong>
   </span>
 </mat-card>

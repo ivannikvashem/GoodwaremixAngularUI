@@ -1,4 +1,4 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
 import {MissingImageHandler} from "../MissingImageHandler";
 import {ImagePreviewDialogData} from "../models/ImagePreviewDialogData";
@@ -15,6 +15,8 @@ export class HoverImageSliderComponent implements OnInit {
 
   @Input() imgList:any = [];
   @Input() imgListThumb:any = [];
+  @Output() onLoad = new EventEmitter<boolean>();
+
   constructor(
     public dialog: MatDialog,
     private imgHandler:MissingImageHandler
@@ -44,8 +46,12 @@ export class HoverImageSliderComponent implements OnInit {
 
   handleMissingImage($event: Event) {
     this.imgHandler.checkImgStatus($event)
+    this.onLoad.emit(true)
   }
 
+  onImageLoaded() {
+    this.onLoad.emit(true)
+  }
 }
 @Component({
   selector: 'image-data-dialog',

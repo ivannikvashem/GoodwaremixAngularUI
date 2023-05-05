@@ -17,6 +17,7 @@ export class ProductCardComponent implements OnInit {
   hoverImage: string = "";
   hoverRowId: string = "";
   mouseOver:boolean = false;
+  isImageLoaded:boolean = false;
   @Input() product:Product
   constructor(
     private imgHandler:MissingImageHandler,
@@ -26,8 +27,7 @@ export class ProductCardComponent implements OnInit {
     private clipboard:Clipboard
   ) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
 
   changeImage(row: any, image: any) {
@@ -57,5 +57,9 @@ export class ProductCardComponent implements OnInit {
 
   goToEditItem(id:string) {
     this.router.navigate([`product-edit/${id}`]);
+  }
+
+  imageLoaded(loadState: boolean) {
+    this.isImageLoaded = loadState
   }
 }

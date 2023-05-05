@@ -137,6 +137,7 @@ export class SupplierEditComponent implements OnInit {
     this.attrSelectedRow.id = config.attributeConfig.productAttributeKeys.length;
     this.attrSelectedRow.attributeBDName = this.selectedAttr?.nameAttribute;
     this.attrSelectedRow.attributeValid = true;
+    this.attrSelectedRow.attributeIdBD = this.selectedAttr?.id
     config.attributeConfig.productAttributeKeys[i] = this.attrSelectedRow;
     this.selectedAttr = null
     //prepare for refresh
