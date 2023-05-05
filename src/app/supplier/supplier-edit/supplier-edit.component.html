@@ -601,7 +601,7 @@
                           <ng-container matColumnDef="idx">
                             <th mat-header-cell *matHeaderCellDef> # </th>
                             <td mat-cell *matCellDef="let i = index;let element;">
-                              {{i+1}}&nbsp;
+                              <span [style.color]="element.attributeIdBD ? 'black' : 'red'">{{i+1}}</span>&nbsp;
                             </td>
                           </ng-container>
 
