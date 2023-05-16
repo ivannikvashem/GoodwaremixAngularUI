@@ -8,5 +8,4 @@ export class AttributeProduct {
   unit: string;
   type: string;
   value: any;
-
 }

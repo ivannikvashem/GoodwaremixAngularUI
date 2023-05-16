@@ -22,7 +22,8 @@ interface AttributeType {
 export class AttributeEditComponent implements OnInit {
 
   public selectedSupplier:Supplier
-  private loadingSubject = new BehaviorSubject<boolean>(true);
+  private loadingSubject = new BehaviorSubject<boolean>(false);
+  public isLoading:boolean = false;
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   id: string | null | undefined;
@@ -38,12 +39,12 @@ export class AttributeEditComponent implements OnInit {
     public api: ApiClient,
     private _ActivatedRoute: ActivatedRoute,
     private router: Router,
-    private _notyf: NotificationService
-  ) {}
+    private _notyf: NotificationService) {}
 
   ngOnInit(): void {
     this.id = this._ActivatedRoute.snapshot.paramMap.get("id");
     if (this.id) {
+      this.loadingSubject.next(true)
       this.api.getAttributeById(this.id ?? "")
         .pipe(
           map(res => {
@@ -60,6 +61,10 @@ export class AttributeEditComponent implements OnInit {
     } else {
       this.attribute.rating = 0;
     }
+
+    this.loadingSubject.subscribe(x => {
+      this.isLoading = x;
+    })
   }
 
   addPossibleValue(event: MatChipInputEvent): void {

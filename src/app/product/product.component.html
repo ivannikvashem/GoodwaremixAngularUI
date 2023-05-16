@@ -21,10 +21,13 @@
 </div>
 -->
 
-<div class="cardTopPanel mat-elevation-z2">
+
+
+<div class="cardTopPanel">
   <h3>Товары</h3>
 
   <div class="toolbox-container">
+
     <div class="toolbox-item">
       <app-product-ic-filter-switch [state]="withICFilter" (withICFilterEmitter)="onICFilterChanged($event)"></app-product-ic-filter-switch>
     </div>
@@ -40,18 +43,21 @@
     <app-supplier-autocomplete class="toolbox-item"></app-supplier-autocomplete>
 
     <div class="toolbox-item">
-      <mat-form-field appearance="legacy">
+      <mat-form-field appearance="standard">
         <mat-label>Сортировка</mat-label>
         <select matNativeControl [(ngModel)]="selectedSort" (change)="sortData()">
           <option *ngFor="let option of sortOptions" [ngValue]="option.value">{{option.displayText}}</option>
         </select>
       </mat-form-field>
     </div>
-  </div>
 
-  <button mat-button matTooltip="Добавить товар" [routerLink]="['/product-add']">
-    <mat-icon>add</mat-icon> Добавить
-  </button>
+    <div class="toolbox-item">
+      <button mat-raised-button matTooltip="Добавить товар" [routerLink]="['/product-add']">
+        <mat-icon>add</mat-icon> Добавить
+      </button>
+    </div>
+  </div>
 </div>
+
 
 <app-product-index [searchQuery]="searchQuery" [withInternalCode]="withICFilter" [selectedSupplier]="selectedSupplier" [pageIndex]="pageIndex" [pageSize]="pageSize" [sortParams]="{active:sortActive, direction:sortDirection}" (pageParams)="onPageParamsChanged($event)"></app-product-index>

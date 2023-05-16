@@ -13,9 +13,10 @@
 .cardTop {
   display: flex;
   justify-content: flex-end;
-  width: 300px;
   position: absolute;
   z-index: 7;
+  top: 15px;
+  right: 10px;
 }
 
 .card {

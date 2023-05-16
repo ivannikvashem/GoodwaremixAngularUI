@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild
 import {SuppliersDataSource} from "../repo/SuppliersDataSource";
 import {ApiClient} from "../../service/httpClient";
 import {MatPaginator} from "@angular/material/paginator";
-import {tap} from "rxjs";
+import {finalize, tap} from "rxjs";
 import {Router} from "@angular/router";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {Supplier} from "../../models/supplier.model";
@@ -63,7 +63,7 @@ export class SupplierIndexComponent implements OnInit {
   ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.loadProductPagedData()
+    this.loadSupplierPagedData()
   }
 
   ngAfterViewInit(): void {
@@ -75,7 +75,7 @@ export class SupplierIndexComponent implements OnInit {
         })).subscribe();
   }
 
-  loadProductPagedData(): any {
+  loadSupplierPagedData(): any {
     this.dataSource.loadPagedData(this.searchQuery, this.pageIndex, this.pageSize, this.sortActive,  this.sortDirection);
     this.dataSource.connect(null).subscribe(x => {
       this.supplierDataSource.data = x;
@@ -106,13 +106,12 @@ export class SupplierIndexComponent implements OnInit {
   }
 
   fixSupplierStat() {
-    console.log("fixSupplierStat ");
-    this.api.fixSupplierStat().subscribe( res => {
-        console.log(JSON.stringify(res));
-      },
-      err => {
+    this.api.fixSupplierStat()
+      .pipe(finalize( () => { this._notyf.onSuccess('Данные обновлены'); this.loadSupplierPagedData() })
+      ).subscribe( { next: (res) => {},
+      error: (err) => {
         this._notyf.onError("Ошибка: " + JSON.stringify(err));
-      })
+      }})
   }
 
   confirmDeleteSuppDialog(id: string, name: string): void {

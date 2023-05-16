@@ -47,6 +47,20 @@ export class ProductsDataSource implements DataSource<Product> {
       });
   }
 
+  fillData(deletedRecordsCount:number, queryString = "", selectedSuppId = '', pageIndex = 0, pageSize = 10, selectedAttributes:SelectedFilterAttributes[], sortActive:string, sortDirection:string, withInternalCodeSelector?:boolean) {
+    this.api.getProducts(queryString, selectedSuppId, pageIndex + 1, pageSize, selectedAttributes, sortActive, sortDirection, withInternalCodeSelector)
+      .pipe(
+        map((res:any) => {
+          return res.body;
+        }),
+        catchError(() => of([])),
+      )
+      .subscribe(body => {
+        this.ProductListSubject.next(this.ProductListSubject.getValue().concat(body.data.slice(0, deletedRecordsCount)))
+        this.rowCount = body.totalRecords;
+      });
+  }
+
   deleteProduct(id: any) {
     console.log("deleting product " + id);
     this.api.deleteProductById(id).subscribe( res => {

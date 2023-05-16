@@ -75,6 +75,12 @@
   height: 15px;
 }
 
+.floatButton {
+  position: fixed !important;
+  bottom: 60px;
+  right: 2%;
+}
+
 @keyframes shine {
   to {
     background-position-x: -200%;

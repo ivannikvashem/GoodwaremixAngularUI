@@ -1,8 +1,17 @@
 <mat-card class="card mat-elevation-z3"  (mouseover)="mouseOver = true" (mouseleave)="mouseOver = false">
   <div class="cardTop">
-      <a mat-mini-fab class="mat-elevation-z2" [style.visibility]="mouseOver ? 'visible': 'hidden'" [href]="'product-edit/' + product.id">
+
+    <div style="display: grid; row-gap: 10px">
+      <mat-checkbox style="margin: auto" [(ngModel)]="selected" (click)="onChecked()" [style.visibility]="mouseOver || selected ? 'visible': 'hidden'"></mat-checkbox>
+
+      <a mat-mini-fab class="mat-elevation-z2" [href]="'product-edit/' + product.id" [style.visibility]="mouseOver ? 'visible': 'hidden'">
         <mat-icon>edit</mat-icon>
       </a>
+
+      <a mat-mini-fab class="mat-elevation-z2" (click)="confirmDeleteDialog(product.id, product.title)" [style.visibility]="mouseOver ? 'visible': 'hidden'">
+        <mat-icon>delete</mat-icon>
+      </a>
+    </div>
   </div>
 
 <!--  <div class="supplierNameContainer" [style.visibility]="mouseOver ? 'visible': 'hidden'">

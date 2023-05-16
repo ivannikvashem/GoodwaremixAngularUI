@@ -10,7 +10,6 @@ import {
 import {Supplier} from "../../models/supplier.model";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/shared/confirm-dialog/confirm-dialog.component";
 import {NotificationService} from "../../service/notification-service";
-import {ImagePreviewDialogComponent} from "../image-preview-dialog/image-preview-dialog.component";
 import {MissingImageHandler} from "../MissingImageHandler";
 import {AuthService} from "../../auth/service/auth.service";
 import {Product} from "../../models/product.model";
@@ -26,6 +25,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   roles: string[] = [];
   productsList:Product[] = []
   isLoading:boolean;
+  selectedProducts:string[] = []
 
   hoverImage: string = "";
   hoverRowId: string = "";
@@ -69,6 +69,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     this.paginator.page
       .pipe(
         tap( () => {
+          this.selectedProducts = []
           this.pageParams.next({pageIndex: this.paginator.pageIndex, pageSize:this.paginator.pageSize})
         })).subscribe();
   }
@@ -80,9 +81,30 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     })
   }
 
+  goToItemDetails(id: any) {
+    this.router.navigate([`product-details/${id}`]);
+  }
 
-  confirmDeleteDialog(id: string, name: string): void {
-    const message = `Удалить товар ` + name + `?`;
+  onProductSelect(selected: any) {
+    if (!selected.isSelected) {
+      this.selectedProducts.push(selected.id)
+    } else {
+      this.selectedProducts = this.selectedProducts.filter(x => x !== selected.id)
+    }
+  }
+
+  onProductDelete(id: any) {
+    if (Array.isArray(id)) {
+      this.confirmDeleteDialog(id)
+    } else {
+      this.dataSource.fillData(1, this.searchQuery, this.selectedSupplier?.id,  this.pageIndex, this.pageSize, null, this.sortParams.active, this.sortParams.direction, this.withInternalCode)
+      this.selectedProducts = this.selectedProducts.filter(x => x !== id)
+      this.dataSource.deleteProduct(id);
+    }
+  }
+
+  confirmDeleteDialog(ids: string[]): void {
+    const message = `Удалить товары ?`;
     const dialogData = new ConfirmDialogModel("Подтверждение", message);
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       minWidth: "300px",
@@ -91,36 +113,14 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(dialogResult => {
-      if (dialogResult === true) {
-        this.dataSource.deleteProduct(id);
+      if (dialogResult) {
+        this.dataSource.fillData(ids.length, this.searchQuery, this.selectedSupplier?.id,  this.pageIndex, this.pageSize, null, this.sortParams.active, this.sortParams.direction, this.withInternalCode)
+
+        for (let i of ids) {
+          this.selectedProducts = this.selectedProducts.filter(x => x !== i)
+          this.dataSource.deleteProduct(i);
+        }
       }
     });
-  }
-
-  goToItemDetails(id: any) {
-    this.router.navigate([`product-details/${id}`]);
-  }
-
-  goToEditItem(id:string) {
-    this.router.navigate([`product-edit/${id}`]);
-  }
-
-  changeImage(row: any, image: any) {
-    this.hoverRowId = row.id;
-    this.hoverImage = image;
-  }
-  openDialog(image: string) {
-    let dialogBoxSettings = {
-      margin: '0 auto',
-      hasBackdrop: true,
-      data: {
-        src: image.replace("", ""),
-      }
-    };
-    this.dialog.open(ImagePreviewDialogComponent, dialogBoxSettings);
-  }
-
-  handleMissingImage($event: Event) {
-    this.imgHandler.checkImgStatus($event);
   }
 }

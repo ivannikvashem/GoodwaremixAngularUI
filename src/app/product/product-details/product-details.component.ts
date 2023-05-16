@@ -11,6 +11,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {NotificationService} from "../../service/notification-service";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/shared/confirm-dialog/confirm-dialog.component";
 import {Document} from "../../models/document.model";
+import {Clipboard} from "@angular/cdk/clipboard";
 
 @Component({
   selector: 'app-product-details',
@@ -36,7 +37,8 @@ export class ProductDetailsComponent implements OnInit {
     public dialog: MatDialog,
     private _ActivatedRoute:ActivatedRoute,
     private _sanitizer: DomSanitizer,
-    private _notyf: NotificationService) { }
+    private _notyf: NotificationService,
+    private clipboard:Clipboard) { }
 
   ngOnInit(): void {
     this.fetchProductData()
@@ -127,7 +129,7 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   copyVendorId(vendorId: string) {
-    navigator.clipboard.writeText(vendorId)
+    this.clipboard.copy(vendorId)
     this._notyf.onSuccess('Артикул поставщика скопирован')
   }
 }

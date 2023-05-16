@@ -3,7 +3,6 @@ import {BehaviorSubject, Observable, of, tap} from 'rxjs';
 import {catchError, finalize, map} from 'rxjs/operators';
 import {Attribute} from '../../models/attribute.model';
 import {ApiClient} from "../../service/httpClient";
-import {NotificationService} from "../../service/notification-service";
 
 export class AttributesDataSource implements DataSource<Attribute> {
 
