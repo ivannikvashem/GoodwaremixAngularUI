@@ -27,6 +27,7 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import { SupplierComponent } from './supplier.component';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { SupplierComponent } from './supplier.component';
         MatSlideToggleModule,
         MatAutocompleteModule,
         MatCheckboxModule,
+        MatProgressSpinnerModule,
     ]
 })
 export class SupplierModule { }

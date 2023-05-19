@@ -40,6 +40,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import { ProductDocumentListComponent } from './product-document-list/product-document-list.component';
 import {ScrollingModule} from "@angular/cdk/scrolling";
 import { ProductCardComponent } from './product-card/product-card.component';
+import { ProductSelectedListComponent } from './product-selected-list/product-selected-list.component';
 
 @NgModule({
     declarations: [
@@ -58,6 +59,7 @@ import { ProductCardComponent } from './product-card/product-card.component';
         ProductIcFilterSwitchComponent,
         ProductDocumentListComponent,
         ProductCardComponent,
+        ProductSelectedListComponent,
     ],
   exports: [
   ],

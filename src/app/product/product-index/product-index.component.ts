@@ -13,6 +13,8 @@ import {NotificationService} from "../../service/notification-service";
 import {MissingImageHandler} from "../MissingImageHandler";
 import {AuthService} from "../../auth/service/auth.service";
 import {Product} from "../../models/product.model";
+import {DataStateService} from "../../shared/data-state.service";
+import {ProductSelectedListComponent} from "../product-selected-list/product-selected-list.component";
 
 @Component({
   selector: 'app-product-index',
@@ -25,7 +27,9 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   roles: string[] = [];
   productsList:Product[] = []
   isLoading:boolean;
-  selectedProducts:string[] = []
+
+  selectionActive:boolean = false;
+  selectionItems:any[] = []
 
   hoverImage: string = "";
   hoverRowId: string = "";
@@ -47,8 +51,8 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     private _ActivatedRoute:ActivatedRoute,
     private _notyf: NotificationService,
     private imgHandler:MissingImageHandler,
-    private auth:AuthService
-  ) {
+    private dss:DataStateService,
+    private auth:AuthService) {
     this.dataSource = new ProductsDataSource(this.api);
     this.roles = this.auth.getRoles();
   }
@@ -58,6 +62,15 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.dataSource.loading$.subscribe(loadState => {
       this.isLoading = loadState
+    })
+
+    this.dss.selectedProductsState.subscribe(selection => {
+      if (selection.length > 0) {
+        this.selectionActive = true;
+        this.selectionItems = selection;
+      } else {
+        this.selectionActive = false;
+      }
     })
   }
 
@@ -69,7 +82,6 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     this.paginator.page
       .pipe(
         tap( () => {
-          this.selectedProducts = []
           this.pageParams.next({pageIndex: this.paginator.pageIndex, pageSize:this.paginator.pageSize})
         })).subscribe();
   }
@@ -85,26 +97,8 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     this.router.navigate([`product-details/${id}`]);
   }
 
-  onProductSelect(selected: any) {
-    if (!selected.isSelected) {
-      this.selectedProducts.push(selected.id)
-    } else {
-      this.selectedProducts = this.selectedProducts.filter(x => x !== selected.id)
-    }
-  }
-
-  onProductDelete(id: any) {
-    if (Array.isArray(id)) {
-      this.confirmDeleteDialog(id)
-    } else {
-      this.dataSource.fillData(1, this.searchQuery, this.selectedSupplier?.id,  this.pageIndex, this.pageSize, null, this.sortParams.active, this.sortParams.direction, this.withInternalCode)
-      this.selectedProducts = this.selectedProducts.filter(x => x !== id)
-      this.dataSource.deleteProduct(id);
-    }
-  }
-
-  confirmDeleteDialog(ids: string[]): void {
-    const message = `Удалить товары ?`;
+  confirmDeleteDialog(): void {
+    const message = `Удалить товар(ы) ?`;
     const dialogData = new ConfirmDialogModel("Подтверждение", message);
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       minWidth: "300px",
@@ -114,13 +108,32 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult) {
-        this.dataSource.fillData(ids.length, this.searchQuery, this.selectedSupplier?.id,  this.pageIndex, this.pageSize, null, this.sortParams.active, this.sortParams.direction, this.withInternalCode)
-
-        for (let i of ids) {
-          this.selectedProducts = this.selectedProducts.filter(x => x !== i)
-          this.dataSource.deleteProduct(i);
+        for (let i of this.selectionItems) {
+          this.dataSource.deleteProduct(i.id);
         }
+        this.loadProductPagedData()
+        this.dss.clearSelectProducts()
       }
+    });
+  }
+
+  selectAll() {
+    for (let product of this.productsList) {
+      this.dss.setSelectedProduct({id:product.id,vendorId:product.vendorId})
+    }
+  }
+
+  deselectAll() {
+    for (let product of this.productsList) {
+      this.dss.removeSelectedProduct(product.id)
+    }
+  }
+
+  showSelectedItems() {
+    this.dialog.open(ProductSelectedListComponent, {
+      minWidth: "600px",
+      minHeight: "250px",
+      autoFocus: false
     });
   }
 }

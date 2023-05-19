@@ -274,7 +274,6 @@ export class ApiClient {
       opt.params = opt.params.append('supplierId', supplierId);
     }
     opt = Object.assign(opt, {observe:'response', responseType:'blob'});
-    console.log('options', opt)
     return this.http.get(this.apiURL + '/suppliers/DownloadFileJson',opt)
   }
 

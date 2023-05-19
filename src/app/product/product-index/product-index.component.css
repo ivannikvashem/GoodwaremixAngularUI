@@ -81,6 +81,14 @@
   right: 2%;
 }
 
+.selection-container {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 4px 13px;
+}
+
 @keyframes shine {
   to {
     background-position-x: -200%;

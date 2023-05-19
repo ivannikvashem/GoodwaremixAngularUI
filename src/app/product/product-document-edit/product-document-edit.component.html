@@ -18,6 +18,7 @@
       </mat-form-field>
 
       <cdk-virtual-scroll-viewport appendOnly itemSize="50" class="viewport">
+        <div *ngIf="documentsList.length == 0">Документы не найдены</div>
         <div class="cardsToCenter">
           <div class="cards">
             <app-document-card *cdkVirtualFor="let doc of documentsList" [document]="doc" [isChangeable]="false" [isSelectable]="true" (selectedDocument)="onDocumentSelected($event)"></app-document-card>

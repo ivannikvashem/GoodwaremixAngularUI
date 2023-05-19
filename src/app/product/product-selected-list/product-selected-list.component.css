@@ -1,0 +1,20 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  height: 40px;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+  padding-bottom: 5px;
+}
+
+.selectedItem {
+  background: lightgray;
+  border-radius: 15px;
+  padding: 10px;
+  height: 15px;
+}

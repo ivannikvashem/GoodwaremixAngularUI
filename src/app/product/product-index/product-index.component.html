@@ -1,6 +1,29 @@
+<div class="mat-elevation-z2 selection-container" *ngIf="selectionActive">
+
+    <span style="margin-left: 10px">Выбрано {{selectionItems.length}} товаров <button mat-icon-button (click)="showSelectedItems()"><mat-icon>visibility</mat-icon></button></span>
+
+  <div style="display: flex; justify-content: space-between">
+    <div class="toolbox-item">
+      <button mat-icon-button matTooltip="Выбрать всё" (click)="selectAll()"><mat-icon>select_all</mat-icon></button>
+    </div>
+
+    <div class="toolbox-item">
+      <button mat-icon-button matTooltip="Убрать выделение" (click)="deselectAll()"><mat-icon>close</mat-icon></button>
+    </div>
+
+    <div class="toolbox-item">
+      <button mat-button>Загрузить <mat-icon>download</mat-icon></button>
+    </div>
+
+    <div class="toolbox-item">
+      <button mat-button (click)="confirmDeleteDialog()">Удалить <mat-icon>delete</mat-icon></button>
+    </div>
+  </div>
+</div>
+
 <div class="cardsToCenter">
   <div class="cards" *ngIf="dataSource.rowCount != 0 && !isLoading">
-    <app-product-card *ngFor="let product of productsList" [product]="product" (selectedProduct)="onProductSelect($event)" (deletedProduct)="onProductDelete($event)"></app-product-card>
+    <app-product-card *ngFor="let product of productsList" [product]="product"></app-product-card>
   </div>
 
   <div class="cards" *ngIf="isLoading">
@@ -21,4 +44,6 @@
 
 <mat-paginator [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[10,20,50,100] aria-label="Страница"></mat-paginator>
 
-<button mat-fab color="accent" class="mat-elevation-z2; floatButton" matTooltipPosition="left" matTooltipShowDelay="1000" (click)="onProductDelete(this.selectedProducts)" [class.cdk-visually-hidden]="selectedProducts.length == 0" [matTooltip]="'Удаление выбранных ' + selectedProducts.length"><mat-icon>delete</mat-icon></button>
+<!--
+<button mat-fab color="accent" class="mat-elevation-z2; floatButton" matTooltipPosition="left" matTooltipShowDelay="1000" (click)="confirmDeleteDialog(this.selectedProducts)" [class.cdk-visually-hidden]="selectedProducts.length == 0" [matTooltip]="'Удаление выбранных ' + selectedProducts.length"><mat-icon>delete</mat-icon></button>
+-->

@@ -88,7 +88,7 @@ export class SupplierAutocompleteComponent implements OnInit {
       return true
     } else {
       $event.preventDefault()
-      return  false
+      return false
     }
   }
 }

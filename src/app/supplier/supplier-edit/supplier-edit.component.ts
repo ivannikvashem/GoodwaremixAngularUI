@@ -7,7 +7,7 @@ import {ProductAttributeKey} from "../../models/productAttributeKey.model";
 import { Attribute } from 'src/app/models/attribute.model';
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {MatChipInputEvent} from "@angular/material/chips";
-import {debounceTime, switchMap, tap} from "rxjs";
+import {BehaviorSubject, debounceTime, switchMap, tap} from "rxjs";
 import {finalize} from "rxjs/operators";
 import {NotificationService} from "../../service/notification-service";
 import {MatDialog} from "@angular/material/dialog";
@@ -31,66 +31,85 @@ export class SupplierEditComponent implements OnInit {
 
   supplierId: string = '';
   supplier: Supplier = new Supplier();
-  dataToDisplay:any = [];
+  dataToDisplay: any = [];
   selectedConfig = new FormControl(0)
-  isConfigsLoaded:boolean = false
+  private loadingSubject = new BehaviorSubject<boolean>(false);
+  public isLoading: boolean = false;
 
   attrTableColumns: string[] = ['idx', 'keySupplier', 'attributeBDName', 'action'];
   attrSelectedRow: any;
   public attributeList: Attribute[] | undefined;
-  attributesToAdd:Attribute[] = []
+  attributesToAdd: Attribute[] = []
   attributeListCtrl = new FormControl<string | Attribute>('');
   selectedAttr: Attribute | undefined;
   headerTableColumns: string[] = ['headerKey', 'headerValue', 'headerAction'];
 
   constructor(
-    private _ActivatedRoute:ActivatedRoute,
+    private _ActivatedRoute: ActivatedRoute,
     private router: Router,
     private _notyf: NotificationService,
     public dialog: MatDialog,
     public api: ApiClient,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.supplierId = this._ActivatedRoute.snapshot.paramMap.get("supplierId");
     if (this.supplierId) {
-      this.api.getSupplierById(this.supplierId).subscribe({next: (s) => {
-        this.supplier = s.body as Supplier;
-        for (let config of this.supplier.supplierConfigs) {
-          config.nettoConfig.dimensions = new Dimensions()
-          config.packageConfig.dimensions = new Dimensions()
-          if (config.sourceSettings.header) {
-            config.sourceSettings.header = JSON.parse(config.sourceSettings.header) as HeaderModel
+      this.loadingSubject.next(true)
+      this.api.getSupplierById(this.supplierId)
+        .pipe(
+          finalize(() => this.loadingSubject.next(false))
+        ).subscribe({
+        next: (s) => {
+          this.supplier = s.body as Supplier;
+          for (let config of this.supplier.supplierConfigs) {
+            config.nettoConfig.dimensions = new Dimensions()
+            config.packageConfig.dimensions = new Dimensions()
+            if (config.sourceSettings.header) {
+              config.sourceSettings.header = JSON.parse(config.sourceSettings.header) as HeaderModel
+            }
           }
-        }
-          this.isConfigsLoaded = true;
         }, error: () => {
-        this.router.navigate(['page-not-found'])
-      }});
-    } else {
-      this.isConfigsLoaded = true
+          this.router.navigate(['page-not-found'])
+        }
+      });
     }
     this.attributeListCtrl.valueChanges.pipe(
       debounceTime(100),
       tap(() => {
 
       }),
-      switchMap(value => this.api.getAttributes(value, '' ,0, 100, undefined, "rating", "desc")
+      switchMap(value => this.api.getAttributes(value, '', 0, 100, undefined, "rating", "desc")
         .pipe(
           finalize(() => {
 
           }),
         )
       )
-    ).subscribe((data: any) => { this.attributeList = data.body.data; });
+    ).subscribe((data: any) => {
+      this.attributeList = data.body.data;
+    });
+
+    this.loadingSubject.subscribe(x => {
+      this.isLoading = x;
+    })
   }
 
-  addSuppAttr(table:any,config:any) {
+  addSuppAttr(table: any, config: any) {
+    console.log('add')
     //if already added -  skip
-    if (config.attributeConfig.productAttributeKeys.some( (x: ProductAttributeKey) => x.keySupplier == '')) {
-       return;
+    if (config.attributeConfig.productAttributeKeys.some((x: ProductAttributeKey) => x.keySupplier == '')) {
+      return;
     }
-    let a: any = { id:config.attributeConfig.productAttributeKeys.length, keySupplier: '', attributeBDName: '', attributeIdBD: '', attributeValid: false, multiplier: ''};
+    let a: any = {
+      id: config.attributeConfig.productAttributeKeys.length,
+      keySupplier: '',
+      attributeBDName: '',
+      attributeIdBD: '',
+      attributeValid: false,
+      multiplier: ''
+    };
     config.attributeConfig.productAttributeKeys.push(a);
     let row = config.attributeConfig?.productAttributeKeys[config?.attributeConfig?.productAttributeKeys.length - 1];
     this.attributeListCtrl.setValue(row.attributeBDName);
@@ -98,13 +117,12 @@ export class SupplierEditComponent implements OnInit {
     table.renderRows()
   }
 
-  deleteSuppAttr(keySupplier: string, attributeBDName:string, config:any, table:any) {
-    let idx = config.attributeConfig.productAttributeKeys.map((obj:ProductAttributeKey) => obj.keySupplier).indexOf(keySupplier);
-    config.attributeConfig.productAttributeKeys.splice(idx, 1);
+  deleteSuppAttr(index: number, config: any, table: any) {
+    config.attributeConfig.productAttributeKeys.splice(index, 1);
     table.renderRows()
   }
 
-  onSelectRow(row: any, i:any, config:any) {
+  onSelectRow(row: any, i: any, config: any) {
     if (config) {
       let at = new Attribute()
       at.nameAttribute = config.attributeConfig.productAttributeKeys[i].attributeBDName
@@ -115,9 +133,18 @@ export class SupplierEditComponent implements OnInit {
     this.attrSelectedRow.id = i;
   }
 
+  onSelectedRowClose(row: any, i: any, config: any, table: any) {
+    if (row.keySupplier == '' && row.attributeBDName == '') {
+      this.deleteSuppAttr(i, config, table)
+    }
+    this.clearAttrSelection();
+  }
+
   displayFn(attr: Attribute): string {
     let res = attr && attr.nameAttribute
-    if (attr?.etimFeature && attr?.supplierName) {res += " [" + attr?.etimFeature + "] от " + attr?.supplierName}
+    if (attr?.etimFeature && attr?.supplierName) {
+      res += " [" + attr?.etimFeature + "] от " + attr?.supplierName
+    }
     return res
   }
 
@@ -125,7 +152,7 @@ export class SupplierEditComponent implements OnInit {
     this.selectedAttr = this.attributeListCtrl.value as Attribute;
   }
 
-  updateSelectedSuppAttr(i: number, row: any, config:any) {
+  updateSelectedSuppAttr(i: number, row: any, config: any) {
     //validation
     // Add our value
     const idx = config.attributeConfig.productAttributeKeys.indexOf(row.attributeIdBD);
@@ -144,21 +171,22 @@ export class SupplierEditComponent implements OnInit {
     this.clearAttrSelection();
   }
 
-  clearAttrSelection():void {
+  clearAttrSelection(): void {
     this.attrSelectedRow = null;
   }
-  addDateFormat(event: MatChipInputEvent, config:any): void {
+
+  addDateFormat(event: MatChipInputEvent, config: any): void {
     const value = (event.value || '').trim();
     const idx = config.dateFormats?.indexOf(value);
-    if (value && idx === -1 ) {
+    if (value && idx === -1) {
       config.dateFormats?.push(value);
     }
     event.chipInput!.clear();
   }
 
-  removeDateFormat(date: string, config:any): void {
+  removeDateFormat(date: string, config: any): void {
     const index = config.dateFormats?.indexOf(date);
-    if (typeof(index) == "number" && index >= 0) {
+    if (typeof (index) == "number" && index >= 0) {
       config.dateFormats?.splice(index, 1);
     }
   }
@@ -178,7 +206,7 @@ export class SupplierEditComponent implements OnInit {
     }
 
     if (supplier.id == undefined) {
-      this.api.insertSupplier(supplier).subscribe( x => {
+      this.api.insertSupplier(supplier).subscribe(x => {
           this._notyf.onSuccess("Конфигурация добавлена");
           for (let i of this.attributesToAdd) {
             i.supplierId = x.body
@@ -191,7 +219,7 @@ export class SupplierEditComponent implements OnInit {
           this._notyf.onError("Ошибка: " + JSON.stringify(error));
         });
     } else {
-      this.api.updateSupplier(supplier).subscribe( () => {
+      this.api.updateSupplier(supplier).subscribe(() => {
           this._notyf.onSuccess("Конфигурация сохранена");
           for (let i of this.attributesToAdd) {
             i.supplierId = this.supplier.id
@@ -211,7 +239,7 @@ export class SupplierEditComponent implements OnInit {
 
   openAttributeEditorDialog(): void {
     const dialogRef = this.dialog.open(SupplierAttributeAddComponent, {
-      data: { supplierName: this.supplier.supplierName, newAttribute: new Attribute() },
+      data: {supplierName: this.supplier.supplierName, newAttribute: new Attribute()},
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined) {
@@ -222,18 +250,20 @@ export class SupplierEditComponent implements OnInit {
     });
   }
 
-  addHeader(table:any, config:any) {
-    if (config.sourceSettings.header == null) {config.sourceSettings.header = []}
-    let newHeader = <HeaderModel> {HeaderName : '', HeaderValue : '', isEditable : true }
+  addHeader(table: any, config: any) {
+    if (config.sourceSettings.header == null) {
+      config.sourceSettings.header = []
+    }
+    let newHeader = <HeaderModel>{HeaderName: '', HeaderValue: '', isEditable: true}
     config.sourceSettings.header.push(newHeader)
     table.renderRows()
   }
 
-  deleteHeader(element:HeaderModel, config:any) {
-    config.sourceSettings.header = config.sourceSettings.header.filter((value:any) => (value != element))
+  deleteHeader(element: HeaderModel, config: any) {
+    config.sourceSettings.header = config.sourceSettings.header.filter((value: any) => (value != element))
   }
 
-  saveHeader(element:HeaderModel, config:any) {
+  saveHeader(element: HeaderModel, config: any) {
     if (element.HeaderName != '' && element.HeaderValue != '')
       element.isEditable = false
     else
@@ -243,7 +273,7 @@ export class SupplierEditComponent implements OnInit {
   addInn($event: MatChipInputEvent) {
     const value = ($event.value || '').trim();
     const idx = this.supplier.inn?.indexOf(value);
-    if (value && idx === -1 ) {
+    if (value && idx === -1) {
       this.supplier.inn?.push(value);
     }
     $event.chipInput!.clear();
@@ -251,7 +281,7 @@ export class SupplierEditComponent implements OnInit {
 
   removeInn(inn: string) {
     const index = this.supplier.inn?.indexOf(inn);
-    if (typeof(index) == "number" && index >= 0) {
+    if (typeof (index) == "number" && index >= 0) {
       this.supplier.inn?.splice(index, 1);
     }
   }
@@ -259,7 +289,7 @@ export class SupplierEditComponent implements OnInit {
   addBrand($event: MatChipInputEvent) {
     const value = ($event.value || '').trim();
     const idx = this.supplier.brands?.indexOf(value);
-    if (value && idx === -1 ) {
+    if (value && idx === -1) {
       this.supplier.brands?.push(value);
     }
     $event.chipInput!.clear();
@@ -267,7 +297,7 @@ export class SupplierEditComponent implements OnInit {
 
   removeBrand(brand: string) {
     const index = this.supplier.brands?.indexOf(brand);
-    if (typeof(index) == "number" && index >= 0) {
+    if (typeof (index) == "number" && index >= 0) {
       this.supplier.brands?.splice(index, 1);
     }
   }
@@ -288,7 +318,7 @@ export class SupplierEditComponent implements OnInit {
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult === true) {
         const index = this.supplier.supplierConfigs?.indexOf(value);
-        if (typeof(index) == "number" && index >= 0) {
+        if (typeof (index) == "number" && index >= 0) {
           this.supplier.supplierConfigs?.splice(index, 1);
         }
         this.selectedConfig.setValue(this.supplier.supplierConfigs.length - 1);
@@ -297,8 +327,8 @@ export class SupplierEditComponent implements OnInit {
   }
 
   fetchSupplierProducts() {
-    this.api.fetchDataFromSupplier(this.supplier.id).subscribe( res => {
-        this._notyf.onSuccess('Сбор данных '+this.supplier.supplierName+' начат')
+    this.api.fetchDataFromSupplier(this.supplier.id).subscribe(res => {
+        this._notyf.onSuccess('Сбор данных ' + this.supplier.supplierName + ' начат')
       },
       err => {
         this._notyf.onError("Ошибка: " + JSON.stringify(err));
@@ -306,4 +336,5 @@ export class SupplierEditComponent implements OnInit {
 
     this.router.navigate(['suppliers'])
   }
+
 }

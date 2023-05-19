@@ -131,17 +131,12 @@ mat-tab-body {
   font-weight: bolder;
 }
 
-/*!* Styles for the active tab label *!
-:host ::ng-deep.mat-tab-label.mat-tab-label-active {
-  color: white;
-  background-color: #3f51b5;
-  border-bottom: 2px solid  #3f51b5;
-}*/
-
-/* Styles for the active tab label */
 :host ::ng-deep.mat-tab-label {
-/*  background-color: transparent;
-  !* background-color: lightgray; *!*/
   border-bottom: 2px solid  #3f51b5;
+}
 
+.loadingArea {
+  position: absolute;
+  top:50%;
+  left:47%;
 }

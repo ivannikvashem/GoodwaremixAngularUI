@@ -2,14 +2,9 @@
   <div class="cardTop">
 
     <div style="display: grid; row-gap: 10px">
-      <mat-checkbox style="margin: auto" [(ngModel)]="selected" (click)="onChecked()" [style.visibility]="mouseOver || selected ? 'visible': 'hidden'"></mat-checkbox>
-
+      <mat-checkbox style="margin: auto" [ngModel]="selected" (change)="onChecked($event)" [style.visibility]="mouseOver || selected ? 'visible': 'hidden'"></mat-checkbox>
       <a mat-mini-fab class="mat-elevation-z2" [href]="'product-edit/' + product.id" [style.visibility]="mouseOver ? 'visible': 'hidden'">
         <mat-icon>edit</mat-icon>
-      </a>
-
-      <a mat-mini-fab class="mat-elevation-z2" (click)="confirmDeleteDialog(product.id, product.title)" [style.visibility]="mouseOver ? 'visible': 'hidden'">
-        <mat-icon>delete</mat-icon>
       </a>
     </div>
   </div>
