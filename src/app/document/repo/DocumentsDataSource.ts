@@ -24,7 +24,6 @@ export class DocumentsDataSource implements DataSource<Document> {
   }
 
   loadPagedData(queryString:string, supplierId:string, pageIndex:number, pageSize:number, sortActive:string, sortDirection:string): any {
-    //console.log(`LOAD Data: qs=${queryString}, sID=${supplierId}, pageIndex=${pageIndex}, fixed=${fixed}\``)
     this.loadingSubject.next(true);
     this.api.getDocuments(queryString, pageIndex, pageSize, supplierId, sortActive, sortDirection)
       .pipe(
@@ -44,8 +43,7 @@ export class DocumentsDataSource implements DataSource<Document> {
   }
 
   deleteDocument(id: string) {
-    this.api.deleteDocument(id).subscribe( res => {
-        console.log('res',res)
+    this.api.deleteDocument(id).subscribe( () => {
         let newdata = this.DocumentListSubject.value.filter(row => row.id != id );
         this.DocumentListSubject.next(newdata);
       },

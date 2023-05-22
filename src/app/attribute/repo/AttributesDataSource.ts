@@ -24,7 +24,6 @@ export class AttributesDataSource implements DataSource<Attribute> {
   }
 
   loadPagedData(queryString = "", supplierId: string = '', pageIndex = 1, pageSize = 10, fixed?: boolean ): any {
-    //console.log(`LOAD Data: qs=${queryString}, sID=${supplierId}, pageIndex=${pageIndex}, fixed=${fixed}\``)
     this.loadingSubject.next(true);
     this.api.getAttributes(queryString, supplierId, pageIndex, pageSize, fixed, "rating", "desc")
       .pipe(
@@ -44,8 +43,7 @@ export class AttributesDataSource implements DataSource<Attribute> {
   }
 
   deleteAttribute(id: string) {
-    this.api.deleteAttribute(id).subscribe( res => {
-        console.log('res',res)
+    this.api.deleteAttribute(id).subscribe( () => {
         let newdata = this.AttributeListSubject.value.filter(row => row.id != id );
         this.AttributeListSubject.next(newdata);
       },

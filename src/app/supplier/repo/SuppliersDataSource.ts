@@ -43,21 +43,16 @@ export class SuppliersDataSource implements DataSource<Supplier> {
   }
 
   deleteSupplier(id: any) {
-    console.log("deleting supp " + id);
-    this.api.deleteSupplier(id).subscribe( res => {
+    this.api.deleteSupplier(id).subscribe( () => {
         let newdata = this.SupplierListSubject.value.filter(row => row.id != id );
         this.SupplierListSubject.next(newdata);
       },
       err => {
-        console.log(err);
       });
   }
 
   deleteSupplierProducts(id: any) {
-    console.log("deleting supp " + id + " products");
-    this.api.deleteSupplierProducts(id).subscribe( res => {
-        console.log(JSON.stringify(res));
-
+    this.api.deleteSupplierProducts(id).subscribe( () => {
         const newSuppliers = this.SupplierListSubject.getValue().map(s =>
           s.id === id
             ? { ...s, stat: new Stat() }
@@ -67,7 +62,6 @@ export class SuppliersDataSource implements DataSource<Supplier> {
         this.SupplierListSubject.next(newSuppliers);
       },
       err => {
-        console.log(err);
       })
   }
 }

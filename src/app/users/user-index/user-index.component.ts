@@ -32,7 +32,7 @@ export class UserIndexComponent implements OnInit {
   }
 
   deleteUser(id: string) {
-    this.api.deleteUser(id).subscribe( x => {
+    this.api.deleteUser(id).subscribe( () => {
       this.loadUsersList();
     });
   }
@@ -54,7 +54,6 @@ export class UserIndexComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult === true) {
-        console.log("Confirm deleting " + id);
         this.deleteUser(id)
       }
     });

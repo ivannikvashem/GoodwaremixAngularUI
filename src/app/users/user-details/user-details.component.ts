@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
-import {debounceTime, distinctUntilChanged, Observable, of} from "rxjs";
+import {debounceTime, distinctUntilChanged, Observable} from "rxjs";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {map} from "rxjs/operators";
 import {ApiClient} from "../../service/httpClient";
@@ -74,12 +74,12 @@ export class UserDetailsComponent implements OnInit {
   onSubmit(): void {
     if (!this.userId) {
       console.log("submitting " + this.userForm.value.username + " by ID " + this.userId + " with data: " + JSON.stringify(this.userForm.value));
-      this.api.addUser(this.userForm.value).subscribe(x => {
+      this.api.addUser(this.userForm.value).subscribe(() => {
         this.router.navigate([`/users`]);
       });
     }
     console.log("submitting " + this.userForm.value.username + " by ID " + this.userId + " with data: " + JSON.stringify(this.userForm.value));
-    this.api.updateUser(this.userId, this.userForm.value).subscribe(x => {
+    this.api.updateUser(this.userId, this.userForm.value).subscribe(() => {
       this.router.navigate([`/users`]);
     });
     return;
@@ -93,7 +93,6 @@ export class UserDetailsComponent implements OnInit {
   }
 
   private loadFilteredSuppliersData(searchQuery: string) {
-    console.log("querying: " + searchQuery);
     this.filteredSuppliers = this.api.getSuppliers(searchQuery, 0, 15, "SupplierName", "asc")
       .pipe(
         map(res => {

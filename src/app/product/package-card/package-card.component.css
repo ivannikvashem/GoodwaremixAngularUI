@@ -1,21 +1,9 @@
-.packQty-badge {
-  background-color: lightgray;
-  padding: 2px 10px;
-  border: 1px solid lightslategrey;
-  border-radius: 5px;
-}
-.packType {
-  margin: 3px;
-  margin-left: 7px;
-}
 .mat-card {
   padding: 12px;
   width: 245px;
   min-height: 100px;
 }
-.bc_placeholder {
-  height: 45px;
-}
+
 .bcode {
   text-align: center;
 }

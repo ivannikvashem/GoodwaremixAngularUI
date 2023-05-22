@@ -41,7 +41,7 @@ export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
   }
 
   deleteTask(id: any) {
-    this.api.deleteTask(id).subscribe( res => {
+    this.api.deleteTask(id).subscribe( () => {
         let newdata = this.TaskListSubject.value.filter(row => row.id != id );
         this.TaskListSubject.next(newdata);
       },
@@ -52,7 +52,7 @@ export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
 
   submitSchedulerTask(task:SchedulerTask) {
     if (task.id) {
-      this.api.updateTask(task).subscribe( res => {
+      this.api.updateTask(task).subscribe( () => {
         let newData;
         if (task.id) {
           newData = this.TaskListSubject.value.map(x => {
@@ -68,8 +68,7 @@ export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
         this.TaskListSubject.next(newData)
       })
     } else {
-      this.api.insertTask(task).subscribe( res => {
-        console.log('res', res)
+      this.api.insertTask(task).subscribe( () => {
         let newData;
         if (task.id) {
           newData = this.TaskListSubject.value.map(x => {
@@ -91,7 +90,7 @@ export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
   taskOnExecute(id:string, isStart:boolean) {
     if (isStart) {
       this.api.startTask(id).subscribe( {
-        next:next => {
+        next:() => {
           let newData = this.TaskListSubject.value.map(x => x.id === id ? {...x, isEnable:isStart}: x)
           this.TaskListSubject.next(newData)
           this._notyf.onSuccess('Задача запущена')
@@ -102,7 +101,7 @@ export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
       })
     } else {
       this.api.stopTask(id).subscribe({
-        next:next => {
+        next:() => {
           let newData = this.TaskListSubject.value.map(x => x.id === id ? {...x, isEnable:isStart}: x)
           this.TaskListSubject.next(newData)
           this._notyf.onSuccess('Задача остановлена')

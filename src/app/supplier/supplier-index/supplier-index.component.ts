@@ -88,7 +88,7 @@ export class SupplierIndexComponent implements OnInit {
   }
 
   fetchItem(supplierName: string, id:string) {
-    this.api.fetchDataFromSupplier(id).subscribe( res => {
+    this.api.fetchDataFromSupplier(id).subscribe( () => {
        this._notyf.onSuccess('Сбор данных '+supplierName+' начат')
       },
       err => {
@@ -97,7 +97,7 @@ export class SupplierIndexComponent implements OnInit {
   }
 
   stopFetchItem(supplierName: string) {
-    this.api.stopFetchDataFromSupplier(supplierName).subscribe( res => {
+    this.api.stopFetchDataFromSupplier(supplierName).subscribe( () => {
         this._notyf.onSuccess('Сбор данных '+supplierName+' остановлен')
       },
       err => {
@@ -143,7 +143,6 @@ export class SupplierIndexComponent implements OnInit {
   }
 
   internalCodeFetch(id: string) {
-    console.log("IC bind " + id);
     this.api.internalCodeBindForSupplier(id).subscribe( res => {
         console.log(JSON.stringify(res));
       },
@@ -187,7 +186,7 @@ export class SupplierIndexComponent implements OnInit {
       suppliers += i.id+';'
     }
     this.api.fetchDataFromSupplier(suppliers).subscribe({
-      next:next => {
+      next:() => {
         this._notyf.onSuccess('Сбор данных начат')
       }, error:error => {
         this._notyf.onError('Ошибка' +JSON.stringify(error))

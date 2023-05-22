@@ -97,7 +97,6 @@ export class SupplierEditComponent implements OnInit {
   }
 
   addSuppAttr(table: any, config: any) {
-    console.log('add')
     //if already added -  skip
     if (config.attributeConfig.productAttributeKeys.some((x: ProductAttributeKey) => x.keySupplier == '')) {
       return;
@@ -327,7 +326,7 @@ export class SupplierEditComponent implements OnInit {
   }
 
   fetchSupplierProducts() {
-    this.api.fetchDataFromSupplier(this.supplier.id).subscribe(res => {
+    this.api.fetchDataFromSupplier(this.supplier.id).subscribe(() => {
         this._notyf.onSuccess('Сбор данных ' + this.supplier.supplierName + ' начат')
       },
       err => {

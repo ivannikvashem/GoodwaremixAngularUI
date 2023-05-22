@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ApiClient} from "../../service/httpClient";
 import {MatPaginator} from "@angular/material/paginator";
 import {merge, tap} from "rxjs";
@@ -56,7 +56,6 @@ export class LogIndexComponent implements OnInit {
   }
 
   loadLogData(): any {
-    //console.log("log index suppId:" + this.selectedSupplier?.id);
     this.dataSource.loadPagedData(this.selectedSupplier?.id,this.paginator?.pageIndex ?? 0, this.paginator?.pageSize ?? 10, this.sort?.active, this.sort?.direction);
   }
 

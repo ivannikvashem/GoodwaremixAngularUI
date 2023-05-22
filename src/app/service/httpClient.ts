@@ -255,7 +255,6 @@ export class ApiClient {
 
   //uploadPhoto
   uploadPhoto(files: File[], supplierId:string): Observable<any> {
-    console.log(files)
     let formData = new FormData();
     for (const photo of files) {
       formData.append('files', photo)
@@ -304,7 +303,6 @@ export class ApiClient {
   }
 
   getUserById(id: string): Observable<any> {
-    console.log("getUserById " + id);
     return this.http.get<any>(this.apiURL + '/users/' + id, this.httpOptions);
   }
 
