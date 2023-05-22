@@ -30,7 +30,7 @@ export class DataStateService {
     this.selectedProductsState.next(this.selectedProductsState.getValue().filter(x => x.id != id))
   }
 
-  clearSelectProducts() {
+  clearSelectedProducts() {
     this.selectedProductsState.next([])
   }
 }

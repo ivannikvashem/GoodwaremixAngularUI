@@ -12,7 +12,7 @@
     </div>
 
     <div class="toolbox-item">
-      <button mat-button>Загрузить <mat-icon>download</mat-icon></button>
+      <button mat-button (click)="downloadProductsImage()">Загрузить <mat-icon>download</mat-icon></button>
     </div>
 
     <div class="toolbox-item">
@@ -43,7 +43,3 @@
 </div>
 
 <mat-paginator [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[10,20,50,100] aria-label="Страница"></mat-paginator>
-
-<!--
-<button mat-fab color="accent" class="mat-elevation-z2; floatButton" matTooltipPosition="left" matTooltipShowDelay="1000" (click)="confirmDeleteDialog(this.selectedProducts)" [class.cdk-visually-hidden]="selectedProducts.length == 0" [matTooltip]="'Удаление выбранных ' + selectedProducts.length"><mat-icon>delete</mat-icon></button>
--->

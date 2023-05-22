@@ -27,6 +27,6 @@ export class ProductSelectedListComponent implements OnInit {
   }
 
   clearAll() {
-    this.dss.clearSelectProducts()
+    this.dss.clearSelectedProducts()
   }
 }

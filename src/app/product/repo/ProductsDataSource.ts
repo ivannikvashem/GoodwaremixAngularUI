@@ -58,4 +58,13 @@ export class ProductsDataSource implements DataSource<Product> {
       });
   }
 
+  downloadImages(internalCode:string) {
+    if (internalCode) {
+      const downloadAction = document.createElement('a')
+      downloadAction.target = '_blank'
+      downloadAction.href = 'http://172.16.41.56:5105/api/files/internalCode/' + internalCode
+      downloadAction.click()
+    }
+  }
+
 }

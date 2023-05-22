@@ -112,14 +112,14 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
           this.dataSource.deleteProduct(i.id);
         }
         this.loadProductPagedData()
-        this.dss.clearSelectProducts()
+        this.dss.clearSelectedProducts()
       }
     });
   }
 
   selectAll() {
     for (let product of this.productsList) {
-      this.dss.setSelectedProduct({id:product.id,vendorId:product.vendorId})
+      this.dss.setSelectedProduct({id:product.id,vendorId:product.vendorId, internalCode: product.internalCode})
     }
   }
 
@@ -135,5 +135,11 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
       minHeight: "250px",
       autoFocus: false
     });
+  }
+
+  downloadProductsImage() {
+    for (let product of this.selectionItems) {
+      this.dataSource.downloadImages(product.internalCode)
+    }
   }
 }
