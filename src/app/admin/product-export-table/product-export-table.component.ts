@@ -39,7 +39,7 @@ export class ProductExportTableComponent implements OnInit {
   pageIndex:number = 0;
   pageSize:number = 10;
   selectedSupplier:Supplier;
-  showNestedTablesHeaders:boolean = true;
+  showNestedTablesHeaders:boolean = false;
   @Input() dataSource:Product[];
   @Output() selectedItems:EventEmitter<any> = new EventEmitter();
 
