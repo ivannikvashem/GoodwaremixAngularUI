@@ -56,7 +56,17 @@
         <mat-icon>add</mat-icon> Добавить
       </button>
     </div>
+
+    <div class="toolbox-item">
+      <button mat-icon-button (click)="cardLayout = false">
+        <mat-icon>format_list_bulleted</mat-icon>
+      </button>
+
+      <button mat-icon-button (click)="cardLayout = true">
+        <mat-icon>dashboard</mat-icon>
+      </button>
+    </div>
   </div>
 </div>
 
-<app-product-index [searchQuery]="searchQuery" [withInternalCode]="withICFilter" [selectedSupplier]="selectedSupplier" [pageIndex]="pageIndex" [pageSize]="pageSize" [sortParams]="{active:sortActive, direction:sortDirection}" (pageParams)="onPageParamsChanged($event)"></app-product-index>
+<app-product-index [isCardLayout]="cardLayout" [searchQuery]="searchQuery" [withInternalCode]="withICFilter" [selectedSupplier]="selectedSupplier" [pageIndex]="pageIndex" [pageSize]="pageSize" [sortParams]="{active:sortActive, direction:sortDirection}" (pageParams)="onPageParamsChanged($event)"></app-product-index>

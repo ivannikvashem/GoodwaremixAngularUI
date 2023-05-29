@@ -44,6 +44,9 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   @Output() pageParams:EventEmitter<any> = new EventEmitter();
   productId: string | any;
 
+  //About to be deprecated
+  @Input() isCardLayout:boolean;
+
   constructor(
     public api: ApiClient,
     public dialog: MatDialog,

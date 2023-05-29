@@ -42,6 +42,20 @@ export class ProductsDataSource implements DataSource<Product> {
       finalize(() => this.loadingSubject.next(false))
     )
       .subscribe(body => {
+        for (let product of body.data) {
+          product['documentsModel'] = [];
+          this.api.getDocumentsById(product.documents).subscribe(docs => {
+            console.log(docs)
+            for (let doc of docs.body) {
+              let document = doc
+              delete document['supplierId']
+              delete document['url']
+              delete document['file']
+              delete document['id']
+              product.documentsModel.push(document)
+            }
+          })
+        }
         this.ProductListSubject.next(body.data)
         this.rowCount = body.totalRecords;
       });

@@ -21,25 +21,30 @@
   </div>
 </div>
 
-<div class="cardsToCenter">
-  <div class="cards" *ngIf="dataSource.rowCount != 0 && !isLoading">
-    <app-product-card *ngFor="let product of productsList" [product]="product"></app-product-card>
-  </div>
+<div *ngIf="isCardLayout">
+  <div class="cardsToCenter">
+    <div class="cards" *ngIf="dataSource.rowCount != 0 && !isLoading">
+      <app-product-card *ngFor="let product of productsList" [product]="product"></app-product-card>
+    </div>
 
-  <div class="cards" *ngIf="isLoading">
-    <mat-card class="card" *ngFor="let i of [].constructor(pageSize)">
-      <div class="productImage"></div>
-      <div class="titleContainer"></div>
-      <div class="cardContent">
-        <div class="cardContentPlaceholder"></div>
-        <div class="cardContentPlaceholder"></div>
-      </div>
+    <div class="cards" *ngIf="isLoading">
+      <mat-card class="card" *ngFor="let i of [].constructor(pageSize)">
+        <div class="productImage"></div>
+        <div class="titleContainer"></div>
+        <div class="cardContent">
+          <div class="cardContentPlaceholder"></div>
+          <div class="cardContentPlaceholder"></div>
+        </div>
+      </mat-card>
+    </div>
+
+    <mat-card *ngIf="dataSource.rowCount == 0 && !isLoading" style="margin: 5px 12px; width: 100%">
+      По вашему запросу ничего не найдено, попробуйте изменить критерии поиска
     </mat-card>
   </div>
-
-  <mat-card *ngIf="dataSource.rowCount == 0 && !isLoading" style="margin: 5px 12px; width: 100%">
-       По вашему запросу ничего не найдено, попробуйте изменить критерии поиска
-  </mat-card>
 </div>
 
+<app-product-export-table [dataSource]="productsList" *ngIf="!isCardLayout"></app-product-export-table>
+
 <mat-paginator [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[10,20,50,100] aria-label="Страница"></mat-paginator>
+

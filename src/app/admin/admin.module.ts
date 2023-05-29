@@ -9,11 +9,20 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {MatInputModule} from "@angular/material/input";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import { ProductExportTableComponent } from './product-export-table/product-export-table.component';
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {SharedModule} from "../shared/shared.module";
+import {DragDropModule} from "@angular/cdk/drag-drop";
+import {CdkTableModule} from "@angular/cdk/table";
 
 @NgModule({
-  declarations: [
-    AdminPanelComponent,
-  ],
+    declarations: [
+        AdminPanelComponent,
+        ProductExportTableComponent,
+    ],
+    exports: [
+        ProductExportTableComponent
+    ],
     imports: [
         CommonModule,
         MatButtonModule,
@@ -23,7 +32,11 @@ import {MatTooltipModule} from "@angular/material/tooltip";
         MatTabsModule,
         MatInputModule,
         MatCheckboxModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatPaginatorModule,
+        SharedModule,
+        DragDropModule,
+        CdkTableModule
     ]
 })
 export class AdminModule { }

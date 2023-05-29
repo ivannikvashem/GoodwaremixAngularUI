@@ -349,7 +349,7 @@ export class ApiClient {
     for (let id of ids) {
       query += 'documentsId='+id+'&'
     }
-    return this.http.get<any>(this.apiURL + '/documents/documents?' + query, this.httpOptions);
+    return this.http.get<any>(this.apiURL + '/documents/documentsDTO?' + query, this.httpOptions);
   }
 
 

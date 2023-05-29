@@ -20,6 +20,10 @@ export class ProductComponent implements OnInit {
   sortDirection:string;
   sortActive:string = null;
 
+  //About to be deprecated
+  cardLayout:boolean = true;
+
+
   pageCookie$ = this._localStorageService.myData$;
   pC: any = {};
   withICFilter: boolean = false;

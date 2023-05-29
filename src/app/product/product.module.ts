@@ -41,6 +41,7 @@ import { ProductDocumentListComponent } from './product-document-list/product-do
 import {ScrollingModule} from "@angular/cdk/scrolling";
 import { ProductCardComponent } from './product-card/product-card.component';
 import { ProductSelectedListComponent } from './product-selected-list/product-selected-list.component';
+import {AdminModule} from "../admin/admin.module";
 
 @NgModule({
     declarations: [
@@ -92,6 +93,7 @@ import { ProductSelectedListComponent } from './product-selected-list/product-se
         RouterModule,
         MatCheckboxModule,
         ScrollingModule,
+        AdminModule,
     ]
 })
 export class ProductModule { }
