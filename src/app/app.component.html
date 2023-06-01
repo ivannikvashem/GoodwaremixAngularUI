@@ -1,9 +1,9 @@
 <!-- Toolbar -->
 <div class="toolbar">
-  <mat-toolbar color="secondary">
+  <mat-toolbar>
     <mat-toolbar-row>
-      <mat-icon style="font-size: 32px; height: 32px; width: 32px;">view_in_ar</mat-icon>
-      <h1 matTooltip="{{url}}"> {{title}} &nbsp; </h1>
+      <mat-icon style="font-size: 32px; height: 32px; width: 32px;">{{isServerOffline ? 'report' : 'view_in_ar'}}</mat-icon>
+      <h1 matTooltip="{{url}}" [style.color]="isServerOffline ? 'red' : ''"> {{title}} &nbsp;</h1>
       <span class="menu-spacer"></span>
       <div>
         <a mat-button routerLinkActive="active" *ngIf="roles.includes('goodware-users')" [routerLink]="'/products'"><mat-icon>local_offer</mat-icon> Товары </a>
@@ -23,6 +23,7 @@
 
   <div style="width: 100%;">
     <router-outlet></router-outlet>
+    <app-scroll-to-top></app-scroll-to-top>
   </div>
 
 </div>

@@ -1,4 +1,18 @@
 <mat-tab-group animationDuration="0ms">
+  <mat-tab label="Карточки">
+    <div class="cardTopPanel mat-elevation-z2">
+      <span (click)="sortData({direction: sort.direction == 'desc' ? 'asc': 'desc', active: 'endDate'})">Срок действия  <mat-icon>{{ sort?.direction == 'desc' ? 'arrow_downward' : 'arrow_upward'}}</mat-icon></span>
+      <button mat-button (click)="addDocumentDialog()"><mat-icon>add</mat-icon> Добавить</button>
+    </div>
+    <mat-card class="mat-elevation-z8">
+      <div class="cardsToCenter">
+        <div class="cards">
+          <app-document-card *ngFor="let doc of documentList" [document]="doc" [isChangeable]="true" (selectedDocument)="onDocumentSelected($event)"></app-document-card>
+        </div>
+      </div>
+    </mat-card>
+  </mat-tab>
+
   <mat-tab label="Таблица">
     <table mat-table [dataSource]="dataSource" matSort [matSortActive]="sortActive" matSortDirection="{{sortDirection}}" (matSortChange)="sortData($event)" matSortDisableClear>
 
@@ -6,7 +20,7 @@
       <ng-container matColumnDef="preview">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let row">
-            <img [src]="row.preview" (error)="handleMissingImage($event)" (click)="openPreviewInDialog(row.preview)" height="120" width="120" style="cursor: pointer; object-fit: contain">
+          <img [src]="row.preview" (error)="handleMissingImage($event)" (click)="openPreviewInDialog(row.preview)" height="120" width="120" style="cursor: pointer; object-fit: contain">
         </td>
       </ng-container>
 
@@ -61,19 +75,6 @@
     </table>
   </mat-tab>
 
-  <mat-tab label="Карточки">
-    <div class="cardTopPanel mat-elevation-z2">
-      <span (click)="sortData({direction: sort.direction == 'desc' ? 'asc': 'desc', active: 'endDate'})">Срок действия  <mat-icon>{{ sort?.direction == 'desc' ? 'arrow_downward' : 'arrow_upward'}}</mat-icon></span>
-      <button mat-button (click)="addDocumentDialog()"><mat-icon>add</mat-icon> Добавить</button>
-    </div>
-    <mat-card class="mat-elevation-z8">
-      <div class="cardsToCenter">
-        <div class="cards">
-          <app-document-card *ngFor="let doc of documentList" [document]="doc" [isChangeable]="true" (selectedDocument)="onDocumentSelected($event)"></app-document-card>
-        </div>
-      </div>
-    </mat-card>
-  </mat-tab>
 </mat-tab-group>
 
-<mat-paginator [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[10,20,50,100] aria-label="Страница"></mat-paginator>
+<mat-paginator [style.visibility]="dataSource.rowCount > 0 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[10,20,50,100] aria-label="Страница"></mat-paginator>

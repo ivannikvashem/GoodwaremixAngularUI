@@ -28,12 +28,14 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import { SupplierComponent } from './supplier.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import { SupplierDictionaryComponent } from './supplier-dictionary/supplier-dictionary.component';
 
 @NgModule({
   declarations: [
     SupplierIndexComponent,
     SupplierEditComponent,
     SupplierComponent,
+    SupplierDictionaryComponent,
   ],
     imports: [
         CommonModule,

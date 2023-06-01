@@ -7,11 +7,10 @@ import {ProductAttributeKey} from "../../models/productAttributeKey.model";
 import { Attribute } from 'src/app/models/attribute.model';
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {MatChipInputEvent} from "@angular/material/chips";
-import {BehaviorSubject, debounceTime, switchMap, tap} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 import {finalize} from "rxjs/operators";
 import {NotificationService} from "../../service/notification-service";
 import {MatDialog} from "@angular/material/dialog";
-import {SupplierAttributeAddComponent} from "../../components/shared/supplier-attribute-add/supplier-attribute-add.component";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/shared/confirm-dialog/confirm-dialog.component";
 import {Dimensions} from "../../models/dimensions.model";
 
@@ -36,12 +35,8 @@ export class SupplierEditComponent implements OnInit {
   private loadingSubject = new BehaviorSubject<boolean>(false);
   public isLoading: boolean = false;
 
-  attrTableColumns: string[] = ['idx', 'keySupplier', 'attributeBDName', 'action'];
-  attrSelectedRow: any;
   public attributeList: Attribute[] | undefined;
   attributesToAdd: Attribute[] = []
-  attributeListCtrl = new FormControl<string | Attribute>('');
-  selectedAttr: Attribute | undefined;
   headerTableColumns: string[] = ['headerKey', 'headerValue', 'headerAction'];
 
   constructor(
@@ -75,103 +70,10 @@ export class SupplierEditComponent implements OnInit {
         }
       });
     }
-    this.attributeListCtrl.valueChanges.pipe(
-      debounceTime(100),
-      tap(() => {
-
-      }),
-      switchMap(value => this.api.getAttributes(value, '', 0, 100, undefined, "rating", "desc")
-        .pipe(
-          finalize(() => {
-
-          }),
-        )
-      )
-    ).subscribe((data: any) => {
-      this.attributeList = data.body.data;
-    });
 
     this.loadingSubject.subscribe(x => {
       this.isLoading = x;
     })
-  }
-
-  addSuppAttr(table: any, config: any) {
-    //if already added -  skip
-    if (config.attributeConfig.productAttributeKeys.some((x: ProductAttributeKey) => x.keySupplier == '')) {
-      return;
-    }
-    let a: any = {
-      id: config.attributeConfig.productAttributeKeys.length,
-      keySupplier: '',
-      attributeBDName: '',
-      attributeIdBD: '',
-      attributeValid: false,
-      multiplier: ''
-    };
-    config.attributeConfig.productAttributeKeys.push(a);
-    let row = config.attributeConfig?.productAttributeKeys[config?.attributeConfig?.productAttributeKeys.length - 1];
-    this.attributeListCtrl.setValue(row.attributeBDName);
-    this.attrSelectedRow = row;
-    table.renderRows()
-  }
-
-  deleteSuppAttr(index: number, config: any, table: any) {
-    config.attributeConfig.productAttributeKeys.splice(index, 1);
-    table.renderRows()
-  }
-
-  onSelectRow(row: any, i: any, config: any) {
-    if (config) {
-      let at = new Attribute()
-      at.nameAttribute = config.attributeConfig.productAttributeKeys[i].attributeBDName
-      this.selectedAttr = at;
-      this.attributeListCtrl.setValue(this.selectedAttr);
-    }
-    this.attrSelectedRow = row;
-    this.attrSelectedRow.id = i;
-  }
-
-  onSelectedRowClose(row: any, i: any, config: any, table: any) {
-    if (row.keySupplier == '' && row.attributeBDName == '') {
-      this.deleteSuppAttr(i, config, table)
-    }
-    this.clearAttrSelection();
-  }
-
-  displayFn(attr: Attribute): string {
-    let res = attr && attr.nameAttribute
-    if (attr?.etimFeature && attr?.supplierName) {
-      res += " [" + attr?.etimFeature + "] от " + attr?.supplierName
-    }
-    return res
-  }
-
-  onDBAttrSelected() {
-    this.selectedAttr = this.attributeListCtrl.value as Attribute;
-  }
-
-  updateSelectedSuppAttr(i: number, row: any, config: any) {
-    //validation
-    // Add our value
-    const idx = config.attributeConfig.productAttributeKeys.indexOf(row.attributeIdBD);
-    if (row.keySupplier == null && idx != i) {
-      return;
-    }
-    //update
-    this.attrSelectedRow.nameAttribute = (this.attributeListCtrl.value as Attribute).nameAttribute;
-    this.attrSelectedRow.id = config.attributeConfig.productAttributeKeys.length;
-    this.attrSelectedRow.attributeBDName = this.selectedAttr?.nameAttribute;
-    this.attrSelectedRow.attributeValid = true;
-    this.attrSelectedRow.attributeIdBD = this.selectedAttr?.id
-    config.attributeConfig.productAttributeKeys[i] = this.attrSelectedRow;
-    this.selectedAttr = null
-    //prepare for refresh
-    this.clearAttrSelection();
-  }
-
-  clearAttrSelection(): void {
-    this.attrSelectedRow = null;
   }
 
   addDateFormat(event: MatChipInputEvent, config: any): void {
@@ -230,23 +132,6 @@ export class SupplierEditComponent implements OnInit {
           this._notyf.onError("Ошибка: " + JSON.stringify(error));
         });
     }
-  }
-
-  addNewAttr() {
-    this.openAttributeEditorDialog()
-  }
-
-  openAttributeEditorDialog(): void {
-    const dialogRef = this.dialog.open(SupplierAttributeAddComponent, {
-      data: {supplierName: this.supplier.supplierName, newAttribute: new Attribute()},
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result != undefined) {
-        this.attributesToAdd.push(result.newAttribute)
-        this.selectedAttr = result.newAttribute
-        this.attributeListCtrl.setValue(result.newAttribute as Attribute);
-      }
-    });
   }
 
   addHeader(table: any, config: any) {
@@ -308,7 +193,7 @@ export class SupplierEditComponent implements OnInit {
   }
 
   deleteConfig(value: any) {
-    const message = `Удалить конфигурацию «` + value.name + `»?`;
+    const message = `Удалить конфигурацию «` + value.name  + `»?`;
     const dialogData = new ConfirmDialogModel("Подтверждение", message);
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       minWidth: "400px",
@@ -336,4 +221,7 @@ export class SupplierEditComponent implements OnInit {
     this.router.navigate(['suppliers'])
   }
 
+  onDictionaryChanged(productAttributeKeys: ProductAttributeKey[], config: SupplierConfig) {
+    config.attributeConfig.productAttributeKeys = productAttributeKeys
+  }
 }

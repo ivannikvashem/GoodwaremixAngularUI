@@ -11,12 +11,14 @@ import {MatTableModule} from "@angular/material/table";
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import {DocumentCardComponent} from "../document/document-card/document-card.component";
 import {MatCardModule} from "@angular/material/card";
+import { ScrollToTopComponent } from './scroll-to-top/scroll-to-top.component';
 
 @NgModule({
     declarations: [
         SupplierAutocompleteComponent,
         PageNotFoundComponent,
-        DocumentCardComponent
+        DocumentCardComponent,
+        ScrollToTopComponent
     ],
   imports: [
     CommonModule,
@@ -31,7 +33,8 @@ import {MatCardModule} from "@angular/material/card";
   ],
     exports: [
         SupplierAutocompleteComponent,
-        DocumentCardComponent
+        DocumentCardComponent,
+        ScrollToTopComponent
     ]
 })
 export class SharedModule { }

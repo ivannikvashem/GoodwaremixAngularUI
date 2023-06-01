@@ -89,8 +89,9 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
         })).subscribe();
   }
 
+  // isCardLayout params should be removed
   loadProductPagedData(): any {
-    this.dataSource.loadPagedData(this.searchQuery, this.selectedSupplier?.id,  this.pageIndex, this.pageSize, null, this.sortParams.active, this.sortParams.direction, this.withInternalCode);
+    this.dataSource.loadPagedData(this.isCardLayout, this.searchQuery, this.selectedSupplier?.id,  this.pageIndex, this.pageSize, null, this.sortParams.active, this.sortParams.direction, this.withInternalCode);
     this.dataSource.connect(null).subscribe(x => {
       this.productsList = x
     })

@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {MatPaginator} from "@angular/material/paginator";
-import {Supplier} from "../../models/supplier.model";
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 import {SelectionModel} from "@angular/cdk/collections";
 import {Product} from "../../models/product.model";
@@ -14,9 +13,6 @@ import {DataStateService} from "../../shared/data-state.service";
 })
 export class ProductExportTableComponent implements OnInit {
 
-/*
-  dataSource: ProductsDataSource;
-*/
   displayedColumns: any[] = [
     {field:'checkbox', name:'Флажок', isActive: false},
     {field:'images', name:'Фото', isArray:true, isObjectType:false, isActive: false},
@@ -34,11 +30,8 @@ export class ProductExportTableComponent implements OnInit {
     {field:'netto', name:'Нетто', isArray:false, isObjectType:true, isActive: false},
     {field:'packages', name:'Упаковка', isArray:true, isObjectType:true, isActive: false},
     {field:'gtd', name:'гтд', isArray:true, isObjectType:false, isActive: false},
-    ];
+  ];
 
-  pageIndex:number = 0;
-  pageSize:number = 10;
-  selectedSupplier:Supplier;
   showNestedTablesHeaders:boolean = false;
   @Input() dataSource:Product[];
   @Output() selectedItems:EventEmitter<any> = new EventEmitter();
@@ -52,7 +45,6 @@ export class ProductExportTableComponent implements OnInit {
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator
 
   ngOnInit(): void {}
-
 
   ngOnChanges(changes: SimpleChanges): void {
     this.productDataSource.data = this.dataSource
@@ -96,7 +88,6 @@ export class ProductExportTableComponent implements OnInit {
     for (let product of this.productDataSource.data) {
       this.onChecked(product)
     }
-
   }
 
   onChecked(product: any) {
@@ -105,7 +96,6 @@ export class ProductExportTableComponent implements OnInit {
     } else {
       this.dss.setSelectedProduct({id:product.id,vendorId:product.vendorId, internalCode: product.internalCode})
     }
-
   }
 
   convertToDate(date:string) {

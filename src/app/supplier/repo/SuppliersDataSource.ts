@@ -38,7 +38,7 @@ export class SuppliersDataSource implements DataSource<Supplier> {
       .subscribe(body => {
         this.SupplierListSubject.next(body.data)
         this.rowCount = body.totalRecords;
-        this.pageCount = body.data.length;
+        this.pageCount = body.data?.length;
       });
   }
 

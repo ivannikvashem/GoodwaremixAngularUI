@@ -28,7 +28,8 @@ export class ProductsDataSource implements DataSource<Product> {
     this.loadingSubject.complete();
   }
 
-  loadPagedData(queryString = "", selectedSuppId = '', pageIndex = 0, pageSize = 10, selectedAttributes:SelectedFilterAttributes[], sortActive:string, sortDirection:string, withInternalCodeSelector?:boolean) {
+  // loadPagedData - isCardLayout param should be removed
+  loadPagedData(isCardLayout = true,queryString = "", selectedSuppId = '', pageIndex = 0, pageSize = 10, selectedAttributes:SelectedFilterAttributes[], sortActive:string, sortDirection:string, withInternalCodeSelector?:boolean) {
     this.loadingSubject.next(true);
     this.api.getProducts(queryString, selectedSuppId, pageIndex, pageSize, selectedAttributes, sortActive, sortDirection, withInternalCodeSelector)
       .pipe(
@@ -38,24 +39,26 @@ export class ProductsDataSource implements DataSource<Product> {
         map((res:any) => {
           return res.body;
         }),
-      catchError(() => of([])),
+        catchError(() => of([])),
       finalize(() => this.loadingSubject.next(false))
     )
       .subscribe(body => {
-        for (let product of body.data) {
-          product['documentsModel'] = [];
-          this.api.getDocumentsById(product.documents).subscribe(docs => {
-            console.log(docs)
-            for (let doc of docs.body) {
-              let document = doc
-              delete document['supplierId']
-              delete document['url']
-              delete document['file']
-              delete document['id']
-              product.documentsModel.push(document)
-            }
-          })
+        // the REAL crutch thing
+        if (!isCardLayout) {
+          for (let product of body.data) {
+            product['documentsModel'] = [];
+            this.api.getDocumentsById(product.documents).subscribe(docs => {
+              for (let doc of docs.body) {
+                delete doc['supplierId']
+                delete doc['url']
+                delete doc['file']
+                delete doc['id']
+                product.documentsModel.push(doc)
+              }
+            })
+          }
         }
+        // the REAL crutch thing END
         this.ProductListSubject.next(body.data)
         this.rowCount = body.totalRecords;
       });

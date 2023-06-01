@@ -38,34 +38,6 @@ p {
 .mat-stepper-vertical-line .mat-vertical-content-container .mat-vertical-content {
   margin-top: 6px !important;
 }
-.mat-column-action {
-  word-wrap: break-word !important;
-  white-space: unset !important;
-  flex: 0 0 100px !important;
-  width: 100px !important;
-  justify-content: center;
-  text-align: -webkit-center;
-  text-align: center;
-}
-.mat-column-key {
-  word-wrap: break-word !important;
-  white-space: unset !important;
-  flex: 0 0 500px !important;
-  width: 500px !important;
-}
-.mat-column-value {
-  word-wrap: break-word !important;
-  white-space: unset !important;
-  flex: 0 0 600px !important;
-  min-width: 500px !important;
-}
-
-.tableDiv {
-  max-height: 500px;
-  overflow-y: scroll;
-  overflow: auto;
-  width: 100%;
-}
 
 .mat-column-headerAction {
 

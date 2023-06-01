@@ -371,4 +371,8 @@ export class ApiClient {
     return this.http.post(this.apiURL + '/files/documents/'+supplierId, formData, {headers:{"ContentType": "multipart/form-data"}})
   }
   //#endregion
+
+  checkIfServerAlive(): Observable<any> {
+    return this.http.get(this.apiURL + '/logs', this.httpOptions)
+  }
 }

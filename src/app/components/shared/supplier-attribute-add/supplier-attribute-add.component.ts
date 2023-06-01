@@ -8,6 +8,7 @@ import {ActivatedRoute} from "@angular/router";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {MatChipInputEvent} from "@angular/material/chips";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+
 interface AttributeType {
   value: string;
   viewValue: string;
@@ -17,7 +18,6 @@ export interface AttrDialogData {
   supplierName?: string;
   newAttribute?:Attribute;
 }
-
 
 @Component({
   selector: 'app-supplier-attribute-add',
@@ -53,8 +53,6 @@ export class SupplierAttributeAddComponent implements OnInit {
       this.attribute = new Attribute()
       this.attribute.rating = 0;
   }
-
-
 
   addPossibleValue(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();

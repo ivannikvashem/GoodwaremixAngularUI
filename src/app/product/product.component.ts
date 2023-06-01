@@ -6,6 +6,7 @@ import {FormControl} from "@angular/forms";
 import {LocalStorageService} from "../service/local-storage.service";
 import {Subscription} from "rxjs";
 
+
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -22,7 +23,6 @@ export class ProductComponent implements OnInit {
 
   //About to be deprecated
   cardLayout:boolean = true;
-
 
   pageCookie$ = this._localStorageService.myData$;
   pC: any = {};
@@ -44,8 +44,7 @@ export class ProductComponent implements OnInit {
   constructor(
     private _ActivatedRoute:ActivatedRoute,
     private dss: DataStateService,
-    private _localStorageService: LocalStorageService,
-  ) { }
+    private _localStorageService: LocalStorageService) { }
 
   getCookie() {
     this._localStorageService.getDataByPageName("ProductIndex")

@@ -58,12 +58,8 @@
     </div>
 
     <div class="toolbox-item">
-      <button mat-icon-button (click)="cardLayout = false">
-        <mat-icon>format_list_bulleted</mat-icon>
-      </button>
-
-      <button mat-icon-button (click)="cardLayout = true">
-        <mat-icon>dashboard</mat-icon>
+      <button mat-icon-button (click)="cardLayout = !cardLayout">
+        <mat-icon>{{ cardLayout ? 'format_list_bulleted' : 'dashboard'}}</mat-icon>
       </button>
     </div>
   </div>

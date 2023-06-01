@@ -117,6 +117,6 @@ tr.element-row:not(.expanded-row):active {
 
 .floatButton {
   position: fixed !important;
-  bottom: 45px;
-  right: 2%;
+  bottom: 75px;
+  right: 22px;
 }
