@@ -127,7 +127,7 @@ export class ProductEditComponent implements OnInit {
     for (let i in files) {
       let reader = new FileReader();
       if (files[i].type.includes('image/')) {
-        files[i] = new File([files[i]], crypto.randomUUID()+ '.' + files[i].type.split('image/')[1], {type:files[i].type});
+        files[i] = new File([files[i]], this.generateUUID()+ '.' + files[i].type.split('image/')[1], {type:files[i].type});
         reader.onload = (fl:any) => {
           this.preloadImagesView.push({id: Number(i), file:fl.target.result})
           this.imagesToUpload.push(files[i])
@@ -331,6 +331,30 @@ export class ProductEditComponent implements OnInit {
 
   onDocumentsChanged(documents: string[]) {
     this.product.documents = documents
+  }
+
+  generateUUID(): string {
+    let uuid = '', ii;
+    for (ii = 0; ii < 32; ii += 1) {
+      switch (ii) {
+        case 8:
+        case 20:
+          uuid += '-';
+          uuid += Math.random() * 16 | 0;
+          break;
+        case 12:
+          uuid += '-';
+          uuid += '4';
+          break;
+        case 16:
+          uuid += '-';
+          uuid += (Math.random() * 4 | 8).toString(16);
+          break;
+        default:
+          uuid += (Math.random() * 16 | 0).toString(16);
+      }
+    }
+    return uuid;
   }
 }
 

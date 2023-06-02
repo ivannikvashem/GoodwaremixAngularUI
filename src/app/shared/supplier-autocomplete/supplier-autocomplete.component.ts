@@ -36,7 +36,9 @@ export class SupplierAutocompleteComponent implements OnInit {
     this.api.getSuppliers("", 0 ,100, "supplierName", "asc").subscribe( (r:any) => {
       this.supplierList = r.body.data
       if (this.supplierList.length == 1) {
+/*
         this.isSingle.emit(true);
+*/
         this.searchSuppliersCtrl.setValue(this.supplierList[0])
         this.onSupplierSelected();
       }
