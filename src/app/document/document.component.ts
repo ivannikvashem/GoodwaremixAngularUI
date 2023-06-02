@@ -16,7 +16,7 @@ export class DocumentComponent implements OnInit {
   searchQueryCtrl  = new FormControl<string>('');
   searchQuery:string = '';
   pageIndex:number = 0;
-  pageSize:number = 10;
+  pageSize:number = 12;
   sortDirection:string = 'desc'
   sortActive:string = 'endDate'
 

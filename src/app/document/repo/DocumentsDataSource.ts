@@ -43,13 +43,15 @@ export class DocumentsDataSource implements DataSource<Document> {
   }
 
   deleteDocument(id: string) {
-    this.api.deleteDocument(id).subscribe( () => {
+    this.api.deleteDocument(id).subscribe( {
+      next: () => {
         let newdata = this.DocumentListSubject.value.filter(row => row.id != id );
         this.DocumentListSubject.next(newdata);
       },
-      err => {
+      error: err => {
+        console.log(err)
         //this._notyf.onError(err.message)
-      });
+      },});
   }
 
 }

@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild
 import {ApiClient} from "../../service/httpClient";
 import {Document} from "../../models/document.model";
 import {FormControl} from "@angular/forms";
-import {MatPaginator, PageEvent} from "@angular/material/paginator";
+import {MatPaginator} from "@angular/material/paginator";
 import {
   ConfirmDialogComponent,
   ConfirmDialogModel
@@ -84,14 +84,14 @@ export class DocumentIndexComponent implements OnInit {
       });
       dialogRef.afterClosed().subscribe(dialogResult => {
         if (dialogResult === true) {
-          console.log('delete event')
+          this.dataSource.deleteDocument(selected.document.id)
         }
       });
     }
   }
 
   addDocumentDialog() {
-    const dialogRef = this.dialog.open(ProductDocumentEditComponent, {
+    this.dialog.open(ProductDocumentEditComponent, {
       width: '1050px',
       autoFocus: false,
       data: {oldDocument: new Document(), newDocument: new Document() },

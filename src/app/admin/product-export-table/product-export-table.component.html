@@ -2,12 +2,12 @@
   <div style="width: 12%;">
     <div cdkDropList (cdkDropListDropped)="drop($event)">
       <div *ngFor="let column of displayedColumns" cdkDrag style="padding: 2px; margin-right: 5px">
-        <button mat-raised-button [color]="column.isActive ? 'primary': null" (click)="showColumn(column.field)" disableRipple style="width: 100%">
-          {{column.name}}
+        <button mat-raised-button [color]="column.isActive ? 'primary': null" (click)="showColumn(column.field)" disableRipple style="width: 100%;">
+          <span class="buttonText">{{column.name}}</span>
         </button>
       </div>
       <button mat-raised-button [color]="showNestedTablesHeaders ? 'primary': null" (click)="showNestedTablesHeaders = !showNestedTablesHeaders" style="width: 96%">
-        Заголовки внутр. таблиц
+        <span class="buttonText">Заголовки внутр. таблиц</span>
       </button>
     </div>
   </div>
