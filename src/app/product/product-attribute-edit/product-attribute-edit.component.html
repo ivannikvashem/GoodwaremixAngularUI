@@ -4,6 +4,7 @@
   <mat-spinner *ngIf="isOldAttributeLoading"></mat-spinner>
 
   <div *ngIf="!isOldAttributeLoading">
+
     <mat-form-field appearance="fill" class="full-width" style="margin-bottom: 5px">
       <mat-label>Характеристика</mat-label>
       <input matInput placeholder=""
@@ -15,6 +16,7 @@
         <span *ngIf="selectedAttribute.etimFeature"> [{{selectedAttribute.etimFeature}}] </span>
         {{selectedAttribute.nameAttribute}}
         <span *ngIf="selectedAttribute.unit && selectedAttribute.isFixed" class="unitMark">{{selectedAttribute.unit}}</span>
+        <strong>{{selectedAttribute.type}}</strong>
       </mat-hint>
 
       <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onAttributeKeySelected()">
@@ -32,7 +34,7 @@
       </button>
     </mat-form-field>
 
-    <mat-form-field appearance="fill" class="full-width">
+    <mat-form-field appearance="fill" class="full-width" *ngIf="data.oldAttribute.type == 'A'">
       <mat-label>Значение</mat-label>
       <input matInput placeholder=""
              [formControl]="attributeValuesCtrl"
@@ -43,9 +45,36 @@
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width" *ngIf="data.oldAttribute.type == 'N'">
+      <mat-label>Значение</mat-label>
+      <input matInput [(ngModel)]="data.oldAttribute.objectValue.value" type="number">
+    </mat-form-field>
+
+    <div *ngIf="data.oldAttribute.type == 'R'" style="display: flex">
+      <mat-form-field appearance="fill" class="full-width" style="margin-right: 5px">
+        <mat-label>Минимальное значение</mat-label>
+        <input matInput [(ngModel)]="data.oldAttribute.objectValue.minValue" type="number">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Максимальное значение</mat-label>
+        <input matInput [(ngModel)]="data.oldAttribute.objectValue.maxValue" type="number">
+      </mat-form-field>
+    </div>
+
+
+    <p *ngIf="data.oldAttribute.type == 'L'">
+      Значение
+      <mat-button-toggle-group [(ngModel)]="data.oldAttribute.objectValue.value">
+        <mat-button-toggle [value]="false">Нет</mat-button-toggle>
+        <mat-button-toggle [value]="true">Да</mat-button-toggle>
+      </mat-button-toggle-group>
+    </p>
+
     <div mat-dialog-actions class="actions-div">
       <button mat-button mat-dialog-close (click)="onCancelClick()" type="button">Отмена</button>
-      <button mat-raised-button color="primary" [mat-dialog-close]="data" (click)="submitForm()" [disabled]="searchAttributeCtrl.invalid || attributeValuesCtrl.invalid">Сохранить</button>
+      <button mat-raised-button color="primary" [mat-dialog-close]="data" (click)="submitForm()" [disabled]="searchAttributeCtrl.invalid">Сохранить</button>
     </div>
   </div>
 </div>

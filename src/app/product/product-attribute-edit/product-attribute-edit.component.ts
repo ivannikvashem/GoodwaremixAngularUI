@@ -2,7 +2,9 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {ApiClient} from "../../service/httpClient";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Attribute} from "../../models/attribute.model";
-import {AttributeProduct} from "../../models/attributeProduct.model";
+import {
+  AttributeProduct, AttributeProductValueLogic, AttributeProductValueNumber, AttributeProductValueRange, AttributeProductValueText
+} from "../../models/attributeProduct.model";
 import {FormControl, Validators} from "@angular/forms";
 import {debounceTime, distinctUntilChanged, finalize, Observable, startWith, switchMap, tap} from "rxjs";
 import {map} from "rxjs/operators";
@@ -43,13 +45,16 @@ export class ProductAttributeEditComponent implements OnInit {
         if (response.status == 200) {
           this.selectedAttribute = response.body;
           this.searchAttributeCtrl.setValue(this.selectedAttribute);
-          this.attributeValuesCtrl.setValue(this.data.oldAttribute.value);
+          if (this.data.oldAttribute.type == 'A') {
+            this.attributeValuesCtrl.setValue((this.data.oldAttribute.objectValue as AttributeProductValueText).value);
+          }
+
           this.attributeValues = this.selectedAttribute.allValues
-          this.filteredAttributeValues = this.attributeValuesCtrl.valueChanges.pipe(
+            this.filteredAttributeValues = this.attributeValuesCtrl.valueChanges.pipe(
             startWith(''),
             map(value => this._filter(value)),
-          );
-        }
+           );
+          }
       });
     }
 
@@ -78,19 +83,13 @@ export class ProductAttributeEditComponent implements OnInit {
   }
 
   onAttributeKeySelected() {
+    this.data.oldAttribute.type = (this.searchAttributeCtrl.value as Attribute).type;
     this.selectedAttribute = this.searchAttributeCtrl.value as Attribute;
     this.filteredAttributeValues = this.attributeValuesCtrl.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value)),
     );
-
     this.attributeValues = this.selectedAttribute.allValues
-    this.data.newAttribute.attributeId = this.selectedAttribute.id
-    this.data.newAttribute.attributeName = this.selectedAttribute.nameAttribute
-    this.data.newAttribute.etimFeature = this.selectedAttribute.etimFeature
-    this.data.newAttribute.etimUnit = this.selectedAttribute.etimUnit
-    this.data.newAttribute.unit = this.selectedAttribute.unit
-    this.data.newAttribute.value = this.attributeValuesCtrl.value as string;
   }
 
   onAttributeValueSelected() {
@@ -103,6 +102,20 @@ export class ProductAttributeEditComponent implements OnInit {
   }
 
   submitForm() {
-    this.data.newAttribute.value = this.attributeValuesCtrl.value
+    this.data.newAttribute.attributeId = this.selectedAttribute.id
+    this.data.newAttribute.attributeName = this.selectedAttribute.nameAttribute
+    this.data.newAttribute.etimFeature = this.selectedAttribute.etimFeature
+    this.data.newAttribute.etimUnit = this.selectedAttribute.etimUnit
+    this.data.newAttribute.type = this.selectedAttribute.type
+    this.data.newAttribute.unit = this.selectedAttribute.unit
+    if (this.data.newAttribute.type == 'R')
+      (this.data.newAttribute.objectValue as AttributeProductValueRange).minValue =  (this.data.oldAttribute.objectValue as AttributeProductValueRange).minValue;
+    (this.data.newAttribute.objectValue as AttributeProductValueRange).maxValue =  (this.data.oldAttribute.objectValue as AttributeProductValueRange).maxValue;
+    if (this.data.newAttribute.type == 'N')
+      (this.data.newAttribute.objectValue as AttributeProductValueNumber).value =  (this.data.oldAttribute.objectValue as AttributeProductValueNumber).value;
+    if (this.data.newAttribute.type == 'L')
+      (this.data.newAttribute.objectValue as AttributeProductValueLogic).value =  (this.data.oldAttribute.objectValue as AttributeProductValueLogic).value;
+    if (this.data.newAttribute.type == 'A')
+      (this.data.newAttribute.objectValue as AttributeProductValueText).value =  this.attributeValuesCtrl.value as string;
   }
 }

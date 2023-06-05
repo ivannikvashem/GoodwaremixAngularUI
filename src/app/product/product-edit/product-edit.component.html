@@ -165,12 +165,14 @@
               <!-- attributeKey Column -->
               <ng-container matColumnDef="attributeKey" class="full-width">
                 <th mat-header-cell *matHeaderCellDef> Характеристика </th>
-                <td mat-cell *matCellDef="let row">{{row.attributeName}}</td>
+                <td mat-cell *matCellDef="let row"><strong *ngIf="row.type">[{{row.type}}]</strong> {{row.attributeName}}</td>
               </ng-container>
               <!-- attributeValue Column -->
               <ng-container matColumnDef="attributeValue" class="full-width">
                 <th mat-header-cell *matHeaderCellDef> Значение </th>
-                <td mat-cell *matCellDef="let row">{{row.value}} <span class="unitMark" *ngIf="row.unit">{{row.unit}}</span></td>
+                <td mat-cell *matCellDef="let row">
+                  <span *ngIf="row.type == 'R'">{{row.objectValue?.minValue + '-' + row.objectValue?.maxValue}}</span>
+                  <span *ngIf="row.type != 'R'">{{row.objectValue?.value}}</span> <span class="unitMark" *ngIf="row.unit">{{row.unit}}</span></td>
               </ng-container>
               <!-- actions Column -->
               <ng-container matColumnDef="action" class="full-width">

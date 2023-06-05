@@ -192,11 +192,11 @@ export class ProductEditComponent implements OnInit {
   openAttributeEditorDialog(oldAttribute?:any): void {
     const dialogRef = this.dialog.open(ProductAttributeEditComponent, {
       width: '900px',
-      data: { oldAttribute: oldAttribute, newAttribute: new AttributeProduct() },
+      data: { oldAttribute: oldAttribute ? oldAttribute : new AttributeProduct(), newAttribute: new AttributeProduct() },
       autoFocus:false
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result !== undefined) {
+/*      if (result !== undefined) {
         if (this.product.attributes.filter(x => x.value !== result.newAttribute?.value)) {
           if (oldAttribute == undefined) {
             this.product.attributes.push(result.newAttribute as AttributeProduct)
@@ -208,7 +208,7 @@ export class ProductEditComponent implements OnInit {
             }
           }
         }
-      }
+      }*/
     });
   }
 
