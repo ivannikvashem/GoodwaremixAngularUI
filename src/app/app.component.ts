@@ -29,7 +29,7 @@ export class AppComponent{
       .pipe(
         catchError((err: any) => {
           if (err.status == 0 || err.status == HttpStatusCode.InternalServerError) {
-            this._notyf.onError('Сервер не доступен');
+            this._notyf.onError('Сервер недоступен');
             this.isServerOffline = true;
           }
           return throwError(err)

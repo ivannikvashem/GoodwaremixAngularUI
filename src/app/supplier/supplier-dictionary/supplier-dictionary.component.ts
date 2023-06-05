@@ -32,7 +32,7 @@ export class SupplierDictionaryComponent implements OnInit {
       tap(() => {
 
       }),
-      switchMap(value => this.api.getAttributes(value, '', 0, 100, undefined, "rating", "desc")
+      switchMap(value => this.api.getAttributes(value, '', 0, 500, undefined, "rating", "desc")
         .pipe(
           finalize(() => {
 
