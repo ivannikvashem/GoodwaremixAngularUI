@@ -172,8 +172,8 @@
                 <th mat-header-cell *matHeaderCellDef> Значение </th>
                 <td mat-cell *matCellDef="let row">
                   <span *ngIf="row.type == 'R'">
-                    <span *ngIf="row.objectValue.minValue != undefined && row.objectValue.maxValue != undefined">{{row.objectValue?.minValue + '...' + row.objectValue?.maxValue}}</span>
-                    <span *ngIf="row.objectValue.minValue == undefined && row.objectValue.maxValue == undefined">{{row.objectValue?.value}}</span>
+                    <span *ngIf="row.objectValue.minValue != undefined && row.objectValue.maxValue != undefined">{{row.objectValue?.minValue + '...' + row.objectValue?.maxValue}} </span>
+                    <span *ngIf="row.objectValue.minValue == undefined && row.objectValue.maxValue == undefined">{{row.objectValue?.value}} <strong style="color: red;font-weight: bolder">Haram Error type</strong></span>
                   </span>
                   <span *ngIf="row.type != 'R'">{{row.objectValue?.value}}</span>
                   <span class="unitMark" *ngIf="row.unit">{{row.unit}}</span></td>

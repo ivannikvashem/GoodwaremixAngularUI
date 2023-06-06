@@ -74,10 +74,9 @@
       <mat-button-toggle [value]="true">Да</mat-button-toggle>
     </mat-button-toggle-group>
 
-
     <div mat-dialog-actions class="actions-div">
       <button mat-button mat-dialog-close (click)="onCancelClick()" type="button">Отмена</button>
-      <button mat-raised-button color="primary" [mat-dialog-close]="data" (click)="submitForm()">Сохранить</button>
+      <button mat-raised-button color="primary" [mat-dialog-close]="data" [disabled]="!isFormValid()" (click)="submitForm()">Сохранить</button>
     </div>
   </div>
 </div>

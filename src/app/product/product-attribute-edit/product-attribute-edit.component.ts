@@ -36,16 +36,17 @@ export class ProductAttributeEditComponent implements OnInit {
   constructor(public api: ApiClient,
               public dialogRef: MatDialogRef<ProductAttributeEditComponent>,
               @Inject(MAT_DIALOG_DATA)
-              public data: AttrDialogData) { }
+              public data: AttrDialogData) {
+  }
 
   ngOnInit(): void {
     if (this.data.oldAttribute !== undefined) {
       this.isOldAttributeLoading = true;
       this.api.getAttributeById(this.data.oldAttribute.attributeId).pipe(
-        tap( () => {
+        tap(() => {
           this.isOldAttributeLoading = true
         }),
-        finalize( () => this.isOldAttributeLoading = false)).subscribe((response) => {
+        finalize(() => this.isOldAttributeLoading = false)).subscribe((response) => {
         if (response.status == 200) {
           this.selectedAttribute = response.body;
           this.searchAttributeCtrl.setValue(this.selectedAttribute);
@@ -62,11 +63,11 @@ export class ProductAttributeEditComponent implements OnInit {
           }
 
           this.attributeValues = this.selectedAttribute.allValues
-            this.filteredAttributeValues = this.attributeValuesCtrl.valueChanges.pipe(
+          this.filteredAttributeValues = this.attributeValuesCtrl.valueChanges.pipe(
             startWith(''),
             map(value => this._filter(value)),
-           );
-          }
+          );
+        }
       });
     }
 
@@ -76,15 +77,18 @@ export class ProductAttributeEditComponent implements OnInit {
       tap(() => {
         // this.isLoading = true;
       }),
-      switchMap(value => this.api.getAttributes(value, '' ,0, 100, undefined, "rating", "desc")
+      switchMap(value => this.api.getAttributes(value, '', 0, 100, undefined, "rating", "desc")
         .pipe(
           finalize(() => {
             //this.isLoading = false
           }),
         )
       )
-    ).subscribe((response: any) => { this.attributesList = response.body.data; });
+    ).subscribe((response: any) => {
+      this.attributesList = response.body.data;
+    });
   }
+
   onCancelClick(): void {
     this.dialogRef.close();
   }
@@ -110,7 +114,11 @@ export class ProductAttributeEditComponent implements OnInit {
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-    return this.attributeValues.filter(attributeValues => attributeValues.toLowerCase().includes(filterValue)).sort((a ,b) => a.localeCompare(b, undefined, {numeric: true, sensitivity: 'base', ignorePunctuation: true}));
+    return this.attributeValues.filter(attributeValues => attributeValues.toLowerCase().includes(filterValue)).sort((a, b) => a.localeCompare(b, undefined, {
+      numeric: true,
+      sensitivity: 'base',
+      ignorePunctuation: true
+    }));
   }
 
   submitForm() {
@@ -132,6 +140,6 @@ export class ProductAttributeEditComponent implements OnInit {
   }
 
   isFormValid() {
-    return this.attributeValuesCtrl.invalid || this.attributeValueNumber.invalid || this.attributeValueNumber.invalid || (this.attributeValueRangeMin.invalid && this.attributeValueRangeMax.invalid) || this.attributeValueLogic.invalid;
+    return this.searchAttributeCtrl.valid && (this.attributeValuesCtrl.valid || this.attributeValueNumber.valid || this.attributeValueRangeMin.valid && this.attributeValueRangeMax.valid || this.attributeValueLogic.valid);
   }
 }
