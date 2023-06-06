@@ -55,6 +55,10 @@
   text-align: end;
 }
 
+.mat-column-etim {
+  width: 30px;
+}
+
 th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
   padding-right: 16px;
 }

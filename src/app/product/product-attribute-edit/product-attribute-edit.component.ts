@@ -25,8 +25,12 @@ export class ProductAttributeEditComponent implements OnInit {
   attributeValues: string[] = [];
   filteredAttributeValues: Observable<string[]>;
   attributesList: Attribute[] = [];
-  searchAttributeCtrl = new FormControl<string | Attribute>('', Validators.required);
-  attributeValuesCtrl = new FormControl<string>('', Validators.required);
+  searchAttributeCtrl = new FormControl<string | Attribute>(null, Validators.required);
+  attributeValuesCtrl = new FormControl<string>(null, Validators.required);
+  attributeValueRangeMin = new FormControl<number>(null, Validators.required);
+  attributeValueRangeMax = new FormControl<number>(null, Validators.required);
+  attributeValueLogic = new FormControl<boolean>(null, Validators.required);
+  attributeValueNumber = new FormControl<number>(null, Validators.required);
   isOldAttributeLoading: boolean = false;
 
   constructor(public api: ApiClient,
@@ -45,7 +49,15 @@ export class ProductAttributeEditComponent implements OnInit {
         if (response.status == 200) {
           this.selectedAttribute = response.body;
           this.searchAttributeCtrl.setValue(this.selectedAttribute);
-          if (this.data.oldAttribute.type == 'A') {
+
+          if (this.data.oldAttribute.type == 'N') {
+            this.attributeValueNumber.setValue((this.data.oldAttribute.objectValue as AttributeProductValueNumber).value);
+          } else if (this.data.oldAttribute.type == 'R') {
+            this.attributeValueRangeMin.setValue((this.data.oldAttribute.objectValue as AttributeProductValueRange).minValue);
+            this.attributeValueRangeMax.setValue((this.data.oldAttribute.objectValue as AttributeProductValueRange).maxValue);
+          } else if (this.data.oldAttribute.type == 'L') {
+            this.attributeValueLogic.setValue((this.data.oldAttribute.objectValue as AttributeProductValueLogic).value);
+          } else {
             this.attributeValuesCtrl.setValue((this.data.oldAttribute.objectValue as AttributeProductValueText).value);
           }
 
@@ -109,13 +121,17 @@ export class ProductAttributeEditComponent implements OnInit {
     this.data.newAttribute.type = this.selectedAttribute.type
     this.data.newAttribute.unit = this.selectedAttribute.unit
     if (this.data.newAttribute.type == 'R')
-      (this.data.newAttribute.objectValue as AttributeProductValueRange).minValue =  (this.data.oldAttribute.objectValue as AttributeProductValueRange).minValue;
-    (this.data.newAttribute.objectValue as AttributeProductValueRange).maxValue =  (this.data.oldAttribute.objectValue as AttributeProductValueRange).maxValue;
+      (this.data.newAttribute.objectValue as AttributeProductValueRange).minValue = this.attributeValueRangeMin.value;
+      (this.data.newAttribute.objectValue as AttributeProductValueRange).maxValue = this.attributeValueRangeMax.value;
     if (this.data.newAttribute.type == 'N')
-      (this.data.newAttribute.objectValue as AttributeProductValueNumber).value =  (this.data.oldAttribute.objectValue as AttributeProductValueNumber).value;
+      (this.data.newAttribute.objectValue as AttributeProductValueNumber).value = this.attributeValueNumber.value;
     if (this.data.newAttribute.type == 'L')
-      (this.data.newAttribute.objectValue as AttributeProductValueLogic).value =  (this.data.oldAttribute.objectValue as AttributeProductValueLogic).value;
+      (this.data.newAttribute.objectValue as AttributeProductValueLogic).value = this.attributeValueLogic.value;
     if (this.data.newAttribute.type == 'A')
-      (this.data.newAttribute.objectValue as AttributeProductValueText).value =  this.attributeValuesCtrl.value as string;
+      (this.data.newAttribute.objectValue as AttributeProductValueText).value = this.attributeValuesCtrl.value;
+  }
+
+  isFormValid() {
+    return this.attributeValuesCtrl.invalid || this.attributeValueNumber.invalid || this.attributeValueNumber.invalid || (this.attributeValueRangeMin.invalid && this.attributeValueRangeMax.invalid) || this.attributeValueLogic.invalid;
   }
 }

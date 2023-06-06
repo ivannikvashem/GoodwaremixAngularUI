@@ -48,29 +48,36 @@
 
     <mat-form-field appearance="fill" class="full-width" *ngIf="data.oldAttribute.type == 'N'">
       <mat-label>Значение</mat-label>
-      <input matInput [(ngModel)]="data.oldAttribute.objectValue.value" type="number">
+      <input matInput [formControl]="attributeValueNumber" type="number">
     </mat-form-field>
 
-    <div *ngIf="data.oldAttribute.type == 'R'" style="display: flex">
-      <mat-form-field appearance="fill" class="full-width" style="margin-right: 5px">
-        <mat-label>Минимальное значение</mat-label>
-        <input matInput [(ngModel)]="data.oldAttribute.objectValue.minValue" type="number">
-      </mat-form-field>
+    <div *ngIf="data.oldAttribute.type == 'R'">
+      <div *ngIf="!data.oldAttribute.objectValue.minValue && !data.oldAttribute.objectValue.maxValue && data.oldAttribute.objectValue.value">
+        <span style="color: red">Значение атрибута задано не корректно, пожалуйста перенестите значения в соответствующие поля. </span>
+        <strong>{{data.oldAttribute.objectValue.value}}</strong>
+      </div>
+      <div style="display: flex">
+        <mat-form-field appearance="fill" class="full-width" style="margin-right: 5px">
+          <mat-label>Минимальное значение</mat-label>
+          <input matInput [formControl]="attributeValueRangeMin" type="number">
+        </mat-form-field>
 
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Максимальное значение</mat-label>
-        <input matInput [(ngModel)]="data.oldAttribute.objectValue.maxValue" type="number">
-      </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Максимальное значение</mat-label>
+          <input matInput [formControl]="attributeValueRangeMax" type="number">
+        </mat-form-field>
+      </div>
     </div>
 
-    <mat-button-toggle-group [(ngModel)]="data.oldAttribute.objectValue.value" *ngIf="data.oldAttribute.type == 'L'">
+    <mat-button-toggle-group [formControl]="attributeValueLogic" *ngIf="data.oldAttribute.type == 'L'">
       <mat-button-toggle [value]="false">Нет</mat-button-toggle>
       <mat-button-toggle [value]="true">Да</mat-button-toggle>
     </mat-button-toggle-group>
 
+
     <div mat-dialog-actions class="actions-div">
       <button mat-button mat-dialog-close (click)="onCancelClick()" type="button">Отмена</button>
-      <button mat-raised-button color="primary" [mat-dialog-close]="data" (click)="submitForm()" [disabled]="searchAttributeCtrl.invalid">Сохранить</button>
+      <button mat-raised-button color="primary" [mat-dialog-close]="data" (click)="submitForm()">Сохранить</button>
     </div>
   </div>
 </div>
