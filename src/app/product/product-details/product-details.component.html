@@ -119,7 +119,7 @@
         <!-- Name Column -->
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef> Характеристика </th>
-          <td mat-cell *matCellDef="let row"><strong *ngIf="row.type">[{{row.type}}]</strong> {{row.attributeName}}</td>
+          <td mat-cell *matCellDef="let row"><strong *ngIf="row.type">{{row.type}}</strong> {{row.attributeName}}</td>
         </ng-container>
         <!-- Value Column -->
         <ng-container matColumnDef="value">

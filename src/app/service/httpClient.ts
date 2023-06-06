@@ -362,7 +362,7 @@ export class ApiClient {
   }
 
   deleteDocument(id:string) {
-    return this.http.delete(this.apiURL + '/documents/' + id, this.httpOptions);
+    return this.http.delete(this.apiURL + '/documentDelete/' + id, this.httpOptions);
   }
 
   uploadDocument(file: File, supplierId:string): Observable<any> {
