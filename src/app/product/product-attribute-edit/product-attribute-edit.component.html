@@ -52,10 +52,6 @@
     </mat-form-field>
 
     <div *ngIf="data.oldAttribute.type == 'R'">
-      <div *ngIf="!data.oldAttribute.objectValue.minValue && !data.oldAttribute.objectValue.maxValue && data.oldAttribute.objectValue.value">
-        <span style="color: red">Значение атрибута задано не корректно, пожалуйста перенестите значения в соответствующие поля. </span>
-        <strong>{{data.oldAttribute.objectValue.value}}</strong>
-      </div>
       <div style="display: flex">
         <mat-form-field appearance="fill" class="full-width" style="margin-right: 5px">
           <mat-label>Минимальное значение</mat-label>
@@ -64,8 +60,12 @@
 
         <mat-form-field appearance="fill" class="full-width">
           <mat-label>Максимальное значение</mat-label>
-          <input matInput [formControl]="attributeValueRangeMax" type="number">
+          <input matInput [formControl]="attributeValueRangeMax" [min]="attributeValueRangeMin.value" type="number">
         </mat-form-field>
+      </div>
+      <div *ngIf="!data.oldAttribute.objectValue.minValue && !data.oldAttribute.objectValue.maxValue && data.oldAttribute.objectValue.value">
+        <span style="color: red">Значения характеристики не корректны, пожалуйста перенестите значения в соответствующие поля. </span>
+        <strong>{{data.oldAttribute.objectValue.value}}</strong>
       </div>
     </div>
 

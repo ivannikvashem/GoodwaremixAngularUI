@@ -5,7 +5,7 @@ import {ApiClient} from "../../service/httpClient";
 import {Product} from "../../models/product.model";
 import {MatChipInputEvent} from "@angular/material/chips";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
-import {AttributeProduct, AttributeProductValueLogic} from "../../models/attributeProduct.model";
+import {AttributeProduct} from "../../models/attributeProduct.model";
 import {DataSource} from "@angular/cdk/collections";
 import {debounceTime, distinctUntilChanged, Observable, ReplaySubject, startWith, switchMap} from "rxjs";
 import {NotificationService} from "../../service/notification-service";
@@ -197,29 +197,30 @@ export class ProductEditComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined) {
-        console.log(result)
         if (result.newAttribute.type == 'R') {
           if (this.product.attributes.filter(x => x.objectValue.minValue !== result.newAttribute?.objectValue.minValue && x.objectValue.maxValue !== result.newAttribute?.objectValue.maxValue)) {
             if (oldAttribute == undefined) {
-              console.log('R type push')
               this.product.attributes.push(result.newAttribute as AttributeProduct)
               this.attrDataSource.setData(this.product.attributes || []);
             } else {
-              console.log('R type edit')
               if (oldAttribute !== result.newAttribute) {
-                const target = this.product.attributes.find((obj) => obj.objectValue.minValue === oldAttribute.objectValue.minValue && obj.objectValue.maxValue === oldAttribute.objectValue.maxValue)
-                Object.assign(target, result.newAttribute)
+                if (oldAttribute.objectValue.value) {
+                  const target = this.product.attributes.find((obj) => obj.objectValue.value === oldAttribute.objectValue.value)
+                  Object.assign(target, result.newAttribute)
+                } else {
+                  const target = this.product.attributes.find((obj) => obj.objectValue.minValue === oldAttribute.objectValue.minValue && obj.objectValue.maxValue === oldAttribute.objectValue.maxValue)
+                  Object.assign(target, result.newAttribute)
+                }
               }
             }
           }
-        } else {
+        }
+        else {
           if (this.product.attributes.filter(x => x.objectValue.value !== result.newAttribute?.objectValue.value)) {
             if (oldAttribute == undefined) {
-              console.log('other type push')
               this.product.attributes.push(result.newAttribute as AttributeProduct)
               this.attrDataSource.setData(this.product.attributes || []);
             } else {
-              console.log('other type edit')
               if (oldAttribute !== result.newAttribute) {
                 const target = this.product.attributes.find((obj) => obj.objectValue.value === oldAttribute.objectValue.value)
                 Object.assign(target, result.newAttribute)
