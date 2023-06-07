@@ -119,7 +119,7 @@
         <!-- Name Column -->
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef> Характеристика </th>
-          <td mat-cell *matCellDef="let row"><strong *ngIf="row.type">{{row.type}}</strong> {{row.attributeName}}</td>
+          <td mat-cell *matCellDef="let row" [style.color]="!isTypeValid(row.objectValue, row.type) ? 'red' : 'black'"><strong *ngIf="row.type">{{row.type}}</strong> {{row.attributeName}}</td>
         </ng-container>
         <!-- Value Column -->
         <ng-container matColumnDef="value">
@@ -127,7 +127,7 @@
           <td mat-cell *matCellDef="let row">
              <span *ngIf="row.type == 'R'">
               <span *ngIf="row.objectValue.minValue != undefined && row.objectValue.maxValue != undefined">{{row.objectValue?.minValue + '...' + row.objectValue?.maxValue}}</span>
-              <span *ngIf="row.objectValue.minValue == undefined && row.objectValue.maxValue == undefined">{{row.objectValue?.value}} <strong style="color: red;font-weight: bolder">Haram Error type</strong></span>
+              <span *ngIf="row.objectValue.minValue == undefined && row.objectValue.maxValue == undefined">{{row.objectValue?.value}}</span>
             </span>
             <span *ngIf="row.type !== 'R'"> {{row.objectValue?.value}} </span>
 
