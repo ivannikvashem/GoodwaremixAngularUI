@@ -165,7 +165,9 @@
               <!-- attributeKey Column -->
               <ng-container matColumnDef="attributeKey" class="full-width">
                 <th mat-header-cell *matHeaderCellDef> Характеристика </th>
-                <td mat-cell *matCellDef="let row"><strong *ngIf="row.type">{{row.type}}</strong> {{row.attributeName}}</td>
+                <td mat-cell *matCellDef="let row"><strong *ngIf="row.type">{{row.type}}</strong>
+                  <span [style.color]="!isTypeValid(row.objectValue, row.type) ? 'red' : 'black'"> {{row.attributeName}} </span>
+                </td>
               </ng-container>
               <!-- attributeValue Column -->
               <ng-container matColumnDef="attributeValue" class="full-width">
@@ -175,16 +177,18 @@
                     <span *ngIf="row.objectValue.minValue != undefined && row.objectValue.maxValue != undefined">{{row.objectValue?.minValue + '...' + row.objectValue?.maxValue}} </span>
                     <span *ngIf="row.objectValue.minValue == undefined && row.objectValue.maxValue == undefined">{{row.objectValue?.value}} <strong style="color: red;font-weight: bolder">Haram Error type</strong></span>
                   </span>
-                  <span *ngIf="row.type != 'R'">{{row.objectValue?.value}}</span>
+                  <span *ngIf="row.type != 'R'">
+                    {{row.objectValue?.value}}
+                  </span>
                   <span class="unitMark" *ngIf="row.unit">{{row.unit}}</span></td>
               </ng-container>
               <!-- actions Column -->
               <ng-container matColumnDef="action" class="full-width">
                 <th mat-header-cell *matHeaderCellDef>
-                  <button mat-icon-button (click)="openAttributeEditorDialog()"><mat-icon>add</mat-icon></button>
+                  <button mat-icon-button (click)="openAttributeEditorDialog(true)"><mat-icon>add</mat-icon></button>
                 </th>
                 <td mat-cell *matCellDef="let row; let i = index">
-                  <button mat-icon-button matTooltip="Редактировать" (click)="openAttributeEditorDialog(row)"><mat-icon>edit</mat-icon></button>
+                  <button mat-icon-button matTooltip="Редактировать" (click)="openAttributeEditorDialog(isTypeValid(row.objectValue, row.type), row)"><mat-icon>edit</mat-icon></button>
                   <button mat-icon-button matTooltip="Удалить" (click)="deleteAttrRow(i)"><mat-icon>delete</mat-icon></button>
                 </td>
               </ng-container>

@@ -58,6 +58,12 @@ export class ProductEditComponent implements OnInit {
   searchBrandCtrl = new FormControl<string>('')
   Math = Math;
   Eps = Number.EPSILON;
+  attributeTypes:any[] = [
+    {key:'R', type: 'range'},
+    {key:'N', type: 'number'},
+    {key:'L', type: 'boolean'},
+    {key:'A', type: 'string'},
+  ]
 
   constructor(private api:ApiClient,
               private _ActivatedRoute:ActivatedRoute,
@@ -189,48 +195,67 @@ export class ProductEditComponent implements OnInit {
   }
 
   // Attribute
-  openAttributeEditorDialog(oldAttribute?:any): void {
+  openAttributeEditorDialog(isAttributeTypeValid:boolean, oldAttribute?:any): void {
     const dialogRef = this.dialog.open(ProductAttributeEditComponent, {
       width: '900px',
-      data: { oldAttribute: oldAttribute ? oldAttribute : new AttributeProduct(), newAttribute: new AttributeProduct() },
+      data: { oldAttribute: oldAttribute ? oldAttribute : new AttributeProduct(), isValid: isAttributeTypeValid, newAttribute: new AttributeProduct() },
       autoFocus:false
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result !== undefined) {
-        if (result.newAttribute.type == 'R') {
-          if (this.product.attributes.filter(x => x.objectValue.minValue !== result.newAttribute?.objectValue.minValue && x.objectValue.maxValue !== result.newAttribute?.objectValue.maxValue)) {
-            if (oldAttribute == undefined) {
-              this.product.attributes.push(result.newAttribute as AttributeProduct)
-              this.attrDataSource.setData(this.product.attributes || []);
-            } else {
-              if (oldAttribute !== result.newAttribute) {
-                if (oldAttribute.objectValue.value) {
-                  const target = this.product.attributes.find((obj) => obj.objectValue.value === oldAttribute.objectValue.value)
-                  Object.assign(target, result.newAttribute)
-                } else {
-                  const target = this.product.attributes.find((obj) => obj.objectValue.minValue === oldAttribute.objectValue.minValue && obj.objectValue.maxValue === oldAttribute.objectValue.maxValue)
-                  Object.assign(target, result.newAttribute)
-                }
-              }
-            }
-          }
+      if (result?.newAttribute) {
+        switch (result.newAttribute.type) {
+          case 'R':
+            this.handleRangeAttribute(oldAttribute, result);
+            break;
+          case 'L':
+            this.handleLogicAttribute(oldAttribute, result);
+            break;
+          default:
+            this.handleDefaultAttribute(oldAttribute, result);
+            break;
         }
-        else {
-          if (this.product.attributes.filter(x => x.objectValue.value !== result.newAttribute?.objectValue.value)) {
-            if (oldAttribute == undefined) {
-              this.product.attributes.push(result.newAttribute as AttributeProduct)
-              this.attrDataSource.setData(this.product.attributes || []);
-            } else {
-              if (oldAttribute !== result.newAttribute) {
-                const target = this.product.attributes.find((obj) => obj.objectValue.value === oldAttribute.objectValue.value)
-                Object.assign(target, result.newAttribute)
-              }
-            }
-          }
-        }
-
       }
     });
+  }
+
+
+  handleRangeAttribute(oldAttribute:any, result:any) {
+    if (this.product.attributes.filter(x => x.objectValue.minValue !== result.newAttribute?.objectValue.minValue && x.objectValue.maxValue !== result.newAttribute?.objectValue.maxValue)) {
+      if (oldAttribute == undefined) {
+        this.product.attributes.push(result.newAttribute as AttributeProduct)
+        this.attrDataSource.setData(this.product.attributes || []);
+      } else if (oldAttribute !== result.newAttribute)  {
+        if (oldAttribute.objectValue.value) {
+          const target = this.product.attributes.find((obj) => obj.objectValue.value === oldAttribute.objectValue.value)
+          Object.assign(target, result.newAttribute)
+        } else {
+          const target = this.product.attributes.find((obj) => obj.objectValue.minValue === oldAttribute.objectValue.minValue && obj.objectValue.maxValue === oldAttribute.objectValue.maxValue)
+          Object.assign(target, result.newAttribute)
+        }
+      }
+    }
+  }
+
+  handleLogicAttribute(oldAttribute:any, result:any) {
+    if (oldAttribute == undefined) {
+      this.product.attributes.push(result.newAttribute as AttributeProduct)
+      this.attrDataSource.setData(this.product.attributes || []);
+    } else if (oldAttribute !== result.newAttribute) {
+      const target = this.product.attributes.find((obj) => obj.objectValue.value === oldAttribute.objectValue.value && obj.attributeId === oldAttribute.attributeId)
+      Object.assign(target, result.newAttribute)
+    }
+  }
+
+  handleDefaultAttribute(oldAttribute:any, result:any) {
+    if (this.product.attributes.filter(x => x.objectValue.value !== result.newAttribute?.objectValue.value)) {
+      if (oldAttribute == undefined) {
+        this.product.attributes.push(result.newAttribute as AttributeProduct)
+        this.attrDataSource.setData(this.product.attributes || []);
+      } else if (oldAttribute !== result.newAttribute) {
+        const target = this.product.attributes.find((obj) => obj.objectValue.value === oldAttribute.objectValue.value)
+        Object.assign(target, result.newAttribute)
+      }
+    }
   }
 
   deleteAttrRow(attrIndex: any) {
@@ -376,6 +401,14 @@ export class ProductEditComponent implements OnInit {
       }
     }
     return uuid;
+  }
+
+  isTypeValid(objectValue: any, type:string) {
+    if (objectValue.minValue && objectValue.maxValue && type == 'R') {
+      return true;
+    } else {
+      return typeof objectValue.value == this.attributeTypes.find(x => x.key === type).type;
+    }
   }
 }
 

@@ -12,6 +12,7 @@ import {map} from "rxjs/operators";
 export interface AttrDialogData {
   newAttribute?: AttributeProduct;
   oldAttribute?:AttributeProduct;
+  isValid:boolean;
 }
 
 @Component({
@@ -50,16 +51,17 @@ export class ProductAttributeEditComponent implements OnInit {
         if (response.status == 200) {
           this.selectedAttribute = response.body;
           this.searchAttributeCtrl.setValue(this.selectedAttribute);
-
-          if (this.data.oldAttribute.type == 'N') {
-            this.attributeValueNumber.setValue((this.data.oldAttribute.objectValue as AttributeProductValueNumber).value);
-          } else if (this.data.oldAttribute.type == 'R') {
-            this.attributeValueRangeMin.setValue((this.data.oldAttribute.objectValue as AttributeProductValueRange).minValue);
-            this.attributeValueRangeMax.setValue((this.data.oldAttribute.objectValue as AttributeProductValueRange).maxValue);
-          } else if (this.data.oldAttribute.type == 'L') {
-            this.attributeValueLogic.setValue((this.data.oldAttribute.objectValue as AttributeProductValueLogic).value);
-          } else {
-            this.attributeValuesCtrl.setValue((this.data.oldAttribute.objectValue as AttributeProductValueText).value);
+          if (this.data.isValid) {
+            if (this.data.oldAttribute.type == 'N') {
+              this.attributeValueNumber.setValue((this.data.oldAttribute.objectValue as AttributeProductValueNumber).value);
+            } else if (this.data.oldAttribute.type == 'R') {
+              this.attributeValueRangeMin.setValue((this.data.oldAttribute.objectValue as AttributeProductValueRange).minValue);
+              this.attributeValueRangeMax.setValue((this.data.oldAttribute.objectValue as AttributeProductValueRange).maxValue);
+            } else if (this.data.oldAttribute.type == 'L') {
+              this.attributeValueLogic.setValue((this.data.oldAttribute.objectValue as AttributeProductValueLogic).value);
+            } else {
+              this.attributeValuesCtrl.setValue((this.data.oldAttribute.objectValue as AttributeProductValueText).value);
+            }
           }
 
           this.attributeValues = this.selectedAttribute.allValues
@@ -128,9 +130,10 @@ export class ProductAttributeEditComponent implements OnInit {
     this.data.newAttribute.etimUnit = this.selectedAttribute.etimUnit
     this.data.newAttribute.type = this.selectedAttribute.type
     this.data.newAttribute.unit = this.selectedAttribute.unit
-    if (this.data.newAttribute.type == 'R')
+    if (this.data.newAttribute.type == 'R') {
       (this.data.newAttribute.objectValue as AttributeProductValueRange).minValue = this.attributeValueRangeMin.value;
       (this.data.newAttribute.objectValue as AttributeProductValueRange).maxValue = this.attributeValueRangeMax.value;
+    }
     if (this.data.newAttribute.type == 'N')
       (this.data.newAttribute.objectValue as AttributeProductValueNumber).value = this.attributeValueNumber.value;
     if (this.data.newAttribute.type == 'L')

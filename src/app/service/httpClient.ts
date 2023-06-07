@@ -362,7 +362,6 @@ export class ApiClient {
   }
 
   deleteDocument(id:string) {
-    console.log('delete', id)
     return this.http.delete(this.apiURL + '/documents/documentDelete/' + id, this.httpOptions);
   }
 
