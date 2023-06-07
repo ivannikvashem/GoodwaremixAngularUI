@@ -128,6 +128,8 @@ export class ApiClient {
       opt.params = opt.params.append('withInternalCode', withInternalCodeSelector);
     if (sortField)
       opt.params = opt.params.append('sortField', sortField);
+    if (attributes)
+      opt.params = opt.params.append('attributeSearch', attributes)
     opt = Object.assign(opt, this.httpOptions);
     return this.http.get<Product[]>(this.apiURL + '/Products/', opt);
   }

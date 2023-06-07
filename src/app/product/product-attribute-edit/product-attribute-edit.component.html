@@ -70,7 +70,7 @@
 
     <div *ngIf="!data.isValid">
       <span style="color: red">Значение характеристики не корректно, пожалуйста перенестите значение. </span>
-      <strong>{{data.oldAttribute.objectValue.value}}</strong>
+      <strong>{{data.oldAttribute.objectValue?.value}}</strong>
     </div>
 
     <div mat-dialog-actions class="actions-div">

@@ -5,6 +5,8 @@ import {Supplier} from "../models/supplier.model";
 import {FormControl} from "@angular/forms";
 import {LocalStorageService} from "../service/local-storage.service";
 import {Subscription} from "rxjs";
+import {MatDialog} from "@angular/material/dialog";
+import {AttributeFilterComponent, SelectedFilterAttributes} from "./attribute-filter/attribute-filter.component";
 
 
 @Component({
@@ -23,6 +25,8 @@ export class ProductComponent implements OnInit {
 
   //About to be deprecated
   cardLayout:boolean = true;
+
+  filterAttribute:SelectedFilterAttributes = new SelectedFilterAttributes()
 
   pageCookie$ = this._localStorageService.myData$;
   pC: any = {};
@@ -44,7 +48,8 @@ export class ProductComponent implements OnInit {
   constructor(
     private _ActivatedRoute:ActivatedRoute,
     private dss: DataStateService,
-    private _localStorageService: LocalStorageService) { }
+    private _localStorageService: LocalStorageService,
+    public dialog: MatDialog) { }
 
   getCookie() {
     this._localStorageService.getDataByPageName("ProductIndex")
@@ -113,5 +118,16 @@ export class ProductComponent implements OnInit {
   sortData() {
     this.sortActive = this.selectedSort.active;
     this.sortDirection = this.selectedSort.direction;
+  }
+
+  attributeFilter() {
+    const dialogRef = this.dialog.open(AttributeFilterComponent, {
+      width: '900px',
+      data: {  },
+      autoFocus:false
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.filterAttribute = result;
+    });
   }
 }

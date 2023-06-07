@@ -41,6 +41,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   @Input() pageIndex:number;
   @Input() pageSize:number;
   @Input() sortParams:any;
+  @Input() attributeFilter:any;
   @Output() pageParams:EventEmitter<any> = new EventEmitter();
   productId: string | any;
 
@@ -91,7 +92,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
 
   // isCardLayout params should be removed
   loadProductPagedData(): any {
-    this.dataSource.loadPagedData(this.isCardLayout, this.searchQuery, this.selectedSupplier?.id,  this.pageIndex, this.pageSize, null, this.sortParams.active, this.sortParams.direction, this.withInternalCode);
+    this.dataSource.loadPagedData(this.isCardLayout, this.searchQuery, this.selectedSupplier?.id,  this.pageIndex, this.pageSize, this.attributeFilter, this.sortParams.active, this.sortParams.direction, this.withInternalCode);
     this.dataSource.connect(null).subscribe(x => {
       this.productsList = x
     })

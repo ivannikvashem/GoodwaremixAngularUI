@@ -404,10 +404,14 @@ export class ProductEditComponent implements OnInit {
   }
 
   isTypeValid(objectValue: any, type:string) {
-    if (objectValue.minValue && objectValue.maxValue && type == 'R') {
-      return true;
-    } else {
-      return typeof objectValue.value == this.attributeTypes.find(x => x.key === type).type;
+    if (!type)
+      return null;
+    else {
+      if (objectValue?.minValue && objectValue?.maxValue && type == 'R') {
+        return true;
+      } else {
+        return typeof objectValue.value == this.attributeTypes.find(x => x.key === type).type;
+      }
     }
   }
 }
