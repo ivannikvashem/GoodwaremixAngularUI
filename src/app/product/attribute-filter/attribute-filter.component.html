@@ -3,7 +3,7 @@
 
     <div style="display: flex; justify-content: space-between">
       <h3>Фильтры</h3>
-      <button mat-raised-button mat-dialog-close color="primary" (click)="clearSelection()">Очистить фильтр</button>
+      <button mat-raised-button [mat-dialog-close]="null" color="primary">Очистить фильтр</button>
     </div>
     <div style="display: flex">
 
@@ -21,7 +21,7 @@
         </mat-form-field>
 
         <div *ngFor="let item of attributesForFilter; let i = index" style="display: flex;margin-bottom: 5px">
-          <mat-accordion class="full-width" appearance="fill" style="width: 100%; height: 100%">
+          <mat-accordion *ngIf="item.type == 'A'" class="full-width" appearance="fill" style="width: 100%; height: 100%">
             <mat-expansion-panel>
               <mat-expansion-panel-header [expandedHeight]="'35px'">
                 <mat-panel-title>
@@ -67,19 +67,19 @@
               -->
             </mat-expansion-panel>
           </mat-accordion >
-       <!--   <div style="display: flex;" *ngIf="item.type == 'R'">
+          <div style="display: flex;" *ngIf="item.type == 'R'">
             <mat-form-field>
               <mat-label>Минимум</mat-label>
-              <input matInput #minValue [(ngModel)]="getItem(item.nameAttribute)">
+              <input matInput #minValue>
             </mat-form-field>
 
             <mat-form-field>
               <mat-label>Максимум</mat-label>
-              <input matInput #maxValue [(ngModel)]="getItem(item.nameAttribute)">
+              <input matInput #maxValue>
             </mat-form-field>
 
             <button (click)="addRangeValues(minValue.value,maxValue.value, item.nameAttribute)">+</button>
-          </div>-->
+          </div>
           <button (click)="removeFilter(i)" style="height: 48px">X</button>
       </div>
 

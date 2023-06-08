@@ -44,6 +44,10 @@ export class AttributeFilterComponent implements OnInit {
       this.selectedAttributes.attributeSearchFilters = this.data.filter.attributeSearchFilters
     }
 
+    this.dialogRef.backdropClick().subscribe(x => {
+      this.dialogRef.close(this.selectedAttributes)
+    })
+
 
     this.attributeValueFilterCtrl.valueChanges.pipe(
       distinctUntilChanged(),
@@ -71,42 +75,23 @@ export class AttributeFilterComponent implements OnInit {
   }
 */
    attributeValueChecked($event: any,nameAttribute: string, value: string) {
-     console.log($event.checked)
-     const isChecked = $event.checked;
-
-     if (isChecked == true) {
+     if ($event.checked == true) {
        if (this.selectedAttributes.attributeSearchFilters.some(n => n.attributeName === nameAttribute)) {
-
          this.selectedAttributes.attributeSearchFilters.forEach(att => {
-           console.log(att)
            if (att.attributeName == nameAttribute && !att.attributeValues.includes(value)) {
              att.attributeValues.push(value)
            }
-           /* if (att.nameAttribute == nameAttribute) {
-              att.allValues.push(value)
-            }*/
          })
        }
-     }
-     else {
-       console.log('delete')
+     } else {
        if (this.selectedAttributes.attributeSearchFilters.some(n => n.attributeName === nameAttribute)) {
-
          this.selectedAttributes.attributeSearchFilters.forEach(att => {
-           console.log(att)
            if (att.attributeName == nameAttribute) {
              att.attributeValues = att.attributeValues.filter(x => x !== value)
            }
-           /* if (att.nameAttribute == nameAttribute) {
-              att.allValues.push(value)
-            }*/
          })
        }
      }
-
-
-
-     console.log('selected list', this.selectedAttributes.attributeSearchFilters)
    }
 
   onAttributeValueSelected() {
@@ -133,20 +118,10 @@ export class AttributeFilterComponent implements OnInit {
     this.selectedAttributes.attributeSearchFilters.splice(i, 1)
   }
 
-  clearSelection() {
-    this.selectedAttributes = null;
-    this.dialogRef.close()
-  }
-
   addRangeValues(min: string, max: string, nameAttribute: string) {
     let arr = [min,max]
     console.log(arr)
     this.selectedAttributes.attributeSearchFilters.find(x => x.attributeName == nameAttribute).attributeValues.push(min, max)
     //this.selectedAttributes.attributeSearchFilters.find(x => x.{attributeName: (this.attributeValueFilterCtrl.value as Attribute).nameAttribute, type: (this.attributeValueFilterCtrl.value as Attribute).type, attributeValues: []});
-  }
-
-
-  getItem(nameAttribute: string) {
-    return this.selectedAttributes.attributeSearchFilters.find(x => x.attributeName == nameAttribute).attributeValues
   }
 }
