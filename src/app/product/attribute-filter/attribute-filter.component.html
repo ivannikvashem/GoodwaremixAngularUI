@@ -36,7 +36,7 @@
               </mat-form-field>
 
               <cdk-virtual-scroll-viewport itemSize="10" class="attributeFilter-viewport" style="height: 200px">
-                <mat-checkbox style="display: block" *cdkVirtualFor="let value of item.allValues" [value]="value" (change)="attributeValueChecked($event, item.nameAttribute, value)">{{value}}</mat-checkbox>
+                <mat-checkbox style="display: block" *cdkVirtualFor="let value of item.allValues" [value]="value" (change)="attributeValueChecked($event, item.id, value)">{{value}}</mat-checkbox>
 
                 <!--
                            <mat-option  [value]="value" class="multiline-mat-option" (onSelectionChange)="attributeValueChecked($event ,item.nameAttribute,value)">{{value}}</mat-option>

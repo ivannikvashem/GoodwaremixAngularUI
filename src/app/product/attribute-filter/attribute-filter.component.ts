@@ -7,7 +7,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 
 export class SelectedFilterAttributes {
-  attributeName:string;
+  attributeId:string;
   type:string;
   attributeValues:string[] = []
 }
@@ -74,19 +74,19 @@ export class AttributeFilterComponent implements OnInit {
      })
   }
 */
-   attributeValueChecked($event: any,nameAttribute: string, value: string) {
+   attributeValueChecked($event: any,attributeId: string, value: string) {
      if ($event.checked == true) {
-       if (this.selectedAttributes.attributeSearchFilters.some(n => n.attributeName === nameAttribute)) {
+       if (this.selectedAttributes.attributeSearchFilters.some(n => n.attributeId === attributeId)) {
          this.selectedAttributes.attributeSearchFilters.forEach(att => {
-           if (att.attributeName == nameAttribute && !att.attributeValues.includes(value)) {
+           if (att.attributeId == attributeId && !att.attributeValues.includes(value)) {
              att.attributeValues.push(value)
            }
          })
        }
      } else {
-       if (this.selectedAttributes.attributeSearchFilters.some(n => n.attributeName === nameAttribute)) {
+       if (this.selectedAttributes.attributeSearchFilters.some(n => n.attributeId === attributeId)) {
          this.selectedAttributes.attributeSearchFilters.forEach(att => {
-           if (att.attributeName == nameAttribute) {
+           if (att.attributeId == attributeId) {
              att.attributeValues = att.attributeValues.filter(x => x !== value)
            }
          })
@@ -95,14 +95,14 @@ export class AttributeFilterComponent implements OnInit {
    }
 
   onAttributeValueSelected() {
-    this.selectedAttributes.attributeSearchFilters.push({attributeName: (this.attributeValueFilterCtrl.value as Attribute).nameAttribute, type: (this.attributeValueFilterCtrl.value as Attribute).type, attributeValues: []});
+    this.selectedAttributes.attributeSearchFilters.push({attributeId: (this.attributeValueFilterCtrl.value as Attribute).id, type: (this.attributeValueFilterCtrl.value as Attribute).type, attributeValues: []});
     this.attributesForFilter.push(this.attributeValueFilterCtrl.value as Attribute);
   }
 
   applyFilter() {
     for (let i of this.attributesForFilter) {
       let obj = new SelectedFilterAttributes()
-      obj.attributeName = i.nameAttribute;
+      obj.attributeId = i.nameAttribute;
       obj.type = i.type;
 
       this.selectedAttributes.attributeSearchFilters.push(obj)
@@ -121,12 +121,12 @@ export class AttributeFilterComponent implements OnInit {
   addRangeValues(min: string, max: string, nameAttribute: string) {
     let arr = [min,max]
     console.log(arr)
-    this.selectedAttributes.attributeSearchFilters.find(x => x.attributeName == nameAttribute).attributeValues.push(min, max)
+    this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == nameAttribute).attributeValues.push(min, max)
     //this.selectedAttributes.attributeSearchFilters.find(x => x.{attributeName: (this.attributeValueFilterCtrl.value as Attribute).nameAttribute, type: (this.attributeValueFilterCtrl.value as Attribute).type, attributeValues: []});
   }
 
   addNumberValue(value: string, nameAttribute:string) {
-    this.selectedAttributes.attributeSearchFilters.find(x => x.attributeName == nameAttribute).attributeValues.push(value)
+    this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == nameAttribute).attributeValues.push(value)
 
   }
 }
