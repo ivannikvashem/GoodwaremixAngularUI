@@ -42,6 +42,7 @@ import {ScrollingModule} from "@angular/cdk/scrolling";
 import { ProductCardComponent } from './product-card/product-card.component';
 import { ProductSelectedListComponent } from './product-selected-list/product-selected-list.component';
 import {AdminModule} from "../admin/admin.module";
+import {MatBadgeModule} from "@angular/material/badge";
 
 @NgModule({
     declarations: [
@@ -94,6 +95,7 @@ import {AdminModule} from "../admin/admin.module";
         MatCheckboxModule,
         ScrollingModule,
         AdminModule,
+        MatBadgeModule,
     ]
 })
 export class ProductModule { }

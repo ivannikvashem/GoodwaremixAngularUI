@@ -4,14 +4,14 @@ import {catchError, finalize, map} from 'rxjs/operators';
 import {ApiClient} from "../../service/httpClient";
 import {Product} from "../../models/product.model";
 
-export class SelectedFilterAttributes {
+export class Filter {
   attributeName:string;
   type:string;
   attributeValues:string[] = []
 }
 
-export class SelectedFilterAttributes1 {
-  attributeSearchFilters:SelectedFilterAttributes[] = [];
+export class SelectedFiltersList {
+  attributeSearchFilters:Filter[] = [];
 }
 
 export class ProductsDataSource implements DataSource<Product> {
@@ -22,8 +22,8 @@ export class ProductsDataSource implements DataSource<Product> {
   public loading$ = this.loadingSubject.asObservable();
   public rowCount:number = -1;
 
-  attr1: SelectedFilterAttributes = {attributeName:'Модульная ширина (общ. количество модульных расстояний)', type: 'N', attributeValues: ['2','10']}
-  attr2: SelectedFilterAttributes1 = {attributeSearchFilters: [this.attr1]}
+  attr1: Filter = {attributeName:'Модульная ширина (общ. количество модульных расстояний)', type: 'N', attributeValues: ['2','10']}
+  attr2: SelectedFiltersList = {attributeSearchFilters: [this.attr1]}
 
 
   constructor(private api: ApiClient) {}
@@ -38,9 +38,9 @@ export class ProductsDataSource implements DataSource<Product> {
   }
 
   // loadPagedData - isCardLayout param should be removed
-  loadPagedData(isCardLayout = true,queryString = "", selectedSuppId = '', pageIndex = 0, pageSize = 10, selectedAttributes:string, sortActive:string, sortDirection:string, withInternalCodeSelector?:boolean) {
+  loadPagedData(isCardLayout = true,queryString = "", selectedSuppId = '', pageIndex = 0, pageSize = 10, selectedAttributes:any | null, sortActive:string, sortDirection:string, withInternalCodeSelector?:boolean) {
     this.loadingSubject.next(true);
-    this.api.getProducts(queryString, selectedSuppId, pageIndex, pageSize, JSON.stringify(selectedAttributes), sortActive, sortDirection, withInternalCodeSelector)
+    this.api.getProducts(queryString, selectedSuppId, pageIndex, pageSize, selectedAttributes, sortActive, sortDirection, withInternalCodeSelector)
       .pipe(
         tap(() => {
           this.loadingSubject.next(true);

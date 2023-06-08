@@ -32,7 +32,7 @@
       </button>
     </div>
     <div class="toolbox-item">
-      <button mat-raised-button (click)="attributeFilter()">
+      <button mat-raised-button (click)="attributeFilter()" [matBadge]="filterAttribute?.attributeSearchFilters ? filterAttribute?.attributeSearchFilters.length : 0" matBadgePosition="after" matBadgeColor="accent">
         Фильтры
       </button>
     </div>

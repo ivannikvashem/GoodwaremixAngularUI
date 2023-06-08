@@ -3,7 +3,7 @@ import {FormControl} from "@angular/forms";
 import {Attribute} from "../../models/attribute.model";
 import {debounceTime, distinctUntilChanged, finalize, Observable, switchMap, tap} from "rxjs";
 import {ApiClient} from "../../service/httpClient";
-import {MAT_DIALOG_DATA} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 
 export class SelectedFilterAttributes {
@@ -35,9 +35,16 @@ export class AttributeFilterComponent implements OnInit {
 
   selectedAttributes: SelectedFilterAttributes1 = new SelectedFilterAttributes1()
 
-  constructor(private api:ApiClient, @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(private api:ApiClient, @Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<AttributeFilterComponent>) { }
 
   ngOnInit(): void {
+    if (this.data.filter.attributeSearchFilters.length > 0) {
+      console.log('push i guess')
+      console.log('push i guess', this.data.filter.attributeSearchFilters)
+      this.selectedAttributes.attributeSearchFilters = this.data.filter.attributeSearchFilters
+    }
+
+
     this.attributeValueFilterCtrl.valueChanges.pipe(
       distinctUntilChanged(),
       debounceTime(100),
@@ -57,14 +64,12 @@ export class AttributeFilterComponent implements OnInit {
     });
   }
 
-  filtrationSearch(filterSearch: HTMLInputElement, attributeId:string) {
-     this.api.getAttributeById(attributeId).subscribe((r:any) => {
-       this.attributesForFilter.find(attr => attr.id === attributeId).allValues = r.body.allValue.filter((value:any) => {
-         return value.toLowerCase().includes(filterSearch.value.toLowerCase())
-       })
+ /* filtrationSearch(filterSearch: HTMLInputElement, attributeId:string) {
+     this.attributesForFilter.find(attr => attr.id === attributeId).allValues = this.attributesForFilter.allValues.filter((value:any) => {
+       return value.toLowerCase().includes(filterSearch.value.toLowerCase())
      })
   }
-
+*/
    attributeValueChecked($event: any,nameAttribute: string, value: string) {
      console.log($event.checked)
      const isChecked = $event.checked;
@@ -126,5 +131,22 @@ export class AttributeFilterComponent implements OnInit {
   removeFilter(i: number) {
     this.attributesForFilter.splice(i, 1);
     this.selectedAttributes.attributeSearchFilters.splice(i, 1)
+  }
+
+  clearSelection() {
+    this.selectedAttributes = null;
+    this.dialogRef.close()
+  }
+
+  addRangeValues(min: string, max: string, nameAttribute: string) {
+    let arr = [min,max]
+    console.log(arr)
+    this.selectedAttributes.attributeSearchFilters.find(x => x.attributeName == nameAttribute).attributeValues.push(min, max)
+    //this.selectedAttributes.attributeSearchFilters.find(x => x.{attributeName: (this.attributeValueFilterCtrl.value as Attribute).nameAttribute, type: (this.attributeValueFilterCtrl.value as Attribute).type, attributeValues: []});
+  }
+
+
+  getItem(nameAttribute: string) {
+    return this.selectedAttributes.attributeSearchFilters.find(x => x.attributeName == nameAttribute).attributeValues
   }
 }

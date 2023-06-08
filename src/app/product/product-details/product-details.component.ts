@@ -141,10 +141,13 @@ export class ProductDetailsComponent implements OnInit {
   ]
 
   isTypeValid(objectValue: any, type:string) {
-    if (objectValue.minValue && objectValue.maxValue && type == 'R') {
+    if (objectValue == undefined && type == undefined) {
+      return null;
+    }
+    if (objectValue?.minValue && objectValue?.maxValue && type == 'R') {
       return true;
     } else {
-      return typeof objectValue.value == this.attributeTypes.find(x => x.key === type).type;
+      return typeof objectValue?.value == this.attributeTypes.find(x => x.key === type).type;
     }
   }
 }

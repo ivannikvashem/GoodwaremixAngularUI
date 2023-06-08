@@ -7,6 +7,7 @@ import {LocalStorageService} from "../service/local-storage.service";
 import {Subscription} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
 import {AttributeFilterComponent, SelectedFilterAttributes} from "./attribute-filter/attribute-filter.component";
+import {SelectedFiltersList} from "./repo/ProductsDataSource";
 
 
 @Component({
@@ -26,7 +27,7 @@ export class ProductComponent implements OnInit {
   //About to be deprecated
   cardLayout:boolean = true;
 
-  filterAttribute:SelectedFilterAttributes = new SelectedFilterAttributes()
+  filterAttribute:SelectedFiltersList = new SelectedFiltersList()
 
   pageCookie$ = this._localStorageService.myData$;
   pC: any = {};
@@ -61,6 +62,7 @@ export class ProductComponent implements OnInit {
         this.pageIndex = this.pC.pageIndex;
         this.pageSize = this.pC.pageSize;
         this.withICFilter = this.pC.withInternalCodeSelector;
+        //this.filterAttribute = this.pC.filterAttribute;
       }
     });
   }
@@ -70,7 +72,8 @@ export class ProductComponent implements OnInit {
       searchQuery: this.searchQuery,
       pageIndex: this.pageIndex,
       pageSize: this.pageSize,
-      withInternalCodeSelector: this.withICFilter
+      withInternalCodeSelector: this.withICFilter,
+      filterAttribute: this.filterAttribute != undefined ? this.filterAttribute : null
     });
   }
 
@@ -123,11 +126,17 @@ export class ProductComponent implements OnInit {
   attributeFilter() {
     const dialogRef = this.dialog.open(AttributeFilterComponent, {
       width: '900px',
-      data: {  },
+      data: {filter: this.filterAttribute},
       autoFocus:false
     });
     dialogRef.afterClosed().subscribe(result => {
-      this.filterAttribute = result;
+      console.log(result)
+      if (result) {
+        this.filterAttribute = result;
+      } else {
+        this.filterAttribute = new SelectedFiltersList();
+      }
+      this.setCookie();
     });
   }
 }

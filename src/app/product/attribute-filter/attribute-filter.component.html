@@ -1,72 +1,99 @@
 <div class="main">
-  <mat-dialog-content class="mat-typography">
+  <mat-dialog-content>
 
-  <div style="height: 500px; width: 100%">
-    {{attributesForFilter.length}}
-    <mat-form-field appearance="fill" style="width: 100%">
-      <mat-label>Значение</mat-label>
-      <input matInput placeholder=""
-             [formControl]="attributeValueFilterCtrl"
-             [matAutocomplete]="attributeValuesAuto" [autofocus]="true" (keydown.enter)="onAttributeValueSelected();">
-      <mat-autocomplete autoActiveFirstOption #attributeValuesAuto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onAttributeValueSelected()">
-        <mat-option *ngFor="let option of attributesList" [value]="option">
-          {{option.nameAttribute}}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
+    <div style="display: flex; justify-content: space-between">
+      <h3>Фильтры</h3>
+      <button mat-raised-button mat-dialog-close color="primary" (click)="clearSelection()">Очистить фильтр</button>
+    </div>
+    <div style="display: flex">
 
-    <div *ngFor="let item of attributesForFilter; let i = index" style="display: flex;margin-bottom: 5px">
-      <mat-accordion class="full-width" appearance="fill">
-        <mat-expansion-panel>
-          <mat-expansion-panel-header [expandedHeight]="'35px'">
-            <mat-panel-title>
-              {{item.nameAttribute}}
-              {{item.allValues.length}}
-            </mat-panel-title>
-          </mat-expansion-panel-header>
+      <div class="column">
+        <mat-form-field appearance="fill" style="width: 100%">
+          <mat-label>Значение</mat-label>
+          <input matInput placeholder=""
+                 [formControl]="attributeValueFilterCtrl"
+                 [matAutocomplete]="attributeValuesAuto" [autofocus]="true">
+          <mat-autocomplete autoActiveFirstOption #attributeValuesAuto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onAttributeValueSelected()">
+            <mat-option *ngFor="let option of attributesList" [value]="option">
+              {{option.nameAttribute}} {{option.type}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
 
-          <mat-form-field class="full-width" appearance="outline">
-            <mat-label>Значение</mat-label>
-            <input type="text" matInput #filterSearch (input)="filtrationSearch(filterSearch, item.id)">
-          </mat-form-field>
+        <div *ngFor="let item of attributesForFilter; let i = index" style="display: flex;margin-bottom: 5px">
+          <mat-accordion class="full-width" appearance="fill" style="width: 100%; height: 100%">
+            <mat-expansion-panel>
+              <mat-expansion-panel-header [expandedHeight]="'35px'">
+                <mat-panel-title>
+                  {{item.nameAttribute}}
+                  <strong> ({{item.allValues.length}})</strong>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
 
-          <cdk-virtual-scroll-viewport itemSize="10" class="attributeFilter-viewport" style="height: 100px">
-            <mat-checkbox style="display: block" *cdkVirtualFor="let value of item.allValues" [value]="value" (change)="attributeValueChecked($event, item.nameAttribute, value)">{{value}}</mat-checkbox>
+              <mat-form-field class="full-width" appearance="outline" *ngIf="item.allValues.length > 20">
+                <mat-label>Значение</mat-label>
+                <input type="text" matInput #filterSearch (input)="filtrationSearch(filterSearch, item.id)">
+              </mat-form-field>
 
-            <!--
-                       <mat-option  [value]="value" class="multiline-mat-option" (onSelectionChange)="attributeValueChecked($event ,item.nameAttribute,value)">{{value}}</mat-option>
-            -->
+              <cdk-virtual-scroll-viewport itemSize="10" class="attributeFilter-viewport" style="height: 200px">
+                <mat-checkbox style="display: block" *cdkVirtualFor="let value of item.allValues" [value]="value" (change)="attributeValueChecked($event, item.nameAttribute, value)">{{value}}</mat-checkbox>
 
-          </cdk-virtual-scroll-viewport>
+                <!--
+                           <mat-option  [value]="value" class="multiline-mat-option" (onSelectionChange)="attributeValueChecked($event ,item.nameAttribute,value)">{{value}}</mat-option>
+                -->
+
+              </cdk-virtual-scroll-viewport>
 
 
-          <!-- <mat-label>{{item.nameAttribute}}</mat-label>
-           <mat-select multiple [formControl]="attributeValueFilterCtrl" panelClass="select-long-panel">
-             &lt;!&ndash;                <mat-select-trigger>&ndash;&gt;
+              <!-- <mat-label>{{item.nameAttribute}}</mat-label>
+               <mat-select multiple [formControl]="attributeValueFilterCtrl" panelClass="select-long-panel">
+                 &lt;!&ndash;                <mat-select-trigger>&ndash;&gt;
 
-             &lt;!&ndash;                </mat-select-trigger>&ndash;&gt;
+                 &lt;!&ndash;                </mat-select-trigger>&ndash;&gt;
 
-             <mat-card style="height: 100px">
-               <mat-form-field class="full-width" appearance="fill">
-                 {{item.allValues | json}}
-                 <mat-label>Поиск</mat-label>
-                 <input matInput #filterSearch (input)="filtrationSearch(filterSearch, item.id)">
-               </mat-form-field>
-               <cdk-virtual-scroll-viewport itemSize="10" class="attributeFilter-viewport">
-                 <mat-option *cdkVirtualFor="let value of item.allValues" [value]="value" class="multiline-mat-option" (onSelectionChange)="attributeValueChecked($event ,item.nameAttribute,value)">{{value}}</mat-option>
-               </cdk-virtual-scroll-viewport>
-             </mat-card>
-           </mat-select>-->
-          <!--
-                  </mat-form-field>
-          -->
-        </mat-expansion-panel>
-      </mat-accordion>
-      <button (click)="removeFilter(i)">X</button>
+                 <mat-card style="height: 100px">
+                   <mat-form-field class="full-width" appearance="fill">
+                     {{item.allValues | json}}
+                     <mat-label>Поиск</mat-label>
+                     <input matInput #filterSearch (input)="filtrationSearch(filterSearch, item.id)">
+                   </mat-form-field>
+                   <cdk-virtual-scroll-viewport itemSize="10" class="attributeFilter-viewport">
+                     <mat-option *cdkVirtualFor="let value of item.allValues" [value]="value" class="multiline-mat-option" (onSelectionChange)="attributeValueChecked($event ,item.nameAttribute,value)">{{value}}</mat-option>
+                   </cdk-virtual-scroll-viewport>
+                 </mat-card>
+               </mat-select>-->
+              <!--
+                      </mat-form-field>
+              -->
+            </mat-expansion-panel>
+          </mat-accordion >
+       <!--   <div style="display: flex;" *ngIf="item.type == 'R'">
+            <mat-form-field>
+              <mat-label>Минимум</mat-label>
+              <input matInput #minValue [(ngModel)]="getItem(item.nameAttribute)">
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Максимум</mat-label>
+              <input matInput #maxValue [(ngModel)]="getItem(item.nameAttribute)">
+            </mat-form-field>
+
+            <button (click)="addRangeValues(minValue.value,maxValue.value, item.nameAttribute)">+</button>
+          </div>-->
+          <button (click)="removeFilter(i)" style="height: 48px">X</button>
+      </div>
+
     </div>
 
 
-  </div>
+      <div class="column">
+
+        <pre>
+          {{selectedAttributes | json}}
+        </pre>
+      </div>
+    </div>
+
   </mat-dialog-content>
 
     <div mat-dialog-actions class="actions-div">
