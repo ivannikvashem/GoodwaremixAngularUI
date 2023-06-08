@@ -78,11 +78,11 @@
               <input matInput #maxValue>
             </mat-form-field>
 
-            <button (click)="addRangeValues(minValue.value,maxValue.value, item.nameAttribute)">+</button>
+            <button (click)="addRangeValues(minValue.value,maxValue.value, item.id)">+</button>
           </div>
           <mat-form-field *ngIf="item.type == 'N'">
             <mat-label>Значение</mat-label>
-            <input matInput #number (keydown.enter)="addNumberValue(number.value, item.nameAttribute)">
+            <input matInput #number (keydown.enter)="addNumberValue(number.value, item.id)">
           </mat-form-field>
 
           <button (click)="removeFilter(i)" style="height: 48px">X</button>

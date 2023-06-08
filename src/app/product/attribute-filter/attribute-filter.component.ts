@@ -118,15 +118,15 @@ export class AttributeFilterComponent implements OnInit {
     this.selectedAttributes.attributeSearchFilters.splice(i, 1)
   }
 
-  addRangeValues(min: string, max: string, nameAttribute: string) {
+  addRangeValues(min: string, max: string, attributeId: string) {
     let arr = [min,max]
     console.log(arr)
-    this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == nameAttribute).attributeValues.push(min, max)
+    this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == attributeId).attributeValues.push(min, max)
     //this.selectedAttributes.attributeSearchFilters.find(x => x.{attributeName: (this.attributeValueFilterCtrl.value as Attribute).nameAttribute, type: (this.attributeValueFilterCtrl.value as Attribute).type, attributeValues: []});
   }
 
-  addNumberValue(value: string, nameAttribute:string) {
-    this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == nameAttribute).attributeValues.push(value)
+  addNumberValue(value: string, attributeId:string) {
+    this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == attributeId).attributeValues.push(value)
 
   }
 }
