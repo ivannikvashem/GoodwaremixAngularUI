@@ -124,4 +124,9 @@ export class AttributeFilterComponent implements OnInit {
     this.selectedAttributes.attributeSearchFilters.find(x => x.attributeName == nameAttribute).attributeValues.push(min, max)
     //this.selectedAttributes.attributeSearchFilters.find(x => x.{attributeName: (this.attributeValueFilterCtrl.value as Attribute).nameAttribute, type: (this.attributeValueFilterCtrl.value as Attribute).type, attributeValues: []});
   }
+
+  addNumberValue(value: string, nameAttribute:string) {
+    this.selectedAttributes.attributeSearchFilters.find(x => x.attributeName == nameAttribute).attributeValues.push(value)
+
+  }
 }

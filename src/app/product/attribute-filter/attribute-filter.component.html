@@ -15,7 +15,7 @@
                  [matAutocomplete]="attributeValuesAuto" [autofocus]="true">
           <mat-autocomplete autoActiveFirstOption #attributeValuesAuto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onAttributeValueSelected()">
             <mat-option *ngFor="let option of attributesList" [value]="option">
-              {{option.nameAttribute}} {{option.type}}
+              <strong>{{option.type}}</strong> {{option.nameAttribute}}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
@@ -80,6 +80,11 @@
 
             <button (click)="addRangeValues(minValue.value,maxValue.value, item.nameAttribute)">+</button>
           </div>
+          <mat-form-field *ngIf="item.type == 'N'">
+            <mat-label>Значение</mat-label>
+            <input matInput #number (keydown.enter)="addNumberValue(number.value, item.nameAttribute)">
+          </mat-form-field>
+
           <button (click)="removeFilter(i)" style="height: 48px">X</button>
       </div>
 
