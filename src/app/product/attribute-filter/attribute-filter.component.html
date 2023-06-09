@@ -6,7 +6,7 @@
       <button mat-icon-button [mat-dialog-close]="null" color="warn" matTooltip="Очистить фильтр"><mat-icon>delete</mat-icon></button>
     </div>
     <mat-form-field appearance="fill" style="width: 100%">
-      <mat-label>Значение</mat-label>
+      <mat-label>Характеристика</mat-label>
       <input matInput placeholder=""
              [formControl]="attributeValueFilterCtrl"
              [matAutocomplete]="attributeValuesAuto">
@@ -18,7 +18,7 @@
     </mat-form-field>
 
         <div *ngFor="let item of attributesForFilter; let i = index" class="filterContent mat-elevation-z2">
-            <div>{{item.nameAttribute}} <strong>{{item.type}}</strong></div>
+            <div><strong>{{item.type}}</strong> {{item.nameAttribute}}</div>
             <div *ngIf="item.type == 'A'" class="gridLayout">
               <div>
                 <mat-form-field appearance="standard" class="full-width">
@@ -26,7 +26,7 @@
                          [matAutocomplete]="auto"
                          [matChipInputFor]="attrVal">
                   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="attributeAllValueSelected($event.option.value, item.id); allValueAuto.value = null">
-                    <mat-option *ngFor="let option of item.allValues" [value]="option">
+                    <mat-option *ngFor="let option of item.allValues"  [value]="option">
                       {{ option }}
                     </mat-option>
                   </mat-autocomplete>
@@ -41,13 +41,11 @@
                   </mat-chip>
                 </mat-chip-list>
               </div>
-
               <button (click)="removeFilter(i)" mat-icon-button><mat-icon>delete</mat-icon></button>
-
             </div>
 
 
-            <div *ngIf="item.type == 'N'" class="gridLayout">
+<!--            <div *ngIf="item.type == 'N'" class="gridLayout">
               <div>
                 <mat-form-field appearance="standard" class="full-width">
                   <mat-label>Значение</mat-label>
@@ -59,9 +57,9 @@
               </div>
 
               <button (click)="removeFilter(i)" mat-icon-button><mat-icon>delete</mat-icon></button>
-            </div>
+            </div>-->
 
-            <div *ngIf="item.type == 'R'" class="gridLayout">
+            <div *ngIf="item.type == 'R' || item.type == 'N'" class="gridLayout">
               <div style="display: flex">
                 <mat-form-field appearance="standard" class="full-width">
                   <mat-label>Минимум</mat-label>
@@ -74,7 +72,6 @@
                 </mat-form-field>
               </div>
               <button (click)="removeFilter(i)" mat-icon-button><mat-icon>delete</mat-icon></button>
-
             </div>
 
           <div *ngIf="item.type == 'L'" class="gridLayout">
@@ -86,7 +83,6 @@
             </div>
             <button (click)="removeFilter(i)" mat-icon-button><mat-icon>delete</mat-icon></button>
           </div>
-
 
         </div>
 

@@ -137,6 +137,7 @@ export class ProductComponent implements OnInit {
       } else {
         this.filterAttribute = new SelectedFiltersList();
       }
+      this.pageIndex = 0;
       this.setCookie();
     });
   }

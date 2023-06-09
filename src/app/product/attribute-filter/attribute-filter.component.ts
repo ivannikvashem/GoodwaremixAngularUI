@@ -44,12 +44,6 @@ export class AttributeFilterComponent implements OnInit {
         })
       }
     }
-
-    this.dialogRef.backdropClick().subscribe(x => {
-      this.dialogRef.close(this.selectedAttributes)
-    })
-
-
     this.attributeValueFilterCtrl.valueChanges.pipe(
       distinctUntilChanged(),
       debounceTime(100),
@@ -66,6 +60,10 @@ export class AttributeFilterComponent implements OnInit {
     ).subscribe((response: any) => {
       this.attributesList = response.body.data;
     });
+
+    this.dialogRef.backdropClick().subscribe(x => {
+      this.dialogRef.close(this.onFilterApply())
+    })
   }
 
    attributeAllValueSelected(value: string, attributeId: string) {
@@ -80,8 +78,10 @@ export class AttributeFilterComponent implements OnInit {
    }
 
   onAttributeValueSelected() {
-    this.selectedAttributes.attributeSearchFilters.push({attributeId: (this.attributeValueFilterCtrl.value as Attribute).id, type: (this.attributeValueFilterCtrl.value as Attribute).type, attributeValues: []});
-    this.attributesForFilter.push(this.attributeValueFilterCtrl.value as Attribute);
+    if (!this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == (this.attributeValueFilterCtrl.value as Attribute).id)) {
+      this.selectedAttributes.attributeSearchFilters.push({attributeId: (this.attributeValueFilterCtrl.value as Attribute).id, type: (this.attributeValueFilterCtrl.value as Attribute).type, attributeValues: []});
+      this.attributesForFilter.push(this.attributeValueFilterCtrl.value as Attribute);
+    }
   }
 
   displayFn(attribute: Attribute): string {
@@ -93,11 +93,11 @@ export class AttributeFilterComponent implements OnInit {
     this.selectedAttributes.attributeSearchFilters.splice(i, 1)
   }
 
-  addValue(attributeId:string, valueOne:string, valueTwo?:string) {
-    this.clearAllValue(attributeId);
-    this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == attributeId).attributeValues.push(valueOne)
+  addValue(id:string, valueOne:string, valueTwo?:string) {
+    this.clearAllValue(id);
+    this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == id).attributeValues.push(valueOne)
     if (valueTwo) {
-      this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == attributeId).attributeValues.push(valueTwo)
+      this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == id).attributeValues.push(valueTwo)
     }
   }
 
@@ -109,8 +109,8 @@ export class AttributeFilterComponent implements OnInit {
     this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == id).attributeValues = this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == id).attributeValues.filter(x => x !== value)
   }
 
-  clearAllValue(attributeId:string) {
-    this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == attributeId).attributeValues = [];
+  clearAllValue(id:string) {
+    this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == id).attributeValues = [];
   }
 
   onFilterApply() {
