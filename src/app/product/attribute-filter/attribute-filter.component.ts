@@ -6,14 +6,14 @@ import {ApiClient} from "../../service/httpClient";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 
-export class SelectedFilterAttributes {
+export class Filter {
   attributeId:string;
   type:string;
   attributeValues:string[] = []
 }
 
-export class SelectedFilterAttributes1 {
-  attributeSearchFilters:SelectedFilterAttributes[] = [];
+export class SelectedFiltersList {
+  attributeSearchFilters:Filter[] = [];
 }
 
 
@@ -27,21 +27,22 @@ export class AttributeFilterComponent implements OnInit {
   attributeValueFilterCtrl =  new FormControl<string | Attribute>(null);
   attributesList: Attribute[] = [];
 
-
   attributesForFilter:Attribute[] = []
-  selectedFilterAttributes:SelectedFilterAttributes[] = []
+  selectedFilterAttributes:SelectedFiltersList[] = []
   filteredAttributeValues: Observable<string[]>;
 
-
-  selectedAttributes: SelectedFilterAttributes1 = new SelectedFilterAttributes1()
+  selectedAttributes: SelectedFiltersList = new SelectedFiltersList()
 
   constructor(private api:ApiClient, @Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<AttributeFilterComponent>) { }
 
   ngOnInit(): void {
     if (this.data.filter.attributeSearchFilters.length > 0) {
-      console.log('push i guess')
-      console.log('push i guess', this.data.filter.attributeSearchFilters)
-      this.selectedAttributes.attributeSearchFilters = this.data.filter.attributeSearchFilters
+      for (let i of this.data.filter.attributeSearchFilters) {
+        this.api.getAttributeById(i.attributeId).subscribe(x => {
+          this.attributesForFilter.push(x.body)
+          this.selectedAttributes.attributeSearchFilters = this.data.filter.attributeSearchFilters
+        })
+      }
     }
 
     this.dialogRef.backdropClick().subscribe(x => {
@@ -64,49 +65,23 @@ export class AttributeFilterComponent implements OnInit {
       )
     ).subscribe((response: any) => {
       this.attributesList = response.body.data;
-      console.log(response)
     });
   }
 
- /* filtrationSearch(filterSearch: HTMLInputElement, attributeId:string) {
-     this.attributesForFilter.find(attr => attr.id === attributeId).allValues = this.attributesForFilter.allValues.filter((value:any) => {
-       return value.toLowerCase().includes(filterSearch.value.toLowerCase())
-     })
-  }
-*/
-   attributeValueChecked($event: any,attributeId: string, value: string) {
-     if ($event.checked == true) {
-       if (this.selectedAttributes.attributeSearchFilters.some(n => n.attributeId === attributeId)) {
-         this.selectedAttributes.attributeSearchFilters.forEach(att => {
-           if (att.attributeId == attributeId && !att.attributeValues.includes(value)) {
-             att.attributeValues.push(value)
-           }
-         })
-       }
-     } else {
-       if (this.selectedAttributes.attributeSearchFilters.some(n => n.attributeId === attributeId)) {
-         this.selectedAttributes.attributeSearchFilters.forEach(att => {
-           if (att.attributeId == attributeId) {
-             att.attributeValues = att.attributeValues.filter(x => x !== value)
-           }
-         })
-       }
+   attributeAllValueSelected(value: string, attributeId: string) {
+     let attribute = this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == attributeId).attributeValues.find(x => x == value)
+     if (!attribute) {
+       this.selectedAttributes.attributeSearchFilters.forEach(att => {
+         if (att.attributeId == attributeId && !att.attributeValues.includes(value)) {
+           att.attributeValues.push(value)
+         }
+       })
      }
    }
 
   onAttributeValueSelected() {
     this.selectedAttributes.attributeSearchFilters.push({attributeId: (this.attributeValueFilterCtrl.value as Attribute).id, type: (this.attributeValueFilterCtrl.value as Attribute).type, attributeValues: []});
     this.attributesForFilter.push(this.attributeValueFilterCtrl.value as Attribute);
-  }
-
-  applyFilter() {
-    for (let i of this.attributesForFilter) {
-      let obj = new SelectedFilterAttributes()
-      obj.attributeId = i.nameAttribute;
-      obj.type = i.type;
-
-      this.selectedAttributes.attributeSearchFilters.push(obj)
-    }
   }
 
   displayFn(attribute: Attribute): string {
@@ -118,15 +93,32 @@ export class AttributeFilterComponent implements OnInit {
     this.selectedAttributes.attributeSearchFilters.splice(i, 1)
   }
 
-  addRangeValues(min: string, max: string, attributeId: string) {
-    let arr = [min,max]
-    console.log(arr)
-    this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == attributeId).attributeValues.push(min, max)
-    //this.selectedAttributes.attributeSearchFilters.find(x => x.{attributeName: (this.attributeValueFilterCtrl.value as Attribute).nameAttribute, type: (this.attributeValueFilterCtrl.value as Attribute).type, attributeValues: []});
+  addValue(attributeId:string, valueOne:string, valueTwo?:string) {
+    this.clearAllValue(attributeId);
+    this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == attributeId).attributeValues.push(valueOne)
+    if (valueTwo) {
+      this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == attributeId).attributeValues.push(valueTwo)
+    }
   }
 
-  addNumberValue(value: string, attributeId:string) {
-    this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == attributeId).attributeValues.push(value)
+  selectedValues(id:string) {
+     return this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == id).attributeValues;
+  }
 
+  removeSelectedValue(id: string, value: string) {
+    this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == id).attributeValues = this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == id).attributeValues.filter(x => x !== value)
+  }
+
+  clearAllValue(attributeId:string) {
+    this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == attributeId).attributeValues = [];
+  }
+
+  onFilterApply() {
+    for (let i of this.selectedAttributes.attributeSearchFilters) {
+      if (i.attributeValues.length == 0) {
+        this.selectedAttributes.attributeSearchFilters = this.selectedAttributes.attributeSearchFilters.filter(x => x.attributeId !== i.attributeId)
+      }
+    }
+    this.dialogRef.close(this.selectedAttributes)
   }
 }

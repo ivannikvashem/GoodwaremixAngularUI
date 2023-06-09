@@ -131,7 +131,6 @@ export class ApiClient {
     if (attributes.attributeSearchFilters?.length > 0)
       opt.params = opt.params.append('attributeSearch', JSON.stringify(attributes))
     opt = Object.assign(opt, this.httpOptions);
-    console.log('product get')
     return this.http.get<Product[]>(this.apiURL + '/Products/', opt);
   }
 

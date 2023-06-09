@@ -43,6 +43,7 @@ import { ProductCardComponent } from './product-card/product-card.component';
 import { ProductSelectedListComponent } from './product-selected-list/product-selected-list.component';
 import {AdminModule} from "../admin/admin.module";
 import {MatBadgeModule} from "@angular/material/badge";
+import {MatSliderModule} from "@angular/material/slider";
 
 @NgModule({
     declarations: [
@@ -96,6 +97,7 @@ import {MatBadgeModule} from "@angular/material/badge";
         ScrollingModule,
         AdminModule,
         MatBadgeModule,
+        MatSliderModule,
     ]
 })
 export class ProductModule { }

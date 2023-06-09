@@ -6,7 +6,7 @@ import {FormControl} from "@angular/forms";
 import {LocalStorageService} from "../service/local-storage.service";
 import {Subscription} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
-import {AttributeFilterComponent, SelectedFilterAttributes} from "./attribute-filter/attribute-filter.component";
+import {AttributeFilterComponent} from "./attribute-filter/attribute-filter.component";
 import {SelectedFiltersList} from "./repo/ProductsDataSource";
 
 
@@ -62,7 +62,7 @@ export class ProductComponent implements OnInit {
         this.pageIndex = this.pC.pageIndex;
         this.pageSize = this.pC.pageSize;
         this.withICFilter = this.pC.withInternalCodeSelector;
-        //this.filterAttribute = this.pC.filterAttribute;
+        this.filterAttribute = this.pC.filterAttribute;
       }
     });
   }
@@ -126,6 +126,7 @@ export class ProductComponent implements OnInit {
   attributeFilter() {
     const dialogRef = this.dialog.open(AttributeFilterComponent, {
       width: '900px',
+      height: 'auto',
       data: {filter: this.filterAttribute},
       autoFocus:false
     });
