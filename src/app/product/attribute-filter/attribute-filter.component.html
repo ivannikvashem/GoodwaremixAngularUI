@@ -12,13 +12,13 @@
              [matAutocomplete]="attributeValuesAuto">
       <mat-autocomplete autoActiveFirstOption #attributeValuesAuto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onAttributeValueSelected(); attributeValueFilterCtrl.setValue(null)">
         <mat-option *ngFor="let option of attributesList" [value]="option">
-          <strong>{{option.type}}</strong> {{option.nameAttribute}}
+          <strong>{{option.type}}</strong> {{option.nameAttribute}} <span class="unitMark" *ngIf="option.unit">{{option.unit}}</span>
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
 
         <div *ngFor="let item of attributesForFilter; let i = index" class="filterContent mat-elevation-z2">
-            <div><strong>{{item.type}}</strong> {{item.nameAttribute}}</div>
+            <div><strong>{{item.type}}</strong> {{item.nameAttribute}} <span class="unitMark" *ngIf="item.unit">{{item.unit}}</span></div>
             <div *ngIf="item.type == 'A'" class="gridLayout">
               <div>
                 <mat-form-field appearance="standard" class="full-width">

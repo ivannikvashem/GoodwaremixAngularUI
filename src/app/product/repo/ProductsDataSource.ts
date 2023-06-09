@@ -22,9 +22,6 @@ export class ProductsDataSource implements DataSource<Product> {
   public loading$ = this.loadingSubject.asObservable();
   public rowCount:number = -1;
 
-  attr1: Filter = {attributeName:'Модульная ширина (общ. количество модульных расстояний)', type: 'N', attributeValues: ['2','10']}
-  attr2: SelectedFiltersList = {attributeSearchFilters: [this.attr1]}
-
 
   constructor(private api: ApiClient) {}
 

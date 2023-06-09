@@ -62,7 +62,8 @@ export class AttributeFilterComponent implements OnInit {
     });
 
     this.dialogRef.backdropClick().subscribe(x => {
-      this.dialogRef.close(this.onFilterApply())
+      this.onFilterApply()
+      this.dialogRef.close()
     })
   }
 
@@ -102,7 +103,7 @@ export class AttributeFilterComponent implements OnInit {
   }
 
   selectedValues(id:string) {
-     return this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == id).attributeValues;
+     return this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == id)?.attributeValues;
   }
 
   removeSelectedValue(id: string, value: string) {

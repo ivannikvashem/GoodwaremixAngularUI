@@ -129,7 +129,8 @@
               <span *ngIf="row.objectValue?.minValue != undefined && row.objectValue?.maxValue != undefined">{{row.objectValue?.minValue + '...' + row.objectValue?.maxValue}}</span>
               <span *ngIf="row.objectValue?.minValue == undefined && row.objectValue?.maxValue == undefined">{{row.objectValue?.value}}</span>
             </span>
-            <span *ngIf="row.type !== 'R'"> {{row.objectValue?.value}} </span>
+            <span *ngIf="row.type == 'L'">{{row.objectValue.value ? 'Да' : 'Нет'}}</span>
+            <span *ngIf="row.type !== 'R' && row.type !== 'L'"> {{row.objectValue?.value}} </span>
 
             <span *ngIf="row.unit" class="unitMark">{{row.unit}}</span>
           </td>

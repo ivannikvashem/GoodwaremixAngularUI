@@ -9,7 +9,6 @@ import {MatDialog} from "@angular/material/dialog";
 import {AttributeFilterComponent} from "./attribute-filter/attribute-filter.component";
 import {SelectedFiltersList} from "./repo/ProductsDataSource";
 
-
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
