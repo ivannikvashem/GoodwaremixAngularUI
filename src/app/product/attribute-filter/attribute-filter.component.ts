@@ -30,6 +30,7 @@ export class AttributeFilterComponent implements OnInit {
   attributesForFilter:Attribute[] = []
   selectedFilterAttributes:SelectedFiltersList[] = []
   filteredAttributeValues: Observable<string[]>;
+  onFilterCancelData:string = '';
 
   selectedAttributes: SelectedFiltersList = new SelectedFiltersList()
 
@@ -37,6 +38,7 @@ export class AttributeFilterComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.data.filter.attributeSearchFilters.length > 0) {
+      this.onFilterCancelData = JSON.stringify(this.data.filter);
       for (let i of this.data.filter.attributeSearchFilters) {
         this.api.getAttributeById(i.attributeId).subscribe(x => {
           this.attributesForFilter.push(x.body)
@@ -61,9 +63,8 @@ export class AttributeFilterComponent implements OnInit {
       this.attributesList = response.body.data;
     });
 
-    this.dialogRef.backdropClick().subscribe(x => {
-      this.onFilterApply()
-      this.dialogRef.close()
+    this.dialogRef.backdropClick().subscribe(() => {
+      this.onFilterCancel();
     })
   }
 
@@ -121,5 +122,9 @@ export class AttributeFilterComponent implements OnInit {
       }
     }
     this.dialogRef.close(this.selectedAttributes)
+  }
+
+  onFilterCancel() {
+    this.dialogRef.close(JSON.parse(this.onFilterCancelData))
   }
 }

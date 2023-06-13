@@ -130,7 +130,6 @@ export class ProductComponent implements OnInit {
       autoFocus:false
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result)
       if (result) {
         this.filterAttribute = result;
       } else {
