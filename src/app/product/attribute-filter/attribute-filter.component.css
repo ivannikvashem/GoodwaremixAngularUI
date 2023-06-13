@@ -1,0 +1,38 @@
+.main {
+  position: relative;
+}
+.actions-div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.column {
+  width: 50%;
+}
+
+.gridLayout {
+  display: grid;
+  grid-template-columns: 95% 5%;
+
+}
+
+.filterContent {
+  padding: 10px;
+  margin-bottom: 5px;
+}
+
+mat-slider {
+  width: 300px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.mat-form-field .mat-form-field-infix {
+  height: 16px;
+}
+
+:host::ng-deep .mat-form-field-appearance-standard .mat-form-field-flex {
+   padding-top: 0;
+}

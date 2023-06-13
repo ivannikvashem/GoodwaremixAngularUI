@@ -4,9 +4,14 @@ import {catchError, finalize, map} from 'rxjs/operators';
 import {ApiClient} from "../../service/httpClient";
 import {Product} from "../../models/product.model";
 
-export class SelectedFilterAttributes {
-  attributeName:string
-  selectedValues:string[] = []
+export class Filter {
+  attributeName:string;
+  type:string;
+  attributeValues:string[] = []
+}
+
+export class SelectedFiltersList {
+  attributeSearchFilters:Filter[] = [];
 }
 
 export class ProductsDataSource implements DataSource<Product> {
@@ -16,6 +21,7 @@ export class ProductsDataSource implements DataSource<Product> {
 
   public loading$ = this.loadingSubject.asObservable();
   public rowCount:number = -1;
+
 
   constructor(private api: ApiClient) {}
 
@@ -29,7 +35,7 @@ export class ProductsDataSource implements DataSource<Product> {
   }
 
   // loadPagedData - isCardLayout param should be removed
-  loadPagedData(isCardLayout = true,queryString = "", selectedSuppId = '', pageIndex = 0, pageSize = 10, selectedAttributes:SelectedFilterAttributes[], sortActive:string, sortDirection:string, withInternalCodeSelector?:boolean) {
+  loadPagedData(isCardLayout = true,queryString = "", selectedSuppId = '', pageIndex = 0, pageSize = 10, selectedAttributes:any | null, sortActive:string, sortDirection:string, withInternalCodeSelector?:boolean) {
     this.loadingSubject.next(true);
     this.api.getProducts(queryString, selectedSuppId, pageIndex, pageSize, selectedAttributes, sortActive, sortDirection, withInternalCodeSelector)
       .pipe(

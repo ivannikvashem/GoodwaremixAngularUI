@@ -4,6 +4,7 @@
   <mat-spinner *ngIf="isOldAttributeLoading"></mat-spinner>
 
   <div *ngIf="!isOldAttributeLoading">
+
     <mat-form-field appearance="fill" class="full-width" style="margin-bottom: 5px">
       <mat-label>Характеристика</mat-label>
       <input matInput placeholder=""
@@ -15,6 +16,7 @@
         <span *ngIf="selectedAttribute.etimFeature"> [{{selectedAttribute.etimFeature}}] </span>
         {{selectedAttribute.nameAttribute}}
         <span *ngIf="selectedAttribute.unit && selectedAttribute.isFixed" class="unitMark">{{selectedAttribute.unit}}</span>
+        <strong>{{selectedAttribute.type}}</strong>
       </mat-hint>
 
       <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onAttributeKeySelected()">
@@ -32,7 +34,7 @@
       </button>
     </mat-form-field>
 
-    <mat-form-field appearance="fill" class="full-width">
+    <mat-form-field appearance="fill" class="full-width" *ngIf="data.oldAttribute.type == 'A'">
       <mat-label>Значение</mat-label>
       <input matInput placeholder=""
              [formControl]="attributeValuesCtrl"
@@ -43,9 +45,37 @@
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width" *ngIf="data.oldAttribute.type == 'N'">
+      <mat-label>Значение</mat-label>
+      <input matInput [formControl]="attributeValueNumber" type="number">
+    </mat-form-field>
+
+   <div style="display: flex" *ngIf="data.oldAttribute.type == 'R'">
+      <mat-form-field appearance="fill" class="full-width" style="margin-right: 5px">
+        <mat-label>Минимальное значение</mat-label>
+        <input matInput [formControl]="attributeValueRangeMin" type="number">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Максимальное значение</mat-label>
+        <input matInput [formControl]="attributeValueRangeMax" [min]="attributeValueRangeMin.value" type="number">
+      </mat-form-field>
+    </div>
+
+    <mat-button-toggle-group [formControl]="attributeValueLogic" *ngIf="data.oldAttribute.type == 'L'" class="full-width">
+      <mat-button-toggle [value]="false" class="full-width">Нет</mat-button-toggle>
+      <mat-button-toggle [value]="true" class="full-width">Да</mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <div *ngIf="!data.isValid">
+      <span style="color: red">Значение характеристики не корректно, пожалуйста перенестите значение. </span>
+      <strong>{{data.oldAttribute.objectValue?.value}}</strong>
+    </div>
+
     <div mat-dialog-actions class="actions-div">
       <button mat-button mat-dialog-close (click)="onCancelClick()" type="button">Отмена</button>
-      <button mat-raised-button color="primary" [mat-dialog-close]="data" (click)="submitForm()" [disabled]="searchAttributeCtrl.invalid || attributeValuesCtrl.invalid">Сохранить</button>
+      <button mat-raised-button color="primary" [mat-dialog-close]="data" [disabled]="!isFormValid()" (click)="submitForm()">Сохранить</button>
     </div>
   </div>
 </div>

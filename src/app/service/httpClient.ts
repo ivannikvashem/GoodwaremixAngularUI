@@ -128,6 +128,8 @@ export class ApiClient {
       opt.params = opt.params.append('withInternalCode', withInternalCodeSelector);
     if (sortField)
       opt.params = opt.params.append('sortField', sortField);
+    if (attributes.attributeSearchFilters?.length > 0)
+      opt.params = opt.params.append('attributeSearch', JSON.stringify(attributes))
     opt = Object.assign(opt, this.httpOptions);
     return this.http.get<Product[]>(this.apiURL + '/Products/', opt);
   }
@@ -362,7 +364,7 @@ export class ApiClient {
   }
 
   deleteDocument(id:string) {
-    return this.http.delete(this.apiURL + '/documents/' + id, this.httpOptions);
+    return this.http.delete(this.apiURL + '/documents/documentDelete/' + id, this.httpOptions);
   }
 
   uploadDocument(file: File, supplierId:string): Observable<any> {

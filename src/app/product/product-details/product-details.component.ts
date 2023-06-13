@@ -132,4 +132,22 @@ export class ProductDetailsComponent implements OnInit {
     this.clipboard.copy(vendorId)
     this._notyf.onSuccess('Артикул поставщика скопирован')
   }
+
+  attributeTypes:any[] = [
+    {key:'R', type: 'range'},
+    {key:'N', type: 'number'},
+    {key:'L', type: 'boolean'},
+    {key:'A', type: 'string'},
+  ]
+
+  isTypeValid(objectValue: any, type:string) {
+    if (objectValue == undefined && type == undefined) {
+      return null;
+    }
+    if (objectValue?.minValue && objectValue?.maxValue && type == 'R') {
+      return true;
+    } else {
+      return typeof objectValue?.value == this.attributeTypes.find(x => x.key === type).type;
+    }
+  }
 }
