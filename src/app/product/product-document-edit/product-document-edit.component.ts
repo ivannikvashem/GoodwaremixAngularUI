@@ -6,6 +6,8 @@ import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {NotificationService} from "../../service/notification-service";
 import {MissingImageHandler} from "../MissingImageHandler";
+import {Supplier} from "../../models/supplier.model";
+import {debounceTime, distinctUntilChanged, finalize, switchMap, tap} from "rxjs";
 export interface AttrDialogData {
   documentIds:string[]
   supplierId?:string;
@@ -27,6 +29,9 @@ export class ProductDocumentEditComponent implements OnInit {
   documentsList:Document[] = []
   previewImg:string
   files: FileSystemHandle[] = []
+  searchSuppliersCtrl  = new FormControl<string | Supplier>('');
+  supplierList:Supplier[] = []
+
 
   mimeExt:any[] = [
     {type:'pdf', mime:'application/pdf'}
@@ -60,6 +65,13 @@ export class ProductDocumentEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.data.supplierId) {
+      this.api.getSupplierById(this.data.supplierId).subscribe(x => {
+        this.searchSuppliersCtrl.setValue(x.body)
+      })
+      this.searchSuppliersCtrl.disable()
+    }
+
     if (this.data.oldDocument !== undefined) {
       this.documentProduct = this.data.oldDocument
       this.form.get("certTitle").setValue(this.documentProduct.certTitle)
@@ -81,6 +93,21 @@ export class ProductDocumentEditComponent implements OnInit {
         }
       })
     }
+
+    this.searchSuppliersCtrl.valueChanges.pipe(
+      distinctUntilChanged(),
+      debounceTime(300),
+      tap(() => {
+        //this.isLoading = true;
+      }),
+      switchMap(value => this.api.getSuppliers(value, 0 ,100,"supplierName", "asc")
+        .pipe(
+          finalize(() => {
+            //this.isLoading = false
+          }),
+        )
+      )
+    ).subscribe((data: any) => { this.supplierList = data.body.data; });
   }
 
   onDocumentChange(event: any, isDropped:boolean) {
@@ -94,7 +121,7 @@ export class ProductDocumentEditComponent implements OnInit {
     let reader = new FileReader()
     if (this.mimeExt.some(x => x.mime == file.type) && file.type != '') {
       //const oldFileName = file.name
-      //file = new File([file], crypto.randomUUID()+ '.' + this.mimeExt.find(x => x.mime == file.type).type, {type:file.type});
+      file = new File([file], this.generateUUID()+ '.' + this.mimeExt.find(x => x.mime == file.type).type, {type:file.type});
 
       reader.onload = () => {
         this.preloadDocumentView = {fileContent:file, fileName:file.name, size:file.size}
@@ -126,9 +153,6 @@ export class ProductDocumentEditComponent implements OnInit {
         this.data.newDocument.preview = this.preloadDocumentView.fileName.split('.')[0] + '.png'
       }
 
-      if (this.preloadDocumentView?.fileContent != undefined)
-        this.uploadDocumentFiles()
-
       if (this.data.oldDocument.id != undefined) {
         this.updateDocument(this.data.newDocument)
       } else {
@@ -144,6 +168,8 @@ export class ProductDocumentEditComponent implements OnInit {
           this.data.newDocument.id = x.body
           resolve(true)
         }
+        if (this.preloadDocumentView?.fileContent != undefined)
+          this.uploadDocumentFiles()
       })
     })
     let res = await promise
@@ -153,7 +179,10 @@ export class ProductDocumentEditComponent implements OnInit {
 
   updateDocument(document:Document) {
     this.data.newDocument.id = this.data.oldDocument.id
-    this.api.updateDocument(document).subscribe(() => {})
+    this.api.updateDocument(document).subscribe(() => {
+      if (this.preloadDocumentView?.fileContent != undefined)
+        this.uploadDocumentFiles()
+    })
     this.dialogRef.close(this.data)
   }
 
@@ -184,4 +213,37 @@ export class ProductDocumentEditComponent implements OnInit {
     this.data.newDocument = document.document
     this.dialogRef.close(this.data)
   }
+
+  displayFn(supplier: Supplier): string {
+    return supplier && supplier.supplierName ? supplier.supplierName : '';
+  }
+
+  onSupplierSelected() {
+    this.data.supplierId = (this.searchSuppliersCtrl.value as Supplier).id
+  }
+
+  generateUUID(): string {
+    let uuid = '', ii;
+    for (ii = 0; ii < 32; ii += 1) {
+      switch (ii) {
+        case 8:
+        case 20:
+          uuid += '-';
+          uuid += Math.random() * 16 | 0;
+          break;
+        case 12:
+          uuid += '-';
+          uuid += '4';
+          break;
+        case 16:
+          uuid += '-';
+          uuid += (Math.random() * 4 | 8).toString(16);
+          break;
+        default:
+          uuid += (Math.random() * 16 | 0).toString(16);
+      }
+    }
+    return uuid;
+  }
+
 }

@@ -6,7 +6,7 @@
   </div>
 </div>
 
-<mat-dialog-content>
+<mat-dialog-content style="margin-bottom: 10px">
   <mat-tab-group #matTabGroup animationDuration="0ms">
     <mat-tab *ngIf="!data.oldDocument">
       <mat-form-field appearance="fill" class="full-width">
@@ -31,6 +31,16 @@
       <div class="row">
         <div class="column">
           <form [formGroup]="form" (ngSubmit)="onSubmitClick()">
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label>Поставщик</mat-label>
+              <input type="text" matInput [formControl]="searchSuppliersCtrl" [matAutocomplete]="auto">
+              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onSupplierSelected()">
+                <mat-option *ngFor="let option of supplierList" [value]="option">
+                  {{option.supplierName}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+
             <mat-form-field appearance="fill" class="full-width">
               <mat-label>Название</mat-label>
               <input matInput formControlName="certTitle" name="certTitle" required>
@@ -71,7 +81,7 @@
           </form>
         </div>
         <div class="column">
-          <mat-card style="height: 83%">
+          <mat-card>
             <div class="uploadArea" *ngIf="!preloadDocumentView" (click)="fileInput.value=''; fileInput.click()" (drop)="onDocumentChange($event,true)" (dragover)="onDragOver($event)">
                 <input #fileInput type="file" accept="application/pdf" (change)="onDocumentChange($event, false)"  style="display:none;"/>
                 <mat-icon class="customIconSize">note_add</mat-icon>
@@ -82,16 +92,11 @@
             </div>
 
             <ng-container *ngIf="preloadDocumentView">
-              <img mat-card-image [src]="documentProduct.preview" (error)="handleMissingImage($event)" height="300" style="object-fit: cover"/>
-              <mat-list class="full-width">
-                <mat-list-item>
-                  <div class="document">
-                    <mat-icon mat-list-icon>picture_as_pdf</mat-icon>
-                    <span class="documentTitle">{{preloadDocumentView.fileName}}</span>
-                    <button mat-icon-button (click)="deletePreloadDoc()"><mat-icon>close</mat-icon></button>
-                  </div>
-                </mat-list-item>
-              </mat-list>
+              <img mat-card-image [src]="documentProduct.preview" (error)="handleMissingImage($event)" height="430" style="object-fit: cover"/>
+
+              <button mat-mini-fab color="" class="deleteDocBtn" (click)="deletePreloadDoc()">
+                <mat-icon>delete</mat-icon>
+              </button>
             </ng-container>
 
           </mat-card>
