@@ -53,7 +53,7 @@ export class ProductsDataSource implements DataSource<Product> {
         if (!isCardLayout) {
           for (let product of body.data) {
             product['documentsModel'] = [];
-            this.api.getDocumentsById(product.documents).subscribe(docs => {
+            this.api.getDocumentsDTOById(product.documents).subscribe(docs => {
               for (let doc of docs.body) {
                 delete doc['supplierId']
                 delete doc['url']

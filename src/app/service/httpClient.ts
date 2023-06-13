@@ -346,7 +346,7 @@ export class ApiClient {
     return this.http.get<any>(this.apiURL + '/documents/document/' + id, this.httpOptions);
   }
 
-  getDocumentsById(ids:string[]): Observable<any> {
+  getDocumentsDTOById(ids:string[]): Observable<any> {
     let query = ''
     for (let id of ids) {
       query += 'documentsId='+id+'&'
@@ -354,6 +354,13 @@ export class ApiClient {
     return this.http.get<any>(this.apiURL + '/documents/documentsDTO?' + query, this.httpOptions);
   }
 
+  getDocumentsById(ids:string[]): Observable<any> {
+    let query = ''
+    for (let id of ids) {
+      query += 'documentsId='+id+'&'
+    }
+    return this.http.get<any>(this.apiURL + '/documents/documents?' + query, this.httpOptions);
+  }
 
   addDocument(document:any): Observable<any> {
     return this.http.post(this.apiURL + '/documents/', document, this.httpOptions);

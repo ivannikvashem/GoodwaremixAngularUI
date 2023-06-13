@@ -153,7 +153,7 @@ export class ProductDocumentEditComponent implements OnInit {
         this.data.newDocument.preview = this.preloadDocumentView.fileName.split('.')[0] + '.png'
       }
 
-      if (this.data.oldDocument.id != undefined) {
+      if (this.data.oldDocument?.id != undefined) {
         this.updateDocument(this.data.newDocument)
       } else {
         this.insertDocument(this.data.newDocument)
@@ -168,8 +168,9 @@ export class ProductDocumentEditComponent implements OnInit {
           this.data.newDocument.id = x.body
           resolve(true)
         }
-        if (this.preloadDocumentView?.fileContent != undefined)
+        if (this.preloadDocumentView?.fileContent != undefined) {
           this.uploadDocumentFiles()
+        }
       })
     })
     let res = await promise
@@ -187,7 +188,7 @@ export class ProductDocumentEditComponent implements OnInit {
   }
 
   uploadDocumentFiles() {
-    this.api.uploadDocument(this.preloadDocumentView.fileContent, this.data.supplierId).subscribe()
+    this.api.uploadDocument(this.preloadDocumentView.fileContent, this.data.supplierId).subscribe(x => {console.log(x)})
   }
 
   onCancelClick() {

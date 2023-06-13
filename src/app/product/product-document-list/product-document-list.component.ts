@@ -34,6 +34,7 @@ export class ProductDocumentListComponent implements OnInit {
             this.isDocumentsLoading = false
           }
         })
+      console.log(this.documentsView)
     }
   }
 
