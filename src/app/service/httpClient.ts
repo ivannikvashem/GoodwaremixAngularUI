@@ -256,12 +256,12 @@ export class ApiClient {
   //#endregion
 
   //uploadPhoto
-  uploadPhoto(files: File[], supplierId:string): Observable<any> {
+  uploadPhoto(files: File[], productId:string): Observable<any> {
     let formData = new FormData();
     for (const photo of files) {
       formData.append('files', photo)
     }
-    return this.http.post(this.apiURL + '/files/images/'+supplierId, formData, {headers:{"ContentType": "multipart/form-data"}})
+    return this.http.post(this.apiURL + '/files/images/'+productId, formData, {headers:{"ContentType": "multipart/form-data"}})
   }
   //
   // getFiles(): Observable<any> {
@@ -374,10 +374,10 @@ export class ApiClient {
     return this.http.delete(this.apiURL + '/documents/documentDelete/' + id, this.httpOptions);
   }
 
-  uploadDocument(file: File, supplierId:string): Observable<any> {
+  uploadDocument(file: File, documentId:string): Observable<any> {
     let formData = new FormData();
     formData.append('file', file)
-    return this.http.post(this.apiURL + '/files/documents/'+supplierId, formData, {headers:{"ContentType": "multipart/form-data"}})
+    return this.http.post(this.apiURL + '/files/documents/'+documentId, formData, {headers:{"ContentType": "multipart/form-data"}})
   }
   //#endregion
 

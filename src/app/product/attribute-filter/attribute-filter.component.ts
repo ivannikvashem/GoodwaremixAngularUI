@@ -37,7 +37,7 @@ export class AttributeFilterComponent implements OnInit {
   constructor(private api:ApiClient, @Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<AttributeFilterComponent>) { }
 
   ngOnInit(): void {
-    if (this.data.filter.attributeSearchFilters.length > 0) {
+    if (this.data.filter.attributeSearchFilters?.length > 0) {
       this.onFilterCancelData = JSON.stringify(this.data.filter);
       for (let i of this.data.filter.attributeSearchFilters) {
         this.api.getAttributeById(i.attributeId).subscribe(x => {
@@ -125,6 +125,6 @@ export class AttributeFilterComponent implements OnInit {
   }
 
   onFilterCancel() {
-    this.dialogRef.close(JSON.parse(this.onFilterCancelData))
+    this.dialogRef.close(this.onFilterCancelData.length > 0 ? JSON.parse(this.onFilterCancelData): {})
   }
 }

@@ -121,7 +121,7 @@ export class ProductDocumentEditComponent implements OnInit {
     let reader = new FileReader()
     if (this.mimeExt.some(x => x.mime == file.type) && file.type != '') {
       //const oldFileName = file.name
-      file = new File([file], this.generateUUID()+ '.' + this.mimeExt.find(x => x.mime == file.type).type, {type:file.type});
+      //file = new File([file], this.generateUUID()+ '.' + this.mimeExt.find(x => x.mime == file.type).type, {type:file.type});
 
       reader.onload = () => {
         this.preloadDocumentView = {fileContent:file, fileName:file.name, size:file.size}
@@ -148,11 +148,11 @@ export class ProductDocumentEditComponent implements OnInit {
       this.data.newDocument.url =  this.form.get("url").value
       this.data.newDocument.supplierId = this.data.supplierId
 
-      if (this.preloadDocumentView != undefined) {
+   /*   if (this.preloadDocumentView != undefined) {
         this.data.newDocument.file = this.preloadDocumentView.fileName
         this.data.newDocument.preview = this.preloadDocumentView.fileName.split('.')[0] + '.png'
       }
-
+*/
       if (this.data.oldDocument?.id != undefined) {
         this.updateDocument(this.data.newDocument)
       } else {
@@ -188,7 +188,7 @@ export class ProductDocumentEditComponent implements OnInit {
   }
 
   uploadDocumentFiles() {
-    this.api.uploadDocument(this.preloadDocumentView.fileContent, this.data.supplierId).subscribe(x => {console.log(x)})
+    this.api.uploadDocument(this.preloadDocumentView.fileContent, this.data.newDocument.id).subscribe(x => {console.log(x)})
   }
 
   onCancelClick() {

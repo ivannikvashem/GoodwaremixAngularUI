@@ -133,12 +133,12 @@ export class ProductEditComponent implements OnInit {
     for (let i in files) {
       let reader = new FileReader();
       if (files[i].type.includes('image/')) {
-        files[i] = new File([files[i]], this.generateUUID()+ '.' + files[i].type.split('image/')[1], {type:files[i].type});
+        files[i] = new File([files[i]], files[i].name, {type:files[i].type});
         reader.onload = (fl:any) => {
           this.preloadImagesView.push({id: Number(i), file:fl.target.result})
           this.imagesToUpload.push(files[i])
-          this.product.localImages.push(files[i].name)
-          this.product.thumbnails.push(files[i].name)
+         /* this.product.localImages.push(files[i].name)
+          this.product.thumbnails.push(files[i].name)*/
         }
         reader.readAsDataURL(files[i]);
       } else { errorCounter += 1;}
@@ -306,9 +306,6 @@ export class ProductEditComponent implements OnInit {
       return;
     }
 
-    if (this.imagesToUpload.length > 0) {
-      this.uploadPhotos(this.imagesToUpload, this.product.supplierId)
-    }
     this.product.updatedAt = new Date().toISOString();
     this.product.vendor = this.searchBrandCtrl.value
     if (this.product.id != null) {
@@ -320,27 +317,36 @@ export class ProductEditComponent implements OnInit {
     }
    }
 
-   uploadPhotos(photos:File[], supplierId:string) {
-    this.api.uploadPhoto(photos, supplierId).subscribe()
+   uploadPhotos(photos:File[], productId:string) {
+    this.api.uploadPhoto(photos, productId).subscribe()
    }
 
    updateProduct(product: Product) {
-    this.api.updateProduct(product).subscribe(() => {
+    this.api.updateProduct(product).subscribe({
+      next: () => {
+        if (this.imagesToUpload.length > 0) {
+          this.uploadPhotos(this.imagesToUpload, product.id)
+        }
         this._notyf.onSuccess("Товар изменен");
       },
-      error => {
-        this._notyf.onError("Ошибка: " + JSON.stringify(error));
-      });
+      error: err => {
+        this._notyf.onError("Ошибка: " + JSON.stringify(err));
+      }});
    }
 
    insertProduct(product: Product) {
-     this.api.insertProduct(product).subscribe(x => {
+     this.api.insertProduct(product).subscribe({
+       next:x => {
+         if (this.imagesToUpload.length > 0) {
+           this.uploadPhotos(this.imagesToUpload, x.body)
+         }
          this._notyf.onSuccess("Товар добавлен");
          this.router.navigate([`product-edit/${x.body}`])
+
        },
-       error => {
-         this._notyf.onError("Ошибка: " + JSON.stringify(error));
-       } );
+       error: err => {
+         this._notyf.onError("Ошибка: " + JSON.stringify(err));
+       } });
    }
 
   onCountrySelected() {
@@ -377,30 +383,6 @@ export class ProductEditComponent implements OnInit {
 
   onDocumentsChanged(documents: string[]) {
     this.product.documents = documents
-  }
-
-  generateUUID(): string {
-    let uuid = '', ii;
-    for (ii = 0; ii < 32; ii += 1) {
-      switch (ii) {
-        case 8:
-        case 20:
-          uuid += '-';
-          uuid += Math.random() * 16 | 0;
-          break;
-        case 12:
-          uuid += '-';
-          uuid += '4';
-          break;
-        case 16:
-          uuid += '-';
-          uuid += (Math.random() * 4 | 8).toString(16);
-          break;
-        default:
-          uuid += (Math.random() * 16 | 0).toString(16);
-      }
-    }
-    return uuid;
   }
 
   isTypeValid(objectValue: any, type:string) {
