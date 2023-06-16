@@ -8,6 +8,7 @@ import {catchError, finalize, map} from "rxjs/operators";
 import {BehaviorSubject, of} from "rxjs";
 import {Supplier} from "../../models/supplier.model";
 import {NotificationService} from "../../service/notification-service";
+import {DataStateService} from "../../shared/data-state.service";
 
 interface AttributeType {
   value: string;
@@ -39,7 +40,8 @@ export class AttributeEditComponent implements OnInit {
     public api: ApiClient,
     private _ActivatedRoute: ActivatedRoute,
     private router: Router,
-    private _notyf: NotificationService) {}
+    private _notyf: NotificationService,
+    private dss:DataStateService) {}
 
   ngOnInit(): void {
     this.id = this._ActivatedRoute.snapshot.paramMap.get("id");
@@ -55,6 +57,7 @@ export class AttributeEditComponent implements OnInit {
         )
         .subscribe({next: (data) => {
             this.attribute = data;
+            this.dss.setSelectedSupplier(this.attribute.supplierId, this.attribute.supplierName)
           }, error: () => {
             this.router.navigate(['page-not-found'])
           }});
@@ -104,6 +107,10 @@ export class AttributeEditComponent implements OnInit {
   }
 
   saveAttribute() {
+    if (!this.selectedSupplier) {
+      this._notyf.onWarning('Выберите поставщика')
+      return;
+    }
     if (!this.attribute.supplierId) {
       this.attribute.supplierId = this.selectedSupplier.id
       this.attribute.supplierName = this.selectedSupplier.supplierName
@@ -128,6 +135,8 @@ export class AttributeEditComponent implements OnInit {
   }
 
   handleChangeSelectedSupplier(supplier: Supplier) {
-    this.selectedSupplier = supplier
+    this.selectedSupplier = supplier;
+    this.attribute.supplierId = supplier.id;
+    this.attribute.supplierName = supplier.supplierName;
   }
 }
