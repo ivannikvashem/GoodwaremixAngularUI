@@ -10,7 +10,7 @@
       <input matInput placeholder=""
              [formControl]="attributeValueFilterCtrl"
              [matAutocomplete]="attributeValuesAuto">
-      <mat-autocomplete autoActiveFirstOption #attributeValuesAuto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onAttributeValueSelected(); attributeValueFilterCtrl.setValue(null)">
+      <mat-autocomplete autoActiveFirstOption #attributeValuesAuto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onAttributeValueSelected($event); attributeValueFilterCtrl.setValue(null)">
         <mat-option *ngFor="let option of attributeAsync(attributesList) | async" [value]="option">
           <strong>{{option.type}}</strong> {{option.nameAttribute}} <span class="unitMark" *ngIf="option.unit">{{option.unit}}</span>
         </mat-option>

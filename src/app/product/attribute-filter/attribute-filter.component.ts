@@ -79,10 +79,10 @@ export class AttributeFilterComponent implements OnInit {
      }
    }
 
-  async onAttributeValueSelected() {
-    if (!this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == (this.attributeValueFilterCtrl.value as Attribute).id)) {
-      await this.selectedAttributes.attributeSearchFilters.push({attributeId: (this.attributeValueFilterCtrl.value as Attribute).id, type: (this.attributeValueFilterCtrl.value as Attribute).type, attributeValues: []});
-      await this.attributesForFilter.push(this.attributeValueFilterCtrl.value as Attribute);
+  onAttributeValueSelected(attribute:any) {
+    if (!this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == (attribute.option.value as Attribute).id)) {
+      this.selectedAttributes.attributeSearchFilters.push({attributeId: (attribute.option.value as Attribute).id, type: (attribute.option.value as Attribute).type, attributeValues: []});
+      this.attributesForFilter.push(this.attributeValueFilterCtrl.value as Attribute);
     }
   }
 
@@ -97,7 +97,7 @@ export class AttributeFilterComponent implements OnInit {
 
   addValue(id:string, valueOne:string, valueTwo?:string) {
     this.clearAllValue(id);
-     this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == id).attributeValues.push(valueOne)
+    this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == id).attributeValues.push(valueOne)
     if (valueTwo) {
       this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == id).attributeValues.push(valueTwo)
     }
