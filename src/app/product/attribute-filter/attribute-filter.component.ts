@@ -120,6 +120,10 @@ export class AttributeFilterComponent implements OnInit {
     })));
   }
 
+  attributeAsync(attributes: Attribute[]) : Observable<Attribute[]> {
+    return of (attributes)
+  }
+
   clearAllValue(id:string) {
     this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == id).attributeValues = [];
   }
