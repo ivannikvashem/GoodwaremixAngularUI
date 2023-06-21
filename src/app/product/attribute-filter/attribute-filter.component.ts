@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {Attribute} from "../../models/attribute.model";
-import {debounceTime, distinctUntilChanged, finalize, Observable, switchMap, tap} from "rxjs";
+import {debounceTime, distinctUntilChanged, finalize, Observable, of, switchMap, tap} from "rxjs";
 import {ApiClient} from "../../service/httpClient";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
@@ -111,13 +111,13 @@ export class AttributeFilterComponent implements OnInit {
     this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == id).attributeValues = this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == id).attributeValues.filter(x => x !== value)
   }
 
-  searchFilter(value: string, options: string[]): string[] {
+  searchFilter(value: string, options: string[]): Observable<string[]> {
     const filterValue = value.toLowerCase();
-    return options.filter(options => options.toLowerCase().includes(filterValue)).sort((a, b) => a.localeCompare(b, undefined, {
+    return of (options.filter(options => options.toLowerCase().includes(filterValue)).sort((a, b) => a.localeCompare(b, undefined, {
       numeric: true,
       sensitivity: 'base',
       ignorePunctuation: true
-    }));
+    })));
   }
 
   clearAllValue(id:string) {

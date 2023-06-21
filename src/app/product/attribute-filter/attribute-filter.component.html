@@ -26,7 +26,7 @@
                          [matAutocomplete]="auto"
                          [matChipInputFor]="attrVal">
                   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="attributeAllValueSelected($event.option.value, item.id); allValueAuto.value = null">
-                    <mat-option *ngFor="let option of searchFilter(allValueAuto.value, item.allValues)"  [value]="option">
+                    <mat-option *ngFor="let option of searchFilter(allValueAuto.value, item.allValues) | async"  [value]="option">
                       {{ option }}
                     </mat-option>
                   </mat-autocomplete>

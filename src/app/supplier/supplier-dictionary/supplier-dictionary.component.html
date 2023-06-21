@@ -41,7 +41,7 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-      <span *ngIf="attrSelectedRow?.id != i" [style.color]="element.attributeValid ? 'black': 'orangered'">{{element.attributeBDName}}</span>
+      <span *ngIf="attrSelectedRow?.id != i" [style.color]="element.attributeValid ? 'black': 'orangered'">{{element.attributeBDName}} <strong *ngIf="element.multiplier">[Множ. {{element.multiplier}}]</strong></span>
     </td>
 
   </ng-container>
