@@ -79,7 +79,7 @@ export class AttributeFilterComponent implements OnInit {
      }
    }
 
-  onAttributeValueSelected() {
+  async onAttributeValueSelected() {
     if (!this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == (this.attributeValueFilterCtrl.value as Attribute).id)) {
       this.selectedAttributes.attributeSearchFilters.push({attributeId: (this.attributeValueFilterCtrl.value as Attribute).id, type: (this.attributeValueFilterCtrl.value as Attribute).type, attributeValues: []});
       this.attributesForFilter.push(this.attributeValueFilterCtrl.value as Attribute);
