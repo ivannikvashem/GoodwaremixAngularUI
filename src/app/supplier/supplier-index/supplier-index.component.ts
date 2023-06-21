@@ -29,8 +29,6 @@ import {MatTableDataSource} from "@angular/material/table";
 })
 export class SupplierIndexComponent implements OnInit {
 
-  pageTitle:string = 'SupplierIndex';
-
   displayedColumns: string[] = ['checkbox', 'supplierName', 'type', 'fullfill', 'brands', 'stat.productQty', 'stat.lastImport', 'actions'];
   dataSource: SuppliersDataSource;
   @Input() searchQuery:string;

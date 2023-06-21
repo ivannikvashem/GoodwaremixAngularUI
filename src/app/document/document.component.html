@@ -11,8 +11,29 @@
       </button>
     </mat-form-field>
 
-    <app-supplier-autocomplete class="toolbox-item-xl"></app-supplier-autocomplete>
+    <app-supplier-autocomplete class="toolbox-item"></app-supplier-autocomplete>
+
+    <div class="toolbox-item">
+      <mat-form-field appearance="standard">
+        <mat-label>Сортировка</mat-label>
+        <select matNativeControl [(ngModel)]="selectedSort" (change)="sortData()">
+          <option *ngFor="let option of sortOptions" [ngValue]="option.value">{{option.displayText}}</option>
+        </select>
+      </mat-form-field>
+    </div>
+
+    <div class="toolbox-item">
+      <button mat-raised-button matTooltip="Добавить документ" (click)="addDocumentDialog()">
+        <mat-icon>add</mat-icon> Добавить
+      </button>
+    </div>
+
+    <div class="toolbox-item">
+      <button mat-icon-button (click)="isCardLayout = !isCardLayout">
+        <mat-icon>{{ isCardLayout ? 'format_list_bulleted' : 'dashboard'}}</mat-icon>
+      </button>
+    </div>
   </div>
 
 </div>
-<app-document-index [searchQuery]="searchQuery" [selectedSupplier]="selectedSupplier"  [pageIndex]="pageIndex" [pageSize]="pageSize" [sortActive]="sortActive" [sortDirection]="sortDirection" (pageParams)="onPageParamsChanged($event)" (sortParams)="onSortParamsChanged($event)"></app-document-index>
+<app-document-index [isCardLayout]="isCardLayout" [searchQuery]="searchQuery" [selectedSupplier]="selectedSupplier"  [pageIndex]="pageIndex" [pageSize]="pageSize" [sortActive]="sortActive" [sortDirection]="sortDirection" (pageParams)="onPageParamsChanged($event)" (sortParams)="onSortParamsChanged($event)"></app-document-index>

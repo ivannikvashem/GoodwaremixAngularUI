@@ -47,12 +47,13 @@ export class ApiClient {
         .set('filter.pageNumber', pageIndex ? pageIndex + 1 : 1)
         .set('filter.pageSize', pageSize ?? 10)
         .set('searchFilter', searchQuery)
+        .set('sortDirection', sortDirection == "desc" ? "-1" : "1")
     };
     if (sortField && sortDirection) {
       opt.params = opt.params.append('sortField', sortField);
       opt.params = opt.params.append('sortDirection', sortDirection == "desc" ? "-1" : "1");
     }
-    if (supplierId != "") {
+    if (supplierId != null) {
       opt.params = opt.params.append('supplierId', supplierId);
     }
     if (typeof (fixed) == "boolean") {

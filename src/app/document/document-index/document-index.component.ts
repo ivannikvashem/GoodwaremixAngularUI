@@ -36,6 +36,7 @@ export class DocumentIndexComponent implements OnInit {
   @Input() pageSize:number;
   @Input() sortActive:string;
   @Input() sortDirection:string;
+  @Input() isCardLayout:boolean;
   @Output() pageParams:EventEmitter<any> = new EventEmitter();
   @Output() sortParams:EventEmitter<any> = new EventEmitter();
 
@@ -88,14 +89,6 @@ export class DocumentIndexComponent implements OnInit {
         }
       });
     }
-  }
-
-  addDocumentDialog() {
-    this.dialog.open(ProductDocumentEditComponent, {
-      width: '1050px',
-      autoFocus: false,
-      data: {oldDocument: new Document(), newDocument: new Document() },
-    });
   }
 
   openPreviewInDialog(image: string) {

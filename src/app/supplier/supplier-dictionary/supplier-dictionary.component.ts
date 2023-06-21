@@ -2,8 +2,7 @@ import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} f
 import {ProductAttributeKey} from "../../models/productAttributeKey.model";
 import {Attribute} from "../../models/attribute.model";
 import {FormControl} from "@angular/forms";
-import {debounceTime, switchMap, tap} from "rxjs";
-import {finalize} from "rxjs/operators";
+import {debounceTime, switchMap} from "rxjs";
 import {ApiClient} from "../../service/httpClient";
 
 @Component({
@@ -19,7 +18,6 @@ export class SupplierDictionaryComponent implements OnInit {
   @Output() configDictionaryOut:EventEmitter<ProductAttributeKey[]> = new EventEmitter();
   @ViewChild('scrollable') private scrollable: ElementRef;
 
-
   attrTableColumns: string[] = ['idx', 'keySupplier', 'attributeBDName', 'action'];
   selectedAttr: Attribute | undefined;
   attributeListCtrl = new FormControl<string | Attribute>('');
@@ -29,16 +27,7 @@ export class SupplierDictionaryComponent implements OnInit {
   ngOnInit(): void {
     this.attributeListCtrl.valueChanges.pipe(
       debounceTime(100),
-      tap(() => {
-
-      }),
-      switchMap(value => this.api.getAttributes(value, '', 0, 500, undefined, "rating", "desc")
-        .pipe(
-          finalize(() => {
-
-          }),
-        )
-      )
+      switchMap(value => this.api.getAttributes(value, '', 0, 500, undefined, "rating", "desc"))
     ).subscribe((data: any) => {
       this.attributeList = data.body.data;
     });

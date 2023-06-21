@@ -111,6 +111,15 @@ export class AttributeFilterComponent implements OnInit {
     this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == id).attributeValues = this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == id).attributeValues.filter(x => x !== value)
   }
 
+  searchFilter(value: string, options: string[]): string[] {
+    const filterValue = value.toLowerCase();
+    return options.filter(options => options.toLowerCase().includes(filterValue)).sort((a, b) => a.localeCompare(b, undefined, {
+      numeric: true,
+      sensitivity: 'base',
+      ignorePunctuation: true
+    }));
+  }
+
   clearAllValue(id:string) {
     this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == id).attributeValues = [];
   }

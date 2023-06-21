@@ -4,6 +4,9 @@ import {FormControl} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {DataStateService} from "../shared/data-state.service";
 import {LocalStorageService} from "../service/local-storage.service";
+import {ProductDocumentEditComponent} from "../product/product-document-edit/product-document-edit.component";
+import {Document} from "../models/document.model";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-document',
@@ -19,14 +22,21 @@ export class DocumentComponent implements OnInit {
   pageSize:number = 12;
   sortDirection:string = 'desc'
   sortActive:string = 'endDate'
-
+  isCardLayout: boolean = true;
 
   pageCookie$ = this._localStorageService.myData$
   pC: any = {};
 
+  sortOptions =[
+    { displayText: 'По умолчанию',  value: { active: null, direction: 'asc'} },
+    { displayText: 'По сроку действия ↑', value: { active: 'endDate', direction: 'asc' } },
+    { displayText: 'По сроку действия ↓', value: { active: 'endDate', direction: 'desc' } },
+  ];
+  selectedSort:any = this.sortOptions[0].value;
+
   private subscription: Subscription;
 
-  constructor(private dss: DataStateService, private _localStorageService: LocalStorageService) { }
+  constructor(private dss: DataStateService, private _localStorageService: LocalStorageService, public dialog: MatDialog) { }
 
   getCookie() {
     this._localStorageService.getDataByPageName("DocumentIndex")
@@ -39,6 +49,7 @@ export class DocumentComponent implements OnInit {
         this.pageSize = this.pC.pageSize
         this.sortDirection = this.pC.sortDirection;
         this.sortActive = this.pC.sortActive;
+        this.selectedSort = this.sortOptions.find(x => x.value.active == this.pC.sortActive && x.value.direction == this.pC.sortDirection)?.value
       }
     });
   }
@@ -89,6 +100,20 @@ export class DocumentComponent implements OnInit {
     this.pageIndex = params.pageIndex;
     this.pageSize = params.pageSize;
     this.setCookie();
+  }
+
+  sortData() {
+    this.sortActive = this.selectedSort.active;
+    this.sortDirection = this.selectedSort.direction;
+    this.setCookie();
+  }
+
+  addDocumentDialog() {
+    this.dialog.open(ProductDocumentEditComponent, {
+      width: '1050px',
+      autoFocus: false,
+      data: {oldDocument: new Document(), newDocument: new Document() },
+    });
   }
 
   ngOnDestroy() {

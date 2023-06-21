@@ -19,8 +19,8 @@ table {
 }
 .mat-column-rating {
   white-space: unset !important;
-  flex: 0 0 60px !important;
-  width: 60px !important;
+  flex: 0 0 80px !important;
+  width: 80px !important;
   justify-content: center;
 }
 

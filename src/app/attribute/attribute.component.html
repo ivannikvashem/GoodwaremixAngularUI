@@ -16,4 +16,4 @@
   </div>
 </div>
 
-<app-attribute-index [searchQuery]="searchQuery" [withFixedAttrSelector]="attributeFixedFilterState" [pageIndex]="pageIndex" [pageSize]="pageSize" (pageParams)="onPageParamsChanged($event)" [selectedSupplier]="selectedSupplier"></app-attribute-index>
+<app-attribute-index [searchQuery]="searchQuery" [withFixedAttrSelector]="attributeFixedFilterState" [pageIndex]="pageIndex" [pageSize]="pageSize" [sortActive]="sortActive" [sortDirection]="sortDirection" (pageParams)="onPageParamsChanged($event)" (sortParams)="onSortParamsChanged($event)" [selectedSupplier]="selectedSupplier"></app-attribute-index>

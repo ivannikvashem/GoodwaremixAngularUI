@@ -12,7 +12,6 @@ import {finalize} from "rxjs/operators";
 import {NotificationService} from "../../service/notification-service";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/shared/confirm-dialog/confirm-dialog.component";
-import {Dimensions} from "../../models/dimensions.model";
 
 export class HeaderModel {
   HeaderName:string
@@ -59,8 +58,6 @@ export class SupplierEditComponent implements OnInit {
         next: (s) => {
           this.supplier = s.body as Supplier;
           for (let config of this.supplier.supplierConfigs) {
-            config.nettoConfig.dimensions = new Dimensions()
-            config.packageConfig.dimensions = new Dimensions()
             if (config.sourceSettings.header) {
               config.sourceSettings.header = JSON.parse(config.sourceSettings.header) as HeaderModel
             }

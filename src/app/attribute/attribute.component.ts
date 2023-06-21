@@ -19,6 +19,8 @@ export class AttributeComponent implements OnInit {
 
   pageIndex:number = 0;
   pageSize:number = 10;
+  sortDirection:string = 'asc';
+  sortActive:string = 'rating';
 
   pageCookie$ = this._localStorageService.myData$
   pC: any = {};
@@ -33,10 +35,12 @@ export class AttributeComponent implements OnInit {
       if (localStorageContent) {
         this.pC = localStorageContent;
         this.searchQueryCtrl.setValue(this.pC.searchQuery);
-        this.searchQuery = this.pC.searchQuery
-        this.attributeFixedFilterState = this.pC.attributeFixedFilterState
-        this.pageIndex = this.pC.pageIndex
-        this.pageSize = this.pC.pageSize
+        this.searchQuery = this.pC.searchQuery;
+        this.attributeFixedFilterState = this.pC.attributeFixedFilterState;
+        this.pageIndex = this.pC.pageIndex;
+        this.pageSize = this.pC.pageSize;
+        this.sortDirection = this.pC.sortDirection;
+        this.sortActive = this.pC.sortActive;
       }
     });
   }
@@ -46,7 +50,9 @@ export class AttributeComponent implements OnInit {
       searchQuery: this.searchQuery,
       pageIndex: this.pageIndex,
       pageSize: this.pageSize,
-      attributeFixedFilterState: this.attributeFixedFilterState
+      attributeFixedFilterState: this.attributeFixedFilterState,
+      sortDirection: this.sortDirection,
+      sortActive: this.sortActive
     });
   }
 
@@ -85,6 +91,12 @@ export class AttributeComponent implements OnInit {
   onPageParamsChanged(params: any) {
     this.pageIndex = params.pageIndex;
     this.pageSize = params.pageSize;
+    this.setCookie();
+  }
+
+  onSortParamsChanged(params: any) {
+    this.sortActive = params.active;
+    this.sortDirection = params.direction;
     this.setCookie();
   }
 

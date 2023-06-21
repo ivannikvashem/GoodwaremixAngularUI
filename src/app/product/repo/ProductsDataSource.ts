@@ -22,7 +22,6 @@ export class ProductsDataSource implements DataSource<Product> {
   public loading$ = this.loadingSubject.asObservable();
   public rowCount:number = -1;
 
-
   constructor(private api: ApiClient) {}
 
   connect(collectionViewer: CollectionViewer): Observable<Product[]> {
@@ -35,8 +34,12 @@ export class ProductsDataSource implements DataSource<Product> {
   }
 
   // loadPagedData - isCardLayout param should be removed
-  loadPagedData(isCardLayout = true,queryString = "", selectedSuppId = '', pageIndex = 0, pageSize = 10, selectedAttributes:any | null, sortActive:string, sortDirection:string, withInternalCodeSelector?:boolean) {
+  loadPagedData(isCardLayout = true,queryString = "", selectedSuppId = '', pageIndex = 0, pageSize = 10, selectedAttributes:any | null, sortActive:string, sortDirection:string, withInternalCodeSelector:boolean) {
+    if (this.loadingSubject.value == true)
+      return;
+
     this.loadingSubject.next(true);
+
     this.api.getProducts(queryString, selectedSuppId, pageIndex, pageSize, selectedAttributes, sortActive, sortDirection, withInternalCodeSelector)
       .pipe(
         tap(() => {
@@ -47,8 +50,8 @@ export class ProductsDataSource implements DataSource<Product> {
         }),
         catchError(() => of([])),
       finalize(() => this.loadingSubject.next(false))
-    )
-      .subscribe(body => {
+
+    ).subscribe(body => {
         // the REAL crutch thing
         if (!isCardLayout) {
           for (let product of body.data) {

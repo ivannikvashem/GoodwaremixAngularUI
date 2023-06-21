@@ -1,5 +1,4 @@
-import {Component, Input, Output} from '@angular/core';
-import {Subject} from "rxjs";
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
   selector: 'app-product-ic-filter-switch',
@@ -9,7 +8,7 @@ import {Subject} from "rxjs";
 export class ProductIcFilterSwitchComponent{
 
   @Input() state: boolean | null = null;
-  @Output() withICFilterEmitter = new Subject<boolean | null>();
+  @Output() withICFilterEmitter = new EventEmitter<boolean | null>();
 
   switchAttrStateFilter() {
     switch (this.state) {

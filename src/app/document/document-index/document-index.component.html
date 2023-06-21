@@ -1,80 +1,69 @@
-<mat-tab-group animationDuration="0ms">
-  <mat-tab label="Карточки">
-    <div class="cardTopPanel mat-elevation-z2">
-      <span (click)="sortData({direction: sort.direction == 'desc' ? 'asc': 'desc', active: 'endDate'})">Срок действия  <mat-icon>{{ sortDirection == 'desc' ? 'arrow_downward' : 'arrow_upward'}}</mat-icon></span>
-      <button mat-button (click)="addDocumentDialog()"><mat-icon>add</mat-icon> Добавить</button>
-    </div>
-    <mat-card class="mat-elevation-z8">
+<div *ngIf="isCardLayout == true">
+    <mat-card class="mat-elevation-z2">
       <div class="cardsToCenter">
         <div class="cards">
           <app-document-card *ngFor="let doc of documentList" [document]="doc" [isChangeable]="true" (selectedDocument)="onDocumentSelected($event)"></app-document-card>
         </div>
       </div>
     </mat-card>
-  </mat-tab>
+</div>
 
-  <mat-tab label="Таблица">
-    <table mat-table [dataSource]="dataSource" matSort [matSortActive]="sortActive" matSortDirection="{{sortDirection}}" (matSortChange)="sortData($event)" matSortDisableClear>
+<div [style.display]="isCardLayout == true ? 'none' : 'block'">
+  <table mat-table [dataSource]="dataSource" matSort [matSortActive]="sortActive" matSortDirection="{{sortDirection}}" (matSortChange)="sortData($event)" matSortDisableClear>
 
-      <!-- preview Column -->
-      <ng-container matColumnDef="preview">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let row">
-          <img *ngIf="row.preview" [src]="row?.preview" (error)="handleMissingImage($event)" (click)="openPreviewInDialog(row.preview)" height="120" width="120" style="cursor: pointer; object-fit: contain">
-        </td>
-      </ng-container>
+    <!-- preview Column -->
+    <ng-container matColumnDef="preview">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let row">
+        <img *ngIf="row.preview" [src]="row?.preview" (error)="handleMissingImage($event)" (click)="openPreviewInDialog(row.preview)" height="120" width="120" style="cursor: pointer; object-fit: contain">
+      </td>
+    </ng-container>
 
-      <!-- number Column -->
-      <ng-container matColumnDef="number">
-        <th mat-header-cell *matHeaderCellDef>Номер</th>
-        <td mat-cell *matCellDef="let row"><small>{{row.certNumber}}</small></td>
-      </ng-container>
+    <!-- number Column -->
+    <ng-container matColumnDef="number">
+      <th mat-header-cell *matHeaderCellDef>Номер</th>
+      <td mat-cell *matCellDef="let row"><small>{{row.certNumber}}</small></td>
+    </ng-container>
 
-      <!-- title Column -->
-      <ng-container matColumnDef="certTitle">
-        <th mat-header-cell *matHeaderCellDef>Наименование</th>
-        <td mat-cell *matCellDef="let row">
-          <div class="documentContent">
-            <b>{{row.certTitle ? row.certTitle : row.type ? row.type : 'Документ'}}</b>
-            <a class="linkButton" *ngIf="row.url || row.file" [href]="row.file ? row.file : row.url" target="_blank">
-              <mat-icon>link</mat-icon>
-            </a>
-          </div>
-        </td>
-      </ng-container>
+    <!-- title Column -->
+    <ng-container matColumnDef="certTitle">
+      <th mat-header-cell *matHeaderCellDef>Наименование</th>
+      <td mat-cell *matCellDef="let row">
+        <div class="documentContent">
+          <b>{{row.certTitle ? row.certTitle : row.type ? row.type : 'Документ'}}</b>
+          <a class="linkButton" *ngIf="row.url || row.file" [href]="row.file ? row.file : row.url" target="_blank">
+            <mat-icon>link</mat-icon>
+          </a>
+        </div>
+      </td>
+    </ng-container>
 
-      <!-- expiryDate Column -->
-      <ng-container matColumnDef="endDate">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Срок действия</th>
-        <td mat-cell *matCellDef="let row">
-          <div class="documentContent">
-            <div *ngIf="row.startDate && row.endDate"><strong><i [style.color]="this.isDateValid(this.row.endDate) ? 'black': '#990000'">{{row.startDate | date:'MM.yyyy'}} - {{row.endDate | date:'MM.yyyy'}}</i></strong></div>
-          </div>
-        </td>
-      </ng-container>
+    <!-- expiryDate Column -->
+    <ng-container matColumnDef="endDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Срок действия</th>
+      <td mat-cell *matCellDef="let row">
+        <div class="documentContent">
+          <div *ngIf="row.startDate && row.endDate"><strong><i [style.color]="this.isDateValid(this.row.endDate) ? 'black': '#990000'">{{row.startDate | date:'MM.yyyy'}} - {{row.endDate | date:'MM.yyyy'}}</i></strong></div>
+        </div>
+      </td>
+    </ng-container>
 
-      <!-- ACTIONS Column -->
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>
-          <button mat-button matTooltip="Добавить документ" (click)="addDocumentDialog()">
-            <mat-icon>add</mat-icon> Добавить
-          </button>
-        </th>
-        <td mat-cell *matCellDef="let item">
-          <button mat-icon-button (click)="openDocumentEditorDialog(item)" matTooltip="Изменить документ">
-            <mat-icon>edit</mat-icon>
-          </button>&nbsp;
-          <button  mat-icon-button matTooltip="Удалить документ">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </td>
-      </ng-container>
+    <!-- ACTIONS Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let item">
+        <button mat-icon-button (click)="openDocumentEditorDialog(item)" matTooltip="Изменить документ">
+          <mat-icon>edit</mat-icon>
+        </button>&nbsp;
+        <button  mat-icon-button matTooltip="Удалить документ">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="element-row"></tr>
-    </table>
-  </mat-tab>
-
-</mat-tab-group>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="element-row"></tr>
+  </table>
+</div>
 
 <mat-paginator [style.visibility]="dataSource.rowCount > 0 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[12,20,50,100] aria-label="Страница"></mat-paginator>

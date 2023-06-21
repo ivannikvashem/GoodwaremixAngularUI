@@ -38,7 +38,11 @@ export class AttributeIndexComponent implements OnInit {
   @Input() selectedSupplier: Supplier;
   @Input() pageIndex:number;
   @Input() pageSize:number;
+  @Input() sortActive:string;
+  @Input() sortDirection:string;
   @Output() pageParams:EventEmitter<any> = new EventEmitter()
+  @Output() sortParams:EventEmitter<any> = new EventEmitter();
+
   private sub: Subscription;
 
 
@@ -69,7 +73,11 @@ export class AttributeIndexComponent implements OnInit {
   }
 
   loadAttributePagedData(): any {
-    this.dataSource.loadPagedData(this.searchQuery, this.selectedSupplier?.id, this.pageIndex, this.pageSize, this.withFixedAttrSelector);
+    this.dataSource.loadPagedData(this.searchQuery, this.selectedSupplier?.id ? this.selectedSupplier.id : null, this.pageIndex, this.pageSize,this.sortActive, this.sortDirection, this.withFixedAttrSelector);
+  }
+
+  sortData(sort: any) {
+    this.sortParams.next({direction: sort.direction, active:sort.active});
   }
 
   editItem(id: any) {
