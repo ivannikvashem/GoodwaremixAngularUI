@@ -23,7 +23,7 @@
   <ng-container matColumnDef="attributeBDName">
     <th mat-header-cell *matHeaderCellDef> Наш атрибут </th>
     <td mat-cell *matCellDef="let i = index; let element" (click)="attrSelectedRow?.id != i ? onSelectRow(element, i) : ''" style="cursor: pointer">
-      <mat-form-field class="full-width" appearance="standard" *ngIf="attrSelectedRow?.id == i">
+      <mat-form-field style="width: 80%" appearance="standard" *ngIf="attrSelectedRow?.id == i">
         <mat-label>Целевой атрибут</mat-label>
         <input type="text" matInput aria-label="Поставщик"
                [formControl]="attributeListCtrl"
@@ -41,6 +41,12 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
+
+      <mat-form-field style="width: 20%" appearance="standard" *ngIf="attrSelectedRow?.id == i">
+        <mat-label>Множитель</mat-label>
+        <input matInput type="text" [(ngModel)]="element.multiplier">
+      </mat-form-field>
+
       <span *ngIf="attrSelectedRow?.id != i" [style.color]="element.attributeValid ? 'black': 'orangered'">{{element.attributeBDName}} <strong *ngIf="element.multiplier">[Множ. {{element.multiplier}}]</strong></span>
     </td>
 
