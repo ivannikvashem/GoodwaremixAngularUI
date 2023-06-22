@@ -49,10 +49,8 @@ export class ProductsDataSource implements DataSource<Product> {
           return res.body;
         }),
         catchError(() => of([])),
-      finalize(() => this.loadingSubject.next(false))
-
-    ).subscribe(body => {
-      console.log(body)
+        finalize(() => this.loadingSubject.next(false))
+      ).subscribe(body => {
         // the REAL crutch thing
         if (!isCardLayout) {
           for (let product of body.data) {
