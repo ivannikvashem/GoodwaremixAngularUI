@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Injectable, OnInit, Output} from '@angular/core';
-import {debounceTime, distinctUntilChanged, finalize, Subscription, switchMap, tap} from "rxjs";
+import {Subscription} from "rxjs";
 import {FormControl} from "@angular/forms";
 import {Supplier} from "../../models/supplier.model";
 import {ApiClient} from "../../service/httpClient";
@@ -18,7 +18,6 @@ export class SupplierAutocompleteComponent implements OnInit {
   searchSuppliersCtrl  = new FormControl<string | Supplier>('');
   supplierList:Supplier[] = [];
   @Output() selectedSupplier = new EventEmitter<Supplier>();
-  @Output() isSingle = new EventEmitter<boolean>();
   private subscription: Subscription;
 
   constructor(public api: ApiClient,
@@ -33,33 +32,20 @@ export class SupplierAutocompleteComponent implements OnInit {
       }
     )
 
-    this.api.getSuppliers("", 0 ,100, "supplierName", "asc").subscribe( (r:any) => {
-      this.supplierList = r.body.data
-      if (this.supplierList.length == 1) {
-/*
-        this.isSingle.emit(true);
-*/
-        this.searchSuppliersCtrl.setValue(this.supplierList[0])
-        this.onSupplierSelected();
-      }
-    });
+    if (this.dss.supplierList.value.length == 0) {
+      this.api.getSuppliers("", 0 ,100, "supplierName", "asc").subscribe( (r:any) => {
+        this.supplierList = r.body.data
+        if (this.supplierList.length == 1) {
+          this.searchSuppliersCtrl.setValue(this.supplierList[0])
+          this.onSupplierSelected();
+        }
+        this.dss.setSupplierList(this.supplierList)
+      });
+    } else {
+      this.supplierList = this.dss.supplierList.value;
+    }
 
-    this.searchSuppliersCtrl.valueChanges.pipe(
-      distinctUntilChanged(),
-      debounceTime(300),
-      tap(() => {
-        //this.isLoading = true;
-      }),
-      switchMap(value => this.api.getSuppliers(value, 0 ,100,"supplierName", "asc")
-        .pipe(
-          finalize(() => {
-            //this.isLoading = false
-          }),
-        )
-      )
-    ).subscribe((data: any) => { this.supplierList = data.body.data; });
   }
-
 
   displayFn(supplier: Supplier): string {
     return supplier && supplier.supplierName ? supplier.supplierName : '';
@@ -92,5 +78,9 @@ export class SupplierAutocompleteComponent implements OnInit {
       $event.preventDefault()
       return false
     }
+  }
+
+  searchFilter(supplierList: Supplier[], search:string) {
+    return supplierList.filter(option => option.supplierName.toLowerCase().includes(search.toLowerCase()));
   }
 }

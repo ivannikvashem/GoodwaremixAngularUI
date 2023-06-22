@@ -5,7 +5,6 @@ import {debounceTime, distinctUntilChanged, finalize, Observable, switchMap, tap
 import {ApiClient} from "../../service/httpClient";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
-
 export class Filter {
   attributeId:string;
   type:string;
@@ -26,7 +25,6 @@ export class AttributeFilterComponent implements OnInit {
 
   attributeValueFilterCtrl =  new FormControl<string | Attribute>(null);
   attributesList: Attribute[] = [];
-
   attributesForFilter:Attribute[] = []
   selectedFilterAttributes:SelectedFiltersList[] = []
   filteredAttributeValues: Observable<string[]>;
@@ -34,7 +32,6 @@ export class AttributeFilterComponent implements OnInit {
 
   onFilterCancelData:string = '';
   isLoading:boolean;
-
   selectedAttributes: SelectedFiltersList = new SelectedFiltersList()
 
   constructor(private api:ApiClient, @Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<AttributeFilterComponent>) { }

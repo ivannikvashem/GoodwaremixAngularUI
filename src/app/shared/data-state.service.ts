@@ -8,10 +8,15 @@ export class DataStateService {
   selectedSupplierState: BehaviorSubject<Supplier | null> = new BehaviorSubject(null);
 
   selectedProductsState: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([])
+  supplierList: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([])
   // availableSuppliersList: Supplier[];
   //data$: Observable<Supplier> = this.selectedSupplierState.asObservable();
 
   constructor() {
+  }
+
+  setSupplierList(suppliers:Supplier[]) {
+    this.supplierList.next(suppliers)
   }
 
   setSelectedSupplier(id:string, name:string) {
