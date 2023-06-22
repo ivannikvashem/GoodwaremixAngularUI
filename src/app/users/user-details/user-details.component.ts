@@ -6,6 +6,7 @@ import {debounceTime, distinctUntilChanged, Observable} from "rxjs";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {map} from "rxjs/operators";
 import {ApiClient} from "../../service/httpClient";
+import {Supplier} from "../../models/supplier.model";
 
 @Component({
   selector: 'app-user-details',
@@ -17,7 +18,7 @@ export class UserDetailsComponent implements OnInit {
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
 
   userId: string = "";
-  filteredSuppliers: Observable<any[]>;
+  filteredSuppliers: Observable<Supplier[]>;
   suppliersSearchCtrl = new FormControl();
   @ViewChild('suppliersSearchInput') suppliersSearchInput: ElementRef;
 
@@ -41,6 +42,8 @@ export class UserDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.userId = this._ActivatedRoute.snapshot.paramMap.get("id");
+
+    this.loadFilteredSuppliersData('')
 
     this.suppliersSearchCtrl.valueChanges.pipe(
       distinctUntilChanged(),
@@ -93,11 +96,22 @@ export class UserDetailsComponent implements OnInit {
   }
 
   private loadFilteredSuppliersData(searchQuery: string) {
-    this.filteredSuppliers = this.api.getSuppliers(searchQuery, 0, 15, "SupplierName", "asc")
+    this.filteredSuppliers = this.api.getSuppliers(searchQuery, 0, 100, "supplierName", "asc")
       .pipe(
         map(res => {
           return res.body.data;
         })
       );
+  }
+
+  selectAll() {
+    this.filteredSuppliers.subscribe(x => {
+      for (let i of x) {
+        const idx = this.userForm.value.linkedSuppliers.find(x => x.id == i.id);
+        if (!idx) {
+          this.userForm.value.linkedSuppliers.push({id: i.id, name: i.supplierName});
+        }
+      }
+    })
   }
 }

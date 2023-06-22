@@ -11,23 +11,25 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatSelectModule} from "@angular/material/select";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
     UserIndexComponent,
     UserDetailsComponent,
   ],
-  imports: [
-    CommonModule,
-    MatAutocompleteModule,
-    MatTableModule,
-    MatInputModule,
-    MatPaginatorModule,
-    MatButtonModule,
-    MatIconModule,
-    MatSelectModule,
-    MatChipsModule,
-    ReactiveFormsModule
-  ]
+    imports: [
+        CommonModule,
+        MatAutocompleteModule,
+        MatTableModule,
+        MatInputModule,
+        MatPaginatorModule,
+        MatButtonModule,
+        MatIconModule,
+        MatSelectModule,
+        MatChipsModule,
+        ReactiveFormsModule,
+        MatTooltipModule
+    ]
 })
 export class UsersModule { }

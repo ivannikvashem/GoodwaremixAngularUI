@@ -44,6 +44,7 @@ import { ProductSelectedListComponent } from './product-selected-list/product-se
 import {AdminModule} from "../admin/admin.module";
 import {MatBadgeModule} from "@angular/material/badge";
 import {MatSliderModule} from "@angular/material/slider";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 @NgModule({
     declarations: [
@@ -66,38 +67,39 @@ import {MatSliderModule} from "@angular/material/slider";
     ],
   exports: [
   ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        MatInputModule,
-        MatPaginatorModule,
-        MatSortModule,
-        MatTableModule,
-        MatButtonModule,
-        MatIconModule,
-        MatButtonToggleModule,
-        MatFormFieldModule,
-        MatCardModule,
-        MatExpansionModule,
-        MatChipsModule,
-        MatTooltipModule,
-        ReactiveFormsModule,
-        NgxBarcode6Module,
-        MatTabsModule,
-        MatMenuModule,
-        MatDialogModule,
-        SharedModule,
-        MatDatepickerModule,
-        MatAutocompleteModule,
-        MatSelectModule,
-        MatListModule,
-        MatProgressSpinnerModule,
-        RouterModule,
-        MatCheckboxModule,
-        ScrollingModule,
-        AdminModule,
-        MatBadgeModule,
-        MatSliderModule,
-    ]
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatInputModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    MatButtonToggleModule,
+    MatFormFieldModule,
+    MatCardModule,
+    MatExpansionModule,
+    MatChipsModule,
+    MatTooltipModule,
+    ReactiveFormsModule,
+    NgxBarcode6Module,
+    MatTabsModule,
+    MatMenuModule,
+    MatDialogModule,
+    SharedModule,
+    MatDatepickerModule,
+    MatAutocompleteModule,
+    MatSelectModule,
+    MatListModule,
+    MatProgressSpinnerModule,
+    RouterModule,
+    MatCheckboxModule,
+    ScrollingModule,
+    AdminModule,
+    MatBadgeModule,
+    MatSliderModule,
+    MatProgressBarModule,
+  ]
 })
 export class ProductModule { }

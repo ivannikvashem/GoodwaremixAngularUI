@@ -43,6 +43,9 @@
           {{ supplier.supplierName }}
         </mat-option>
       </mat-autocomplete>
+      <button matSuffix mat-icon-button (click)="selectAll()" type="button" matTooltip="Прикрепить всех">
+        <mat-icon>library_add</mat-icon>
+      </button>
     </mat-form-field>
 
     <button mat-raised-button color="primary" type="submit" style="float: right; width: 150px;">Сохранить</button>

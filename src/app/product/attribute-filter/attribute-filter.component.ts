@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {Attribute} from "../../models/attribute.model";
-import {debounceTime, distinctUntilChanged, finalize, Observable, of, switchMap, tap} from "rxjs";
+import {debounceTime, distinctUntilChanged, finalize, Observable, switchMap, tap} from "rxjs";
 import {ApiClient} from "../../service/httpClient";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
@@ -30,7 +30,10 @@ export class AttributeFilterComponent implements OnInit {
   attributesForFilter:Attribute[] = []
   selectedFilterAttributes:SelectedFiltersList[] = []
   filteredAttributeValues: Observable<string[]>;
+  private filterCaches = new Map<string, Map<string, string[]>>();
+
   onFilterCancelData:string = '';
+  isLoading:boolean;
 
   selectedAttributes: SelectedFiltersList = new SelectedFiltersList()
 
@@ -39,8 +42,18 @@ export class AttributeFilterComponent implements OnInit {
   ngOnInit(): void {
     if (this.data.filter.attributeSearchFilters?.length > 0) {
       this.onFilterCancelData = JSON.stringify(this.data.filter);
+      this.isLoading = true;
       for (let i of this.data.filter.attributeSearchFilters) {
-        this.api.getAttributeById(i.attributeId).subscribe(x => {
+        this.api.getAttributeById(i.attributeId).pipe(
+          distinctUntilChanged(),
+          debounceTime(100),
+          tap(() => {
+            this.isLoading = true;
+          }),
+          finalize( () => {
+            this.isLoading = false;
+          })
+        ).subscribe(x => {
           this.attributesForFilter.push(x.body)
           this.selectedAttributes.attributeSearchFilters = this.data.filter.attributeSearchFilters
         })
@@ -49,17 +62,8 @@ export class AttributeFilterComponent implements OnInit {
     this.attributeValueFilterCtrl.valueChanges.pipe(
       distinctUntilChanged(),
       debounceTime(100),
-      tap(() => {
-        // this.isLoading = true;
-      }),
       switchMap(value => this.api.getAttributes(value, '', 0, 100, undefined, "rating", "desc")
-        .pipe(
-          finalize(() => {
-            //this.isLoading = false
-          }),
-        )
-      )
-    ).subscribe((response: any) => {
+      )).subscribe((response: any) => {
       this.attributesList = response.body.data;
     });
 
@@ -79,9 +83,11 @@ export class AttributeFilterComponent implements OnInit {
      }
    }
 
-  onAttributeValueSelected(attribute:any) {
-    if (!this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == (attribute.option.value as Attribute).id)) {
-      this.selectedAttributes.attributeSearchFilters.push({attributeId: (attribute.option.value as Attribute).id, type: (attribute.option.value as Attribute).type, attributeValues: []});
+  onAttributeValueSelected(attribute: any) {
+    const attributeId = (attribute.option.value as Attribute).id;
+    if (!this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId === attributeId)) {
+      const newAttributeSearchFilter = {attributeId, type: (attribute.option.value as Attribute).type, attributeValues: [] as string[]};
+      this.selectedAttributes.attributeSearchFilters = this.selectedAttributes.attributeSearchFilters.concat(newAttributeSearchFilter);
       this.attributesForFilter.push(this.attributeValueFilterCtrl.value as Attribute);
     }
   }
@@ -111,17 +117,30 @@ export class AttributeFilterComponent implements OnInit {
     this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == id).attributeValues = this.selectedAttributes.attributeSearchFilters.find(x => x.attributeId == id).attributeValues.filter(x => x !== value)
   }
 
-  searchFilter(value: string, options: string[]): Observable<string[]> {
-    const filterValue = value.toLowerCase();
-    return of (options.filter(options => options.toLowerCase().includes(filterValue)).sort((a, b) => a.localeCompare(b, undefined, {
-      numeric: true,
-      sensitivity: 'base',
-      ignorePunctuation: true
-    })));
+  searchFilter(value: string, options: string[], field:string): string[] {
+    const cache = this.getOrCreateCache(field);
+    const cacheKey = value.toLowerCase();
+    if (cache.has(cacheKey)) {
+      return cache.get(cacheKey);
+    }
+    const filterValue = cacheKey;
+    const filteredOptions = options.filter(option => option.toLowerCase().includes(filterValue)).slice(0, 100)
+      .sort((a, b) => a.localeCompare(b, undefined, {
+        numeric: true,
+        sensitivity: 'base',
+        ignorePunctuation: true
+      }));
+    cache.set(cacheKey, filteredOptions);
+    return filteredOptions;
   }
 
-  attributeAsync(attributes: Attribute[]) : Observable<Attribute[]> {
-    return of (attributes)
+  private getOrCreateCache(key: string): Map<string, string[]> {
+    let cache = this.filterCaches.get(key);
+    if (!cache) {
+      cache = new Map<string, string[]>();
+      this.filterCaches.set(key, cache);
+    }
+    return cache;
   }
 
   clearAllValue(id:string) {
