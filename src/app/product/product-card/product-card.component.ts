@@ -7,6 +7,7 @@ import {NotificationService} from "../../service/notification-service";
 import {Router} from "@angular/router";
 import {Clipboard} from "@angular/cdk/clipboard";
 import {DataStateService} from "../../shared/data-state.service";
+import {AuthService} from "../../auth/service/auth.service";
 
 @Component({
   selector: 'app-product-card',
@@ -14,12 +15,12 @@ import {DataStateService} from "../../shared/data-state.service";
   styleUrls: ['./product-card.component.css']
 })
 export class ProductCardComponent implements OnInit {
-
   hoverImage: string = "";
   hoverRowId: string = "";
   mouseOver:boolean = false;
   isImageLoaded:boolean = false;
   selected:boolean = false;
+  roles:string[] = []
   @Input() product:Product
   constructor(
     private imgHandler:MissingImageHandler,
@@ -27,11 +28,13 @@ export class ProductCardComponent implements OnInit {
     public router: Router,
     public _notyf: NotificationService,
     private clipboard:Clipboard,
-    private dss: DataStateService
+    private dss: DataStateService,
+    private auth: AuthService
   ) { }
 
   ngOnInit(): void {
-    this.dss.selectedProductsState.subscribe(selection => {
+    this.roles = this.auth.getRoles();
+    this.dss.getSelectedProducts().subscribe((selection:Product[]) => {
       this.selected = !!selection.find(item => item.id === this.product.id);
     })
   }

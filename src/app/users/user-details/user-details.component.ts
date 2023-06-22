@@ -1,12 +1,13 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
-import {debounceTime, distinctUntilChanged, Observable} from "rxjs";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
-import {map} from "rxjs/operators";
 import {ApiClient} from "../../service/httpClient";
 import {Supplier} from "../../models/supplier.model";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {DataStateService} from "../../shared/data-state.service";
+import {NotificationService} from "../../service/notification-service";
 
 @Component({
   selector: 'app-user-details',
@@ -17,8 +18,7 @@ export class UserDetailsComponent implements OnInit {
 
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
 
-  userId: string = "";
-  filteredSuppliers: Observable<Supplier[]>;
+  supplierList: Supplier[] = [];
   suppliersSearchCtrl = new FormControl();
   @ViewChild('suppliersSearchInput') suppliersSearchInput: ElementRef;
 
@@ -36,25 +36,30 @@ export class UserDetailsComponent implements OnInit {
   });
 
   constructor(private fb: FormBuilder,
-              private _ActivatedRoute:ActivatedRoute,
               private api: ApiClient,
-              private router: Router) { }
+              private router: Router,
+              private dss: DataStateService,
+              @Inject(MAT_DIALOG_DATA) public data: any,
+              private _notyf: NotificationService,
+              public dialogRef: MatDialogRef<UserDetailsComponent>) { }
 
   ngOnInit(): void {
-    this.userId = this._ActivatedRoute.snapshot.paramMap.get("id");
-
-    this.loadFilteredSuppliersData('')
-
-    this.suppliersSearchCtrl.valueChanges.pipe(
-      distinctUntilChanged(),
-      debounceTime(300)
-    ).subscribe(()=> {
-      this.loadFilteredSuppliersData(this.suppliersSearchCtrl.value);
-    })
-
-    if (this.userId) {
-      this.loadUserData(this.userId);
+    if (this.data?.id) {
+      this.userForm.setValue(this.data);
     }
+
+    if (this.dss.getSupplierList().length == 0) {
+      this.api.getSuppliers("", 0 ,100, "supplierName", "asc").subscribe( (r:any) => {
+        this.supplierList = r.body.data
+        this.dss.setSupplierList(this.supplierList)
+      });
+    } else {
+      this.supplierList = this.dss.getSupplierList();
+    }
+  }
+
+  searchFilter(supplierList: Supplier[], search:string) {
+    return supplierList.filter(option => option.supplierName.toLowerCase().includes(search.toLowerCase()));
   }
 
   removeSupplierFromUser(item: any): void {
@@ -75,43 +80,30 @@ export class UserDetailsComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (!this.userId) {
-      console.log("submitting " + this.userForm.value.username + " by ID " + this.userId + " with data: " + JSON.stringify(this.userForm.value));
+    if (!this.data?.id) {
+      console.log("submitting " + this.userForm.value.username + " by ID " + this.data?.id + " with data: " + JSON.stringify(this.userForm.value));
       this.api.addUser(this.userForm.value).subscribe(() => {
-        this.router.navigate([`/users`]);
+        this.dialogRef.close(this.userForm.value)
+      },error => {
+        this._notyf.onError(error)
+      });
+    } else {
+      console.log("submitting " + this.userForm.value.username + " by ID " + this.data?.id + " with data: " + JSON.stringify(this.userForm.value));
+      this.api.updateUser(this.data.id, this.userForm.value).subscribe(() => {
+        this.dialogRef.close(this.userForm.value)
+      } ,error => {
+        this._notyf.onError(error)
       });
     }
-    console.log("submitting " + this.userForm.value.username + " by ID " + this.userId + " with data: " + JSON.stringify(this.userForm.value));
-    this.api.updateUser(this.userId, this.userForm.value).subscribe(() => {
-      this.router.navigate([`/users`]);
-    });
     return;
   }
 
-  private loadUserData(userId: string) {
-    this.api.getUserById(userId).subscribe( x => {
-        const user = x.body;
-        this.userForm.setValue(user);
-    })
-  }
-
-  private loadFilteredSuppliersData(searchQuery: string) {
-    this.filteredSuppliers = this.api.getSuppliers(searchQuery, 0, 100, "supplierName", "asc")
-      .pipe(
-        map(res => {
-          return res.body.data;
-        })
-      );
-  }
-
   selectAll() {
-    this.filteredSuppliers.subscribe(x => {
-      for (let i of x) {
-        const idx = this.userForm.value.linkedSuppliers.find(x => x.id == i.id);
-        if (!idx) {
-          this.userForm.value.linkedSuppliers.push({id: i.id, name: i.supplierName});
-        }
+    for (let i of this.supplierList) {
+      const idx = this.userForm.value.linkedSuppliers.find(x => x.id == i.id);
+      if (!idx) {
+        this.userForm.value.linkedSuppliers.push({id: i.id, name: i.supplierName});
       }
-    })
+    }
   }
 }

@@ -1,24 +1,26 @@
+<h3>Пользователи &nbsp;</h3>
+
 <div class="mat-elevation-z8 full-width">
   <table mat-table [dataSource]="dataSource"
          matSort matSortActive="created">
 
     <ng-container matColumnDef="username">
-      <th mat-header-cell *matHeaderCellDef>Username</th>
+      <th mat-header-cell *matHeaderCellDef>Логин</th>
       <td mat-cell *matCellDef="let row">{{row.username}}</td>
     </ng-container>
 
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>name</th>
+      <th mat-header-cell *matHeaderCellDef>Имя</th>
       <td mat-cell *matCellDef="let row">{{row.name}}</td>
     </ng-container>
 
     <ng-container matColumnDef="role">
-      <th mat-header-cell *matHeaderCellDef>role</th>
+      <th mat-header-cell *matHeaderCellDef>Роль</th>
       <td mat-cell *matCellDef="let row">{{row.role}}</td>
     </ng-container>
 
     <ng-container matColumnDef="linkedSuppliers">
-      <th mat-header-cell *matHeaderCellDef>Linked suppliers list</th>
+      <th mat-header-cell *matHeaderCellDef>Прикрепленные поставщики</th>
       <td mat-cell *matCellDef="let row">
         <span *ngFor="let item of row.linkedSuppliers">{{item.name}} </span>
       </td>
@@ -27,13 +29,13 @@
     <!-- ACTIONS Column -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="Добавить" (click)="goToAddUser()">
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="Добавить" (click)="goToEditUser()">
           <mat-icon>add</mat-icon>
         </button>
       </th>
       <td mat-cell *matCellDef="let item">
 
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="Изменить" (click)="goToEditUser(item.id)">
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="Изменить" (click)="goToEditUser(item)">
           <mat-icon>edit</mat-icon>
         </button>&nbsp;
         <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить" (click)="confirmDeleteDialog(item.id, item.username)">
@@ -46,4 +48,7 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+
+  <mat-paginator [style.visibility]="dataSource.rowCount > 0 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="0" [pageSize]="10" [pageSizeOptions]=[10,20,50,100] aria-label="Страница" (page)="onPaginatorChange($event)"></mat-paginator>
+
 </div>

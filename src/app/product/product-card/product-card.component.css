@@ -71,3 +71,7 @@
     background-position-x: -200%;
   }
 }
+
+::ng-deep .mat-mini-fab .mat-button-wrapper {
+  padding: 0!important;
+}

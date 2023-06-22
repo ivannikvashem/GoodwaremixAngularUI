@@ -1,12 +1,11 @@
 import {Component, OnInit,} from '@angular/core';
 import {UsersDataSource} from "../repo/UsersDataSource";
 import {Router} from "@angular/router";
-import {
-  ConfirmDialogComponent,
-  ConfirmDialogModel
-} from "../../components/shared/confirm-dialog/confirm-dialog.component";
+import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/shared/confirm-dialog/confirm-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {ApiClient} from "../../service/httpClient";
+import {UserDetailsComponent} from "../user-details/user-details.component";
+import {UserInterface} from "../type/user.interface";
 
 @Component({
   selector: 'app-user-index',
@@ -41,8 +40,16 @@ export class UserIndexComponent implements OnInit {
     this.router.navigate([`user-add/`]);
   }
 
-  goToEditUser(id:string) {
-    this.router.navigate([`user-edit/${id}`]);
+  goToEditUser(user?:UserInterface) {
+    //this.router.navigate([`user-edit/${id}`]);
+
+    const dialogRef = this.dialog.open(UserDetailsComponent,  {
+      minWidth: "600px",
+      data: user
+    })
+    dialogRef.afterClosed().subscribe( result => {
+      this.dataSource.onUserListUpdate(result)
+    })
   }
 
   confirmDeleteDialog(id: any, title: string) {
@@ -57,5 +64,9 @@ export class UserIndexComponent implements OnInit {
         this.deleteUser(id)
       }
     });
+  }
+
+  onPaginatorChange(page: any) {
+    this.dataSource.loadPagedData(page.pageIndex, page.pageSize, '','')
   }
 }

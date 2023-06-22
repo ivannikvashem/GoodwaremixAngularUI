@@ -14,3 +14,46 @@ table {
   text-align: -webkit-center;
   text-align: center;
 }
+
+.mat-column-username {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 130px !important;
+  width: 130px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  justify-content: center;
+  word-break: break-word;
+
+  text-align: -webkit-center;
+  text-align: center;
+}
+
+.mat-column-name {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 130px !important;
+  width: 130px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  justify-content: center;
+  word-break: break-word;
+
+  text-align: -webkit-center;
+  text-align: center;
+}
+
+.mat-column-role {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 200px !important;
+  width: 200px !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  justify-content: center;
+  word-break: break-word;
+
+  text-align: -webkit-center;
+  text-align: center;
+}
+

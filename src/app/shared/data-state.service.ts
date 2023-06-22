@@ -5,12 +5,9 @@ import {Injectable} from "@angular/core";
 @Injectable()
 export class DataStateService {
 
-  selectedSupplierState: BehaviorSubject<Supplier | null> = new BehaviorSubject(null);
-
-  selectedProductsState: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([])
-  supplierList: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([])
-  // availableSuppliersList: Supplier[];
-  //data$: Observable<Supplier> = this.selectedSupplierState.asObservable();
+  private selectedSupplierState: BehaviorSubject<Supplier | null> = new BehaviorSubject(null);
+  private selectedProductsState: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([])
+  private supplierList: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([])
 
   constructor() {
   }
@@ -19,16 +16,28 @@ export class DataStateService {
     this.supplierList.next(suppliers)
   }
 
+  getSupplierList() {
+    return this.supplierList.value;
+  }
+
   setSelectedSupplier(id:string, name:string) {
     console.log(`DSS: ${id} - ${name}`);
     this.selectedSupplierState.next({id:id, supplierName:name} as Supplier);
     //console.log(`...DSS: ${this.selectedSupplierState}`);
   }
 
+  getSelectedSupplier() {
+    return this.selectedSupplierState;
+  }
+
   setSelectedProduct(selectedItem:any) {
     if (this.selectedProductsState.value.filter(x => x.id === selectedItem.id).length == 0) {
       this.selectedProductsState.next(this.selectedProductsState.getValue().concat([selectedItem]))
     }
+  }
+
+  getSelectedProducts() {
+    return this.selectedProductsState;
   }
 
   removeSelectedProduct(id:string) {

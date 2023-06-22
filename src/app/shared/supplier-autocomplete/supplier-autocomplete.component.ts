@@ -26,13 +26,12 @@ export class SupplierAutocompleteComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.subscription = this.dss.selectedSupplierState.subscribe(
-      (supplier: Supplier) => {
+    this.subscription = this.dss.getSelectedSupplier().subscribe((supplier: Supplier) => {
         this.searchSuppliersCtrl.setValue(supplier);
       }
     )
 
-    if (this.dss.supplierList.value.length == 0) {
+    if (this.dss.getSupplierList().length == 0) {
       this.api.getSuppliers("", 0 ,100, "supplierName", "asc").subscribe( (r:any) => {
         this.supplierList = r.body.data
         if (this.supplierList.length == 1) {
@@ -42,9 +41,8 @@ export class SupplierAutocompleteComponent implements OnInit {
         this.dss.setSupplierList(this.supplierList)
       });
     } else {
-      this.supplierList = this.dss.supplierList.value;
+      this.supplierList = this.dss.getSupplierList();
     }
-
   }
 
   displayFn(supplier: Supplier): string {
@@ -55,10 +53,10 @@ export class SupplierAutocompleteComponent implements OnInit {
     let supp = this.searchSuppliersCtrl.value as Supplier
     if (supp.supplierName && supp.id) {
       this.selectedSupplier.emit(({id:supp.id, supplierName:supp.supplierName}) as Supplier);
-      this.dss.selectedSupplierState.next(({id:supp.id, supplierName:supp.supplierName}) as Supplier)
+      this.dss.getSelectedSupplier().next(({id:supp.id, supplierName:supp.supplierName}) as Supplier)
     } else {
       this.selectedSupplier.emit(new Supplier());
-      this.dss.selectedSupplierState.next(new Supplier())
+      this.dss.getSelectedSupplier().next(new Supplier())
     }
   }
 

@@ -1,7 +1,7 @@
 <mat-card class="card mat-elevation-z3"  (mouseover)="mouseOver = true" (mouseleave)="mouseOver = false">
   <div class="cardTop">
 
-    <div style="display: grid; row-gap: 10px">
+    <div style="display: grid; row-gap: 10px" *ngIf="roles.includes('goodware-admin');">
       <mat-checkbox style="margin: auto" [ngModel]="selected" (change)="onChecked($event)" [style.visibility]="mouseOver || selected ? 'visible': 'hidden'"></mat-checkbox>
       <a mat-mini-fab class="mat-elevation-z2" [href]="'product-edit/' + product.id" [style.visibility]="mouseOver ? 'visible': 'hidden'">
         <mat-icon>edit</mat-icon>

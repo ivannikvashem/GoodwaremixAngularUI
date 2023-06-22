@@ -78,8 +78,7 @@ export class ProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCookie();
-    this.subscription = this.dss.selectedSupplierState.subscribe(
-      supplier => {
+    this.subscription = this.dss.getSelectedSupplier().subscribe((supplier:Supplier) => {
         this.selectedSupplier = supplier;
         if (supplier) {
           this.pageIndex = 0;

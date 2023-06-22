@@ -53,8 +53,7 @@ export class SupplierComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCookie();
-    this.subscription = this.dss.selectedSupplierState.subscribe(
-      supplier => {
+    this.subscription = this.dss.getSelectedSupplier().subscribe((supplier:Supplier) => {
         this.selectedSupplier = supplier;
       }
     )

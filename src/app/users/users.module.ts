@@ -12,24 +12,26 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
     UserIndexComponent,
     UserDetailsComponent,
   ],
-    imports: [
-        CommonModule,
-        MatAutocompleteModule,
-        MatTableModule,
-        MatInputModule,
-        MatPaginatorModule,
-        MatButtonModule,
-        MatIconModule,
-        MatSelectModule,
-        MatChipsModule,
-        ReactiveFormsModule,
-        MatTooltipModule
-    ]
+  imports: [
+    CommonModule,
+    MatAutocompleteModule,
+    MatTableModule,
+    MatInputModule,
+    MatPaginatorModule,
+    MatButtonModule,
+    MatIconModule,
+    MatSelectModule,
+    MatChipsModule,
+    ReactiveFormsModule,
+    MatTooltipModule,
+    MatDialogModule
+  ]
 })
 export class UsersModule { }

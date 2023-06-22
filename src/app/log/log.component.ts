@@ -14,8 +14,8 @@ export class LogComponent implements OnInit {
   constructor(private dss: DataStateService) { }
 
   ngOnInit(): void {
-    this.dss.selectedSupplierState.subscribe(x => {
-      this.selectedSupplier = x;
+    this.dss.getSelectedSupplier().subscribe((supplier:Supplier) => {
+      this.selectedSupplier = supplier;
     });
   }
 }

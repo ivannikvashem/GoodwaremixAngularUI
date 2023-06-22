@@ -107,7 +107,7 @@ export class ProductEditComponent implements OnInit {
       switchMap(value => this.api.getBrands(value))
     ).subscribe((data: any) => {this.brandsList = data.body; });
 
-    this.selectedSupplier = this.dss.selectedSupplierState.getValue();
+    this.selectedSupplier = this.dss.getSelectedSupplier().getValue();
 
     if (this.selectedSupplier) {
       this.handleChangeSelectedSupplier(this.selectedSupplier);

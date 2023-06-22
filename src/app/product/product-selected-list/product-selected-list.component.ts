@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {DataStateService} from "../../shared/data-state.service";
 import {MatDialog} from "@angular/material/dialog";
+import {Product} from "../../models/product.model";
 
 @Component({
   selector: 'app-product-selected-list',
@@ -14,7 +15,7 @@ export class ProductSelectedListComponent implements OnInit {
   constructor(private dss:DataStateService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.dss.selectedProductsState.subscribe(selection => {
+    this.dss.getSelectedProducts().subscribe((selection:Product[]) => {
       this.selectedItems = selection;
       if (selection.length == 0) {
         this.dialog.closeAll()

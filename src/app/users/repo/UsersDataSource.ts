@@ -23,7 +23,7 @@ export class UsersDataSource implements DataSource<UserInterface> {
     this.loadingSubject.complete();
   }
 
-  loadPagedData(pageIndex = 1, pageSize = 10, sortActive = "Date", sortDirection = "desc"): any {
+  loadPagedData(pageIndex = 1, pageSize = 10, sortActive = "date", sortDirection = "desc"): any {
     this.loadingSubject.next(true);
     this.api.getUsers(pageIndex, pageSize, sortActive, sortDirection)
       .pipe(
@@ -37,5 +37,15 @@ export class UsersDataSource implements DataSource<UserInterface> {
         this.UserListSubject.next(body.data)
         this.rowCount = body.totalRecords;
       });
+  }
+
+  onUserListUpdate(user:any) {
+    if (this.UserListSubject.value.find(x => x.id == user.id)) {
+
+    } else {
+
+      this.UserListSubject.next(this.UserListSubject.getValue().concat([user]))
+    }
+
   }
 }

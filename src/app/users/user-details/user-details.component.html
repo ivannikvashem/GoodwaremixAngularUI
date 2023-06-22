@@ -1,4 +1,4 @@
-<div style="width: 500px; margin: 0 auto;">
+<div>
 
   <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="form-full-width">
 
@@ -39,7 +39,7 @@
                [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
       </mat-chip-list>
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="supplierAutocompleteSelected($event)">
-        <mat-option *ngFor="let supplier of filteredSuppliers | async" [value]="supplier">
+        <mat-option *ngFor="let supplier of searchFilter(supplierList, suppliersSearchInput.value)" [value]="supplier">
           {{ supplier.supplierName }}
         </mat-option>
       </mat-autocomplete>

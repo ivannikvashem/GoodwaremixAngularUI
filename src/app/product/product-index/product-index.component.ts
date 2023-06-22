@@ -68,7 +68,7 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
       this.isLoading = loadState
     })
 
-    this.dss.selectedProductsState.subscribe(selection => {
+    this.dss.getSelectedProducts().subscribe((selection:Product[]) => {
       if (selection.length > 0) {
         this.selectionActive = true;
         this.selectionItems = selection;
