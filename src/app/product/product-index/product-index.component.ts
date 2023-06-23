@@ -79,7 +79,15 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.loadProductPagedData()
+    for (const propName in changes) {
+      if (changes.hasOwnProperty(propName)) {
+        const changedProp = changes[propName];
+        if (JSON.stringify(changedProp.previousValue) !== JSON.stringify(changedProp.currentValue)) {
+          this.loadProductPagedData();
+          break;
+        }
+      }
+    }
   }
 
   ngAfterViewInit(): void {

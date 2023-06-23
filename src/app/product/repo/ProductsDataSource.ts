@@ -37,7 +37,6 @@ export class ProductsDataSource implements DataSource<Product> {
   loadPagedData(isCardLayout = true,queryString = "", selectedSuppId = '', pageIndex = 0, pageSize = 10, selectedAttributes:any | null, sortActive:string, sortDirection:string, withInternalCodeSelector:boolean) {
     if (this.loadingSubject.value == true)
       return;
-
     this.loadingSubject.next(true);
 
     this.api.getProducts(queryString, selectedSuppId, pageIndex, pageSize, selectedAttributes, sortActive, sortDirection, withInternalCodeSelector)

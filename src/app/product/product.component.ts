@@ -125,11 +125,11 @@ export class ProductComponent implements OnInit {
     const dialogRef = this.dialog.open(AttributeFilterComponent, {
       width: '900px',
       height: 'auto',
-      data: {filter: this.filterAttribute},
+      data: {filter: JSON.stringify(this.filterAttribute)},
       autoFocus:false
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
+      if (result?.attributeSearchFilters?.length > 0) {
         this.filterAttribute = result;
       } else {
         this.filterAttribute = new SelectedFiltersList();
