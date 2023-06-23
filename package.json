@@ -24,7 +24,7 @@
     "jsbarcode": "^3.11.5",
     "keycloak-angular": "^12.1.0",
     "keycloak-js": "^19.0.3",
-    "ngx-barcode6": "1.0.21",
+    "ngx-barcode6": "1.0.23",
     "rxjs": "~7.5.6",
     "tslib": "^2.4.0",
     "zone.js": "~0.11.6"
