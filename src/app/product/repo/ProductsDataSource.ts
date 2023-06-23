@@ -78,7 +78,6 @@ export class ProductsDataSource implements DataSource<Product> {
       },
       err => {
         //this._notyf.onError(err.message)
-        //this._notyf.onError(err.message)
       });
   }
 
