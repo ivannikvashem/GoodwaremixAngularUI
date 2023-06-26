@@ -77,7 +77,7 @@ export class ProductsDataSource implements DataSource<Product> {
         this.ProductListSubject.next(newdata);
       },
       err => {
-        //this._notyf.onError(err.message)
+        console.log(err.message)
       });
   }
 
