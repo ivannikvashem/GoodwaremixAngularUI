@@ -1,0 +1,21 @@
+<h3 mat-dialog-title>{{data.oldUnit == undefined ? "Добавление ед. измерения" : "Редактирование ед. измерения"}}</h3>
+
+<form [formGroup]="form" (ngSubmit)="onSubmitClick()">
+  <mat-form-field class="form-full-width">
+    <mat-label>Исходное значение</mat-label>
+    <input matInput type="text" formControlName="sourceUnit" name="sourceUnit">
+  </mat-form-field>
+  <mat-form-field class="form-full-width">
+    <mat-label>Целевое значение</mat-label>
+    <input matInput type="text" formControlName="targetUnit" name="targetUnit">
+  </mat-form-field>
+  <mat-form-field class="form-full-width">
+    <mat-label>Множитель</mat-label>
+    <input matInput type="number" formControlName="multiplier" name="multiplier">
+  </mat-form-field>
+</form>
+
+<div class="actions-div">
+  <button mat-button mat-dialog-close="" (click)="onCancelClick()" type="button">Отмена</button>
+  <button mat-raised-button color="primary" (click)="onSubmitClick()" [disabled]="form.invalid">Сохранить</button>
+</div>

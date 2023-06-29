@@ -14,6 +14,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {SharedModule} from "../shared/shared.module";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {CdkTableModule} from "@angular/cdk/table";
+import {RouterModule} from "@angular/router";
 
 @NgModule({
     declarations: [
@@ -36,7 +37,8 @@ import {CdkTableModule} from "@angular/cdk/table";
         MatPaginatorModule,
         SharedModule,
         DragDropModule,
-        CdkTableModule
+        CdkTableModule,
+        RouterModule
     ]
 })
 export class AdminModule { }

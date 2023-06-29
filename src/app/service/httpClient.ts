@@ -7,6 +7,7 @@ import {Product} from "../models/product.model";
 import {Attribute} from "../models/attribute.model";
 import {SchedulerTask} from "../models/schedulerTask.model";
 import {AuthService} from "../auth/service/auth.service";
+import {UnitConverter} from "../models/unitConverter.model";
 
 @Injectable({
   providedIn: 'root'
@@ -381,6 +382,29 @@ export class ApiClient {
     return this.http.post(this.apiURL + '/files/documents/'+documentId, formData, {headers:{"ContentType": "multipart/form-data"}})
   }
   //#endregion
+
+  //#region UnitConverter ENDPOINT
+  getConverterUnits(searchString:string, pageIndex: number, pageSize: number): Observable<any> {
+    let opt = {
+      params: new HttpParams()
+        .set('searchFilter', searchString)
+        .set('filter.pageNumber', pageIndex ? pageIndex + 1 : 1)
+        .set('filter.pageSize', pageSize ?? 10)
+    };
+    opt = Object.assign(opt, this.httpOptions);
+    return this.http.get(this.apiURL + '/unitConverter', opt)
+  }
+
+  addConverterUnit(unit:UnitConverter) {
+    return this.http.put(this.apiURL + '/unitConverter/', unit, this.httpOptions);
+  }
+
+  updateConverterUnit(unit:UnitConverter) {
+    return this.http.post(this.apiURL + '/unitConverter/', unit, this.httpOptions);
+  }
+  //#endregion
+
+
 
   checkIfServerAlive(): Observable<any> {
     return this.http.get(this.apiURL + '/logs', this.httpOptions)

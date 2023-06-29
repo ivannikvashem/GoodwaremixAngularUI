@@ -1,0 +1,14 @@
+<div class="cardTopPanel">
+  <h3>Товары</h3>
+
+  <div class="toolbox-container">
+    <mat-form-field appearance="standard" class="toolbox-item-xl">
+      <mat-label>Поиск</mat-label>
+      <input matInput [formControl]="searchQueryCtrl" (keydown.enter)="searchQueryChanged()">
+      <button *ngIf="searchQueryCtrl.value" matSuffix mat-icon-button aria-label="Clear" (click)="searchQueryClear()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+</div>
+<app-unit-converter-index [pageIndex]="pageIndex" [pageSize]="pageSize" [searchQuery]="searchQuery"></app-unit-converter-index>
