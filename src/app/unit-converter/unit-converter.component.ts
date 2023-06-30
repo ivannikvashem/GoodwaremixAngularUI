@@ -18,7 +18,6 @@ export class UnitConverterComponent implements OnInit {
   pageSize:number = 10;
   pageCookie$ = this._localStorageService.myData$;
   pC: any = {};
-  private subscription: Subscription;
 
   constructor(
     private dss: DataStateService,
@@ -68,9 +67,5 @@ export class UnitConverterComponent implements OnInit {
     this.pageIndex = params.pageIndex;
     this.pageSize = params.pageSize;
     this.setCookie();
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 }

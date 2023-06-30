@@ -4,6 +4,10 @@ import {ApiClient} from "../../service/httpClient";
 import {MatDialog} from "@angular/material/dialog";
 import {UnitConverterEditComponent} from "../unit-converter-edit/unit-converter-edit.component";
 import {UnitConverter} from "../../models/unitConverter.model";
+import {
+  ConfirmDialogComponent,
+  ConfirmDialogModel
+} from "../../components/shared/confirm-dialog/confirm-dialog.component";
 
 @Component({
   selector: 'app-unit-converter-index',
@@ -48,7 +52,21 @@ export class UnitConverterIndexComponent implements OnInit {
           this.dataSource.updateUnitConverter(Object.assign(result.oldUnit, result.newUnit))
         }
       }
-      console.log(result)
+    });
+  }
+
+  deleteUnit(unit:any) {
+    const message = `Удалить конвертированную единицу измерения ` + unit.sourceUnit + ' --> ' + unit.targetUnit + `?`;
+    const dialogData = new ConfirmDialogModel("Подтверждение", message);
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      minWidth: "300px",
+      maxWidth: "550px",
+      data: dialogData
+    });
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult === true) {
+        this.dataSource.deleteUnitConverter(unit.id);
+      }
     });
   }
 }

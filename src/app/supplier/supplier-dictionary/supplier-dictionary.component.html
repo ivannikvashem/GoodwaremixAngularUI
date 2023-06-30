@@ -44,10 +44,18 @@
 
       <mat-form-field style="width: 20%" appearance="standard" *ngIf="attrSelectedRow?.id == i">
         <mat-label>Множитель</mat-label>
-        <input matInput type="text" [(ngModel)]="element.multiplier">
+        <input matInput type="text"
+               [formControl]="unitConverterListCtrl"
+               [matAutocomplete]="multiplierAuto">
+        <mat-autocomplete #multiplierAuto="matAutocomplete" panelWidth="auto" [displayWith]="displayFnUnit" (optionSelected)="onUnitConverterSelected(element)">
+          <mat-option *ngFor="let option of unitConverterList" [value]="option">
+            <span> <span class="unitMark">{{option.multiplier}}</span> {{option.sourceUnit}}<mat-icon>arrow_forward</mat-icon>{{option.targetUnit}} </span>
+
+          </mat-option>
+        </mat-autocomplete>
       </mat-form-field>
 
-      <span *ngIf="attrSelectedRow?.id != i" [style.color]="element.attributeValid ? 'black': 'orangered'">{{element.attributeBDName}} <strong *ngIf="element.multiplier">[Множ. {{element.multiplier}}]</strong></span>
+      <span *ngIf="attrSelectedRow?.id != i" [style.color]="element.attributeValid ? 'black': 'orangered'">{{element.attributeBDName}} <strong *ngIf="element.convertId">[Множ. {{element.convertId}}]</strong></span>
     </td>
 
   </ng-container>

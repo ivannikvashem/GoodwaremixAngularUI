@@ -4,6 +4,7 @@ import {Attribute} from "../../models/attribute.model";
 import {FormControl} from "@angular/forms";
 import {debounceTime, switchMap} from "rxjs";
 import {ApiClient} from "../../service/httpClient";
+import {UnitConverter} from "../../models/unitConverter.model";
 
 @Component({
   selector: 'app-supplier-dictionary',
@@ -21,8 +22,10 @@ export class SupplierDictionaryComponent implements OnInit {
   attrTableColumns: string[] = ['idx', 'keySupplier', 'attributeBDName', 'action'];
   selectedAttr: Attribute | undefined;
   attributeListCtrl = new FormControl<string | Attribute>('');
+  unitConverterListCtrl = new FormControl<string | UnitConverter>('');
   attrSelectedRow: any;
   public attributeList: Attribute[] | undefined;
+  public unitConverterList: UnitConverter[] | undefined;
 
   ngOnInit(): void {
     this.attributeListCtrl.valueChanges.pipe(
@@ -31,6 +34,14 @@ export class SupplierDictionaryComponent implements OnInit {
     ).subscribe((data: any) => {
       this.attributeList = data.body.data;
     });
+
+    this.unitConverterListCtrl.valueChanges.pipe(
+      debounceTime(100),
+      switchMap(value => this.api.getConverterUnits(value.toString(), 0, 100))
+    ).subscribe((data: any) => {
+      this.unitConverterList = data.body.data;
+    });
+
   }
 
   onDictionaryChanged() {
@@ -65,6 +76,12 @@ export class SupplierDictionaryComponent implements OnInit {
     this.attributeListCtrl.setValue(this.selectedAttr);
     this.attrSelectedRow = row;
     this.attrSelectedRow.id = i;
+
+    console.log(row)
+    if (row.convertId) {
+
+    }
+    //this.unitConverterListCtrl.setValue()
   }
 
   deleteSuppAttr(index: number, table: any) {
@@ -87,6 +104,10 @@ export class SupplierDictionaryComponent implements OnInit {
       res += " [" + attr?.etimFeature + "] от " + attr?.supplierName
     }
     return res
+  }
+
+  displayFnUnit(unit: UnitConverter): string {
+    return unit && unit.multiplier + ' ' +  unit.sourceUnit + ' --> ' + unit.targetUnit
   }
 
   onDBAttrSelected() {
@@ -116,6 +137,7 @@ export class SupplierDictionaryComponent implements OnInit {
   clearAttrSelection(): void {
     this.attrSelectedRow = null;
     this.attributeListCtrl.setValue(null)
+    this.unitConverterListCtrl.setValue('')
   }
 
   // if add new attribute will be needed
@@ -142,6 +164,10 @@ export class SupplierDictionaryComponent implements OnInit {
     } catch (e) {
       console.error(e);
     }
+  }
+
+  onUnitConverterSelected(element:any) {
+    element.convertId = (this.unitConverterListCtrl.value as UnitConverter).id;
   }
 }
 

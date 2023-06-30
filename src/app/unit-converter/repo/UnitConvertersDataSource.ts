@@ -41,11 +41,22 @@ export class UnitConvertersDataSource implements DataSource<UnitConverter> {
 
   addUnitConverter(unit:UnitConverter) {
     // would like to get id after unit was added
-    this.api.addConverterUnit(unit).subscribe(x => {})
+    this.api.addConverterUnit(unit).subscribe((x:any) => {
+      unit.id = x.body;
+      this.UnitConverterListSubject.next(this.UnitConverterListSubject.getValue().concat([unit]))
+    })
 
   }
 
   updateUnitConverter(unit:UnitConverter) {
-    this.api.updateConverterUnit(unit).subscribe()
+    this.api.updateConverterUnit(unit).subscribe();
+  }
+
+  deleteUnitConverter(unitId:string) {
+    this.api.deleteConverterUnit(unitId).subscribe({
+      next: () => {
+        this.UnitConverterListSubject.next(this.UnitConverterListSubject.value.filter(x => x.id !== unitId))
+      }
+    });
   }
 }

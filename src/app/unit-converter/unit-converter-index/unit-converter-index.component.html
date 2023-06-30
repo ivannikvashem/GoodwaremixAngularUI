@@ -17,7 +17,10 @@
   <!-- rating Column -->
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef><button mat-icon-button (click)="editUnit()"><mat-icon>add</mat-icon></button></th>
-    <td mat-cell *matCellDef="let row"><button mat-icon-button (click)="editUnit(row)"><mat-icon>edit</mat-icon></button></td>
+    <td mat-cell *matCellDef="let row">
+      <button mat-icon-button (click)="editUnit(row)"><mat-icon>edit</mat-icon></button>
+      <button mat-icon-button (click)="deleteUnit(row)"><mat-icon>delete</mat-icon></button>
+    </td>
   </ng-container>
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

@@ -4,5 +4,5 @@ export class ProductAttributeKey {
   keySupplier: string;
   attributeBDName: string;
   attributeValid: boolean;
-  multiplier: string;
+  convertId: string;
 }

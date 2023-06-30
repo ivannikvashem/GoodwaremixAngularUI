@@ -402,6 +402,10 @@ export class ApiClient {
   updateConverterUnit(unit:UnitConverter) {
     return this.http.post(this.apiURL + '/unitConverter/', unit, this.httpOptions);
   }
+
+  deleteConverterUnit(id:string) {
+    return this.http.delete(this.apiURL + '/unitConverter/delete/' + id, this.httpOptions);
+  }
   //#endregion
 
 
