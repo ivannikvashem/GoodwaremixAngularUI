@@ -408,9 +408,24 @@ export class ApiClient {
   }
   //#endregion
 
-
-
   checkIfServerAlive(): Observable<any> {
     return this.http.get(this.apiURL + '/logs', this.httpOptions)
+  }
+
+  getStats(supplierId:string, sortField?: string, sortDirection?: string): Observable<any> {
+    let opt = {
+      params: new HttpParams()
+    };
+
+    if (supplierId != null) {
+      opt.params = opt.params.append('supplierId', supplierId);
+    }
+    if (sortField && sortDirection) {
+      opt.params = opt.params.append('sortField', sortField);
+      opt.params = opt.params.append('sortDirection', sortDirection == "desc" ? "-1" : "1");
+    }
+    opt = Object.assign(opt, this.httpOptions);
+
+    return this.http.get(this.apiURL + '/statistics', opt) // 624d278141034b896a223e4c
   }
 }

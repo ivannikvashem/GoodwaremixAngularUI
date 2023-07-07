@@ -1,0 +1,55 @@
+<h3>Главная &nbsp;</h3>
+
+<app-supplier-autocomplete (selectedSupplier)="onSupplierSelected($event)"></app-supplier-autocomplete>
+
+<div class="statArea" *ngIf="!isLoading">
+  <mat-card class="statContainer" (click)="setFieldToShow('productQty')">
+    Всего товаров
+    <div class="statValueContainer">
+      {{lastStats?.productQty ? lastStats.productQty : 0}}
+    </div>
+  </mat-card>
+
+  <mat-card class="statContainer" (click)="setFieldToShow('productQtyWithCode')">
+    Товаров с артикулом
+    <div class="statValueContainer">
+      {{lastStats?.productQtyWithCode ? lastStats.productQtyWithCode : 0}}
+    </div>
+  </mat-card>
+
+  <mat-card class="statContainer" (click)="setFieldToShow('documentQty')">
+    Кол-во документов
+    <div class="statValueContainer">
+      {{lastStats?.documentQty ? lastStats.documentQty : 0}}
+    </div>
+  </mat-card>
+
+  <mat-card class="statContainer" (click)="setFieldToShow('imageQty')">
+    Кол-во фотографий
+    <div class="statValueContainer">
+      {{lastStats?.imageQty ? lastStats.imageQty : 0}}
+    </div>
+  </mat-card>
+
+  <mat-card class="statContainer" (click)="setFieldToShow('attributeQty')">
+    Кол-во атрибутов
+    <div class="statValueContainer">
+      {{lastStats?.attributeQty ? lastStats.attributeQty : 0}}
+    </div>
+  </mat-card>
+
+  <mat-card class="statContainer">
+    Дата последнего импорта
+    <div class="statValueContainer">
+      {{lastStats?.lastImport | date:'dd-MM-yyyy'}}
+    </div>
+  </mat-card>
+
+</div>
+
+<div style="display: block;">
+  <canvas baseChart width="400" height="100"
+          [type]="'line'"
+          [data]="lineChartData">
+  </canvas>
+</div>

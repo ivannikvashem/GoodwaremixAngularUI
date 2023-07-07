@@ -1,0 +1,26 @@
+.statContainer {
+  cursor: pointer;
+  height: 150px;
+  margin: 10px;
+  text-align: center;
+}
+
+.statArea {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.statValueContainer {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+}
+
+.statValue {
+  border: 1px solid red;
+  border-radius: 50%;
+  height: 100%;
+  width: 100%;
+}

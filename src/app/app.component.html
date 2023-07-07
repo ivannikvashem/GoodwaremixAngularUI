@@ -6,6 +6,7 @@
       <h1 matTooltip="{{url}}" [style.color]="isServerOffline ? 'red' : ''"> {{title}} &nbsp;</h1>
       <span class="menu-spacer"></span>
       <div>
+        <a mat-button routerLinkActive="active" *ngIf="roles.includes('goodware-users')" [routerLink]="'/home'"><mat-icon>home</mat-icon> Главная </a>
         <a mat-button routerLinkActive="active" *ngIf="roles.includes('goodware-users')" [routerLink]="'/products'"><mat-icon>local_offer</mat-icon> Товары </a>
         <a mat-button routerLinkActive="active" *ngIf="roles.includes('goodware-admin')" [routerLink]="'/suppliers'"><mat-icon>settings_accessibility</mat-icon> Поставщики </a>
         <a mat-button routerLinkActive="active" *ngIf="roles.includes('goodware-admin')" [routerLink]="'/attributes'"><mat-icon>list</mat-icon> Атрибуты </a>

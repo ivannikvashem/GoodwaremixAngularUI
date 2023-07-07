@@ -55,6 +55,7 @@ import {UsersModule} from "./users/users.module";
 import {DocumentModule} from "./document/document.module";
 import { UnitConverterComponent } from './unit-converter/unit-converter.component';
 import {UnitConverterModule} from "./unit-converter/unit-converter.module";
+import {StatisticModule} from "./statistic/statistic.module";
 
 @NgModule({
     declarations: [
@@ -113,7 +114,8 @@ import {UnitConverterModule} from "./unit-converter/unit-converter.module";
     AuthModule,
     UsersModule,
     DocumentModule,
-    UnitConverterModule
+    UnitConverterModule,
+    StatisticModule
   ],
     providers: [
         {

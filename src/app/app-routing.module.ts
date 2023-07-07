@@ -16,6 +16,7 @@ import {PageNotFoundComponent} from "./shared/page-not-found/page-not-found.comp
 import {DocumentComponent} from "./document/document.component";
 import {SupplierComponent} from "./supplier/supplier.component";
 import {UnitConverterComponent} from "./unit-converter/unit-converter.component";
+import {StatisticComponent} from "./statistic/statistic.component";
 
 let routes: Routes;
 routes = [
@@ -32,14 +33,15 @@ routes = [
   {path: 'supplier-edit/:supplierId', component: SupplierEditComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'log', component: LogComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'admin', component: AdminPanelComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
-  {path: 'task', component: TaskIndexComponent},
+  {path: 'task', component: TaskIndexComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'users', component: UserIndexComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'user-add', component: UserDetailsComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'user-edit/:id', component: UserDetailsComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'page-not-found', component: PageNotFoundComponent},
   {path: 'documents', component: DocumentComponent, canActivate: [AuthGuard], data: {roles: ['goodware-users']}},
   {path: 'units', component: UnitConverterComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
-  {path: '**', pathMatch: 'full', redirectTo: '/products'}
+  {path: 'home', component: StatisticComponent, canActivate: [AuthGuard], data: {roles: ['goodware-users']}},
+  {path: '**', pathMatch: 'full', redirectTo: '/home'}
 ];
 
 @NgModule({

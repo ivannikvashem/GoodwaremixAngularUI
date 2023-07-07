@@ -59,7 +59,7 @@ export class SupplierDictionaryComponent implements OnInit {
       attributeBDName: '',
       attributeIdBD: '',
       attributeValid: false,
-      multiplier: ''
+      convertId: ''
     };
     this.configDictionary.push(a);
     let row = this.configDictionary[this.configDictionary.length - 1];
