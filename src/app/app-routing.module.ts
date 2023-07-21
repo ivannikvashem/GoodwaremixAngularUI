@@ -20,7 +20,6 @@ import {StatisticComponent} from "./statistic/statistic.component";
 
 let routes: Routes;
 routes = [
-
   {path: 'products', component: ProductComponent, canActivate: [AuthGuard], data: {roles: ['goodware-users']}},
   {path: 'product-details/:id', component: ProductDetailsComponent, canActivate: [AuthGuard], data: {roles: ['goodware-users']}},
   {path: 'product-add', component: ProductEditComponent, canActivate: [AuthGuard], data: {roles: ['goodware-manager']}},

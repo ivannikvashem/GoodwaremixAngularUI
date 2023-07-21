@@ -14,8 +14,8 @@
           <mat-icon class="customIconSize">local_offer</mat-icon>
         </div>
         <div class="statContainer">
-          <div><div class="statContainerValue">{{lastStats.productQty ? lastStats.productQty : 0}}</div>Всего</div>
-          <div><div class="statContainerValue">{{lastStats.productQtyWithCode ? lastStats.productQtyWithCode : 0}}</div>С артикулом</div>
+          <div><div class="statContainerValue">{{lastStats?.productQty ? lastStats.productQty : 0}}</div>Всего</div>
+          <div><div class="statContainerValue">{{lastStats?.productQtyWithCode ? lastStats.productQtyWithCode : 0}}</div>С артикулом</div>
         </div>
 
         <!--    <div style="position: absolute; z-index: 7; display: flex; justify-content: space-between; background-color: rgba(0,0,0,.12); width: 100%; height: 100%">
@@ -36,8 +36,8 @@
           <mat-icon class="customIconSize">insert_drive_file</mat-icon>
         </div>
         <div class="statContainer">
-          <div><div class="statContainerValue">{{lastStats.documentQty ? lastStats.documentQty : 0}}</div>Всего</div>
-          <div><div class="statContainerValue">{{lastStats.certNumberQty ? lastStats.certNumberQty : 0}}</div>Сертификатов</div>
+          <div><div class="statContainerValue">{{lastStats?.documentQty ? lastStats.documentQty : 0}}</div>Всего</div>
+          <div><div class="statContainerValue">{{lastStats?.certNumberQty ? lastStats.certNumberQty : 0}}</div>Сертификатов</div>
         </div>
       </mat-card>
 
@@ -47,8 +47,8 @@
           <mat-icon class="customIconSize">list</mat-icon>
         </div>
         <div class="statContainer">
-          <div><div class="statContainerValue">{{lastStats.attributeQty ? lastStats.attributeQty : 0}}</div>Всего</div>
-          <div><div class="statContainerValue">{{lastStats.attributeIsFixedQty ? lastStats.attributeIsFixedQty : 0}}</div>Фиксированных</div>
+          <div><div class="statContainerValue">{{lastStats?.attributeQty ? lastStats.attributeQty : 0}}</div>Всего</div>
+          <div><div class="statContainerValue">{{lastStats?.attributeIsFixedQty ? lastStats.attributeIsFixedQty : 0}}</div>Фиксированных</div>
         </div>
       </mat-card>
     </div>

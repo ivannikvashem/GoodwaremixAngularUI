@@ -44,7 +44,7 @@ export class StatisticComponent implements OnInit {
   supplierConfigs:any[] = [];
   errorsConfig:any[] = []
   lastStats:Statistic;
-  defaultStat:Statistic;
+  //defaultStat:Statistic;
   isLoading:boolean;
   datePipe = new DatePipe('ru-RU');
   supplierStatsList:Statistic[] = []
@@ -58,13 +58,13 @@ export class StatisticComponent implements OnInit {
       this.onSupplierSelected(supplier)
     })
 
-    this.api.getTotalStats().subscribe(x => {
+/*    this.api.getTotalStats().subscribe(x => {
       console.log(x)
       this.defaultStat = x.body as Statistic;
       if (!this.selectedSupplier) {
         this.lastStats = this.defaultStat;
       }
-    })
+    })*/
 
     if (this.selectedSupplier?.id) {
       this.getStats();
@@ -80,12 +80,9 @@ export class StatisticComponent implements OnInit {
       console.log(x)
       this.supplierStatsList = x.body.data;
       this.supplierConfigs = x.body.configs;
-
       this.getConfigErrors(x.body.configs)
+      this.lastStats = this.supplierStatsList[0];
 
-      if (this.lastStats) {
-        this.lastStats = this.supplierStatsList[0];
-      }
       for (let chart of this.chartList) {
         this.setDataToChart(chart.data, chart.headers);
       }
@@ -124,7 +121,7 @@ export class StatisticComponent implements OnInit {
   }
 
   clearStats() {
-    this.lastStats = this.defaultStat;
+    this.lastStats = new Statistic();
     for (let chart of this.chartList) {
       chart.data.datasets = [];
     }
