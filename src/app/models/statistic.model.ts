@@ -6,6 +6,7 @@ export class Statistic {
   productAddQty:number;
   productUpdateQty:number;
   documentQty:number;
+  certNumberQty:number;
   imageQty:number;
   attributeQty:number;
   attributeIsFixedQty:number;
