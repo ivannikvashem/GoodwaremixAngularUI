@@ -42,7 +42,7 @@ export class StatisticComponent implements OnInit {
 
   selectedSupplier:Supplier;
   supplierConfigs:any[] = [];
-  errorsConfig:string[] = []
+  errorsConfig:any[] = []
   lastStats:Statistic;
   defaultStat:Statistic;
   isLoading:boolean;
@@ -98,7 +98,7 @@ export class StatisticComponent implements OnInit {
       this.selectedSupplier = supplier;
       this.getStats();
     } else {
-      //this.clearStats();
+      this.clearStats();
     }
     this.updateCharts();
   }
@@ -150,7 +150,7 @@ export class StatisticComponent implements OnInit {
   getConfigErrors(config:any) {
     for (let key in config[0]) {
       if (config[0][key].length > 0) {
-        this.errorsConfig.push(config[0][key])
+        this.errorsConfig.push({name:key, value:config[0][key]})
       }
     }
   }

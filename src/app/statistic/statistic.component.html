@@ -14,8 +14,8 @@
           <mat-icon class="customIconSize">local_offer</mat-icon>
         </div>
         <div class="statContainer">
-          <div><div class="statContainerValue">25044</div>Всего</div>
-          <div><div class="statContainerValue">243</div>С артикулом</div>
+          <div><div class="statContainerValue">{{lastStats.productQty ? lastStats.productQty : 0}}</div>Всего</div>
+          <div><div class="statContainerValue">{{lastStats.productQtyWithCode ? lastStats.productQtyWithCode : 0}}</div>С артикулом</div>
         </div>
 
         <!--    <div style="position: absolute; z-index: 7; display: flex; justify-content: space-between; background-color: rgba(0,0,0,.12); width: 100%; height: 100%">
@@ -36,8 +36,8 @@
           <mat-icon class="customIconSize">insert_drive_file</mat-icon>
         </div>
         <div class="statContainer">
-          <div><div class="statContainerValue">300</div>Всего</div>
-          <div><div class="statContainerValue">20</div>Сертификатов</div>
+          <div><div class="statContainerValue">{{lastStats.documentQty ? lastStats.documentQty : 0}}</div>Всего</div>
+          <div><div class="statContainerValue">0</div>Сертификатов</div>
         </div>
       </mat-card>
 
@@ -47,8 +47,8 @@
           <mat-icon class="customIconSize">list</mat-icon>
         </div>
         <div class="statContainer">
-          <div><div class="statContainerValue">46000</div>Всего</div>
-          <div><div class="statContainerValue">14000</div>Фиксированных</div>
+          <div><div class="statContainerValue">{{lastStats.attributeQty ? lastStats.attributeQty : 0}}</div>Всего</div>
+          <div><div class="statContainerValue">{{lastStats.attributeIsFixedQty ? lastStats.attributeIsFixedQty : 0}}</div>Фиксированных</div>
         </div>
       </mat-card>
     </div>
@@ -66,7 +66,7 @@
     <strong>Проблемы &nbsp;</strong>
     <div class="problemsContainer">
       <div class="problemCard mat-elevation-z2" *ngFor="let messages of errorsConfig">
-        <div class="problemCardMessage"><div *ngFor="let msg of messages">{{msg}}</div></div>
+        <div class="problemCardMessage"><strong>{{messages.name}}</strong><div *ngFor="let msg of messages.value">{{msg}}</div></div>
         <button mat-icon-button><mat-icon>close</mat-icon></button>
       </div>
     </div>
