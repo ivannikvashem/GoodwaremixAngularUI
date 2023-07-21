@@ -6,7 +6,7 @@
 
 <div class="statArea">
 
-  <div style="width: 63%">
+  <div [style.width]="errorsConfig.length > 0 ? '63%' : '100%'">
     <div style="display: flex; justify-content: space-between">
       <mat-card class="statCard mat-elevation-z2" style="position: relative">
         <div class="statCardHeader">
@@ -54,20 +54,22 @@
     </div>
 
     <div *ngFor="let chart of this.chartList" class="graphContainer">
-      <strong>Статистика &nbsp;</strong>
+      <strong *ngIf="chart.data.datasets.length > 0">Статистика &nbsp;</strong>
       <div *ngIf="chart.data.datasets.length > 0">
-      <canvas baseChart [type]="'line'" [data]="chart.data ? chart.data : {}"></canvas>
+        <canvas baseChart [type]="'line'" [data]="chart.data ? chart.data : {}"></canvas>
       </div>
     </div>
   </div>
 
 
-  <div class="problemsArea">
+  <div class="problemsArea" *ngIf="errorsConfig.length > 0">
     <strong>Проблемы &nbsp;</strong>
     <div class="problemsContainer">
       <div class="problemCard mat-elevation-z2" *ngFor="let messages of errorsConfig">
         <div class="problemCardMessage"><strong>{{messages.name}}</strong><div *ngFor="let msg of messages.value">{{msg}}</div></div>
+<!--
         <button mat-icon-button><mat-icon>close</mat-icon></button>
+-->
       </div>
     </div>
   </div>
