@@ -1,0 +1,55 @@
+.statCard {
+  width: 30%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.statContainer {
+  width: 100%;
+  padding: 10px;
+}
+
+.statContainerValue {
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.statCardHeader {
+  width: 140px;
+  padding: 22px;
+}
+
+.statArea {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.graphContainer {
+  width: 100%;
+}
+
+.problemsArea {
+  width: 36%;
+}
+
+.problemsContainer {
+  overflow: auto;
+  height: 450px;
+  margin-top: 20px;
+}
+
+.problemCard {
+  display: flex;
+  justify-content: space-between;
+}
+
+.problemCardMessage {
+  padding: 12px;
+}
+
+.customIconSize {
+  font-size: 50px;
+  height: 50px ;
+  width: 50px ;
+}

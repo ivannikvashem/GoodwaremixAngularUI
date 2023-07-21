@@ -1,0 +1,71 @@
+<h3>Статистика &nbsp;</h3>
+
+
+<div class="statArea">
+
+  <div style="width: 63%">
+    <div style="display: flex; justify-content: space-between">
+      <mat-card class="statCard mat-elevation-z2" style="position: relative">
+        <div class="statCardHeader">
+          <strong>Товары</strong>
+          <mat-icon class="customIconSize">local_offer</mat-icon>
+        </div>
+        <div class="statContainer">
+          <div><div class="statContainerValue">{{statistic.productQty ? statistic.productQty : 0}}</div>Всего</div>
+          <div><div class="statContainerValue">{{statistic.productQtyWithCode ? statistic.productQtyWithCode : 0}}</div>С артикулом</div>
+        </div>
+
+        <!--    <div style="position: absolute; z-index: 7; display: flex; justify-content: space-between; background-color: rgba(0,0,0,.12); width: 100%; height: 100%">
+              <div><div class="statContainerValue">25044</div>Всего</div>
+              <div><div class="statContainerValue">243</div>С артикулом</div>
+
+            </div>
+
+            <div style="display: block;">
+              <canvas baseChart [type]="'line'" [height]="270" [width]="555" [options]="minimizedChartConfig" [legend]="false" [data]="chartData.data"></canvas>
+            </div>-->
+
+      </mat-card>
+
+      <mat-card class="statCard mat-elevation-z2">
+        <div class="statCardHeader">
+          <strong>Документы</strong>
+          <mat-icon class="customIconSize">insert_drive_file</mat-icon>
+        </div>
+        <div class="statContainer">
+          <div><div class="statContainerValue">{{statistic.documentQty ? statistic.documentQty : 0}}</div>Всего</div>
+          <div><div class="statContainerValue">0</div>Сертификатов</div>
+        </div>
+      </mat-card>
+
+      <mat-card class="statCard mat-elevation-z2">
+        <div class="statCardHeader">
+          <strong>Атрибуты</strong>
+          <mat-icon class="customIconSize">list</mat-icon>
+        </div>
+        <div class="statContainer">
+          <div><div class="statContainerValue">{{statistic.attributeQty ? statistic.attributeQty : 0}}</div>Всего</div>
+          <div><div class="statContainerValue">{{statistic.attributeIsFixedQty ? statistic.attributeIsFixedQty : 0}}</div>Фиксированных</div>
+        </div>
+      </mat-card>
+    </div>
+
+    <div class="graphContainer">
+      <strong>Импорт &nbsp;</strong>
+      <canvas baseChart [type]="'line'" [data]="chartData.data"></canvas>
+    </div>
+  </div>
+
+
+  <div class="problemsArea">
+    <strong>Проблемы &nbsp;</strong>
+    <div class="problemsContainer">
+      <div class="problemCard mat-elevation-z2" *ngFor="let i of [].constructor(5)">
+        <div class="problemCardMessage">Поставщик <strong>iek</strong>: не заполнено Netto</div>
+        <button mat-icon-button><mat-icon>close</mat-icon></button>
+      </div>
+    </div>
+  </div>
+
+</div>
+

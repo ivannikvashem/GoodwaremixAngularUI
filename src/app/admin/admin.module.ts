@@ -15,30 +15,36 @@ import {SharedModule} from "../shared/shared.module";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {CdkTableModule} from "@angular/cdk/table";
 import {RouterModule} from "@angular/router";
+import { AdminComponent } from './admin.component';
+import { AdminStatComponent } from './admin-stat/admin-stat.component';
+import {NgChartsModule} from "ng2-charts";
 
 @NgModule({
     declarations: [
         AdminPanelComponent,
         ProductExportTableComponent,
+        AdminComponent,
+        AdminStatComponent,
     ],
     exports: [
         ProductExportTableComponent
     ],
-    imports: [
-        CommonModule,
-        MatButtonModule,
-        MatIconModule,
-        MatTableModule,
-        MatCardModule,
-        MatTabsModule,
-        MatInputModule,
-        MatCheckboxModule,
-        MatTooltipModule,
-        MatPaginatorModule,
-        SharedModule,
-        DragDropModule,
-        CdkTableModule,
-        RouterModule
-    ]
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTableModule,
+    MatCardModule,
+    MatTabsModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatTooltipModule,
+    MatPaginatorModule,
+    SharedModule,
+    DragDropModule,
+    CdkTableModule,
+    RouterModule,
+    NgChartsModule
+  ]
 })
 export class AdminModule { }

@@ -412,7 +412,7 @@ export class ApiClient {
     return this.http.get(this.apiURL + '/logs', this.httpOptions)
   }
 
-  getStats(supplierId:string, sortField?: string, sortDirection?: string): Observable<any> {
+  getSupplierStats(supplierId:string, sortField?: string, sortDirection?: string): Observable<any> {
     let opt = {
       params: new HttpParams()
     };
@@ -427,5 +427,9 @@ export class ApiClient {
     opt = Object.assign(opt, this.httpOptions);
 
     return this.http.get(this.apiURL + '/statistics', opt) // 624d278141034b896a223e4c
+  }
+
+  getTotalStats(): Observable<any> {
+    return this.http.get(this.apiURL + '/statistics/total' , this.httpOptions)
   }
 }

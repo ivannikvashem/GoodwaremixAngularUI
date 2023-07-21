@@ -4,7 +4,7 @@ import {AttributeEditComponent} from "./attribute/attribute-edit/attribute-edit.
 import {SupplierEditComponent} from "./supplier/supplier-edit/supplier-edit.component";
 import {ProductDetailsComponent} from "./product/product-details/product-details.component";
 import {ProductEditComponent} from "./product/product-edit/product-edit.component";
-import {AdminPanelComponent} from "./admin/admin-panel/admin-panel.component";
+import {AdminComponent} from "./admin/admin.component";
 import {TaskIndexComponent} from "./task/task-index/task-index.component";
 import {LogComponent} from "./log/log.component";
 import {ProductComponent} from "./product/product.component";
@@ -32,7 +32,7 @@ routes = [
   {path: 'supplier-add', component: SupplierEditComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'supplier-edit/:supplierId', component: SupplierEditComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'log', component: LogComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
-  {path: 'admin', component: AdminPanelComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
+  {path: 'admin', component: AdminComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'task', component: TaskIndexComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'users', component: UserIndexComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'user-add', component: UserDetailsComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},

@@ -2,17 +2,13 @@
   width: 100%;
 }
 
-.mat-card {
-  margin: 15px;
-}
-
 .workWithDBBtn {
   display: inline-block;
   justify-content: space-between;
 }
 
-.workWithDBBtn button {
-  margin: 10px;
+.workWithDBBtn button:not(:first-child) {
+  margin-left: 10px;
 }
 
 .header-container {

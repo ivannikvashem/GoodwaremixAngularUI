@@ -2,14 +2,11 @@
   <h3>Панель администратора &nbsp;</h3>
 </div>
 
-<mat-card>
-  <mat-card-title>Работа с БД</mat-card-title>
-  <div class="full-width workWithDBBtn">
-    <button mat-button class="mat-elevation-z2" (click)="fullInit()"><mat-icon>sync_problem</mat-icon> Инициализировать БД</button>
-    <button mat-button class="mat-elevation-z2" (click)="fixSupplierStat()"><mat-icon>build</mat-icon> Обновить кол-во товара и бренды</button>
-    <button mat-button class="mat-elevation-z2" (click)="downloadTable('Supplier')"><mat-icon>cloud_download</mat-icon> Скачать всех поставщиков</button>
-    <button mat-button class="mat-elevation-z2" (click)="downloadTable('Attribute')"><mat-icon>cloud_download</mat-icon>  Скачать все атрибуты</button>
-    <button mat-button class="mat-elevation-z2" (click)="downloadTable('Product')"><mat-icon>cloud_download</mat-icon> Скачать все товары</button>&nbsp;
-    <button mat-button class="mat-elevation-z2" [routerLink]="'/units'"><mat-icon>repeat</mat-icon> Преобразованные ед. измерения</button>&nbsp;
-  </div>
-</mat-card>
+<div class="full-width workWithDBBtn">
+  <button mat-button class="mat-elevation-z2" (click)="fullInit()"><mat-icon>sync_problem</mat-icon> Инициализировать БД</button>
+  <button mat-button class="mat-elevation-z2" (click)="fixSupplierStat()"><mat-icon>build</mat-icon> Обновить кол-во товара и бренды</button>
+  <button mat-button class="mat-elevation-z2" (click)="downloadTable('Supplier')"><mat-icon>cloud_download</mat-icon> Скачать всех поставщиков</button>
+  <button mat-button class="mat-elevation-z2" (click)="downloadTable('Attribute')"><mat-icon>cloud_download</mat-icon>  Скачать все атрибуты</button>
+  <button mat-button class="mat-elevation-z2" (click)="downloadTable('Product')"><mat-icon>cloud_download</mat-icon> Скачать все товары</button>
+  <button mat-button class="mat-elevation-z2" [routerLink]="'/units'"><mat-icon>repeat</mat-icon> Преобразованные ед. измерения</button>&nbsp;
+</div>
