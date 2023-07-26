@@ -7,6 +7,7 @@ import {of, tap} from "rxjs";
 import {catchError, finalize} from "rxjs/operators";
 import {DatePipe} from "@angular/common";
 import {DataStateService} from "../shared/data-state.service";
+import {AuthService} from "../auth/service/auth.service";
 
 export interface ChartDataset {
   data:[],
@@ -28,56 +29,93 @@ export interface ChartDataset {
 })
 
 export class StatisticComponent implements OnInit {
+  roles: string[] = [];
+
+  chartColors:any = [
+    {isSelected: false, color: 'rgba(66, 133, 244, 0.8)'},
+    {isSelected: false, color: 'rgba(219, 68, 55, 0.8)'},
+    {isSelected: false, color: 'rgba(244, 180, 0, 0.8)'},
+    {isSelected: false, color: 'rgba(15, 157, 88, 0.8)'},
+    {isSelected: false, color: 'rgba(29, 91, 121, 0.8)'},
+    {isSelected: false, color: 'rgba(70, 139, 151, 0.8)'},
+  ]
+
+  colorPalette:string[] = ['#3f51b5', '#f44336', '#ff4081']
 
   chartList:any = [
     {
       data: {labels: [''], datasets: []},
-      headers:[ { value:'productAddQty', title:'Добавлено', color:'rgba(7, 143, 41, 0.3)'}, {value: 'productUpdateQty', title: 'Обновлено', color: 'rgba(187, 5, 5, 0.3)'}]
+      headers:[ { value:'productQty', title:'Всего', color: this.colorPalette[0]}, {value: 'productQtyWithCode', title: 'С артикулом', color: this.colorPalette[1]}]
     },
-/*    {
+    {
       data: {labels: [''], datasets: []},
-      headers:[ { value:'productQty', title:'Количество атрибутов', color:'rgba(7, 143, 41, 0.3)'}, {value: 'productQtyWithCode', title: 'Фиксированные атрибуты', color: 'rgba(187, 5, 5, 0.3)'}]
-    }*/
+      headers:[ { value:'documentQty', title:'Всего', color: this.colorPalette[0]}, {value: 'certNumberQty', title: 'Сертификатов', color: this.colorPalette[1]}]
+    },
+    {
+      data: {labels: [''], datasets: []},
+      headers:[ { value:'attributeQty', title:'Всего', color: this.colorPalette[0]}, {value: 'attributeIsFixedQty', title: 'Фиксированных', color: this.colorPalette[1]}]
+    },
+    {
+      data: {labels: [''], datasets: []},
+      headers:[ { value:'productQty', title:'Всего', color: this.colorPalette[0]}, {value: 'productAddQty', title: 'Добавлено', color: this.colorPalette[1]}, {value: 'productUpdateQty', title: 'Изменено', color: this.colorPalette[2]}]
+    }
   ]
 
   selectedSupplier:Supplier;
   supplierConfigs:any[] = [];
   errorsConfig:any[] = []
   lastStats:Statistic;
-  //defaultStat:Statistic;
+  tasks:any;
   isLoading:boolean;
   datePipe = new DatePipe('ru-RU');
   supplierStatsList:Statistic[] = []
 
-  constructor(private api: ApiClient, private dss:DataStateService) { }
+  defaultStat:Statistic;
+  defaultData:any;
+  defaultConfig:any;
+
+  constructor(private api: ApiClient, private dss:DataStateService, private auth: AuthService) {
+    this.roles = this.auth.getRoles();
+  }
 
   @ViewChildren(BaseChartDirective) charts?: QueryList<BaseChartDirective>;
 
   ngOnInit(): void {
+    this.getTotalStats();
+
     this.dss.getSelectedSupplier().subscribe(supplier => {
       this.onSupplierSelected(supplier)
-    })
-
-/*    this.api.getTotalStats().subscribe(x => {
-      console.log(x)
-      this.defaultStat = x.body as Statistic;
-      if (!this.selectedSupplier) {
-        this.lastStats = this.defaultStat;
-      }
-    })*/
-
+    });
     if (this.selectedSupplier?.id) {
-      this.getStats();
+      console.log('getting supp stats')
+      //this.getStats(this.selectedSupplier.id);
     }
   }
 
-  getStats() {
-    this.api.getSupplierStats(this.selectedSupplier.id, 'lastImport', 'desc').pipe(
+  getTotalStats() {
+    this.api.getTotalStats().subscribe(x => {
+      this.tasks = {taskActiveCount: x.body.taskActiveCount, taskCount:x.body.taskActiveCount}
+      this.supplierStatsList = x.body.data;
+      this.supplierConfigs = x.body.configs;
+      this.getConfigErrors(this.supplierConfigs)
+
+      this.lastStats = this.supplierStatsList[0];
+      this.defaultStat = this.lastStats;
+      this.defaultData = this.supplierStatsList;
+      this.defaultConfig =  this.supplierConfigs ;
+
+      for (let chart of this.chartList) {
+        this.setDataToChart(chart.data, chart.headers);
+      }
+    })
+  }
+
+  getStats(supplierId:string) {
+    this.api.getSupplierStats(supplierId, 'lastImport', 'desc').pipe(
       tap(() => {this.isLoading = true}),
       catchError(() => of([])),
       finalize(() => this.isLoading = false)
     ).subscribe(x => {
-      console.log(x)
       this.supplierStatsList = x.body.data;
       this.supplierConfigs = x.body.configs;
       this.getConfigErrors(x.body.configs)
@@ -90,14 +128,16 @@ export class StatisticComponent implements OnInit {
   }
 
   onSupplierSelected(supplier: Supplier) {
+    this.clearStats();
     this.errorsConfig = []
     if (supplier?.id) {
       this.selectedSupplier = supplier;
-      this.getStats();
+      this.getStats(this.selectedSupplier.id);
     } else {
-      this.clearStats();
+      if (this.defaultData) {
+        this.setDefaultStats();
+      }
     }
-    this.updateCharts();
   }
 
   setDataToChart(collectionChartData:any, headers:any[]) {
@@ -111,13 +151,22 @@ export class StatisticComponent implements OnInit {
           label: header.title,
           backgroundColor:header.color,
           borderColor: header.color,
-          fill:true,
+          fill:false,
           tension: 0.5,
           pointBackgroundColor: 'rgba(148,159,177,1)'
         } as ChartDataset);
     }
     collectionChartData.labels = this.supplierStatsList.map((x:any) => this.datePipe.transform(x.lastImport, 'dd-MM-yyyy')).reverse();
-    this.updateCharts();
+  }
+
+  setDefaultStats() {
+    this.lastStats = this.defaultStat;
+    this.supplierStatsList = this.defaultData;
+    this.supplierConfigs = this.defaultConfig;
+
+    for (let chart of this.chartList) {
+      this.setDataToChart(chart.data, chart.headers);
+    }
   }
 
   clearStats() {
@@ -125,25 +174,8 @@ export class StatisticComponent implements OnInit {
     for (let chart of this.chartList) {
       chart.data.datasets = [];
     }
-    this.updateCharts();
   }
 
-  updateCharts() {
-    this.charts?.forEach((child) => {
-      child.chart.update();
-    })
-  }
-
-  generateColumns() {
-    let columns = '';
-    for (let i = 0; i < this.chartList.length; i++) {
-      if (i === 4) {
-        return columns;
-      }
-      columns = columns + '1fr ';
-    }
-    return columns;
-  }
   getConfigErrors(config:any) {
     for (let key in config[0]) {
       if (config[0][key].length > 0) {

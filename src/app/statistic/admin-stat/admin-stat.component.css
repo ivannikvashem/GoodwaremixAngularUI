@@ -1,0 +1,99 @@
+.mainStatCards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(100px, 570px));
+  gap: 10px;
+}
+
+.bottomStatArea {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-top: 10px;
+  gap: 10px;
+}
+
+.noErrorsMessage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+  color:green;
+}
+
+.statArea {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.problemsArea {
+  width: 100%;
+}
+
+.problemsContainer {
+  overflow: auto;
+  margin-top: 20px;
+  height: 100%;
+}
+
+.problemCard {
+  display: flex;
+  justify-content: space-between;
+}
+
+.problemCardMessage {
+  padding: 12px;
+}
+
+.customIconSize {
+  font-size: 40px;
+  height: 40px ;
+  width: 40px ;
+}
+
+.task-status {
+  display: flex;
+}
+
+.importCard {
+  grid-column: span 2;
+}
+
+.pulse {
+/*  margin:100px;
+  display: block;*/
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #2ccc2f;
+  cursor: pointer;
+  animation: pulse 2s infinite;
+}
+.pulse:hover {
+  animation: none;
+}
+
+@-webkit-keyframes pulse {
+  0% {
+    -webkit-box-shadow: 0 0 0 0 rgba(0, 255, 82, 0.8);
+  }
+  70% {
+    -webkit-box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+  }
+  100% {
+    -webkit-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+  }
+}
+@keyframes pulse {
+  0% {
+    -moz-box-shadow: 0 0 0 0 rgba(0, 255, 82, 0.8);
+    box-shadow: 0 0 0 0 rgba(0, 255, 82, 0.8);
+  }
+  70% {
+    -moz-box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+    box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+  }
+  100% {
+    -moz-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+    box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+  }
+}

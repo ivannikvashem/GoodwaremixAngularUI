@@ -6,10 +6,14 @@ import {SharedModule} from "../shared/shared.module";
 import {DatePipe, KeyValuePipe, NgForOf, NgIf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
+import { AdminStatComponent } from './admin-stat/admin-stat.component';
+import { ManagerStatComponent } from './manager-stat/manager-stat.component';
 
 @NgModule({
   declarations:[
-    StatisticComponent
+    StatisticComponent,
+    AdminStatComponent,
+    ManagerStatComponent
   ],
   exports:[],
   imports: [

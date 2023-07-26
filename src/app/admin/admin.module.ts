@@ -16,7 +16,6 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
 import {CdkTableModule} from "@angular/cdk/table";
 import {RouterModule} from "@angular/router";
 import { AdminComponent } from './admin.component';
-import { AdminStatComponent } from './admin-stat/admin-stat.component';
 import {NgChartsModule} from "ng2-charts";
 
 @NgModule({
@@ -24,10 +23,9 @@ import {NgChartsModule} from "ng2-charts";
         AdminPanelComponent,
         ProductExportTableComponent,
         AdminComponent,
-        AdminStatComponent,
     ],
     exports: [
-        ProductExportTableComponent
+        ProductExportTableComponent,
     ],
   imports: [
     CommonModule,

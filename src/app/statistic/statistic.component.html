@@ -3,7 +3,11 @@
   <app-supplier-autocomplete></app-supplier-autocomplete>
 </div>
 
+<app-admin-stat *ngIf="roles.includes('goodware-admin')" [data]="chartList" [lastStats]="lastStats" [errorsList]="errorsConfig" [tasks]="tasks"></app-admin-stat>
+<app-manager-stat *ngIf="roles.includes('goodware-manager') && !roles.includes('goodware-admin')"></app-manager-stat>
 
+
+<!--
 <div class="statArea">
 
   <div [style.width]="errorsConfig.length > 0 ? '63%' : '100%'">
@@ -18,7 +22,7 @@
           <div><div class="statContainerValue">{{lastStats?.productQtyWithCode ? lastStats.productQtyWithCode : 0}}</div>С артикулом</div>
         </div>
 
-        <!--    <div style="position: absolute; z-index: 7; display: flex; justify-content: space-between; background-color: rgba(0,0,0,.12); width: 100%; height: 100%">
+        &lt;!&ndash;    <div style="position: absolute; z-index: 7; display: flex; justify-content: space-between; background-color: rgba(0,0,0,.12); width: 100%; height: 100%">
               <div><div class="statContainerValue">25044</div>Всего</div>
               <div><div class="statContainerValue">243</div>С артикулом</div>
 
@@ -26,7 +30,7 @@
 
             <div style="display: block;">
               <canvas baseChart [type]="'line'" [height]="270" [width]="555" [options]="minimizedChartConfig" [legend]="false" [data]="chartData.data"></canvas>
-            </div>-->
+            </div>&ndash;&gt;
 
       </mat-card>
 
@@ -67,14 +71,15 @@
     <div class="problemsContainer">
       <div class="problemCard mat-elevation-z2" *ngFor="let messages of errorsConfig">
         <div class="problemCardMessage"><strong>{{messages.name}}</strong><div *ngFor="let msg of messages.value">{{msg}}</div></div>
-<!--
+&lt;!&ndash;
         <button mat-icon-button><mat-icon>close</mat-icon></button>
--->
+&ndash;&gt;
       </div>
     </div>
   </div>
 
 </div>
+-->
 
 
 <!--<div class="statArea">

@@ -1,0 +1,65 @@
+<div class="statArea">
+
+  <div class="mainStatCards">
+    <mat-card class="mat-elevation-z3">
+      <mat-card-header>
+        <div mat-card-avatar><mat-icon class="customIconSize">local_offer</mat-icon></div>
+        <mat-card-title>Товары</mat-card-title>
+        <mat-card-subtitle><strong>{{lastStats?.productQty ? lastStats.productQty : 0}}</strong> всего <strong>{{lastStats?.productQtyWithCode ? lastStats.productQtyWithCode : 0}}</strong> с артикулом</mat-card-subtitle>
+      </mat-card-header>
+      <canvas mat-card-image baseChart [options]="lineChartOptions" [type]="'line'" [data]="data[0].data"></canvas>
+    </mat-card>
+
+    <mat-card class="mat-elevation-z3">
+      <mat-card-header>
+        <div mat-card-avatar><mat-icon class="customIconSize">insert_drive_file</mat-icon></div>
+        <mat-card-title>Документы</mat-card-title>
+        <mat-card-subtitle><strong>{{lastStats?.documentQty ? lastStats.documentQty : 0}}</strong> всего <strong>{{lastStats?.certNumberQty ? lastStats.certNumberQty : 0}}</strong> сертификатов</mat-card-subtitle>
+      </mat-card-header>
+      <canvas mat-card-image baseChart [options]="lineChartOptions" [type]="'line'" [data]="data[1]?.data"></canvas>
+    </mat-card>
+
+    <mat-card class="mat-elevation-z3">
+      <mat-card-header>
+        <div mat-card-avatar><mat-icon class="customIconSize">list</mat-icon></div>
+        <mat-card-title>Атрибуты</mat-card-title>
+        <mat-card-subtitle><strong>{{lastStats?.attributeQty ? lastStats.attributeQty : 0}}</strong> всего <strong>{{lastStats?.attributeIsFixedQty ? lastStats.attributeIsFixedQty : 0}}</strong> фиксированных</mat-card-subtitle>
+      </mat-card-header>
+      <canvas mat-card-image baseChart [options]="lineChartOptions" [type]="'line'" [data]="data[2]?.data"></canvas>
+    </mat-card>
+
+    <mat-card class="mat-elevation-z3">
+      <mat-card-header>
+        <div mat-card-avatar><mat-icon class="customIconSize">task</mat-icon></div>
+        <mat-card-title>Задачи</mat-card-title>
+        <mat-card-subtitle>
+          <div class="task-status">
+            <div class="pulse"></div><strong style="margin-left: 10px">{{tasks?.taskActiveCount}}</strong>задачи активно
+            <div></div><strong style="margin-left: 10px">{{tasks?.taskCount}}</strong>всего задач
+          </div>
+        </mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+  </div>
+</div>
+
+<div class="bottomStatArea">
+  <mat-card class="mat-elevation-z3 importCard">
+    <strong>Импорт</strong>
+    <canvas baseChart style="max-height: 400px" [type]="'line'" [options]="chartOptions" [data]="data[3]?.data"></canvas>
+  </mat-card>
+
+  <mat-card class="mat-elevation-z3">
+    <strong>Проблемы</strong>
+    <div class="problemsContainer" *ngIf="errorsList.length > 0">
+      <div class="problemCard mat-elevation-z2" *ngFor="let messages of errorsList">
+        <div class="problemCardMessage"><strong>{{messages.name}}</strong><div *ngFor="let msg of messages.value">{{msg}}</div></div>
+      </div>
+    </div>
+
+    <div class="noErrorsMessage" *ngIf="errorsList.length == 0">
+      <mat-icon class="customIconSize">check</mat-icon><h3>Проблем не обнаружено</h3>
+    </div>
+  </mat-card>
+</div>
+
