@@ -4,6 +4,7 @@ import {SchedulerTask} from "../../models/schedulerTask.model";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Supplier} from "../../models/supplier.model";
 import {ApiClient} from "../../service/httpClient";
+import {DataStateService} from "../../shared/data-state.service";
 
 
 export interface DialogData {
@@ -25,7 +26,8 @@ export class TaskEditComponent implements OnInit {
   constructor(public dialogRef:MatDialogRef<TaskEditComponent>,
               @Inject(MAT_DIALOG_DATA)
               public data:DialogData,
-              private api:ApiClient
+              private api:ApiClient,
+              private dss:DataStateService
   ) { }
 
   fb:FormGroup = new FormGroup({
@@ -43,7 +45,10 @@ export class TaskEditComponent implements OnInit {
   ngOnInit(): void {
     if (this.data.oldTask !== undefined) {
       this.api.getSupplierById(this.data.oldTask.supplierId).subscribe(x => {
+        console.log(x)
         this.supplier = x.body as Supplier
+        this.dss.setSelectedSupplier(this.supplier.id, this.supplier.supplierName)
+
       })
       this.selectedSupplier.id = this.data.oldTask.supplierId
       this.fb.get('nameTask').setValue(this.data.oldTask.nameTask)

@@ -32,7 +32,7 @@ routes = [
   {path: 'supplier-edit/:supplierId', component: SupplierEditComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'log', component: LogComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'admin', component: AdminComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
-  {path: 'task', component: TaskIndexComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
+  {path: 'tasks', component: TaskIndexComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'users', component: UserIndexComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'user-add', component: UserDetailsComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'user-edit/:id', component: UserDetailsComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},

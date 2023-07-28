@@ -55,7 +55,7 @@ export class AdminStatComponent implements OnInit {
         ticks: {display: true}
       }
     },
-    /*pointRadius: 0*/
+    pointRadius: 5
   }
 
   chartOptions = {
@@ -66,6 +66,7 @@ export class AdminStatComponent implements OnInit {
         borderWidth: 4
       }
     },
+    pointRadius: 8
   }
 
   @ViewChildren(BaseChartDirective) charts?: QueryList<BaseChartDirective>;
@@ -81,7 +82,7 @@ export class AdminStatComponent implements OnInit {
   ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.updateCharts()
+    this.updateCharts();
   }
 
   updateCharts() {
@@ -92,6 +93,7 @@ export class AdminStatComponent implements OnInit {
 
 
   onChartClick(chartDot: any) {
+    console.log(chartDot)
     let headers = chartDot.event.chart.legend.legendItems.map((x:any) => x['text']);
     let index = chartDot.active[0]?.index;
 
@@ -104,5 +106,9 @@ export class AdminStatComponent implements OnInit {
 
   onChartHover(chart: any) {
     chart.event.native.target.style.cursor = chart.active.length > 0 ? 'pointer' : 'default';
+  }
+
+  enabledTasks() {
+    return this.tasks.filter(x => x.isEnable == true).length;
   }
 }

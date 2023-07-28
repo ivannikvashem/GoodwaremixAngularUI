@@ -4,7 +4,6 @@ import {SchedulerTaskDataSource} from "../repo/SchedulerTaskDataSource";
 import {MatDialog} from "@angular/material/dialog";
 import {TaskEditComponent} from "../task-edit/task-edit.component";
 import {SchedulerTask} from "../../models/schedulerTask.model";
-import {MatTable} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {merge, tap} from "rxjs";
 import {NotificationService} from "../../service/notification-service";
@@ -16,7 +15,7 @@ import {NotificationService} from "../../service/notification-service";
 })
 export class TaskIndexComponent implements OnInit {
 
-  displayedColumns: string[] = ['task', 'supplier', 'actions'];
+  displayedColumns: string[] = ['status', 'task', 'supplier', 'duration', 'actions'];
   dataSource: SchedulerTaskDataSource;
   supplierId = '';
 

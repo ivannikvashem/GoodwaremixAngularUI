@@ -15,29 +15,34 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatSelectModule} from "@angular/material/select";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatCardModule} from "@angular/material/card";
 
 
 @NgModule({
-  declarations: [
-    TaskIndexComponent,
-    TaskEditComponent
-  ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        SharedModule,
-        MatTableModule,
-        MatPaginatorModule,
-        MatSortModule,
-        MatButtonModule,
-        MatDialogModule,
-        MatInputModule,
-        MatFormFieldModule,
-        ReactiveFormsModule,
-        MatDatepickerModule,
-        MatSelectModule,
-        MatIconModule,
-        MatProgressSpinnerModule
-    ]
+    declarations: [
+        TaskIndexComponent,
+        TaskEditComponent
+    ],
+    exports: [
+        TaskIndexComponent
+    ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    SharedModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatInputModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatCardModule
+  ]
 })
 export class TaskModule { }

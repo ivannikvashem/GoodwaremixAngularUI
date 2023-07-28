@@ -5,15 +5,28 @@
 
 <div class="mat-elevation-z8">
   <table mat-table [dataSource]="dataSource" matSort matSortActive="Date" matSortDisableClear matSortDirection="desc" class="form-full-width">
+    <!-- Status Column -->
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Статус</th>
+      <td mat-cell *matCellDef="let row">
+        <div class="taskEnabled" *ngIf="row.isEnable == true"></div>
+        <div class="taskDisabled" *ngIf="row.isEnable == false"></div>
+      </td>
+    </ng-container>
     <!-- Name Column -->
     <ng-container matColumnDef="task">
       <th mat-header-cell *matHeaderCellDef>Задача</th>
       <td mat-cell *matCellDef="let row">{{row.nameTask}}</td>
     </ng-container>
-    <!-- Date Column -->
+    <!-- Supplier Column -->
     <ng-container matColumnDef="supplier">
-      <th mat-header-cell *matHeaderCellDef>Дата</th>
-      <td mat-cell *matCellDef="let row">{{row.supplierId}}</td>
+      <th mat-header-cell *matHeaderCellDef>Поставщик</th>
+      <td mat-cell *matCellDef="let row">{{row.supplierName}}</td>
+    </ng-container>
+    <!-- Duration Column -->
+    <ng-container matColumnDef="duration">
+      <th mat-header-cell *matHeaderCellDef>Частота выполнения</th>
+      <td mat-cell *matCellDef="let row">Каждые {{row.hours}} ч {{row.minutes}} мин</td>
     </ng-container>
     <!-- ACTIONS Column -->
     <ng-container matColumnDef="actions">
@@ -21,10 +34,12 @@
         <button mat-icon-button class="mat-elevation-z2" matTooltip="Добавить" (click)="addTask()"><mat-icon>add</mat-icon></button>&nbsp;
       </th>
       <td mat-cell *matCellDef="let item">
-        <button *ngIf="!item.isEnable" mat-icon-button class="mat-elevation-z2" matTooltip="Запустить" (click)="executeTask(item.id, true)"><mat-icon>play_arrow</mat-icon></button>&nbsp;
-        <button *ngIf="item.isEnable" mat-icon-button class="mat-elevation-z2" matTooltip="Остановить" (click)="executeTask(item.id, false)"><mat-icon>stop</mat-icon></button>&nbsp;
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="Добавить" (click)="editTask(item)"><mat-icon>edit</mat-icon></button>&nbsp;
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить" (click)="deleteTask(item.id)"><mat-icon>delete</mat-icon></button>&nbsp;
+        <div class="buttonsContainer">
+          <button *ngIf="!item.isEnable" mat-icon-button class="mat-elevation-z2" matTooltip="Запустить" (click)="executeTask(item.id, true)"><mat-icon>play_arrow</mat-icon></button>
+          <button *ngIf="item.isEnable" mat-icon-button class="mat-elevation-z2" matTooltip="Остановить" (click)="executeTask(item.id, false)"><mat-icon>stop</mat-icon></button>
+          <button mat-icon-button class="mat-elevation-z2" matTooltip="Добавить" (click)="editTask(item)"><mat-icon>edit</mat-icon></button>
+          <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить" (click)="deleteTask(item.id)"><mat-icon>delete</mat-icon></button>
+        </div>
       </td>
     </ng-container>
 

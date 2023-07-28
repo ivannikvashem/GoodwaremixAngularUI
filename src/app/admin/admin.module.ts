@@ -17,6 +17,7 @@ import {CdkTableModule} from "@angular/cdk/table";
 import {RouterModule} from "@angular/router";
 import { AdminComponent } from './admin.component';
 import {NgChartsModule} from "ng2-charts";
+import {TaskModule} from "../task/task.module";
 
 @NgModule({
     declarations: [
@@ -27,22 +28,23 @@ import {NgChartsModule} from "ng2-charts";
     exports: [
         ProductExportTableComponent,
     ],
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatIconModule,
-    MatTableModule,
-    MatCardModule,
-    MatTabsModule,
-    MatInputModule,
-    MatCheckboxModule,
-    MatTooltipModule,
-    MatPaginatorModule,
-    SharedModule,
-    DragDropModule,
-    CdkTableModule,
-    RouterModule,
-    NgChartsModule
-  ]
+    imports: [
+        CommonModule,
+        MatButtonModule,
+        MatIconModule,
+        MatTableModule,
+        MatCardModule,
+        MatTabsModule,
+        MatInputModule,
+        MatCheckboxModule,
+        MatTooltipModule,
+        MatPaginatorModule,
+        SharedModule,
+        DragDropModule,
+        CdkTableModule,
+        RouterModule,
+        NgChartsModule,
+        TaskModule
+    ]
 })
 export class AdminModule { }

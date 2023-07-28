@@ -14,9 +14,9 @@
     <mat-card *ngFor="let chart of chartList" class="statCard">
       <mat-card-title>{{chart.datasets[0].label}}</mat-card-title>
       <mat-card-subtitle>
-        Всего <strong>{{chart.datasets[0].data[0]}}</strong>
-        Добавлено <strong>{{chart.datasets[0].data[1]}}</strong>
-        Изменено <strong>{{chart.datasets[0].data[2]}}</strong>
+        Всего: <strong>{{chart.datasets[0].data[0]}}</strong>
+        Добавлено: <strong>{{chart.datasets[0].data[1]}}</strong>
+        Обновлено: <strong>{{chart.datasets[0].data[2]}}</strong>
       </mat-card-subtitle>
       <canvas baseChart [type]="'bar'" [options]="chartOptions" [data]="chart"></canvas>
     </mat-card>

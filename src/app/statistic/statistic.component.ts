@@ -49,7 +49,7 @@ export class StatisticComponent implements OnInit {
     },
     {
       data: {labels: [''], datasets: []},
-      headers:[ { value:'productQty', title:'Всего', color: this.colorPalette[0]}, {value: 'productAddQty', title: 'Добавлено', color: this.colorPalette[1]}, {value: 'productUpdateQty', title: 'Изменено', color: this.colorPalette[2]}]
+      headers:[ { value:'productQty', title:'Всего', color: this.colorPalette[0]}, {value: 'productAddQty', title: 'Добавлено', color: this.colorPalette[1]}, {value: 'productUpdateQty', title: 'Обновлено', color: this.colorPalette[2]}]
     }
   ]
 

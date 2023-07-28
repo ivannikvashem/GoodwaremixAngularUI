@@ -1,15 +1,16 @@
+<h3>{{data.oldTask == undefined ? "Добавление новой задачи" : "Задача " + "поставщика " + data.oldTask.supplierName}}</h3>
 <form [formGroup]="fb" (ngSubmit)="onSubmitClick()">
 
-  <app-supplier-autocomplete class="full-width" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
+  <app-supplier-autocomplete class="full-width" [appearance]="'fill'" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
 
-  <mat-form-field appearance="fill" class="form-full-width">
+<!--  <mat-form-field appearance="fill" class="form-full-width">
     <mat-label>Конфигурация</mat-label>
     <mat-select formControlName="configList" multiple>
       <mat-option *ngFor="let config of supplier.supplierConfigs" [value]="config">
         {{config.name}} {{config.type}}
       </mat-option>
     </mat-select>
-  </mat-form-field>
+  </mat-form-field>-->
 
   <mat-form-field appearance="fill" class="form-full-width">
     <mat-label>Название задачи</mat-label>
@@ -50,18 +51,19 @@
     </mat-button-toggle-group>
   </div>-->
 
-    <div>
-    <mat-form-field appearance="fill">
+  <div style="margin-bottom: 10px">
+    <mat-card-subtitle style="display: block; padding: 10px"><strong>Интервал</strong></mat-card-subtitle>
+    <mat-form-field appearance="outline" style="margin-right: 5px">
       <mat-label>Часы</mat-label>
       <input matInput type="number" formControlName="hours">
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="outline"  style="margin-right: 5px">
       <mat-label>Минуты</mat-label>
       <input matInput type="number" formControlName="minutes">
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="outline">
       <mat-label>Секунды</mat-label>
       <input matInput type="number" formControlName="seconds">
     </mat-form-field>

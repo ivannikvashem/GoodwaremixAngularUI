@@ -24,7 +24,7 @@ export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
     this.loadingSubject.complete();
   }
 
-  loadPagedData(pageIndex = 1, pageSize = 10, sortActive = "Date", sortDirection = "desc"):any {
+  loadPagedData(pageIndex = 1, pageSize = 10, sortActive = "date", sortDirection = "desc"):any {
     this.loadingSubject.next(true);
     this.api.getTasks(pageIndex, pageSize, sortActive, sortDirection)
       .pipe(
