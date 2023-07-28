@@ -93,13 +93,9 @@ export class AdminStatComponent implements OnInit {
 
 
   onChartClick(chartDot: any) {
-    console.log(chartDot)
-    console.log(this.data)
     let headers = chartDot.event.chart.legend.legendItems.map((x:any) => x['text']);
     let index = chartDot.active[0]?.index;
-
-    console.log(this.data[index])
-    if (index) {
+    if (index >= 0) {
       this.dialog.open(StatisticDetailsComponent, {
         data: {data: this.data[index], headers: headers}
       })
