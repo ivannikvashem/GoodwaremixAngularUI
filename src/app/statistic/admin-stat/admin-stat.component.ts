@@ -1,5 +1,8 @@
 import {Component, Input, OnInit, QueryList, SimpleChanges, ViewChildren} from '@angular/core';
 import {BaseChartDirective} from "ng2-charts";
+import {SchedulerTask} from "../../models/schedulerTask.model";
+import {MatDialog} from "@angular/material/dialog";
+import {StatisticDetailsComponent} from "../statistic-details/statistic-details.component";
 
 @Component({
   selector: 'app-admin-stat',
@@ -51,22 +54,29 @@ export class AdminStatComponent implements OnInit {
         grid: {color: 'transparent'},
         ticks: {display: true}
       }
-    }
+    },
     /*pointRadius: 0*/
   }
 
   chartOptions = {
     responsive: true,
-    maintainAspectRatio: true,
+    maintainAspectRatio: false,
+    elements: {
+      line: {
+        borderWidth: 4
+      }
+    },
   }
 
   @ViewChildren(BaseChartDirective) charts?: QueryList<BaseChartDirective>;
-  @Input() data:any;
-  @Input() lastStats:any;
-  @Input() errorsList:any;
-  @Input() tasks:any;
+  @Input() chartsData: any;
+  @Input() data: any;
+  @Input() lastStats: any;
+  @Input() errorsList: any;
+  @Input() tasks: SchedulerTask[] = [];
 
-  constructor() { }
+  constructor(private dialog: MatDialog) {
+  }
 
   ngOnInit(): void {}
 
@@ -78,5 +88,21 @@ export class AdminStatComponent implements OnInit {
     this.charts?.forEach((child) => {
       child.chart.update();
     })
+  }
+
+
+  onChartClick(chartDot: any) {
+    let headers = chartDot.event.chart.legend.legendItems.map((x:any) => x['text']);
+    let index = chartDot.active[0]?.index;
+
+    if (index) {
+      this.dialog.open(StatisticDetailsComponent, {
+        data: {data: this.data[index], headers: headers}
+      })
+    }
+  }
+
+  onChartHover(chart: any) {
+    chart.event.native.target.style.cursor = chart.active.length > 0 ? 'pointer' : 'default';
   }
 }

@@ -1,13 +1,13 @@
 <div class="statArea">
 
   <div class="mainStatCards">
-    <mat-card class="mat-elevation-z3">
+    <mat-card class="mat-elevation-z3" [style.grid-column]="tasks.length == 0 ? 'span 2' : ''">
       <mat-card-header>
         <div mat-card-avatar><mat-icon class="customIconSize">local_offer</mat-icon></div>
         <mat-card-title>Товары</mat-card-title>
         <mat-card-subtitle><strong>{{lastStats?.productQty ? lastStats.productQty : 0}}</strong> всего <strong>{{lastStats?.productQtyWithCode ? lastStats.productQtyWithCode : 0}}</strong> с артикулом</mat-card-subtitle>
       </mat-card-header>
-      <canvas mat-card-image baseChart [options]="lineChartOptions" [type]="'line'" [data]="data[0].data"></canvas>
+      <canvas baseChart style="max-height: 207px" [options]="lineChartOptions" [type]="'line'" [data]="chartsData[0].data"></canvas>
     </mat-card>
 
     <mat-card class="mat-elevation-z3">
@@ -16,7 +16,7 @@
         <mat-card-title>Документы</mat-card-title>
         <mat-card-subtitle><strong>{{lastStats?.documentQty ? lastStats.documentQty : 0}}</strong> всего <strong>{{lastStats?.certNumberQty ? lastStats.certNumberQty : 0}}</strong> сертификатов</mat-card-subtitle>
       </mat-card-header>
-      <canvas mat-card-image baseChart [options]="lineChartOptions" [type]="'line'" [data]="data[1]?.data"></canvas>
+      <canvas mat-card-image baseChart [options]="lineChartOptions" [type]="'line'" [data]="chartsData[1]?.data"></canvas>
     </mat-card>
 
     <mat-card class="mat-elevation-z3">
@@ -25,20 +25,28 @@
         <mat-card-title>Атрибуты</mat-card-title>
         <mat-card-subtitle><strong>{{lastStats?.attributeQty ? lastStats.attributeQty : 0}}</strong> всего <strong>{{lastStats?.attributeIsFixedQty ? lastStats.attributeIsFixedQty : 0}}</strong> фиксированных</mat-card-subtitle>
       </mat-card-header>
-      <canvas mat-card-image baseChart [options]="lineChartOptions" [type]="'line'" [data]="data[2]?.data"></canvas>
+      <canvas mat-card-image baseChart [options]="lineChartOptions" [type]="'line'" [data]="chartsData[2]?.data"></canvas>
     </mat-card>
 
-    <mat-card class="mat-elevation-z3">
+    <mat-card class="mat-elevation-z3" *ngIf="tasks.length > 0">
       <mat-card-header>
         <div mat-card-avatar><mat-icon class="customIconSize">task</mat-icon></div>
         <mat-card-title>Задачи</mat-card-title>
-        <mat-card-subtitle>
-          <div class="task-status">
+<!--          <div class="task-status">
             <div class="pulse"></div><strong style="margin-left: 10px">{{tasks?.taskActiveCount}}</strong>задачи активно
             <div></div><strong style="margin-left: 10px">{{tasks?.taskCount}}</strong>всего задач
-          </div>
-        </mat-card-subtitle>
+          </div>-->
       </mat-card-header>
+
+      <div class="tasksContainer">
+        <div class="taskCard mat-elevation-z2" *ngFor="let task of tasks">
+          <div class="taskCardContent">
+            <div class="taskEnabled" *ngIf="task.isEnable == true"></div>
+            <div class="taskDisabled" *ngIf="task.isEnable == false"></div>
+            <strong>{{task.nameTask}}</strong>
+          </div>
+        </div>
+      </div>
     </mat-card>
   </div>
 </div>
@@ -46,7 +54,7 @@
 <div class="bottomStatArea">
   <mat-card class="mat-elevation-z3 importCard">
     <strong>Импорт</strong>
-    <canvas baseChart style="max-height: 400px" [type]="'line'" [options]="chartOptions" [data]="data[3]?.data"></canvas>
+    <canvas baseChart style="max-height: 400px" (chartHover)="onChartHover($event)" (chartClick)="onChartClick($event)" [type]="'line'" [options]="chartOptions" [data]="chartsData[3]?.data"></canvas>
   </mat-card>
 
   <mat-card class="mat-elevation-z3">

@@ -1,14 +1,14 @@
-<mat-form-field class="full-width" appearance="standard">
+<mat-form-field class="full-width" [appearance]="appearance">
   <mat-label>Поставщик</mat-label>
   <input type="text" #searchSupplier matInput aria-label="Поставщик" (keydown)="keyPressValidation($event)"
          [formControl]="searchSuppliersCtrl"
-         [matAutocomplete]="auto">
+         [matAutocomplete]="auto" (keydown.enter)="onSupplierSelected()">
   <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onSupplierSelected()">
     <mat-option *ngFor="let option of searchFilter(supplierList, searchSupplier.value)" [value]="option">
       {{option.supplierName}}
     </mat-option>
   </mat-autocomplete>
-  <button *ngIf="searchSuppliersCtrl.value" matSuffix mat-icon-button aria-label="Clear" type="button" (click)="onClearSupplierSelection()">
+  <button matSuffix mat-icon-button aria-label="Clear" type="button" (click)="onClearSupplierSelection()">
     <mat-icon>close</mat-icon>
   </button>
 </mat-form-field>

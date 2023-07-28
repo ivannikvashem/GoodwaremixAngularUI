@@ -8,6 +8,7 @@ import {catchError, finalize} from "rxjs/operators";
 import {DatePipe} from "@angular/common";
 import {DataStateService} from "../shared/data-state.service";
 import {AuthService} from "../auth/service/auth.service";
+import {SchedulerTask} from "../models/schedulerTask.model";
 
 export interface ChartDataset {
   data:[],
@@ -30,15 +31,6 @@ export interface ChartDataset {
 
 export class StatisticComponent implements OnInit {
   roles: string[] = [];
-
-  chartColors:any = [
-    {isSelected: false, color: 'rgba(66, 133, 244, 0.8)'},
-    {isSelected: false, color: 'rgba(219, 68, 55, 0.8)'},
-    {isSelected: false, color: 'rgba(244, 180, 0, 0.8)'},
-    {isSelected: false, color: 'rgba(15, 157, 88, 0.8)'},
-    {isSelected: false, color: 'rgba(29, 91, 121, 0.8)'},
-    {isSelected: false, color: 'rgba(70, 139, 151, 0.8)'},
-  ]
 
   colorPalette:string[] = ['#3f51b5', '#f44336', '#ff4081']
 
@@ -68,11 +60,12 @@ export class StatisticComponent implements OnInit {
   tasks:any;
   isLoading:boolean;
   datePipe = new DatePipe('ru-RU');
-  supplierStatsList:Statistic[] = []
+  supplierStatsList:any[] = []
 
   defaultStat:Statistic;
   defaultData:any;
   defaultConfig:any;
+  defaultTasks:SchedulerTask[]
 
   constructor(private api: ApiClient, private dss:DataStateService, private auth: AuthService) {
     this.roles = this.auth.getRoles();
@@ -87,31 +80,30 @@ export class StatisticComponent implements OnInit {
       this.onSupplierSelected(supplier)
     });
     if (this.selectedSupplier?.id) {
-      console.log('getting supp stats')
-      //this.getStats(this.selectedSupplier.id);
+      this.getStats(this.selectedSupplier.id);
     }
   }
 
   getTotalStats() {
     this.api.getTotalStats().subscribe(x => {
-      this.tasks = {taskActiveCount: x.body.taskActiveCount, taskCount:x.body.taskActiveCount}
+      this.tasks = x.body.tasks;
       this.supplierStatsList = x.body.data;
+
       this.supplierConfigs = x.body.configs;
       this.getConfigErrors(this.supplierConfigs)
 
-      this.lastStats = this.supplierStatsList[0];
-      this.defaultStat = this.lastStats;
-      this.defaultData = this.supplierStatsList;
-      this.defaultConfig =  this.supplierConfigs ;
+      this.setBodyData(this.supplierStatsList, true);
+      this.setDefaultStats();
+
 
       for (let chart of this.chartList) {
-        this.setDataToChart(chart.data, chart.headers);
+        this.setDataToChart(chart.data, chart.headers, true);
       }
     })
   }
 
   getStats(supplierId:string) {
-    this.api.getSupplierStats(supplierId, 'lastImport', 'desc').pipe(
+    this.api.getSupplierStats(supplierId, 'lastImport', 'asc').pipe(
       tap(() => {this.isLoading = true}),
       catchError(() => of([])),
       finalize(() => this.isLoading = false)
@@ -119,12 +111,16 @@ export class StatisticComponent implements OnInit {
       this.supplierStatsList = x.body.data;
       this.supplierConfigs = x.body.configs;
       this.getConfigErrors(x.body.configs)
-      this.lastStats = this.supplierStatsList[0];
+      this.setBodyData(this.supplierStatsList, false)
 
       for (let chart of this.chartList) {
-        this.setDataToChart(chart.data, chart.headers);
+        this.setDataToChart(chart.data, chart.headers, false);
       }
     })
+  }
+
+  setBodyData(data:any, isAdmin:boolean) {
+    this.lastStats = isAdmin ? data[0].mainStatistics as Statistic : data[0];
   }
 
   onSupplierSelected(supplier: Supplier) {
@@ -135,19 +131,19 @@ export class StatisticComponent implements OnInit {
       this.getStats(this.selectedSupplier.id);
     } else {
       if (this.defaultData) {
-        this.setDefaultStats();
+        this.getDefaultStats();
       }
     }
   }
 
-  setDataToChart(collectionChartData:any, headers:any[]) {
+  setDataToChart(collectionChartData:any, headers:any[], isAdminData:boolean) {
     for (let header of headers) {
       if (collectionChartData.datasets.find((x:any) => x.label === header.title)) {
         return;
       }
       collectionChartData.datasets.push(
         {
-          data: this.supplierStatsList.map((x:any) => x[header.value]).reverse(),
+          data: isAdminData == true ? this.supplierStatsList.map((x:any) => x['mainStatistics']).map((x:any) => x[header.value]) : this.supplierStatsList.map((x:any) => x[header.value]),
           label: header.title,
           backgroundColor:header.color,
           borderColor: header.color,
@@ -156,30 +152,41 @@ export class StatisticComponent implements OnInit {
           pointBackgroundColor: 'rgba(148,159,177,1)'
         } as ChartDataset);
     }
-    collectionChartData.labels = this.supplierStatsList.map((x:any) => this.datePipe.transform(x.lastImport, 'dd-MM-yyyy')).reverse();
+    collectionChartData.labels = isAdminData == true ? this.supplierStatsList.map((x:any) => x['mainStatistics']).map((x:any) => this.datePipe.transform(x.lastImport, 'dd-MM-yyyy')) : this.supplierStatsList.map((x:any) => this.datePipe.transform(x.lastImport, 'dd-MM-yyyy'));
   }
 
-  setDefaultStats() {
+  getDefaultStats() {
     this.lastStats = this.defaultStat;
     this.supplierStatsList = this.defaultData;
     this.supplierConfigs = this.defaultConfig;
+    this.tasks = this.defaultTasks;
 
     for (let chart of this.chartList) {
-      this.setDataToChart(chart.data, chart.headers);
+      this.setDataToChart(chart.data, chart.headers, true);
     }
+  }
+
+  setDefaultStats() {
+    this.defaultStat = this.lastStats;
+    this.defaultData = this.supplierStatsList;
+    this.defaultConfig = this.supplierConfigs;
+    this.defaultTasks = this.tasks;
   }
 
   clearStats() {
     this.lastStats = new Statistic();
+    this.tasks = []
     for (let chart of this.chartList) {
       chart.data.datasets = [];
     }
   }
 
   getConfigErrors(config:any) {
-    for (let key in config[0]) {
-      if (config[0][key].length > 0) {
-        this.errorsConfig.push({name:key, value:config[0][key]})
+    if (config) {
+      for (let key in config[0]) {
+        if (config[0][key].length > 0) {
+          this.errorsConfig.push({name:key, value:config[0][key]})
+        }
       }
     }
   }

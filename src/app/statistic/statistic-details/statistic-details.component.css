@@ -1,0 +1,27 @@
+.statGrid {
+  display: grid;
+  grid-auto-flow: column;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.statCard {
+  height: 210px;
+  width: 315px;
+}
+
+.statCard:nth-child(4n + 1) {
+  grid-column: 1;
+}
+
+.statCard:nth-child(4n + 2) {
+  grid-column: 2;
+}
+
+.statCard:nth-child(4n + 3) {
+  grid-column: 3;
+}
+
+.statCard:nth-child(4n + 4) {
+  grid-column: 4;
+}

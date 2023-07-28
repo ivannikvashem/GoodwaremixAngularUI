@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Injectable, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Injectable, Input, OnInit, Output} from '@angular/core';
 import {Subscription} from "rxjs";
 import {FormControl} from "@angular/forms";
 import {Supplier} from "../../models/supplier.model";
@@ -17,6 +17,7 @@ export class SupplierAutocompleteComponent implements OnInit {
 
   searchSuppliersCtrl  = new FormControl<string | Supplier>('');
   supplierList:Supplier[] = [];
+  @Input() appearance:any = 'standard'
   @Output() selectedSupplier = new EventEmitter<Supplier>();
   private subscription: Subscription;
 

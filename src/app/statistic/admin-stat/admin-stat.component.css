@@ -44,6 +44,21 @@
   padding: 12px;
 }
 
+.tasksContainer {
+  overflow: auto;
+  max-height: 225px;
+}
+
+.taskCard {
+  display: flex;
+  justify-content: space-between;
+}
+
+.taskCardContent {
+  display: flex;
+  padding: 12px;
+}
+
 .customIconSize {
   font-size: 40px;
   height: 40px ;
@@ -58,7 +73,16 @@
   grid-column: span 2;
 }
 
-.pulse {
+.taskDisabled {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #cc2c2c;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.taskEnabled {
 /*  margin:100px;
   display: block;*/
   width: 15px;
@@ -67,12 +91,13 @@
   background: #2ccc2f;
   cursor: pointer;
   animation: pulse 2s infinite;
+  margin-right: 10px;
 }
-.pulse:hover {
+.taskEnabled:hover {
   animation: none;
 }
 
-@-webkit-keyframes pulse {
+@-webkit-keyframes taskEnabled {
   0% {
     -webkit-box-shadow: 0 0 0 0 rgba(0, 255, 82, 0.8);
   }
@@ -83,7 +108,7 @@
     -webkit-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
   }
 }
-@keyframes pulse {
+@keyframes taskEnabled {
   0% {
     -moz-box-shadow: 0 0 0 0 rgba(0, 255, 82, 0.8);
     box-shadow: 0 0 0 0 rgba(0, 255, 82, 0.8);

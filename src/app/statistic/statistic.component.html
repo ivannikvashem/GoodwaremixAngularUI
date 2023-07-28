@@ -1,9 +1,9 @@
 <div class="header-container">
   <h3>Главная &nbsp;</h3>
-  <app-supplier-autocomplete></app-supplier-autocomplete>
+  <app-supplier-autocomplete [appearance]="'outline'"></app-supplier-autocomplete>
 </div>
 
-<app-admin-stat *ngIf="roles.includes('goodware-admin')" [data]="chartList" [lastStats]="lastStats" [errorsList]="errorsConfig" [tasks]="tasks"></app-admin-stat>
+<app-admin-stat *ngIf="roles.includes('goodware-admin')" [data]="supplierStatsList" [chartsData]="chartList" [lastStats]="lastStats" [errorsList]="errorsConfig" [tasks]="tasks"></app-admin-stat>
 <app-manager-stat *ngIf="roles.includes('goodware-manager') && !roles.includes('goodware-admin')"></app-manager-stat>
 
 
