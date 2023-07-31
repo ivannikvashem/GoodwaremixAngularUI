@@ -92,7 +92,7 @@ export class StatisticComponent implements OnInit {
       this.supplierConfigs = x.body.configs;
       this.getConfigErrors(this.supplierConfigs)
 
-      this.setBodyData(this.supplierStatsList.reverse(), true);
+      this.setBodyData(this.supplierStatsList, true);
       this.setDefaultStats();
 
 
@@ -111,7 +111,7 @@ export class StatisticComponent implements OnInit {
       this.supplierStatsList = x.body.data;
       this.supplierConfigs = x.body.configs;
       this.getConfigErrors(x.body.configs)
-      this.setBodyData(this.supplierStatsList.reverse(), false)
+      this.setBodyData(this.supplierStatsList, false)
 
       for (let chart of this.chartList) {
         this.setDataToChart(chart.data, chart.headers, false);
@@ -120,7 +120,7 @@ export class StatisticComponent implements OnInit {
   }
 
   setBodyData(data:any, isAdmin:boolean) {
-    this.lastStats = isAdmin ? data[0].mainStatistics as Statistic : data[0];
+    this.lastStats = isAdmin ? data.reverse()[0].mainStatistics as Statistic : data.reverse()[0];
   }
 
   onSupplierSelected(supplier: Supplier) {
