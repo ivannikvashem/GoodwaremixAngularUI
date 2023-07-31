@@ -92,7 +92,7 @@ export class StatisticComponent implements OnInit {
       this.supplierConfigs = x.body.configs;
       this.getConfigErrors(this.supplierConfigs)
 
-      this.setBodyData(this.supplierStatsList, true);
+      this.setBodyData(this.supplierStatsList.reverse(), true);
       this.setDefaultStats();
 
 
@@ -111,7 +111,7 @@ export class StatisticComponent implements OnInit {
       this.supplierStatsList = x.body.data;
       this.supplierConfigs = x.body.configs;
       this.getConfigErrors(x.body.configs)
-      this.setBodyData(this.supplierStatsList, false)
+      this.setBodyData(this.supplierStatsList.reverse(), false)
 
       for (let chart of this.chartList) {
         this.setDataToChart(chart.data, chart.headers, false);
