@@ -69,8 +69,8 @@
     </mat-form-field>
 
   </div>
-
-  <button mat-raised-button color="primary" [mat-dialog-close]="data" (click)="onSubmitClick()" [disabled]="fb.invalid">Сохранить</button>
+  {{supplier?.id}}
+  <button mat-raised-button color="primary" [mat-dialog-close]="data" (click)="onSubmitClick()" [disabled]="fb.invalid || supplier?.id == null">Сохранить</button>
 </form>
 
 

@@ -51,21 +51,21 @@ export class StatisticComponent implements OnInit {
       data: {labels: [''], datasets: []},
       headers:[ { value:'productQty', title:'Всего', color: this.colorPalette[0]}, {value: 'productAddQty', title: 'Добавлено', color: this.colorPalette[1]}, {value: 'productUpdateQty', title: 'Обновлено', color: this.colorPalette[2]}]
     }
-  ]
+  ];
 
   selectedSupplier:Supplier;
   supplierConfigs:any[] = [];
-  errorsConfig:any[] = []
+  errorsConfig:any[] = [];
   lastStats:Statistic;
   tasks:any;
   isLoading:boolean;
   datePipe = new DatePipe('ru-RU');
-  supplierStatsList:any[] = []
+  supplierStatsList:any[] = [];
 
   defaultStat:Statistic;
   defaultData:any;
   defaultConfig:any;
-  defaultTasks:SchedulerTask[]
+  defaultTasks:SchedulerTask[];
 
   constructor(private api: ApiClient, private dss:DataStateService, private auth: AuthService) {
     this.roles = this.auth.getRoles();
@@ -90,7 +90,7 @@ export class StatisticComponent implements OnInit {
       this.supplierStatsList = x.body.data;
 
       this.supplierConfigs = x.body.configs;
-      this.getConfigErrors(this.supplierConfigs)
+      this.getConfigErrors(this.supplierConfigs);
 
       this.setBodyData(this.supplierStatsList, true);
       this.setDefaultStats();
@@ -110,8 +110,8 @@ export class StatisticComponent implements OnInit {
     ).subscribe(x => {
       this.supplierStatsList = x.body.data;
       this.supplierConfigs = x.body.configs;
-      this.getConfigErrors(x.body.configs)
-      this.setBodyData(this.supplierStatsList, false)
+      this.getConfigErrors(x.body.configs);
+      this.setBodyData(this.supplierStatsList, false);
 
       for (let chart of this.chartList) {
         this.setDataToChart(chart.data, chart.headers, false);
@@ -125,7 +125,7 @@ export class StatisticComponent implements OnInit {
 
   onSupplierSelected(supplier: Supplier) {
     this.clearStats();
-    this.errorsConfig = []
+    this.errorsConfig = [];
     if (supplier?.id) {
       this.selectedSupplier = supplier;
       this.getStats(this.selectedSupplier.id);
@@ -175,7 +175,7 @@ export class StatisticComponent implements OnInit {
 
   clearStats() {
     this.lastStats = new Statistic();
-    this.tasks = []
+    this.tasks = [];
     for (let chart of this.chartList) {
       chart.data.datasets = [];
     }

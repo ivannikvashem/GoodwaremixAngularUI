@@ -25,7 +25,7 @@
         <mat-card-title><a class="cardLink" href="/attributes" target="_blank">Атрибуты</a></mat-card-title>
         <mat-card-subtitle><strong>{{lastStats?.attributeQty ? lastStats.attributeQty : 0}}</strong> всего <strong>{{lastStats?.attributeIsFixedQty ? lastStats.attributeIsFixedQty : 0}}</strong> фиксированных</mat-card-subtitle>
       </mat-card-header>
-      <canvas mat-card-image baseChart [options]="lineChartOptions" [type]="'line'" [data]="chartsData[2]?.data"></canvas>
+      <canvas mat-card-image baseChart (chartHover)="onChartHover($event)" (chartClick)="onChartClick($event, 'attributes')" [options]="lineChartOptions" [type]="'line'" [data]="chartsData[2]?.data"></canvas>
     </mat-card>
 
     <mat-card class="mat-elevation-z3">
@@ -62,7 +62,7 @@
 <div class="bottomStatArea">
   <mat-card class="mat-elevation-z3 importCard">
     <strong>Импорт</strong>
-    <canvas baseChart style="max-height: 400px" (chartHover)="onChartHover($event)" (chartClick)="onChartClick($event)" [type]="'line'" [options]="chartOptions" [data]="chartsData[3]?.data"></canvas>
+    <canvas baseChart style="max-height: 400px" (chartHover)="onChartHover($event)" (chartClick)="onChartClick($event, 'import')" [type]="'line'" [options]="chartOptions" [data]="chartsData[3]?.data"></canvas>
   </mat-card>
 
   <mat-card class="mat-elevation-z3">

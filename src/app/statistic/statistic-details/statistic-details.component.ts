@@ -33,6 +33,7 @@ export class StatisticDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.statistics)
     for (let stat of this.statistics.data.statisticsSupplier) {
       this.chartList.push({
         labels: this.statistics.headers,

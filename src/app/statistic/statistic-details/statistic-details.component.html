@@ -3,7 +3,7 @@
 </div>
 
 <mat-dialog-content>
-  <div class="statGrid">
+  <div class="statGrid" *ngIf="statistics.chartType == 'import'">
     <mat-card class="statCard">
       <mat-card-title>Общая статистика</mat-card-title>
       <p>Всего: <strong>{{this.statistics.data.mainStatistics.productQty}}</strong></p>
@@ -20,6 +20,20 @@
       </mat-card-subtitle>
       <canvas baseChart [type]="'bar'" [options]="chartOptions" [data]="chart"></canvas>
     </mat-card>
+  </div>
 
+  <div class="statGrid" *ngIf="statistics.chartType == 'attributes'">
+    <mat-card class="statCard">
+      <mat-card-title>Общая статистика</mat-card-title>
+      <p>Всего: <strong>{{this.statistics.data.mainStatistics.productQty}}</strong></p>
+      <p>Добавлено: <strong>{{this.statistics.data.mainStatistics.productAddQty}}</strong></p>
+      <p>Обновлено: <strong>{{this.statistics.data.mainStatistics.productUpdateQty}}</strong></p>
+    </mat-card>
+
+    <mat-card *ngFor="let stat of this.statistics.data.statisticsSupplier" class="statCard">
+      <mat-card-title>{{stat.supplierName}}</mat-card-title>
+      <p>Всего: <strong>{{stat.attributeQty}}</strong></p>
+      <p>Фиксированных: <strong>{{stat.attributeIsFixedQty}}</strong></p>
+    </mat-card>
   </div>
 </mat-dialog-content>

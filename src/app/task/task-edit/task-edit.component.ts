@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import { FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {SchedulerTask} from "../../models/schedulerTask.model";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Supplier} from "../../models/supplier.model";
@@ -31,47 +31,51 @@ export class TaskEditComponent implements OnInit {
   ) { }
 
   fb:FormGroup = new FormGroup({
-    nameTask: new FormControl(),
-    description: new FormControl(),
+    nameTask: new FormControl<string>('', Validators.required),
+    description: new FormControl<string>('', Validators.required),
     configList: new FormControl(),
     startAt: new FormControl(),
-    hours: new FormControl(),
-    minutes: new FormControl(),
-    seconds: new FormControl(),
-    isEnable: new FormControl()
+    hours: new FormControl<number>(0, Validators.required),
+    minutes: new FormControl<number>(0, Validators.required),
+    seconds: new FormControl<number>(0, Validators.required),
+    isEnable: new FormControl<boolean>(false, Validators.required)
   })
 
 
   ngOnInit(): void {
     if (this.data.oldTask !== undefined) {
       this.api.getSupplierById(this.data.oldTask.supplierId).subscribe(x => {
-        console.log(x)
-        this.supplier = x.body as Supplier
-        this.dss.setSelectedSupplier(this.supplier.id, this.supplier.supplierName)
+        this.supplier = x.body as Supplier;
+        this.selectedSupplier = x.body;
+        this.dss.setSelectedSupplier(this.supplier.id, this.supplier.supplierName);
+      });
 
-      })
-      this.selectedSupplier.id = this.data.oldTask.supplierId
-      this.fb.get('nameTask').setValue(this.data.oldTask.nameTask)
-      this.fb.get('description').setValue(this.data.oldTask.description)
-      this.fb.get('startAt').setValue(this.data.oldTask.startAt)
-      this.fb.get('hours').setValue(this.data.oldTask.hours)
-      this.fb.get('minutes').setValue(this.data.oldTask.minutes)
-      this.fb.get('seconds').setValue(this.data.oldTask.seconds)
+      this.selectedSupplier.id = this.data.oldTask.supplierId;
+      this.fb.get('nameTask').setValue(this.data.oldTask.nameTask);
+      this.fb.get('description').setValue(this.data.oldTask.description);
+      this.fb.get('startAt').setValue(this.data.oldTask.startAt);
+      this.fb.get('hours').setValue(this.data.oldTask.hours);
+      this.fb.get('minutes').setValue(this.data.oldTask.minutes);
+      this.fb.get('seconds').setValue(this.data.oldTask.seconds);
     }
+    this.dss.getSelectedSupplier().subscribe(x => {
+      this.supplier = x;
+    })
   }
 
   onSubmitClick() {
     if (this.data.oldTask !== undefined) {
-      this.task.id = this.data.oldTask.id
+      this.task.id = this.data.oldTask.id;
     }
-    this.task.supplierId = this.supplier.id
-    this.task.nameTask = this.fb.get('nameTask').value
-    this.task.description = this.fb.get('description').value
-    this.task.startAt = this.fb.get('startAt').value
-    this.task.hours = this.fb.get('hours').value
-    this.task.minutes = this.fb.get('minutes').value
-    this.task.seconds = this.fb.get('seconds').value
-    this.data.newTask = this.task
+    this.task.supplierId = this.supplier.id;
+    this.task.nameTask = this.fb.get('nameTask').value;
+    this.task.description = this.fb.get('description').value;
+    this.task.startAt = this.fb.get('startAt').value;
+    this.task.hours = this.fb.get('hours').value;
+    this.task.minutes = this.fb.get('minutes').value;
+    this.task.seconds = this.fb.get('seconds').value;
+    this.task.isEnable = this.fb.get('isEnable').value;
+    this.data.newTask = this.task;
   }
 
   handleChangeSelectedSupplier(supplier: Supplier) {

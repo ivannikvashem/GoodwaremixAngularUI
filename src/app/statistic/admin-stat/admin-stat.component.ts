@@ -92,12 +92,12 @@ export class AdminStatComponent implements OnInit {
   }
 
 
-  onChartClick(chartDot: any) {
+  onChartClick(chartDot: any, chartType:string) {
     let headers = chartDot.event.chart.legend.legendItems.map((x:any) => x['text']);
     let index = chartDot.active[0]?.index;
     if (index >= 0) {
       this.dialog.open(StatisticDetailsComponent, {
-        data: {data: this.data[index], headers: headers}
+        data: {data: this.data[index], headers: headers, chartType:chartType}
       })
     }
   }
@@ -109,4 +109,5 @@ export class AdminStatComponent implements OnInit {
   enabledTasks() {
     return this.tasks.filter(x => x.isEnable == true).length;
   }
+
 }
