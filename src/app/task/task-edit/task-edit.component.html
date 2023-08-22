@@ -41,35 +41,34 @@
       <input matInput>
     </mat-form-field>
 
-    <mat-button-toggle-group #group="matButtonToggleGroup" value="selection">
-      <mat-button-toggle value="selection">
-        <mat-icon>touch_app</mat-icon>
-      </mat-button-toggle>
-      <mat-button-toggle value="input">
-        <mat-icon>dialpad</mat-icon>
-      </mat-button-toggle>
-    </mat-button-toggle-group>
   </div>-->
 
   <div style="margin-bottom: 10px">
     <mat-card-subtitle style="display: block; padding: 10px"><strong>Интервал</strong></mat-card-subtitle>
     <mat-form-field appearance="outline" style="margin-right: 5px">
       <mat-label>Часы</mat-label>
-      <input matInput type="number" formControlName="hours">
+      <input matInput type="number" formControlName="hours" max="24">
     </mat-form-field>
 
     <mat-form-field appearance="outline"  style="margin-right: 5px">
       <mat-label>Минуты</mat-label>
-      <input matInput type="number" formControlName="minutes">
+      <input matInput type="number" formControlName="minutes" max="60">
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Секунды</mat-label>
-      <input matInput type="number" formControlName="seconds">
+      <input matInput type="number" formControlName="seconds" max="60">
     </mat-form-field>
 
+    <div>
+      <mat-button-toggle-group formControlName="isEnable">
+        <mat-button-toggle [value]="true"><mat-icon>play_arrow</mat-icon>Активна</mat-button-toggle>
+        <mat-button-toggle [value]="false"><mat-icon>stop</mat-icon>Выключена</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+
   </div>
-  {{supplier?.id}}
+
   <button mat-raised-button color="primary" [mat-dialog-close]="data" (click)="onSubmitClick()" [disabled]="fb.invalid || supplier?.id == null">Сохранить</button>
 </form>
 

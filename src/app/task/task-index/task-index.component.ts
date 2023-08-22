@@ -48,7 +48,7 @@ export class TaskIndexComponent implements OnInit {
   }
 
   addTask() {
-    this.openTaskEditDialog()
+    this.openTaskEditDialog();
   }
 
   editTask(task:any) {
@@ -74,6 +74,7 @@ export class TaskIndexComponent implements OnInit {
   }
 
   executeTask(id:string, isStart:boolean) {
+    console.log(id, isStart)
     this.dataSource.taskOnExecute(id,isStart)
   }
 

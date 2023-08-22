@@ -17,6 +17,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
         MatIconModule,
         MatProgressSpinnerModule,
         MatCardModule,
-        MatButtonToggleModule
+        MatButtonToggleModule,
+        MatSlideToggleModule
     ]
 })
 export class TaskModule { }

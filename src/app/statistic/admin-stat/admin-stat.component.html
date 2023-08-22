@@ -66,7 +66,7 @@
   </mat-card>
 
   <mat-card class="mat-elevation-z3">
-    <strong>Проблемы</strong>
+    <strong>Уведомления</strong>
     <div class="problemsContainer" *ngIf="errorsList.length > 0">
       <div class="problemCard mat-elevation-z2" *ngFor="let messages of errorsList">
         <div class="problemCardMessage"><strong>{{messages.name}}</strong><div *ngFor="let msg of messages.value">{{msg}}</div></div>
@@ -74,7 +74,7 @@
     </div>
 
     <div class="noErrorsMessage" *ngIf="errorsList.length == 0">
-      <mat-icon class="customIconSize">check</mat-icon><h3>Проблем не обнаружено</h3>
+      <mat-icon class="customIconSize">check</mat-icon><h3>Пока уведомлений нет</h3>
     </div>
   </mat-card>
 </div>

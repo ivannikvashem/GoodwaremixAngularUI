@@ -57,6 +57,7 @@ export class TaskEditComponent implements OnInit {
       this.fb.get('hours').setValue(this.data.oldTask.hours);
       this.fb.get('minutes').setValue(this.data.oldTask.minutes);
       this.fb.get('seconds').setValue(this.data.oldTask.seconds);
+      this.fb.get('isEnable').setValue(this.data.oldTask.isEnable);
     }
     this.dss.getSelectedSupplier().subscribe(x => {
       this.supplier = x;

@@ -68,7 +68,7 @@ export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
         this.TaskListSubject.next(newData)
       })
     } else {
-      this.api.insertTask(task).subscribe( () => {
+      this.api.insertTask(task).subscribe( id => {
         let newData;
         if (task.id) {
           newData = this.TaskListSubject.value.map(x => {
@@ -78,6 +78,7 @@ export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
             return x;
           });
         } else {
+          task.id = id.body;
           newData = this.TaskListSubject.value;
           newData.push(task)
         }

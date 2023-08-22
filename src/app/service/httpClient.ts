@@ -252,7 +252,7 @@ export class ApiClient {
   }
 
   stopTask(id:string): Observable<any> {
-    return this.http.post(this.apiURL + '/Quartz/stopQuartz/' + id, this.httpOptions)
+    return this.http.get(this.apiURL + '/Quartz/stopQuartz/' + id, this.httpOptions)
   }
 
   //#endregion
