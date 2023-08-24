@@ -68,13 +68,15 @@ export class ApiClient {
     return this.http.get<any>(this.apiURL + '/Attributes/'+ id, this.httpOptions);
   }
 
-  swapAttribute(sourceId: string, destId: string, convertId:string): Observable<any> {
+  swapAttribute(sourceId: string, destId: string, convertId?:string): Observable<any> {
     let opt = {
       params: new HttpParams()
         .set('sourceId', sourceId)
         .set('destionationId', destId)
-        .set('convertId', convertId)
     };
+    if (convertId != undefined && convertId != null) {
+      opt.params = opt.params.append('convertId', convertId)
+    }
 
     opt = Object.assign(opt, this.httpOptions);
     return this.http.post<any>(this.apiURL + '/Attributes/swap/', {}, opt);
