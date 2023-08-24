@@ -95,7 +95,7 @@ export class AttributeIndexComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.api.swapAttribute(result.oldAttributeId, result.newAttribute.id).subscribe({
+      this.api.swapAttribute(result.oldAttributeId, result.newAttribute.id, result.newAttribute.convertId).subscribe({
         next: () => {
           this.dataSource.updateSwappedAttribute(result.oldAttributeId)
           this._notyf.onSuccess("Атрибут переназначен")

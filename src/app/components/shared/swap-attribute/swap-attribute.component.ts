@@ -4,7 +4,7 @@ import {FormControl, Validators} from "@angular/forms";
 import {ApiClient} from "../../../service/httpClient";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {debounceTime, distinctUntilChanged, finalize, switchMap, tap} from "rxjs";
-import {AttrDialogData} from "../../../attribute/attribute-index/attribute-index.component";
+import {UnitConverter} from "../../../models/unitConverter.model";
 
 @Component({
   selector: 'app-swap-attribute',
@@ -16,11 +16,14 @@ export class SwapAttributeComponent implements OnInit {
   attributes: Array<Attribute> = new Array<Attribute>;
   attribute: Attribute = new Attribute;
   searchAttributeCtrl = new FormControl<string | Attribute>('', Validators.required);
+  unitConverterListCtrl = new FormControl<string | UnitConverter>('');
+  public unitConverterList: UnitConverter[] | undefined;
+
 
   constructor(public api: ApiClient,
               public dialogRef: MatDialogRef<SwapAttributeComponent>,
               @Inject(MAT_DIALOG_DATA)
-              public data: AttrDialogData,) { }
+              public data: any) { }
 
   ngOnInit(): void {
     this.api.getAttributeById(this.data.oldAttributeId).subscribe((response) => {
@@ -42,6 +45,13 @@ export class SwapAttributeComponent implements OnInit {
         )
       )
     ).subscribe((response: any) => { this.attributes = response.body.data; });
+
+    this.unitConverterListCtrl.valueChanges.pipe(
+      debounceTime(100),
+      switchMap(value => this.api.getConverterUnits(value.toString(), 0, 100))
+    ).subscribe((data: any) => {
+      this.unitConverterList = data.body.data;
+    });
   }
 
   onCancelClick(): void {
@@ -54,5 +64,13 @@ export class SwapAttributeComponent implements OnInit {
 
   onAttributeSelected() {
     this.data.newAttribute = this.searchAttributeCtrl.value as Attribute;
+  }
+
+  onUnitConverterSelected(unit: any) {
+    this.data.newAttribute.convertId = unit.option.value.id;
+  }
+
+  displayFnUnit(unit: UnitConverter): string {
+    return unit && unit.multiplier + ' ' +  unit.sourceUnit + ' --> ' + unit.targetUnit
   }
 }

@@ -81,7 +81,7 @@ export class ProductDetailsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.api.swapAttribute(result.oldAttributeId, result.newAttribute.id).subscribe({
+      this.api.swapAttribute(result.oldAttributeId, result.newAttribute.id, result.convertId).subscribe({
         next: next => {
           this.fetchProductData()
           this._notyf.onSuccess('Данные сохранены успешно');

@@ -22,8 +22,22 @@
           <span *ngIf="option.unit && option.isFixed" class="unitMark">{{option.unit}}</span>
         </mat-option>
       </mat-autocomplete>
+      <mat-icon matSuffix (click)="searchAttributeCtrl.setValue(null)">close</mat-icon>
     </mat-form-field>
   </div>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Множитель</mat-label>
+    <input matInput type="text"
+           [formControl]="unitConverterListCtrl"
+           [matAutocomplete]="multiplierAuto">
+    <mat-autocomplete #multiplierAuto="matAutocomplete" panelWidth="auto" [displayWith]="displayFnUnit" (optionSelected)="onUnitConverterSelected($event)">
+      <mat-option *ngFor="let option of unitConverterList" [value]="option">
+        <span> <span class="unitMark">{{option.multiplier}}</span> {{option.sourceUnit}}<mat-icon>arrow_forward</mat-icon>{{option.targetUnit}} </span>
+      </mat-option>
+    </mat-autocomplete>
+    <mat-icon matSuffix (click)="unitConverterListCtrl.setValue(null)">close</mat-icon>
+  </mat-form-field>
 
   <div class="information">
     <p *ngIf="data.newAttribute.nameAttribute != null">Аттрибут "{{data.oldAttribute}}", будет заменён на "{{data.newAttribute.nameAttribute}}"</p>
