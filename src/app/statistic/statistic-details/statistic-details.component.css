@@ -5,9 +5,14 @@
   margin-bottom: 10px;
 }
 
+.mat-divider {
+  margin: 10px;
+}
+
 .statCard {
-  height: 210px;
-  width: 315px;
+  max-height: 210px;
+  min-width: 315px;
+  width: auto;
 }
 
 .statCard:nth-child(4n + 1) {
@@ -24,4 +29,15 @@
 
 .statCard:nth-child(4n + 4) {
   grid-column: 4;
+}
+
+.attribute-stat-container {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 5px;
+}
+
+.attribute-stat-values {
+  display: flex;
+  justify-content: space-between;
 }

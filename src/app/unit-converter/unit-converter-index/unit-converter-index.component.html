@@ -1,4 +1,4 @@
-<table mat-table [dataSource]="dataSource" class="form-full-width">
+<table mat-table [dataSource]="dataSource" class="form-full-width" style="margin-bottom: 60px">
   <!-- rating Column -->
   <ng-container matColumnDef="sourceUnit">
     <th mat-header-cell *matHeaderCellDef>Исходное значение</th>
@@ -25,4 +25,4 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
-<mat-paginator [style.visibility]="dataSource.rowCount > 0 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[10,20,50,100] aria-label="Страница"></mat-paginator>
+<mat-paginator class="paginator-fixed mat-elevation-z8" [style.visibility]="dataSource.rowCount > 0 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[10,20,50,100] aria-label="Страница"></mat-paginator>

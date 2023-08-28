@@ -4,7 +4,7 @@ import {BaseChartDirective} from "ng2-charts";
 import {Supplier} from "../models/supplier.model";
 import {Statistic} from "../models/statistic.model";
 import {of, tap} from "rxjs";
-import {catchError, finalize} from "rxjs/operators";
+import {catchError, finalize, map} from "rxjs/operators";
 import {DatePipe} from "@angular/common";
 import {DataStateService} from "../shared/data-state.service";
 import {AuthService} from "../auth/service/auth.service";
@@ -32,24 +32,25 @@ export interface ChartDataset {
 export class StatisticComponent implements OnInit {
   roles: string[] = [];
 
-  colorPalette:string[] = ['#3f51b5', '#f44336', '#ff4081']
+  colorPalette:string[] = ['#1db48e', '#fa4d15', '#2ba9d7'];
+  backgroundColorPalette:string[] = ['rgba(29,180,142,0.7)', 'rgba(250,77,21,0.7)', 'rgba(43,169,215,0.7)'];
 
   chartList:any = [
     {
       data: {labels: [''], datasets: []},
-      headers:[ { value:'productQty', title:'Всего', color: this.colorPalette[0]}, {value: 'productQtyWithCode', title: 'С артикулом', color: this.colorPalette[1]}]
+      headers:[ { value:'productQty', title:'Всего', color: this.colorPalette[0], backgroundColor: this.backgroundColorPalette[0]}, {value: 'productQtyWithCode', title: 'С артикулом', color: this.colorPalette[1], backgroundColor: this.backgroundColorPalette[1]}]
     },
     {
       data: {labels: [''], datasets: []},
-      headers:[ { value:'documentQty', title:'Всего', color: this.colorPalette[0]}, {value: 'certNumberQty', title: 'Сертификатов', color: this.colorPalette[1]}]
+      headers:[ { value:'documentQty', title:'Всего', color: this.colorPalette[0], backgroundColor: this.backgroundColorPalette[0]}, {value: 'certNumberQty', title: 'Сертификатов', color: this.colorPalette[1], backgroundColor: this.backgroundColorPalette[1]}]
     },
     {
       data: {labels: [''], datasets: []},
-      headers:[ { value:'attributeQty', title:'Всего', color: this.colorPalette[0]}, {value: 'attributeIsFixedQty', title: 'Фиксированных', color: this.colorPalette[1]}]
+      headers:[ { value:'attributeQty', title:'Всего', color: this.colorPalette[0], backgroundColor: this.backgroundColorPalette[0]}, {value: 'attributeIsFixedQty', title: 'Фиксированных', color: this.colorPalette[1], backgroundColor: this.backgroundColorPalette[1]}]
     },
     {
       data: {labels: [''], datasets: []},
-      headers:[ { value:'productQty', title:'Всего', color: this.colorPalette[0]}, {value: 'productAddQty', title: 'Добавлено', color: this.colorPalette[1]}, {value: 'productUpdateQty', title: 'Обновлено', color: this.colorPalette[2]}]
+      headers:[ { value:'productQty', title:'Всего', color: this.colorPalette[0], backgroundColor: this.backgroundColorPalette[0]}, {value: 'productAddQty', title: 'Добавлено', color: this.colorPalette[1], backgroundColor: this.backgroundColorPalette[1]}, {value: 'productUpdateQty', title: 'Обновлено', color: this.colorPalette[2], backgroundColor: this.backgroundColorPalette[2]}]
     }
   ];
 
@@ -58,7 +59,7 @@ export class StatisticComponent implements OnInit {
   errorsConfig:any[] = [];
   lastStats:Statistic;
   tasks:any;
-  isLoading:boolean;
+  isLoading:boolean = false;
   datePipe = new DatePipe('ru-RU');
   supplierStatsList:any[] = [];
 
@@ -85,7 +86,14 @@ export class StatisticComponent implements OnInit {
   }
 
   getTotalStats() {
-    this.api.getTotalStats().subscribe(x => {
+    this.isLoading = true;
+
+    this.api.getTotalStats()
+      .pipe(
+        tap( () => { this.isLoading = true; }),
+        map((res:any) => { return res; }),
+        catchError( () => of([])),
+        finalize( () => this.isLoading = false)).subscribe(x => {
       this.tasks = x.body.tasks;
       this.supplierStatsList = x.body.data;
 

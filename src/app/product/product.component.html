@@ -1,13 +1,9 @@
+<span class="page-title">Товары</span>
 <div class="cardTopPanel">
-  <h3>Товары</h3>
 
   <div class="toolbox-container">
 
-    <div class="toolbox-item">
-      <app-product-ic-filter-switch [state]="withICFilter" (withICFilterEmitter)="onICFilterChanged($event)"></app-product-ic-filter-switch>
-    </div>
-
-    <mat-form-field appearance="standard" class="toolbox-item-xl">
+    <mat-form-field appearance="outline" class="toolbox-item-xl input-form-outline-background">
       <mat-label>Поиск</mat-label>
       <input matInput [formControl]="searchQueryCtrl" (keydown.enter)="searchQueryChanged()">
       <button *ngIf="searchQueryCtrl.value" matSuffix mat-icon-button aria-label="Clear" (click)="searchQueryClear()">
@@ -15,10 +11,10 @@
       </button>
     </mat-form-field>
 
-    <app-supplier-autocomplete class="toolbox-item"></app-supplier-autocomplete>
+    <app-supplier-autocomplete [appearance]="'outline'" class="toolbox-item"></app-supplier-autocomplete>
 
     <div class="toolbox-item">
-      <mat-form-field appearance="standard">
+      <mat-form-field appearance="outline" class="input-form-outline-background" style="width: 150px">
         <mat-label>Сортировка</mat-label>
         <select matNativeControl [(ngModel)]="selectedSort" (change)="sortData()">
           <option *ngFor="let option of sortOptions" [ngValue]="option.value">{{option.displayText}}</option>
@@ -27,18 +23,24 @@
     </div>
 
     <div class="toolbox-item">
-      <button mat-raised-button matTooltip="Добавить товар" [routerLink]="['/product-add']">
-        <mat-icon>add</mat-icon> Добавить
-      </button>
+      <app-product-ic-filter-switch [state]="withICFilter" (withICFilterEmitter)="onICFilterChanged($event)"></app-product-ic-filter-switch>
     </div>
+
     <div class="toolbox-item">
-      <button mat-raised-button (click)="attributeFilter()" [matBadge]="filterAttribute?.attributeSearchFilters ? filterAttribute?.attributeSearchFilters.length : 0" matBadgePosition="after" matBadgeColor="accent">
+      <button class="toolbox-button" mat-raised-button (click)="attributeFilter()" [matBadge]="filterAttribute?.attributeSearchFilters ? filterAttribute?.attributeSearchFilters.length : 0" matBadgePosition="after" matBadgeColor="primary" matBadgeSize="medium">
         Фильтры
       </button>
     </div>
 
     <div class="toolbox-item">
-      <button mat-icon-button (click)="cardLayout = !cardLayout">
+      <button class="toolbox-button" mat-raised-button matTooltip="Добавить товар" [routerLink]="['/product-add']">
+        <mat-icon>add</mat-icon>
+        Добавить
+      </button>
+    </div>
+
+    <div class="toolbox-item">
+      <button class="toolbox-button" mat-raised-button (click)="cardLayout = !cardLayout">
         <mat-icon>{{ cardLayout ? 'format_list_bulleted' : 'dashboard'}}</mat-icon>
       </button>
     </div>

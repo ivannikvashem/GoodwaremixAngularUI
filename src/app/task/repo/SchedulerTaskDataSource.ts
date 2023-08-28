@@ -88,11 +88,11 @@ export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
 
   }
 
-  taskOnExecute(id:string, isStart:boolean) {
-    if (isStart) {
+  taskOnExecute(id:string, state:boolean) {
+    if (state) {
       this.api.startTask(id).subscribe( {
         next:() => {
-          let newData = this.TaskListSubject.value.map(x => x.id === id ? {...x, isEnable:isStart}: x)
+          let newData = this.TaskListSubject.value.map(x => x.id === id ? {...x, isEnable:state}: x)
           this.TaskListSubject.next(newData)
           this._notyf.onSuccess('Задача запущена')
         },
@@ -103,7 +103,7 @@ export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
     } else {
       this.api.stopTask(id).subscribe({
         next:() => {
-          let newData = this.TaskListSubject.value.map(x => x.id === id ? {...x, isEnable:isStart}: x)
+          let newData = this.TaskListSubject.value.map(x => x.id === id ? {...x, isEnable:state}: x)
           this.TaskListSubject.next(newData)
           this._notyf.onSuccess('Задача остановлена')
         },

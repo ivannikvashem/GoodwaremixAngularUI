@@ -16,13 +16,18 @@ export class AppComponent{
   title = environment.production ? 'GoodWareMix UI' : 'Dev GoodWare';
   url = environment.apiURL;
   roles: string[] = [];
-  isServerOffline: boolean = false;
+  isServerOffline: boolean;
+
+  sidebarState: boolean = true;
+  logoHover: boolean = false;
 
   constructor(private auth: AuthService, private api: ApiClient, private _notyf: NotificationService) {
     this.roles = this.auth.getRoles();
   }
 
-  ngOnInit() { this.checkServerAvailability() }
+  ngOnInit() {
+    this.checkServerAvailability();
+  }
 
   checkServerAvailability() {
     this.api.checkIfServerAlive()

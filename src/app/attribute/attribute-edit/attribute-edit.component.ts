@@ -107,7 +107,7 @@ export class AttributeEditComponent implements OnInit {
   }
 
   saveAttribute() {
-    if (!this.selectedSupplier) {
+    if (!this.attribute.supplierId) {
       this._notyf.onWarning('Выберите поставщика')
       return;
     }

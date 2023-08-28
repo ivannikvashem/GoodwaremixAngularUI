@@ -53,7 +53,7 @@ export class TaskEditComponent implements OnInit {
       this.selectedSupplier.id = this.data.oldTask.supplierId;
       this.fb.get('nameTask').setValue(this.data.oldTask.nameTask);
       this.fb.get('description').setValue(this.data.oldTask.description);
-      this.fb.get('startAt').setValue(this.data.oldTask.startAt);
+      this.fb.get('startAt').setValue(this.data.oldTask.startDate);
       this.fb.get('hours').setValue(this.data.oldTask.hours);
       this.fb.get('minutes').setValue(this.data.oldTask.minutes);
       this.fb.get('seconds').setValue(this.data.oldTask.seconds);
@@ -71,7 +71,7 @@ export class TaskEditComponent implements OnInit {
     this.task.supplierId = this.supplier.id;
     this.task.nameTask = this.fb.get('nameTask').value;
     this.task.description = this.fb.get('description').value;
-    this.task.startAt = this.fb.get('startAt').value;
+    this.task.startDate = this.fb.get('startAt').value as Date;
     this.task.hours = this.fb.get('hours').value;
     this.task.minutes = this.fb.get('minutes').value;
     this.task.seconds = this.fb.get('seconds').value;

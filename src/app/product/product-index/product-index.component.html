@@ -1,49 +1,52 @@
-<div class="mat-elevation-z2 selection-container" *ngIf="selectionActive">
+<div style="margin-bottom: 60px">
+  <div class="mat-elevation-z2 selection-container" *ngIf="selectionActive">
 
     <span style="margin-left: 10px">Выбрано {{selectionItems.length}} товаров <button mat-icon-button (click)="showSelectedItems()"><mat-icon>visibility</mat-icon></button></span>
 
-  <div style="display: flex; justify-content: space-between">
-    <div class="toolbox-item">
-      <button mat-icon-button matTooltip="Выбрать всё" (click)="selectAll()"><mat-icon>select_all</mat-icon></button>
-    </div>
+    <div style="display: flex; justify-content: space-between">
+      <div class="toolbox-item">
+        <button mat-icon-button matTooltip="Выбрать всё" (click)="selectAll()"><mat-icon>select_all</mat-icon></button>
+      </div>
 
-    <div class="toolbox-item">
-      <button mat-icon-button matTooltip="Убрать выделение" (click)="deselectAll()"><mat-icon>close</mat-icon></button>
-    </div>
+      <div class="toolbox-item">
+        <button mat-icon-button matTooltip="Убрать выделение" (click)="deselectAll()"><mat-icon>close</mat-icon></button>
+      </div>
 
-    <div class="toolbox-item">
-      <button mat-button (click)="downloadProductsImage()">Загрузить <mat-icon>download</mat-icon></button>
-    </div>
+      <div class="toolbox-item">
+        <button mat-button (click)="downloadProductsImage()">Загрузить <mat-icon>download</mat-icon></button>
+      </div>
 
-    <div class="toolbox-item">
-      <button mat-button (click)="confirmDeleteDialog()">Удалить <mat-icon>delete</mat-icon></button>
+      <div class="toolbox-item">
+        <button mat-button (click)="confirmDeleteDialog()">Удалить <mat-icon>delete</mat-icon></button>
+      </div>
     </div>
   </div>
-</div>
 
-<div *ngIf="isCardLayout">
-  <div class="cardsToCenter">
-    <div class="cards" *ngIf="dataSource.rowCount != 0 && !isLoading">
-      <app-product-card *ngFor="let product of productsList" [product]="product"></app-product-card>
-    </div>
+  <div *ngIf="isCardLayout">
+    <div class="cardsToCenter">
+      <div class="cards" *ngIf="dataSource.rowCount != 0 && !isLoading">
+        <app-product-card *ngFor="let product of productsList" [product]="product"></app-product-card>
+      </div>
 
-    <div class="cards" *ngIf="isLoading">
-      <mat-card class="card" *ngFor="let i of [].constructor(pageSize)">
-        <div class="productImage"></div>
-        <div class="titleContainer"></div>
-        <div class="cardContent">
-          <div class="cardContentPlaceholder"></div>
-          <div class="cardContentPlaceholder"></div>
-        </div>
+      <div class="cards" *ngIf="isLoading">
+        <mat-card class="card" *ngFor="let i of [].constructor(pageSize)">
+          <div class="productImage"></div>
+          <div class="titleContainer"></div>
+          <div class="cardContent">
+            <div class="cardContentPlaceholder"></div>
+            <div class="cardContentPlaceholder"></div>
+          </div>
+        </mat-card>
+      </div>
+
+      <mat-card *ngIf="dataSource.rowCount == 0 && !isLoading" class="form-full-width">
+        По вашему запросу ничего не найдено, попробуйте изменить критерии поиска
       </mat-card>
     </div>
-
-    <mat-card *ngIf="dataSource.rowCount == 0 && !isLoading" style="margin: 5px 12px; width: 100%">
-      По вашему запросу ничего не найдено, попробуйте изменить критерии поиска
-    </mat-card>
   </div>
+
+  <app-product-export-table [dataSource]="productsList" *ngIf="!isCardLayout"></app-product-export-table>
 </div>
 
-<app-product-export-table [dataSource]="productsList" *ngIf="!isCardLayout"></app-product-export-table>
 
-<mat-paginator [style.visibility]="dataSource.rowCount > 0 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[10,20,50,100] aria-label="Страница"></mat-paginator>
+<mat-paginator class="paginator-fixed mat-elevation-z8" [style.visibility]="dataSource.rowCount > 0 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[12,24,48,96] aria-label="Страница"></mat-paginator>

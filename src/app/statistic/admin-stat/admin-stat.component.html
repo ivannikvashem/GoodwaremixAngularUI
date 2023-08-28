@@ -3,16 +3,16 @@
   <div class="mainStatCards">
     <mat-card class="mat-elevation-z3"> <!--[style.grid-column]="tasks.length == 0 ? 'span 2' : ''"-->
       <mat-card-header>
-        <div mat-card-avatar><mat-icon class="customIconSize">local_offer</mat-icon></div>
+<!--        <div mat-card-avatar><mat-icon class="customIconSize">local_offer</mat-icon></div>-->
         <mat-card-title><a class="cardLink" href="/products" target="_blank">Товары</a></mat-card-title>
         <mat-card-subtitle><strong>{{lastStats?.productQty ? lastStats.productQty : 0}}</strong> всего <strong>{{lastStats?.productQtyWithCode ? lastStats.productQtyWithCode : 0}}</strong> с артикулом</mat-card-subtitle>
       </mat-card-header>
-      <canvas baseChart style="max-height: 207px" [options]="lineChartOptions" [type]="'line'" [data]="chartsData[0].data"></canvas>
+      <canvas baseChart style="height: 100%" [options]="lineChartOptions" [type]="'line'" [data]="chartsData[0].data"></canvas>
     </mat-card>
 
     <mat-card class="mat-elevation-z3">
       <mat-card-header>
-        <div mat-card-avatar><mat-icon class="customIconSize">insert_drive_file</mat-icon></div>
+<!--        <div mat-card-avatar><mat-icon class="customIconSize">insert_drive_file</mat-icon></div>-->
         <mat-card-title><a class="cardLink" href="/documents" target="_blank">Документы</a></mat-card-title>
         <mat-card-subtitle><strong>{{lastStats?.documentQty ? lastStats.documentQty : 0}}</strong> всего <strong>{{lastStats?.certNumberQty ? lastStats.certNumberQty : 0}}</strong> сертификатов</mat-card-subtitle>
       </mat-card-header>
@@ -21,18 +21,28 @@
 
     <mat-card class="mat-elevation-z3">
       <mat-card-header>
-        <div mat-card-avatar><mat-icon class="customIconSize">list</mat-icon></div>
+<!--        <div mat-card-avatar><mat-icon class="customIconSize">list</mat-icon></div>-->
         <mat-card-title><a class="cardLink" href="/attributes" target="_blank">Атрибуты</a></mat-card-title>
         <mat-card-subtitle><strong>{{lastStats?.attributeQty ? lastStats.attributeQty : 0}}</strong> всего <strong>{{lastStats?.attributeIsFixedQty ? lastStats.attributeIsFixedQty : 0}}</strong> фиксированных</mat-card-subtitle>
       </mat-card-header>
       <canvas mat-card-image baseChart (chartHover)="onChartHover($event)" (chartClick)="onChartClick($event, 'attributes')" [options]="lineChartOptions" [type]="'line'" [data]="chartsData[2]?.data"></canvas>
     </mat-card>
 
-    <mat-card class="mat-elevation-z3">
+    <mat-card class="mat-elevation-z3" style="grid-row: span 2;">
+      <mat-card-header><mat-card-title><span style="font-size: 20px">Уведомления</span></mat-card-title></mat-card-header>
+      <div class="problemsContainer" *ngIf="errorsList.length > 0">
+        <div class="problemCard mat-elevation-z2" *ngFor="let messages of errorsList">
+          <div class="problemCardMessage"><strong>{{messages.name}}</strong><div *ngFor="let msg of messages.value">{{msg}}</div></div>
+        </div>
+      </div>
+
+    </mat-card>
+
+   <!-- <mat-card class="mat-elevation-z3">
       <mat-card-header>
         <div mat-card-avatar><mat-icon class="customIconSize">task</mat-icon></div>
         <mat-card-title><a class="cardLink" href="/tasks" target="_blank">Задачи</a></mat-card-title>
-        <mat-card-subtitle><strong>{{tasks.length}}</strong> всего <strong>{{enabledTasks()}}</strong> запущенных</mat-card-subtitle>
+        <mat-card-subtitle><strong>{{tasks.length}}</strong> всего <strong>{{enabledTasks()}}</strong> активированных</mat-card-subtitle>
       </mat-card-header>
 
       <div class="tasksContainer" *ngIf="tasks.length > 0">
@@ -55,27 +65,16 @@
       <div class="noTasksMessage" *ngIf="tasks.length == 0">
         <mat-icon class="customIconSize">warning</mat-icon><h3>Задачи отстутствуют</h3>
       </div>
+    </mat-card>-->
+
+    <mat-card class="mat-elevation-z3 importCard">
+      <mat-card-title><span style="font-size: 20px">Импорт</span></mat-card-title>
+      <canvas baseChart style="max-height: 400px" (chartHover)="onChartHover($event)" (chartClick)="onChartClick($event, 'import')" [type]="'line'" [options]="chartOptions" [data]="chartsData[3]?.data"></canvas>
     </mat-card>
   </div>
 </div>
 
 <div class="bottomStatArea">
-  <mat-card class="mat-elevation-z3 importCard">
-    <strong>Импорт</strong>
-    <canvas baseChart style="max-height: 400px" (chartHover)="onChartHover($event)" (chartClick)="onChartClick($event, 'import')" [type]="'line'" [options]="chartOptions" [data]="chartsData[3]?.data"></canvas>
-  </mat-card>
 
-  <mat-card class="mat-elevation-z3">
-    <strong>Уведомления</strong>
-    <div class="problemsContainer" *ngIf="errorsList.length > 0">
-      <div class="problemCard mat-elevation-z2" *ngFor="let messages of errorsList">
-        <div class="problemCardMessage"><strong>{{messages.name}}</strong><div *ngFor="let msg of messages.value">{{msg}}</div></div>
-      </div>
-    </div>
-
-    <div class="noErrorsMessage" *ngIf="errorsList.length == 0">
-      <mat-icon class="customIconSize">check</mat-icon><h3>Пока уведомлений нет</h3>
-    </div>
-  </mat-card>
 </div>
 

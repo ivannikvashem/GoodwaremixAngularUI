@@ -22,18 +22,26 @@
     </mat-card>
   </div>
 
-  <div class="statGrid" *ngIf="statistics.chartType == 'attributes'">
-    <mat-card class="statCard">
-      <mat-card-title>Общая статистика</mat-card-title>
-      <p>Всего: <strong>{{this.statistics.data.mainStatistics.productQty}}</strong></p>
-      <p>Добавлено: <strong>{{this.statistics.data.mainStatistics.productAddQty}}</strong></p>
-      <p>Обновлено: <strong>{{this.statistics.data.mainStatistics.productUpdateQty}}</strong></p>
-    </mat-card>
+  <div *ngIf="statistics.chartType == 'attributes'">
 
-    <mat-card *ngFor="let stat of this.statistics.data.statisticsSupplier" class="statCard">
-      <mat-card-title>{{stat.supplierName}}</mat-card-title>
-      <p>Всего: <strong>{{stat.attributeQty}}</strong></p>
-      <p>Фиксированных: <strong>{{stat.attributeIsFixedQty}}</strong></p>
-    </mat-card>
+    <div class="attribute-stat-container">
+      <div class="page-title">Общая статистика</div>
+      <div class="attribute-stat-values">
+        <span>Всего: <strong>{{this.statistics.data.mainStatistics.attributeQty}}</strong></span>
+        <span>Фиксированных: <strong>{{this.statistics.data.mainStatistics.attributeIsFixedQty}}</strong></span>
+      </div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <div class="statGrid">
+      <mat-card class="statCard" *ngFor="let stat of this.statistics.data.statisticsSupplier">
+        <div class="page-title">{{stat.supplierName}}</div>
+        <div class="attribute-stat-values">
+          <span>Всего: <strong>{{stat.attributeQty}}</strong></span>
+          <span>Фиксированных: <strong>{{stat.attributeIsFixedQty}}</strong></span>
+        </div>
+      </mat-card>
+    </div>
   </div>
 </mat-dialog-content>

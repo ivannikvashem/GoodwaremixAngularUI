@@ -3,11 +3,9 @@
   flex-wrap: nowrap;
   justify-content: flex-end;
   align-items: baseline;
-  width: 80%;
+  width: 100%;
 }
-.toolbox-item, .toolbox-item-xl{
-  margin: 0 10px;
-}
+
 .toolbox-item:last-child, .toolbox-item-xl:last-child {
   margin-right: 0;
 }
@@ -18,6 +16,5 @@
 .cardTopPanel {
   display: flex;
   justify-content: space-between;
-  height: 45px;
-  margin: 5px 13px;
+  margin: 5px 0;
 }

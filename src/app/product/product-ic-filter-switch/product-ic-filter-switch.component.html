@@ -1,7 +1,6 @@
-<button mat-stroked-button
-        matTooltip=""
-        style="width: 165px;"
+<button mat-raised-button class="toolbox-button"
+        matTooltip="{{state == null ? 'Все товары' : state == true ? 'С артикулом' : 'Без артикула'}}"
         (click)="switchAttrStateFilter()">
-  <mat-icon>{{state == null ? 'all_inclusive' : state == true ? 'label' : 'label_off' }}</mat-icon> &nbsp;{{state == null ? 'Все товары' : state == true ? 'С артикулом' : 'Без артикула'}} <span style="width: 100%; display: inline-flex;"> </span>
-
+  <mat-icon>{{state == null ? 'all_inclusive' : state == true ? 'label' : 'label_off' }}</mat-icon>
+  {{state == null ? 'Все товары' : state == true ? 'С артикулом' : 'Без артикула'}}
 </button>

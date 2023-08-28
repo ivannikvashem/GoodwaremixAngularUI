@@ -1,7 +1,7 @@
-<div class="header-container" style="display: flex; align-items: baseline; justify-content: space-between;">
-  <h3>Журнал событий </h3>
+<div class="header-container">
+  <span class="page-title">Журнал событий </span>
 <!--  <mat-spinner diameter="35" *ngIf="dataSource.loading$ | async"></mat-spinner>-->
-  <app-supplier-autocomplete style="width: 33%"></app-supplier-autocomplete>
+  <app-supplier-autocomplete [appearance]="'outline'"></app-supplier-autocomplete>
 </div>
 
 <app-log-index></app-log-index>

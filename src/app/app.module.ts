@@ -56,6 +56,7 @@ import {DocumentModule} from "./document/document.module";
 import { UnitConverterComponent } from './unit-converter/unit-converter.component';
 import {UnitConverterModule} from "./unit-converter/unit-converter.module";
 import {StatisticModule} from "./statistic/statistic.module";
+import {MatSidenavModule} from "@angular/material/sidenav";
 
 @NgModule({
     declarations: [
@@ -115,7 +116,8 @@ import {StatisticModule} from "./statistic/statistic.module";
     UsersModule,
     DocumentModule,
     UnitConverterModule,
-    StatisticModule
+    StatisticModule,
+    MatSidenavModule
   ],
     providers: [
         {

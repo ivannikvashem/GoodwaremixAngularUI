@@ -5,6 +5,7 @@
 .workWithDBBtn {
   display: inline-block;
   justify-content: space-between;
+  margin-bottom: 15px;
 }
 
 .workWithDBBtn button:not(:first-child) {

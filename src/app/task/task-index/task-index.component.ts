@@ -73,9 +73,8 @@ export class TaskIndexComponent implements OnInit {
     this.dataSource.deleteTask(id)
   }
 
-  executeTask(id:string, isStart:boolean) {
-    console.log(id, isStart)
-    this.dataSource.taskOnExecute(id,isStart)
+  executeTask(id:string, state:boolean) {
+    this.dataSource.taskOnExecute(id,state)
   }
 
 }

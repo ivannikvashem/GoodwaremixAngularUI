@@ -18,7 +18,7 @@ export class AttributeComponent implements OnInit {
   attributeFixedFilterState: boolean | null = null;
 
   pageIndex:number = 0;
-  pageSize:number = 10;
+  pageSize:number = 12;
   sortDirection:string = 'asc';
   sortActive:string = 'rating';
 

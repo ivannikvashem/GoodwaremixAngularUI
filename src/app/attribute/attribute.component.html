@@ -1,18 +1,18 @@
-<div class="header-container">
-  <h3>Атрибуты товаров</h3>
-  <div class="toolbox-container">
-    <div class="toolbox-item">
-      <app-attrtibute-state-switch [state]="attributeFixedFilterState" (stateEmitter)="onAttributeStateFilterChanged($event)"></app-attrtibute-state-switch>
-    </div>
-    <mat-form-field appearance="standard" class="toolbox-item-xl">
-      <mat-label>Поиск</mat-label>
-      <input matInput [formControl]="searchQueryCtrl" (keydown.enter)="searchQueryChanged()">
-      <button *ngIf="searchQueryCtrl.value" matSuffix mat-icon-button aria-label="Clear" (click)="searchQueryClear()">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
+<span class="page-title">Атрибуты товаров</span>
 
-    <app-supplier-autocomplete class="toolbox-item-xl"></app-supplier-autocomplete>
+<div class="toolbox-container">
+  <mat-form-field appearance="outline" class="toolbox-item-xl input-form-outline-background">
+    <mat-label>Поиск</mat-label>
+    <input matInput [formControl]="searchQueryCtrl" (keydown.enter)="searchQueryChanged()">
+    <button *ngIf="searchQueryCtrl.value" matSuffix mat-icon-button aria-label="Clear" (click)="searchQueryClear()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <app-supplier-autocomplete [appearance]="'outline'" class="toolbox-item"></app-supplier-autocomplete>
+
+  <div class="toolbox-item">
+    <app-attrtibute-state-switch [state]="attributeFixedFilterState" (stateEmitter)="onAttributeStateFilterChanged($event)"></app-attrtibute-state-switch>
   </div>
 </div>
 

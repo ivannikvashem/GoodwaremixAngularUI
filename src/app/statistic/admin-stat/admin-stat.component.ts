@@ -12,6 +12,9 @@ import {StatisticDetailsComponent} from "../statistic-details/statistic-details.
 export class AdminStatComponent implements OnInit {
 
   lineChartOptions: any = {
+    plugins: {
+      legend: { position: 'bottom' }
+    },
     /*plugins: {
       tooltip: {
         backgroundColor: 'rgba(255,255,0,0.5)',
@@ -45,7 +48,7 @@ export class AdminStatComponent implements OnInit {
     },
     scales: {
       y: {
-        display: true,
+        display: false,
         grid: {color: 'lightgray'},
         ticks: {display: true}
       },
@@ -66,7 +69,7 @@ export class AdminStatComponent implements OnInit {
         borderWidth: 4
       }
     },
-    pointRadius: 8
+    pointRadius: 5
   }
 
   @ViewChildren(BaseChartDirective) charts?: QueryList<BaseChartDirective>;
@@ -97,6 +100,7 @@ export class AdminStatComponent implements OnInit {
     let index = chartDot.active[0]?.index;
     if (index >= 0) {
       this.dialog.open(StatisticDetailsComponent, {
+        minWidth: '500px',
         data: {data: this.data[index], headers: headers, chartType:chartType}
       })
     }

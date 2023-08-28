@@ -5,7 +5,7 @@ export class SchedulerTask {
   nameTask:string;
   description:string;
   takeConfig:string;
-  startAt:Date;
+  startDate:Date;
   nextDateTask:Date;
   hours:number;
   minutes:number;

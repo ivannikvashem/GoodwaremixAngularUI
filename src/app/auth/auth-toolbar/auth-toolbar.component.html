@@ -1,2 +1,11 @@
-<button mat-flat-button *ngIf="isLoggedIn$ | async" (click)="logout()">{{user$ | async}} &nbsp;<mat-icon>exit_to_app</mat-icon></button>
-<button mat-flat-button *ngIf="!isLoggedIn$ | async" (click)="login()">Войти<mat-icon>login</mat-icon></button>
+<div [style.width]="sideBarState ? '260px' : '70px'" class="dropdown-title">
+  <button [style.width]="sideBarState ? '250px': 'auto'" class="btn" *ngIf="isLoggedIn$ | async" (click)="logout()">
+    <mat-icon class="menu-icon-size">exit_to_app</mat-icon>
+    <span class="link_name" *ngIf="sideBarState">{{user$ | async}}</span>
+  </button>
+
+  <button [style.width]="sideBarState ? '250px': 'auto'" class="btn" *ngIf="!isLoggedIn$ | async" (click)="login()">
+    <mat-icon class="menu-icon-size">login</mat-icon>
+    <span class="link_name" *ngIf="sideBarState">{{user$ | async}}</span>
+  </button>
+</div>

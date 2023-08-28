@@ -1,5 +1,5 @@
-<div style="display: flex; justify-content: left; margin: 4px 13px" class="form-full-width">
-  <div style="width: 12%;">
+<div style="display: flex; justify-content: left;" class="form-full-width">
+  <div style="width: 10%;">
     <div cdkDropList (cdkDropListDropped)="drop($event)">
       <div *ngFor="let column of displayedColumns" cdkDrag style="padding: 2px; margin-right: 5px">
         <button mat-raised-button [color]="column.isActive ? 'primary': null" (click)="showColumn(column.field)" disableRipple style="width: 100%;">
@@ -12,13 +12,13 @@
     </div>
   </div>
 
-  <div style="width: 86%">
+  <div style="width: 90%">
     <table mat-table [dataSource]="productDataSource" class="mat-elevation-z2 form-full-width" style="overflow: auto">
 
       <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column.field">
         <th mat-header-cell *matHeaderCellDef>
           <span *ngIf="column.field !== 'checkbox'">{{column.name}}</span>
-          <mat-checkbox *ngIf="column.field == 'checkbox'" (change)="$event ? toggleAllRows() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()"></mat-checkbox>
+          <mat-checkbox color="primary" *ngIf="column.field == 'checkbox'" (change)="$event ? toggleAllRows() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()"></mat-checkbox>
         </th>
         <td mat-cell *matCellDef="let element">
           <mat-checkbox *ngIf="column.field == 'checkbox'" (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(element) : null; onChecked(element)" [checked]="selection.isSelected(element)"></mat-checkbox>

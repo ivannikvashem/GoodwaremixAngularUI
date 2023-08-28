@@ -16,7 +16,7 @@ export class SupplierComponent implements OnInit {
   searchQueryCtrl  = new FormControl<string>(null);
   searchQuery:string = '';
   pageIndex:number = 0;
-  pageSize:number = 10;
+  pageSize:number = 12;
   sortDirection:string = 'asc'
   sortActive:string = 'supplierName'
 

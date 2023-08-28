@@ -2,8 +2,8 @@
   <div class="cardTop">
 
     <div style="display: grid; row-gap: 10px" *ngIf="roles.includes('goodware-manager');">
-      <mat-checkbox style="margin: auto" [ngModel]="selected" (change)="onChecked($event)" [style.visibility]="mouseOver || selected ? 'visible': 'hidden'"></mat-checkbox>
-      <a mat-mini-fab class="mat-elevation-z2" [href]="'product-edit/' + product.id" [style.visibility]="mouseOver ? 'visible': 'hidden'">
+      <mat-checkbox style="margin: auto" color="primary" [ngModel]="selected" (change)="onChecked($event)" [style.visibility]="mouseOver || selected ? 'visible': 'hidden'"></mat-checkbox>
+      <a mat-mini-fab color="primary" class="mat-elevation-z2" [href]="'product-edit/' + product.id" [style.visibility]="mouseOver ? 'visible': 'hidden'">
         <mat-icon>edit</mat-icon>
       </a>
     </div>
@@ -19,7 +19,7 @@
   <span class="internalCode copyString" *ngIf="product.internalCode" (click)="copyString(product.internalCode)">{{product.internalCode}}</span>
 
   <h4 class="titleContainer">
-    <a [href]="'product-details/' + product.id"> <span class="title">{{product.title}}</span> </a>
+    <a [href]="'product-details/' + product.id" matTooltip="{{product.title}}" matTooltipShowDelay="1000"> <span class="title">{{product.title}}</span> </a>
   </h4>
 
   <span class="cardContent" [style.justify-content]="product.vendor ? 'space-between' : 'flex-end'">

@@ -1,4 +1,4 @@
-<mat-form-field class="full-width" [appearance]="appearance">
+<mat-form-field class="full-width" [appearance]="appearance" [ngClass]="{'input-form-outline-background': appearance == 'outline'}">
   <mat-label>Поставщик</mat-label>
   <input type="text" #searchSupplier matInput aria-label="Поставщик" (keydown)="keyPressValidation($event)"
          [formControl]="searchSuppliersCtrl"

@@ -33,14 +33,14 @@ export class StatisticDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.statistics)
     for (let stat of this.statistics.data.statisticsSupplier) {
       this.chartList.push({
         labels: this.statistics.headers,
         datasets: [{
           data: [stat['productQty'], stat['productAddQty'], stat['productUpdateQty']],
           label: stat.supplierName,
-          backgroundColor: 'rgb(76, 175, 80)'
+          backgroundColor: '#1db48e',
+          borderColor: '#1db48e',
         }]
       })
     }

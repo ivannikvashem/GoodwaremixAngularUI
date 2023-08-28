@@ -1,8 +1,7 @@
+<span class="page-title">Конвертированные ед. измерения</span>
 <div class="cardTopPanel">
-  <h3>Конвертированные ед. измерения</h3>
-
   <div class="toolbox-container">
-    <mat-form-field appearance="standard" class="toolbox-item-xl">
+    <mat-form-field appearance="outline" class="toolbox-item-xl input-form-outline-background">
       <mat-label>Поиск</mat-label>
       <input matInput [formControl]="searchQueryCtrl" (keydown.enter)="searchQueryChanged()">
       <button *ngIf="searchQueryCtrl.value" matSuffix mat-icon-button aria-label="Clear" (click)="searchQueryClear()">

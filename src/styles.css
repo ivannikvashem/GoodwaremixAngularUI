@@ -1,7 +1,60 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --toolbar-background-color: #003566;
+  --toolbar-item-hover-color: #0055a3;
+  --toolbar-item-active-color: #004a8f;
+  --toolbar-item-icon-color: #gray;
+  --toolbar-item-active-icon-color: #FFFFFF;
+  --toolbar-color: #FFFFFF;
+  --body-background-color: #EEEEEE;
+}
 
-html, body { height: 95%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+  width: 97%;
+}
+
+* {
+  font-family: 'Open Sans', sans-serif;
+}
+
+
+html {
+  background: var(--body-background-color)
+}
+
+.page-title {
+  font-size: 1.17em;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 7px;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.input-form-outline-background > .mat-form-field-wrapper {
+  background: white;
+  border-radius: 6%;
+  padding-bottom: 0;
+  font-size: 12px;
+  margin: 0.25em 0 0 0 !important;
+}
+
+.toolbox-button {
+  height: 43px;
+  line-height: 3.45 !important;
+}
+
+.paginator-fixed {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  background: white;
+  z-index: 10;
+  width: 100%;
+  color: black;
+}
 
 .unitMark {
   padding: 3px;
@@ -64,8 +117,3 @@ a:hover {
 .flexExpand {
   flex: 1 1 auto;
 }
-/*a:active {*/
-/*  color: yellow;*/
-/*  background-color: transparent;*/
-/*  text-decoration: none;*/
-/*}*/

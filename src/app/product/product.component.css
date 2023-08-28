@@ -3,14 +3,15 @@
   flex-wrap: nowrap;
   justify-content: flex-end;
   align-items: baseline;
-  width: 80%;
+  width: 100%;
 }
 .toolbox-item, .toolbox-item-xl{
-  margin: 0 10px;
+  margin-right: 12px;
 }
 .toolbox-item:last-child, .toolbox-item-xl:last-child {
   margin-right: 0;
 }
+
 .toolbox-item-xl {
   flex: 1;
 }
@@ -19,7 +20,7 @@
   display: flex;
   justify-content: space-between;
   height: 45px;
-  margin: 5px 13px;
+  margin: 10px 0;
 }
 
 :host::ng-deep .mat-form-field-appearance-standard .mat-form-field-flex {

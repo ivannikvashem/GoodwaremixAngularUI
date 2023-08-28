@@ -10,6 +10,8 @@ import { AdminStatComponent } from './admin-stat/admin-stat.component';
 import { ManagerStatComponent } from './manager-stat/manager-stat.component';
 import { StatisticDetailsComponent } from './statistic-details/statistic-details.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatDividerModule} from "@angular/material/divider";
 
 @NgModule({
   declarations:[
@@ -19,18 +21,20 @@ import {MatDialogModule} from "@angular/material/dialog";
     StatisticDetailsComponent
   ],
   exports:[],
-  imports: [
-    MatCardModule,
-    NgChartsModule,
-    SharedModule,
-    NgIf,
-    DatePipe,
-    NgForOf,
-    MatIconModule,
-    KeyValuePipe,
-    MatButtonModule,
-    JsonPipe,
-    MatDialogModule
-  ]
+    imports: [
+        MatCardModule,
+        NgChartsModule,
+        SharedModule,
+        NgIf,
+        DatePipe,
+        NgForOf,
+        MatIconModule,
+        KeyValuePipe,
+        MatButtonModule,
+        JsonPipe,
+        MatDialogModule,
+        MatProgressSpinnerModule,
+        MatDividerModule
+    ]
 })
 export class StatisticModule { }

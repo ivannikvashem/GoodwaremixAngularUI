@@ -1,5 +1,5 @@
 <div class="page-container">
-  <div class="mat-elevation-z8 full-width">
+  <div class="mat-elevation-z2 full-width">
     <table mat-table [dataSource]="dataSource" matSort [matSortActive]="sortActive" matSortDirection="{{sortDirection}}" (matSortChange)="sortData($event)" matSortDisableClear>
       <!-- rating Column -->
       <ng-container matColumnDef="rating">
@@ -52,17 +52,17 @@
       <!-- ACTIONS Column -->
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>
-          <button mat-button [routerLink]="['/attribute-add']"><mat-icon>add</mat-icon> Добавить</button>
+          <button mat-icon-button class="mat-elevation-z2" [routerLink]="['/attribute-add']"><mat-icon>add</mat-icon></button>
         </th>
         <td mat-cell *matCellDef="let item">
-          <button *ngIf="!item.isFixed" mat-icon-button matTooltip="Заменить" (click)="swapItem(item.nameAttribute, item.id)"><mat-icon>swap_horiz</mat-icon></button>&nbsp;
-          <button mat-icon-button matTooltip="Изменить" (click)="editItem(item.id)"><mat-icon>edit</mat-icon></button>&nbsp;
-          <button *ngIf="!item.isFixed" mat-icon-button matTooltip="Удалить" (click)="confirmDeleteDialog(item.id, item.nameAttribute)"><mat-icon>delete</mat-icon></button>
+          <button *ngIf="!item.isFixed" mat-icon-button class="mat-elevation-z2" matTooltip="Заменить" (click)="swapItem(item.nameAttribute, item.id)"><mat-icon>swap_horiz</mat-icon></button>&nbsp;
+          <button mat-icon-button class="mat-elevation-z2" matTooltip="Изменить" (click)="editItem(item.id)"><mat-icon>edit</mat-icon></button>&nbsp;
+          <button *ngIf="!item.isFixed" mat-icon-button class="mat-elevation-z2" matTooltip="Удалить" (click)="confirmDeleteDialog(item.id, item.nameAttribute)"><mat-icon>delete</mat-icon></button>
         </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-    <mat-paginator [style.visibility]="dataSource.rowCount > 0 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[10,20,50,100] aria-label="Страница"></mat-paginator>
   </div>
 </div>
+<mat-paginator class="paginator-fixed mat-elevation-z8" [style.visibility]="dataSource.rowCount > 0 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[12,20,50,100] aria-label="Страница"></mat-paginator>

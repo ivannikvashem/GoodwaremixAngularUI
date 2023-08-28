@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {defer, from, map, Observable} from "rxjs";
 import {AuthService} from "../service/auth.service";
 
@@ -12,6 +12,7 @@ export class AuthToolbarComponent implements OnInit {
   isLoggedIn$: Observable<boolean>;
   user$: Observable<string>;
   roles: string[];
+  @Input() sideBarState:boolean;
 
   constructor(private auth: AuthService) { }
 

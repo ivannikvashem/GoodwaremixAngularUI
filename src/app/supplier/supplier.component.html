@@ -1,14 +1,11 @@
-<div class="header-container">
-  <h3>Поставщики &nbsp;</h3>
-
-  <div class="toolbox-container">
-    <mat-form-field appearance="standard" class="toolbox-item-xl">
-      <mat-label>Поиск</mat-label>
-      <input matInput [formControl]="searchQueryCtrl" (keydown.enter)="searchQueryChanged()">
-      <button *ngIf="searchQueryCtrl.value" matSuffix mat-icon-button aria-label="Clear" (click)="searchQueryClear()">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-  </div>
+<span class="page-title">Поставщики</span>
+<div class="toolbox-container">
+  <mat-form-field appearance="outline" class="toolbox-item-xl input-form-outline-background">
+    <mat-label>Поиск</mat-label>
+    <input matInput [formControl]="searchQueryCtrl" (keydown.enter)="searchQueryChanged()">
+    <button *ngIf="searchQueryCtrl.value" matSuffix mat-icon-button aria-label="Clear" (click)="searchQueryClear()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
 </div>
 <app-supplier-index [searchQuery]="searchQuery" [selectedSupplier]="selectedSupplier" [pageIndex]="pageIndex" [pageSize]="pageSize" [sortActive]="sortActive" [sortDirection]="sortDirection" (pageParams)="onPageParamsChanged($event)" (sortParams)="onSortParamsChanged($event)"></app-supplier-index>

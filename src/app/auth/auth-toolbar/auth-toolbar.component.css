@@ -1,0 +1,43 @@
+.menu-icon-size {
+  width: 40px;
+  height: 40px;
+  color:white;
+  line-height: 40px;
+  text-align: center;
+  font-size: 30px;
+}
+
+/* Link Name */
+.link_name {
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  margin-left: 20px;
+}
+
+.btn {
+  border: none;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  background: transparent;
+  width: auto;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--toolbar-item-hover-color);
+}
+
+.dropdown-title {
+  overflow: hidden;
+  transition: all 0.52s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 10px;
+}

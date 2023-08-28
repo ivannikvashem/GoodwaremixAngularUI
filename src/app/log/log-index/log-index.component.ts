@@ -8,6 +8,11 @@ import {Log} from "../models/log.model";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {DataStateService} from "../../shared/data-state.service";
 import {Supplier} from "../../models/supplier.model";
+import {
+  ConfirmDialogComponent,
+  ConfirmDialogModel
+} from "../../components/shared/confirm-dialog/confirm-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-log-index',
@@ -30,7 +35,8 @@ export class LogIndexComponent implements OnInit {
 
   constructor(
     public api: ApiClient,
-    public dss: DataStateService
+    public dss: DataStateService,
+    public dialog: MatDialog
   ) { this.dataSource = new LogsDataSource(this.api); }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator
@@ -59,6 +65,16 @@ export class LogIndexComponent implements OnInit {
   }
 
   flushLogTable(): any {
-    this.dataSource.deleteAllLogs();
+    const message = `Очистить журнал ?`;
+    const dialogData = new ConfirmDialogModel("Подтверждение", message);
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: "500px",
+      data: dialogData
+    });
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult === true) {
+        this.dataSource.deleteAllLogs();
+      }
+    });
   }
 }

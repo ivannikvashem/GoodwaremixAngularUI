@@ -1,6 +1,13 @@
 .box{
+  /*
   height: 150px;
   width: 370px;
+  */
+
+  width: auto;
+  max-width: 450px;
+  min-height: 150px;
+  height: auto;
 }
 
 .mat-card{

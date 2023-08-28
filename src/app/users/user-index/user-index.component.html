@@ -1,6 +1,6 @@
-<h3>Пользователи &nbsp;</h3>
+<span class="page-title">Пользователи</span>
 
-<div class="mat-elevation-z8 full-width">
+<div class="full-width" style="margin-bottom: 60px">
   <table mat-table [dataSource]="dataSource"
          matSort matSortActive="created">
 
@@ -49,6 +49,6 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
-  <mat-paginator [style.visibility]="dataSource.rowCount > 0 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="0" [pageSize]="10" [pageSizeOptions]=[10,20,50,100] aria-label="Страница" (page)="onPaginatorChange($event)"></mat-paginator>
-
 </div>
+
+<mat-paginator class="paginator-fixed mat-elevation-z8" [style.visibility]="dataSource.rowCount > 0 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="0" [pageSize]="10" [pageSizeOptions]=[10,20,50,100] aria-label="Страница" (page)="onPaginatorChange($event)"></mat-paginator>

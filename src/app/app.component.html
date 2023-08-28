@@ -1,5 +1,5 @@
 <!-- Toolbar -->
-<div class="toolbar">
+<!--<div class="toolbar">
   <mat-toolbar>
     <mat-toolbar-row>
       <mat-icon style="font-size: 32px; height: 32px; width: 32px;">{{isServerOffline ? 'report' : 'view_in_ar'}}</mat-icon>
@@ -18,14 +18,100 @@
       <app-auth-toolbar></app-auth-toolbar>
     </mat-toolbar-row>
   </mat-toolbar>
-</div>
+</div>-->
 
-<div class="content" role="main">
+<div class="sidebar" [class.sidebar-close]="!sidebarState">
 
-  <div style="width: 100%;">
-    <router-outlet></router-outlet>
-    <app-scroll-to-top></app-scroll-to-top>
+  <div class="home-header" (mouseover)="logoHover = true" (mouseleave)="logoHover = false">
+    <div style="display: flex;">
+      <mat-icon class="logo menu-icon-size" *ngIf="!logoHover">view_in_ar</mat-icon>
+      <div class="hamburger-menu" *ngIf="logoHover">
+        <input type="checkbox" id="checkbox-hamburger-menu" [(ngModel)]="sidebarState"/>
+        <label class="label-hamburger-menu" for="checkbox-hamburger-menu">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+        </label>
+      </div>
+      <h2 class="no-break-word" matTooltip="{{url}}" [style.color]="isServerOffline ? 'yellow' : 'white'" *ngIf="sidebarState"> {{title}} <img height="20" width="20" src="https://leonardo.osnova.io/d79bbe0d-42b8-5be8-bb60-7aaff8a8e826/"/></h2>
+
+    </div>
   </div>
 
+  <ul class="nav-links" id="nav-links">
+    <li #itemEl routerLinkActive="active" *ngIf="roles.includes('goodware-users')" matTooltipPosition="right" [matTooltip]="!sidebarState ? 'Главная' : ''">
+      <div class="dropdown-title">
+        <a [routerLink]="'/home'">
+          <mat-icon class="menu-icon-size">home</mat-icon>
+          <span class="link_name" *ngIf="sidebarState">Главная</span>
+        </a>
+      </div>
+    </li>
+
+    <li routerLinkActive="active" *ngIf="roles.includes('goodware-users')" matTooltipPosition="right" [matTooltip]="!sidebarState ? 'Товары' : ''">
+      <div class="dropdown-title">
+        <a [routerLink]="'/products'">
+          <mat-icon class="menu-icon-size">local_offer</mat-icon>
+          <span class="link_name" *ngIf="sidebarState">Товары</span>
+        </a>
+      </div>
+    </li>
+
+    <li routerLinkActive="active" *ngIf="roles.includes('goodware-admin')" matTooltipPosition="right" [matTooltip]="!sidebarState ? 'Поставщики' : ''">
+      <div class="dropdown-title">
+        <a [routerLink]="'/suppliers'">
+          <mat-icon class="menu-icon-size">settings_accessibility</mat-icon>
+          <span class="link_name" *ngIf="sidebarState">Поставщики</span>
+        </a>
+      </div>
+    </li>
+
+    <li routerLinkActive="active" *ngIf="roles.includes('goodware-admin')" matTooltipPosition="right" [matTooltip]="!sidebarState ? 'Атрибуты' : ''">
+      <div class="dropdown-title">
+        <a [routerLink]="'/attributes'">
+          <mat-icon class="menu-icon-size">list</mat-icon>
+          <span class="link_name" *ngIf="sidebarState">Атрибуты</span>
+        </a>
+      </div>
+    </li>
+
+    <li routerLinkActive="active" *ngIf="roles.includes('goodware-admin')" matTooltipPosition="right" [matTooltip]="!sidebarState ? 'Документы' : ''">
+      <div class="dropdown-title">
+        <a [routerLink]="'/documents'">
+          <mat-icon class="menu-icon-size">insert_drive_file</mat-icon>
+          <span class="link_name" *ngIf="sidebarState">Документы</span>
+        </a>
+      </div>
+    </li>
+
+    <li routerLinkActive="active" *ngIf="roles.includes('goodware-admin')" matTooltipPosition="right" [matTooltip]="!sidebarState ? 'Журнал событий' : ''">
+      <div class="dropdown-title">
+        <a [routerLink]="'/log'">
+          <mat-icon class="menu-icon-size">receipt_long</mat-icon>
+          <span class="link_name no-break-word" *ngIf="sidebarState">Журнал событий</span>
+        </a>
+      </div>
+    </li>
+
+    <li routerLinkActive="active" *ngIf="roles.includes('goodware-admin')" matTooltipPosition="right" [matTooltip]="!sidebarState ? 'Пользователи' : ''">
+      <div class="dropdown-title">
+        <a [routerLink]="'/users'">
+          <mat-icon class="menu-icon-size">manage_accounts</mat-icon>
+          <span class="link_name" *ngIf="sidebarState">Пользователи</span>
+        </a>
+      </div>
+    </li>
+  </ul>
+  <li style="position: fixed; bottom: 0;" matTooltipPosition="right" [matTooltip]="!sidebarState ? 'Выйти' : ''">
+    <app-auth-toolbar [sideBarState]="sidebarState"></app-auth-toolbar>
+  </li>
 </div>
+<section class="home-section">
+    <router-outlet></router-outlet>
+    <app-scroll-to-top></app-scroll-to-top>
+</section>
+
+
+
+
 
