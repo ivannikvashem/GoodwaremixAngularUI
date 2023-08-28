@@ -10,15 +10,23 @@
   width: 50%;
 }
 
-.gridLayout {
-  display: grid;
-  grid-template-columns: 95% 5%;
-
+.titleArea {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
-.filterContent {
-  padding: 10px 10px 5px 10px;
+.filterCard {
+  min-width: 400px;
   margin-bottom: 5px;
+}
+
+.cardTitle {
+  height: 45px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 }
 
 mat-slider {
@@ -41,4 +49,29 @@ mat-slider {
   overflow: hidden;
   height: 120px;
   padding: 10px 10px 10px 10px !important;
+}
+
+.selectedFilters {
+  display: grid;
+  grid-auto-flow: column;
+  gap: 1rem;
+}
+
+.mat-chip {
+  margin: 2px;
+}
+
+.filterCard:nth-child(3n + 1) {
+  width: 400px;
+  grid-column: 1;
+}
+
+.filterCard:nth-child(3n + 2) {
+  width: 400px;
+  grid-column: 2;
+}
+
+.filterCard:nth-child(3n + 3) {
+  width: 400px;
+  grid-column: 3;
 }

@@ -123,7 +123,7 @@ export class ProductComponent implements OnInit {
 
   attributeFilter() {
     const dialogRef = this.dialog.open(AttributeFilterComponent, {
-      width: '900px',
+      minWidth: '900px',
       height: 'auto',
       data: {filter: JSON.stringify(this.filterAttribute)},
       autoFocus:false

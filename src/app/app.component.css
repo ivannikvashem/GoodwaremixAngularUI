@@ -72,7 +72,7 @@
   background: var(--body-background-color);
   left: 260px;
   width: calc(100% - 260px);
-  transition: all 0.5s ease;
+  transition: all 0.7s ease;
   display: flex;
   flex-direction: column;
 }
@@ -106,7 +106,7 @@
   width: 260px;
   background: var(--toolbar-background-color);
   z-index: 100;
-  transition: all 0.55s ease;
+  transition: all 0.35s ease;
 }
 .sidebar.sidebar-close {
   width: 70px;
@@ -140,7 +140,7 @@
 .sidebar .nav-links .dropdown-title {
   width: 260px;
   overflow: hidden;
-  transition: all 0.52s ease;
+  transition: all 0.35s ease;
   /* */
   display: flex;
   align-items: center;
@@ -179,7 +179,7 @@
   font-size: 16px;
   font-weight: 600;
   color: white;
-  transition: all 0.7s ease;
+  transition: all 0.35s ease;
 }
 .sidebar .nav-links li:hover a .link_name, .sidebar .nav-links li.active a .link_name {
   color: white;
