@@ -32,7 +32,7 @@ export class TaskEditComponent implements OnInit {
 
   fb:FormGroup = new FormGroup({
     nameTask: new FormControl<string>('', Validators.required),
-    description: new FormControl<string>('', Validators.required),
+    description: new FormControl<string>(''),
     configList: new FormControl(),
     startAt: new FormControl(),
     hours: new FormControl<number>(0, Validators.required),
