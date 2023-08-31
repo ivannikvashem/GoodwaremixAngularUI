@@ -151,7 +151,7 @@ export class StatisticComponent implements OnInit {
           backgroundColor:header.color,
           borderColor: header.color,
           fill:false,
-          tension: 0.5,
+          tension: 0,
           pointBackgroundColor: 'rgba(148,159,177,1)'
         } as ChartDataset);
     }
