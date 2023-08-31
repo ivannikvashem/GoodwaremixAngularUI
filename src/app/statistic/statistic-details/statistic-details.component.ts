@@ -21,7 +21,7 @@ export class StatisticDetailsComponent implements OnInit {
   chartOptions:any = {
     plugins: {
       tooltip: {
-        mode: 'dataset'
+        position: 'nearest'
       },
       legend: {
         display: false,
@@ -33,17 +33,28 @@ export class StatisticDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    for (let stat of this.statistics.data.statisticsSupplier) {
+    if (this.statistics.data.statisticsSupplier) {
+      for (let stat of this.statistics.data.statisticsSupplier) {
+        this.chartList.push({
+          labels: this.statistics.headers,
+          datasets: [{
+            data: [stat['productQty'], stat['productAddQty'], stat['productUpdateQty']],
+            label: stat.supplierName,
+            backgroundColor: '#1db48e',
+            borderColor: '#1db48e',
+          }]
+        })
+      }
+    } else {
       this.chartList.push({
         labels: this.statistics.headers,
         datasets: [{
-          data: [stat['productQty'], stat['productAddQty'], stat['productUpdateQty']],
-          label: stat.supplierName,
+          data: [this.statistics.data['productQty'], this.statistics.data['productAddQty'], this.statistics.data['productUpdateQty']],
+          label: this.statistics.data.supplierName,
           backgroundColor: '#1db48e',
           borderColor: '#1db48e',
         }]
       })
     }
   }
-
 }

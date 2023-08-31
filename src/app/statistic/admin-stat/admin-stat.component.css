@@ -28,8 +28,8 @@
 
 .problemsContainer {
   overflow: auto;
-  margin-top: 20px;
-  height: 100%;
+  height: auto;
+  max-height: 700px;
 }
 
 .problemCard {

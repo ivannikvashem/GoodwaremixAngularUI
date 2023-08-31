@@ -198,7 +198,10 @@
   }
 }
 
-
+.authToolbar {
+  position: fixed;
+  bottom: 0;
+}
 
 :host {
   font-size: 14px;

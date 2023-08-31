@@ -8,7 +8,6 @@ import {catchError, finalize, map} from "rxjs/operators";
 import {DatePipe} from "@angular/common";
 import {DataStateService} from "../shared/data-state.service";
 import {AuthService} from "../auth/service/auth.service";
-import {SchedulerTask} from "../models/schedulerTask.model";
 
 export interface ChartDataset {
   data:[],
@@ -63,11 +62,6 @@ export class StatisticComponent implements OnInit {
   datePipe = new DatePipe('ru-RU');
   supplierStatsList:any[] = [];
 
-  defaultStat:Statistic;
-  defaultData:any;
-  defaultConfig:any;
-  defaultTasks:SchedulerTask[];
-
   constructor(private api: ApiClient, private dss:DataStateService, private auth: AuthService) {
     this.roles = this.auth.getRoles();
   }
@@ -75,15 +69,13 @@ export class StatisticComponent implements OnInit {
   @ViewChildren(BaseChartDirective) charts?: QueryList<BaseChartDirective>;
 
   ngOnInit(): void {
-    this.getTotalStats();
+    this.onSupplierSelected(this.dss.getSelectedSupplier().value);
 
     this.dss.getSelectedSupplier().subscribe(supplier => {
-      this.onSupplierSelected(supplier)
+        this.onSupplierSelected(supplier)
     });
-    if (this.selectedSupplier?.id) {
-      this.getStats(this.selectedSupplier.id);
-    }
   }
+
 
   getTotalStats() {
     this.isLoading = true;
@@ -101,8 +93,6 @@ export class StatisticComponent implements OnInit {
       this.getConfigErrors(this.supplierConfigs);
 
       this.setBodyData(this.supplierStatsList, true);
-      this.setDefaultStats();
-
 
       for (let chart of this.chartList) {
         this.setDataToChart(chart.data, chart.headers, true);
@@ -131,17 +121,22 @@ export class StatisticComponent implements OnInit {
     this.lastStats = isAdmin ? data[data.length - 1].mainStatistics as Statistic : data[data.length - 1];
   }
 
-  onSupplierSelected(supplier: Supplier) {
-    this.clearStats();
-    this.errorsConfig = [];
-    if (supplier?.id) {
-      this.selectedSupplier = supplier;
-      this.getStats(this.selectedSupplier.id);
-    } else {
-      if (this.defaultData) {
-        this.getDefaultStats();
+  onSupplierSelected(supplier?: Supplier) {
+
+    setTimeout( () => {
+      if (supplier?.id) {
+        this.selectedSupplier = supplier;
       }
-    }
+      this.selectedSupplier = this.dss.getSelectedSupplier().value;
+      this.clearStats();
+      this.errorsConfig = [];
+      if (this.selectedSupplier?.id) {
+        this.getStats(this.selectedSupplier.id);
+      } else {
+        this.getTotalStats();
+      }
+    }, 300)
+
   }
 
   setDataToChart(collectionChartData:any, headers:any[], isAdminData:boolean) {
@@ -163,30 +158,14 @@ export class StatisticComponent implements OnInit {
     collectionChartData.labels = isAdminData == true ? this.supplierStatsList.map((x:any) => x['mainStatistics']).map((x:any) => this.datePipe.transform(x.lastImport, 'dd-MM-yyyy')) : this.supplierStatsList.map((x:any) => this.datePipe.transform(x.lastImport, 'dd-MM-yyyy'));
   }
 
-  getDefaultStats() {
-    this.lastStats = this.defaultStat;
-    this.supplierStatsList = this.defaultData;
-    this.supplierConfigs = this.defaultConfig;
-    this.tasks = this.defaultTasks;
-
-    for (let chart of this.chartList) {
-      this.setDataToChart(chart.data, chart.headers, true);
-    }
-  }
-
-  setDefaultStats() {
-    this.defaultStat = this.lastStats;
-    this.defaultData = this.supplierStatsList;
-    this.defaultConfig = this.supplierConfigs;
-    this.defaultTasks = this.tasks;
-  }
-
   clearStats() {
     this.lastStats = new Statistic();
     this.tasks = [];
+    //this.chartList[0].data.datasets = []
     for (let chart of this.chartList) {
-      chart.data.datasets = [];
+      chart.data.datasets = []
     }
+
   }
 
   getConfigErrors(config:any) {

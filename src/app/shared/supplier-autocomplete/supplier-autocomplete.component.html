@@ -2,13 +2,13 @@
   <mat-label>Поставщик</mat-label>
   <input type="text" #searchSupplier matInput aria-label="Поставщик" (keydown)="keyPressValidation($event)"
          [formControl]="searchSuppliersCtrl"
-         [matAutocomplete]="auto" (keydown.enter)="onSupplierSelected()">
-  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onSupplierSelected()">
+         [matAutocomplete]="auto" (keydown.enter)="supplierList.length > 1 ? onSupplierSelected() : ''" [readonly]="supplierList.length <= 1">
+  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onSupplierSelected()" >
     <mat-option *ngFor="let option of searchFilter(supplierList, searchSupplier.value)" [value]="option">
       {{option.supplierName}}
     </mat-option>
   </mat-autocomplete>
-  <button matSuffix mat-icon-button aria-label="Clear" type="button" (click)="onClearSupplierSelection()">
+  <button matSuffix mat-icon-button aria-label="Clear" type="button" *ngIf="supplierList.length > 1" (click)="onClearSupplierSelection()">
     <mat-icon>close</mat-icon>
   </button>
 </mat-form-field>

@@ -3,6 +3,9 @@
     <div class="cardsToCenter">
       <div class="cards">
         <app-document-card *ngFor="let doc of documentList" [document]="doc" [isChangeable]="true" (selectedDocument)="onDocumentSelected($event)"></app-document-card>
+        <ng-container *ngIf="this.dataSource.pageCountSize < 4">
+          <div *ngFor="let i of [].constructor(4 - this.dataSource.pageCountSize)"></div>
+        </ng-container>
       </div>
     </div>
   </div>

@@ -21,6 +21,7 @@ export class ProductsDataSource implements DataSource<Product> {
 
   public loading$ = this.loadingSubject.asObservable();
   public rowCount:number = -1;
+  public pageCountSize:number;
 
   constructor(private api: ApiClient) {}
 
@@ -68,6 +69,7 @@ export class ProductsDataSource implements DataSource<Product> {
         // the REAL crutch thing END
         this.ProductListSubject.next(body.data)
         this.rowCount = body.totalRecords;
+        this.pageCountSize = body.data.length;
       });
   }
 

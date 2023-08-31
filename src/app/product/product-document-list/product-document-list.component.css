@@ -49,9 +49,11 @@
 }
 
 .cards {
-  margin: 1px;
+  margin: 0 auto;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   display: grid;
   gap: 1rem;
+  width: 100%;
 }
 
 .cardsToCenter {
@@ -71,19 +73,3 @@
   align-items: center;
   padding: 10px;
 }
-
-/* Screen larger than 600px? 1 column */
-@media (min-width: 600px) {
-  .cards { grid-template-columns: repeat(1, 1fr); }
-}
-
-/* Screen larger than 1280? 2 columns */
-@media (min-width: 1280px) {
-  .cards { grid-template-columns: repeat(2, 1fr); }
-}
-
-/* Screen larger than 1670? 3 columns */
-@media (min-width: 1670px) {
-  .cards { grid-template-columns: repeat(3, 1fr); }
-}
-

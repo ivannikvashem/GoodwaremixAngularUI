@@ -7,6 +7,7 @@
   position: relative;
 }
 .actions-div {
+  padding: 2px;
   display: flex;
   justify-content: space-between;
 }

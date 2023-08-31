@@ -31,6 +31,10 @@
   width: 100%;
 }
 
+.limitedCards {
+  grid-template-columns: max-content;
+}
+
 .cardsToCenter {
   display: flex;
   justify-content: center;

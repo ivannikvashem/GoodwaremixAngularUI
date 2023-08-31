@@ -12,6 +12,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import {DocumentCardComponent} from "../document/document-card/document-card.component";
 import {MatCardModule} from "@angular/material/card";
 import { ScrollToTopComponent } from './scroll-to-top/scroll-to-top.component';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
     declarations: [
@@ -20,17 +21,18 @@ import { ScrollToTopComponent } from './scroll-to-top/scroll-to-top.component';
         DocumentCardComponent,
         ScrollToTopComponent
     ],
-  imports: [
-    CommonModule,
-    MatAutocompleteModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatIconModule,
-    MatButtonModule,
-    MatTableModule,
-    MatCardModule,
-  ],
+    imports: [
+        CommonModule,
+        MatAutocompleteModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatIconModule,
+        MatButtonModule,
+        MatTableModule,
+        MatCardModule,
+        MatTooltipModule,
+    ],
     exports: [
         SupplierAutocompleteComponent,
         DocumentCardComponent,

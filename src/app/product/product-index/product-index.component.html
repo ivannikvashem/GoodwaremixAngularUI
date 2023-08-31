@@ -26,6 +26,9 @@
     <div class="cardsToCenter">
       <div class="cards" *ngIf="dataSource.rowCount != 0 && !isLoading">
         <app-product-card *ngFor="let product of productsList" [product]="product"></app-product-card>
+        <ng-container *ngIf="this.dataSource.pageCountSize < 6">
+          <div *ngFor="let i of [].constructor(6 - this.dataSource.pageCountSize)"></div>
+        </ng-container>
       </div>
 
       <div class="cards" *ngIf="isLoading">

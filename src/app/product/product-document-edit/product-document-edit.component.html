@@ -9,7 +9,7 @@
 <mat-dialog-content style="margin-bottom: 10px">
   <mat-tab-group #matTabGroup animationDuration="0ms">
     <mat-tab *ngIf="!data.oldDocument">
-      <mat-form-field appearance="fill" class="full-width">
+      <mat-form-field appearance="outline" class="full-width">
         <mat-label>Поиск</mat-label>
         <input matInput [formControl]="searchQueryCtrl" (keydown.enter)="searchQueryChanged(searchQueryCtrl.value)">
         <button *ngIf="searchQueryCtrl.value" matSuffix mat-icon-button aria-label="Clear" (click)="searchQueryCtrl.setValue(''); searchQueryChanged('')">
@@ -104,7 +104,7 @@
       </div>
 
       <div class="actions-div">
-        <button mat-button mat-dialog-close="" (click)="onCancelClick()" type="button">Отмена</button>
+        <button mat-raised-button mat-dialog-close="" (click)="onCancelClick()" type="button">Отмена</button>
         <button mat-raised-button color="primary" (click)="onSubmitClick()" [disabled]="form.invalid">Сохранить</button>
       </div>
 

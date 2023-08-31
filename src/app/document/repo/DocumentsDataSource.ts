@@ -11,6 +11,7 @@ export class DocumentsDataSource implements DataSource<Document> {
 
   public loading$ = this.loadingSubject.asObservable();
   public rowCount = 0;
+  public pageCountSize:number;
 
   constructor(private api: ApiClient) {}
 
@@ -39,6 +40,7 @@ export class DocumentsDataSource implements DataSource<Document> {
       .subscribe(body => {
         this.DocumentListSubject.next(body.data);
         this.rowCount = body.totalRecords;
+        this.pageCountSize = body.data.length;
       });
   }
 

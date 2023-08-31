@@ -7,7 +7,9 @@
         <mat-card-title><a class="cardLink" href="/products" target="_blank">Товары</a></mat-card-title>
         <mat-card-subtitle><strong>{{lastStats?.productQty ? lastStats.productQty : 0}}</strong> всего <strong>{{lastStats?.productQtyWithCode ? lastStats.productQtyWithCode : 0}}</strong> с артикулом</mat-card-subtitle>
       </mat-card-header>
-      <canvas baseChart style="height: 100%" [options]="lineChartOptions" [type]="'line'" [data]="chartsData[0].data"></canvas>
+      <div>
+        <canvas baseChart style="height: 100%" [options]="lineChartOptions" [type]="'line'" [data]="chartsData[0].data"></canvas>
+      </div>
     </mat-card>
 
     <mat-card class="mat-elevation-z3">
@@ -16,7 +18,9 @@
         <mat-card-title><a class="cardLink" href="/documents" target="_blank">Документы</a></mat-card-title>
         <mat-card-subtitle><strong>{{lastStats?.documentQty ? lastStats.documentQty : 0}}</strong> всего <strong>{{lastStats?.certNumberQty ? lastStats.certNumberQty : 0}}</strong> сертификатов</mat-card-subtitle>
       </mat-card-header>
-      <canvas mat-card-image baseChart [options]="lineChartOptions" [type]="'line'" [data]="chartsData[1]?.data"></canvas>
+      <div>
+        <canvas mat-card-image baseChart [options]="lineChartOptions" [type]="'line'" [data]="chartsData[1]?.data"></canvas>
+      </div>
     </mat-card>
 
     <mat-card class="mat-elevation-z3">
@@ -25,7 +29,9 @@
         <mat-card-title><a class="cardLink" href="/attributes" target="_blank">Атрибуты</a></mat-card-title>
         <mat-card-subtitle><strong>{{lastStats?.attributeQty ? lastStats.attributeQty : 0}}</strong> всего <strong>{{lastStats?.attributeIsFixedQty ? lastStats.attributeIsFixedQty : 0}}</strong> фиксированных</mat-card-subtitle>
       </mat-card-header>
-      <canvas mat-card-image baseChart (chartHover)="onChartHover($event)" (chartClick)="onChartClick($event, 'attributes')" [options]="lineChartOptions" [type]="'line'" [data]="chartsData[2]?.data"></canvas>
+      <div>
+        <canvas mat-card-image baseChart (chartHover)="onChartHover($event)" (chartClick)="onChartClick($event, 'attributes')" [options]="lineChartOptions" [type]="'line'" [data]="chartsData[2]?.data"></canvas>
+      </div>
     </mat-card>
 
     <mat-card class="mat-elevation-z3" style="grid-row: span 2;">
@@ -69,7 +75,9 @@
 
     <mat-card class="mat-elevation-z3 importCard">
       <mat-card-title><span style="font-size: 20px">Импорт</span></mat-card-title>
-      <canvas baseChart style="max-height: 400px" (chartHover)="onChartHover($event)" (chartClick)="onChartClick($event, 'import')" [type]="'line'" [options]="chartOptions" [data]="chartsData[3]?.data"></canvas>
+      <div style="height: 400px">
+        <canvas baseChart (chartHover)="onChartHover($event)" (chartClick)="onChartClick($event, 'import')" [type]="'line'" [options]="chartOptions" [data]="chartsData[3]?.data"></canvas>
+      </div>
     </mat-card>
   </div>
 </div>

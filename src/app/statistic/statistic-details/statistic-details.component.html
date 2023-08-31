@@ -1,14 +1,14 @@
 <div mat-dialog-title>
-  <h3>Статистика от {{datePipe.transform(this.statistics.data.mainStatistics.lastImport)}}</h3>
+  <h3>Статистика от {{this.statistics.data.mainStatistics ? datePipe.transform(this.statistics.data.mainStatistics.lastImport) : datePipe.transform(this.statistics.data.lastImport)}}</h3>
 </div>
 
 <mat-dialog-content>
   <div class="statGrid" *ngIf="statistics.chartType == 'import'">
     <mat-card class="statCard">
       <mat-card-title>Общая статистика</mat-card-title>
-      <p>Всего: <strong>{{this.statistics.data.mainStatistics.productQty}}</strong></p>
-      <p>Добавлено: <strong>{{this.statistics.data.mainStatistics.productAddQty}}</strong></p>
-      <p>Обновлено: <strong>{{this.statistics.data.mainStatistics.productUpdateQty}}</strong></p>
+      <p>Всего: <strong>{{this.statistics.data.mainStatistics ? this.statistics.data.mainStatistics.productQty : this.statistics.data.productQty}}</strong></p>
+      <p>Добавлено: <strong>{{this.statistics.data.mainStatistics ? this.statistics.data.mainStatistics.productAddQty : this.statistics.data.productAddQty}}</strong></p>
+      <p>Обновлено: <strong>{{this.statistics.data.mainStatistics ? this.statistics.data.mainStatistics.productUpdateQty : this.statistics.data.productUpdateQty}}</strong></p>
     </mat-card>
 
     <mat-card *ngFor="let chart of chartList" class="statCard">
@@ -18,7 +18,9 @@
         Добавлено: <strong>{{chart.datasets[0].data[1]}}</strong>
         Обновлено: <strong>{{chart.datasets[0].data[2]}}</strong>
       </mat-card-subtitle>
-      <canvas baseChart [type]="'bar'" [options]="chartOptions" [data]="chart"></canvas>
+      <div>
+        <canvas baseChart [type]="'bar'" [options]="chartOptions" [data]="chart"></canvas>
+      </div>
     </mat-card>
   </div>
 
@@ -27,8 +29,8 @@
     <div class="attribute-stat-container">
       <div class="page-title">Общая статистика</div>
       <div class="attribute-stat-values">
-        <span>Всего: <strong>{{this.statistics.data.mainStatistics.attributeQty}}</strong></span>
-        <span>Фиксированных: <strong>{{this.statistics.data.mainStatistics.attributeIsFixedQty}}</strong></span>
+        <span>Всего: <strong>{{this.statistics.data.mainStatistics ? this.statistics.data.mainStatistics.attributeQty : this.statistics.data.attributeQty}}</strong></span>
+        <span>Фиксированных: <strong>{{this.statistics.data.mainStatistics ? this.statistics.data.mainStatistics.attributeIsFixedQty : this.statistics.data.attributeIsFixedQty}}</strong></span>
       </div>
     </div>
 
