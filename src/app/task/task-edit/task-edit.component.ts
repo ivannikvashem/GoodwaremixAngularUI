@@ -34,7 +34,7 @@ export class TaskEditComponent implements OnInit {
     nameTask: new FormControl<string>('', Validators.required),
     description: new FormControl<string>(''),
     configList: new FormControl(),
-    startAt: new FormControl(),
+    startDate: new FormControl<Date | null>(null),
     hours: new FormControl<number>(0, Validators.required),
     minutes: new FormControl<number>(0, Validators.required),
     seconds: new FormControl<number>(0, Validators.required),
@@ -49,11 +49,12 @@ export class TaskEditComponent implements OnInit {
         this.selectedSupplier = x.body;
         this.dss.setSelectedSupplier(this.supplier.id, this.supplier.supplierName);
       });
+      console.log(this.data.oldTask.startDate)
 
       this.selectedSupplier.id = this.data.oldTask.supplierId;
       this.fb.get('nameTask').setValue(this.data.oldTask.nameTask);
       this.fb.get('description').setValue(this.data.oldTask.description);
-      this.fb.get('startAt').setValue(this.data.oldTask.startDate);
+      this.fb.get('startDate').setValue(this.data.oldTask.startDate as Date);
       this.fb.get('hours').setValue(this.data.oldTask.hours);
       this.fb.get('minutes').setValue(this.data.oldTask.minutes);
       this.fb.get('seconds').setValue(this.data.oldTask.seconds);
@@ -71,7 +72,7 @@ export class TaskEditComponent implements OnInit {
     this.task.supplierId = this.supplier.id;
     this.task.nameTask = this.fb.get('nameTask').value;
     this.task.description = this.fb.get('description').value;
-    this.task.startDate = this.fb.get('startAt').value as Date;
+    this.task.startDate = this.fb.get('startDate').value as Date;
     this.task.hours = this.fb.get('hours').value;
     this.task.minutes = this.fb.get('minutes').value;
     this.task.seconds = this.fb.get('seconds').value;

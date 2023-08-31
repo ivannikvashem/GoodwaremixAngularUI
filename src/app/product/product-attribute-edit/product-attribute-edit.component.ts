@@ -8,6 +8,7 @@ import {
 import {FormControl, Validators} from "@angular/forms";
 import {debounceTime, distinctUntilChanged, finalize, Observable, startWith, switchMap, tap} from "rxjs";
 import {map} from "rxjs/operators";
+import {AuthService} from "../../auth/service/auth.service";
 
 export interface AttrDialogData {
   newAttribute?: AttributeProduct;
@@ -34,10 +35,12 @@ export class ProductAttributeEditComponent implements OnInit {
   attributeValueNumber = new FormControl<number>(null, Validators.required);
   isOldAttributeLoading: boolean = false;
 
+  roles: string[] = [];
   constructor(public api: ApiClient,
               public dialogRef: MatDialogRef<ProductAttributeEditComponent>,
               @Inject(MAT_DIALOG_DATA)
-              public data: AttrDialogData) {
+              public data: AttrDialogData, private auth: AuthService) {
+    this.roles = this.auth.getRoles();
   }
 
   ngOnInit(): void {
