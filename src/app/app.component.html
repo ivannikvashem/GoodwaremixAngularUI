@@ -102,6 +102,15 @@
         </a>
       </div>
     </li>
+
+    <li routerLinkActive="active" *ngIf="roles.includes('goodware-admin')" matTooltipPosition="right" [matTooltip]="!sidebarState ? 'Задачи' : ''">
+      <div class="dropdown-title">
+        <a [routerLink]="'/tasks'">
+          <mat-icon class="menu-icon-size">task</mat-icon>
+          <span class="link_name" *ngIf="sidebarState">Задачи</span>
+        </a>
+      </div>
+    </li>
   </ul>
   <li class="authToolbar" matTooltipPosition="right" [matTooltip]="!sidebarState ? 'Выйти' : ''">
     <app-auth-toolbar [sideBarState]="sidebarState"></app-auth-toolbar>
