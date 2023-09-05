@@ -74,7 +74,7 @@
     </div>
 
     <div mat-dialog-actions class="actions-div">
-      <button mat-button mat-dialog-close (click)="onCancelClick()" type="button">Отмена</button>
+      <button mat-raised-button mat-dialog-close (click)="onCancelClick()" type="button">Отмена</button>
       <button mat-raised-button color="primary" [mat-dialog-close]="data" [disabled]="!isFormValid()" (click)="submitForm()">Сохранить</button>
     </div>
   </div>

@@ -1,6 +1,6 @@
 <div class="header-container">
-  <h3>Главная</h3>
-  <app-supplier-autocomplete [appearance]="'outline'"></app-supplier-autocomplete>
+  <span class="page-title">Главная</span>
+  <app-supplier-autocomplete class="supplier-autocomplete" [appearance]="'outline'"></app-supplier-autocomplete>
 </div>
 
 <div *ngIf="isLoading" class="loadingArea">
@@ -9,8 +9,5 @@
 
 <div *ngIf="!isLoading">
   <app-admin-stat [data]="supplierStatsList" [chartsData]="chartList" [lastStats]="lastStats" [errorsList]="errorsConfig" [tasks]="tasks"></app-admin-stat>
-<!--
-  <app-manager-stat *ngIf="roles.includes('goodware-manager') && !roles.includes('goodware-admin')"></app-manager-stat>
--->
 </div>
 

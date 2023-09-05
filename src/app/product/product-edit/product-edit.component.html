@@ -1,13 +1,15 @@
-<div class="mat-headline">
-  <span>{{productId == undefined ? "Добавление нового товара" : "Редактирование товара"}}</span>
-  <span *ngIf="product?.supplierName"> поставщика {{product.supplierName}}</span>
-  <div style="float:right; margin-right: 10px">
+<div class="header-container">
+  <div class="page-title-light">
+    <span>{{productId == undefined ? "Добавление нового товара" : "Редактирование товара"}}</span>
+    <span *ngIf="product?.supplierName"> поставщика {{product.supplierName}}</span>
+  </div>
+  <div>
     <button mat-flat-button color="primary" (click)="submitProduct()" [disabled]="!product.vendorId || !product.title"> Сохранить </button>
   </div>
 </div>
 
 <div class="productLayoutCard">
-  <mat-card style="padding-top: 0; padding-bottom: 0">
+  <mat-card class="header-card">
     <div class="headerFormBlock">
 
       <div class="full-width" style="display: flex">
@@ -34,7 +36,7 @@
         <mat-label>Артикул Энергомикс</mat-label>
         <input matInput name="internalCode" [(ngModel)]="product.internalCode" disabled>
       </mat-form-field>
-      <button *ngIf="!product.internalCode" style="margin: auto; width: 220px" type="button" [disabled]="!internalCodeFetching || !product.vendorId" mat-flat-button (click)="RequestProductInternalCode(productId)">
+      <button *ngIf="!product.internalCode" style="margin: auto; width: 220px" type="button" [disabled]="!internalCodeFetching || !product.vendorId" mat-raised-button (click)="RequestProductInternalCode(productId)">
         Запросить артикул
       </button>
     </div>
@@ -263,18 +265,16 @@
             <button mat-button (click)="openPackageEditorDialog()"><mat-icon>add</mat-icon> Добавить</button>
           </div>
 
-          <div class="cardsToCenter">
-            <div class="cards">
-              <mat-card *ngFor="let pack of product.packages" class="card">
-                <div>
-                  <app-package-card [pack]="pack"></app-package-card>
-                  <mat-card-actions align="end" class="matPackageCardActions">
-                    <button mat-mini-fab color="" matTooltip="Редактировать" (click)="openPackageEditorDialog(pack)"><mat-icon>edit</mat-icon></button>
-                    <button mat-mini-fab color="" matTooltip="Удалить" (click)="deletePackageRow(pack)"><mat-icon>delete</mat-icon></button>
-                  </mat-card-actions>
-                </div>
-              </mat-card>
-            </div>
+          <div class="cards">
+            <mat-card *ngFor="let pack of product.packages" class="card">
+              <div>
+                <app-package-card [pack]="pack"></app-package-card>
+                <mat-card-actions align="end" class="matPackageCardActions">
+                  <button mat-mini-fab color="" matTooltip="Редактировать" (click)="openPackageEditorDialog(pack)"><mat-icon>edit</mat-icon></button>
+                  <button mat-mini-fab color="" matTooltip="Удалить" (click)="deletePackageRow(pack)"><mat-icon>delete</mat-icon></button>
+                </mat-card-actions>
+              </div>
+            </mat-card>
           </div>
         </mat-tab>
 

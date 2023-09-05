@@ -13,7 +13,15 @@ export class AdminStatComponent implements OnInit {
 
   lineChartOptions: any = {
     plugins: {
-      legend: { position: 'bottom' }
+      legend: {
+        position: 'bottom',
+        labels: {
+          borderRadius: 5,
+          useBorderRadius: true,
+          boxWidth: 10,
+          boxHeight: 10,
+        }
+      }
     },
     /*plugins: {
       tooltip: {
@@ -62,6 +70,17 @@ export class AdminStatComponent implements OnInit {
   }
 
   chartOptions = {
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: {
+          borderRadius: 5,
+          useBorderRadius: true,
+          boxWidth: 10,
+          boxHeight: 10,
+        }
+      }
+    },
     responsive: true,
     maintainAspectRatio: false,
     elements: {

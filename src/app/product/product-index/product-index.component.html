@@ -1,9 +1,9 @@
-<div style="margin-bottom: 60px">
+<div class="container">
   <div class="mat-elevation-z2 selection-container" *ngIf="selectionActive">
 
     <span style="margin-left: 10px">Выбрано {{selectionItems.length}} товаров <button mat-icon-button (click)="showSelectedItems()"><mat-icon>visibility</mat-icon></button></span>
 
-    <div style="display: flex; justify-content: space-between">
+    <div class="header-container">
       <div class="toolbox-item">
         <button mat-icon-button matTooltip="Выбрать всё" (click)="selectAll()"><mat-icon>select_all</mat-icon></button>
       </div>

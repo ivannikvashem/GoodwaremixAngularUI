@@ -12,6 +12,8 @@ export class HoverImageSliderComponent implements OnInit {
 
   hoverImage = "";
   hoverRowId = "";
+  imgIndex:number = 0;
+  onHover:boolean = false;
 
   @Input() imgList:any = [];
   @Input() imgListThumb:any = [];
@@ -23,23 +25,21 @@ export class HoverImageSliderComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    if (this.imgListThumb.length > 0) {
-      this.hoverImage = this.imgListThumb[0];
-    } else {
-      this.hoverImage = this.imgList[0];
-    }
+    this.hoverImage = this.imgListThumb?.length > 0 ? this.imgListThumb[0] : (this.imgList?.length > 0 ? this.imgList[0] : null);
   }
 
-  changeImage(image: any) {
+  changeImage(image: any, index:number) {
+    this.imgIndex = index;
     this.hoverImage = image;
   }
   openDialog(image: string) {
+    let img;
+    img = typeof image === "object" ? img = image[0] : img = image;
+
     let dialogBoxSettings = {
       margin: '0 auto',
       hasBackdrop: true,
-      data: {
-        src: image.replace("", ""),
-      }
+      data: { src: img }
     };
     this.dialog.open(ImageDialog, dialogBoxSettings);
   }
@@ -51,6 +51,13 @@ export class HoverImageSliderComponent implements OnInit {
 
   onImageLoaded() {
     this.onLoad.emit(true)
+  }
+
+  slideImage(index: number) {
+    if (index >= 0) {
+      this.imgIndex = index;
+      this.changeImage([this.imgListThumb[index]], index);
+    }
   }
 }
 @Component({

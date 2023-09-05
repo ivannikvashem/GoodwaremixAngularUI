@@ -8,17 +8,17 @@
     <!-- Date Column -->
     <ng-container matColumnDef="date">
       <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Дата</th>
-      <td mat-cell *matCellDef="let row">{{row.date | date:'yyyy-MM-dd, H:mm'}}</td>
+      <td mat-cell *matCellDef="let row" (click)="row.data.length > 0 ? expandedElement = expandedElement === row ? null : row: null">{{row.date | date:'yyyy-MM-dd, H:mm'}}</td>
     </ng-container>
     <!-- status Column -->
     <ng-container matColumnDef="status">
       <th mat-header-cell *matHeaderCellDef>Статус</th>
-      <td mat-cell *matCellDef="let row">{{ row.status }}</td>
+      <td mat-cell *matCellDef="let row" (click)="row.data.length > 0 ? expandedElement = expandedElement === row ? null : row: null">{{ row.status }}</td>
     </ng-container>
     <!-- stat Column -->
     <ng-container matColumnDef="result">
       <th mat-header-cell *matHeaderCellDef>Результат</th>
-      <td mat-cell *matCellDef="let row">{{ row.result }}</td>
+      <td mat-cell *matCellDef="let row" (click)="row.data.length > 0 ? expandedElement = expandedElement === row ? null : row: null">{{ row.result }}</td>
     </ng-container>
     <!-- ACTIONS Column -->
     <ng-container matColumnDef="actions">
@@ -27,7 +27,7 @@
           <mat-icon>delete</mat-icon>
         </button>&nbsp;
       </th>
-      <td mat-cell *matCellDef="let item">
+      <td mat-cell *matCellDef="let item" (click)="item.data.length > 0 ? expandedElement = expandedElement === item ? null : item: null">
         <button mat-icon-button *ngIf="item.data.length > 0" class="mat-elevation-z2" aria-label="expand row" (click)="(expandedElement = expandedElement === item ? null : item); $event.stopPropagation()">
           <mat-icon *ngIf="expandedElement !== item">keyboard_arrow_down</mat-icon>
           <mat-icon *ngIf="expandedElement === item">keyboard_arrow_up</mat-icon>
@@ -35,7 +35,7 @@
       </td>
     </ng-container>
     <ng-container matColumnDef="expandedDetail">
-      <td mat-cell *matCellDef="let item" [attr.colspan]="displayedColumns.length">
+      <td mat-cell *matCellDef="let item" [attr.colspan]="displayedColumns.length" (click)="item.data.length > 0 ? expandedElement = expandedElement === item ? null : item: null">
         <div class="element-detail" [@detailExpand]="item == expandedElement ? 'expanded' : 'collapsed'">
           <cdk-virtual-scroll-viewport [itemSize]="20" class="data-viewport">
             <div *cdkVirtualFor="let log of item.data.reverse()">{{log}}</div>
@@ -45,9 +45,9 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="element-row" (click)="row.data.length > 0 ? expandedElement = expandedElement === row ? null : row: null" [class.expanded-row]="row.data.length > 0 ? expandedElement === row : null" style="cursor: pointer"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="element-row" [class.expanded-row]="row.data.length > 0 ? expandedElement === row : null" style="cursor: pointer"></tr>
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
   </table>
 </div>
 
-<mat-paginator class="paginator-fixed mat-elevation-z8" [style.visibility]="dataSource.rowCount > 0 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageSize]="10" [pageSizeOptions]=[10,20,50,100]></mat-paginator>
+<mat-paginator class="paginator-fixed mat-elevation-z8" [style.visibility]="dataSource.rowCount > 0 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageSize]="12" [pageSizeOptions]=[12,24,48,96]></mat-paginator>

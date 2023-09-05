@@ -39,8 +39,8 @@
     <mat-icon matSuffix (click)="unitConverterListCtrl.setValue(null)">close</mat-icon>
   </mat-form-field>
 
-  <div class="information">
-    <p *ngIf="data.newAttribute.nameAttribute != null">Аттрибут "{{data.oldAttribute}}", будет заменён на "{{data.newAttribute.nameAttribute}}"</p>
+  <div class="information" *ngIf="data.newAttribute.nameAttribute != null">
+    <p>Аттрибут "{{data.oldAttribute}}", будет заменён на "{{data.newAttribute.nameAttribute}}"</p>
   </div>
 
   <div mat-dialog-actions class="actions-div">

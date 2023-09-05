@@ -33,13 +33,14 @@
           <div class="bar"></div>
         </label>
       </div>
-      <h2 class="no-break-word" matTooltip="{{url}}" [style.color]="isServerOffline ? 'yellow' : 'white'" *ngIf="sidebarState"> {{title}}</h2>
+      <div class="no-break-word goodware-title" matTooltip="{{url}}" [style.color]="isServerOffline ? 'yellow' : 'white'" *ngIf="sidebarState"> {{title}}</div>
 
     </div>
   </div>
 
   <ul class="nav-links" id="nav-links">
-    <li #itemEl routerLinkActive="active" *ngIf="roles.includes('goodware-users')" matTooltipPosition="right" [matTooltip]="!sidebarState ? 'Главная' : ''">
+
+    <li routerLinkActive="active" *ngIf="roles.includes('goodware-users')" matTooltipPosition="right" [matTooltip]="!sidebarState ? 'Главная' : ''">
       <div class="dropdown-title">
         <a [routerLink]="'/home'">
           <mat-icon class="menu-icon-size">home</mat-icon>

@@ -112,3 +112,7 @@ mat-tab-body {
   top:50%;
   left:48%;
 }
+
+form {
+  margin-top: 10px;
+}

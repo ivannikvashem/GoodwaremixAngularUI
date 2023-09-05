@@ -1,49 +1,45 @@
 <span class="page-title">Товары</span>
-<div class="cardTopPanel">
+<div class="toolbox-container">
+  <mat-form-field appearance="outline" class="toolbox-item-xl input-form-outline-background">
+    <mat-label>Поиск</mat-label>
+    <input matInput [formControl]="searchQueryCtrl" (keydown.enter)="searchQueryChanged()">
+    <button *ngIf="searchQueryCtrl.value" matSuffix mat-icon-button aria-label="Clear" (click)="searchQueryClear()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
 
-  <div class="toolbox-container">
+  <app-supplier-autocomplete [appearance]="'outline'" class="toolbox-item"></app-supplier-autocomplete>
 
-    <mat-form-field appearance="outline" class="toolbox-item-xl input-form-outline-background">
-      <mat-label>Поиск</mat-label>
-      <input matInput [formControl]="searchQueryCtrl" (keydown.enter)="searchQueryChanged()">
-      <button *ngIf="searchQueryCtrl.value" matSuffix mat-icon-button aria-label="Clear" (click)="searchQueryClear()">
-        <mat-icon>close</mat-icon>
-      </button>
+  <div class="toolbox-item">
+    <mat-form-field appearance="outline" class="input-form-outline-background" style="width: 150px">
+      <mat-label>Сортировка</mat-label>
+      <select matNativeControl [(ngModel)]="selectedSort" (change)="sortData()">
+        <option *ngFor="let option of sortOptions" [ngValue]="option.value">{{option.displayText}}</option>
+      </select>
     </mat-form-field>
+  </div>
 
-    <app-supplier-autocomplete [appearance]="'outline'" class="toolbox-item"></app-supplier-autocomplete>
+  <div class="toolbox-item">
+    <app-product-ic-filter-switch [state]="withICFilter" (withICFilterEmitter)="onICFilterChanged($event)"></app-product-ic-filter-switch>
+  </div>
 
-    <div class="toolbox-item">
-      <mat-form-field appearance="outline" class="input-form-outline-background" style="width: 150px">
-        <mat-label>Сортировка</mat-label>
-        <select matNativeControl [(ngModel)]="selectedSort" (change)="sortData()">
-          <option *ngFor="let option of sortOptions" [ngValue]="option.value">{{option.displayText}}</option>
-        </select>
-      </mat-form-field>
-    </div>
+  <div class="toolbox-item">
+    <button class="toolbox-button" mat-raised-button (click)="attributeFilter()" [matBadge]="filterAttribute?.attributeSearchFilters ? filterAttribute?.attributeSearchFilters.length : 0" matBadgePosition="after" matBadgeColor="primary" matBadgeSize="medium">
+      Фильтры
+    </button>
+  </div>
 
-    <div class="toolbox-item">
-      <app-product-ic-filter-switch [state]="withICFilter" (withICFilterEmitter)="onICFilterChanged($event)"></app-product-ic-filter-switch>
-    </div>
+  <div class="toolbox-item">
+    <button class="toolbox-button" mat-raised-button matTooltip="Добавить товар" [routerLink]="['/product-add']">
+      <mat-icon>add</mat-icon>
+      Добавить
+    </button>
+  </div>
 
-    <div class="toolbox-item">
-      <button class="toolbox-button" mat-raised-button (click)="attributeFilter()" [matBadge]="filterAttribute?.attributeSearchFilters ? filterAttribute?.attributeSearchFilters.length : 0" matBadgePosition="after" matBadgeColor="primary" matBadgeSize="medium">
-        Фильтры
-      </button>
-    </div>
-
-    <div class="toolbox-item">
-      <button class="toolbox-button" mat-raised-button matTooltip="Добавить товар" [routerLink]="['/product-add']">
-        <mat-icon>add</mat-icon>
-        Добавить
-      </button>
-    </div>
-
-    <div class="toolbox-item">
-      <button class="toolbox-button" mat-raised-button (click)="cardLayout = !cardLayout">
-        <mat-icon>{{ cardLayout ? 'format_list_bulleted' : 'dashboard'}}</mat-icon>
-      </button>
-    </div>
+  <div class="toolbox-item">
+    <button class="toolbox-button" mat-raised-button (click)="cardLayout = !cardLayout">
+      <mat-icon>{{ cardLayout ? 'format_list_bulleted' : 'dashboard'}}</mat-icon>
+    </button>
   </div>
 </div>
 <app-product-index [isCardLayout]="cardLayout" [attributeFilter]="filterAttribute" [searchQuery]="searchQuery" [withInternalCode]="withICFilter" [selectedSupplier]="selectedSupplier" [pageIndex]="pageIndex" [pageSize]="pageSize" [sortParams]="{active:sortActive, direction:sortDirection}" (pageParams)="onPageParamsChanged($event)"></app-product-index>

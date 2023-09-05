@@ -1,15 +1,13 @@
-<div class="mat-headline">
-  <div style="float:right; margin-right: 3px">
-    <button mat-raised-button (click)="goToEdit(productId)">Редактировать</button>&nbsp;
-    <!--<button mat-raised-button *ngIf="!product?.internalCode">В ассортимент</button>-->
-  </div>
-
-  <div>
+<div class="header-container">
+  <div class="page-title">
     <span *ngIf="product?.vendor">{{product?.vendor}}</span>
     <span> {{product?.title !== undefined ? product?.title : product.titleLong}}</span>&nbsp;
     <span *ngIf="product?.vendorId"> <button class="btnAsText" (click)="copyVendorId(product.vendorId)">[<strong>{{product.vendorId}}</strong>]</button> </span>
-<!--    <mat-icon style="vertical-align:middle;">content_copy</mat-icon>-->
   </div>
+  <div>
+    <button mat-raised-button (click)="goToEdit(productId)">Редактировать</button>&nbsp;
+  </div>
+
 </div>
 
 <div class="container">
@@ -73,9 +71,7 @@
           <mat-expansion-panel-header>
             <mat-panel-title>Документы / Сертификаты</mat-panel-title>
           </mat-expansion-panel-header>
-          <div class="cardsToCenter">
-            <div class="cards"><app-document-card *ngFor="let doc of productDocuments" [document]="doc"></app-document-card></div>
-          </div>
+          <div class="cards"><app-document-card *ngFor="let doc of productDocuments" [document]="doc"></app-document-card></div>
         </mat-expansion-panel>
       </mat-accordion>
     </div>
@@ -88,8 +84,8 @@
     </mat-card>-->
   </div>
 
-  <div style="width: 100%">
-    <mat-card>
+  <div class="full-width">
+    <mat-card style="margin-right: 0;">
       <mat-card-subtitle>
         <div class="card-container">
           <h2>О товаре</h2>

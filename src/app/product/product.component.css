@@ -1,6 +1,6 @@
 .toolbox-container {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: flex-end;
   align-items: baseline;
   width: 100%;
@@ -14,13 +14,6 @@
 
 .toolbox-item-xl {
   flex: 1;
-}
-
-.cardTopPanel {
-  display: flex;
-  justify-content: space-between;
-  height: 45px;
-  margin: 10px 0;
 }
 
 :host::ng-deep .mat-form-field-appearance-standard .mat-form-field-flex {

@@ -37,7 +37,7 @@ routes = [
   {path: 'user-add', component: UserDetailsComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'user-edit/:id', component: UserDetailsComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'page-not-found', component: PageNotFoundComponent},
-  {path: 'documents', component: DocumentComponent, canActivate: [AuthGuard], data: {roles: ['goodware-users']}},
+  {path: 'documents', component: DocumentComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'units', component: UnitConverterComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'home', component: StatisticComponent, canActivate: [AuthGuard], data: {roles: ['goodware-users']}},
   {path: '**', pathMatch: 'full', redirectTo: '/home'}

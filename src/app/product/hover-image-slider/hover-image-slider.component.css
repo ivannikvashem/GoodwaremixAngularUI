@@ -10,6 +10,7 @@
   top: 0;
   left: 0;
   object-fit: contain;
+  cursor: pointer;
 }
 .containerC {
   height: 100%;
@@ -24,4 +25,38 @@
 .hoverBlockC:hover {
   border-bottom: 3px solid black;
   z-index:5;
+}
+
+.imgPointContainer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 185px;
+}
+
+.imgPoint {
+  border-radius: 8px;
+  height: 7px;
+  width: 12px;
+  margin-right: 2px;
+  margin-top: 2px;
+  background: #bbb;
+  cursor: pointer;
+}
+
+.imgPoint:last-child {
+  margin-right: 0;
+}
+
+.mat-icon-button {
+  line-height: 1;
+  height: 24px;
+  width: 24px;
+}
+
+.sliderRow {
+  margin-top: 2px;
+  display: flex;
+  justify-content: space-between;
+  height: 10%;
 }

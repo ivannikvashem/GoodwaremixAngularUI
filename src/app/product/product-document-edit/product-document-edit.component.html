@@ -1,8 +1,8 @@
 <div mat-dialog-title class="header-div">
-  <h3 mat-dialog-title>{{documentProduct?.certTitle == undefined ? "Добавление документа" : "Редактирование документа"}}</h3>
+  <span class="page-title">{{documentProduct?.certTitle == undefined ? "Добавление документа" : "Редактирование документа"}}</span>
   <div *ngIf="!data.oldDocument">
-    <button mat-button (click)="matTabGroup.selectedIndex = 0"><mat-icon>search</mat-icon> Поиск</button>
-    <button mat-button (click)="matTabGroup.selectedIndex = 1"><mat-icon>add</mat-icon> Добавить новый</button>
+    <button style="margin-right: 5px" mat-raised-button (click)="matTabGroup.selectedIndex = 0"><mat-icon>search</mat-icon> Поиск</button>
+    <button mat-raised-button (click)="matTabGroup.selectedIndex = 1"><mat-icon>add</mat-icon> Добавить новый</button>
   </div>
 </div>
 
@@ -17,12 +17,10 @@
         </button>
       </mat-form-field>
 
-      <cdk-virtual-scroll-viewport appendOnly itemSize="50" class="viewport">
+      <cdk-virtual-scroll-viewport appendOnly itemSize="50" class="viewport" style="margin-top: 10px">
         <div *ngIf="documentsList.length == 0">Документы не найдены</div>
-        <div class="cardsToCenter">
-          <div class="cards">
-            <app-document-card *cdkVirtualFor="let doc of documentsList" [document]="doc" [isChangeable]="false" [isSelectable]="true" (selectedDocument)="onDocumentSelected($event)"></app-document-card>
-          </div>
+        <div class="cards">
+          <app-document-card *cdkVirtualFor="let doc of documentsList" [document]="doc" [isChangeable]="false" [isSelectable]="true" (selectedDocument)="onDocumentSelected($event)"></app-document-card>
         </div>
       </cdk-virtual-scroll-viewport>
 

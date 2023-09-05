@@ -5,4 +5,7 @@
 </div>
 <div class="cards">
   <app-document-card *ngFor="let doc of documentsView" [document]="doc" [isChangeable]="isChangeable" [isSelectable]="isSelectable" (selectedDocument)="onDocumentSelected($event)"></app-document-card>
+  <ng-container *ngIf="documentsView.length < 3">
+    <div *ngFor="let i of [].constructor(3 - documentsView.length)"></div>
+  </ng-container>
 </div>

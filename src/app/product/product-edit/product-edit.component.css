@@ -36,6 +36,10 @@
 .mat-card {
   margin-right: 10px;
 }
+
+.mat-card:last-child {
+  margin-right: 0;
+}
 .mat-column-action {
   word-wrap: break-word !important;
   white-space: unset !important;
@@ -197,6 +201,16 @@ tr.mat-row {
   padding: 10px;
 }
 
+.productLayoutCard {
+  margin-top: 10px;
+}
+
+.header-card {
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-right: 0;
+}
+
 @media only screen and (min-width: 910px) {
   .aboutProductGroup {width:100%}
   .productLayoutCard {width: 100%}
@@ -218,9 +232,11 @@ tr.mat-row {
   height: 140px
 }
 .cards {
-  margin: 1px;
+  margin: 0 auto;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   display: grid;
   gap: 1rem;
+  width: 100%;
 }
 
 .cardsToCenter {
@@ -236,19 +252,4 @@ tr.mat-row {
   display: grid;
   grid-auto-flow: column;
   grid-column-gap: 5px;
-}
-
-/* Screen larger than 600px? 1 column */
-@media (min-width: 600px) {
-  .cards { grid-template-columns: repeat(1, 1fr); }
-}
-
-/* Screen larger than 910px? 2 columns */
-@media (min-width: 1300px) {
-  .cards { grid-template-columns: repeat(2, 1fr); }
-}
-
-/* Screen larger than 1200px? 3 columns */
-@media (min-width: 1700px) {
-  .cards { grid-template-columns: repeat(3, 1fr); }
 }

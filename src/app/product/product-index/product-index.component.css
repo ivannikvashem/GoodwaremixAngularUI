@@ -41,6 +41,9 @@
   align-items: center;
 }
 
+.container {
+  margin-bottom: 60px; margin-top: 12px;
+}
 
 /* Product card placeholder */
 .card {

@@ -16,14 +16,18 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 
-
 html {
   background: var(--body-background-color)
 }
 
 .page-title {
-  font-size: 1.17em;
-  font-weight: bold;
+  font: 400 24px/32px Roboto, 'Open Sans', sans-serif;
+  display: block;
+  margin-bottom: 7px;
+}
+
+.page-title-light {
+  font-size: 20px;
   display: block;
   margin-bottom: 7px;
 }

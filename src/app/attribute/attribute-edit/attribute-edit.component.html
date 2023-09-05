@@ -3,8 +3,8 @@
 </div>
 
 <div *ngIf="!isLoading">
-  <div class="mat-headline header-container">
-    <span> {{attribute?.id == undefined ? "Добавление нового атрибута" : "Атрибут " + "поставщика " + attribute.supplierName}}</span>
+  <div class="header-container">
+    <span class="page-title"> {{attribute?.id == undefined ? "Добавление нового атрибута" : "Атрибут " + "поставщика " + attribute.supplierName}}</span>
     <button mat-raised-button color="primary" (click)="saveAttribute()">Сохранить</button>
   </div>
 

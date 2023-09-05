@@ -47,6 +47,11 @@
   min-height: 20px;
   margin-right: 10px;
 }
+
+.mat-card:last-child {
+  margin-right: 0;
+}
+
 .mat-column-action {
   word-wrap: break-word !important;
   white-space: unset !important;
@@ -159,6 +164,7 @@ tr.mat-row {
 
 
 .cards {
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   margin: 1px;
   display: grid;
   gap: 1rem;

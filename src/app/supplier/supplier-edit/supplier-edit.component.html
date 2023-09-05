@@ -2,10 +2,10 @@
   <mat-spinner></mat-spinner>
 </div>
 <div *ngIf="!isLoading">
-  <div class="full-width" style="display: flex; justify-content: space-between; padding-right: 20px;">
-    <h3>{{supplierId == undefined ? "Создание нового поставщика" : "Поставщик " + supplier?.supplierName}}</h3>
+  <div class="header-container">
+    <span class="page-title">{{supplierId == undefined ? "Создание нового поставщика" : "Поставщик " + supplier?.supplierName}}</span>
     <div style="vertical-align: bottom; margin: auto 0;">
-      <button mat-icon-button color="" *ngIf="supplier.id" (click)="submitSupplier();fetchSupplierProducts()" class="mat-elevation-z2" matTooltip="Сохранить и запустить"><mat-icon>start</mat-icon></button>&nbsp;
+      <button mat-raised-button *ngIf="supplier.id" (click)="submitSupplier();fetchSupplierProducts()" class="mat-elevation-z2" matTooltip="Сохранить и запустить"><mat-icon>start</mat-icon></button>&nbsp;
       <button mat-flat-button color="primary" type="submit" (click)="submitSupplier()">Сохранить</button>
     </div>
   </div>
