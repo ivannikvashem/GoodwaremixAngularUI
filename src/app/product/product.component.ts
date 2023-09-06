@@ -62,6 +62,9 @@ export class ProductComponent implements OnInit {
         this.pageSize = this.pC.pageSize;
         this.withICFilter = this.pC.withInternalCodeSelector;
         this.filterAttribute = this.pC.filterAttribute;
+        this.sortActive = this.pC.sortActive;
+        this.sortDirection = this.pC.sortDirection;
+        this.selectedSort = this.sortOptions.find(x => x.value.active === this.sortActive && x.value.direction === this.sortDirection).value;
       }
     });
   }
@@ -72,7 +75,9 @@ export class ProductComponent implements OnInit {
       pageIndex: this.pageIndex,
       pageSize: this.pageSize,
       withInternalCodeSelector: this.withICFilter,
-      filterAttribute: this.filterAttribute != undefined ? this.filterAttribute : null
+      filterAttribute: this.filterAttribute != undefined ? this.filterAttribute : null,
+      sortActive: this.sortActive,
+      sortDirection: this.sortDirection
     });
   }
 
@@ -112,13 +117,10 @@ export class ProductComponent implements OnInit {
     this.setCookie();
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
-
   sortData() {
     this.sortActive = this.selectedSort.active;
     this.sortDirection = this.selectedSort.direction;
+    this.setCookie();
   }
 
   attributeFilter() {
@@ -137,5 +139,9 @@ export class ProductComponent implements OnInit {
       this.pageIndex = 0;
       this.setCookie();
     });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

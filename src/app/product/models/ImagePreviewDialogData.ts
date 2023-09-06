@@ -3,7 +3,8 @@ import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {MissingImageHandler} from "../MissingImageHandler";
 
 export interface ImagePreviewDialogData {
-  src: '';
+  selectedIndex:number;
+  imgList:string[]
 }
 export class DialogDataDialog {
 

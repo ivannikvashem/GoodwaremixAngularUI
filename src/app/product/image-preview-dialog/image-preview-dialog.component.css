@@ -1,0 +1,31 @@
+.leftArrowBtn {
+  position: fixed;
+  left: 8%;
+  top: 49%;
+  background: white;
+}
+
+.rightArrowBtn {
+  position: fixed;
+  right: 8%;
+  top: 49%;
+  background: white;
+}
+
+button {
+  height: 56px;
+  width: 56px;
+  line-height: 56px;
+}
+
+.mat-icon {
+  height: 56px;
+  width: 56px;
+  font-size: 56px;
+  line-height: 56px;
+}
+
+img {
+  max-height: 700px;
+  object-fit: cover;
+}

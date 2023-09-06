@@ -17,11 +17,13 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {CronMaskInputDirective} from "./repo/cron-mask-input.directive";
 
 @NgModule({
     declarations: [
         TaskIndexComponent,
-        TaskEditComponent
+        TaskEditComponent,
+        CronMaskInputDirective
     ],
     exports: [
         TaskIndexComponent

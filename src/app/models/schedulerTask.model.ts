@@ -5,10 +5,8 @@ export class SchedulerTask {
   nameTask:string;
   description:string;
   takeConfig:string;
-  startDate:Date;
+  startDate:any;
   nextDateTask:Date;
-  hours:number;
-  minutes:number;
-  seconds:number;
+  cron:string;
   isEnable:boolean;
 }

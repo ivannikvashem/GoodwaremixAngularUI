@@ -11,8 +11,3 @@
 .workWithDBBtn button:not(:first-child) {
   margin-left: 10px;
 }
-
-.header-container {
-  display: inline-flex;
-  align-items: center;
-}

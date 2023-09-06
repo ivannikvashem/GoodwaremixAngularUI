@@ -34,10 +34,8 @@ export class TaskEditComponent implements OnInit {
     nameTask: new FormControl<string>('', Validators.required),
     description: new FormControl<string>(''),
     configList: new FormControl(),
-    startDate: new FormControl<Date | null>(null),
-    hours: new FormControl<number>(0, Validators.required),
-    minutes: new FormControl<number>(0, Validators.required),
-    seconds: new FormControl<number>(0, Validators.required),
+    startDate: new FormControl<Date | null>(null, Validators.required),
+    cron: new FormControl<string>('', Validators.required),
     isEnable: new FormControl<boolean>(false, Validators.required)
   })
 
@@ -49,15 +47,11 @@ export class TaskEditComponent implements OnInit {
         this.selectedSupplier = x.body;
         this.dss.setSelectedSupplier(this.supplier.id, this.supplier.supplierName);
       });
-      console.log(this.data.oldTask.startDate)
-
       this.selectedSupplier.id = this.data.oldTask.supplierId;
       this.fb.get('nameTask').setValue(this.data.oldTask.nameTask);
       this.fb.get('description').setValue(this.data.oldTask.description);
-      this.fb.get('startDate').setValue(this.data.oldTask.startDate as Date);
-      this.fb.get('hours').setValue(this.data.oldTask.hours);
-      this.fb.get('minutes').setValue(this.data.oldTask.minutes);
-      this.fb.get('seconds').setValue(this.data.oldTask.seconds);
+      this.fb.get('cron').setValue(this.data.oldTask.cron);
+      this.fb.get('startDate').setValue(this.data.oldTask.startDate.toString().substring(0, this.data.oldTask.startDate.toString().length - 1));
       this.fb.get('isEnable').setValue(this.data.oldTask.isEnable);
     }
     this.dss.getSelectedSupplier().subscribe(x => {
@@ -72,10 +66,8 @@ export class TaskEditComponent implements OnInit {
     this.task.supplierId = this.supplier.id;
     this.task.nameTask = this.fb.get('nameTask').value;
     this.task.description = this.fb.get('description').value;
-    this.task.startDate = this.fb.get('startDate').value as Date;
-    this.task.hours = this.fb.get('hours').value;
-    this.task.minutes = this.fb.get('minutes').value;
-    this.task.seconds = this.fb.get('seconds').value;
+    this.task.cron = this.fb.get('cron').value;
+    this.task.startDate = this.fb.get('startDate').value + 'Z';
     this.task.isEnable = this.fb.get('isEnable').value;
     this.data.newTask = this.task;
   }

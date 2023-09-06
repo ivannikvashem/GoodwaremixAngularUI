@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Product} from "../../models/product.model";
-import {ImagePreviewDialogComponent} from "../image-preview-dialog/image-preview-dialog.component";
 import {MissingImageHandler} from "../MissingImageHandler";
 import {MatDialog} from "@angular/material/dialog";
 import {NotificationService} from "../../service/notification-service";
@@ -37,22 +36,6 @@ export class ProductCardComponent implements OnInit {
     this.dss.getSelectedProducts().subscribe((selection:Product[]) => {
       this.selected = !!selection.find(item => item.id === this.product.id);
     })
-  }
-
-  changeImage(row: any, image: any) {
-    this.hoverRowId = row.id;
-    this.hoverImage = image;
-  }
-
-  openDialog(image: string) {
-    let dialogBoxSettings = {
-      margin: '0 auto',
-      hasBackdrop: true,
-      data: {
-        src: image.replace("", ""),
-      }
-    };
-    this.dialog.open(ImagePreviewDialogComponent, dialogBoxSettings);
   }
 
   handleMissingImage($event: Event) {

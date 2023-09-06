@@ -26,7 +26,7 @@
     <!-- Duration Column -->
     <ng-container matColumnDef="duration">
       <th mat-header-cell *matHeaderCellDef>Интервал выполнения</th>
-      <td mat-cell *matCellDef="let row">Каждые {{row.hours}} ч {{row.minutes}} мин</td>
+      <td mat-cell *matCellDef="let row">{{row.cron}}</td>
     </ng-container>
     <!-- ACTIONS Column -->
     <ng-container matColumnDef="actions">

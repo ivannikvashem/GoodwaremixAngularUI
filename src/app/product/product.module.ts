@@ -17,7 +17,7 @@ import {MatCardModule} from "@angular/material/card";
 import {MatInputModule} from "@angular/material/input";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatChipsModule} from "@angular/material/chips";
-import {HoverImageSliderComponent, ImageDialog} from "./hover-image-slider/hover-image-slider.component";
+import {HoverImageSliderComponent} from "./hover-image-slider/hover-image-slider.component";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {NgxBarcode6Module} from 'ngx-barcode6';
 import {MatMenuModule} from "@angular/material/menu";
@@ -52,7 +52,6 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
         ProductDetailsComponent,
         ProductEditComponent,
         HoverImageSliderComponent,
-        ImageDialog,
         PackageCardComponent,
         ProductPackageEditComponent,
         ProductDocumentEditComponent,

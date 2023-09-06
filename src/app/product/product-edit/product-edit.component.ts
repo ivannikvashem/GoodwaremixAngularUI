@@ -18,8 +18,8 @@ import {ProductPackageEditComponent} from "../product-package-edit/product-packa
 import {Countries} from "../../../assets/countriesList"
 import {map} from "rxjs/operators";
 import {MissingImageHandler} from "../MissingImageHandler";
-import {ImageDialog} from "../hover-image-slider/hover-image-slider.component";
 import {DataStateService} from "../../shared/data-state.service";
+import {ImagePreviewDialogComponent} from "../image-preview-dialog/image-preview-dialog.component";
 
 interface Country {
   code?:string
@@ -377,8 +377,22 @@ export class ProductEditComponent implements OnInit {
   }
 
   openImageDialog(image: string) {
-    let dialogBoxSettings = {margin: '0 auto', hasBackdrop: true, data: { src: image.replace("", "")}};
-    this.dialog.open(ImageDialog, dialogBoxSettings);
+    let selectedImageIndex;
+    if (this.product.images?.length > 0) {
+      selectedImageIndex = this.product.images.findIndex((x:any) => x === (typeof image === "object" ? image[0] : image))
+    } else if (this.product.localImages?.length > 0) {
+      selectedImageIndex = this.product.localImages.findIndex((x:any) => x === (typeof image === "object" ? image[0] : image))
+    } else if (this.product.thumbnails?.length > 0) {
+      selectedImageIndex = this.product.thumbnails.findIndex((x:any) => x === (typeof image === "object" ? image[0] : image))
+    }
+    let dialogBoxSettings = {
+      margin: '0 auto',
+      hasBackdrop: true,
+      maxHeight: '800px',
+      backdropClass: 'dialog-dark-backdrop',
+      data: { selectedIndex: selectedImageIndex, imgList: this.product.images?.length > 0 ? this.product.images : this.product.thumbnails }
+    };
+    this.dialog.open(ImagePreviewDialogComponent, dialogBoxSettings);
   }
 
   onDocumentsChanged(documents: string[]) {

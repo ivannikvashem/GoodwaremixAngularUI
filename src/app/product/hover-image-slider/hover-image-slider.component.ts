@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {MatDialog} from "@angular/material/dialog";
 import {MissingImageHandler} from "../MissingImageHandler";
-import {ImagePreviewDialogData} from "../models/ImagePreviewDialogData";
+import {ImagePreviewDialogComponent} from "../image-preview-dialog/image-preview-dialog.component";
 
 @Component({
   selector: 'app-hover-image-slider',
@@ -33,15 +33,22 @@ export class HoverImageSliderComponent implements OnInit {
     this.hoverImage = image;
   }
   openDialog(image: string) {
-    let img;
-    img = typeof image === "object" ? img = image[0] : img = image;
-
-    let dialogBoxSettings = {
-      margin: '0 auto',
-      hasBackdrop: true,
-      data: { src: img }
-    };
-    this.dialog.open(ImageDialog, dialogBoxSettings);
+    if (image) {
+      let selectedImageIndex;
+      if (this.imgList?.length > 0) {
+        selectedImageIndex = this.imgList.findIndex((x:any) => x === (typeof image === "object" ? image[0] : image))
+      } else if (this.imgListThumb?.length > 0) {
+        selectedImageIndex = this.imgListThumb.findIndex((x:any) => x === (typeof image === "object" ? image[0] : image))
+      }
+      let dialogBoxSettings = {
+        margin: '0 auto',
+        hasBackdrop: true,
+        maxHeight: '800px',
+        backdropClass: 'dialog-dark-backdrop',
+        data: { selectedIndex: selectedImageIndex, imgList: this.imgList?.length > 0 ? this.imgList : this.imgListThumb }
+      };
+      this.dialog.open(ImagePreviewDialogComponent, dialogBoxSettings);
+    }
   }
 
   handleMissingImage($event: Event) {
@@ -54,21 +61,9 @@ export class HoverImageSliderComponent implements OnInit {
   }
 
   slideImage(index: number) {
-    if (index >= 0) {
+    if (index >= 0 || index <= this.imgList.length - 1) {
       this.imgIndex = index;
       this.changeImage([this.imgListThumb[index]], index);
     }
-  }
-}
-@Component({
-  selector: 'image-data-dialog',
-  template: `
-    <img (error)="handleMissingImage($event)" style="max-width: 800px;  max-height: 800px;" src='{{data.src}}'>`
-})
-export class ImageDialog {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: ImagePreviewDialogData, private imgHandler:MissingImageHandler) {}
-
-  handleMissingImage($event: Event) {
-    this.imgHandler.checkImgStatus($event)
   }
 }

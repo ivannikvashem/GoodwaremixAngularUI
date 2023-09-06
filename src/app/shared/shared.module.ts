@@ -19,7 +19,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
         SupplierAutocompleteComponent,
         PageNotFoundComponent,
         DocumentCardComponent,
-        ScrollToTopComponent
+        ScrollToTopComponent,
     ],
     imports: [
         CommonModule,

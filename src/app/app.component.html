@@ -111,6 +111,15 @@
         </a>
       </div>
     </li>
+
+    <li routerLinkActive="active" *ngIf="roles.includes('goodware-admin')" matTooltipPosition="right" [matTooltip]="!sidebarState ? 'Панель администратора' : ''">
+      <div class="dropdown-title">
+        <a [routerLink]="'/admin'">
+          <mat-icon class="menu-icon-size">admin_panel_settings</mat-icon>
+          <span class="link_name" *ngIf="sidebarState">Панель администратора</span>
+        </a>
+      </div>
+    </li>
   </ul>
   <li class="authToolbar" matTooltipPosition="right" [matTooltip]="!sidebarState ? 'Выйти' : ''">
     <app-auth-toolbar [sideBarState]="sidebarState"></app-auth-toolbar>
