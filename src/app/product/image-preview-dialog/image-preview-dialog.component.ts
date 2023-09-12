@@ -13,7 +13,6 @@ export class ImagePreviewDialogComponent{
   imageIndex:number = 0;
   imgList:string[];
   selectedImage:string;
-  buttonsVisibilityState:boolean;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: ImagePreviewDialogData, private imgHandler:MissingImageHandler) {
     this.selectedImage = this.data.imgList[this.data.selectedIndex]

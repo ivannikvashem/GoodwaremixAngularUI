@@ -1,12 +1,10 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {ProductsDataSource} from "../repo/ProductsDataSource";
 import {ApiClient} from "../../service/httpClient";
 import {MatDialog} from "@angular/material/dialog";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatPaginator} from "@angular/material/paginator";
-import {
-  tap
-} from "rxjs";
+import {tap} from "rxjs";
 import {Supplier} from "../../models/supplier.model";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/shared/confirm-dialog/confirm-dialog.component";
 import {NotificationService} from "../../service/notification-service";
@@ -21,7 +19,7 @@ import {ProductSelectedListComponent} from "../product-selected-list/product-sel
   templateUrl: './product-index.component.html',
   styleUrls: ['./product-index.component.css']
 })
-export class ProductIndexComponent implements OnInit, AfterViewInit {
+export class ProductIndexComponent implements OnInit {
   displayedColumns: string[] = ['preview', 'internalCode' ,'name', 'supplierName', 'actions'];
   dataSource: ProductsDataSource;
   roles: string[] = [];
@@ -91,14 +89,6 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngAfterViewInit(): void {
-    this.paginator.page
-      .pipe(
-        tap( () => {
-          this.pageParams.next({pageIndex: this.paginator.pageIndex, pageSize:this.paginator.pageSize})
-        })).subscribe();
-  }
-
   // isCardLayout params should be removed
   loadProductPagedData(): any {
     this.dataSource.loadPagedData(this.isCardLayout, this.searchQuery, this.selectedSupplier?.id,  this.pageIndex, this.pageSize, this.attributeFilter, this.sortActive.active, this.sortActive.direction, this.withInternalCode);
@@ -155,5 +145,14 @@ export class ProductIndexComponent implements OnInit, AfterViewInit {
     for (let product of this.selectionItems) {
       this.dataSource.downloadImages(product.internalCode)
     }
+  }
+
+  paginatorChanged(matPaginator: MatPaginator) {
+    this.paginator = matPaginator;
+    this.paginator.page
+      .pipe(
+        tap( () => {
+          this.pageParams.next({pageIndex: this.paginator.pageIndex, pageSize:this.paginator.pageSize})
+        })).subscribe();
   }
 }

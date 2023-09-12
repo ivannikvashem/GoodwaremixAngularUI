@@ -47,7 +47,10 @@
   </div>
 
   <app-product-export-table [dataSource]="productsList" *ngIf="!isCardLayout"></app-product-export-table>
+<!--
+  <mat-paginator class="mat-elevation-z8" [style.visibility]="dataSource.rowCount > 0 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[12,24,48,96] aria-label="Страница"></mat-paginator>
+-->
+
 </div>
 
-
-<mat-paginator class="paginator-fixed mat-elevation-z8" [style.visibility]="dataSource.rowCount > 0 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[12,24,48,96] aria-label="Страница"></mat-paginator>
+<app-mat-paginator-goto class="paginator-fixed mat-elevation-z8" [style.visibility]="dataSource.rowCount > 0 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[12,24,48,96] (matPaginatorGoTo)="paginatorChanged($event)" aria-label="Страница"></app-mat-paginator-goto>

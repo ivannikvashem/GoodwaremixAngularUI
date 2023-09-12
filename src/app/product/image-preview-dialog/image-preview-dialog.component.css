@@ -1,14 +1,14 @@
 .leftArrowBtn {
   position: fixed;
-  left: 8%;
-  top: 49%;
+  left: 100px;
+  top: 50%;
   background: white;
 }
 
 .rightArrowBtn {
   position: fixed;
-  right: 8%;
-  top: 49%;
+  right: 100px;
+  top: 50%;
   background: white;
 }
 
@@ -25,7 +25,12 @@ button {
   line-height: 56px;
 }
 
+button:hover {
+  color:var(--toolbar-item-active-color);
+}
+
 img {
   max-height: 700px;
   object-fit: cover;
+  width: 100%;
 }

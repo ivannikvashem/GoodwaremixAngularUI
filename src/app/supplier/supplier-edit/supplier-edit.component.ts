@@ -12,6 +12,7 @@ import {finalize} from "rxjs/operators";
 import {NotificationService} from "../../service/notification-service";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/shared/confirm-dialog/confirm-dialog.component";
+import {Title} from "@angular/platform-browser";
 
 export class HeaderModel {
   HeaderName:string
@@ -43,9 +44,8 @@ export class SupplierEditComponent implements OnInit {
     private router: Router,
     private _notyf: NotificationService,
     public dialog: MatDialog,
-    public api: ApiClient,
-  ) {
-  }
+    private api: ApiClient,
+    private titleService:Title) {}
 
   ngOnInit(): void {
     this.supplierId = this._ActivatedRoute.snapshot.paramMap.get("supplierId");
@@ -62,6 +62,7 @@ export class SupplierEditComponent implements OnInit {
               config.sourceSettings.header = JSON.parse(config.sourceSettings.header) as HeaderModel
             }
           }
+        this.titleService.setTitle('Поставщик - ' + this.supplier.supplierName);
         }, error: () => {
           this.router.navigate(['page-not-found'])
         }

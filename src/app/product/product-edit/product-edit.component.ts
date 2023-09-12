@@ -20,6 +20,7 @@ import {map} from "rxjs/operators";
 import {MissingImageHandler} from "../MissingImageHandler";
 import {DataStateService} from "../../shared/data-state.service";
 import {ImagePreviewDialogComponent} from "../image-preview-dialog/image-preview-dialog.component";
+import {Title} from "@angular/platform-browser";
 
 interface Country {
   code?:string
@@ -71,7 +72,8 @@ export class ProductEditComponent implements OnInit {
               private _notyf:NotificationService,
               public dialog: MatDialog,
               private imgHandler:MissingImageHandler,
-              private dss: DataStateService
+              private dss: DataStateService,
+              private titleService:Title
   ) {}
 
   ngOnInit(): void {
@@ -94,6 +96,8 @@ export class ProductEditComponent implements OnInit {
           this.searchBrandCtrl.setValue(this.product.vendor)
         }
         this.attrDataSource.setData(this.product.attributes || []);
+        this.titleService.setTitle(this.product.internalCode ? 'арт. ' + this.product.internalCode + ' ' + this.product.title : this.product.title);
+
         }, error: () => {
           this.router.navigate(['page-not-found'])
         }})

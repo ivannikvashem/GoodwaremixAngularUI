@@ -41,7 +41,6 @@ export class HoverImageSliderComponent implements OnInit {
         selectedImageIndex = this.imgListThumb.findIndex((x:any) => x === (typeof image === "object" ? image[0] : image))
       }
       let dialogBoxSettings = {
-        margin: '0 auto',
         hasBackdrop: true,
         maxHeight: '800px',
         backdropClass: 'dialog-dark-backdrop',

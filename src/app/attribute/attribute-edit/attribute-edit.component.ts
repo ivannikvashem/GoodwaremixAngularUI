@@ -9,6 +9,7 @@ import {BehaviorSubject, of} from "rxjs";
 import {Supplier} from "../../models/supplier.model";
 import {NotificationService} from "../../service/notification-service";
 import {DataStateService} from "../../shared/data-state.service";
+import {Title} from "@angular/platform-browser";
 
 interface AttributeType {
   value: string;
@@ -41,7 +42,8 @@ export class AttributeEditComponent implements OnInit {
     private _ActivatedRoute: ActivatedRoute,
     private router: Router,
     private _notyf: NotificationService,
-    private dss:DataStateService) {}
+    private dss:DataStateService,
+    private titleService:Title) {}
 
   ngOnInit(): void {
     this.id = this._ActivatedRoute.snapshot.paramMap.get("id");
@@ -58,6 +60,7 @@ export class AttributeEditComponent implements OnInit {
         .subscribe({next: (data) => {
             this.attribute = data;
             this.dss.setSelectedSupplier(this.attribute.supplierId, this.attribute.supplierName)
+            this.titleService.setTitle('Атрибут - ' + this.attribute.nameAttribute);
           }, error: () => {
             this.router.navigate(['page-not-found'])
           }});

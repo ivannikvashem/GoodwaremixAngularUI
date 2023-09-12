@@ -4,7 +4,7 @@ import {ApiClient} from "../../service/httpClient";
 import {Observable} from "rxjs";
 import {MatTableDataSource} from "@angular/material/table";
 import {Product} from "../../models/product.model";
-import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
+import {DomSanitizer, SafeResourceUrl, Title} from '@angular/platform-browser';
 import {SwapAttributeComponent} from "../../components/shared/swap-attribute/swap-attribute.component";
 import {Attribute} from "../../models/attribute.model";
 import {MatDialog} from "@angular/material/dialog";
@@ -38,7 +38,8 @@ export class ProductDetailsComponent implements OnInit {
     private _ActivatedRoute:ActivatedRoute,
     private _sanitizer: DomSanitizer,
     private _notyf: NotificationService,
-    private clipboard:Clipboard) { }
+    private clipboard:Clipboard,
+    private titleService:Title) {}
 
   ngOnInit(): void {
     this.fetchProductData()
@@ -64,6 +65,7 @@ export class ProductDetailsComponent implements OnInit {
             })
           }
         }
+        this.titleService.setTitle(this.product.internalCode ? 'арт. ' + this.product.internalCode + ' ' + this.product.title : this.product.title);
       }, error: () => {
         this.router.navigate(['page-not-found'])
       }});
