@@ -41,11 +41,15 @@ export class UsersDataSource implements DataSource<UserInterface> {
 
   onUserListUpdate(user:any) {
     if (this.UserListSubject.value.find(x => x.id == user.id)) {
-
+      let newData = this.UserListSubject.value.map(x => {
+        if (x.id === user.id) {
+          return Object.assign(x, user);
+        }
+        return x;
+      })
+      this.UserListSubject.next(newData)
     } else {
-
       this.UserListSubject.next(this.UserListSubject.getValue().concat([user]))
     }
-
   }
 }

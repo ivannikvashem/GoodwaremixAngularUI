@@ -68,10 +68,10 @@ export class MatPaginatorGotoComponent implements OnInit {
   }
 
   jumpTo(value: any) {
-    if (value <= (this.length / this.pageSize)) {
+    if (value <= this.paginator.getNumberOfPages()) {
       this.goTo = value as number;
     }  else {
-      this.goTo = Math.round(this.length / this.pageSize);
+      this.goTo = this.paginator.getNumberOfPages();
     }
     this.goToChange();
   }

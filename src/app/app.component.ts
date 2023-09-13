@@ -24,7 +24,7 @@ export class AppComponent{
   logoHover: boolean = false;
 
   menuItems:any = [
-    { name: 'Главная', route: '/home', icon: 'home', role: 'goodware-users' },
+    { name: 'Главная', route: '/home', icon: 'home', role: 'goodware-manager' },
     { name: 'Товары', route: '/products', icon: 'local_offer', role: 'goodware-users' },
     { name: 'Поставщики', route: '/suppliers', icon: 'settings_accessibility', role: 'goodware-admin' },
     { name: 'Атрибуты', route: '/attributes', icon: 'list', role: 'goodware-admin' },

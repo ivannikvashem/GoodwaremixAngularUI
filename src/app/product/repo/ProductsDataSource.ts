@@ -54,16 +54,19 @@ export class ProductsDataSource implements DataSource<Product> {
         // the REAL crutch thing
         if (!isCardLayout) {
           for (let product of body.data) {
-            product['documentsModel'] = [];
-            this.api.getDocumentsDTOById(product.documents).subscribe(docs => {
-              for (let doc of docs.body) {
-                delete doc['supplierId']
-                delete doc['url']
-                delete doc['file']
-                delete doc['id']
-                product.documentsModel.push(doc)
-              }
-            })
+            if (product.documents) {
+              product['documentsModel'] = [];
+              this.api.getDocumentsDTOById(product.documents).subscribe(docs => {
+                console.log(docs)
+                  for (let doc of docs.body) {
+                    delete doc['supplierId']
+                    delete doc['url']
+                    delete doc['file']
+                    delete doc['id']
+                    product.documentsModel.push(doc)
+                  }
+              })
+            }
           }
         }
         // the REAL crutch thing END

@@ -34,7 +34,13 @@
               <tbody>
               <tr *ngFor="let item of element[column.field]">
                 <td *ngFor="let prop of item | keyvalue" style="padding: 5px">
+                  <div *ngIf="prop.key != 'startDate' && prop.key != 'endDate'">
+                    <span *ngIf="prop.key == 'objectValue'">{{prop.value.value}}</span>
+                    <span *ngIf="prop.key != 'objectValue'">{{prop.value}}</span>
+                  </div>
+<!--
                   <span *ngIf="prop.key != 'startDate' && prop.key != 'endDate'">{{prop.value}}</span>
+-->
 
                   <span *ngIf="prop.key == 'startDate' || prop.key == 'endDate'">{{ convertToDate(prop.value) | date:'dd.MM.yyyy' }}</span>
                 </td>

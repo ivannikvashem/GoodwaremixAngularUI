@@ -10,13 +10,13 @@ import {LogComponent} from "./log/log.component";
 import {ProductComponent} from "./product/product.component";
 import {AttributeComponent} from "./attribute/attribute.component";
 import {AuthGuard} from "./auth/auth.guard";
-import {UserIndexComponent} from "./users/user-index/user-index.component";
 import {UserDetailsComponent} from "./users/user-details/user-details.component";
 import {PageNotFoundComponent} from "./shared/page-not-found/page-not-found.component";
 import {DocumentComponent} from "./document/document.component";
 import {SupplierComponent} from "./supplier/supplier.component";
 import {UnitConverterComponent} from "./unit-converter/unit-converter.component";
 import {StatisticComponent} from "./statistic/statistic.component";
+import {UserComponent} from "./users/user.component";
 
 let routes: Routes;
 routes = [
@@ -33,14 +33,14 @@ routes = [
   {path: 'log', component: LogComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'admin', component: AdminComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'tasks', component: TaskIndexComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
-  {path: 'users', component: UserIndexComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
+  {path: 'users', component: UserComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'user-add', component: UserDetailsComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'user-edit/:id', component: UserDetailsComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'page-not-found', component: PageNotFoundComponent},
   {path: 'documents', component: DocumentComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'units', component: UnitConverterComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
-  {path: 'home', component: StatisticComponent, canActivate: [AuthGuard], data: {roles: ['goodware-users']}},
-  {path: '**', pathMatch: 'full', redirectTo: '/home'}
+  {path: 'home', component: StatisticComponent, canActivate: [AuthGuard], data: {roles: ['goodware-manager']}},
+  {path: '**', pathMatch: 'full', redirectTo: [AuthGuard] ? '/home' : '/products'}
 ];
 
 @NgModule({

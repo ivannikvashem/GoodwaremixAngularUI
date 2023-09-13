@@ -13,9 +13,11 @@ import {MatChipsModule} from "@angular/material/chips";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatDialogModule} from "@angular/material/dialog";
+import {UserComponent} from "./user.component";
 
 @NgModule({
   declarations: [
+    UserComponent,
     UserIndexComponent,
     UserDetailsComponent,
   ],

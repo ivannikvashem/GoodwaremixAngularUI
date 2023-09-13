@@ -9,7 +9,7 @@
 }
 
 body {
-  width: 97%;
+  width: 96%;
 }
 
 * {
@@ -46,8 +46,8 @@ html {
 }
 
 .toolbox-button {
-  height: 43px;
-  line-height: 3.45 !important;
+  margin-top: 0.25em !important;
+  height: 43.5px;
 }
 
 .paginator-fixed {
