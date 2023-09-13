@@ -17,7 +17,7 @@
 }
 
 .toolbox-item-three {
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: auto 22% 22%;
   display: grid;
   gap: 10px;
 }
@@ -27,26 +27,20 @@
   width: 100%;
 }
 
-/*.toolbox-item, .toolbox-item-xl{
-  margin-right: 12px;
-}
-.toolbox-item:last-child, .toolbox-item-xl:last-child {
-  margin-right: 0;
-}
-
-.toolbox-item-xl {
-  flex: 1;
-}*/
-
 :host::ng-deep .mat-form-field-appearance-standard .mat-form-field-flex {
    padding-top: 0 !important;
 }
 
-
-
-@media only screen and (max-width: 1150px) {
+@media only screen and (max-width: 1746px) {
   .toolbox-item-xl {  grid-column: span 2;}
-  /* styles for browsers larger than 960px; */
+}
+
+@media only screen and (max-width: 1536px) {
+  .toolbox-item-xl {  grid-column: span 1;}
+}
+
+@media only screen and (max-width: 1280px) {
+  .toolbox-item-xl {  grid-column: span 2;}
 }
 
 @media only screen and (max-width: 815px) {
