@@ -23,9 +23,9 @@
     </button>
   </div>
 
-  <div class="toolbox-item-three">
+  <div class="toolbox-item-three" [style.grid-template-columns]="roles.includes('goodware-manager') ? 'auto 22% 22%' : 'auto auto'">
     <app-product-ic-filter-switch [state]="withICFilter" (withICFilterEmitter)="onICFilterChanged($event)"></app-product-ic-filter-switch>
-    <button class="toolbox-button raised-icon-button" mat-raised-button matTooltip="Добавить товар" [routerLink]="['/product-add']">
+    <button *ngIf="roles.includes('goodware-manager')" class="toolbox-button raised-icon-button" mat-raised-button matTooltip="Добавить товар" [routerLink]="['/product-add']">
       <mat-icon>add</mat-icon>
     </button>
     <button class="toolbox-button raised-icon-button" mat-raised-button (click)="cardLayout = !cardLayout">

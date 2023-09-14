@@ -50,9 +50,9 @@
       </li>
     </ng-container>
   </ul>
-  <li class="authToolbar" matTooltipPosition="right" [matTooltip]="!sidebarState ? 'Выйти' : ''">
+  <div class="authToolbar" matTooltipPosition="right" [matTooltip]="!sidebarState ? 'Выйти' : ''">
     <app-auth-toolbar [sideBarState]="sidebarState"></app-auth-toolbar>
-  </li>
+  </div>
 </div>
 <section class="home-section">
     <router-outlet></router-outlet>

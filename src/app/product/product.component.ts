@@ -8,6 +8,7 @@ import {Subscription} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
 import {AttributeFilterComponent} from "./attribute-filter/attribute-filter.component";
 import {SelectedFiltersList} from "./repo/ProductsDataSource";
+import {AuthService} from "../auth/service/auth.service";
 
 @Component({
   selector: 'app-product',
@@ -31,6 +32,7 @@ export class ProductComponent implements OnInit {
   pageCookie$ = this._localStorageService.myData$;
   pC: any = {};
   withICFilter: boolean = false;
+  roles:string[] = [];
 
   sortOptions =[
     { displayText: 'По умолчанию',  value: { active: null, direction: 'asc'} },
@@ -49,7 +51,10 @@ export class ProductComponent implements OnInit {
     private _ActivatedRoute:ActivatedRoute,
     private dss: DataStateService,
     private _localStorageService: LocalStorageService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private auth:AuthService) {
+    this.roles = this.auth.getRoles();
+  }
 
   getCookie() {
     this._localStorageService.getDataByPageName("ProductIndex")

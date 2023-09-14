@@ -237,31 +237,6 @@ p {
   background: var(--toolbar-background-color);
 }
 
-.toolbar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  color: white;
-  font-weight: 600;
-}
-
-.toolbar img {
-  margin: 0 16px;
-}
-
-svg.material-icons {
-  height: 24px;
-  width: auto;
-}
-
-svg.material-icons:not(:last-child) {
-  margin-right: 8px;
-}
-
 .card svg.material-icons path {
   fill: #888;
 }
@@ -357,3 +332,50 @@ footer a {
   display: flex;
   align-items: center;
 }
+
+/*@media only screen and (max-width: 1520px) {
+  .sidebar {width: 170px; font-size: 5px}
+  .home-section {left: 170px}
+  .menu-icon-size {
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
+  }
+  .goodware-title {
+    font-size: 14px;
+    margin: 0;
+  }
+  .label-hamburger-menu .bar {
+    width: 14px;
+  }
+  .hamburger-menu {
+    width: 24px!important;
+    height: 24px!important;
+  }
+
+  .link_name {
+    font-size: 12px!important;
+  }
+  .sidebar .nav-links .dropdown-title {
+    width: 170px;
+  }
+
+  .sidebar .nav-links li mat-icon {
+    height: 32px;
+    min-width: 55px;
+    line-height: 32px;
+    font-size: 23px;
+  }
+
+  .sidebar .nav-links li {
+    margin-bottom: 5px;
+  }
+
+  .sidebar.sidebar-close {
+    width: 52px;
+  }
+
+  .sidebar.sidebar-close .nav-links .dropdown-title {
+    width: 52px;
+  }
+}*/
