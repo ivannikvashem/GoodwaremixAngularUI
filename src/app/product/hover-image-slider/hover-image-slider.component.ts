@@ -65,4 +65,12 @@ export class HoverImageSliderComponent implements OnInit {
       this.changeImage([this.imgListThumb[index]], index);
     }
   }
+
+  imgLength() {
+    if (this.imgList.length != 0) {
+      return this.imgList.length;
+    } else {
+      return  this.imgListThumb.length;
+    }
+  }
 }
