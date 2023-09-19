@@ -7,7 +7,7 @@
   <div class="wrapper">
     <div *ngFor="let item of selectedItems" class="selectedItem">
       <span>{{item.vendorId}}</span>
-      <mat-icon style="float: right; cursor: pointer; font-size: 20px" (click)="deleteSelectItem(item.id)">delete</mat-icon>
+      <mat-icon class="removeItem" (click)="deleteSelectItem(item.id)">delete</mat-icon>
     </div>
   </div>
 </mat-dialog-content>

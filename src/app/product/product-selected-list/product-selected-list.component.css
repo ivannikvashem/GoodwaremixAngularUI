@@ -17,4 +17,19 @@
   border-radius: 15px;
   padding: 10px;
   height: 15px;
+  line-height: 15px;
+}
+
+.removeItem {
+  float: right;
+  cursor: pointer;
+  font-size: 19px;
+  line-height: 15px;
+  height: 19px;
+  width: 19px;
+}
+
+
+.removeItem:hover {
+  color: #f44336;
 }

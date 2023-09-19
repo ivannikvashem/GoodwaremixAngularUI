@@ -42,7 +42,7 @@
 }
 
 .container {
-  margin-bottom: 60px; margin-top: 12px;
+  margin-bottom: 60px; margin-top: 8px;
 }
 
 /* Product card placeholder */
@@ -97,8 +97,9 @@
   flex-wrap: nowrap;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 1rem;
+  margin-bottom: 7px;
   background: white;
+  border-radius: 4px;
 }
 
 .full-height {
