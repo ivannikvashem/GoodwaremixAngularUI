@@ -8,6 +8,7 @@ export class AttributeProduct {
   unit: string;
   type: string;
   objectValue:any = {} as AttributeProductValueLogic | {} as AttributeProductValueNumber | {} as AttributeProductValueRange | {} as AttributeProductValueText;
+  convertId:string;
 }
 
 export class AttributeProductValueLogic {

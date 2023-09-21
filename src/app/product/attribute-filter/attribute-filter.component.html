@@ -1,11 +1,11 @@
 <div class="main">
   <mat-dialog-content style="margin-bottom: 10px">
     <div class="header-container">
-      <h3>Фильтры</h3>
+      <span class="page-title">Фильтры</span>
       <button style="height: 38px" mat-raised-button [mat-dialog-close]="null" [disabled]="attributesForFilter.length == 0" color="warn"><mat-icon>delete</mat-icon> Очистить фильтр</button>
     </div>
 
-    <mat-form-field appearance="outline" class="full-width">
+    <mat-form-field appearance="outline" class="full-width input-form-outline-background">
       <mat-label>Характеристика</mat-label>
       <input matInput placeholder=""
              [formControl]="attributeValueFilterCtrl"

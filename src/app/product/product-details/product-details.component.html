@@ -4,7 +4,7 @@
     <span> {{product?.title !== undefined ? product?.title : product.titleLong}}</span>&nbsp;
     <span *ngIf="product?.vendorId"> <button class="btnAsText" (click)="copyVendorId(product.vendorId)">[<strong>{{product.vendorId}}</strong>]</button> </span>
   </div>
-  <div>
+  <div *ngIf="roles.includes('goodware-manager')">
     <button mat-raised-button (click)="goToEdit(productId)">Редактировать</button>
   </div>
 </div>

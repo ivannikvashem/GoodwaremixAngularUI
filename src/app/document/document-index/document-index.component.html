@@ -1,6 +1,23 @@
 <div style="margin-bottom: 60px">
   <div *ngIf="isCardLayout == true">
-    <div class="cards">
+    <div class="cards" *ngIf="isLoading">
+      <mat-card class="card" *ngFor="let i of [].constructor(pageSize)">
+        <div class="titleContainer">
+          <div class="iconPlaceholder"></div>
+          <div class="titleLines">
+            <div class="titlePlaceholder"></div>
+            <div class="titlePlaceholder"></div>
+          </div>
+        </div>
+        <div class="documentContentPlaceholder"></div>
+        <div class="actionsContainer">
+          <div class="documentDatePlaceholder"></div>
+          <div class="actionButtonPlaceholder"></div>
+        </div>
+      </mat-card>
+    </div>
+
+    <div class="cards" *ngIf="dataSource.rowCount != 0 && !isLoading">
       <app-document-card *ngFor="let doc of documentList" [document]="doc" [isChangeable]="true" (selectedDocument)="onDocumentSelected($event)"></app-document-card>
       <ng-container *ngIf="this.dataSource.pageCountSize < 4">
         <div *ngFor="let i of [].constructor(4 - this.dataSource.pageCountSize)"></div>
@@ -65,6 +82,10 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="element-row"></tr>
     </table>
   </div>
+
+  <mat-card *ngIf="dataSource.rowCount == 0 && !isLoading">
+    По вашему запросу ничего не найдено, попробуйте изменить критерии поиска
+  </mat-card>
 </div>
 
 <mat-paginator class="paginator-fixed mat-elevation-z8" [style.visibility]="dataSource.rowCount > 0 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[12,20,50,100] aria-label="Страница"></mat-paginator>

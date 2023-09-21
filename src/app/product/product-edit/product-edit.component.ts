@@ -206,6 +206,7 @@ export class ProductEditComponent implements OnInit {
       autoFocus:false
     });
     dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
       if (result?.newAttribute) {
         switch (result.newAttribute.type) {
           case 'R':
@@ -296,6 +297,7 @@ export class ProductEditComponent implements OnInit {
   }
 
   submitProduct() {
+    console.log(this.product.attributes)
     if (!this.product.title) {
       this._notyf.onError("Не задано наименование продукта");
       return;

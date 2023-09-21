@@ -57,7 +57,6 @@ export class ProductsDataSource implements DataSource<Product> {
             if (product.documents) {
               product['documentsModel'] = [];
               this.api.getDocumentsDTOById(product.documents).subscribe(docs => {
-                console.log(docs)
                   for (let doc of docs.body) {
                     delete doc['supplierId']
                     delete doc['url']

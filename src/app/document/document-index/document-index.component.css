@@ -54,3 +54,74 @@ table {
 .linkButton mat-icon {
   vertical-align: middle;
 }
+
+.card {
+  width: auto;
+  max-width: 450px;
+  min-height: 150px;
+  height: auto;
+}
+
+.titleContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.documentContentPlaceholder,
+.titlePlaceholder,
+.iconPlaceholder,
+.actionButtonPlaceholder,
+.documentDatePlaceholder,
+.cardContentPlaceholder {
+  background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+  border-radius: 5px;
+  background-size: 200% 100%;
+  animation: 1s shine linear infinite;
+}
+
+.iconPlaceholder {
+  width: 35px;
+  height: 35px;
+}
+
+.documentContentPlaceholder {
+  height: 70px;
+}
+
+.titlePlaceholder {
+  height: 15px;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.actionsContainer{
+  margin-top: 5px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cardContentPlaceholder {
+  width: 46px;
+  height: 15px;
+}
+
+.actionButtonPlaceholder {
+  width: 100px;
+  height: 40px;
+}
+
+.documentDatePlaceholder {
+  width: 100%;
+  margin-right: 5px;
+}
+
+.titleLines {
+  width: 100%;
+  margin-left: 8px;
+}
+
+@keyframes shine {
+  to {
+    background-position-x: -200%;
+  }
+}

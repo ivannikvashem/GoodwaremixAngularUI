@@ -123,6 +123,10 @@ a:hover {
   background-color: rgb(0 0 0 / 70%);
 }
 
+.dialog-gray-background .mat-dialog-container{
+  background-color: var(--body-background-color);
+}
+
 .flexExpand {
   flex: 1 1 auto;
 }

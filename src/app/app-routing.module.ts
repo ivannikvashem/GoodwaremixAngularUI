@@ -40,7 +40,8 @@ routes = [
   {path: 'documents', component: DocumentComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'units', component: UnitConverterComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'home', component: StatisticComponent, canActivate: [AuthGuard], data: {roles: ['goodware-manager']}},
-  {path: '**', pathMatch: 'full', redirectTo: [AuthGuard] ? '/home' : '/products'}
+  {path: '', pathMatch: 'full', redirectTo: '/products'},
+  {path: '**', pathMatch: 'full', redirectTo:'/products'},
 ];
 
 @NgModule({

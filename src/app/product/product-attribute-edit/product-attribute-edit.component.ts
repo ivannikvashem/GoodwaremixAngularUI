@@ -127,12 +127,12 @@ export class ProductAttributeEditComponent implements OnInit {
   }
 
   submitForm() {
-    this.data.newAttribute.attributeId = this.selectedAttribute.id
-    this.data.newAttribute.attributeName = this.selectedAttribute.nameAttribute
-    this.data.newAttribute.etimFeature = this.selectedAttribute.etimFeature
-    this.data.newAttribute.etimUnit = this.selectedAttribute.etimUnit
-    this.data.newAttribute.type = this.selectedAttribute.type
-    this.data.newAttribute.unit = this.selectedAttribute.unit
+    this.data.newAttribute.attributeId = this.selectedAttribute.id;
+    this.data.newAttribute.attributeName = this.selectedAttribute.nameAttribute;
+    this.data.newAttribute.etimFeature = this.selectedAttribute.etimFeature;
+    this.data.newAttribute.etimUnit = this.selectedAttribute.etimUnit;
+    this.data.newAttribute.type = this.selectedAttribute.type;
+    this.data.newAttribute.unit = this.selectedAttribute.unit;
     if (this.data.newAttribute.type == 'R') {
       (this.data.newAttribute.objectValue as AttributeProductValueRange).minValue = this.attributeValueRangeMin.value;
       (this.data.newAttribute.objectValue as AttributeProductValueRange).maxValue = this.attributeValueRangeMax.value;
@@ -143,6 +143,7 @@ export class ProductAttributeEditComponent implements OnInit {
       (this.data.newAttribute.objectValue as AttributeProductValueLogic).value = this.attributeValueLogic.value;
     if (this.data.newAttribute.type == 'A')
       (this.data.newAttribute.objectValue as AttributeProductValueText).value = this.attributeValuesCtrl.value;
+    this.data.newAttribute.convertId = "";
   }
 
   isFormValid() {

@@ -12,6 +12,7 @@ import {NotificationService} from "../../service/notification-service";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/shared/confirm-dialog/confirm-dialog.component";
 import {Document} from "../../models/document.model";
 import {Clipboard} from "@angular/cdk/clipboard";
+import {AuthService} from "../../auth/service/auth.service";
 
 @Component({
   selector: 'app-product-details',
@@ -29,7 +30,8 @@ export class ProductDetailsComponent implements OnInit {
   safeImg360Url: SafeResourceUrl | undefined
   remoteAndLocalImg:string[] = []
   isDelBtnDisabled:boolean = false
-  productDocuments:Document[] = []
+  productDocuments:Document[] = [];
+  roles:string[] = [];
 
   constructor(
     private api: ApiClient,
@@ -39,7 +41,10 @@ export class ProductDetailsComponent implements OnInit {
     private _sanitizer: DomSanitizer,
     private _notyf: NotificationService,
     private clipboard:Clipboard,
-    private titleService:Title) {}
+    private titleService:Title,
+    private auth:AuthService) {
+    this.roles = this.auth.getRoles();
+  }
 
   ngOnInit(): void {
     this.fetchProductData()
@@ -84,7 +89,7 @@ export class ProductDetailsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.api.swapAttribute(result.oldAttributeId, result.newAttribute.id, result.convertId).subscribe({
-        next: next => {
+        next: () => {
           this.fetchProductData()
           this._notyf.onSuccess('Данные сохранены успешно');
         },
@@ -109,7 +114,7 @@ export class ProductDetailsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult === true) {
         this.api.deleteProductAttribute(attributeId).subscribe( {
-          next: next => {
+          next: () => {
             this.fetchProductData()
             this._notyf.onSuccess('Успешно исключен')
             this.isDelBtnDisabled = false

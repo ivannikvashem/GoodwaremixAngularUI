@@ -28,6 +28,7 @@ export class DocumentIndexComponent implements OnInit {
   documentList:Document[] = []
   // table view
   displayedColumns: string[] = ['preview', 'number', 'certTitle', 'endDate', 'actions'];
+  isLoading:boolean;
 
   @Input() searchQuery:string;
   //selectedSupplier: Supplier = this.dss.selectedSupplierState.value
@@ -49,7 +50,11 @@ export class DocumentIndexComponent implements OnInit {
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator
   @ViewChild(MatSort) sort: MatSort;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.dataSource.loading$.subscribe(loadState => {
+      this.isLoading = loadState
+    })
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.loadDocumentPagedData()

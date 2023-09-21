@@ -19,6 +19,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {RouterModule} from "@angular/router";
 import { AttributeComponent } from './attribute.component';
 import { AttrtibuteStateSwitchComponent } from './attrtibute-state-switch/attrtibute-state-switch.component';
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
   declarations: [
@@ -27,25 +28,26 @@ import { AttrtibuteStateSwitchComponent } from './attrtibute-state-switch/attrti
     AttributeComponent,
     AttrtibuteStateSwitchComponent,
   ],
-  imports: [
-    CommonModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatTableModule,
-    SharedModule,
-    MatButtonModule,
-    MatIconModule,
-    MatButtonToggleModule,
-    FormsModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    MatChipsModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatInputModule,
-    MatDialogModule,
-    MatProgressSpinnerModule,
-    RouterModule
-  ]
+    imports: [
+        CommonModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatTableModule,
+        SharedModule,
+        MatButtonModule,
+        MatIconModule,
+        MatButtonToggleModule,
+        FormsModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatChipsModule,
+        MatSelectModule,
+        MatButtonModule,
+        MatInputModule,
+        MatDialogModule,
+        MatProgressSpinnerModule,
+        RouterModule,
+        MatCardModule
+    ]
 })
 export class AttributeModule { }

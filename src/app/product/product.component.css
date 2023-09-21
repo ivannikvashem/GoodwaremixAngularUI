@@ -16,9 +16,9 @@
 }
 
 .toolbox-item-three {
-  grid-template-columns: auto 22% 22%;
+  grid-template-columns: 49% 22% 22%;
   display: grid;
-  gap: 14px;
+  gap: 8px;
 }
 
 .raised-icon-button {

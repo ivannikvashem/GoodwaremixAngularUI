@@ -69,7 +69,7 @@ export class ProductComponent implements OnInit {
         this.filterAttribute = this.pC.filterAttribute;
         this.sortActive = this.pC.sortActive;
         this.sortDirection = this.pC.sortDirection;
-        this.selectedSort = this.sortOptions.find(x => x.value.active === this.sortActive && x.value.direction === this.sortDirection).value;
+        this.selectedSort = this.sortOptions.find(x => x.value.active === this.sortActive && x.value.direction === this.sortDirection)?.value;
       }
     });
   }
@@ -130,6 +130,7 @@ export class ProductComponent implements OnInit {
 
   attributeFilter() {
     const dialogRef = this.dialog.open(AttributeFilterComponent, {
+      panelClass: 'dialog-gray-background',
       minWidth: '900px',
       height: 'auto',
       data: {filter: JSON.stringify(this.filterAttribute)},
