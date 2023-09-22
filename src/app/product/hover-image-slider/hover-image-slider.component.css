@@ -59,4 +59,5 @@
   display: flex;
   justify-content: space-between;
   height: 10%;
+  align-items:center;
 }

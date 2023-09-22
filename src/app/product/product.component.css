@@ -16,13 +16,13 @@
 }
 
 .toolbox-item-three {
-  grid-template-columns: 49% 22% 22%;
+  grid-template-columns: auto 21% 21%;
   display: grid;
-  gap: 8px;
+  gap: 10px;
 }
 
 .raised-icon-button {
-  min-width: 55px;
+  min-width: 53px;
   width: 100%;
 }
 

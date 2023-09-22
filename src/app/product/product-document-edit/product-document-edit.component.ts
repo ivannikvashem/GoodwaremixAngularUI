@@ -196,7 +196,7 @@ export class ProductDocumentEditComponent implements OnInit {
   }
 
   searchQueryChanged(searchQuery:string) {
-    this.api.getDocuments(searchQuery, 0, 100, '','','desc').subscribe(x => {
+    this.api.getDocuments(searchQuery, 0, 100, this.data.supplierId,'','desc').subscribe(x => {
       this.documentsList = x.body.data
     });
   }
