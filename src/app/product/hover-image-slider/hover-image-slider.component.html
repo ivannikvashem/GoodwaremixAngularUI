@@ -1,4 +1,4 @@
-<div style="height: 100%; overflow-y: hidden" (mouseover)="onHover = true" (mouseleave)="onHover = false">
+<div style="height: 100%; overflow: hidden" (mouseover)="onHover = true" (mouseleave)="onHover = false">
   <div class="containerCmain" [style.height]="imgList?.length > 1 || imgListThumb?.length > 1 ? '90%' : '100%'">
     <img class="imgInContainer" (load)="onImageLoaded()" (error)="handleMissingImage($event)" [src]="hoverImage" (click)="openDialog(hoverImage)"/>
   </div>
