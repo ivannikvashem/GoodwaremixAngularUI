@@ -25,6 +25,10 @@ export class Product {
   attributes: AttributeProduct[];
   createdAt: any;
   updatedAt: any;
+  isModified:boolean;
+  isDeleted:boolean;
+  modifiedDate:Date;
+  modifiedId:string;
 
   constructor() {
     this.gtd = []

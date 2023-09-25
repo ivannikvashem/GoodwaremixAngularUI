@@ -31,7 +31,8 @@ export class ProductComponent implements OnInit {
 
   pageCookie$ = this._localStorageService.myData$;
   pC: any = {};
-  withICFilter: boolean = false;
+  withICFilter: boolean = null;
+  isVerified: boolean = null;
   roles:string[] = [];
 
   sortOptions =[
@@ -69,6 +70,7 @@ export class ProductComponent implements OnInit {
         this.filterAttribute = this.pC.filterAttribute;
         this.sortActive = this.pC.sortActive;
         this.sortDirection = this.pC.sortDirection;
+        this.isVerified = this.pC.isVerified;
         this.selectedSort = this.sortOptions.find(x => x.value.active === this.sortActive && x.value.direction === this.sortDirection)?.value;
       }
     });
@@ -82,7 +84,8 @@ export class ProductComponent implements OnInit {
       withInternalCodeSelector: this.withICFilter,
       filterAttribute: this.filterAttribute != undefined ? this.filterAttribute : null,
       sortActive: this.sortActive,
-      sortDirection: this.sortDirection
+      sortDirection: this.sortDirection,
+      isVerified: this.isVerified
     });
   }
 
@@ -116,6 +119,12 @@ export class ProductComponent implements OnInit {
     this.setCookie();
   }
 
+  onVerifiedChanged(state: boolean) {
+    this.pageIndex = 0;
+    this.isVerified = state;
+    this.setCookie();
+  }
+
   onPageParamsChanged(params: any) {
     this.pageIndex = params.pageIndex;
     this.pageSize = params.pageSize;
@@ -131,20 +140,35 @@ export class ProductComponent implements OnInit {
   attributeFilter() {
     const dialogRef = this.dialog.open(AttributeFilterComponent, {
       panelClass: 'dialog-gray-background',
-      minWidth: '900px',
-      height: 'auto',
-      data: {filter: JSON.stringify(this.filterAttribute)},
+      minWidth: '950px',
+      maxWidth: '1150px',
+      minHeight: '500px',
+      maxHeight: '700px',
+      data: {filter: JSON.stringify(this.filterAttribute), withICFilter:this.withICFilter, isVerified:this.isVerified},
       autoFocus:false
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result?.attributeSearchFilters?.length > 0) {
-        this.filterAttribute = result;
+      if (result?.selectedAttributes.attributeSearchFilters?.length > 0) {
+        this.filterAttribute = result.selectedAttributes;
       } else {
         this.filterAttribute = new SelectedFiltersList();
       }
+      this.onVerifiedChanged(result.isVerified);
+      this.onICFilterChanged(result.withICFilter);
       this.pageIndex = 0;
       this.setCookie();
     });
+  }
+
+  filterLength() {
+    let length = this.filterAttribute?.attributeSearchFilters.length;
+    if (this.withICFilter == true || this.withICFilter == false) {
+      length += 1;
+    }
+    if (this.isVerified == true || this.isVerified == false) {
+      length += 1;
+    }
+    return length;
   }
 
   ngOnDestroy() {

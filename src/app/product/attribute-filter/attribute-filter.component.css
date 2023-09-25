@@ -18,11 +18,12 @@
 
 .filterCard {
   min-width: 400px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
+  max-height: 500px;
 }
 
 .cardTitle {
-  height: 45px;
+  max-height: 45px;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -53,26 +54,51 @@ mat-slider {
 
 .selectedFilters {
   margin-top: 10px;
-  display: grid;
-  grid-auto-flow: column;
-  gap: 1rem;
+  max-height: 500px;
 }
 
 .mat-chip {
   margin: 2px;
 }
 
-.filterCard:nth-child(3n + 1) {
-  width: 400px;
-  grid-column: 1;
+.mat-chip-container {
+  margin-top: 5px;
 }
 
-.filterCard:nth-child(3n + 2) {
-  width: 400px;
-  grid-column: 2;
+.removeFilterBtn {
+  height: 30px;
+  width: 30px;
+  line-height: 30px;
 }
 
-.filterCard:nth-child(3n + 3) {
-  width: 400px;
-  grid-column: 3;
+.mat-card {
+  padding: 10px !important;
+}
+
+.filterContainer {
+  display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1rem;min-height: 500px;max-height: 700px;
+}
+
+.attributeFilter {
+  grid-column: span 3;
+}
+
+.d-flex {
+  display: flex;
+  justify-content: space-between
+}
+
+.removeAllFiltersBtn {
+  height: 30px;
+  line-height: 30px;
+}
+
+.removeAllFiltersBtn:hover {
+  background-color: #f44336;
+  color:white;
+}
+
+.removeFilterBtn:hover {
+  background-color: #f44336;
+  color:white;
 }

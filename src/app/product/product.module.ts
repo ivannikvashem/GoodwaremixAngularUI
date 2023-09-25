@@ -45,25 +45,29 @@ import {AdminModule} from "../admin/admin.module";
 import {MatBadgeModule} from "@angular/material/badge";
 import {MatSliderModule} from "@angular/material/slider";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {
+  ProductVerifiedFilterSwitchComponent
+} from "./product-verified-filter-switch/product-verified-filter-switch.component";
 
 @NgModule({
-    declarations: [
-        ProductIndexComponent,
-        ProductDetailsComponent,
-        ProductEditComponent,
-        HoverImageSliderComponent,
-        PackageCardComponent,
-        ProductPackageEditComponent,
-        ProductDocumentEditComponent,
-        ProductAttributeEditComponent,
-        ProductComponent,
-        ImagePreviewDialogComponent,
-        AttributeFilterComponent,
-        ProductIcFilterSwitchComponent,
-        ProductDocumentListComponent,
-        ProductCardComponent,
-        ProductSelectedListComponent,
-    ],
+  declarations: [
+    ProductIndexComponent,
+    ProductDetailsComponent,
+    ProductEditComponent,
+    HoverImageSliderComponent,
+    PackageCardComponent,
+    ProductPackageEditComponent,
+    ProductDocumentEditComponent,
+    ProductAttributeEditComponent,
+    ProductComponent,
+    ImagePreviewDialogComponent,
+    AttributeFilterComponent,
+    ProductIcFilterSwitchComponent,
+    ProductDocumentListComponent,
+    ProductCardComponent,
+    ProductSelectedListComponent,
+    ProductVerifiedFilterSwitchComponent,
+  ],
   exports: [
   ],
   imports: [
