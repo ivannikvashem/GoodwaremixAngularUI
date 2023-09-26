@@ -8,7 +8,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 export class ProductVerifiedFilterSwitchComponent {
 
   @Input() state: boolean | null = null;
-  @Output() verifiedFilterEmitter = new EventEmitter<boolean | null>();
+  @Output() moderatedFilterEmitter = new EventEmitter<boolean | null>();
 
   switchAttrStateFilter() {
     switch (this.state) {
@@ -25,6 +25,6 @@ export class ProductVerifiedFilterSwitchComponent {
         break;
       }
     }
-    this.verifiedFilterEmitter.next(this.state);
+    this.moderatedFilterEmitter.next(this.state);
   }
 }

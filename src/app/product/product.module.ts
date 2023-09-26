@@ -48,6 +48,7 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {
   ProductVerifiedFilterSwitchComponent
 } from "./product-verified-filter-switch/product-verified-filter-switch.component";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 @NgModule({
   declarations: [
@@ -103,6 +104,7 @@ import {
     MatBadgeModule,
     MatSliderModule,
     MatProgressBarModule,
+    MatSlideToggleModule,
   ]
 })
 export class ProductModule { }

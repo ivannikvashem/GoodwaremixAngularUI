@@ -25,7 +25,7 @@ export class Product {
   attributes: AttributeProduct[];
   createdAt: any;
   updatedAt: any;
-  isModified:boolean;
+  isModerated:boolean;
   isDeleted:boolean;
   modifiedDate:Date;
   modifiedId:string;

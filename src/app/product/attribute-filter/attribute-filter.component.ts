@@ -30,7 +30,7 @@ export class AttributeFilterComponent implements OnInit {
   filteredAttributeValues: Observable<string[]>;
   private filterCaches = new Map<string, Map<string, string[]>>();
   withICFilter:boolean = false;
-  isVerified:boolean = false;
+  isModerated:boolean = false;
 
   onFilterCancelData:string = '';
   isLoading:boolean;
@@ -40,7 +40,7 @@ export class AttributeFilterComponent implements OnInit {
 
   ngOnInit(): void {
     this.withICFilter = this.data.withICFilter;
-    this.isVerified = this.data.isVerified;
+    this.isModerated = this.data.isModerated;
     if (this.data.filter.length > 0) {
       this.data = JSON.parse(this.data.filter)
     }
@@ -157,7 +157,7 @@ export class AttributeFilterComponent implements OnInit {
         this.selectedAttributes.attributeSearchFilters = this.selectedAttributes.attributeSearchFilters.filter(x => x.attributeId !== i.attributeId)
       }
     }
-    let filters = {selectedAttributes:this.selectedAttributes, withICFilter:this.withICFilter, isVerified: this.isVerified}
+    let filters = {selectedAttributes:this.selectedAttributes, withICFilter:this.withICFilter, isModerated: this.isModerated}
     this.dialogRef.close(filters)
   }
 
@@ -170,6 +170,10 @@ export class AttributeFilterComponent implements OnInit {
   }
 
   onVerifiedChanged(state:boolean) {
-    this.isVerified = state;
+    this.isModerated = state;
+  }
+
+  clearFilters() {
+    this.dialogRef.close({isModerated: null, withICFilter: null, selectedAttributes:null});
   }
 }

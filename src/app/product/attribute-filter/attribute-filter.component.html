@@ -1,12 +1,12 @@
 <div class="main">
   <div class="header-container">
     <span class="page-title">Фильтры</span>
-    <button class="removeAllFiltersBtn" mat-raised-button [mat-dialog-close]="null"><mat-icon>delete</mat-icon> Очистить фильтры</button>
+    <button class="removeAllFiltersBtn" mat-raised-button (click)="clearFilters()"><mat-icon>delete</mat-icon> Очистить фильтры</button>
   </div>
   <div class="filterContainer">
     <div>
       <app-product-ic-filter-switch [state]="withICFilter" (withICFilterEmitter)="onICFilterChanged($event)"></app-product-ic-filter-switch>
-      <app-product-verified-filter-switch [state]="isVerified" (verifiedFilterEmitter)="onVerifiedChanged($event)"></app-product-verified-filter-switch>
+      <app-product-verified-filter-switch [state]="isModerated" (moderatedFilterEmitter)="onVerifiedChanged($event)"></app-product-verified-filter-switch>
     </div>
     <div class="attributeFilter">
       <mat-form-field appearance="outline" class="full-width input-form-outline-background">

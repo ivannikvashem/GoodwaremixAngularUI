@@ -1,8 +1,9 @@
 <div class="header-container">
   <div class="page-title">
     <span *ngIf="product?.vendor">{{product?.vendor}}</span>
-    <span> {{product?.title !== undefined ? product?.title : product.titleLong}}</span>&nbsp;
+    <span> {{product?.title !== undefined ? product?.title : product.titleLong}}</span>
     <span *ngIf="product?.vendorId"> <button class="btnAsText" (click)="copyVendorId(product.vendorId)">[<strong>{{product.vendorId}}</strong>]</button> </span>
+    <span *ngIf="product?.isModerated" style="vertical-align: bottom"><mat-icon class="moderatedProductBadge" matTooltip="Товар проверен">verified</mat-icon></span>
   </div>
   <div *ngIf="roles.includes('goodware-manager')">
     <button mat-raised-button (click)="goToEdit(productId)">Редактировать</button>
