@@ -27,7 +27,7 @@ export class AttributeIndexComponent implements OnInit {
 
   dataSource: AttributesDataSource;
   displayedColumns: string[] = ['fixed', 'rating', 'supplierName', 'etimFeature', 'nameAttribute', 'unit', 'type', 'allValue', 'actions'];
-  isLoading = false;
+  isLoading:boolean;
   pageCookie$ = this._localStorageService.myData$
   pC: any = {};
 
@@ -58,7 +58,11 @@ export class AttributeIndexComponent implements OnInit {
   }
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.dataSource.loading$.subscribe(loadState => {
+      this.isLoading = loadState
+    })
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.loadAttributePagedData()

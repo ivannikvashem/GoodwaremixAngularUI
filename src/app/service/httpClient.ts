@@ -137,7 +137,7 @@ export class ApiClient {
     if (searchQuery)
       opt.params = opt.params.append('searchFilter', searchQuery);
     if (typeof (isModerated) == "boolean")
-      opt.params = opt.params.append('isChange', isModerated);
+      opt.params = opt.params.append('isModerated', isModerated);
     if (typeof (withInternalCodeSelector) == "boolean")
       opt.params = opt.params.append('withInternalCode', withInternalCodeSelector);
     if (sortField)

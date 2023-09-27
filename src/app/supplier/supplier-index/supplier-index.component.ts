@@ -30,6 +30,7 @@ import {MatTableDataSource} from "@angular/material/table";
 export class SupplierIndexComponent implements OnInit {
 
   displayedColumns: string[] = ['checkbox', 'supplierName', 'type', 'fullfill', 'brands', 'stat.productQty', 'stat.lastImport', 'actions'];
+  isLoading:boolean;
   dataSource: SuppliersDataSource;
   @Input() searchQuery:string;
   @Input() selectedSupplier: Supplier;
@@ -58,7 +59,11 @@ export class SupplierIndexComponent implements OnInit {
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator
   @ViewChild(MatSort) sort: MatSort;
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.dataSource.loading$.subscribe(loadState => {
+      this.isLoading = loadState
+    })
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.loadSupplierPagedData()
