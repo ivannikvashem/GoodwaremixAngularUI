@@ -1,5 +1,5 @@
 <div class="mat-elevation-z2" style="margin-bottom: 60px">
-  <table mat-table [dataSource]="supplierDataSource" multiTemplateDataRows matSort [matSortActive]="sortActive" matSortDirection="{{sortDirection}}" (matSortChange)="sortData($event)" matSortDisableClear>
+  <table mat-table *ngIf="dataSource.rowCount != 0 && !isLoading" [dataSource]="supplierDataSource" multiTemplateDataRows matSort [matSortActive]="sortActive" matSortDirection="{{sortDirection}}" (matSortChange)="sortData($event)" matSortDisableClear>
     <!-- Checkbox Column -->
     <ng-container matColumnDef="checkbox">
       <th mat-header-cell *matHeaderCellDef>
@@ -118,6 +118,14 @@
     <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="element-row" [class.expanded-row]="expandedElement === element"></tr>
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
   </table>
+
+  <mat-card *ngIf="isLoading">
+    <div class="tablePlaceholderLine" *ngFor="let i of [].constructor(pageSize)"></div>
+  </mat-card>
+
+  <mat-card *ngIf="dataSource.rowCount == 0 && !isLoading">
+    По вашему запросу ничего не найдено, попробуйте изменить критерии поиска
+  </mat-card>
 
   <button mat-fab color="primary" class="mat-elevation-z2; floatButton" (click)="fetchSelectedItems()" [class.cdk-visually-hidden]="selection.selected.length == 0" [matTooltip]="'Сбор выбранных ' + selection.selected.length"><mat-icon>restart_alt</mat-icon></button>
 </div>

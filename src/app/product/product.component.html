@@ -10,21 +10,20 @@
 
   <app-supplier-autocomplete [appearance]="'outline'" class="toolbox-item"></app-supplier-autocomplete>
 
-  <div class="toolbox-item-two">
-    <mat-form-field appearance="outline" class="input-form-outline-background">
-      <mat-label>Сортировка</mat-label>
-      <select matNativeControl [(ngModel)]="selectedSort" (change)="sortData()">
-        <option *ngFor="let option of sortOptions" [ngValue]="option.value">{{option.displayText}}</option>
-      </select>
-    </mat-form-field>
-
-    <button class="toolbox-button badge-button" mat-raised-button (click)="attributeFilter()" [matBadge]="filterAttribute?.attributeSearchFilters ? filterAttribute?.attributeSearchFilters.length : 0" matBadgePosition="after" matBadgeColor="primary" matBadgeSize="medium">
-      Фильтры
-    </button>
-  </div>
+  <mat-form-field appearance="outline" class="input-form-outline-background">
+    <mat-label>Сортировка</mat-label>
+    <select matNativeControl [(ngModel)]="selectedSort" (change)="sortData()">
+      <option *ngFor="let option of sortOptions" [ngValue]="option.value">{{option.displayText}}</option>
+    </select>
+  </mat-form-field>
 
   <div class="toolbox-item-three" [style.grid-template-columns]="roles.includes('goodware-manager') ? '' : 'auto auto'">
+<!--
     <app-product-ic-filter-switch [state]="withICFilter" (withICFilterEmitter)="onICFilterChanged($event)"></app-product-ic-filter-switch>
+-->
+    <button class="toolbox-button badge-button" mat-raised-button (click)="attributeFilter()" [matBadge]="filterLength() ? filterLength() : 0" matBadgePosition="after" matBadgeColor="primary" matBadgeSize="medium">
+      Фильтры
+    </button>
     <button *ngIf="roles.includes('goodware-manager')" class="toolbox-button raised-icon-button" mat-raised-button matTooltip="Добавить товар" [routerLink]="['/product-add']">
       <mat-icon>add</mat-icon>
     </button>
@@ -34,4 +33,4 @@
   </div>
 
 </div>
-<app-product-index [isCardLayout]="cardLayout" [attributeFilter]="filterAttribute" [searchQuery]="searchQuery" [withInternalCode]="withICFilter" [selectedSupplier]="selectedSupplier" [pageIndex]="pageIndex" [pageSize]="pageSize" [sortActive]="{active:sortActive, direction:sortDirection}" (pageParams)="onPageParamsChanged($event)"></app-product-index>
+<app-product-index [isCardLayout]="cardLayout" [attributeFilter]="filterAttribute" [searchQuery]="searchQuery" [withInternalCode]="withICFilter" [selectedSupplier]="selectedSupplier" [pageIndex]="pageIndex" [pageSize]="pageSize" [sortActive]="{active:sortActive, direction:sortDirection}" [isModerated]="isModerated" (pageParams)="onPageParamsChanged($event)"></app-product-index>

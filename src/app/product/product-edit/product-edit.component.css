@@ -253,3 +253,8 @@ tr.mat-row {
   grid-auto-flow: column;
   grid-column-gap: 5px;
 }
+
+.isModeratedSlider {
+  margin-right: 10px;
+  height: 100%;
+}

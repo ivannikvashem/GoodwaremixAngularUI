@@ -29,6 +29,8 @@ export class AttributeFilterComponent implements OnInit {
   selectedFilterAttributes:SelectedFiltersList[] = []
   filteredAttributeValues: Observable<string[]>;
   private filterCaches = new Map<string, Map<string, string[]>>();
+  withICFilter:boolean = false;
+  isModerated:boolean = false;
 
   onFilterCancelData:string = '';
   isLoading:boolean;
@@ -37,6 +39,8 @@ export class AttributeFilterComponent implements OnInit {
   constructor(private api:ApiClient, @Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<AttributeFilterComponent>) { }
 
   ngOnInit(): void {
+    this.withICFilter = this.data.withICFilter;
+    this.isModerated = this.data.isModerated;
     if (this.data.filter.length > 0) {
       this.data = JSON.parse(this.data.filter)
     }
@@ -153,10 +157,23 @@ export class AttributeFilterComponent implements OnInit {
         this.selectedAttributes.attributeSearchFilters = this.selectedAttributes.attributeSearchFilters.filter(x => x.attributeId !== i.attributeId)
       }
     }
-    this.dialogRef.close(this.selectedAttributes)
+    let filters = {selectedAttributes:this.selectedAttributes, withICFilter:this.withICFilter, isModerated: this.isModerated}
+    this.dialogRef.close(filters)
   }
 
   onFilterCancel() {
     this.dialogRef.close(this.onFilterCancelData.length > 0 ? JSON.parse(this.onFilterCancelData): {})
+  }
+
+  onICFilterChanged(state: boolean) {
+    this.withICFilter = state;
+  }
+
+  onVerifiedChanged(state:boolean) {
+    this.isModerated = state;
+  }
+
+  clearFilters() {
+    this.dialogRef.close({isModerated: null, withICFilter: null, selectedAttributes:null});
   }
 }

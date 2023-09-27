@@ -118,7 +118,7 @@ export class StatisticComponent implements OnInit {
   }
 
   setBodyData(data:any, isAdmin:boolean) {
-    this.lastStats = isAdmin ? data[data.length - 1].mainStatistics as Statistic : data[data.length - 1];
+    this.lastStats = isAdmin ? data[data.length - 1]?.mainStatistics as Statistic : data[data.length - 1];
   }
 
   onSupplierSelected(supplier?: Supplier) {

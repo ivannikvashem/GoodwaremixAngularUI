@@ -3,7 +3,8 @@
     <span>{{productId == undefined ? "Добавление нового товара" : "Редактирование товара"}}</span>
     <span *ngIf="product?.supplierName"> поставщика {{product.supplierName}}</span>
   </div>
-  <div>
+  <div style="display: flex">
+    <mat-slide-toggle color="primary" *ngIf="roles.includes('goodware-admin')" [(ngModel)]="product.isModerated" class="isModeratedSlider">Проверен</mat-slide-toggle>
     <button mat-flat-button color="primary" (click)="submitProduct()" [disabled]="!product.vendorId || !product.title"> Сохранить </button>
   </div>
 </div>

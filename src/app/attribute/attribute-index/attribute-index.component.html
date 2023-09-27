@@ -1,6 +1,6 @@
 <div class="page-container">
   <div class="mat-elevation-z2 full-width">
-    <table mat-table [dataSource]="dataSource" matSort [matSortActive]="sortActive" matSortDirection="{{sortDirection}}" (matSortChange)="sortData($event)" matSortDisableClear>
+    <table mat-table *ngIf="dataSource.rowCount != 0 && !isLoading" [dataSource]="dataSource" matSort [matSortActive]="sortActive" matSortDirection="{{sortDirection}}" (matSortChange)="sortData($event)" matSortDisableClear>
       <!-- rating Column -->
       <ng-container matColumnDef="rating">
         <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Частота</th>
@@ -63,6 +63,14 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+
+    <mat-card *ngIf="isLoading">
+      <div class="tablePlaceholderLine" *ngFor="let i of [].constructor(pageSize)"></div>
+    </mat-card>
+
+    <mat-card *ngIf="dataSource.rowCount == 0 && !isLoading">
+      По вашему запросу ничего не найдено, попробуйте изменить критерии поиска
+    </mat-card>
   </div>
 </div>
 <mat-paginator class="paginator-fixed mat-elevation-z8" [style.visibility]="dataSource.rowCount > 0 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[12,20,50,100] aria-label="Страница"></mat-paginator>

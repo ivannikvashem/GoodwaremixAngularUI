@@ -21,6 +21,7 @@ import {MissingImageHandler} from "../MissingImageHandler";
 import {DataStateService} from "../../shared/data-state.service";
 import {ImagePreviewDialogComponent} from "../image-preview-dialog/image-preview-dialog.component";
 import {Title} from "@angular/platform-browser";
+import {AuthService} from "../../auth/service/auth.service";
 
 interface Country {
   code?:string
@@ -52,6 +53,7 @@ export class ProductEditComponent implements OnInit {
   // Package
   packageColumns: string[] = ['package', 'action'];
 
+  roles:string[] = [];
   countriesList:Country[] = Countries
   searchCountryCtrl = new FormControl<string | any>('')
   filteredCountries: Observable<any[]>
@@ -73,8 +75,11 @@ export class ProductEditComponent implements OnInit {
               public dialog: MatDialog,
               private imgHandler:MissingImageHandler,
               private dss: DataStateService,
-              private titleService:Title
-  ) {}
+              private titleService:Title,
+              private auth:AuthService
+  ) {
+    this.roles = this.auth.getRoles();
+  }
 
   ngOnInit(): void {
     this.productId = this._ActivatedRoute.snapshot.paramMap.get("id");
@@ -297,7 +302,6 @@ export class ProductEditComponent implements OnInit {
   }
 
   submitProduct() {
-    console.log(this.product.attributes)
     if (!this.product.title) {
       this._notyf.onError("Не задано наименование продукта");
       return;

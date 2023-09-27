@@ -174,3 +174,8 @@ tr.mat-row {
   display: flex;
   justify-content: center;
 }
+
+.moderatedProductBadge {
+  color: rgb(0, 128, 55);
+  cursor: pointer;
+}
