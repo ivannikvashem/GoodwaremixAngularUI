@@ -3,6 +3,8 @@ import {BehaviorSubject, Observable, of, tap} from 'rxjs';
 import {catchError, finalize, map} from 'rxjs/operators';
 import {ApiClient} from "../../service/httpClient";
 import {Product} from "../../models/product.model";
+import {NotificationService} from "../../service/notification-service";
+import {environment} from "../../../environments/environment";
 
 export class Filter {
   attributeName:string;
@@ -23,7 +25,7 @@ export class ProductsDataSource implements DataSource<Product> {
   public rowCount:number = -1;
   public pageCountSize:number;
 
-  constructor(private api: ApiClient) {}
+  constructor(private api: ApiClient, private _notyf:NotificationService) {}
 
   connect(collectionViewer: CollectionViewer): Observable<Product[]> {
     return this.ProductListSubject.asObservable();
@@ -80,17 +82,41 @@ export class ProductsDataSource implements DataSource<Product> {
         this.ProductListSubject.next(newdata);
       },
       err => {
-        console.log(err.message)
+        this._notyf.onError('Ошибка удаления товара' + environment.production ? '' : err)
       });
   }
 
-  downloadImages(internalCode:string) {
-    if (internalCode) {
-      const downloadAction = document.createElement('a')
-      downloadAction.target = '_blank'
-      downloadAction.href = 'http://172.16.41.56:5105/api/files/internalCode/' + internalCode
-      downloadAction.click()
-    }
+  downloadImages(products:Product[]) {
+    products.forEach((product, i) => {
+      setTimeout(() => {
+        if (product.internalCode) {
+          this.api.downloadProductImageByIC(product.internalCode).pipe(map( (res:any) => {
+            return {filename: product.internalCode, data: new Blob([res], {type: 'image/' + res.type.split('/')[1]})}
+          })).subscribe(res => {
+            this.imgDownloadAction(res);
+          })
+        }
+        else if (product.vendorId) {
+          this.api.downloadProductImageByVendorId(product.vendorId).pipe(map((res:any) => {
+            return {filename: product.vendorId, data: new Blob([res], {type: 'image/' + res.type.split('/')[1]})}
+          })).subscribe(res => {
+            this.imgDownloadAction(res);
+          })
+        }
+      }, i * 200)
+    })
+  }
+
+  private imgDownloadAction(res:any) {
+    let url = window.URL.createObjectURL(res.data);
+    let a = document.createElement('a');
+    document.body.appendChild(a);
+    a.setAttribute('style', 'display: none');
+    a.href = url;
+    a.download = res.filename;
+    a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
   }
 
 }

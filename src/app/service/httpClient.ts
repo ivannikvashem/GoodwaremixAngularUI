@@ -292,6 +292,14 @@ export class ApiClient {
     return this.http.get(this.apiURL + '/suppliers/DownloadFileJson',opt)
   }
 
+  downloadProductImageByIC(internalCode:string) {
+    return this.http.get(this.apiURL + '/files/internalCode/' + internalCode, { responseType: 'blob' });
+  }
+
+  downloadProductImageByVendorId(vendorId:string) {
+    return this.http.get(this.apiURL + '/files/vendorId/' + vendorId, { responseType: 'blob' });
+  }
+
   // INIT ENDPOINT
   fixSupplierStat() {
     return this.http.post<any>(this.apiURL + '/service/cleanstat', {}, this.httpOptions);
