@@ -108,15 +108,17 @@ export class ProductsDataSource implements DataSource<Product> {
   }
 
   private imgDownloadAction(res:any) {
-    let url = window.URL.createObjectURL(res.data);
-    let a = document.createElement('a');
-    document.body.appendChild(a);
-    a.setAttribute('style', 'display: none');
-    a.href = url;
-    a.download = res.filename;
-    a.click();
-    window.URL.revokeObjectURL(url);
-    a.remove();
+    if (res.data) {
+      let url = window.URL.createObjectURL(res.data);
+      let a = document.createElement('a');
+      document.body.appendChild(a);
+      a.setAttribute('style', 'display: none');
+      a.href = url;
+      a.download = res.filename;
+      a.click();
+      window.URL.revokeObjectURL(url);
+      a.remove();
+    }
   }
 
 }
