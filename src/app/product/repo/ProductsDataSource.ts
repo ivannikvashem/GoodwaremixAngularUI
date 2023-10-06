@@ -86,18 +86,20 @@ export class ProductsDataSource implements DataSource<Product> {
       });
   }
 
-  downloadImages(products:Product[]) {
+  downloadImages(products:Product[], jpegFormat:boolean) {
     products.forEach((product, i) => {
       setTimeout(() => {
         if (product.internalCode) {
-          this.api.downloadProductImageByIC(product.internalCode).pipe(map( (res:any) => {
+          this.api.downloadProductImageByIC(product.internalCode, jpegFormat).pipe(map( (res:any) => {
+            console.log(res)
             return {filename: product.internalCode, data: new Blob([res], {type: 'image/' + res.type.split('/')[1]})}
           })).subscribe(res => {
             this.imgDownloadAction(res);
           })
         }
         else if (product.vendorId) {
-          this.api.downloadProductImageByVendorId(product.vendorId).pipe(map((res:any) => {
+          this.api.downloadProductImageByVendorId(product.vendorId, jpegFormat).pipe(map((res:any) => {
+            console.log(res)
             return {filename: product.vendorId, data: new Blob([res], {type: 'image/' + res.type.split('/')[1]})}
           })).subscribe(res => {
             this.imgDownloadAction(res);

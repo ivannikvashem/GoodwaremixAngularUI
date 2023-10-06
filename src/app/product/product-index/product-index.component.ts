@@ -142,8 +142,8 @@ export class ProductIndexComponent implements OnInit {
     });
   }
 
-  downloadProductsImage() {
-    this.dataSource.downloadImages(this.selectionItems)
+  downloadProductsImage(jpegFormat:boolean) {
+    this.dataSource.downloadImages(this.selectionItems, jpegFormat)
   }
 
   paginatorChanged(matPaginator: MatPaginator) {

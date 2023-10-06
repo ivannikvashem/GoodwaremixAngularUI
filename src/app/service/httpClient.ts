@@ -292,12 +292,24 @@ export class ApiClient {
     return this.http.get(this.apiURL + '/suppliers/DownloadFileJson',opt)
   }
 
-  downloadProductImageByIC(internalCode:string) {
-    return this.http.get(this.apiURL + '/files/internalCode/' + internalCode, { responseType: 'blob' });
+  downloadProductImageByIC(internalCode:string, jpegFormat:boolean) {
+    let opt = {};
+    if (jpegFormat) {
+      params: new HttpParams()
+        .set('jpg', jpegFormat)
+    }
+    opt = Object.assign(opt, { responseType: 'blob' });
+    return this.http.get(this.apiURL + '/files/internalCode/' + internalCode, opt);
   }
 
-  downloadProductImageByVendorId(vendorId:string) {
-    return this.http.get(this.apiURL + '/files/vendorId/' + vendorId, { responseType: 'blob' });
+  downloadProductImageByVendorId(vendorId:string, jpegFormat:boolean) {
+    let opt = {};
+    if (jpegFormat) {
+      params: new HttpParams()
+        .set('jpg', jpegFormat)
+    }
+    opt = Object.assign(opt, { responseType: 'blob' });
+    return this.http.get(this.apiURL + '/files/vendorId/' + vendorId, opt);
   }
 
   // INIT ENDPOINT

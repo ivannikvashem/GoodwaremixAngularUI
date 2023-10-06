@@ -13,7 +13,11 @@
       </div>
 
       <div class="toolbox-item">
-        <button class="full-height" mat-button (click)="downloadProductsImage()">Загрузить фото<mat-icon>download</mat-icon></button>
+        <button class="full-height" mat-button [matMenuTriggerFor]="menu">Загрузить фото<mat-icon>download</mat-icon></button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="downloadProductsImage(true)">JPEG формат</button>
+          <button mat-menu-item (click)="downloadProductsImage(null)">Оригинальный формат</button>
+        </mat-menu>
       </div>
 
       <div class="toolbox-item" *ngIf="roles.includes('goodware-admin')">
