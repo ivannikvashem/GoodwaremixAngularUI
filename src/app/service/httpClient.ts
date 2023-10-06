@@ -295,8 +295,7 @@ export class ApiClient {
   downloadProductImageByIC(internalCode:string, jpegFormat:boolean) {
     let opt = {};
     if (jpegFormat) {
-      params: new HttpParams()
-        .set('jpg', jpegFormat)
+      opt = {params: new HttpParams().set('jpg', jpegFormat)}
     }
     opt = Object.assign(opt, { responseType: 'blob' });
     return this.http.get(this.apiURL + '/files/internalCode/' + internalCode, opt);
@@ -305,8 +304,7 @@ export class ApiClient {
   downloadProductImageByVendorId(vendorId:string, jpegFormat:boolean) {
     let opt = {};
     if (jpegFormat) {
-      params: new HttpParams()
-        .set('jpg', jpegFormat)
+      opt = {params: new HttpParams().set('jpg', jpegFormat)}
     }
     opt = Object.assign(opt, { responseType: 'blob' });
     return this.http.get(this.apiURL + '/files/vendorId/' + vendorId, opt);
