@@ -15,8 +15,8 @@ export class ImagePreviewDialogComponent{
   selectedImage:string;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: ImagePreviewDialogData, private imgHandler:MissingImageHandler) {
-    this.selectedImage = this.data.imgList[this.data.selectedIndex]
-    this.imageIndex = this.data.selectedIndex;
+    this.selectedImage = this.data.imgList[this.data.selectedIndex  + 1]
+    this.imageIndex = this.data.selectedIndex + 1;
     this.imgList = this.data.imgList;
 
     document.onkeydown = (keyEvent:any) => {
