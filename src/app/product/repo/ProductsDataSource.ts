@@ -70,7 +70,7 @@ export class ProductsDataSource implements DataSource<Product> {
         // the REAL crutch thing END
         this.ProductListSubject.next(body.data)
         this.rowCount = body.totalRecords;
-        this.pageCountSize = body.data.length;
+        this.pageCountSize = body.data?.length;
       });
   }
 
