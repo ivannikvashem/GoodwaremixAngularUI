@@ -57,7 +57,7 @@ export class ProductIndexComponent implements OnInit {
     private imgHandler:MissingImageHandler,
     private dss:DataStateService,
     private auth:AuthService) {
-    this.dataSource = new ProductsDataSource(this.api);
+    this.dataSource = new ProductsDataSource(this.api, this._notyf);
     this.roles = this.auth.getRoles();
   }
 
@@ -142,10 +142,8 @@ export class ProductIndexComponent implements OnInit {
     });
   }
 
-  downloadProductsImage() {
-    for (let product of this.selectionItems) {
-      this.dataSource.downloadImages(product.internalCode)
-    }
+  downloadProductsImage(jpegFormat:boolean) {
+    this.dataSource.downloadImages(this.selectionItems, jpegFormat)
   }
 
   paginatorChanged(matPaginator: MatPaginator) {

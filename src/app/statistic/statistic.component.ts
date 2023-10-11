@@ -58,7 +58,7 @@ export class StatisticComponent implements OnInit {
   errorsConfig:any[] = [];
   lastStats:Statistic;
   tasks:any;
-  isLoading:boolean = false;
+  isLoading:boolean = true;
   datePipe = new DatePipe('ru-RU');
   supplierStatsList:any[] = [];
 
@@ -78,8 +78,6 @@ export class StatisticComponent implements OnInit {
 
 
   getTotalStats() {
-    this.isLoading = true;
-
     this.api.getTotalStats()
       .pipe(
         tap( () => { this.isLoading = true; }),
