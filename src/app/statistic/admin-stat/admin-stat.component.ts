@@ -30,12 +30,10 @@ export class AdminStatComponent implements OnInit {
     },
     scales: {
       y: {
-        display: false,
         grid: {color: 'lightgray'},
         ticks: {display: true}
       },
       x: {
-        display: false,
         grid: {color: 'transparent'},
         ticks: {display: true}
       }
