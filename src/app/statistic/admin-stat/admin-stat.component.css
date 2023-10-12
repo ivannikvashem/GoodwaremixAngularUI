@@ -60,3 +60,14 @@ canvas > .legend > .legend-item > .legend-rect {
   display: flex;
   justify-content: center;
 }
+
+.doughnutChart {
+  max-height: 250px;
+}
+
+.chartSwitcher {
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+  cursor: pointer;
+}

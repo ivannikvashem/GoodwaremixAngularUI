@@ -6,8 +6,11 @@
         <mat-card-title><a class="cardLink" href="/products" target="_blank">Товары</a></mat-card-title>
         <mat-card-subtitle><strong>{{lastStats?.productQty ? lastStats.productQty : 0}}</strong> всего <strong>{{lastStats?.productQtyWithCode ? lastStats.productQtyWithCode : 0}}</strong> с артикулом</mat-card-subtitle>
       </mat-card-header>
+      <mat-icon class="chartSwitcher" (click)="chartsData[0].isDoughnutLayout = !chartsData[0].isDoughnutLayout"> {{chartsData[0].isDoughnutLayout ? 'show_chart' : 'donut_large'}}</mat-icon>
+
       <div class="chart-container">
-        <canvas mat-card-image baseChart [options]="lineChartOptions" [type]="'line'" [data]="chartsData[0].data"></canvas>
+        <canvas *ngIf="chartsData[0].isDoughnutLayout" (chartHover)="onChartHover($event)" class="doughnutChart" baseChart [options]="doughnutChartOptions" [plugins]="chartsData[0].doughnutChartData.plugins" [type]="'doughnut'" [data]="chartsData[0].doughnutChartData"></canvas>
+        <canvas *ngIf="!chartsData[0].isDoughnutLayout" (chartHover)="onChartHover($event)" baseChart [options]="lineChartOptions" [type]="'line'" [data]="chartsData[0].data"></canvas>
       </div>
     </mat-card>
 
@@ -17,8 +20,10 @@
         <mat-card-title><a class="cardLink" href="/documents" target="_blank">Документы</a></mat-card-title>
         <mat-card-subtitle><strong>{{lastStats?.documentQty ? lastStats.documentQty : 0}}</strong> всего <strong>{{lastStats?.certNumberQty ? lastStats.certNumberQty : 0}}</strong> сертификатов</mat-card-subtitle>
       </mat-card-header>
+      <mat-icon class="chartSwitcher" (click)="chartsData[1].isDoughnutLayout = !chartsData[1].isDoughnutLayout"> {{chartsData[0].isDoughnutLayout ? 'show_chart' : 'donut_large'}}</mat-icon>
       <div class="chart-container">
-        <canvas mat-card-image baseChart [options]="lineChartOptions" [type]="'line'" [data]="chartsData[1]?.data"></canvas>
+        <canvas *ngIf="chartsData[1].isDoughnutLayout" (chartHover)="onChartHover($event)" class="doughnutChart" baseChart [options]="doughnutChartOptions" [plugins]="chartsData[1].doughnutChartData.plugins" [type]="'doughnut'" [data]="chartsData[1].doughnutChartData"></canvas>
+        <canvas *ngIf="!chartsData[1].isDoughnutLayout" (chartHover)="onChartHover($event)" baseChart [options]="lineChartOptions" [type]="'line'" [data]="chartsData[1]?.data"></canvas>
       </div>
     </mat-card>
 
@@ -28,8 +33,10 @@
         <mat-card-title><a class="cardLink" href="/attributes" target="_blank">Атрибуты</a></mat-card-title>
         <mat-card-subtitle><strong>{{lastStats?.attributeQty ? lastStats.attributeQty : 0}}</strong> всего <strong>{{lastStats?.attributeIsFixedQty ? lastStats.attributeIsFixedQty : 0}}</strong> фиксированных</mat-card-subtitle>
       </mat-card-header>
+      <mat-icon class="chartSwitcher" (click)="chartsData[2].isDoughnutLayout = !chartsData[2].isDoughnutLayout"> {{chartsData[2].isDoughnutLayout ? 'show_chart' : 'donut_large'}}</mat-icon>
       <div class="chart-container">
-        <canvas mat-card-image baseChart (chartHover)="onChartHover($event)" (chartClick)="onChartClick($event, 'attributes')" [options]="lineChartOptions" [type]="'line'" [data]="chartsData[2]?.data"></canvas>
+        <canvas *ngIf="chartsData[2].isDoughnutLayout" class="doughnutChart" baseChart (chartHover)="onChartHover($event)" (chartClick)="onChartClick($event, 'attributes')" [options]="doughnutChartOptions" [plugins]="chartsData[2].doughnutChartData.plugins" [type]="'doughnut'" [data]="chartsData[2].doughnutChartData"></canvas>
+        <canvas *ngIf="!chartsData[2].isDoughnutLayout" baseChart (chartHover)="onChartHover($event)" (chartClick)="onChartClick($event, 'attributes')" [options]="lineChartOptions" [type]="'line'" [data]="chartsData[2]?.data"></canvas>
       </div>
     </mat-card>
 

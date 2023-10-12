@@ -23,32 +23,6 @@ export class AdminStatComponent implements OnInit {
         }
       }
     },
-    /*plugins: {
-      tooltip: {
-        backgroundColor: 'rgba(255,255,0,0.5)',
-        bodyFontColor: 'blue',
-        borderColor: '#0ff',
-        borderWidth: 5,
-        caretPadding: 10,
-        displayColors: false,
-        enabled: true,
-        intersect: true,
-        mode: 'x',
-        titleFontColor: '#333',
-        titleMarginBottom: 10,
-        xPadding: 20,
-        yPadding: 15,
-        // If you want to custom the value
-        callbacks: {
-          label: function (tooltipItem:any, data:any) {
-            console.log(tooltipItem, data)
-            const datasetLabel = data.datasets[tooltipItem.datasetIndex].label || '';
-            return  datasetLabel + ': $' + tooltipItem.yLabel;
-            //return 'a'
-          }
-        }
-      }
-    },*/
     elements: {
       line: {
         borderWidth: 4
@@ -67,6 +41,14 @@ export class AdminStatComponent implements OnInit {
       }
     },
     pointRadius: 5
+  }
+
+  doughnutChartOptions: any = {
+    plugins: {
+      legend: {
+        display: false,
+      }
+    },
   }
 
   chartOptions = {
@@ -101,7 +83,9 @@ export class AdminStatComponent implements OnInit {
   constructor(private dialog: MatDialog) {
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.formatDataForDoughnutChart();
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.updateCharts();
@@ -114,13 +98,13 @@ export class AdminStatComponent implements OnInit {
   }
 
 
-  onChartClick(chartDot: any, chartType:string) {
-    let headers = chartDot.event.chart.legend.legendItems.map((x:any) => x['text']);
+  onChartClick(chartDot: any, chartType: string) {
+    let headers = chartDot.event.chart.legend.legendItems.map((x: any) => x['text']);
     let index = chartDot.active[0]?.index;
     if (index >= 0) {
       this.dialog.open(StatisticDetailsComponent, {
         minWidth: '500px',
-        data: {data: this.data[index], headers: headers, chartType:chartType}
+        data: {data: this.data[index], headers: headers, chartType: chartType}
       })
     }
   }
@@ -129,8 +113,55 @@ export class AdminStatComponent implements OnInit {
     chart.event.native.target.style.cursor = chart.active.length > 0 ? 'pointer' : 'default';
   }
 
-  enabledTasks() {
-    return this.tasks.filter(x => x.isEnable == true).length;
-  }
+  formatDataForDoughnutChart() {
+    this.chartsData.forEach((chartData: any) => {
+      const doughnutChartData: any = {
+        labels: [],
+        datasets: [{
+          backgroundColor: [],
+          cutout: '70%',
+          data: []
+        }]
+      };
+      console.log(chartData)
+      if (chartData.data.datasets[0]?.data && chartData.data.datasets[1]?.data) {
+        doughnutChartData.labels = [
+          chartData.oppositeValue,
+          chartData.data.datasets[1].label
+        ];
 
+        doughnutChartData.datasets[0].backgroundColor = [
+          chartData.data.datasets[0]?.backgroundColor,
+          chartData.data.datasets[1]?.backgroundColor
+        ];
+
+        doughnutChartData.datasets[0].data = [
+          chartData.data.datasets[0].data[chartData.data.datasets[0].data.length - 1] - chartData.data.datasets[1].data[chartData.data.datasets[1].data.length - 1],
+          chartData.data.datasets[1].data[chartData.data.datasets[1].data.length - 1]
+        ];
+      }
+
+      chartData.doughnutChartData = doughnutChartData;
+      chartData.doughnutChartData.plugins = [{
+        legend: {
+          position: 'bottom',
+          labels: {
+            borderRadius: 5,
+            useBorderRadius: true,
+            boxWidth: 10,
+            boxHeight: 10,
+          }
+        },
+        beforeDraw(chart: any) {
+          const ctx = chart.ctx;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          const centerX = ((chart.chartArea.left + chart.chartArea.right) / 2);
+          const centerY = ((chart.chartArea.top + chart.chartArea.bottom) / 2);
+          ctx.font = 24 + 'px \'Open Sans\', sans-serif';
+          ctx.fillText(chartData.data.datasets[0].label + ' ' + chartData.data.datasets[0].data[chartData.data.datasets[0].data.length - 1], centerX, centerY);
+        }
+      }]
+    });
+  }
 }

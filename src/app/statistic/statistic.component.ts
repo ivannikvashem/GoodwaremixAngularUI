@@ -37,15 +37,21 @@ export class StatisticComponent implements OnInit {
   chartList:any = [
     {
       data: {labels: [''], datasets: []},
-      headers:[ { value:'productQty', title:'Всего', color: this.colorPalette[0], backgroundColor: this.backgroundColorPalette[0]}, {value: 'productQtyWithCode', title: 'С артикулом', color: this.colorPalette[1], backgroundColor: this.backgroundColorPalette[1]}]
+      headers:[ { value:'productQty', title:'Всего', color: this.colorPalette[0], backgroundColor: this.backgroundColorPalette[0]}, {value: 'productQtyWithCode', title: 'С артикулом', color: this.colorPalette[1], backgroundColor: this.backgroundColorPalette[1]}],
+      isDoughnutLayout: true,
+      oppositeValue: 'Без артикула'
     },
     {
       data: {labels: [''], datasets: []},
-      headers:[ { value:'documentQty', title:'Всего', color: this.colorPalette[0], backgroundColor: this.backgroundColorPalette[0]}, {value: 'certNumberQty', title: 'Сертификатов', color: this.colorPalette[1], backgroundColor: this.backgroundColorPalette[1]}]
+      headers:[ { value:'documentQty', title:'Всего', color: this.colorPalette[0], backgroundColor: this.backgroundColorPalette[0]}, {value: 'certNumberQty', title: 'Сертификатов', color: this.colorPalette[1], backgroundColor: this.backgroundColorPalette[1]}],
+      isDoughnutLayout: true,
+      oppositeValue: 'Остальное'
     },
     {
       data: {labels: [''], datasets: []},
-      headers:[ { value:'attributeQty', title:'Всего', color: this.colorPalette[0], backgroundColor: this.backgroundColorPalette[0]}, {value: 'attributeIsFixedQty', title: 'Фиксированных', color: this.colorPalette[1], backgroundColor: this.backgroundColorPalette[1]}]
+      headers:[ { value:'attributeQty', title:'Всего', color: this.colorPalette[0], backgroundColor: this.backgroundColorPalette[0]}, {value: 'attributeIsFixedQty', title: 'Фиксированных', color: this.colorPalette[1], backgroundColor: this.backgroundColorPalette[1]}],
+      isDoughnutLayout: true,
+      oppositeValue: 'Без фиксации'
     },
     {
       data: {labels: [''], datasets: []},
