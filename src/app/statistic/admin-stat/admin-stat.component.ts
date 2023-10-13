@@ -35,7 +35,7 @@ export class AdminStatComponent implements OnInit {
       },
       x: {
         grid: {color: 'transparent'},
-        ticks: {display: true}
+        ticks: {display: false}
       }
     },
     pointRadius: 5
