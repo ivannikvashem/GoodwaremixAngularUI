@@ -4,8 +4,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-unit-converter-edit',
-  templateUrl: './unit-converter-edit.component.html',
-  styleUrls: ['./unit-converter-edit.component.css']
+  templateUrl: './unit-converter-edit.component.html'
 })
 export class UnitConverterEditComponent implements OnInit {
 

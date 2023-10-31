@@ -62,13 +62,13 @@
   align-items: center;
 }
 
-.tabPanel {
+.tab-panel {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px
 }
 
-.tabPanel span {
+.tab-panel span {
   display: grid;
   align-items: center;
   padding: 10px;

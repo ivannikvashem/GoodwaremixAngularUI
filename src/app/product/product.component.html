@@ -18,9 +18,6 @@
   </mat-form-field>
 
   <div class="toolbox-item-three" [style.grid-template-columns]="roles.includes('goodware-manager') ? '' : 'auto auto'">
-<!--
-    <app-product-ic-filter-switch [state]="withICFilter" (withICFilterEmitter)="onICFilterChanged($event)"></app-product-ic-filter-switch>
--->
     <button class="toolbox-button badge-button" mat-raised-button (click)="attributeFilter()" [matBadge]="filterLength() ? filterLength() : 0" matBadgePosition="after" matBadgeColor="primary" matBadgeSize="medium">
       Фильтры
     </button>

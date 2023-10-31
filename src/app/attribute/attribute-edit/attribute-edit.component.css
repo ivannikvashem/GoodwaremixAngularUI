@@ -1,11 +1,8 @@
 .chip-list {
   width: 100%;
 }
-.full-width {
-  width: 100%;
-}
 
-.formArea {
+.form-container {
   width: 100%;
   display: flex;
   justify-content: space-between
@@ -15,12 +12,6 @@
   display: flex;
   justify-content : space-between;
   margin-bottom: 10px;
-}
-
-.loadingArea {
-  position: fixed;
-  top:50%;
-  left:48%;
 }
 
 form {

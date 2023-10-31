@@ -7,8 +7,7 @@ import {LocalStorageService} from "../service/local-storage.service";
 
 @Component({
   selector: 'app-attribute',
-  templateUrl: './attribute.component.html',
-  styleUrls: ['./attribute.component.css']
+  templateUrl: './attribute.component.html'
 })
 export class AttributeComponent implements OnInit {
 

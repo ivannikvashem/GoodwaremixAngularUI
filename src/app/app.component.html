@@ -1,25 +1,3 @@
-<!-- Toolbar -->
-<!--<div class="toolbar">
-  <mat-toolbar>
-    <mat-toolbar-row>
-      <mat-icon style="font-size: 32px; height: 32px; width: 32px;">{{isServerOffline ? 'report' : 'view_in_ar'}}</mat-icon>
-      <h1 matTooltip="{{url}}" [style.color]="isServerOffline ? 'red' : ''"> {{title}} &nbsp;</h1>
-      <span class="menu-spacer"></span>
-      <div>
-        <a mat-button routerLinkActive="active" *ngIf="roles.includes('goodware-users')" [routerLink]="'/home'"><mat-icon>home</mat-icon> Главная </a>
-        <a mat-button routerLinkActive="active" *ngIf="roles.includes('goodware-users')" [routerLink]="'/products'"><mat-icon>local_offer</mat-icon> Товары </a>
-        <a mat-button routerLinkActive="active" *ngIf="roles.includes('goodware-admin')" [routerLink]="'/suppliers'"><mat-icon>settings_accessibility</mat-icon> Поставщики </a>
-        <a mat-button routerLinkActive="active" *ngIf="roles.includes('goodware-admin')" [routerLink]="'/attributes'"><mat-icon>list</mat-icon> Атрибуты </a>
-        <a mat-button routerLinkActive="active" *ngIf="roles.includes('goodware-admin')" [routerLink]="'/documents'"><mat-icon>insert_drive_file</mat-icon> Документы </a>
-        <a mat-button routerLinkActive="active" *ngIf="roles.includes('goodware-admin')" [routerLink]="'/log'"><mat-icon>receipt_long</mat-icon> Журнал событий </a>
-        <a mat-button routerLinkActive="active" *ngIf="roles.includes('goodware-admin')" [routerLink]="'/users'"><mat-icon>manage_accounts</mat-icon> Пользователи </a>
-      </div>
-      <span class="flexExpand"></span>
-      <app-auth-toolbar></app-auth-toolbar>
-    </mat-toolbar-row>
-  </mat-toolbar>
-</div>-->
-
 <div class="sidebar" [class.sidebar-close]="!sidebarState">
 
   <div class="home-header" (mouseover)="logoHover = true" (mouseleave)="logoHover = false">
@@ -54,12 +32,12 @@
     <app-auth-toolbar [sideBarState]="sidebarState"></app-auth-toolbar>
   </div>
 </div>
+<div *ngIf="sidebarState == true" (click)="sidebarState = false" class="toolbar-backdrop"></div>
+
 <section class="home-section">
-    <router-outlet></router-outlet>
-    <app-scroll-to-top></app-scroll-to-top>
+  <router-outlet></router-outlet>
+  <app-scroll-to-top></app-scroll-to-top>
 </section>
-
-
 
 
 

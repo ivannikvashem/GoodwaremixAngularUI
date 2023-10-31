@@ -13,7 +13,7 @@ export interface AttrDialogData {
 @Component({
   selector: 'app-product-package-edit',
   templateUrl: './product-package-edit.component.html',
-  styleUrls: ['./product-package-edit.component.css']
+  styleUrls: ['./product-package-edit.component.scss']
 })
 export class ProductPackageEditComponent implements OnInit {
   form:FormGroup

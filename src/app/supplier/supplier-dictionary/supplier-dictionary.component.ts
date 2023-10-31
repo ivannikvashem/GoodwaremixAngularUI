@@ -9,7 +9,7 @@ import {UnitConverter} from "../../models/unitConverter.model";
 @Component({
   selector: 'app-supplier-dictionary',
   templateUrl: './supplier-dictionary.component.html',
-  styleUrls: ['./supplier-dictionary.component.css']
+  styleUrls: ['./supplier-dictionary.component.scss']
 })
 export class SupplierDictionaryComponent implements OnInit {
 

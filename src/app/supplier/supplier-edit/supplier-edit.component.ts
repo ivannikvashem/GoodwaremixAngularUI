@@ -23,7 +23,7 @@ export class HeaderModel {
 @Component({
   selector: 'app-supplier-edit',
   templateUrl: './supplier-edit.component.html',
-  styleUrls: ['./supplier-edit.component.css']
+  styleUrls: ['./supplier-edit.component.scss']
 })
 export class SupplierEditComponent implements OnInit {
   readonly separatorKeysCodes = [ENTER, COMMA] as const;

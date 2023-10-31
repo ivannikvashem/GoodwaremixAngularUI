@@ -1,4 +1,4 @@
-<div class="mat-elevation-z2" style="margin: 10px 0 60px 0">
+<div class="mat-elevation-z2" class="log-table-container">
   <table mat-table [dataSource]="dataSource" matSort matSortActive="date" matSortDisableClear matSortDirection="desc" multiTemplateDataRows>
     <!-- Name Column -->
     <ng-container matColumnDef="supplierName">
@@ -45,7 +45,7 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="element-row" [class.expanded-row]="row.data.length > 0 ? expandedElement === row : null" style="cursor: pointer"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="element-row" [class.expanded-row]="row.data.length > 0 ? expandedElement === row : null"></tr>
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
   </table>
 </div>

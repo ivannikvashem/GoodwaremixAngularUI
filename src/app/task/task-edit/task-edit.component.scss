@@ -1,0 +1,27 @@
+.cron-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cron-example-card {
+  width: 200px;
+  margin-left: 5px;
+  margin-top: 4px;
+
+  .cron-line {
+    display: inline-grid;
+
+    .cron-dot {
+      font-size: 24px;
+      text-align: center;
+    }
+
+    .cron-text {
+      writing-mode: vertical-rl;
+    }
+  }
+}
+
+a {
+  color:black;
+}

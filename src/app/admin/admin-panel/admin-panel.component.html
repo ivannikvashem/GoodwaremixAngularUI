@@ -1,9 +1,9 @@
 <span class="page-title">Панель администратора</span>
-<div class="full-width workWithDBBtn">
+<div class="full-width work-with-db-btn-container">
   <button mat-raised-button class="mat-elevation-z2" (click)="fullInit()"><mat-icon>sync_problem</mat-icon> Инициализировать БД</button>
   <button mat-raised-button class="mat-elevation-z2" (click)="fixSupplierStat()"><mat-icon>build</mat-icon> Обновить кол-во товара и бренды</button>
+  <button mat-raised-button class="mat-elevation-z2" [routerLink]="'/units'"><mat-icon>repeat</mat-icon> Преобразованные ед. измерения</button>
   <button mat-raised-button class="mat-elevation-z2" (click)="downloadTable('Supplier')"><mat-icon>cloud_download</mat-icon> Скачать всех поставщиков</button>
   <button mat-raised-button class="mat-elevation-z2" (click)="downloadTable('Attribute')"><mat-icon>cloud_download</mat-icon>  Скачать все атрибуты</button>
   <button mat-raised-button class="mat-elevation-z2" (click)="downloadTable('Product')"><mat-icon>cloud_download</mat-icon> Скачать все товары</button>
-  <button mat-raised-button class="mat-elevation-z2" [routerLink]="'/units'"><mat-icon>repeat</mat-icon> Преобразованные ед. измерения</button>&nbsp;
 </div>

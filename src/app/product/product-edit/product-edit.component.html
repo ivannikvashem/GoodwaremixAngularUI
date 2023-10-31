@@ -4,29 +4,27 @@
     <span *ngIf="product?.supplierName"> поставщика {{product.supplierName}}</span>
   </div>
   <div style="display: flex">
-    <mat-slide-toggle color="primary" *ngIf="roles.includes('goodware-admin')" [(ngModel)]="product.isModerated" class="isModeratedSlider">Проверен</mat-slide-toggle>
+    <mat-slide-toggle color="primary" *ngIf="roles.includes('goodware-admin')" [(ngModel)]="product.isModerated" class="is-moderated-slider">Проверен</mat-slide-toggle>
     <button mat-flat-button color="primary" (click)="submitProduct()" [disabled]="!product.vendorId || !product.title"> Сохранить </button>
   </div>
 </div>
 
-<div class="productLayoutCard">
+<div class="product-main-fields-container">
   <mat-card class="header-card">
-    <div class="headerFormBlock">
+    <div class="header-form-block">
 
-      <div class="full-width" style="display: flex">
-        <mat-form-field appearance="standard" style="width: 70%">
-          <mat-label>Наименование</mat-label>
-          <input matInput name="title" [(ngModel)]="product.title" required>
-        </mat-form-field>&nbsp;&nbsp;
+      <mat-form-field appearance="standard" class="product-title-input">
+        <mat-label>Наименование</mat-label>
+        <input matInput name="title" [(ngModel)]="product.title" required>
+      </mat-form-field>&nbsp;&nbsp;
 
-        <div *ngIf="!product.id" style="width: 30%">
-          <app-supplier-autocomplete class="full-width" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
-        </div>
-        <mat-form-field *ngIf="product?.supplierName && product.id" appearance="standard" style="width: 30%">
-          <mat-label>Поставщик</mat-label>
-          <input matInput [value]="product.supplierName" disabled>
-        </mat-form-field>&nbsp;&nbsp;
+      <div *ngIf="!product.id" class="supplier-autocomplete-container">
+        <app-supplier-autocomplete class="full-width" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
       </div>
+      <mat-form-field *ngIf="product?.supplierName && product.id" appearance="standard" class="supplier-autocomplete-container">
+        <mat-label>Поставщик</mat-label>
+        <input matInput [value]="product.supplierName" disabled>
+      </mat-form-field>&nbsp;&nbsp;
 
       <mat-form-field appearance="standard">
         <mat-label>Идентификатор товара поставщика</mat-label>
@@ -37,19 +35,19 @@
         <mat-label>Артикул Энергомикс</mat-label>
         <input matInput name="internalCode" [(ngModel)]="product.internalCode" disabled>
       </mat-form-field>
-      <button *ngIf="!product.internalCode" style="margin: auto; width: 220px" type="button" [disabled]="!internalCodeFetching || !product.vendorId" mat-raised-button (click)="RequestProductInternalCode(productId)">
+      <button *ngIf="!product.internalCode" class="request-internal-code-btn" type="button" [disabled]="!internalCodeFetching || !product.vendorId" mat-raised-button (click)="RequestProductInternalCode(productId)">
         Запросить артикул
       </button>
     </div>
   </mat-card>
 
-  <div class="container" style="margin-top: 10px">
-    <mat-card class="mediaTabGroup">
-      <mat-tab-group animationDuration="0ms" style="width:320px">
+  <div class="about-product-container">
+    <mat-card class="media-tab-group">
+      <mat-tab-group animationDuration="0ms">
         <mat-tab label="Фото">
           <ng-template matTabContent>
 
-            <div class="tabPanel mat-elevation-z2">
+            <div class="tab-panel mat-elevation-z2">
               <span>Прикреплено {{preloadImagesView.length}} фото</span>
               <button mat-icon-button matTooltip="Прикрепить фото" (click)="fileInput.value= ''; fileInput.click()">
                 <mat-icon>cloud_upload</mat-icon>
@@ -57,12 +55,12 @@
               </button>
             </div>
 
-            <div class="box mat-elevation-z2" *ngFor="let img of preloadImagesView; let i = index">
-              <button disableRipple mat-mini-fab color="warn" type="button" class="deleteImgBtn" (click)="removeImage(i, img.id)">
+            <div class="attached-image-container mat-elevation-z2" *ngFor="let img of preloadImagesView; let i = index">
+              <button disableRipple mat-mini-fab color="warn" type="button" class="delete-img-btn" (click)="removeImage(i, img.id)">
                 <mat-icon>delete</mat-icon>
               </button>
               <div class="image">
-                <img [src]="img.file" style="object-fit: cover;" (error)="handleMissingImage($event)" class="mat-elevation-z2" (click)="openImageDialog(img.file)">
+                <img [src]="img.file" (error)="handleMissingImage($event)" class="mat-elevation-z2" (click)="openImageDialog(img.file)">
               </div>
             </div>
 
@@ -72,7 +70,7 @@
 
         <mat-tab label="Фото 360">
           <ng-template matTabContent>
-            <mat-form-field class="form-full-width" appearance="fill">
+            <mat-form-field class="full-width" appearance="fill">
               <mat-label>Ссылка на фото 360</mat-label>
               <input matInput name="image360" [(ngModel)]="product.image360">
             </mat-form-field>
@@ -81,7 +79,7 @@
 
         <mat-tab  label="Видео">
           <ng-template matTabContent>
-            <mat-form-field class="form-full-width" appearance="fill">
+            <mat-form-field class="full-width" appearance="fill">
               <mat-label>Ссылка на видео</mat-label>
               <mat-chip-list #chipList>
                 <mat-chip *ngFor="let item of product.videos" (removed)="removeVideo(item)">
@@ -103,7 +101,7 @@
       </mat-tab-group>
     </mat-card>
 
-    <mat-card class="aboutProductGroup">
+    <mat-card class="about-product-detailed-container">
       <mat-tab-group animationDuration="0ms">
         <mat-tab label="О товаре">
           <ng-template matTabContent>
@@ -132,17 +130,17 @@
               </mat-form-field>
             </div>
 
-            <mat-form-field appearance="fill" class="form-full-width">
+            <mat-form-field appearance="fill" class="full-width">
               <mat-label>Полное наименование</mat-label>
               <input matInput name="titleLong" [(ngModel)]="product.titleLong" [maxLength]="255">
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="form-full-width">
+            <mat-form-field appearance="fill" class="full-width">
               <mat-label>Описание</mat-label>
               <textarea matInput name="description" cdkTextareaAutosize cdkAutosizeMinRows="3" cdkAutosizeMaxRows="15"  [(ngModel)]="product.description"></textarea>
             </mat-form-field>
 
-            <mat-form-field class="form-full-width" appearance="fill">
+            <mat-form-field class="full-width" appearance="fill">
               <mat-label>ГТД</mat-label>
               <mat-chip-list #chipList>
                 <mat-chip *ngFor="let item of product.gtd" (removed)="removeGTD(item)">
@@ -164,7 +162,7 @@
 
         <mat-tab label="Характеристики">
           <ng-template matTabContent>
-            <table mat-table [dataSource]="attrDataSource" class="mat-elevation-z8; form-full-width">
+            <table mat-table [dataSource]="attrDataSource" class="mat-elevation-z8; full-width">
               <!-- attributeKey Column -->
               <ng-container matColumnDef="attributeKey" class="full-width">
                 <th mat-header-cell *matHeaderCellDef> Характеристика </th>
@@ -182,7 +180,7 @@
                   </span>
                   <span *ngIf="row.type == 'L'">{{row.objectValue.value ? 'Да' : 'Нет'}}</span>
                   <span *ngIf="row.type !== 'R' && row.type !== 'L'"> {{row.objectValue?.value}} </span>
-                  <span class="unitMark" *ngIf="row.unit">{{row.unit}}</span></td>
+                  <span class="unit-mark" *ngIf="row.unit">{{row.unit}}</span></td>
               </ng-container>
               <!-- actions Column -->
               <ng-container matColumnDef="action" class="full-width">
@@ -261,7 +259,7 @@
 
         <mat-tab label="Упаковка">
 
-          <div class="tabPanel mat-elevation-z2">
+          <div class="tab-panel mat-elevation-z2">
             <span>К товару прикреплено {{product.packages.length}} упак.</span>
             <button mat-button (click)="openPackageEditorDialog()"><mat-icon>add</mat-icon> Добавить</button>
           </div>
@@ -270,7 +268,7 @@
             <mat-card *ngFor="let pack of product.packages" class="card">
               <div>
                 <app-package-card [pack]="pack"></app-package-card>
-                <mat-card-actions align="end" class="matPackageCardActions">
+                <mat-card-actions align="end" class="package-card-actions">
                   <button mat-mini-fab color="" matTooltip="Редактировать" (click)="openPackageEditorDialog(pack)"><mat-icon>edit</mat-icon></button>
                   <button mat-mini-fab color="" matTooltip="Удалить" (click)="deletePackageRow(pack)"><mat-icon>delete</mat-icon></button>
                 </mat-card-actions>

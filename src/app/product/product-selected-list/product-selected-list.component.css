@@ -1,8 +1,5 @@
 .header {
-  display: flex;
-  justify-content: space-between;
   margin-bottom: 10px;
-  height: 40px;
 }
 
 .wrapper {
@@ -12,7 +9,7 @@
   padding-bottom: 5px;
 }
 
-.selectedItem {
+.selected-item {
   background: lightgray;
   border-radius: 15px;
   padding: 10px;
@@ -20,7 +17,7 @@
   line-height: 15px;
 }
 
-.removeItem {
+.remove-item {
   float: right;
   cursor: pointer;
   font-size: 19px;
@@ -29,7 +26,6 @@
   width: 19px;
 }
 
-
-.removeItem:hover {
+.remove-item:hover {
   color: #f44336;
 }

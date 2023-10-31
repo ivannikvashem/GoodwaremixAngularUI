@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild
 import {AttributesDataSource} from "../repo/AttributesDataSource";
 import {ApiClient} from "../../service/httpClient";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Subscription, tap} from "rxjs";
+import {tap} from "rxjs";
 import {MatPaginator} from "@angular/material/paginator";
 import {Supplier} from "../../models/supplier.model";
 import {MatDialog} from "@angular/material/dialog";
@@ -11,6 +11,7 @@ import {SwapAttributeComponent} from "../../components/shared/swap-attribute/swa
 import {NotificationService} from "../../service/notification-service";
 import {LocalStorageService} from "../../service/local-storage.service";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/shared/confirm-dialog/confirm-dialog.component";
+import {MatTableDataSource} from "@angular/material/table";
 
 export interface AttrDialogData {
   oldAttributeId: string;
@@ -42,8 +43,7 @@ export class AttributeIndexComponent implements OnInit {
   @Input() sortDirection:string;
   @Output() pageParams:EventEmitter<any> = new EventEmitter()
   @Output() sortParams:EventEmitter<any> = new EventEmitter();
-
-  private sub: Subscription;
+  attributeDataSource = new MatTableDataSource<Attribute>()
 
 
   constructor(
@@ -78,6 +78,9 @@ export class AttributeIndexComponent implements OnInit {
 
   loadAttributePagedData(): any {
     this.dataSource.loadPagedData(this.searchQuery, this.selectedSupplier?.id ? this.selectedSupplier.id : null, this.pageIndex, this.pageSize,this.sortActive, this.sortDirection, this.withFixedAttrSelector);
+    this.dataSource.connect(null).subscribe(x => {
+      this.attributeDataSource.data = x;
+    })
   }
 
   sortData(sort: any) {

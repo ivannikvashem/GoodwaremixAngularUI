@@ -17,7 +17,7 @@ import {ProductSelectedListComponent} from "../product-selected-list/product-sel
 @Component({
   selector: 'app-product-index',
   templateUrl: './product-index.component.html',
-  styleUrls: ['./product-index.component.css']
+  styleUrls: ['./product-index.component.scss']
 })
 export class ProductIndexComponent implements OnInit {
   displayedColumns: string[] = ['preview', 'internalCode' ,'name', 'supplierName', 'actions'];

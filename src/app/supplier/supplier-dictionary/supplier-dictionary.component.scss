@@ -1,0 +1,51 @@
+.mat-column-key,
+.mat-column-value,
+.mat-column-action {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+}
+
+.mat-column-key,
+.mat-column-value {
+  flex: 0 0 500px !important;
+  min-width: 500px !important;
+}
+
+.mat-column-value {
+  flex: 0 0 600px !important;
+}
+
+.mat-column-action {
+  flex: 0 0 100px !important;
+  justify-content: center;
+  text-align: center;
+}
+
+.table-container {
+  max-height: 500px;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.dictionary-table {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+td {
+  cursor: pointer;
+}
+
+.multiplier-input {
+  width: 20%;
+}
+
+.attribute-bd-name-input {
+  width: 80%;
+}
+
+.buttons-container {
+  button:not(:last-child) {
+    margin-right: 5px;
+  }
+}

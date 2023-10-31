@@ -1,14 +1,14 @@
 <div class="main">
   <div class="header-container">
     <span class="page-title">Фильтры</span>
-    <button class="removeAllFiltersBtn" mat-raised-button (click)="clearFilters()"><mat-icon>delete</mat-icon> Очистить фильтры</button>
+    <button class="remove-all-filters-btn" mat-raised-button (click)="clearFilters()"><mat-icon>delete</mat-icon> Очистить фильтры</button>
   </div>
-  <div class="filterContainer">
+  <div class="filter-container">
     <div>
       <app-product-ic-filter-switch [state]="withICFilter" (withICFilterEmitter)="onICFilterChanged($event)"></app-product-ic-filter-switch>
       <app-product-verified-filter-switch [state]="isModerated" (moderatedFilterEmitter)="onVerifiedChanged($event)"></app-product-verified-filter-switch>
     </div>
-    <div class="attributeFilter">
+    <div class="attribute-filter">
       <mat-form-field appearance="outline" class="full-width input-form-outline-background">
         <mat-label>Характеристика</mat-label>
         <input matInput placeholder=""
@@ -16,21 +16,21 @@
                [matAutocomplete]="attributeValuesAuto">
         <mat-autocomplete autoActiveFirstOption #attributeValuesAuto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onAttributeValueSelected($event); attributeValueFilterCtrl.setValue(null)">
           <mat-option *ngFor="let option of attributesList" [value]="option">
-            <strong>{{option.type}}</strong> {{option.nameAttribute}} <span class="unitMark" *ngIf="option.unit">{{option.unit}}</span>
+            <strong>{{option.type}}</strong> {{option.nameAttribute}} <span class="unit-mark" *ngIf="option.unit">{{option.unit}}</span>
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
 
       <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
 
-      <mat-dialog-content *ngIf="!isLoading" class="selectedFilters">
-        <mat-card *ngFor="let item of attributesForFilter; let i = index" class="filterCard mat-elevation-z2">
-          <div class="titleArea">
-            <div class="cardTitle">
+      <mat-dialog-content *ngIf="!isLoading" class="selected-filters">
+        <mat-card *ngFor="let item of attributesForFilter; let i = index" class="filter-card mat-elevation-z2">
+          <div class="title-container">
+            <div class="card-title">
               <strong>{{item.type}}</strong> {{item.nameAttribute}}
-              <span class="unitMark" *ngIf="item.unit">{{item.unit}}</span>
+              <span class="unit-mark" *ngIf="item.unit">{{item.unit}}</span>
             </div>
-            <button (click)="removeFilter(i)" class="mat-elevation-z2 removeFilterBtn" mat-icon-button><mat-icon>delete</mat-icon></button>
+            <button (click)="removeFilter(i)" class="mat-elevation-z2 remove-filter-btn" mat-icon-button><mat-icon>delete</mat-icon></button>
           </div>
           <div *ngIf="item.type == 'A'">
             <div>

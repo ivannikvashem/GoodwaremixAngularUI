@@ -1,19 +1,4 @@
-.toolbox-container {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: flex-end;
-  align-items: baseline;
-  width: 100%;
-}
-
-.toolbox-item:last-child, .toolbox-item-xl:last-child {
-  margin-right: 0;
-}
-.toolbox-item-xl {
-  flex: 1;
-}
-
-.cardTopPanel {
+.card-top-panel {
   display: flex;
   justify-content: space-between;
   margin: 5px 0;

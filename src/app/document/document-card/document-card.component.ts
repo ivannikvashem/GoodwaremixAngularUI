@@ -6,7 +6,7 @@ import {MatDialog} from "@angular/material/dialog";
 @Component({
   selector: 'app-document-card',
   templateUrl: './document-card.component.html',
-  styleUrls: ['./document-card.component.css']
+  styleUrls: ['./document-card.component.scss']
 })
 export class DocumentCardComponent implements OnInit {
 

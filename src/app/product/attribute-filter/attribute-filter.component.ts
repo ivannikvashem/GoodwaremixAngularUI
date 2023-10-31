@@ -19,7 +19,7 @@ export class SelectedFiltersList {
 @Component({
   selector: 'app-attribute-filter',
   templateUrl: './attribute-filter.component.html',
-  styleUrls: ['./attribute-filter.component.css']
+  styleUrls: ['./attribute-filter.component.scss']
 })
 export class AttributeFilterComponent implements OnInit {
 

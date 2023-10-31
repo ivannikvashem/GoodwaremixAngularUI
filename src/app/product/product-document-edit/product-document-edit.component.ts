@@ -17,7 +17,7 @@ export interface AttrDialogData {
 @Component({
   selector: 'app-product-document-edit',
   templateUrl: './product-document-edit.component.html',
-  styleUrls: ['./product-document-edit.component.css']
+  styleUrls: ['./product-document-edit.component.scss']
 })
 export class ProductDocumentEditComponent implements OnInit {
   readonly separatorKeysCodes = [ENTER, COMMA] as const;

@@ -1,4 +1,4 @@
-<div *ngIf="isLoading" class="loadingArea">
+<div *ngIf="isLoading" class="loading-area">
   <mat-spinner></mat-spinner>
 </div>
 
@@ -11,7 +11,7 @@
   <mat-card>
     <form>
       <app-supplier-autocomplete class="full-width" [appearance]="'fill'" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
-      <div class="formArea">
+      <div class="form-container">
         <mat-form-field class="full-width" appearance="fill">
           <mat-label>Фиксация</mat-label>
           <mat-select name="fixed" [(ngModel)]="attribute.isFixed">

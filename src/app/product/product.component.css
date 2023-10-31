@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns:  repeat(auto-fit, minmax(250px, 1fr));
   width: 100%;
-  gap: 1rem;
+  gap: 14px;
 }
 
 .toolbox-item-xl {
@@ -27,10 +27,15 @@
 }
 
 :host::ng-deep .mat-form-field-appearance-standard .mat-form-field-flex {
-   padding-top: 0 !important;
+  padding-top: 0 !important;
 }
 
-:host ::ng-deep .mat-badge-medium.mat-badge-after .mat-badge-content {right: 0 !important}
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .toolbox-item { margin-right: 0}
+  .toolbox-item-xl { margin-right: 0}
+}
+
 
 @media only screen and (max-width: 1910px) {
   .toolbox-item-xl {  grid-column: span 2;}
@@ -42,4 +47,7 @@
 
 @media only screen and (max-width: 815px) {
   .toolbox-item-xl {  grid-column: span 1;}
+}
+@media only screen and (max-width: 965px) {
+  :host ::ng-deep .mat-badge-medium.mat-badge-after .mat-badge-content {right: 0 !important}
 }

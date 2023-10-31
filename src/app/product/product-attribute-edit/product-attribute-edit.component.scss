@@ -1,0 +1,27 @@
+.main {
+  position: relative;
+}
+.actions-div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.etimFeature-span {
+  font-style:italic;
+}
+
+.non-valid-span {
+  color: red;
+}
+
+.r-type-container {
+  display: flex;
+
+  & mat-form-field:not(:last-child) {
+    margin-right: 5px;
+  }
+}
+
+.search-attribute-input {
+  margin-bottom: 5px;
+}

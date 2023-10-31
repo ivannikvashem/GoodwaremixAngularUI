@@ -10,7 +10,7 @@ import {AuthService} from "../service/auth.service";
 export class AuthToolbarComponent implements OnInit {
 
   isLoggedIn$: Observable<boolean>;
-  user$: Observable<string>;
+  public user$: Observable<string>;
   roles: string[];
   @Input() sideBarState:boolean;
 

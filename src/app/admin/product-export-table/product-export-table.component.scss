@@ -1,0 +1,41 @@
+.export-table-container {
+  display: flex;
+  justify-content: left;
+
+  .buttons-container {
+    width: 10%;
+
+    .cdk-item-container {
+      padding: 2px;
+      margin-right: 5px;
+
+      .toggle-column-button {
+        width: 100%;
+
+        .button-text {
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          text-wrap: initial;
+          line-height: 25px;
+        }
+      }
+    }
+  }
+  .table-container {
+    width: 90%;
+    table { overflow: auto; }
+  }
+}
+
+.mat-cell {
+  vertical-align: top;
+  padding: 8px 8px 8px 0;
+}
+
+.mat-row {
+  height: auto;
+}
+
+.cell-image {
+  object-fit: cover;
+}

@@ -1,32 +1,29 @@
-.leftArrowBtn {
+.left-arrow-btn, .right-arrow-btn {
   position: fixed;
+  top: 50%;
+  background: white;
+}
+
+.left-arrow-btn {
   left: 100px;
-  top: 50%;
-  background: white;
 }
 
-.rightArrowBtn {
-  position: fixed;
+.right-arrow-btn {
   right: 100px;
-  top: 50%;
-  background: white;
 }
 
-button {
+button, .mat-icon {
   height: 56px;
   width: 56px;
   line-height: 56px;
 }
 
 .mat-icon {
-  height: 56px;
-  width: 56px;
   font-size: 56px;
-  line-height: 56px;
 }
 
 button:hover {
-  color:var(--toolbar-item-active-color);
+  color: var(--toolbar-item-active-color);
 }
 
 img {

@@ -1,7 +1,7 @@
 <mat-card>
   <small>По артикулу</small>
   <div>
-    <button mat-raised-button class="toolbox-button filterButton"
+    <button mat-raised-button class="toolbox-button filter-button"
             (click)="switchAttrStateFilter()">
       <mat-icon>{{state == null ? 'all_inclusive' : state == true ? 'label' : 'label_off' }}</mat-icon>
       {{state == null ? 'Все товары' : state == true ? 'С артикулом' : 'Без артикула'}}

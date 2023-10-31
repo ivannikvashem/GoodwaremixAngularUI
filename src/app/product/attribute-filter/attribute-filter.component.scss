@@ -1,0 +1,90 @@
+.main {
+  position: relative;
+
+  .filter-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 1rem;
+    min-height: 500px;
+    max-height: 700px;
+
+    .attribute-filter {
+      grid-column: span 3;
+    }
+  }
+}
+
+.selected-filters {
+  margin-top: 10px;
+  max-height: 500px;
+}
+
+.filter-card {
+  min-width: 400px;
+  margin-bottom: 10px;
+  max-height: 500px;
+
+  .title-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    .card-title {
+      max-height: 45px;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+    }
+
+    .remove-filter-btn {
+      transition: 400ms;
+      height: 30px;
+      width: 30px;
+      line-height: 30px;
+    }
+  }
+
+}
+
+.actions-div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.mat-form-field .mat-form-field-infix {
+  height: 16px;
+}
+
+:host::ng-deep .mat-form-field-appearance-standard .mat-form-field-flex {
+   padding-top: 0;
+}
+
+.mat-chip {
+  margin: 2px;
+}
+
+.mat-chip-container {
+  margin-top: 5px;
+}
+
+.mat-card {
+  padding: 10px !important;
+}
+
+.d-flex {
+  display: flex;
+  justify-content: space-between
+}
+
+.remove-all-filters-btn {
+  height: 30px;
+  line-height: 30px;
+}
+
+.remove-all-filters-btn, .remove-filter-btn {
+  &:hover {
+    background-color: #f44336;
+    color: white;
+  }
+}

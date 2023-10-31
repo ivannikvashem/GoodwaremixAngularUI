@@ -1,55 +1,39 @@
-table {
-  width: 100%;
-}
-.full-width {
-  width: 100%;
-}
 .mat-form-field {
   width: 100% !important;
 }
-.formBlockWrapper {
-  display: flex;
-  height: 250px;
-}
-.formBlockSingle {
-  width: 25%;
-  display: flex;
-  justify-content: space-between
-}
-.formBlockDouble {
+
+.form-block-double {
   width: 50%;
   display: flex;
-  justify-content: space-between
+  justify-content: space-between;
 }
 
-.formBlockTriple {
+.form-block-triple {
   width: 78%;
   display: flex;
-  justify-content: space-between
+  justify-content: space-between;
 }
-.formBlockFull {
+
+.form-block-full {
   width: 100%;
   display: flex;
-  justify-content: space-between
+  justify-content: space-between;
 }
-p {
-  margin: 0 auto;
-}
+
 .mat-stepper-vertical-line .mat-vertical-content-container .mat-vertical-content {
   margin-top: 6px !important;
 }
 
 .mat-column-headerAction {
-
   width: 100px !important;
   justify-content: center;
-  text-align: -webkit-center;
   text-align: center;
 }
-.mat-column-headerKey {
 
+.mat-column-headerKey {
   width: 200px !important;
 }
+
 .mat-column-headerValue {
   word-wrap: break-word !important;
   white-space: unset !important;
@@ -57,16 +41,10 @@ p {
   min-width: 500px !important;
 }
 
-.container {
-  display: flex;
-  flex-direction: row;
-  flex: 2;
-}
-
-.addNewConfig {
-  min-width: 0!important;
-  padding: 3px!important;
-  margin: 3px!important;
+.add-new-config {
+  min-width: 0 !important;
+  padding: 3px !important;
+  margin: 3px !important;
 }
 
 :host ::ng-deep .mainTabGroup > .mat-tab-header > .mat-tab-label-container > .mat-tab-list > .mat-tab-labels {
@@ -74,7 +52,7 @@ p {
 }
 
 :host ::ng-deep .mainTabGroup > .mat-tab-header > .mat-tab-label-container > .mat-tab-list {
-  padding:0 40px 0 40px;
+  padding: 0 40px 0 40px;
 }
 
 mat-tab-group.mainTabGroup {
@@ -104,15 +82,21 @@ mat-tab-body {
 }
 
 :host ::ng-deep.mat-tab-label {
-  border-bottom: 2px solid  #3f51b5;
-}
-
-.loadingArea {
-  position: fixed;
-  top:50%;
-  left:48%;
+  border-bottom: 2px solid #3f51b5;
 }
 
 form {
   margin-top: 10px;
+}
+
+.headers-table {
+  width: 78%;
+  display: inline-flex;
+}
+
+.body-textarea {
+  margin-top: 10px;
+  textarea {
+    height: 100px;
+  }
 }

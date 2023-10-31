@@ -81,11 +81,11 @@ export class ProductComponent implements OnInit {
       searchQuery: this.searchQuery,
       pageIndex: this.pageIndex,
       pageSize: this.pageSize,
-      withInternalCodeSelector: this.withICFilter,
+      withInternalCodeSelector: this.withICFilter != undefined ? this.withICFilter : null,
       filterAttribute: this.filterAttribute != undefined ? this.filterAttribute : null,
       sortActive: this.sortActive,
       sortDirection: this.sortDirection,
-      isModerated: this.isModerated
+      isModerated: this.isModerated != undefined ? this.isModerated : null
     });
   }
 

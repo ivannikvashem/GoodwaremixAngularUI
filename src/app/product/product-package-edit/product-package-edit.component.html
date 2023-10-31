@@ -1,14 +1,13 @@
 <div class="main">
   <h3>{{data.oldPackage == undefined ? "Добавление упаковки" : "Редактирование упаковки"}}</h3>
 
-  <div class="inputs">
-    <form [formGroup]="form" (ngSubmit)="onSubmitClick()">
+  <form [formGroup]="form" (ngSubmit)="onSubmitClick()">
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Штрихкод</mat-label>
         <input matInput formControlName="barcode" required>
       </mat-form-field>
 
-      <div class="formBlockFull">
+      <div class="form-block-full">
         <mat-form-field appearance="fill" class="full-width; package-form-field-triple">
           <mat-label>Тип</mat-label>
           <input matInput formControlName="type">
@@ -28,7 +27,7 @@
         </mat-form-field>
       </div>
 
-      <div class="formBlockFull" style="padding: 0">
+      <div class="form-block-full">
         <mat-form-field appearance="fill" class="full-width; package-form-field-fourth">
           <mat-label>Ширина</mat-label>
           <input matInput formControlName="width" #width type="number" min="0" step="0.5">
@@ -56,10 +55,9 @@
 
     </form>
 
-  </div>
 
   <div mat-dialog-actions class="actions-div">
-    <button mat-button mat-dialog-close="" (click)="onCancelClick()" type="button">Отмена</button>
+    <button mat-raised-button mat-dialog-close="" (click)="onCancelClick()" type="button">Отмена</button>
     <button mat-raised-button color="primary" [mat-dialog-close]="data" (click)="onSubmitClick()" [disabled]="form.invalid">Сохранить</button>
   </div>
 </div>

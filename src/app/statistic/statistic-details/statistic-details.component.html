@@ -3,15 +3,15 @@
 </div>
 
 <mat-dialog-content>
-  <div class="statGrid" *ngIf="statistics.chartType == 'import'">
-    <mat-card class="statCard">
+  <div class="stat-grid" *ngIf="statistics.chartType == 'import'">
+    <mat-card class="stat-card">
       <mat-card-title>Общая статистика</mat-card-title>
       <p>Всего: <strong>{{this.statistics.data.mainStatistics ? this.statistics.data.mainStatistics.productQty : this.statistics.data.productQty}}</strong></p>
       <p>Добавлено: <strong>{{this.statistics.data.mainStatistics ? this.statistics.data.mainStatistics.productAddQty : this.statistics.data.productAddQty}}</strong></p>
       <p>Обновлено: <strong>{{this.statistics.data.mainStatistics ? this.statistics.data.mainStatistics.productUpdateQty : this.statistics.data.productUpdateQty}}</strong></p>
     </mat-card>
 
-    <mat-card *ngFor="let chart of chartList" class="statCard">
+    <mat-card *ngFor="let chart of chartList" class="stat-card">
       <mat-card-title>{{chart.datasets[0].label}}</mat-card-title>
       <mat-card-subtitle>
         Всего: <strong>{{chart.datasets[0].data[0]}}</strong>
@@ -36,8 +36,8 @@
 
     <mat-divider></mat-divider>
 
-    <div class="statGrid">
-      <mat-card class="statCard" *ngFor="let stat of this.statistics.data.statisticsSupplier">
+    <div class="stat-grid">
+      <mat-card class="stat-card" *ngFor="let stat of this.statistics.data.statisticsSupplier">
         <div class="page-title">{{stat.supplierName}}</div>
         <div class="attribute-stat-values">
           <span>Всего: <strong>{{stat.attributeQty}}</strong></span>

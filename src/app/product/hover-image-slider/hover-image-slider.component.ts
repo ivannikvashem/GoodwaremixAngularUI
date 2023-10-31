@@ -6,7 +6,7 @@ import {ImagePreviewDialogComponent} from "../image-preview-dialog/image-preview
 @Component({
   selector: 'app-hover-image-slider',
   templateUrl: './hover-image-slider.component.html',
-  styleUrls: ['./hover-image-slider.component.css']
+  styleUrls: ['./hover-image-slider.component.scss']
 })
 export class HoverImageSliderComponent implements OnInit {
 

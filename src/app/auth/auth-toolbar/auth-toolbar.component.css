@@ -40,4 +40,30 @@ button:hover {
   justify-content: center;
   position: relative;
   margin-bottom: 10px;
+  width: 260px;
+}
+
+.dropdown-title-collapsed {
+  width: 70px;
+}
+
+@media only screen and (max-width: 600px) {
+  .dropdown-title {width: 225px}
+  .dropdown-title-collapsed {width: 50px}
+}
+@media only screen and (min-width: 600px) {
+  .dropdown-title {width: 230px}
+  .dropdown-title-collapsed {width: 55px}
+}
+@media only screen and (min-width: 768px) {
+  .dropdown-title {width: 235px}
+  .dropdown-title-collapsed {width: 60px}
+}
+@media only screen and (min-width: 992px) {
+  .dropdown-title {width: 250px}
+  .dropdown-title-collapsed {width: 65px}
+}
+@media only screen and (min-width: 1200px) {
+  .dropdown-title {width: 260px}
+  .dropdown-title-collapsed {width: 70px}
 }

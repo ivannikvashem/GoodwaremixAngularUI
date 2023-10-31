@@ -17,7 +17,7 @@ import {AuthService} from "../../auth/service/auth.service";
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
-  styleUrls: ['./product-details.component.css']
+  styleUrls: ['./product-details.component.scss']
 })
 
 export class ProductDetailsComponent implements OnInit {

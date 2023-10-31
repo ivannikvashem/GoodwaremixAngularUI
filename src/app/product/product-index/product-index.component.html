@@ -1,7 +1,7 @@
-<div class="container">
+<div class="product-cards-container">
   <div class="mat-elevation-z2 selection-container" *ngIf="selectionActive">
 
-    <div style="margin-left: 10px">Выбрано {{selectionItems.length}} товаров <button mat-icon-button (click)="showSelectedItems()"><mat-icon>visibility</mat-icon></button></div>
+    <div class="selected-items-counter">Выбрано {{selectionItems.length}} товаров <button mat-icon-button (click)="showSelectedItems()"><mat-icon>visibility</mat-icon></button></div>
 
     <div class="header-container">
       <div class="toolbox-item">
@@ -13,8 +13,8 @@
       </div>
 
       <div class="toolbox-item">
-        <button class="full-height" mat-button [matMenuTriggerFor]="menu">Загрузить фото<mat-icon>download</mat-icon></button>
-        <mat-menu #menu="matMenu">
+        <button class="full-height" mat-button [matMenuTriggerFor]="downloadImgMenu">Загрузить фото<mat-icon>download</mat-icon></button>
+        <mat-menu #downloadImgMenu="matMenu">
           <button mat-menu-item (click)="downloadProductsImage(true)">JPEG формат</button>
           <button mat-menu-item (click)="downloadProductsImage(null)">Оригинальный формат</button>
         </mat-menu>
@@ -29,11 +29,11 @@
   <div *ngIf="isCardLayout">
     <div class="cards" *ngIf="isLoading">
       <mat-card class="card" *ngFor="let i of [].constructor(pageSize)">
-        <div class="productImage"></div>
-        <div class="titleContainer"></div>
-        <div class="cardContent">
-          <div class="cardContentPlaceholder"></div>
-          <div class="cardContentPlaceholder"></div>
+        <div class="product-image-placeholder"></div>
+        <div class="title-container-placeholder"></div>
+        <div class="card-content-placeholder">
+          <div class="card-line-content-placeholder"></div>
+          <div class="card-line-content-placeholder"></div>
         </div>
       </mat-card>
     </div>
@@ -51,10 +51,6 @@
   </div>
 
   <app-product-export-table [dataSource]="productsList" *ngIf="!isCardLayout"></app-product-export-table>
-<!--
-  <mat-paginator class="mat-elevation-z8" [style.visibility]="dataSource.rowCount > 0 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[12,24,48,96] aria-label="Страница"></mat-paginator>
--->
-
 </div>
 
 <app-mat-paginator-goto class="paginator-fixed mat-elevation-z8" [style.visibility]="dataSource.rowCount > 0 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[12,24,48,96] (matPaginatorGoTo)="paginatorChanged($event)" aria-label="Страница"></app-mat-paginator-goto>
