@@ -11,7 +11,7 @@ export interface StatData {
 @Component({
   selector: 'app-statistic-details',
   templateUrl: './statistic-details.component.html',
-  styleUrls: ['./statistic-details.component.css']
+  styleUrls: ['./statistic-details.component.scss']
 })
 export class StatisticDetailsComponent implements OnInit {
 

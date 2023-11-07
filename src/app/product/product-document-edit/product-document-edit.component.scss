@@ -88,6 +88,7 @@ mat-chip {
 
 :host::ng-deep .mat-dialog-title {
   display: flex;
+  margin: 0 0 10px;
 }
 
 .cards {
@@ -96,10 +97,57 @@ mat-chip {
   gap: 1rem;
 }
 
-@media (min-width: 600px) {
-  .cards { grid-template-columns: repeat(1, 1fr); }
+:host::ng-deep .mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin: 0;
 }
 
-@media (min-width: 768px) {
-  .cards { grid-template-columns: repeat(2, 1fr); }
+@mixin xs-devices {
+  :host::ng-deep .mat-form-field-wrapper {
+    padding-bottom: 5px;
+  }
+
+  .mat-form-field {
+    width: 100%;
+  }
+
+  .row {
+    display: block;
+    height: 500px;
+    margin-top: 5px;
+
+    .column {
+      width: unset;
+      margin-right: 0;
+
+      img {
+        height: 200px;
+        object-fit: contain;
+        width: 100%;
+      }
+
+      .upload-container {
+        height: 230px;
+      }
+    }
+  }
+
+  .mat-dialog-title {
+    margin: 0;
+  }
+}
+
+@mixin m-devices {
+  .row {
+    display: flex;
+  }
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  @include xs-devices;
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  @include m-devices;
 }

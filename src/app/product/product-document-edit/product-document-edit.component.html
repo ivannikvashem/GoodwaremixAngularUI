@@ -29,7 +29,7 @@
       <div class="row">
         <div class="column">
           <form [formGroup]="form" (ngSubmit)="onSubmitClick()">
-            <mat-form-field appearance="fill" class="full-width">
+            <mat-form-field appearance="outline" class="full-width">
               <mat-label>Поставщик</mat-label>
               <input type="text" matInput [formControl]="searchSuppliersCtrl" [matAutocomplete]="auto">
               <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onSupplierSelected()">
@@ -39,17 +39,17 @@
               </mat-autocomplete>
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="full-width">
+            <mat-form-field appearance="outline" class="full-width">
               <mat-label>Название</mat-label>
               <input matInput formControlName="certTitle" name="certTitle" required>
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="full-width">
+            <mat-form-field appearance="outline" class="full-width">
               <mat-label>Номер</mat-label>
               <input matInput formControlName="certNumber" name="certNumber" required>
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="full-width">
+            <mat-form-field appearance="outline" class="full-width">
               <mat-label>Срок действия</mat-label>
               <mat-date-range-input [formGroup]="form.get('range')" [rangePicker]="picker">
                 <input matStartDate formControlName="startDate" placeholder="Начало">
@@ -59,19 +59,19 @@
               <mat-date-range-picker #picker></mat-date-range-picker>
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="full-width" *ngIf="documentProduct?.type">
+            <mat-form-field appearance="outline" class="full-width" *ngIf="documentProduct?.type">
               <mat-label>Тип</mat-label>
               <input matInput formControlName="type">
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="full-width" *ngIf="!documentProduct.type">
+            <mat-form-field appearance="outline" class="full-width" *ngIf="!documentProduct.type">
               <mat-label>Тип</mat-label>
               <mat-select formControlName="type">
                 <mat-option *ngFor="let type of documentTypesList" [value]="type.descr">{{type.descr}}</mat-option>
               </mat-select>
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="full-width">
+            <mat-form-field appearance="outline" class="full-width">
               <mat-label>Ссылка</mat-label>
               <input matInput formControlName="url" name="url">
             </mat-form-field>&nbsp;
@@ -101,12 +101,19 @@
         </div>
       </div>
 
+<!--
       <div class="actions-div">
         <button mat-raised-button mat-dialog-close="" (click)="onCancelClick()" type="button">Отмена</button>
         <button mat-raised-button color="primary" (click)="onSubmitClick()" [disabled]="form.invalid">Сохранить</button>
       </div>
+-->
 
     </mat-tab>
   </mat-tab-group>
 
 </mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button mat-dialog-close="" (click)="onCancelClick()" type="button">Отмена</button>
+  <button mat-raised-button color="primary" (click)="onSubmitClick()" [disabled]="form.invalid">Сохранить</button>
+</mat-dialog-actions>

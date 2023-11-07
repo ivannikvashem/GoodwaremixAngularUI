@@ -1,8 +1,6 @@
 .card {
   overflow: hidden;
   width: auto;
-  max-width: 330px;
-  min-height: 320px;
   height: auto;
   padding: 10px !important;
 
@@ -74,6 +72,46 @@
   border-radius: 5px
 }
 
-::ng-deep .mat-mini-fab .mat-button-wrapper {
+:host::ng-deep .mat-mini-fab .mat-button-wrapper {
   padding: 0!important;
+  line-height: 0;
+}
+
+:host::ng-deep .mat-checkbox-inner-container {
+  height: 26px !important;
+  width: 26px !important;
+}
+
+:host::ng-deep .mat-checkbox-frame {
+  border-radius: 50% !important;
+  border-color: white !important;
+}
+
+.card:hover {
+  .action-item {
+    visibility: visible;
+  }
+}
+
+.action-item {
+  visibility: hidden;
+}
+
+@mixin xs-devices {
+  .card {
+    .img-container {
+      height: 150px;
+    }
+  }
+}
+
+@media only screen and (hover: none) and (pointer: coarse){
+  .action-item {
+    visibility: visible;
+  }
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  @include xs-devices;
 }

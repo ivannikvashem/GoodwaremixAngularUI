@@ -5,8 +5,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 1rem;
-    min-height: 500px;
-    max-height: 700px;
+    min-height: 450px;
 
     .attribute-filter {
       grid-column: span 3;
@@ -14,13 +13,16 @@
   }
 }
 
+.filter-actions-container {
+  display: block;
+}
+
 .selected-filters {
   margin-top: 10px;
-  max-height: 500px;
+  max-height: 450px;
 }
 
 .filter-card {
-  min-width: 400px;
   margin-bottom: 10px;
   max-height: 500px;
 
@@ -87,4 +89,45 @@
     background-color: #f44336;
     color: white;
   }
+}
+
+@mixin xs-devices {
+  .main {
+    .filter-actions-container {
+      margin-bottom: 10px;
+    }
+
+    .filter-container {
+      display: block;
+    }
+  }
+
+  .selected-filters {
+    max-height: 300px;
+  }
+}
+
+@mixin m-devices {
+  .main {
+    .filter-container {
+      display: grid;
+    }
+  }
+}
+
+
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  @include xs-devices;
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  @include xs-devices;
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  @include m-devices;
 }

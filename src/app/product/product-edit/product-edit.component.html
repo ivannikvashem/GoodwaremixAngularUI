@@ -16,7 +16,7 @@
       <mat-form-field appearance="standard" class="product-title-input">
         <mat-label>Наименование</mat-label>
         <input matInput name="title" [(ngModel)]="product.title" required>
-      </mat-form-field>&nbsp;&nbsp;
+      </mat-form-field>
 
       <div *ngIf="!product.id" class="supplier-autocomplete-container">
         <app-supplier-autocomplete class="full-width" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
@@ -24,19 +24,19 @@
       <mat-form-field *ngIf="product?.supplierName && product.id" appearance="standard" class="supplier-autocomplete-container">
         <mat-label>Поставщик</mat-label>
         <input matInput [value]="product.supplierName" disabled>
-      </mat-form-field>&nbsp;&nbsp;
+      </mat-form-field>
 
       <mat-form-field appearance="standard">
         <mat-label>Идентификатор товара поставщика</mat-label>
         <input matInput name="vendorId" [(ngModel)]="product.vendorId" required minlength="1">
-      </mat-form-field>&nbsp;&nbsp;
+      </mat-form-field>
 
       <mat-form-field *ngIf="product.internalCode" appearance="standard">
         <mat-label>Артикул Энергомикс</mat-label>
         <input matInput name="internalCode" [(ngModel)]="product.internalCode" disabled>
       </mat-form-field>
       <button *ngIf="!product.internalCode" class="request-internal-code-btn" type="button" [disabled]="!internalCodeFetching || !product.vendorId" mat-raised-button (click)="RequestProductInternalCode(productId)">
-        Запросить артикул
+        <span class="request-internal-code-btn-span">Запросить артикул</span>
       </button>
     </div>
   </mat-card>
@@ -55,15 +55,17 @@
               </button>
             </div>
 
-            <div class="attached-image-container mat-elevation-z2" *ngFor="let img of preloadImagesView; let i = index">
-              <button disableRipple mat-mini-fab color="warn" type="button" class="delete-img-btn" (click)="removeImage(i, img.id)">
-                <mat-icon>delete</mat-icon>
-              </button>
-              <div class="image">
-                <img [src]="img.file" (error)="handleMissingImage($event)" class="mat-elevation-z2" (click)="openImageDialog(img.file)">
+            <div class="attached-images-container">
+              <div class="attached-image-container mat-elevation-z2" *ngFor="let img of preloadImagesView; let i = index">
+                <button disableRipple mat-mini-fab color="warn" type="button" class="delete-img-btn" (click)="removeImage(i, img.id)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+                <div class="image">
+                  <img [src]="img.file" (error)="handleMissingImage($event)" class="mat-elevation-z2" (click)="openImageDialog(img.file)">
+                </div>
               </div>
-            </div>
 
+            </div>
 
           </ng-template>
         </mat-tab>

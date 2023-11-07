@@ -16,7 +16,7 @@
             <mat-card-subtitle><strong>{{lastStats?.productQty ? lastStats.productQty : 0}}</strong> всего <strong>{{lastStats?.productQtyWithCode ? lastStats.productQtyWithCode : 0}}</strong> с артикулом</mat-card-subtitle>
           </div>
           <div class="chart">
-            <canvas *ngIf="chartsData[0].isDoughnutLayout" (change)="onChartChange($event)" (chartHover)="onChartHover($event)" class="doughnut-chart" baseChart [options]="doughnutChartOptions" [plugins]="chartsData[0].doughnutChartData.plugins" [type]="'doughnut'" [data]="chartsData[0].doughnutChartData"></canvas>
+            <canvas *ngIf="chartsData[0].isDoughnutLayout" (chartHover)="onChartHover($event)" class="doughnut-chart" baseChart [options]="doughnutChartOptions" [plugins]="chartsData[0].doughnutChartData.plugins" [type]="'doughnut'" [data]="chartsData[0].doughnutChartData"></canvas>
             <canvas *ngIf="!chartsData[0].isDoughnutLayout" (chartHover)="onChartHover($event)" class="line-chart" baseChart [options]="lineChartOptions" [type]="'line'" [data]="chartsData[0].data"></canvas>
           </div>
         </div>

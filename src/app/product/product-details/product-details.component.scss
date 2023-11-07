@@ -4,10 +4,14 @@
   flex: 2;
 
   .media-product-container {
+    width: 30%;
     .mat-card {
       padding-top: 0;
-      .mat-tab-group { width:420px;}
     }
+  }
+
+  .spec-product-container {
+    width: 70%;
   }
 }
 
@@ -129,3 +133,122 @@ tr.mat-row {
   color: rgb(0, 128, 55);
   cursor: pointer;
 }
+
+.floating-edit-btn {
+  display: none;
+}
+
+@mixin xs-devices {
+  .floating-edit-btn {
+    display: block;
+    position: fixed;
+    z-index: 100;
+    bottom: 20px;
+    right: 15px;
+  }
+
+  .button-container {
+    display: none;
+  }
+
+  .about-product-container {
+    display: block;
+    .mat-card {
+      margin-bottom: 10px;
+      margin-right: 0;
+    }
+    .media-product-container {
+      width: 100%;
+      .img-container {
+        height: 250px;
+      }
+    }
+
+    .spec-product-container {
+      width: 100%;
+    }
+  }
+}
+
+@mixin s-devices {
+  .about-product-container {
+    display: block;
+    .media-product-container {
+      width: 100%;
+      .img-container {
+        height: 250px;
+      }
+    }
+    .spec-product-container {
+      width: 100%;
+    }
+  }
+
+  .mat-card {
+    margin-right: 0;
+  }
+}
+
+@mixin m-devices {
+  .about-product-container {
+    display: flex;
+    .media-product-container {
+      width: 30%;
+      .img-container {
+        height: 350px;
+      }
+    }
+    .spec-product-container {
+      width: 70%;
+    }
+  }
+
+  .mat-card {
+    margin-right: 10px;
+  }
+}
+
+@mixin xl-devices {
+  .about-product-container {
+    display: flex;
+    .media-product-container {
+      width: 30%;
+      .img-container {
+        height: 455px;
+      }
+    }
+    .spec-product-container {
+      width: 70%;
+    }
+  }
+
+  .mat-card {
+    margin-right: 10px;
+  }
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  @include xs-devices;
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  @include s-devices;
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  @include m-devices;
+}
+
+/*!* Large devices (laptops/desktops, 992px and up) *!
+@media only screen and (min-width: 992px) {
+  @include l-devices-toolbar;
+}*/
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  @include xl-devices;
+}
+

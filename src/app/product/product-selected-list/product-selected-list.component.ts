@@ -6,7 +6,7 @@ import {Product} from "../../models/product.model";
 @Component({
   selector: 'app-product-selected-list',
   templateUrl: './product-selected-list.component.html',
-  styleUrls: ['./product-selected-list.component.css']
+  styleUrls: ['./product-selected-list.component.scss']
 })
 export class ProductSelectedListComponent implements OnInit {
 

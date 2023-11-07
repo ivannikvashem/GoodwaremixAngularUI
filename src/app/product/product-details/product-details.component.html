@@ -5,9 +5,12 @@
     <span *ngIf="product?.vendorId"> <button class="copy-vendorId-btn" (click)="copyVendorId(product.vendorId)">[<strong>{{product.vendorId}}</strong>]</button> </span>
     <span *ngIf="product?.isModerated" style="vertical-align: bottom"><mat-icon class="moderated-product-badge" matTooltip="Товар проверен">verified</mat-icon></span>
   </div>
-  <div *ngIf="roles.includes('goodware-manager')">
+  <div *ngIf="roles.includes('goodware-manager')" class="button-container">
     <button mat-raised-button (click)="goToEdit(productId)">Редактировать</button>
   </div>
+
+  <button color="primary" class="floating-edit-btn" *ngIf="roles.includes('goodware-manager')" mat-mini-fab (click)="goToEdit(productId)"><mat-icon>edit</mat-icon></button>
+
 </div>
 
 <div class="about-product-container">
@@ -77,7 +80,7 @@
     </div>
   </div>
 
-  <div class="full-width">
+  <div class="spec-product-container">
     <mat-card style="margin-right: 0;">
       <mat-card-subtitle>
         <div class="card-container">

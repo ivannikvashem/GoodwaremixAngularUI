@@ -85,6 +85,7 @@ export class AdminStatComponent implements OnInit {
 
   ngOnInit(): void {
     this.formatDataForDoughnutChart();
+    this.trackWindowSize();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -103,7 +104,7 @@ export class AdminStatComponent implements OnInit {
     let index = chartDot.active[0]?.index;
     if (index >= 0) {
       this.dialog.open(StatisticDetailsComponent, {
-        minWidth: '500px',
+        panelClass: 'full-width',
         data: {data: this.data[index], headers: headers, chartType: chartType}
       })
     }
@@ -167,7 +168,9 @@ export class AdminStatComponent implements OnInit {
     });
   }
 
-  onChartChange($event: Event) {
-    console.log($event)
+  trackWindowSize() {
+    window.addEventListener('resize', () => {
+      this.updateCharts();
+    });
   }
 }

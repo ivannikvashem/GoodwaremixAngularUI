@@ -16,7 +16,6 @@ import {AuthService} from "../../auth/service/auth.service";
 export class ProductCardComponent implements OnInit {
   hoverImage: string = "";
   hoverRowId: string = "";
-  mouseOver:boolean = false;
   isImageLoaded:boolean = false;
   selected:boolean = false;
   roles:string[] = []

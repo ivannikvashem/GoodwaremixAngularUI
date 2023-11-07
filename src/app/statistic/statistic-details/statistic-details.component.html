@@ -18,7 +18,7 @@
         Добавлено: <strong>{{chart.datasets[0].data[1]}}</strong>
         Обновлено: <strong>{{chart.datasets[0].data[2]}}</strong>
       </mat-card-subtitle>
-      <div>
+      <div class="chart-container">
         <canvas baseChart [type]="'bar'" [options]="chartOptions" [data]="chart"></canvas>
       </div>
     </mat-card>

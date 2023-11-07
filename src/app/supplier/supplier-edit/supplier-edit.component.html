@@ -96,7 +96,7 @@
                             <mat-option [value]="'MAIL'">MAIL</mat-option>
                             <mat-option [value]="'FILE'">FILE</mat-option>
                           </mat-select>
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Тип запроса</mat-label>
                           <mat-select name="methodType" #methodType [(ngModel)]="config.sourceSettings.methodType">
@@ -104,7 +104,7 @@
                             <mat-option [value]="'POST'">POST</mat-option>
                             <mat-option [value]="'BINARY'">BINARY</mat-option>
                           </mat-select>
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill" *ngIf="this.methodType.value == 'POST'">
                           <mat-label>Multipart</mat-label>
                           <mat-select name="multipart" [(ngModel)]="config.sourceSettings.multipart">
@@ -112,12 +112,12 @@
                             <mat-option [value]="true">Multipart Form Body</mat-option>
                             <mat-option [value]="false">RAW Body</mat-option>
                           </mat-select>
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
 
                         <mat-form-field appearance="fill" *ngIf="source.value !='MAIL'">
                           <mat-label>startPage</mat-label>
                           <input matInput name="startPage" placeholder="" [(ngModel)]="config.sourceSettings.startPage">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill" *ngIf="source.value !='MAIL'">
                           <mat-label>countPage</mat-label>
                           <input matInput name="countPage" placeholder="" [(ngModel)]="config.sourceSettings.countPage">
@@ -130,7 +130,6 @@
                             <input matInput name="urlList" placeholder="" [(ngModel)]="config.sourceSettings.urlList">
                           </mat-form-field>
                         </div>
-                        &nbsp;
                       </div>
                       <div class="form-block-triple"  *ngIf="source.value !='MAIL'">
                         <mat-form-field appearance="fill">
@@ -171,7 +170,7 @@
                               </button>
                               <button mat-icon-button class="mat-elevation-z2" (click)="saveHeader(element, config)" *ngIf="element.isEditable">
                                 <mat-icon>check</mat-icon>
-                              </button>&nbsp;
+                              </button>
                               <button mat-icon-button class="mat-elevation-z2" (click)="deleteHeader(element, config)"><mat-icon>delete</mat-icon></button>
                             </td>
                           </ng-container>
@@ -201,7 +200,6 @@
                             <mat-option [value]="'CSV'">CSV</mat-option>
                           </mat-select>
                         </mat-form-field>
-                        &nbsp;
                         <mat-form-field appearance="fill" *ngIf="fileType.value == 'XML'">
                           <mat-label>Очистка XML Namespace</mat-label>
                           <mat-select name="stripXMLNamespace" [(ngModel)]="config.stripXMLNamespace">
@@ -210,12 +208,10 @@
                             <mat-option [value]="false">Не менять</mat-option>
                           </mat-select>
                         </mat-form-field>
-                        &nbsp;
                         <mat-form-field appearance="fill">
                           <mat-label>Кодировка</mat-label>
                           <input matInput name="fileEncoding" placeholder="" [(ngModel)]="config.fileEncoding">
                         </mat-form-field>
-                        &nbsp;
                         <mat-form-field appearance="fill">
                           <mat-label>Имя файла в ZIP архиве</mat-label>
                           <input matInput name="zippedFileName" placeholder="" [(ngModel)]="config.zippedFileName">
@@ -236,11 +232,11 @@
                         <mat-form-field appearance="fill">
                           <mat-label>Стартовый таг</mat-label>
                           <input matInput name="startTag" placeholder="" [(ngModel)]="config.baseConfig.startTag">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Префикс идентификатора поставщика</mat-label>
                           <input matInput name="prefix" placeholder="" [(ngModel)]="config.prefix">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Идентификатор товара поставщика</mat-label>
                           <input matInput name="vendorId" placeholder="" required [(ngModel)]="config.baseConfig.vendorId">
@@ -250,11 +246,11 @@
                         <mat-form-field appearance="fill">
                           <mat-label>Наименование</mat-label>
                           <input matInput name="title" placeholder="" required [(ngModel)]="config.baseConfig.title">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Полное наименование</mat-label>
                           <input matInput name="titleLong" placeholder="" [(ngModel)]="config.baseConfig.titleLong">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Описание</mat-label>
                           <input matInput name="description" placeholder="" [(ngModel)]="config.baseConfig.description">
@@ -264,11 +260,11 @@
                         <mat-form-field appearance="fill">
                           <mat-label>Бренд</mat-label>
                           <input matInput name="brand" placeholder="" [(ngModel)]="config.baseConfig.brand">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Страна производства</mat-label>
                           <input matInput name="country" placeholder="" [(ngModel)]="config.baseConfig.country">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Код страны производства</mat-label>
                           <input matInput name="countryCode" placeholder="" [(ngModel)]="config.baseConfig.countryCode">
@@ -278,11 +274,11 @@
                         <mat-form-field appearance="fill">
                           <mat-label>Ссылка на фото 360</mat-label>
                           <input matInput name="image360" placeholder="" [(ngModel)]="config.baseConfig.image360">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Ссылка на видео (список)</mat-label>
                           <input matInput name="videos" placeholder="" [(ngModel)]="config.baseConfig.videos">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>ГТД</mat-label>
                           <input matInput name="GTD" placeholder="" [(ngModel)]="config.baseConfig.gtd">
@@ -296,7 +292,7 @@
                         <mat-form-field appearance="fill">
                           <mat-label>Стартовый таг</mat-label>
                           <input matInput name="imageStartTag" placeholder="" [(ngModel)]="config.imageConfig.imageStartTag">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>URL загрузки изображений для артикула</mat-label>
                           <input matInput name="imageUrl" placeholder="" [(ngModel)]="config.imageConfig.imageUrl">
@@ -311,11 +307,11 @@
                             <mat-option [value]="'FTP'">FTP</mat-option>
                             <mat-option [value]="'YDisk'">YDisk</mat-option>
                           </mat-select>
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Префикс URL ссылки при относительном пути</mat-label>
                           <input matInput name="supplierImageBaseUrl" placeholder="" [(ngModel)]="config.imageConfig.supplierImageBaseUrl">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Ссылка на фото</mat-label>
                           <input matInput name="images" placeholder="" [(ngModel)]="config.imageConfig.images">
@@ -330,11 +326,11 @@
                         <mat-form-field appearance="fill">
                           <mat-label>Штрихкод</mat-label>
                           <input matInput name="nettobarcode" placeholder="" [(ngModel)]="config.nettoConfig.barcode">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Кол-во в упаковке</mat-label>
                           <input matInput name="nettopackQty" placeholder="" [(ngModel)]="config.nettoConfig.packQty">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Наименование упаковки/фасовки</mat-label>
                           <input matInput name="nettotype" placeholder="" [(ngModel)]="config.nettoConfig.type">
@@ -345,11 +341,11 @@
                         <mat-form-field appearance="fill">
                           <mat-label>Ширина</mat-label>
                           <input matInput name="nettowidth" placeholder="" [(ngModel)]="config.nettoConfig.width">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Высота</mat-label>
                           <input matInput name="nettoheight" placeholder="" [(ngModel)]="config.nettoConfig.height">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Глубина</mat-label>
                           <input matInput name="nettodepth" placeholder="" [(ngModel)]="config.nettoConfig.depth">
@@ -360,7 +356,7 @@
                         <mat-form-field appearance="fill">
                           <mat-label>Объем, (см<sup>3</sup>)</mat-label>
                           <input matInput name="nettoVolume" placeholder="" [(ngModel)]="config.nettoConfig.volume">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Вес, (гр)</mat-label>
                           <input matInput name="nettoWeight" placeholder="" [(ngModel)]="config.nettoConfig.weight">
@@ -371,11 +367,11 @@
                         <mat-form-field appearance="fill">
                           <mat-label>Таг ШВГ размеров</mat-label>
                           <input matInput name="nettotagName" placeholder="" [(ngModel)]="config.nettoConfig.dimensions.tagName">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Разделитель ШВГ</mat-label>
                           <input matInput name="nettoformat" placeholder="" [(ngModel)]="config.nettoConfig.dimensions.format">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <!--        автокомплит, со значениями типа: мм в см, м в см и так далее-->
                         <mat-form-field appearance="fill">
                           <mat-label>Множитель ШВГ</mat-label>
@@ -392,7 +388,7 @@
                         <mat-form-field appearance="fill">
                           <mat-label>Стартовый таг</mat-label>
                           <input matInput name="packagesStartTag" placeholder="" [(ngModel)]="config.packageConfig.packagesStartTag">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>URL ссылка на данные об упаковке по артикулу</mat-label>
                           <input matInput name="packagesURL" placeholder="" [(ngModel)]="config.packageConfig.packagesURL">
@@ -403,11 +399,11 @@
                         <mat-form-field appearance="fill">
                           <mat-label>Штрихкод</mat-label>
                           <input matInput name="packagebarcode" placeholder="" [(ngModel)]="config.packageConfig.barcode">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Кол-во в упаковке</mat-label>
                           <input matInput name="packagepackQty" placeholder="" [(ngModel)]="config.packageConfig.packQty">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Наименование упаковки/фасовки</mat-label>
                           <input matInput name="packagetype" placeholder="" [(ngModel)]="config.packageConfig.type">
@@ -418,11 +414,11 @@
                         <mat-form-field appearance="fill">
                           <mat-label>Ширина</mat-label>
                           <input matInput name="packagewidth" placeholder="" [(ngModel)]="config.packageConfig.width">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Высота</mat-label>
                           <input matInput name="packageheight" placeholder="" [(ngModel)]="config.packageConfig.height">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Глубина</mat-label>
                           <input matInput name="packagedepth" placeholder="" [(ngModel)]="config.packageConfig.depth">
@@ -433,7 +429,7 @@
                         <mat-form-field appearance="fill">
                           <mat-label>Объем, (см<sup>3</sup>)</mat-label>
                           <input matInput name="packageVolume" placeholder="" [(ngModel)]="config.packageConfig.volume">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Вес, (гр)</mat-label>
                           <input matInput name="packageWeight" placeholder="" [(ngModel)]="config.packageConfig.weight">
@@ -444,11 +440,11 @@
                         <mat-form-field appearance="fill">
                           <mat-label>Таг ШВГ размеров</mat-label>
                           <input matInput name="packagetagName" placeholder="" [(ngModel)]="config.packageConfig.dimensions.tagName">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Разделитель ШВГ</mat-label>
                           <input matInput name="packageformat" placeholder="" [(ngModel)]="config.packageConfig.dimensions.format">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <!--        автокомплит, со значениями типа: мм в см, м в см и так далее-->
                         <mat-form-field appearance="fill">
                           <mat-label>Множитель ШВГ</mat-label>
@@ -469,7 +465,7 @@
                             <mat-option [value]="true">Да</mat-option>
                             <mat-option [value]="false">Нет</mat-option>
                           </mat-select>
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
 
                         <mat-form-field appearance="fill">
                           <mat-label>Преобразовывать фото в pdf</mat-label>
@@ -484,7 +480,7 @@
                         <mat-form-field appearance="fill">
                           <mat-label>Стартовый таг</mat-label>
                           <input matInput name="documentsStartTag" placeholder="" [(ngModel)]="config.documentConfig.documentsStartTag">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>URL ссылка на документы по артикулу</mat-label>
                           <input matInput name="documentsURL" placeholder="" [(ngModel)]="config.documentConfig.documentsURL">
@@ -501,11 +497,11 @@
                         <mat-form-field appearance="fill">
                           <mat-label>Тип документа</mat-label>
                           <input matInput name="doctype" placeholder="" [(ngModel)]="config.documentConfig.type">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Номер документа</mat-label>
                           <input matInput name="certNumber" placeholder="" [(ngModel)]="config.documentConfig.certNumber">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Наименование документа</mat-label>
                           <input matInput name="certTitle" placeholder="" [(ngModel)]="config.documentConfig.certTitle">
@@ -516,11 +512,11 @@
                         <mat-form-field appearance="fill">
                           <mat-label>Номер серт. организации</mat-label>
                           <input matInput name="certOrganizNumber" placeholder="" [(ngModel)]="config.documentConfig.certOrganizNumber">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Наименование серт. организации</mat-label>
                           <input matInput name="certOrganizDescr" placeholder="" [(ngModel)]="config.documentConfig.certOrganizDescr">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Номер бланка</mat-label>
                           <input matInput name="blankNumber" placeholder="" [(ngModel)]="config.documentConfig.blankNumber">
@@ -531,7 +527,7 @@
                         <mat-form-field appearance="fill">
                           <mat-label>Дата начала действия</mat-label>
                           <input matInput name="startDate" placeholder="" [(ngModel)]="config.documentConfig.startDate">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Дата окончания действия</mat-label>
                           <input matInput name="endDate" placeholder="" [(ngModel)]="config.documentConfig.endDate">
@@ -568,11 +564,11 @@
                         <mat-form-field appearance="fill">
                           <mat-label>Наименование атрибута</mat-label>
                           <input matInput name="attributeName" placeholder="" [(ngModel)]="config.attributeConfig.attributeName">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Единица измерения</mat-label>
                           <input matInput name="unit" placeholder="" [(ngModel)]="config.attributeConfig.unit">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Значение</mat-label>
                           <input matInput name="value" placeholder="" [(ngModel)]="config.attributeConfig.value">
@@ -582,11 +578,11 @@
                         <mat-form-field appearance="fill">
                           <mat-label>ETIM свойство</mat-label>
                           <input matInput name="etimFeature" placeholder="" [(ngModel)]="config.attributeConfig.etimFeature">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>ETIM единица измерения</mat-label>
                           <input matInput name="etimUnit" placeholder="" [(ngModel)]="config.attributeConfig.etimUnit">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>ETIM значение</mat-label>
                           <input matInput name="etimValue" placeholder="" [(ngModel)]="config.attributeConfig.etimValue">
@@ -605,11 +601,11 @@
                         <mat-form-field appearance="fill">
                           <mat-label>Множитель для габаритов</mat-label>
                           <input matInput name="dimensionIndex" placeholder="" [(ngModel)]="config.multipliers.dimensionIndex">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Множитель для объема</mat-label>
                           <input matInput name="volumeIndex" placeholder="" [(ngModel)]="config.multipliers.volumeIndex">
-                        </mat-form-field>&nbsp;
+                        </mat-form-field>
                         <mat-form-field appearance="fill">
                           <mat-label>Множитель для веса</mat-label>
                           <input matInput name="weightIndex" placeholder="" [(ngModel)]="config.multipliers.weightIndex">

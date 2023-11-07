@@ -2,6 +2,10 @@
   width: 100% !important;
 }
 
+.mat-form-field:not(:last-child) {
+  margin-right: 5px !important;
+}
+
 .form-block-double {
   width: 50%;
   display: flex;
@@ -100,3 +104,93 @@ form {
     height: 100px;
   }
 }
+
+@mixin xs-devices {
+  mat-tab-group.mainTabGroup { flex-direction: column}
+  :host ::ng-deep .mat-vertical-content-container {
+    margin-left: 14px !important;
+  }
+
+  :host ::ng-deep .mat-vertical-stepper-header {
+    padding: 11px 2px !important;
+  }
+
+  :host ::ng-deep .mat-vertical-content {
+    padding: 0 3px 10px 8px !important;
+  }
+  .form-block-triple {
+    width: 100%;
+    display: block;
+  }
+
+  .form-block-double {
+    width: 100%;
+    display: block;
+  }
+
+  .mat-column-headerValue {
+    min-width: unset !important;
+  }
+
+  .headers-table {
+    width: 100%;
+  }
+}
+
+@mixin xl-devices {
+  mat-tab-group.mainTabGroup { flex-direction: row}
+  :host ::ng-deep .mat-vertical-content-container {
+    margin-left: 36px !important;
+  }
+
+  :host ::ng-deep .mat-vertical-stepper-header {
+    padding: 24px 24px !important;
+  }
+
+  :host ::ng-deep .mat-vertical-content {
+    padding: 0 3px 10px 8px !important;
+  }
+  .form-block-triple {
+    width: 78%;
+    display: flex;
+  }
+
+  .form-block-double {
+    width: 50%;
+    display: flex;
+  }
+
+  .mat-column-headerValue {
+    min-width: 500px !important;
+  }
+
+  .headers-table {
+    width: 78%;
+  }
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  @include xs-devices;
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  @include xs-devices;
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  @include xs-devices;
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  @include xs-devices;
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  @include xl-devices;
+}
+

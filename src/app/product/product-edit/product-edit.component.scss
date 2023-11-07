@@ -3,13 +3,12 @@
 
   .header-form-block {
     width: 100%;
-    display: flex;
-    justify-content: space-between;
-    .product-title-input {width: 70%}
-    .supplier-autocomplete-container {width: 30%}
+    display: grid;
+    grid-template-columns: 50% 20% 15% 15%;
+    .product-title-input {width: 100%}
+    .supplier-autocomplete-container {width: 100%}
     .request-internal-code-btn {
       margin: auto;
-      width: 220px
     }
   }
 }
@@ -30,44 +29,51 @@
     }
   }
 
-  .attached-image-container{
-    margin: 5px;
-    width: 150px;
-    height: 150px;
-    float: left;
-    box-sizing: border-box;
-    position: relative;
-    border-radius: 4px;
+  .attached-images-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 5px;
 
-
-    .delete-img-btn {
-      position: absolute;
-      right: 2px;
-      top: 2px;
-      line-height: 1;
-      z-index: 100;
-      padding: 0;
-      background: white;
-      color: black;
-    }
-
-    .image {
+    .attached-image-container{
+      margin: 5px;
       width: 100%;
-      height: 100%;
+      height: 150px;
+      float: left;
+      box-sizing: border-box;
       position: relative;
-      overflow: hidden;
+      border-radius: 4px;
 
-      img {
-        width: 100%;
-        min-height: 100%;
+
+      .delete-img-btn {
         position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%,-50%);
-        -ms-transform: translate(-50%,-50%);
-        object-fit: cover;
+        right: 2px;
+        top: 2px;
+        line-height: 1;
+        z-index: 100;
+        padding: 0;
+        background: white;
+        color: black;
+      }
+
+      .image {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+
+        img {
+          width: 100%;
+          min-height: 100%;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%,-50%);
+          -ms-transform: translate(-50%,-50%);
+          object-fit: cover;
+        }
       }
     }
+
   }
 
 
@@ -82,7 +88,6 @@
     }
   }
 }
-
 
 .full-width {
   width: 100%;
@@ -202,6 +207,218 @@ tr.mat-row {
 .is-moderated-slider {
   margin-right: 10px;
   height: 100%;
+}
+
+@mixin xs-devices {
+  .product-main-fields-container {
+    .header-form-block {
+
+      grid-template-columns: 40% 30% 30%;
+      .product-title-input {
+        grid-column: span 3;
+      }
+    }
+  }
+  .about-product-container {
+    display: block;
+    .media-tab-group {
+      .mat-tab-group {
+        width:100%;
+      }
+
+      .attached-images-container {
+        grid-template-columns: 1fr 1fr 1fr;
+
+        .attached-image-container {
+          height: 100px;
+        }
+      }
+    }
+
+    .about-product-detailed-container {
+      width: unset;
+    }
+  }
+  .mat-card {
+    margin-bottom: 5px;
+    margin-right: 0;
+  }
+
+  .request-internal-code-btn-span {
+    font-size: 8px !important;
+  }
+
+  :host::ng-deep .mat-raised-button {
+    padding: 2px !important;
+  }
+}
+
+@mixin s-devices {
+  .product-main-fields-container {
+    .header-form-block {
+
+      grid-template-columns: 40% 40% 20%;
+      .product-title-input {
+        grid-column: span 3;
+      }
+    }
+  }
+
+  .about-product-container {
+    display: block;
+    .media-tab-group {
+      .mat-tab-group {
+        width:100%;
+      }
+    }
+
+    .about-product-detailed-container {
+      width: unset;
+    }
+  }
+
+  .mat-card {
+    margin-bottom: 5px;
+    margin-right: 0;
+  }
+
+  .request-internal-code-btn-span {
+    font-size: 10px !important;
+  }
+
+  :host::ng-deep .mat-raised-button {
+    padding: 2px !important;
+  }
+}
+
+@mixin m-devices {
+  .product-main-fields-container {
+    .header-form-block {
+
+      grid-template-columns: 40% 40% 20%;
+      .product-title-input {
+        grid-column: span 3;
+      }
+    }
+  }
+
+  .about-product-container {
+    display: block;
+    .media-tab-group {
+      .mat-tab-group {
+        width:100%;
+      }
+    }
+
+    .about-product-detailed-container {
+      width: unset;
+    }
+  }
+
+  :host::ng-deep .mat-raised-button {
+    padding: 0 16px !important;
+  }
+}
+
+@mixin l-devices {
+  .about-product-container {
+    .media-tab-group {
+      .mat-tab-group {
+        width:100%;
+      }
+
+      .attached-images-container {
+        .attached-image-container {
+          height: 100px;
+        }
+      }
+    }
+
+    .mat-card:not(:first-child) {
+      margin-bottom: 5px;
+      margin-right: 0;
+    }
+
+    .about-product-detailed-container {
+      width: unset;
+    }
+  }
+
+  .request-internal-code-btn-span {
+    font-size: 12px !important;
+  }
+}
+
+@mixin xl-devices {
+  .product-main-fields-container {
+    .header-form-block {
+
+      grid-template-columns: 50% 20% 15% 15%;
+      gap: 5px;
+      .product-title-input {
+        grid-column: span 1;
+      }
+    }
+  }
+
+  .about-product-container {
+    display: flex;
+
+    .media-tab-group {
+      .mat-tab-group {
+        width:320px;
+      }
+
+      .attached-images-container {
+        grid-template-columns: 1fr 1fr;
+        .attached-image-container {
+          height: 150px;
+        }
+      }
+    }
+
+    .about-product-detailed-container {
+      width: 100%;
+    }
+  }
+
+  .mat-card:not(:last-child) {
+    margin-bottom: 0;
+    margin-right: 10px;
+  }
+
+  .header-card {
+    margin-right: 0 !important;
+  }
+
+  .request-internal-code-btn {
+    font-size: 14px !important;
+  }
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  @include xs-devices;
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  @include s-devices;
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  @include m-devices;
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  @include l-devices;
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  @include xl-devices;
 }
 
 @media only screen and (min-width: 910px) {

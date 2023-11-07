@@ -11,7 +11,7 @@ import {MatDialog} from "@angular/material/dialog";
 @Component({
   selector: 'app-document',
   templateUrl: './document.component.html',
-  styleUrls: ['./document.component.css']
+  styleUrls: ['./document.component.scss']
 })
 export class DocumentComponent implements OnInit {
 

@@ -135,11 +135,7 @@ export class ProductComponent implements OnInit {
 
   attributeFilter() {
     const dialogRef = this.dialog.open(AttributeFilterComponent, {
-      panelClass: 'dialog-gray-background',
-      minWidth: '950px',
-      maxWidth: '1150px',
-      minHeight: '500px',
-      maxHeight: '700px',
+      panelClass: ['dialog-gray-background', 'full-width'],
       data: {filter: JSON.stringify(this.filterAttribute), withICFilter:this.withICFilter, isModerated:this.isModerated},
       autoFocus:false
     });

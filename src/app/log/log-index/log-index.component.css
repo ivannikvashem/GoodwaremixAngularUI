@@ -1,5 +1,6 @@
 .log-table-container {
   margin: 10px 0 60px 0;
+  overflow: auto;
 }
 
 .mat-column-actions,

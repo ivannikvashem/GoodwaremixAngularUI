@@ -26,6 +26,12 @@ html {
   margin-bottom: 7px;
 }
 
+.modal-title {
+  font: 400 24px/32px Roboto, 'Open Sans', sans-serif;
+  display: block;
+  margin-bottom: 7px;
+}
+
 .page-title-light {
   font-size: 20px;
   display: block;
@@ -33,6 +39,11 @@ html {
 }
 
 .header-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-header-container {
   display: flex;
   justify-content: space-between;
 }
@@ -173,6 +184,10 @@ table {
   width: 100%;
 }
 
+.modal-button-text {
+  display: unset;
+}
+
 @keyframes shine {
   to {
     background-position-x: -200%;
@@ -182,4 +197,7 @@ table {
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
   .header-container { display: block }
+  .modal-title {font-size: 16px}
+  .modal-button-text {display: none}
+  .page-title {font-size: 18px}
 }

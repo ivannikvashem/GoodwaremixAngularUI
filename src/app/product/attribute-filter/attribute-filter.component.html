@@ -1,10 +1,10 @@
 <div class="main">
-  <div class="header-container">
-    <span class="page-title">Фильтры</span>
-    <button class="remove-all-filters-btn" mat-raised-button (click)="clearFilters()"><mat-icon>delete</mat-icon> Очистить фильтры</button>
+  <div class="modal-header-container">
+    <span class="modal-title">Фильтры</span>
+    <button class="remove-all-filters-btn" mat-raised-button (click)="clearFilters()"><span class="modal-button-text">Очистить фильтры</span><mat-icon>delete</mat-icon></button>
   </div>
   <div class="filter-container">
-    <div>
+    <div class="filter-actions-container">
       <app-product-ic-filter-switch [state]="withICFilter" (withICFilterEmitter)="onICFilterChanged($event)"></app-product-ic-filter-switch>
       <app-product-verified-filter-switch [state]="isModerated" (moderatedFilterEmitter)="onVerifiedChanged($event)"></app-product-verified-filter-switch>
     </div>

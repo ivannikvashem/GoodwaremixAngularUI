@@ -6,10 +6,15 @@
 
 .mat-column-checkbox {
   width: 50px;
+  min-width: 25px;
 }
 
 a {
   color:black;
+}
+
+.page-container {
+  overflow: auto;
 }
 
 .mat-column-actions,
@@ -37,6 +42,7 @@ a {
 .mat-column-type {
   flex: 0 0 70px !important;
   width: 70px !important;
+  min-width: 70px;
 }
 
 .mat-column-stat {
@@ -47,11 +53,13 @@ a {
 .mat-column-fullfill {
   flex: 0 0 155px !important;
   width: 155px !important;
+  min-width: 155px;
 }
 
 .mat-column-brands {
   flex: 0 0 830px !important;
   width: 830px !important;
+  min-width: 60px;
 }
 
 tr.detail-row {
