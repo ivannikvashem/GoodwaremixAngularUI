@@ -38,14 +38,14 @@
       </mat-card>
     </div>
 
-    <div class="cards" *ngIf="dataSource.rowCount == 0 && !isLoading">
+    <div class="cards" *ngIf="dataSource.rowCount != 0 && !isLoading">
       <app-product-card *ngFor="let product of productsList" [product]="product"></app-product-card>
       <ng-container *ngIf="this.dataSource.pageCountSize < 6">
         <div *ngFor="let i of [].constructor(6 - this.dataSource.pageCountSize)"></div>
       </ng-container>
     </div>
 
-    <mat-card *ngIf="dataSource.rowCount == 1 && !isLoading">
+    <mat-card *ngIf="dataSource.rowCount == 0 && !isLoading">
       По вашему запросу ничего не найдено, попробуйте изменить критерии поиска
     </mat-card>
   </div>
