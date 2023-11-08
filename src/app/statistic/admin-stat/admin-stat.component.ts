@@ -89,6 +89,7 @@ export class AdminStatComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.formatDataForDoughnutChart()
     this.updateCharts();
   }
 
@@ -155,14 +156,19 @@ export class AdminStatComponent implements OnInit {
         beforeDraw(chart: any) {
           const chartDetailed = chart.getContext('2d');
           const ctx = chart.ctx;
-          const txt = chartData.data.datasets[0].label + ' ' + chartData.data.datasets[0].data[chartData.data.datasets[0].data.length - 1];
+          const txt = chartData.data?.datasets[0]?.label + ' ' + chartData.data?.datasets[0]?.data[chartData.data?.datasets[0].data?.length - 1];
           const fontSize = chartDetailed.chart.width / 10;
           ctx.font = fontSize + 'px \'Open Sans\', sans-serif';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           const centerX = chartDetailed.chart.width / 2;
           const centerY = chartDetailed.chart.height / 2;
-          ctx.fillText(txt, centerX, centerY);
+          console.log(txt)
+          if (txt.includes('undefined')) {
+            ctx.fillText('Всего 0', centerX, centerY);
+          } else {
+            ctx.fillText(txt, centerX, centerY);
+          }
         }
       }]
     });

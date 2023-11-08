@@ -126,7 +126,7 @@ export class StatisticComponent implements OnInit {
   }
 
   onSupplierSelected(supplier?: Supplier) {
-
+    console.log(supplier)
     setTimeout( () => {
       if (supplier?.id) {
         this.selectedSupplier = supplier;
