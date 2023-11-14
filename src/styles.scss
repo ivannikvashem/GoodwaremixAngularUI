@@ -201,4 +201,7 @@ table {
   .modal-title {font-size: 16px}
   .modal-button-text {display: none}
   .page-title {font-size: 18px}
+  mat-paginator {
+    .mat-paginator-range-label {margin: 0 !important}
+  }
 }

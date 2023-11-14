@@ -1,74 +1,81 @@
-<h3>{{data.oldTask == undefined ? "Добавление новой задачи" : "Задача " + "поставщика " + data.oldTask.supplierName}}</h3>
-<form [formGroup]="fb" (ngSubmit)="onSubmitClick()">
 
-  <app-supplier-autocomplete class="full-width" [appearance]="'fill'" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
+<mat-dialog-content>
+  <span class="modal-title">{{data.oldTask == undefined ? "Добавление новой задачи" : "Задача " + "поставщика " + data.oldTask.supplierName}}</span>
+  <form [formGroup]="fb" (ngSubmit)="onSubmitClick()">
 
-<!--  <mat-form-field appearance="fill" class="form-full-width">
-    <mat-label>Конфигурация</mat-label>
-    <mat-select formControlName="configList" multiple>
-      <mat-option *ngFor="let config of supplier.supplierConfigs" [value]="config">
-        {{config.name}} {{config.type}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>-->
+    <app-supplier-autocomplete class="full-width" [appearance]="'outline'" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
 
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Название задачи</mat-label>
-    <input matInput formControlName="nameTask">
-  </mat-form-field>
+    <!--  <mat-form-field appearance="fill" class="form-full-width">
+        <mat-label>Конфигурация</mat-label>
+        <mat-select formControlName="configList" multiple>
+          <mat-option *ngFor="let config of supplier.supplierConfigs" [value]="config">
+            {{config.name}} {{config.type}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>-->
 
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Описание</mat-label>
-    <input matInput formControlName="description">
-  </mat-form-field>
-
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Дата запуска</mat-label>
-    <input matInput type="datetime-local" formControlName="startDate">
-  </mat-form-field>
-
-<!--  <div class="formBlockDouble">
-    <mat-form-field appearance="fill" *ngIf="group.value == 'selection'" class="form-full-width">
-      <mat-label>Планировщик</mat-label>
-      <mat-select>
-        <mat-option [value]="'0 0 12 * * ?'"> Каждый день </mat-option>
-        <mat-option [value]="'0 0 0 ? * * *'"> Каждый месяц </mat-option>
-      </mat-select>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Название задачи</mat-label>
+      <input matInput formControlName="nameTask">
     </mat-form-field>
 
-    <mat-form-field appearance="fill" *ngIf="group.value == 'input'" class="form-full-width">
-      <mat-label>CRON выражение</mat-label>
-      <input matInput>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Описание</mat-label>
+      <input matInput formControlName="description">
     </mat-form-field>
 
-  </div>-->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Дата запуска</mat-label>
+      <input matInput type="datetime-local" formControlName="startDate">
+    </mat-form-field>
 
-  <div class="cron-container">
-    <div class="full-width">
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>CRON выражение</mat-label>
-        <input appMaskInput matInput formControlName="cron" minlength="12" maxlength="13">
-        <mat-hint align="start"><strong><a href="https://www.freeformatter.com/cron-expression-generator-quartz.html" target="_blank">Подробнее <small>(ссылка)</small></a></strong></mat-hint>
-      </mat-form-field>
+    <!--  <div class="formBlockDouble">
+        <mat-form-field appearance="fill" *ngIf="group.value == 'selection'" class="form-full-width">
+          <mat-label>Планировщик</mat-label>
+          <mat-select>
+            <mat-option [value]="'0 0 12 * * ?'"> Каждый день </mat-option>
+            <mat-option [value]="'0 0 0 ? * * *'"> Каждый месяц </mat-option>
+          </mat-select>
+        </mat-form-field>
 
-      <div>
-        <mat-button-toggle-group formControlName="isEnable">
-          <mat-button-toggle [value]="true"><mat-icon>play_arrow</mat-icon>Активна</mat-button-toggle>
-          <mat-button-toggle [value]="false"><mat-icon>stop</mat-icon>Выключена</mat-button-toggle>
-        </mat-button-toggle-group>
+        <mat-form-field appearance="fill" *ngIf="group.value == 'input'" class="form-full-width">
+          <mat-label>CRON выражение</mat-label>
+          <input matInput>
+        </mat-form-field>
+
+      </div>-->
+
+    <div class="cron-container">
+      <div class="full-width">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>CRON выражение</mat-label>
+          <input appMaskInput matInput formControlName="cron" minlength="12" maxlength="13">
+          <mat-hint align="start"><strong><a href="https://www.freeformatter.com/cron-expression-generator-quartz.html" target="_blank">Подробнее <small>(ссылка)</small></a></strong></mat-hint>
+        </mat-form-field>
+
+        <div>
+          <mat-button-toggle-group formControlName="isEnable">
+            <mat-button-toggle [value]="true"><mat-icon>play_arrow</mat-icon>Активна</mat-button-toggle>
+            <mat-button-toggle [value]="false"><mat-icon>stop</mat-icon>Выключена</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
       </div>
-    </div>
 
-    <mat-card class="cron-example-card">
-      <div>Структура cron</div>
-       <div class="cron-line"><strong class="cron-dot">*</strong><span class="cron-text"> ── Секунды</span></div>
-       <div class="cron-line"><strong class="cron-dot">*</strong><span class="cron-text"> ── Минуты</span></div>
-       <div class="cron-line"><strong class="cron-dot">*</strong><span class="cron-text"> ── Часы</span></div>
-       <div class="cron-line"><strong class="cron-dot">*</strong><span class="cron-text"> ── День месяца</span></div>
-       <div class="cron-line"><strong class="cron-dot">*</strong><span class="cron-text"> ── Месяц</span></div>
-       <div class="cron-line"><strong class="cron-dot">*</strong><span class="cron-text"> ── День недели</span></div>
-       <div class="cron-line"><strong class="cron-dot">*</strong><span class="cron-text"> ── Год</span></div>
-    </mat-card>
-  </div>
+      <mat-card class="cron-example-card">
+        <div>Структура cron</div>
+        <div class="cron-line"><strong class="cron-dot">*</strong><span class="cron-text"> ── Секунды</span></div>
+        <div class="cron-line"><strong class="cron-dot">*</strong><span class="cron-text"> ── Минуты</span></div>
+        <div class="cron-line"><strong class="cron-dot">*</strong><span class="cron-text"> ── Часы</span></div>
+        <div class="cron-line"><strong class="cron-dot">*</strong><span class="cron-text"> ── День месяца</span></div>
+        <div class="cron-line"><strong class="cron-dot">*</strong><span class="cron-text"> ── Месяц</span></div>
+        <div class="cron-line"><strong class="cron-dot">*</strong><span class="cron-text"> ── День недели</span></div>
+        <div class="cron-line"><strong class="cron-dot">*</strong><span class="cron-text"> ── Год</span></div>
+      </mat-card>
+    </div>
+  </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
   <button mat-raised-button color="primary" [mat-dialog-close]="data" (click)="onSubmitClick()" [disabled]="fb.invalid || supplier?.id == null">Сохранить</button>
-</form>
+</mat-dialog-actions>
