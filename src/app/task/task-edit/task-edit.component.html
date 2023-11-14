@@ -48,8 +48,8 @@
     <div class="cron-container">
       <div class="full-width">
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>CRON выражение</mat-label>
-          <input appMaskInput matInput formControlName="cron" minlength="12" maxlength="13">
+          <mat-label>CRON выражение</mat-label> <!-- appMaskInput minlength="12" maxlength="13"-->
+          <input matInput formControlName="cron">
           <mat-hint align="start"><strong><a href="https://www.freeformatter.com/cron-expression-generator-quartz.html" target="_blank">Подробнее <small>(ссылка)</small></a></strong></mat-hint>
         </mat-form-field>
 

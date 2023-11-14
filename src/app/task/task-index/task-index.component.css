@@ -43,6 +43,10 @@
   animation: none;
 }
 
+.header-container {
+  display: flex !important;
+}
+
 @-webkit-keyframes pulse {
   0% {
     -webkit-box-shadow: 0 0 0 0 rgba(0, 255, 82, 0.8);
