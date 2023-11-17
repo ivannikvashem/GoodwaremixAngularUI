@@ -41,9 +41,6 @@ export class SuppliersDataSource implements DataSource<Supplier> {
           }
           return res.body;
         }),
-        tap(t => {
-          console.log(t)
-        }),
       catchError(() => of([])),
       finalize(() => this.loadingSubject.next(false))
     )
