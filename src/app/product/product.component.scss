@@ -1,0 +1,129 @@
+.toolbox-container {
+  grid-template-columns:  repeat(auto-fit, minmax(250px, 1fr));
+  width: 100%;
+  gap: 1rem;
+}
+
+.toolbox-item-xl {
+  grid-column: span 3;
+}
+
+.toolbox-item-two {
+  grid-template-columns: 50% auto;
+  display: grid;
+  gap: 14px;
+}
+
+.toolbox-item-three {
+  grid-template-columns: 150px auto auto auto;
+  display: grid;
+  gap: 12px;
+}
+
+.raised-icon-button {
+  margin: 0.25em 0 0 0 !important;
+  min-width: 53px;
+  width: 100%;
+}
+
+.add-product-btn {
+  width: unset;
+  margin: unset !important;
+  height: 32px;
+}
+
+:host::ng-deep .mat-form-field-appearance-standard .mat-form-field-flex {
+  padding-top: 0 !important;
+}
+
+.mobile-layout-btn {
+  display: none;
+}
+
+@mixin xs-devices {
+  .toolbox-container { display: grid }
+  .toolbox-item { margin-right: 0}
+  .toolbox-item-xl { margin-right: 0; grid-column: span 1}
+  .toolbox-item-three {grid-template-columns: 48% auto auto !important; gap: 14px !important}
+  .mobile-layout-btn {display: block}
+  .desktop-layout-btn {display: none}
+}
+
+@mixin s-devices {
+  .toolbox-container { display: grid }
+  .mobile-layout-btn {display: block}
+  .toolbox-item-xl {  grid-column: span 2;}
+  .toolbox-item-three { grid-template-columns: 130px auto auto}
+  .desktop-layout-btn {display: none}
+}
+
+@mixin m-devices {
+  .toolbox-container { display: grid }
+  .mobile-layout-btn {display: block}
+  .toolbox-item-xl {  grid-column: span 1;}
+  .toolbox-item-three { grid-template-columns: 49% auto auto}
+  .desktop-layout-btn {display: none}
+}
+
+@mixin l-devices {
+  .toolbox-container { display: grid }
+}
+
+@mixin xl-devices {
+  .toolbox-container { display: flex }
+  .toolbox-item-xl {  grid-column: span 2;}
+  .toolbox-item-three {grid-template-columns: auto 60px 60px 60px; gap: 12px}
+  .mobile-layout-btn {display: none}
+  .desktop-layout-btn {display: block}
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  @include xs-devices;
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  @include s-devices;
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  @include m-devices;
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  @include l-devices;
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  @include xl-devices;
+}
+
+
+
+/*
+@media only screen and (max-width: 1910px) {
+  .toolbox-item-xl {  grid-column: span 2;}
+  .toolbox-item-three {grid-template-columns: 152px 60px 60px 60px; gap: 12px}
+}
+*/
+
+/*@media only screen and (max-width: 1280px) {
+  .toolbox-item-xl {  grid-column: span 2;}
+}
+
+@media only screen and (max-width: 815px) {
+  .toolbox-item-xl {  grid-column: span 1;}
+}*/
+
+@media only screen and (min-width: 700px) and (max-width: 870px) {
+  .toolbox-item-xl {  grid-column: span 2;}
+}
+
+
+@media only screen and (max-width: 965px) {
+  :host ::ng-deep .mat-badge-medium.mat-badge-after .mat-badge-content {right: 0 !important}
+}

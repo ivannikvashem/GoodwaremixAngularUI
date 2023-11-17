@@ -1,4 +1,9 @@
-<span class="page-title">Товары</span>
+<div style="display: flex; justify-content: space-between">
+  <span class="page-title">Товары</span>
+  <button *ngIf="roles.includes('goodware-manager')" color="primary" class="toolbox-button raised-icon-button mobile-layout-btn add-product-btn" mat-raised-button matTooltip="Добавить товар" [routerLink]="['/product-add']">
+    <mat-icon>add</mat-icon> Добавить
+  </button>
+</div>
 <div class="toolbox-container">
   <mat-form-field appearance="outline" class="toolbox-item-xl input-form-outline-background">
     <mat-label>Поиск</mat-label>
@@ -10,23 +15,26 @@
 
   <app-supplier-autocomplete [appearance]="'outline'" class="toolbox-item"></app-supplier-autocomplete>
 
-  <mat-form-field appearance="outline" class="input-form-outline-background">
-    <mat-label>Сортировка</mat-label>
-    <select matNativeControl [(ngModel)]="selectedSort" (change)="sortData()">
-      <option *ngFor="let option of sortOptions" [ngValue]="option.value">{{option.displayText}}</option>
-    </select>
-  </mat-form-field>
-
   <div class="toolbox-item-three" [style.grid-template-columns]="roles.includes('goodware-manager') ? '' : 'auto auto'">
-    <button class="toolbox-button badge-button" mat-raised-button (click)="attributeFilter()" [matBadge]="filterLength() ? filterLength() : 0" matBadgePosition="after" matBadgeColor="primary" matBadgeSize="medium">
-      Фильтры
+    <mat-form-field appearance="outline" class="input-form-outline-background">
+      <mat-label>Сортировка</mat-label>
+      <select matNativeControl [(ngModel)]="selectedSort" (change)="sortData()">
+        <option *ngFor="let option of sortOptions" [ngValue]="option.value">{{option.displayText}}</option>
+      </select>
+    </mat-form-field>
+
+    <button class="toolbox-button raised-icon-button badge-button" mat-raised-button (click)="attributeFilter()" [matBadge]="filterLength() ? filterLength() : 0" matBadgePosition="after" matBadgeColor="primary" matBadgeSize="medium">
+      <mat-icon>tune</mat-icon>
     </button>
-    <button *ngIf="roles.includes('goodware-manager')" class="toolbox-button raised-icon-button" mat-raised-button matTooltip="Добавить товар" [routerLink]="['/product-add']">
-      <mat-icon>add</mat-icon>
-    </button>
-    <button class="toolbox-button raised-icon-button" mat-raised-button (click)="cardLayout = !cardLayout">
+
+    <button mat-raised-button (click)="cardLayout = !cardLayout" class="toolbox-button raised-icon-button">
       <mat-icon>{{ cardLayout ? 'format_list_bulleted' : 'dashboard'}}</mat-icon>
     </button>
+
+    <button *ngIf="roles.includes('goodware-manager')" color="primary" class="toolbox-button raised-icon-button desktop-layout-btn" mat-raised-button matTooltip="Добавить товар" [routerLink]="['/product-add']">
+      <mat-icon>add</mat-icon>
+    </button>
+
   </div>
 
 </div>

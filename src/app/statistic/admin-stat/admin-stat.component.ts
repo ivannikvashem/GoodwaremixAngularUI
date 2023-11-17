@@ -89,11 +89,11 @@ export class AdminStatComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.formatDataForDoughnutChart()
     this.updateCharts();
   }
 
   updateCharts() {
+    //this.formatDataForDoughnutChart()
     this.charts?.forEach((child) => {
       child.chart.update();
     })
@@ -163,7 +163,6 @@ export class AdminStatComponent implements OnInit {
           ctx.textBaseline = 'middle';
           const centerX = chartDetailed.chart.width / 2;
           const centerY = chartDetailed.chart.height / 2;
-          console.log(txt)
           if (txt.includes('undefined')) {
             ctx.fillText('Всего 0', centerX, centerY);
           } else {
@@ -176,6 +175,7 @@ export class AdminStatComponent implements OnInit {
 
   trackWindowSize() {
     window.addEventListener('resize', () => {
+      console.log('size changed')
       this.updateCharts();
     });
   }

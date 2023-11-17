@@ -40,8 +40,8 @@ canvas {
       display: flex;
       justify-content: center;
 
-      .doughnut-chart { max-height: 250px; }
-      .line-chart { max-height: 250px}
+      .doughnut-chart { height: 250px; }
+      .line-chart { height: 250px}
     }
   }
 
