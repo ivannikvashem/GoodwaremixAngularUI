@@ -1,5 +1,5 @@
 import {CollectionViewer, DataSource} from '@angular/cdk/collections';
-import {BehaviorSubject, Observable, of} from 'rxjs';
+import {BehaviorSubject, Observable, of, tap} from 'rxjs';
 import {catchError, finalize, map} from 'rxjs/operators';
 import {ApiClient} from "../../service/httpClient";
 import {Supplier} from "../../models/supplier.model";
@@ -30,7 +30,19 @@ export class SuppliersDataSource implements DataSource<Supplier> {
     this.api.getSuppliers(searchQuery, pageIndex, pageSize, sortActive, sortDirection)
       .pipe(
         map(res => {
+          for (let supplier of res.body.data) {
+            this.api.getSupplierLastStats(supplier.id).subscribe(stat => {
+              if (stat.body) {
+                supplier.productQty = stat.body.productQty;
+                supplier.lastImport = stat.body.lastImport;
+                supplier.productQtyWithCode = stat.body.productQtyWithCode;
+              }
+            })
+          }
           return res.body;
+        }),
+        tap(t => {
+          console.log(t)
         }),
       catchError(() => of([])),
       finalize(() => this.loadingSubject.next(false))

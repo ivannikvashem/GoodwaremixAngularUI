@@ -16,6 +16,10 @@ export class Supplier {
   stat: Stat;
   supplierConfigs: SupplierConfig[];
 
+  lastImport:string;
+  productQty:number;
+  productQtyWithCode:number;
+
   constructor() {
     this.inn = []
     this.brands = []

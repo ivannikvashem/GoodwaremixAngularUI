@@ -462,4 +462,8 @@ export class ApiClient {
   getTotalStats(): Observable<any> {
     return this.http.get(this.apiURL + '/statistics/total' , this.httpOptions)
   }
+
+  getSupplierLastStats(supplierId:string): Observable<any> {
+    return this.http.get(this.apiURL + '/statistics/LastSupplierStatistic/' + supplierId, this.httpOptions)
+  }
 }

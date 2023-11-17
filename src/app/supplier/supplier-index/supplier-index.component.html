@@ -59,18 +59,14 @@
     <ng-container matColumnDef="stat.productQty">
       <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Номенкулатура</th>
       <td mat-cell *matCellDef="let row">
-<!--
-        {{ row.stat.productQty != null && row.stat.productQty > 0 ? row.stat.productQty + " / " : ""}} {{ row.stat.productQtyWithCode != null ? row.stat.productQtyWithCode : ""}}
--->
+        {{ row.productQty != null && row.productQty >= 0 ? row.productQty + " / " : "-"}} {{ row.productQtyWithCode != null ? row.productQtyWithCode : ''}}
       </td>
     </ng-container>
     <!-- lastImport Column -->
     <ng-container matColumnDef="stat.lastImport">
       <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Последний импорт</th>
       <td mat-cell *matCellDef="let row">
-<!--
-        {{ row.stat.lastImport | date:'yyyy-MM-dd'}}
--->
+        {{row.lastImport ? (row.lastImport | date:'dd-MM-yyyy') : '-'}}
       </td>
     </ng-container>
     <!-- ACTIONS Column -->
