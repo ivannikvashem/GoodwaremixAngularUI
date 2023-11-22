@@ -9,6 +9,7 @@ export class Product {
   title: string;
   titleLong: string;
   description: string;
+  customDescription:string
   vendor: string;
   vendorId: string;
   country:string;

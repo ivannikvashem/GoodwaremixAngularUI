@@ -179,3 +179,7 @@ tr.mat-row {
   color: rgb(0, 128, 55);
   cursor: pointer;
 }
+
+.custom-description {
+  margin-top: 10px;
+}

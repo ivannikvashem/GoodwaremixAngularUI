@@ -93,6 +93,11 @@
         </div>
       </mat-card-subtitle>
       <div [innerHTML]="product?.description"></div>
+
+      <div class="custom-description" *ngIf="product?.customDescription">
+        <strong>Описание из 1С</strong>
+        <div>{{product.customDescription}}</div>
+      </div>
       <ul>
         <li *ngIf="product?.country">Страна производства - {{product.country}} <span *ngIf="product.countryCode">(Код {{product.countryCode}})</span></li>
         <li *ngIf="product?.vendorId">Артикул поставщика - {{product.vendorId}}</li>
