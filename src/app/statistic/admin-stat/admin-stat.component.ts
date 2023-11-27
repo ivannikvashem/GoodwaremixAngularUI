@@ -95,7 +95,7 @@ export class AdminStatComponent implements OnInit {
   updateCharts() {
     //this.formatDataForDoughnutChart()
     this.charts?.forEach((child) => {
-      child.chart.update();
+      child.chart?.update();
     })
   }
 
@@ -175,7 +175,6 @@ export class AdminStatComponent implements OnInit {
 
   trackWindowSize() {
     window.addEventListener('resize', () => {
-      console.log('size changed')
       this.updateCharts();
     });
   }

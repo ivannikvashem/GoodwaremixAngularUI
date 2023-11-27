@@ -126,7 +126,6 @@ export class StatisticComponent implements OnInit {
   }
 
   onSupplierSelected(supplier?: Supplier) {
-    console.log(supplier)
     setTimeout( () => {
       if (supplier?.id) {
         this.selectedSupplier = supplier;
@@ -140,7 +139,6 @@ export class StatisticComponent implements OnInit {
         this.getTotalStats();
       }
     }, 300)
-
   }
 
   setDataToChart(collectionChartData:any, headers:any[], isAdminData:boolean) {
