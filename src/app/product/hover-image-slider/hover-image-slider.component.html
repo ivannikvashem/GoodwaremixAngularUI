@@ -1,31 +1,23 @@
-<div style="height: 100%; overflow: hidden" (mouseover)="onHover = true" (mouseleave)="onHover = false">
-  <div class="containerCmain" [style.height]="imgList?.length > 1 || imgListThumb?.length > 1 ? '90%' : '100%'">
-    <img class="imgInContainer" (load)="onImageLoaded()" (error)="handleMissingImage($event)" [src]="hoverImage" (click)="openDialog(hoverImage)"/>
+<div class="slider-container" (mouseover)="onHover = true" (mouseleave)="onHover = false">
+  <div class="img-container" [style.height]="imgList?.length > 1 || imgListThumb?.length > 1 ? '90%' : '100%'">
+    <img class="img-in-container" (load)="onImageLoaded()" (error)="handleMissingImage($event)" [src]="hoverImage" (click)="openDialog(hoverImage)"/>
   </div>
 
-
-  <div class="sliderRow" *ngIf="imgList?.length > 1; else thumbTemplate">
+  <div class="slider-row" *ngIf="imgList?.length > 1; else thumbTemplate">
     <button mat-icon-button [style.visibility]="onHover ? '' : 'collapse'" [disabled]="imgIndex <= 0" (click)="slideImage(imgIndex - 1)"><mat-icon>keyboard_arrow_left</mat-icon></button>
-    <div class="imgPointContainer">
-      <div class="imgPoint" [style.background-color]="i == imgIndex ? '#717171' : ''" *ngFor="let p of imgList; index as i" (click)="changeImage(p, i)"></div>
+    <div class="img-dot-container">
+      <div class="img-dot" [style.background-color]="i == imgIndex ? '#717171' : ''" *ngFor="let p of imgList; index as i" (click)="changeImage(p, i)"></div>
     </div>
     <button mat-icon-button [style.visibility]="onHover ? '' : 'collapse'" [disabled]="imgIndex == this.imgList.length - 1" (click)="slideImage(imgIndex + 1)"><mat-icon>keyboard_arrow_right</mat-icon></button>
   </div>
 
   <ng-template #thumbTemplate>
-    <div class="sliderRow" *ngIf="imgListThumb?.length > 1">
+    <div class="slider-row" *ngIf="imgListThumb?.length > 1">
       <button mat-icon-button [style.visibility]="onHover ? '' : 'collapse'" [disabled]="imgIndex <= 0" (click)="slideImage(imgIndex - 1)"><mat-icon>keyboard_arrow_left</mat-icon></button>
-      <div class="imgPointContainer">
-        <div class="imgPoint" [style.background-color]="i == imgIndex ? '#717171' : ''" *ngFor="let p of imgListThumb; index as i" (click)="changeImage(p, i)"></div>
+      <div class="img-dot-container">
+        <div class="img-dot" [style.background-color]="i == imgIndex ? '#717171' : ''" *ngFor="let p of imgListThumb; index as i" (click)="changeImage(p, i)"></div>
       </div>
       <button mat-icon-button [style.visibility]="onHover ? '' : 'collapse'" [disabled]="imgIndex == this.imgListThumb.length - 1" (click)="slideImage(imgIndex + 1)"><mat-icon>keyboard_arrow_right</mat-icon></button>
     </div>
-<!--    <div class="sliderRow" *ngIf="imgListThumb?.length == 1">
-      <button mat-icon-button [style.visibility]="onHover ? '' : 'collapse'" [disabled]="imgIndex <= 0" (click)="slideImage(imgIndex - 1)"><mat-icon>keyboard_arrow_left</mat-icon></button>
-      <div class="imgPointContainer">
-        <div class="imgPoint" [style.background-color]="i == imgIndex ? '#717171' : ''" *ngFor="let p of imgList; index as i" (click)="changeImage(p, i)"></div>
-      </div>
-      <button mat-icon-button [style.visibility]="onHover ? '' : 'collapse'" [disabled]="imgIndex == this.imgList?.length - 1" (click)="slideImage(imgIndex + 1)"><mat-icon>keyboard_arrow_right</mat-icon></button>
-    </div>-->
   </ng-template>
 </div>

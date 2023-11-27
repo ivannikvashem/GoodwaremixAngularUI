@@ -3,14 +3,14 @@
   <mat-spinner diameter="35" *ngIf="dataSource.loading$ | async"></mat-spinner>
 </div>
 
-<div class="mat-elevation-z2" style="margin-bottom: 60px">
-  <table mat-table [dataSource]="dataSource" matSort matSortActive="Date" matSortDisableClear matSortDirection="desc" class="form-full-width">
+<div class="mat-elevation-z2 page-container">
+  <table mat-table [dataSource]="dataSource" matSort matSortActive="Date" matSortDisableClear matSortDirection="desc" class="full-width">
     <!-- Status Column -->
     <ng-container matColumnDef="status">
       <th mat-header-cell *matHeaderCellDef>Статус</th>
       <td mat-cell *matCellDef="let row">
-        <div class="taskEnabled" *ngIf="row.isEnable == true"></div>
-        <div class="taskDisabled" *ngIf="row.isEnable == false"></div>
+        <div class="task-enabled" *ngIf="row.isEnable == true"></div>
+        <div class="task-disabled" *ngIf="row.isEnable == false"></div>
       </td>
     </ng-container>
     <!-- Name Column -->
@@ -34,7 +34,7 @@
         <button mat-icon-button class="mat-elevation-z2" matTooltip="Добавить" (click)="addTask()"><mat-icon>add</mat-icon></button>&nbsp;
       </th>
       <td mat-cell *matCellDef="let item">
-        <div class="buttonsContainer">
+        <div class="buttons-container">
           <button *ngIf="!item.isEnable" mat-icon-button matTooltip="Запустить" (click)="executeTask(item.id, true)"><mat-icon>play_arrow</mat-icon></button>
           <button *ngIf="item.isEnable" mat-icon-button class="mat-elevation-z2" matTooltip="Остановить" (click)="executeTask(item.id, false)"><mat-icon>stop</mat-icon></button>
           <button mat-icon-button class="mat-elevation-z2" matTooltip="Добавить" (click)="editTask(item)"><mat-icon>edit</mat-icon></button>

@@ -13,7 +13,7 @@ import {AuthService} from "../auth/service/auth.service";
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
-  styleUrls: ['./product.component.css']
+  styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
   selectedSupplier: Supplier;
@@ -81,11 +81,11 @@ export class ProductComponent implements OnInit {
       searchQuery: this.searchQuery,
       pageIndex: this.pageIndex,
       pageSize: this.pageSize,
-      withInternalCodeSelector: this.withICFilter,
+      withInternalCodeSelector: this.withICFilter != undefined ? this.withICFilter : null,
       filterAttribute: this.filterAttribute != undefined ? this.filterAttribute : null,
       sortActive: this.sortActive,
       sortDirection: this.sortDirection,
-      isModerated: this.isModerated
+      isModerated: this.isModerated != undefined ? this.isModerated : null
     });
   }
 
@@ -135,11 +135,7 @@ export class ProductComponent implements OnInit {
 
   attributeFilter() {
     const dialogRef = this.dialog.open(AttributeFilterComponent, {
-      panelClass: 'dialog-gray-background',
-      minWidth: '950px',
-      maxWidth: '1150px',
-      minHeight: '500px',
-      maxHeight: '700px',
+      panelClass: ['dialog-gray-background', 'full-width'],
       data: {filter: JSON.stringify(this.filterAttribute), withICFilter:this.withICFilter, isModerated:this.isModerated},
       autoFocus:false
     });

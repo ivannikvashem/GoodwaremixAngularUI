@@ -1,15 +1,13 @@
-.main {
+.main-container {
   position: relative;
 }
-.actions-div {
-  display: flex;
-  justify-content: space-between;
-}
+
 .information{
   text-align: center;
   margin: 0;
   height: 40px;
 }
-.full-width {
-  width: 100%;
+
+.etimFeature-span {
+  font-style:italic;
 }

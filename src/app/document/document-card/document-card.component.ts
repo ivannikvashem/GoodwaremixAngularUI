@@ -6,7 +6,7 @@ import {MatDialog} from "@angular/material/dialog";
 @Component({
   selector: 'app-document-card',
   templateUrl: './document-card.component.html',
-  styleUrls: ['./document-card.component.css']
+  styleUrls: ['./document-card.component.scss']
 })
 export class DocumentCardComponent implements OnInit {
 
@@ -20,7 +20,6 @@ export class DocumentCardComponent implements OnInit {
 
   openDocumentEditorDialog(oldDocument?:any): void {
       const dialogRef = this.dialog.open(ProductDocumentEditComponent, {
-        width: '1050px',
         autoFocus: false,
         data: {documentIds:null, supplierId:this.document.supplierId, oldDocument: oldDocument, newDocument: new Document() },
       });

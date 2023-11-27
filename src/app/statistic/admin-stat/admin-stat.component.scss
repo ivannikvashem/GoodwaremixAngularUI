@@ -1,0 +1,344 @@
+canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.stat-container {
+  margin-top: 10px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+
+  .stat-cards-container {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(250px, 1920px)) minmax(250px, 250px);
+    gap: 1rem;
+
+    .main-stat-cards-container {
+      display: grid;
+      grid-column: span 3;
+      gap: 1rem;
+      grid-template-columns: repeat(3, 1fr);
+
+      .main-stat-card {
+        width: auto;
+      }
+    }
+
+    .card-link, .card-link:visited {
+      color: rgba(0, 0, 0, .87);
+    }
+
+    .chart-switcher {
+      position: absolute;
+      bottom: 5%;
+      right: 5%;
+      cursor: pointer;
+    }
+
+    .chart-container {
+      display: flex;
+      justify-content: center;
+
+      .doughnut-chart { height: 250px; }
+      .line-chart { height: 250px}
+    }
+  }
+
+  .import-card {
+    grid-column: span 3;
+
+    span { font-size: 20px; }
+    .chart-container { height: 400px; }
+  }
+}
+
+::ng-deep .mat-card-header .mat-card-header-text {
+  margin: 0;
+}
+
+.notifications {
+  grid-row: span 2;
+
+  span {
+    font-size: 20px;
+  }
+
+  .notifications-container {
+    overflow: auto;
+    height: auto;
+    max-height: 700px;
+
+    .notification-card {
+      display: flex;
+      justify-content: space-between;
+
+      .notification-card-message { padding: 12px;}
+    }
+  }
+}
+
+.custom-icon-size {
+  font-size: 40px;
+  height: 40px;
+  width: 40px;
+}
+
+canvas > .legend > .legend-item > .legend-rect {
+  border-radius: 50%;
+}
+
+.mobile-card-title {
+  display: none;
+}
+
+.notifications-mobile {
+  margin-top: 1rem;
+  display: none;
+}
+
+.chart {
+  display: block;
+}
+
+/*     -      */
+
+@mixin xs-devices {
+  .stat-container {
+    display: unset;
+    width: unset;
+    .stat-cards-container {
+      display: unset;
+
+      .main-stat-cards-container {
+        display: block;
+        margin-top: 10px;
+
+        .main-stat-card {
+          margin-bottom: 1rem;
+        }
+      }
+
+      .mat-card {
+        padding: 8px;
+        margin-top: 5px;
+
+        .mobile-card-title {
+          display: block;
+        }
+
+        .mat-card-header {
+          display: none;
+        }
+
+        .chart-container {
+          justify-content: space-around;
+          .doughnut-chart { max-height: 150px }
+          .line-chart {max-height:  150px}
+        }
+      }
+    }
+    .notifications {
+      display: none;
+    }
+    .notifications-mobile {
+      display: block;
+    }
+  }
+}
+
+@mixin s-devices {
+  .stat-container {
+    display: unset;
+    width: unset;
+    .stat-cards-container {
+      display: unset;
+
+      .main-stat-cards-container {
+        display: block;
+        margin-top: 10px;
+
+        .main-stat-card {
+          margin-bottom: 1rem;
+        }
+      }
+
+      .mat-card {
+        padding: 8px;
+
+        .mobile-card-title {
+          display: block;
+        }
+
+        .mat-card-header {
+          display: none;
+        }
+
+        .chart-container {
+          justify-content: space-around;
+          .doughnut-chart { max-height: 150px}
+          .line-chart {max-height:  150px}
+        }
+      }
+    }
+    .notifications {
+      display: none;
+    }
+    .notifications-mobile {
+      display: block;
+    }
+  }
+}
+
+@mixin m-devices {
+  .stat-container {
+    display: block;
+    width: unset;
+    .stat-cards-container {
+      display: block;
+
+      .main-stat-cards-container {
+        display: block;
+        margin-top: 10px;
+
+        .main-stat-card {
+          margin-bottom: 1rem;
+        }
+      }
+
+      .mat-card {
+        padding: 8px;
+
+        .mobile-card-title {
+          display: block;
+        }
+
+        .mat-card-header {
+          display: none;
+        }
+
+        .chart-container {
+          justify-content: space-around;
+          .doughnut-chart { max-height: 150px}
+          .line-chart {max-height:  150px}
+        }
+      }
+    }
+    .notifications {
+      display: none;
+    }
+    .notifications-mobile {
+      display: block;
+    }
+  }
+}
+
+@mixin l-devices {
+  .stat-container {
+    display: grid;
+    width: unset;
+    .stat-cards-container {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(200px, 1920px)) minmax(250px, 250px);
+
+      .main-stat-cards-container {
+        display: block;
+        margin-top: 0;
+
+        .main-stat-card:not(:last-child) {
+          margin-bottom: 1rem;
+        }
+      }
+
+      .mat-card {
+        padding: 8px;
+
+        .mobile-card-title {
+          display: block;
+        }
+
+        .mat-card-header {
+          display: none;
+        }
+
+        .chart-container {
+          justify-content: space-around;
+          .doughnut-chart { max-height: 150px}
+          .line-chart {max-height:  150px}
+        }
+      }
+    }
+    .notifications {
+      display: block;
+    }
+    .notifications-mobile {
+      display: none;
+    }
+  }
+}
+
+@mixin xl-devices {
+  .stat-container {
+    .stat-cards-container {
+      grid-template-columns: repeat(3, minmax(250px, 1920px)) minmax(250px, 250px);
+
+      .main-stat-cards-container {
+        display: grid;
+        margin-top: 0;
+
+        .main-stat-card {
+          width: auto;
+          height: 340px;
+          margin-bottom: 0 !important;
+        }
+
+      }
+    }
+  }
+  .mat-card-header {
+    display: flex !important;
+  }
+  .notifications {
+    display: block;
+  }
+
+  .notifications-mobile {
+    display: none;
+  }
+
+  .mobile-card-title {
+    display: none !important;
+  }
+
+  .doughnut-chart {
+    max-height: 250px !important;
+  }
+  .line-chart {
+    max-height: 250px !important;
+  }
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  @include xs-devices;
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  @include s-devices;
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  @include m-devices;
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  @include l-devices;
+}
+
+///* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  @include xl-devices;
+}

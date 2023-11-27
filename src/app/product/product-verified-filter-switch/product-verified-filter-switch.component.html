@@ -1,7 +1,7 @@
 <mat-card>
   <small>По подтвержденности</small>
   <div>
-    <button mat-raised-button class="toolbox-button filterButton"
+    <button mat-raised-button class="toolbox-button filter-button"
             (click)="switchAttrStateFilter()">
       <mat-icon>{{state == null ? 'all_inclusive' : state == true ? 'done_all' : 'remove_done' }}</mat-icon>
       {{state == null ? 'Все товары' : state == true ? 'Подтвержденные' : 'Неподтвержденные'}}

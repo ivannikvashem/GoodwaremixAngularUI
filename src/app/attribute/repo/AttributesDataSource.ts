@@ -1,5 +1,5 @@
 import {CollectionViewer, DataSource} from '@angular/cdk/collections';
-import {BehaviorSubject, Observable, of, tap} from 'rxjs';
+import {BehaviorSubject, Observable, of} from 'rxjs';
 import {catchError, finalize, map} from 'rxjs/operators';
 import {Attribute} from '../../models/attribute.model';
 import {ApiClient} from "../../service/httpClient";
@@ -27,16 +27,12 @@ export class AttributesDataSource implements DataSource<Attribute> {
     this.loadingSubject.next(true);
     this.api.getAttributes(queryString, supplierId, pageIndex, pageSize, fixed, sortActive, sortDirection)
       .pipe(
-        tap( () => {
-          this.loadingSubject.next(true)
-        }),
         map((res:any) => {
           return res.body;
         }),
       catchError(() => of([])),
       finalize(() => this.loadingSubject.next(false))
-    )
-      .subscribe(body => {
+    ).subscribe(body => {
         this.AttributeListSubject.next(body.data);
         this.rowCount = body.totalRecords;
       });

@@ -1,0 +1,30 @@
+.main {
+  position: relative;
+
+  .form-block-full {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+  }
+
+  .about-form-field-double {
+    flex:49%;
+    width: 100%;
+  }
+
+  .package-form-field-triple {
+    flex: 32%;
+    width: 100%;
+  }
+
+  .package-form-field-fourth {
+    flex: 23%;
+    width: 100%;
+  }
+
+  .actions-div {
+    display: flex;
+    justify-content: space-between;
+  }
+}

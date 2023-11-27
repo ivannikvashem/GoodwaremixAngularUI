@@ -15,7 +15,7 @@ export interface DialogData {
 @Component({
   selector: 'app-task-edit',
   templateUrl: './task-edit.component.html',
-  styleUrls: ['./task-edit.component.css']
+  styleUrls: ['./task-edit.component.scss']
 })
 export class TaskEditComponent implements OnInit {
 

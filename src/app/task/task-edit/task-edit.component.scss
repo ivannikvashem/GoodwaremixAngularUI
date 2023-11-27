@@ -1,0 +1,48 @@
+.cron-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cron-example-card {
+  min-width: 180px;
+  margin-left: 5px;
+  margin-top: 4px;
+
+  .cron-line {
+    display: inline-grid;
+
+    .cron-dot {
+      font-size: 24px;
+      text-align: center;
+    }
+
+    .cron-text {
+      writing-mode: vertical-rl;
+    }
+  }
+}
+
+a {
+  color:black;
+}
+
+:host::ng-deep .mat-dialog-content {
+  overflow: unset;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+}
+
+@mixin xs-devices {
+  :host::ng-deep .mat-form-field-wrapper {
+    padding-bottom: 5px;
+  }
+  .cron-example-card {
+    display: none;
+  }
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  @include xs-devices;
+}

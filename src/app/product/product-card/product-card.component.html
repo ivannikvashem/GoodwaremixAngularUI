@@ -1,29 +1,28 @@
-<mat-card class="card mat-elevation-z3"  (mouseover)="mouseOver = true" (mouseleave)="mouseOver = false">
-  <div class="cardTop">
+<mat-card class="card mat-elevation-z3">
+  <div class="card-action-layer">
 
-    <div style="display: grid; row-gap: 10px">
-      <mat-checkbox style="margin: auto" color="primary" [ngModel]="selected" (change)="onChecked($event)" [style.visibility]="mouseOver || selected ? 'visible': 'hidden'"></mat-checkbox>
-      <a *ngIf="roles.includes('goodware-manager');" mat-mini-fab color="primary" class="mat-elevation-z2" [href]="'product-edit/' + product.id" [style.visibility]="mouseOver ? 'visible': 'hidden'">
+    <div class="card-action-container">
+      <button mat-mini-fab color="primary" class="action-item" [style.visibility]="selected ? 'visible': ''">
+        <mat-checkbox color="primary" [ngModel]="selected" (change)="onChecked($event)"></mat-checkbox>
+      </button>
+      <a *ngIf="roles.includes('goodware-manager');" mat-mini-fab color="primary" class="mat-elevation-z2 action-item" [href]="'product-edit/' + product.id">
         <mat-icon>edit</mat-icon>
       </a>
     </div>
   </div>
 
-<!--  <div class="supplierNameContainer" [style.visibility]="mouseOver ? 'visible': 'hidden'">
-    <strong class="supplierName">{{product.supplierName}}</strong>
-  </div>-->
-  <div style="height: 250px;">
-    <div *ngIf="!isImageLoaded" class="imagePlaceholder"></div>
+  <div class="img-container">
+    <div *ngIf="!isImageLoaded" class="image-placeholder"></div>
     <app-hover-image-slider [style.visibility]="isImageLoaded ? 'visible': 'collapse'" [imgList]="product.images.length > 0 ? product.images : product.localImages" [imgListThumb]="product.thumbnails" (onLoad)="imageLoaded($event)"></app-hover-image-slider>
   </div>
-  <span class="internalCode copyString" *ngIf="product.internalCode" (click)="copyString(product.internalCode)">{{product.internalCode}}</span>
+  <span class="internal-code copy-string" *ngIf="product.internalCode" (click)="copyString(product.internalCode)">{{product.internalCode}}</span>
 
-  <h4 class="titleContainer">
+  <h4 class="title-container">
     <a [href]="'product-details/' + product.id" matTooltip="{{product.title}}" matTooltipShowDelay="1000"> <span class="title">{{product.title}}</span> </a>
   </h4>
 
-  <span class="cardContent" [style.justify-content]="product.vendor ? 'space-between' : 'flex-end'">
-    <strong style="cursor: help" *ngIf="product.vendor" matTooltip="Вендор товара" matTooltipPosition="right">{{product.vendor}}</strong>
-    <strong class="copyString" *ngIf="product.vendorId" (click)="copyString(product.vendorId)">{{product.vendorId}}</strong>
+  <span class="card-content" [style.justify-content]="product.vendor ? 'space-between' : 'flex-end'">
+    <strong class="vendor-string" *ngIf="product.vendor" matTooltip="Вендор товара" matTooltipPosition="right">{{product.vendor}}</strong>
+    <strong class="copy-string" *ngIf="product.vendorId" (click)="copyString(product.vendorId)">{{product.vendorId}}</strong>
   </span>
 </mat-card>

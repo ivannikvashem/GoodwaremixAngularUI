@@ -1,19 +1,19 @@
 <span class="page-title">{{data?.name ? 'Редактирование пользователя ' + data.name : 'Добавление пользователя'}}</span>
 <div>
 
-  <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="form-full-width">
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="full-width">
 
-    <mat-form-field class="form-full-width" appearance="fill">
+    <mat-form-field class="full-width" appearance="fill">
       <mat-label>Полное имя</mat-label>
       <input matInput maxlength="30" formControlName="name">
     </mat-form-field>
 
-    <mat-form-field class="form-full-width" appearance="fill">
+    <mat-form-field class="full-width" appearance="fill">
       <mat-label>Логин</mat-label>
       <input matInput maxlength="30" formControlName="username">
     </mat-form-field>
 
-    <mat-form-field class="form-full-width" appearance="fill">
+    <mat-form-field class="full-width" appearance="fill">
     <mat-label>Роль</mat-label>
     <mat-select name="source" formControlName="role">
       <mat-option value="goodware-users">Гость</mat-option>
@@ -22,7 +22,7 @@
     </mat-select>
     </mat-form-field>
 
-    <mat-form-field class="form-full-width" appearance="fill">
+    <mat-form-field class="full-width" appearance="fill">
       <mat-label>Список доступных поставщиков</mat-label>
       <mat-chip-list #chipList aria-label="Список доступных поставщиков" formControlName="linkedSuppliers">
         <mat-chip *ngFor="let supplier of userForm.value.linkedSuppliers"
@@ -49,6 +49,6 @@
       </button>
     </mat-form-field>
 
-    <button mat-raised-button color="primary" type="submit" style="float: right; width: 150px;">Сохранить</button>
+    <button mat-raised-button color="primary" type="submit" class="save-btn">Сохранить</button>
   </form>
 </div>

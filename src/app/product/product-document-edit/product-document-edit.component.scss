@@ -1,0 +1,153 @@
+mat-dialog-content {
+  margin-bottom: 10px;
+}
+
+.viewport {
+  height: 600px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.buttons-container {
+  button:not(:last-child) {
+    margin-right: 5px;
+  }
+}
+
+.row {
+  display: flex;
+  width: 100%;
+
+  .column {
+    margin-right: 10px;
+    width: 500px;
+  }
+
+  .column:last-child {
+    margin-right: 0;
+  }
+}
+
+.upload-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 424px;
+  border: 3px dashed #ababab;
+  border-radius: 7px;
+  cursor: pointer;
+
+  .upload-input { display:none; }
+  .custom-icon-size {
+    font-size: 50px;
+    height: 50px ;
+    width: 50px ;
+  }
+
+  small {
+    display: block;
+  }
+}
+
+img {
+  object-fit: cover;
+}
+
+.delete-doc-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px
+}
+
+.actions-div {
+  padding: 2px;
+  display: flex;
+  justify-content: space-between;
+}
+
+
+:host::ng-deep .mat-tab-header {
+  display: none!important;
+}
+
+mat-chip {
+  max-width: 840px;
+}
+
+:host::ng-deep .mat-dialog-content {
+  overflow: unset;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+}
+:host::ng-deep .mat-dialog-content app-product-document-edit {
+  display: flex;
+  flex-direction: column;
+  min-height: 1px;
+}
+
+:host::ng-deep .mat-dialog-title {
+  display: flex;
+  margin: 0 0 10px;
+}
+
+.cards {
+  margin: 1px;
+  display: grid;
+  gap: 1rem;
+}
+
+:host::ng-deep .mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin: 0;
+}
+
+@mixin xs-devices {
+  :host::ng-deep .mat-form-field-wrapper {
+    padding-bottom: 5px;
+  }
+
+  .mat-form-field {
+    width: 100%;
+  }
+
+  .row {
+    display: block;
+    height: 500px;
+    margin-top: 5px;
+
+    .column {
+      width: unset;
+      margin-right: 0;
+
+      img {
+        height: 200px;
+        object-fit: contain;
+        width: 100%;
+      }
+
+      .upload-container {
+        height: 230px;
+      }
+    }
+  }
+
+  .mat-dialog-title {
+    margin: 0;
+  }
+}
+
+@mixin m-devices {
+  .row {
+    display: flex;
+  }
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  @include xs-devices;
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  @include m-devices;
+}

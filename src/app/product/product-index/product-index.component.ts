@@ -17,7 +17,7 @@ import {ProductSelectedListComponent} from "../product-selected-list/product-sel
 @Component({
   selector: 'app-product-index',
   templateUrl: './product-index.component.html',
-  styleUrls: ['./product-index.component.css']
+  styleUrls: ['./product-index.component.scss']
 })
 export class ProductIndexComponent implements OnInit {
   displayedColumns: string[] = ['preview', 'internalCode' ,'name', 'supplierName', 'actions'];
@@ -106,8 +106,7 @@ export class ProductIndexComponent implements OnInit {
     const message = `Удалить товар(ы) ?`;
     const dialogData = new ConfirmDialogModel("Подтверждение", message);
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      minWidth: "300px",
-      maxWidth: "500px",
+      panelClass: 'full-width',
       data: dialogData
     });
 
@@ -136,9 +135,8 @@ export class ProductIndexComponent implements OnInit {
 
   showSelectedItems() {
     this.dialog.open(ProductSelectedListComponent, {
-      minWidth: "600px",
-      minHeight: "250px",
-      autoFocus: false
+      autoFocus: false,
+      panelClass: 'full-width'
     });
   }
 

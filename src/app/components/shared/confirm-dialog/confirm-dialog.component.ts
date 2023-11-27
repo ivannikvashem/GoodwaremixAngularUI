@@ -3,7 +3,15 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-confirm-dialog',
-  templateUrl: './confirm-dialog.component.html'
+  styles: [
+    '.dialog-button {flex: 0 0 48%}'
+  ],
+  template: '<h1 mat-dialog-title>{{title}}</h1>\n' +
+    '<div mat-dialog-content><p>{{message}}</p> </div>\n' +
+    '<div mat-dialog-actions>\n' +
+    '  <button mat-raised-button color="primary" (click)="onConfirm()" class="dialog-button">ОК</button>\n' +
+    '  <button mat-button (click)="onDismiss()" class="dialog-button">Отмена</button>\n' +
+    '</div>\n'
 })
 export class ConfirmDialogComponent implements OnInit {
 
@@ -16,27 +24,18 @@ export class ConfirmDialogComponent implements OnInit {
     this.message = data.message;
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onConfirm(): void {
-    // Close the dialog, return true
     this.dialogRef.close(true);
   }
 
   onDismiss(): void {
-    // Close the dialog, return false
     this.dialogRef.close(false);
   }
 
 }
-/**
- * Class to represent confirm dialog model.
- *
- * It has been kept here to keep it as part of shared component.
- */
-export class ConfirmDialogModel {
 
-  constructor(public title: string, public message: string) {
-  }
+export class ConfirmDialogModel {
+  constructor(public title: string, public message: string) {}
 }

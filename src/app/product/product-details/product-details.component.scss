@@ -1,0 +1,254 @@
+.about-product-container {
+  display: flex;
+  flex-direction: row;
+  flex: 2;
+
+  .media-product-container {
+    width: 30%;
+    .mat-card {
+      padding-top: 0;
+    }
+  }
+
+  .spec-product-container {
+    width: 70%;
+  }
+}
+
+.img-container {
+  height: 455px
+}
+
+.video-btn-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin: 3px 0;
+}
+.video-btn {
+  min-width: 36px;
+  width: 100%;
+  margin: 0 3px;
+}
+
+.mat-accordion .mat-expansion-panel {
+  margin-right: 10px;
+  margin-top: 10px;
+}
+
+.mat-card {
+  height:auto;
+  min-height: 20px;
+  margin-right: 10px;
+  display:flex;
+  flex-direction: column;
+}
+
+.mat-card:last-child {
+  margin-right: 0;
+}
+
+.mat-column-action {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 30px !important;
+  max-width: 90px !important;
+  text-align: end;
+}
+
+.mat-column-etim {
+  width: 30px;
+}
+
+th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
+  padding-right: 16px;
+}
+
+td, th, .mat-line {
+  white-space: normal;
+  word-wrap: break-word;
+  max-width: 200px;
+}
+tr.mat-row {
+  height: 35px;
+}
+
+::ng-deep.mat-tab-label, ::ng-deep.mat-tab-label-active{
+  min-width: 100px!important;
+  padding: 3px!important;
+  margin: 3px!important;
+}
+
+.copy-vendorId-btn {
+  background:none;
+  border-style: none;
+  margin:0;
+  padding:5px;
+  cursor: pointer;
+  font:400 24px/32px Roboto, "Helvetica Neue", sans-serif
+}
+
+.card-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.mat-card-header {
+  flex-shrink: 0;
+}
+
+.mat-card-content{
+  flex-grow: 1;
+  overflow: auto;
+  margin-bottom: 0;
+}
+
+.mat-card-actions {
+  padding: 0;
+}
+
+.mat-card-avatar {
+  height:24px;
+  width:24px;
+}
+
+:host::ng-deep .mat-card-header-text {
+  margin: 0 6px;
+}
+
+:host::ng-deep .mat-card-subtitle {
+  margin: 0;
+}
+:host::ng-deep .mat-card {
+  padding-top: 0;
+}
+
+.cards {
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  margin: 1px;
+  display: grid;
+  gap: 1rem;
+}
+
+.moderated-product-badge {
+  color: rgb(0, 128, 55);
+  cursor: pointer;
+}
+
+.floating-edit-btn {
+  display: none;
+}
+
+@mixin xs-devices {
+  .floating-edit-btn {
+    display: block;
+    position: fixed;
+    z-index: 100;
+    bottom: 20px;
+    right: 15px;
+  }
+
+  .button-container {
+    display: none;
+  }
+
+  .about-product-container {
+    display: block;
+    .mat-card {
+      margin-bottom: 10px;
+      margin-right: 0;
+    }
+    .media-product-container {
+      width: 100%;
+      .img-container {
+        height: 250px;
+      }
+    }
+
+    .spec-product-container {
+      width: 100%;
+    }
+  }
+}
+
+@mixin s-devices {
+  .about-product-container {
+    display: block;
+    .media-product-container {
+      width: 100%;
+      .img-container {
+        height: 250px;
+      }
+    }
+    .spec-product-container {
+      width: 100%;
+    }
+  }
+
+  .mat-card {
+    margin-right: 0;
+  }
+}
+
+@mixin m-devices {
+  .about-product-container {
+    display: flex;
+    .media-product-container {
+      width: 30%;
+      .img-container {
+        height: 350px;
+      }
+    }
+    .spec-product-container {
+      width: 70%;
+    }
+  }
+
+  .mat-card {
+    margin-right: 10px;
+  }
+}
+
+@mixin xl-devices {
+  .about-product-container {
+    display: flex;
+    .media-product-container {
+      width: 30%;
+      .img-container {
+        height: 455px;
+      }
+    }
+    .spec-product-container {
+      width: 70%;
+    }
+  }
+
+  .mat-card {
+    margin-right: 10px;
+  }
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  @include xs-devices;
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  @include s-devices;
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  @include m-devices;
+}
+
+/*!* Large devices (laptops/desktops, 992px and up) *!
+@media only screen and (min-width: 992px) {
+  @include l-devices-toolbar;
+}*/
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  @include xl-devices;
+}
+

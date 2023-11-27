@@ -2,22 +2,25 @@
   <div class="page-title">
     <span *ngIf="product?.vendor">{{product?.vendor}}</span>
     <span> {{product?.title !== undefined ? product?.title : product.titleLong}}</span>
-    <span *ngIf="product?.vendorId"> <button class="btnAsText" (click)="copyVendorId(product.vendorId)">[<strong>{{product.vendorId}}</strong>]</button> </span>
-    <span *ngIf="product?.isModerated" style="vertical-align: bottom"><mat-icon class="moderatedProductBadge" matTooltip="Товар проверен">verified</mat-icon></span>
+    <span *ngIf="product?.vendorId"> <button class="copy-vendorId-btn" (click)="copyVendorId(product.vendorId)">[<strong>{{product.vendorId}}</strong>]</button> </span>
+    <span *ngIf="product?.isModerated" style="vertical-align: bottom"><mat-icon class="moderated-product-badge" matTooltip="Товар проверен">verified</mat-icon></span>
   </div>
-  <div *ngIf="roles.includes('goodware-manager')">
+  <div *ngIf="roles.includes('goodware-manager')" class="button-container">
     <button mat-raised-button (click)="goToEdit(productId)">Редактировать</button>
   </div>
+
+  <button color="primary" class="floating-edit-btn" *ngIf="roles.includes('goodware-manager')" mat-mini-fab (click)="goToEdit(productId)"><mat-icon>edit</mat-icon></button>
+
 </div>
 
-<div class="container">
+<div class="about-product-container">
 
-  <div>
-    <mat-card style="padding-top: 0">
-      <mat-tab-group style="width:420px" animationDuration="0ms">
+  <div class="media-product-container">
+    <mat-card>
+      <mat-tab-group animationDuration="0ms">
         <mat-tab *ngIf="product?.images || product?.localImages" label="Фото">
           <ng-template matTabContent>
-            <div style="height: 455px">
+            <div class="img-container">
               <app-hover-image-slider [imgList]="remoteAndLocalImg"></app-hover-image-slider>
             </div>
           </ng-template>
@@ -43,7 +46,7 @@
     </mat-card>
 
     <mat-accordion  *ngIf="(product?.netto | json) != '{}'">
-      <mat-expansion-panel expanded style="margin-right: 10px; margin-top: 10px;" hideToggle>
+      <mat-expansion-panel expanded hideToggle>
         <mat-expansion-panel-header #panelH (click)="panelH._toggle()" style="cursor: default">
           <mat-panel-title>Нетто</mat-panel-title>
           <mat-panel-description><mat-icon>format_size</mat-icon> {{product?.netto?.packQty}} {{product?.netto?.type}}</mat-panel-description>
@@ -75,16 +78,9 @@
         </mat-expansion-panel>
       </mat-accordion>
     </div>
-
-<!--    <mat-card style="margin-top: 10px" *ngIf="product?.documents && product?.documents.length > 0">
-      <mat-card-subtitle><h2>Документы</h2></mat-card-subtitle>
-      <div class="cardsToCenter">
-        <div class="cards"><app-document-card *ngFor="let doc of productDocuments" [document]="doc"></app-document-card></div>
-      </div>
-    </mat-card>-->
   </div>
 
-  <div class="full-width">
+  <div class="spec-product-container">
     <mat-card style="margin-right: 0;">
       <mat-card-subtitle>
         <div class="card-container">
@@ -133,7 +129,7 @@
             <span *ngIf="row.type == 'L'">{{row.objectValue.value ? 'Да' : 'Нет'}}</span>
             <span *ngIf="row.type !== 'R' && row.type !== 'L'"> {{row.objectValue?.value}} </span>
 
-            <span *ngIf="row.unit" class="unitMark">{{row.unit}}</span>
+            <span *ngIf="row.unit" class="unit-mark">{{row.unit}}</span>
           </td>
         </ng-container>
 

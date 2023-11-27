@@ -11,12 +11,11 @@ import {AuthService} from "../../auth/service/auth.service";
 @Component({
   selector: 'app-product-card',
   templateUrl: './product-card.component.html',
-  styleUrls: ['./product-card.component.css']
+  styleUrls: ['./product-card.component.scss']
 })
 export class ProductCardComponent implements OnInit {
   hoverImage: string = "";
   hoverRowId: string = "";
-  mouseOver:boolean = false;
   isImageLoaded:boolean = false;
   selected:boolean = false;
   roles:string[] = []

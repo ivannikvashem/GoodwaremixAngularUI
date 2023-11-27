@@ -9,7 +9,7 @@ import {DataStateService} from "../../shared/data-state.service";
 @Component({
   selector: 'app-product-export-table',
   templateUrl: './product-export-table.component.html',
-  styleUrls: ['./product-export-table.component.css']
+  styleUrls: ['./product-export-table.component.scss']
 })
 export class ProductExportTableComponent implements OnInit {
 

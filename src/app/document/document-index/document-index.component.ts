@@ -19,7 +19,7 @@ import {MatSort} from "@angular/material/sort";
 @Component({
   selector: 'app-document-index',
   templateUrl: './document-index.component.html',
-  styleUrls: ['./document-index.component.css']
+  styleUrls: ['./document-index.component.scss']
 })
 export class DocumentIndexComponent implements OnInit {
 

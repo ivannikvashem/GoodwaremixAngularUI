@@ -1,6 +1,6 @@
 <div class="page-container">
   <div class="mat-elevation-z2 full-width">
-    <table mat-table *ngIf="dataSource.rowCount != 0 && !isLoading" [dataSource]="dataSource" matSort [matSortActive]="sortActive" matSortDirection="{{sortDirection}}" (matSortChange)="sortData($event)" matSortDisableClear>
+    <table mat-table *ngIf="dataSource.rowCount != 0 && !isLoading" [dataSource]="attributeDataSource" matSort [matSortActive]="sortActive" matSortDirection="{{sortDirection}}" (matSortChange)="sortData($event)" matSortDisableClear>
       <!-- rating Column -->
       <ng-container matColumnDef="rating">
         <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Частота</th>
@@ -34,7 +34,7 @@
       <ng-container matColumnDef="unit">
         <th mat-header-cell *matHeaderCellDef>Ед. Изм.</th>
         <td mat-cell *matCellDef="let row">
-          <span *ngIf="row.unit" class="unitMark">{{row.unit}}</span>
+          <span *ngIf="row.unit" class="unit-mark">{{row.unit}}</span>
         </td>
       </ng-container>
       <!-- type Column -->
@@ -65,7 +65,7 @@
     </table>
 
     <mat-card *ngIf="isLoading">
-      <div class="tablePlaceholderLine" *ngFor="let i of [].constructor(pageSize)"></div>
+      <div class="table-placeholder-line" *ngFor="let i of [].constructor(pageSize)"></div>
     </mat-card>
 
     <mat-card *ngIf="dataSource.rowCount == 0 && !isLoading">

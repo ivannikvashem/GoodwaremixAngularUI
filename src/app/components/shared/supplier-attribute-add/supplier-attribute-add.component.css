@@ -1,21 +1,14 @@
 .chip-list {
   width: 100%;
 }
-.full-width {
-  width: 100%;
-}
-.formBlockTriple {
+
+.form-block-triple {
   width: 73%;
   display: flex;
   justify-content: space-between
 }
 
-.actions-div {
-  display: flex;
-  justify-content: space-between;
-}
-
-.formArea {
+.form-container {
   width: 100%;
   display: flex;
   justify-content: space-between

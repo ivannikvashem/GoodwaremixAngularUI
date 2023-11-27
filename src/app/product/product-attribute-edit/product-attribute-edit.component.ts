@@ -19,7 +19,7 @@ export interface AttrDialogData {
 @Component({
   selector: 'app-product-attribute-edit',
   templateUrl: './product-attribute-edit.component.html',
-  styleUrls: ['./product-attribute-edit.component.css']
+  styleUrls: ['./product-attribute-edit.component.scss']
 })
 export class ProductAttributeEditComponent implements OnInit {
 

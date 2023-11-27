@@ -1,0 +1,65 @@
+.header {
+  margin-bottom: 10px;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+  padding-bottom: 5px;
+}
+
+.selected-item {
+  background: lightgray;
+  border-radius: 15px;
+  padding: 10px;
+  height: 15px;
+  line-height: 15px;
+}
+
+.remove-item {
+  float: right;
+  cursor: pointer;
+  font-size: 19px;
+  line-height: 15px;
+  height: 19px;
+  width: 19px;
+}
+
+.remove-item:hover {
+  color: #f44336;
+}
+
+@mixin xs-devices {
+  .wrapper {
+    display: block;
+
+    .selected-item {
+      margin-bottom: 5px;
+    }
+  }
+
+  .button-text {
+    display: none;
+  }
+}
+
+@mixin m-devices {
+  .product-cards-container {
+    .selection-container {
+      display: flex;
+
+    }
+  }
+}
+
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  @include xs-devices;
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  @include m-devices;
+}

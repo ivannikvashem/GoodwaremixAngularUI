@@ -14,11 +14,11 @@
   width: 370px;
 }
 
-.packageBadge {
+.package-badge {
   margin: 18px 5px 0 0;
 }
 
-.packageBarcode {
+.package-barcode {
   display: flex;
   justify-content: center;
   align-items: center;

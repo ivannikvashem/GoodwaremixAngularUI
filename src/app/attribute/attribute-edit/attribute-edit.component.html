@@ -1,4 +1,4 @@
-<div *ngIf="isLoading" class="loadingArea">
+<div *ngIf="isLoading" class="loading-area">
   <mat-spinner></mat-spinner>
 </div>
 
@@ -11,14 +11,14 @@
   <mat-card>
     <form>
       <app-supplier-autocomplete class="full-width" [appearance]="'fill'" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
-      <div class="formArea">
+      <div class="form-container">
         <mat-form-field class="full-width" appearance="fill">
           <mat-label>Фиксация</mat-label>
           <mat-select name="fixed" [(ngModel)]="attribute.isFixed">
             <mat-option [value]="false">Нет</mat-option>
             <mat-option [value]="true">Фиксирован</mat-option>
           </mat-select>
-        </mat-form-field>&nbsp;
+        </mat-form-field>
 
         <mat-form-field class="full-width" appearance="fill">
           <mat-label>Тип атрибута</mat-label>
@@ -27,17 +27,17 @@
               {{at.viewValue}}
             </mat-option>
           </mat-select>
-        </mat-form-field>&nbsp;
+        </mat-form-field>
 
         <mat-form-field class="full-width" appearance="fill">
           <mat-label>Наименование атрибута по ETIM</mat-label>
           <input matInput placeholder="EFxxxxxx" name="etimFeature" [(ngModel)]="attribute.etimFeature">
-        </mat-form-field>&nbsp;
+        </mat-form-field>
 
         <mat-form-field class="full-width" appearance="fill">
           <mat-label>Единица измерения</mat-label>
           <input matInput placeholder="Единица измерения" name="unit" [(ngModel)]="attribute.unit">
-        </mat-form-field>&nbsp;
+        </mat-form-field>
 
         <mat-form-field class="full-width" appearance="fill">
           <mat-label>Единица измерения ETIM</mat-label>
@@ -47,7 +47,7 @@
       <mat-form-field class="full-width" appearance="fill">
         <mat-label>Наименование атрибута</mat-label>
         <input matInput placeholder="Наименование" name="nameAttribute" [(ngModel)]="attribute.nameAttribute">
-      </mat-form-field>&nbsp;
+      </mat-form-field>
 
       <mat-form-field class="chip-list" appearance="fill">
         <mat-label>Список возможных значений</mat-label>

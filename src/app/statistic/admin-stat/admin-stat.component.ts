@@ -7,7 +7,7 @@ import {StatisticDetailsComponent} from "../statistic-details/statistic-details.
 @Component({
   selector: 'app-admin-stat',
   templateUrl: './admin-stat.component.html',
-  styleUrls: ['./admin-stat.component.css']
+  styleUrls: ['./admin-stat.component.scss']
 })
 export class AdminStatComponent implements OnInit {
 
@@ -42,6 +42,8 @@ export class AdminStatComponent implements OnInit {
   }
 
   doughnutChartOptions: any = {
+    responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         display: false,
@@ -83,6 +85,7 @@ export class AdminStatComponent implements OnInit {
 
   ngOnInit(): void {
     this.formatDataForDoughnutChart();
+    this.trackWindowSize();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -90,6 +93,7 @@ export class AdminStatComponent implements OnInit {
   }
 
   updateCharts() {
+    //this.formatDataForDoughnutChart()
     this.charts?.forEach((child) => {
       child.chart.update();
     })
@@ -101,7 +105,7 @@ export class AdminStatComponent implements OnInit {
     let index = chartDot.active[0]?.index;
     if (index >= 0) {
       this.dialog.open(StatisticDetailsComponent, {
-        minWidth: '500px',
+        panelClass: 'full-width',
         data: {data: this.data[index], headers: headers, chartType: chartType}
       })
     }
@@ -121,7 +125,6 @@ export class AdminStatComponent implements OnInit {
           data: []
         }]
       };
-      console.log(chartData)
       if (chartData.data.datasets[0]?.data && chartData.data.datasets[1]?.data) {
         doughnutChartData.labels = [
           chartData.oppositeValue,
@@ -151,15 +154,29 @@ export class AdminStatComponent implements OnInit {
           }
         },
         beforeDraw(chart: any) {
+          const chartDetailed = chart.getContext('2d');
           const ctx = chart.ctx;
+          const txt = chartData.data?.datasets[0]?.label + ' ' + chartData.data?.datasets[0]?.data[chartData.data?.datasets[0].data?.length - 1];
+          const fontSize = chartDetailed.chart.width / 10;
+          ctx.font = fontSize + 'px \'Open Sans\', sans-serif';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
-          const centerX = ((chart.chartArea.left + chart.chartArea.right) / 2);
-          const centerY = ((chart.chartArea.top + chart.chartArea.bottom) / 2);
-          ctx.font = 24 + 'px \'Open Sans\', sans-serif';
-          ctx.fillText(chartData.data.datasets[0].label + ' ' + chartData.data.datasets[0].data[chartData.data.datasets[0].data.length - 1], centerX, centerY);
+          const centerX = chartDetailed.chart.width / 2;
+          const centerY = chartDetailed.chart.height / 2;
+          if (txt.includes('undefined')) {
+            ctx.fillText('Всего 0', centerX, centerY);
+          } else {
+            ctx.fillText(txt, centerX, centerY);
+          }
         }
       }]
+    });
+  }
+
+  trackWindowSize() {
+    window.addEventListener('resize', () => {
+      console.log('size changed')
+      this.updateCharts();
     });
   }
 }

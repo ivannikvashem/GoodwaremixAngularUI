@@ -5,17 +5,17 @@
 
   <div *ngIf="!isOldAttributeLoading">
 
-    <mat-form-field appearance="fill" class="full-width" style="margin-bottom: 5px">
+    <mat-form-field appearance="fill" class="full-width search-attribute-input">
       <mat-label>Характеристика</mat-label>
       <input matInput placeholder=""
              [formControl]="searchAttributeCtrl"
              [matAutocomplete]="auto">
 
       <mat-hint *ngIf="selectedAttribute">
-        <mat-icon style="vertical-align: top">{{selectedAttribute.isFixed ? 'check_circle' : 'radio_button_unchecked'}}</mat-icon>
+        <mat-icon>{{selectedAttribute.isFixed ? 'check_circle' : 'radio_button_unchecked'}}</mat-icon>
         <span *ngIf="selectedAttribute.etimFeature"> [{{selectedAttribute.etimFeature}}] </span>
         {{selectedAttribute.nameAttribute}}
-        <span *ngIf="selectedAttribute.unit && selectedAttribute.isFixed" class="unitMark">{{selectedAttribute.unit}}</span>
+        <span *ngIf="selectedAttribute.unit && selectedAttribute.isFixed" class="unit-mark">{{selectedAttribute.unit}}</span>
         <strong>{{selectedAttribute.type}}</strong>
       </mat-hint>
 
@@ -23,10 +23,10 @@
         <mat-option *ngFor="let option of attributesList" [value]="option" > <!--<mat-icon>{{option.etimFeature? 'explicit' : 'crop_square'}}</mat-icon>-->
           <mat-icon>{{option.isFixed ? 'check_circle' : 'radio_button_unchecked'}}</mat-icon>
           <span *ngIf="roles.includes('goodware-admin')" [ngClass]="{'energomixStamp': option.supplierName == 'Энергомикс', 'supplierStamp': option.supplierName != 'Энергомикс'}">{{option.supplierName}}</span>
-          <span *ngIf="option.etimFeature" style="font-style:italic"> [{{option.etimFeature}}]</span>
+          <span *ngIf="option.etimFeature" class="etimFeature-span"> [{{option.etimFeature}}]</span>
           <strong *ngIf="option.type"> {{option.type}}</strong>
           <span> {{option.nameAttribute}} </span>
-          <span *ngIf="option.unit && option.isFixed" class="unitMark">{{option.unit}}</span>
+          <span *ngIf="option.unit && option.isFixed" class="unit-mark">{{option.unit}}</span>
         </mat-option>
       </mat-autocomplete>
       <button *ngIf="searchAttributeCtrl.value;" (click)="searchAttributeCtrl.setValue('');selectedAttribute = null" matSuffix mat-icon-button aria-label="Clear" type="button">
@@ -51,8 +51,8 @@
       <input matInput [formControl]="attributeValueNumber" type="number">
     </mat-form-field>
 
-   <div style="display: flex" *ngIf="data.oldAttribute.type == 'R'">
-      <mat-form-field appearance="fill" class="full-width" style="margin-right: 5px">
+   <div class="r-type-container" *ngIf="data.oldAttribute.type == 'R'">
+      <mat-form-field appearance="fill" class="full-width">
         <mat-label>Минимальное значение</mat-label>
         <input matInput [formControl]="attributeValueRangeMin" type="number">
       </mat-form-field>
@@ -69,7 +69,7 @@
     </mat-button-toggle-group>
 
     <div *ngIf="!data.isValid">
-      <span style="color: red">Значение характеристики не корректно, пожалуйста перенестите значение. </span>
+      <span class="non-valid-span">Значение характеристики не корректно, пожалуйста перенестите значение. </span>
       <strong>{{data.oldAttribute.objectValue?.value}}</strong>
     </div>
 

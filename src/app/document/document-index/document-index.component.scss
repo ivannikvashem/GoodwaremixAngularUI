@@ -1,0 +1,189 @@
+.document-container {
+  margin-bottom: 60px;
+
+  .cards {
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1rem;
+    width: 100%;
+
+    .card {
+      width: auto;
+      max-width: 100%;
+      min-height: 150px;
+      height: auto;
+
+      .title-container-placeholder {
+        display: flex;
+        justify-content: space-between;
+
+        .icon-placeholder {
+          width: 35px;
+          height: 35px;
+        }
+
+        .title-lines {
+          width: 100%;
+          margin-left: 8px;
+
+          .title-placeholder {
+            height: 15px;
+            width: 100%;
+            margin-bottom: 5px;
+          }
+        }
+      }
+
+      .document-content-placeholder {
+        height: 70px;
+      }
+
+      .actions-container {
+        margin-top: 5px;
+        display: flex;
+        justify-content: space-between;
+
+        .document-date-placeholder {
+          width: 100%;
+          margin-right: 5px;
+        }
+
+        .action-button-placeholder {
+          width: 100px;
+          height: 40px;
+        }
+      }
+    }
+  }
+}
+
+.mat-column-preview,
+.mat-column-actions {
+  word-wrap: break-word;
+  white-space: unset;
+  overflow-wrap: break-word;
+  justify-content: center;
+  word-break: break-word;
+  text-align: center;
+}
+
+.mat-column-preview {
+  width: 150px;
+}
+
+.mat-column-actions {
+  flex: 0 0 90px;
+  width: 90px;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.document-content {
+  margin-top: 5px;
+}
+
+.link-button {
+  color: black;
+  padding: 5px;
+
+  mat-icon {
+    vertical-align: middle;
+  }
+}
+
+.document-content-placeholder,
+.title-placeholder,
+.icon-placeholder,
+.action-button-placeholder,
+.document-date-placeholder,
+.card-line-content-placeholder {
+  background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+  border-radius: 5px;
+  background-size: 200% 100%;
+  animation: 1s shine linear infinite;
+}
+
+.card-line-content-placeholder {
+  width: 46px;
+  height: 15px;
+}
+
+@keyframes shine {
+  to {
+    background-position-x: -200%;
+  }
+}
+
+@mixin xs-devices {
+  .document-container {
+    .cards {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+@mixin s-devices {
+  .document-container {
+    .cards {
+      grid-template-columns: 1fr 1fr;
+
+    }
+  }
+}
+
+@mixin m-devices {
+  .document-container {
+    .cards {
+      grid-template-columns: 1fr 1fr 1fr;
+
+    }
+  }
+}
+
+@mixin l-devices {
+  .document-container {
+    .cards {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+
+    }
+  }
+}
+
+@mixin xl-devices {
+  .document-container {
+    .cards {
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+
+    }
+  }
+}
+
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  @include xs-devices;
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  @include s-devices;
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  @include m-devices;
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  @include l-devices;
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  @include xl-devices;
+}
+

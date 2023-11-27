@@ -1,0 +1,133 @@
+.main {
+  position: relative;
+
+  .filter-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 1rem;
+    min-height: 450px;
+
+    .attribute-filter {
+      grid-column: span 3;
+    }
+  }
+}
+
+.filter-actions-container {
+  display: block;
+}
+
+.selected-filters {
+  margin-top: 10px;
+  max-height: 450px;
+}
+
+.filter-card {
+  margin-bottom: 10px;
+  max-height: 500px;
+
+  .title-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    .card-title {
+      max-height: 45px;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+    }
+
+    .remove-filter-btn {
+      transition: 400ms;
+      height: 30px;
+      width: 30px;
+      line-height: 30px;
+    }
+  }
+
+}
+
+.actions-div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.mat-form-field .mat-form-field-infix {
+  height: 16px;
+}
+
+:host::ng-deep .mat-form-field-appearance-standard .mat-form-field-flex {
+   padding-top: 0;
+}
+
+.mat-chip {
+  margin: 2px;
+}
+
+.mat-chip-container {
+  margin-top: 5px;
+}
+
+.mat-card {
+  padding: 10px !important;
+}
+
+.d-flex {
+  display: flex;
+  justify-content: space-between
+}
+
+.remove-all-filters-btn {
+  height: 30px;
+  line-height: 30px;
+}
+
+.remove-all-filters-btn, .remove-filter-btn {
+  &:hover {
+    background-color: #f44336;
+    color: white;
+  }
+}
+
+@mixin xs-devices {
+  .main {
+    .filter-actions-container {
+      margin-bottom: 10px;
+    }
+
+    .filter-container {
+      display: block;
+    }
+  }
+
+  .selected-filters {
+    max-height: 300px;
+  }
+}
+
+@mixin m-devices {
+  .main {
+    .filter-container {
+      display: grid;
+    }
+  }
+}
+
+
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  @include xs-devices;
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  @include xs-devices;
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  @include m-devices;
+}

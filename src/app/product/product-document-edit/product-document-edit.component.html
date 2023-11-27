@@ -1,12 +1,12 @@
-<div mat-dialog-title class="header-div">
+<div mat-dialog-title class="header-container">
   <span class="page-title">{{documentProduct?.certTitle == undefined ? "Добавление документа" : "Редактирование документа"}}</span>
-  <div *ngIf="!data.oldDocument">
-    <button style="margin-right: 5px" mat-raised-button (click)="matTabGroup.selectedIndex = 0"><mat-icon>search</mat-icon> Поиск</button>
+  <div *ngIf="!data.oldDocument" class="buttons-container">
+    <button mat-raised-button (click)="matTabGroup.selectedIndex = 0"><mat-icon>search</mat-icon> Поиск</button>
     <button mat-raised-button (click)="matTabGroup.selectedIndex = 1"><mat-icon>add</mat-icon> Добавить новый</button>
   </div>
 </div>
 
-<mat-dialog-content style="margin-bottom: 10px">
+<mat-dialog-content>
   <mat-tab-group #matTabGroup animationDuration="0ms">
     <mat-tab *ngIf="!data.oldDocument">
       <mat-form-field appearance="outline" class="full-width">
@@ -17,7 +17,7 @@
         </button>
       </mat-form-field>
 
-      <cdk-virtual-scroll-viewport appendOnly itemSize="50" class="viewport" style="margin-top: 10px">
+      <cdk-virtual-scroll-viewport appendOnly itemSize="50" class="viewport">
         <div *ngIf="documentsList.length == 0">Документы не найдены</div>
         <div class="cards">
           <app-document-card *cdkVirtualFor="let doc of documentsList" [document]="doc" [isChangeable]="false" [isSelectable]="true" (selectedDocument)="onDocumentSelected($event)"></app-document-card>
@@ -29,7 +29,7 @@
       <div class="row">
         <div class="column">
           <form [formGroup]="form" (ngSubmit)="onSubmitClick()">
-            <mat-form-field appearance="fill" class="full-width">
+            <mat-form-field appearance="outline" class="full-width">
               <mat-label>Поставщик</mat-label>
               <input type="text" matInput [formControl]="searchSuppliersCtrl" [matAutocomplete]="auto">
               <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onSupplierSelected()">
@@ -39,17 +39,17 @@
               </mat-autocomplete>
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="full-width">
+            <mat-form-field appearance="outline" class="full-width">
               <mat-label>Название</mat-label>
               <input matInput formControlName="certTitle" name="certTitle" required>
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="full-width">
+            <mat-form-field appearance="outline" class="full-width">
               <mat-label>Номер</mat-label>
               <input matInput formControlName="certNumber" name="certNumber" required>
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="full-width">
+            <mat-form-field appearance="outline" class="full-width">
               <mat-label>Срок действия</mat-label>
               <mat-date-range-input [formGroup]="form.get('range')" [rangePicker]="picker">
                 <input matStartDate formControlName="startDate" placeholder="Начало">
@@ -59,19 +59,19 @@
               <mat-date-range-picker #picker></mat-date-range-picker>
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="full-width" *ngIf="documentProduct?.type">
+            <mat-form-field appearance="outline" class="full-width" *ngIf="documentProduct?.type">
               <mat-label>Тип</mat-label>
               <input matInput formControlName="type">
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="full-width" *ngIf="!documentProduct.type">
+            <mat-form-field appearance="outline" class="full-width" *ngIf="!documentProduct.type">
               <mat-label>Тип</mat-label>
               <mat-select formControlName="type">
                 <mat-option *ngFor="let type of documentTypesList" [value]="type.descr">{{type.descr}}</mat-option>
               </mat-select>
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="full-width">
+            <mat-form-field appearance="outline" class="full-width">
               <mat-label>Ссылка</mat-label>
               <input matInput formControlName="url" name="url">
             </mat-form-field>&nbsp;
@@ -80,19 +80,19 @@
         </div>
         <div class="column">
           <mat-card>
-            <div class="uploadArea" *ngIf="!preloadDocumentView" (click)="fileInput.value=''; fileInput.click()" (drop)="onDocumentChange($event,true)" (dragover)="onDragOver($event)">
-                <input #fileInput type="file" accept="application/pdf" (change)="onDocumentChange($event, false)"  style="display:none;"/>
-                <mat-icon class="customIconSize">note_add</mat-icon>
+            <div class="upload-container" *ngIf="!preloadDocumentView" (click)="fileInput.value=''; fileInput.click()" (drop)="onDocumentChange($event,true)" (dragover)="onDragOver($event)">
+                <input #fileInput type="file" accept="application/pdf" (change)="onDocumentChange($event, false)" class="upload-input"/>
+                <mat-icon class="custom-icon-size">note_add</mat-icon>
                 <div>
                   <span>Выберите PDF файл</span>
-                  <small style="display: block">или перетащите его в эту зону</small>
+                  <small>или перетащите его в эту зону</small>
                 </div>
             </div>
 
             <ng-container *ngIf="preloadDocumentView">
-              <img mat-card-image [src]="documentProduct.preview" (error)="handleMissingImage($event)" height="430" style="object-fit: cover"/>
+              <img mat-card-image [src]="documentProduct.preview" (error)="handleMissingImage($event)" height="430"/>
 
-              <button mat-mini-fab color="" class="deleteDocBtn" (click)="deletePreloadDoc()">
+              <button mat-mini-fab color="" class="delete-doc-btn" (click)="deletePreloadDoc()">
                 <mat-icon>delete</mat-icon>
               </button>
             </ng-container>
@@ -101,13 +101,19 @@
         </div>
       </div>
 
+<!--
       <div class="actions-div">
         <button mat-raised-button mat-dialog-close="" (click)="onCancelClick()" type="button">Отмена</button>
         <button mat-raised-button color="primary" (click)="onSubmitClick()" [disabled]="form.invalid">Сохранить</button>
       </div>
+-->
 
     </mat-tab>
   </mat-tab-group>
 
 </mat-dialog-content>
 
+<mat-dialog-actions align="end">
+  <button mat-raised-button mat-dialog-close="" (click)="onCancelClick()" type="button">Отмена</button>
+  <button mat-raised-button color="primary" (click)="onSubmitClick()" [disabled]="form.invalid">Сохранить</button>
+</mat-dialog-actions>

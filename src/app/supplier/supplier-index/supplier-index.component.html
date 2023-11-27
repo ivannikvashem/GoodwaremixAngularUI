@@ -88,23 +88,18 @@
         </button>
       </td>
     </ng-container>
-    <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
     <ng-container matColumnDef="expandedDetail">
       <td mat-cell *matCellDef="let item" [attr.colspan]="displayedColumns.length">
         <div class="element-detail" [@detailExpand]="item == expandedElement ? 'expanded' : 'collapsed'">
           <div class="element-brands">
-<!--
-            {{ item.stat.brands != null ? item.stat.brands.join(', ') : ""}}
--->
+              <!--  {{ item.stat.brands != null ? item.stat.brands.join(', ') : ""}}-->
           </div>
 
           <div class="element-actions">
-            <div style="margin-right: 11px">
-              <button mat-icon-button class="mat-elevation-z2" matTooltip="Привязать артикулы" (click)="internalCodeFetch(item.id)"><mat-icon>build</mat-icon></button>&nbsp;
-              <button mat-icon-button class="mat-elevation-z2" matTooltip="Скачать товары" (click)="downloadTable('Product', item.id)"><mat-icon>local_offer</mat-icon></button>&nbsp;
-              <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить товары" (click)="confirmDeleteSuppProdDialog(item.id, item.supplierName)"><mat-icon>remove_shopping_cart</mat-icon></button>&nbsp;
-              <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить поставщика"  (click)="confirmDeleteSuppDialog(item.id, item.supplierName)"><mat-icon>delete_forever</mat-icon></button>
-            </div>
+            <button mat-icon-button class="mat-elevation-z2" matTooltip="Привязать артикулы" (click)="internalCodeFetch(item.id)"><mat-icon>build</mat-icon></button>&nbsp;
+            <button mat-icon-button class="mat-elevation-z2" matTooltip="Скачать товары" (click)="downloadTable('Product', item.id)"><mat-icon>local_offer</mat-icon></button>&nbsp;
+            <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить товары" (click)="confirmDeleteSuppProdDialog(item.id, item.supplierName)"><mat-icon>remove_shopping_cart</mat-icon></button>&nbsp;
+            <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить поставщика"  (click)="confirmDeleteSuppDialog(item.id, item.supplierName)"><mat-icon>delete_forever</mat-icon></button>
           </div>
         </div>
       </td>
@@ -116,14 +111,14 @@
   </table>
 
   <mat-card *ngIf="isLoading">
-    <div class="tablePlaceholderLine" *ngFor="let i of [].constructor(pageSize)"></div>
+    <div class="table-placeholder-line" *ngFor="let i of [].constructor(pageSize)"></div>
   </mat-card>
 
   <mat-card *ngIf="dataSource.rowCount == 0 && !isLoading">
     По вашему запросу ничего не найдено, попробуйте изменить критерии поиска
   </mat-card>
 
-  <button mat-fab color="primary" class="mat-elevation-z2; floatButton" (click)="fetchSelectedItems()" [class.cdk-visually-hidden]="selection.selected.length == 0" [matTooltip]="'Сбор выбранных ' + selection.selected.length"><mat-icon>restart_alt</mat-icon></button>
+  <button mat-fab color="primary" class="mat-elevation-z2; float-button" (click)="fetchSelectedItems()" [class.cdk-visually-hidden]="selection.selected.length == 0" [matTooltip]="'Сбор выбранных ' + selection.selected.length"><mat-icon>restart_alt</mat-icon></button>
 </div>
 
 <mat-paginator class="paginator-fixed mat-elevation-z8" [style.visibility]="dataSource.rowCount > 0 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[12,24,48,96]></mat-paginator>
