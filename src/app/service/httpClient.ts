@@ -8,6 +8,7 @@ import {Attribute} from "../models/attribute.model";
 import {SchedulerTask} from "../models/schedulerTask.model";
 import {AuthService} from "../auth/service/auth.service";
 import {UnitConverter} from "../models/unitConverter.model";
+import {Category} from "../models/category.model";
 
 @Injectable({
   providedIn: 'root'
@@ -465,5 +466,35 @@ export class ApiClient {
 
   getSupplierLastStats(supplierId:string): Observable<any> {
     return this.http.get(this.apiURL + '/statistics/LastSupplierStatistic/' + supplierId, this.httpOptions)
+  }
+
+  getCategories(searchString:string, pageIndex: number, pageSize: number, supplierId:string, sortField: string, sortDirection: string): Observable<any> {
+    let opt = {
+    /*  params: new HttpParams()
+        .set('searchFilter', searchString)
+        .set('filter.pageNumber', pageIndex ? pageIndex + 1 : 1)
+        .set('filter.pageSize', pageSize ?? 10)
+        .set('sortField', sortField)
+        .set('sortDirection', sortDirection == "desc" ? "-1" : "1")*/
+    };
+    if (supplierId != undefined) {
+/*
+      opt.params = opt.params.append('supplierId', supplierId);
+*/
+    }
+    opt = Object.assign(opt, this.httpOptions);
+    return this.http.get<any>(this.apiURL + '/categories', opt);
+  }
+
+  insertCategory(category:Category): Observable<any> {
+    return this.http.post(this.apiURL + '/categories/', category, this.httpOptions);
+  }
+
+  updateCategory(category:Category): Observable<any> {
+    return this.http.put(this.apiURL + '/categories/', category, this.httpOptions);
+  }
+
+  deleteCategory(categoryId:string): Observable<any> {
+    return this.http.delete(this.apiURL + '/categories/' + categoryId, this.httpOptions);
   }
 }

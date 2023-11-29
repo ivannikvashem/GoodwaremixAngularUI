@@ -1,0 +1,35 @@
+<div mat-dialog-title class="header-container">
+  <span class="page-title">{{category?.title == undefined ? "Добавление категории" : "Редактирование категории"}}</span>
+</div>
+
+<mat-dialog-content>
+  <form [formGroup]="form" (ngSubmit)="onSubmitClick()">
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Название</mat-label>
+      <input matInput formControlName="title" name="title" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>parentId</mat-label>
+      <input matInput formControlName="parentId" name="parentId" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>vendorId</mat-label>
+      <input matInput formControlName="venderId" name="venderId">
+    </mat-form-field>
+
+    <app-supplier-autocomplete [onSelectedSupplierId]="category.supplierId" [minimizedInput]="false" [changeSupplierGlobally]="false" [appearance]="'outline'" (selectedSupplier)="onSupplierSelected($event)"></app-supplier-autocomplete>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Описание</mat-label>
+      <input matInput formControlName="description" name="description">
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button mat-dialog-close="" (click)="onCancelClick()" type="button">Отмена</button>
+  <button mat-raised-button color="primary" (click)="onSubmitClick()" [disabled]="form.invalid">Сохранить</button>
+</mat-dialog-actions>

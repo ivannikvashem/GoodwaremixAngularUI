@@ -3,7 +3,7 @@
   <span class="modal-title">{{data.oldTask == undefined ? "Добавление новой задачи" : "Задача " + "поставщика " + data.oldTask.supplierName}}</span>
   <form [formGroup]="fb" (ngSubmit)="onSubmitClick()">
 
-    <app-supplier-autocomplete class="full-width" [appearance]="'outline'" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
+    <app-supplier-autocomplete class="full-width" [minimizedInput]="false" [appearance]="'outline'" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
 
     <!--  <mat-form-field appearance="fill" class="form-full-width">
         <mat-label>Конфигурация</mat-label>

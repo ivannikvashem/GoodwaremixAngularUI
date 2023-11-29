@@ -1,0 +1,23 @@
+<span class="page-title">Категории</span>
+
+<div class="toolbox-container">
+  <mat-form-field appearance="outline" class="toolbox-item-xl input-form-outline-background full-width">
+    <mat-label>Поиск</mat-label>
+    <input matInput [formControl]="searchQueryCtrl" (keydown.enter)="searchQueryChanged()">
+    <button *ngIf="searchQueryCtrl.value" matSuffix mat-icon-button aria-label="Clear" (click)="searchQueryClear()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <app-supplier-autocomplete [appearance]="'outline'" class="toolbox-item"></app-supplier-autocomplete>
+
+  <div class="toolbox-item">
+    <button class="toolbox-button" mat-raised-button matTooltip="Добавить документ" (click)="addCategoryDialog()">
+      <mat-icon>add</mat-icon> Добавить
+    </button>
+  </div>
+
+</div>
+
+
+<app-category-index></app-category-index>

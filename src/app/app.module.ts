@@ -57,6 +57,9 @@ import { UnitConverterComponent } from './unit-converter/unit-converter.componen
 import {UnitConverterModule} from "./unit-converter/unit-converter.module";
 import {StatisticModule} from "./statistic/statistic.module";
 import {MatSidenavModule} from "@angular/material/sidenav";
+import { CategoryComponent } from './category/category.component';
+import { CategoryIndexComponent } from './category/category-index/category-index.component';
+import { CategoryEditComponent } from './category/category-edit/category-edit.component';
 
 @NgModule({
     declarations: [
@@ -64,7 +67,10 @@ import {MatSidenavModule} from "@angular/material/sidenav";
         ConfirmDialogComponent,
         SwapAttributeComponent,
         SupplierAttributeAddComponent,
-        UnitConverterComponent
+        UnitConverterComponent,
+        CategoryComponent,
+        CategoryIndexComponent,
+        CategoryEditComponent
     ],
   imports: [
     CommonModule,

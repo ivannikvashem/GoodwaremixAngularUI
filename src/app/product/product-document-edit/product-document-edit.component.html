@@ -29,7 +29,10 @@
       <div class="row">
         <div class="column">
           <form [formGroup]="form" (ngSubmit)="onSubmitClick()">
-            <mat-form-field appearance="outline" class="full-width">
+
+            <app-supplier-autocomplete [onSelectedSupplierId]="documentProduct.supplierId" [minimizedInput]="false" [changeSupplierGlobally]="false" [appearance]="'outline'" (selectedSupplier)="onSupplierSelected($event)"></app-supplier-autocomplete>
+
+       <!--     <mat-form-field appearance="outline" class="full-width">
               <mat-label>Поставщик</mat-label>
               <input type="text" matInput [formControl]="searchSuppliersCtrl" [matAutocomplete]="auto">
               <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onSupplierSelected()">
@@ -37,7 +40,7 @@
                   {{option.supplierName}}
                 </mat-option>
               </mat-autocomplete>
-            </mat-form-field>
+            </mat-form-field>-->
 
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Название</mat-label>

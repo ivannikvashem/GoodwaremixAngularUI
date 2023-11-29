@@ -17,6 +17,7 @@ import {SupplierComponent} from "./supplier/supplier.component";
 import {UnitConverterComponent} from "./unit-converter/unit-converter.component";
 import {StatisticComponent} from "./statistic/statistic.component";
 import {UserComponent} from "./users/user.component";
+import {CategoryComponent} from "./category/category.component";
 
 let routes: Routes;
 routes = [
@@ -40,6 +41,7 @@ routes = [
   {path: 'documents', component: DocumentComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'units', component: UnitConverterComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: 'home', component: StatisticComponent, canActivate: [AuthGuard], data: {roles: ['goodware-manager']}},
+  {path: 'categories', component: CategoryComponent, canActivate: [AuthGuard], data: {roles: ['goodware-admin']}},
   {path: '', pathMatch: 'full', redirectTo: '/products'},
   {path: '**', pathMatch: 'full', redirectTo:'/products'},
 ];
