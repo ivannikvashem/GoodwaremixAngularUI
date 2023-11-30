@@ -12,20 +12,24 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { LogComponent } from './log.component';
 
 @NgModule({
-  declarations: [
+    declarations: [
+        LogIndexComponent,
+        LogComponent,
+    ],
+  exports: [
     LogIndexComponent,
-    LogComponent,
+    LogComponent
   ],
-  imports: [
-    CommonModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatTableModule,
-    SharedModule,
-    MatButtonModule,
-    MatIconModule,
-    ScrollingModule,
-    MatProgressSpinnerModule
-  ]
+    imports: [
+        CommonModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatTableModule,
+        SharedModule,
+        MatButtonModule,
+        MatIconModule,
+        ScrollingModule,
+        MatProgressSpinnerModule
+    ]
 })
 export class LogModule { }

@@ -29,11 +29,11 @@ export class AppComponent{
     { name: 'Поставщики', route: '/suppliers', icon: 'settings_accessibility', role: 'goodware-admin' },
     { name: 'Атрибуты', route: '/attributes', icon: 'list', role: 'goodware-admin' },
     { name: 'Документы', route: '/documents', icon: 'insert_drive_file', role: 'goodware-admin' },
+    { name: 'Категории', route: '/categories', icon: 'segment', role: 'goodware-admin' },
     { name: 'Журнал событий', route: '/log', icon: 'receipt_long', role: 'goodware-admin' },
     { name: 'Пользователи', route: '/users', icon: 'manage_accounts', role: 'goodware-admin' },
     { name: 'Задачи', route: '/tasks', icon: 'task', role: 'goodware-admin' },
     { name: 'Панель администратора', route: '/admin', icon: 'admin_panel_settings', role: 'goodware-admin' },
-    { name: 'Категории', route: '/categories', icon: 'segment', role: 'goodware-admin' },
   ]
 
   constructor(private auth: AuthService, private api: ApiClient, private _notyf: NotificationService, private titleService:Title, private router:Router) {

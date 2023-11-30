@@ -1,4 +1,4 @@
-<div class="mat-elevation-z2" style="margin-bottom: 60px">
+<div class="mat-elevation-z2 page-container">
   <table mat-table *ngIf="dataSource.rowCount != 0 && !isLoading" [dataSource]="supplierDataSource" multiTemplateDataRows matSort [matSortActive]="sortActive" matSortDirection="{{sortDirection}}" (matSortChange)="sortData($event)" matSortDisableClear>
     <!-- Checkbox Column -->
     <ng-container matColumnDef="checkbox">

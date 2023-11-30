@@ -1,9 +1,30 @@
-<span class="page-title">Панель администратора</span>
-<div class="full-width work-with-db-btn-container">
-  <button mat-raised-button class="mat-elevation-z2" (click)="fullInit()"><mat-icon>sync_problem</mat-icon> Инициализировать БД</button>
-  <button mat-raised-button class="mat-elevation-z2" (click)="fixSupplierStat()"><mat-icon>build</mat-icon> Обновить кол-во товара и бренды</button>
-  <button mat-raised-button class="mat-elevation-z2" [routerLink]="'/units'"><mat-icon>repeat</mat-icon> Преобразованные ед. измерения</button>
-  <button mat-raised-button class="mat-elevation-z2" (click)="downloadTable('Supplier')"><mat-icon>cloud_download</mat-icon> Скачать всех поставщиков</button>
-  <button mat-raised-button class="mat-elevation-z2" (click)="downloadTable('Attribute')"><mat-icon>cloud_download</mat-icon>  Скачать все атрибуты</button>
-  <button mat-raised-button class="mat-elevation-z2" (click)="downloadTable('Product')"><mat-icon>cloud_download</mat-icon> Скачать все товары</button>
+<div class="admin-panel-container">
+  <div>
+    <span class="page-title">Панель администратора</span>
+
+    <div class="full-width work-with-db-btn-container">
+
+      <div>
+        <h3>Разделы <mat-icon class="title-icon">open_in_new</mat-icon></h3>
+
+        <div class="action-btn"><a mat-raised-button class="mat-elevation-z2" [href]="'/units'" target="_blank"><mat-icon>repeat</mat-icon> Преобразованные ед. измерения</a></div>
+        <div class="action-btn"><a mat-raised-button class="mat-elevation-z2" [href]="'/categories'" target="_blank"><mat-icon>segment</mat-icon> Категории</a></div>
+        <div class="action-btn"><a mat-raised-button class="mat-elevation-z2" [href]="'/tasks'" target="_blank"><mat-icon>task</mat-icon> Задачи</a></div>
+        <div class="action-btn"><a mat-raised-button class="mat-elevation-z2" [href]="'/users'" target="_blank"><mat-icon>manage_accounts</mat-icon> Пользователи</a></div>
+      </div>
+
+      <div>
+        <h3>Функции <mat-icon class="title-icon">settings_applications</mat-icon></h3>
+
+        <div class="action-btn"><button mat-raised-button class="mat-elevation-z2" (click)="fullInit()"><mat-icon>sync_problem</mat-icon> Инициализировать БД</button></div>
+        <div class="action-btn"><button mat-raised-button class="mat-elevation-z2" (click)="fixSupplierStat()"><mat-icon>build</mat-icon> Обновить кол-во товара и бренды</button></div>
+        <div class="action-btn"><button mat-raised-button class="mat-elevation-z2" (click)="downloadTable('Supplier')"><mat-icon>cloud_download</mat-icon> Скачать всех поставщиков</button></div>
+        <div class="action-btn"><button mat-raised-button class="mat-elevation-z2" (click)="downloadTable('Attribute')"><mat-icon>cloud_download</mat-icon>  Скачать все атрибуты</button></div>
+        <div class="action-btn"><button mat-raised-button class="mat-elevation-z2" (click)="downloadTable('Attribute')"><mat-icon>cloud_download</mat-icon>  Скачать все атрибуты</button></div>
+        <div class="action-btn"><button mat-raised-button class="mat-elevation-z2" (click)="downloadTable('Product')"><mat-icon>cloud_download</mat-icon> Скачать все товары</button></div>
+      </div>
+    </div>
+  </div>
+
+  <app-log-page></app-log-page>
 </div>
