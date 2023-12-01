@@ -80,7 +80,7 @@ export class SupplierAutocompleteComponent implements OnInit {
 
   isSupplierSelected() {
     const supp = this.searchSuppliersCtrl.value as Supplier;
-    return supp.supplierName && supp.id;
+    return supp?.supplierName && supp?.id;
   }
 
   onDestroy() {
