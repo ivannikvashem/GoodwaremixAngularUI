@@ -37,7 +37,7 @@ export class ProductsDataSource implements DataSource<Product> {
   }
 
   // loadPagedData - isCardLayout param should be removed
-  loadPagedData(isCardLayout = true,queryString = "", selectedSuppId = '', pageIndex = 0, pageSize = 10, selectedAttributes:any | null, sortActive:string, sortDirection:string, isModerated:boolean, withInternalCodeSelector:boolean) {
+  loadPagedData(isCardLayout:boolean, queryString:string, selectedSuppId:string, pageIndex:number, pageSize:number, selectedAttributes:any | null, sortActive:string, sortDirection:string, isModerated:boolean, withInternalCodeSelector:boolean) {
     if (this.loadingSubject.value == true)
       return;
     this.loadingSubject.next(true);

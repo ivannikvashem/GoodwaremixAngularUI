@@ -4,7 +4,7 @@ import {DataStateService} from "../shared/data-state.service";
 import {Supplier} from "../models/supplier.model";
 import {FormControl} from "@angular/forms";
 import {LocalStorageService} from "../service/local-storage.service";
-import {Subscription} from "rxjs";
+import {Subscription, take} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
 import {AttributeFilterComponent} from "./attribute-filter/attribute-filter.component";
 import {SelectedFiltersList} from "./repo/ProductsDataSource";
@@ -59,7 +59,7 @@ export class ProductComponent implements OnInit {
 
   getCookie() {
     this._localStorageService.getDataByPageName("ProductIndex")
-    this.pageCookie$.subscribe(localStorageContent => {
+    this.pageCookie$.pipe(take(1)).subscribe(localStorageContent => {
       if (localStorageContent) {
         this.pC = localStorageContent;
         this.searchQueryCtrl.setValue(this.pC.searchQuery);

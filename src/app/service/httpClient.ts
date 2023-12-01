@@ -129,10 +129,9 @@ export class ApiClient {
     let opt = {
       params: new HttpParams()
         .set('pageNumber', pageIndex ? pageIndex + 1 : 1)
-        .set('pageSize', pageSize ?? 10)
+        .set('pageSize', pageSize ?? 12)
         .set('sortDirection', sortDirection == "desc" ? "-1" : "1")
     };
-
     if (selectedSuppId)
       opt.params = opt.params.append('supplierId', selectedSuppId);
     if (searchQuery)
@@ -143,7 +142,7 @@ export class ApiClient {
       opt.params = opt.params.append('withInternalCode', withInternalCodeSelector);
     if (sortField)
       opt.params = opt.params.append('sortField', sortField);
-    if (attributes.attributeSearchFilters?.length > 0)
+    if (attributes?.attributeSearchFilters?.length > 0)
       opt.params = opt.params.append('attributeSearch', JSON.stringify(attributes))
     opt = Object.assign(opt, this.httpOptions);
     return this.http.get<Product[]>(this.apiURL + '/Products/', opt);

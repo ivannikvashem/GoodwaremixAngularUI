@@ -4,7 +4,7 @@ import {FormControl} from "@angular/forms";
 import {DataStateService} from "../shared/data-state.service";
 import {LocalStorageService} from "../service/local-storage.service";
 import {MatDialog} from "@angular/material/dialog";
-import {Subscription} from "rxjs";
+import {Subscription, take} from "rxjs";
 import {CategoryEditComponent} from "./category-edit/category-edit.component";
 import {Category} from "../models/category.model";
 
@@ -32,7 +32,7 @@ export class CategoryComponent implements OnInit {
 
   getCookie() {
     this._localStorageService.getDataByPageName("CategoryIndex")
-    this.pageCookie$.subscribe(localStorageContent => {
+    this.pageCookie$.pipe(take(1)).subscribe(localStorageContent => {
       if (localStorageContent) {
         this.pC = localStorageContent;
         this.searchQueryCtrl.setValue(this.pC.searchQuery);

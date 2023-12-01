@@ -1,6 +1,7 @@
 import {Supplier} from "../models/supplier.model";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Subscription, take} from "rxjs";
 import {Injectable} from "@angular/core";
+import {LocalStorageService} from "../service/local-storage.service";
 
 @Injectable()
 export class DataStateService {
@@ -9,7 +10,25 @@ export class DataStateService {
   private selectedProductsState: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([])
   private supplierList: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([])
 
-  constructor() {
+  constructor(private _localStorageService: LocalStorageService) {
+    this.getCookie();
+  }
+
+  pageCookie$ = this._localStorageService.myData$;
+
+  getCookie() {
+    this._localStorageService.getDataByPageName("SupplierAutocomplete")
+    this.pageCookie$.pipe(take(1)).subscribe((localStorageContent:any) => {
+      if (localStorageContent) {
+        this.setSelectedSupplier(localStorageContent?.id, localStorageContent?.supplierName)
+      }
+    });
+  }
+
+  setCookie() {
+    this._localStorageService.setDataByPageName("SupplierAutocomplete", {
+      id: this.selectedSupplierState.value.id, supplierName:this.selectedSupplierState.value.supplierName,
+    });
   }
 
   setSupplierList(suppliers:Supplier[]) {
@@ -24,10 +43,16 @@ export class DataStateService {
     console.log(`DSS: ${id} - ${name}`);
     this.selectedSupplierState.next({id:id, supplierName:name} as Supplier);
     //console.log(`...DSS: ${this.selectedSupplierState}`);
+    this.setCookie();
   }
 
   getSelectedSupplier() {
     return this.selectedSupplierState;
+  }
+
+  clearSelectedSupplier() {
+    this.selectedSupplierState.next(new Supplier());
+    this.setCookie();
   }
 
   setSelectedProduct(selectedItem:any) {

@@ -56,6 +56,22 @@ html {
   margin: 0.25em 0 0 0 !important;
 }
 
+.input-form-standard-background > .mat-form-field-wrapper {
+  background: white;
+  border-radius: 7px;
+  padding: 4px 7px;
+  font-size: 12px;
+
+  .mat-form-field-underline {
+    position: unset;
+  }
+
+  .mat-form-field-flex {
+    padding-top: unset;
+  }
+}
+
+
 .toolbox-button {
   height: 42px;
   /*

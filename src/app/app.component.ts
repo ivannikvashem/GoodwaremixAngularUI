@@ -20,8 +20,9 @@ export class AppComponent{
   roles: string[] = [];
   isServerOffline: boolean;
 
-  sidebarState: boolean = false;
+  sidebarState: boolean = true;
   logoHover: boolean = false;
+  showSupplierSelector:boolean = false;
 
   menuItems:any = [
     { name: 'Главная', route: '/home', icon: 'home', role: 'goodware-manager' },
@@ -31,8 +32,8 @@ export class AppComponent{
     { name: 'Документы', route: '/documents', icon: 'insert_drive_file', role: 'goodware-admin' },
     { name: 'Категории', route: '/categories', icon: 'segment', role: 'goodware-admin' },
     { name: 'Журнал событий', route: '/log', icon: 'receipt_long', role: 'goodware-admin' },
-    { name: 'Пользователи', route: '/users', icon: 'manage_accounts', role: 'goodware-admin' },
-    { name: 'Задачи', route: '/tasks', icon: 'task', role: 'goodware-admin' },
+/*    { name: 'Пользователи', route: '/users', icon: 'manage_accounts', role: 'goodware-admin' },
+    { name: 'Задачи', route: '/tasks', icon: 'task', role: 'goodware-admin' },*/
     { name: 'Панель администратора', route: '/admin', icon: 'admin_panel_settings', role: 'goodware-admin' },
   ]
 
@@ -58,5 +59,13 @@ export class AppComponent{
           return throwError(err)
         })
       ).subscribe();
+  }
+
+  openSupplierSelector() {
+    this.showSupplierSelector = !this.showSupplierSelector;
+  }
+
+  onSupplierSelected() {
+    this.showSupplierSelector = false;
   }
 }
