@@ -52,7 +52,7 @@
 <div *ngIf="sidebarState == true" (click)="sidebarState = false" class="toolbar-backdrop"></div>
 <div *ngIf="showSupplierSelector == true" (click)="showSupplierSelector = false" class="toolbar-backdrop-supplier-selection"></div>
 
-<section class="home-section" (click)="showSupplierSelector = false">
+<section class="home-section">
   <router-outlet></router-outlet>
   <app-scroll-to-top></app-scroll-to-top>
 </section>
