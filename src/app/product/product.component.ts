@@ -71,6 +71,7 @@ export class ProductComponent implements OnInit {
         this.sortActive = this.pC.sortActive;
         this.sortDirection = this.pC.sortDirection;
         this.isModerated = this.pC.isModerated;
+        this.cardLayout = this.pC.cardLayout;
         this.selectedSort = this.sortOptions.find(x => x.value.active === this.sortActive && x.value.direction === this.sortDirection)?.value;
       }
     });
@@ -85,7 +86,8 @@ export class ProductComponent implements OnInit {
       filterAttribute: this.filterAttribute != undefined ? this.filterAttribute : null,
       sortActive: this.sortActive,
       sortDirection: this.sortDirection,
-      isModerated: this.isModerated != undefined ? this.isModerated : null
+      isModerated: this.isModerated != undefined ? this.isModerated : null,
+      cardLayout: this.cardLayout
     });
   }
 
@@ -165,5 +167,10 @@ export class ProductComponent implements OnInit {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  changeLayout() {
+    this.cardLayout = !this.cardLayout;
+    this.setCookie();
   }
 }

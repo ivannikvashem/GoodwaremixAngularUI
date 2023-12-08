@@ -107,6 +107,7 @@ export class ProductIndexComponent implements OnInit {
     const dialogData = new ConfirmDialogModel("Подтверждение", message);
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       panelClass: 'full-width',
+      maxWidth: 300,
       data: dialogData
     });
 
@@ -142,6 +143,10 @@ export class ProductIndexComponent implements OnInit {
 
   downloadProductsImage(jpegFormat:boolean) {
     this.dataSource.downloadImages(this.selectionItems, jpegFormat)
+  }
+
+  downloadProductsInXLS() {
+    this.dataSource.downloadAsXLS(this.selectionItems)
   }
 
   paginatorChanged(matPaginator: MatPaginator) {

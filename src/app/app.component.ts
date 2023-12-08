@@ -20,7 +20,7 @@ export class AppComponent{
   roles: string[] = [];
   isServerOffline: boolean;
 
-  sidebarState: boolean = false;
+  sidebarState: boolean = true;
   logoHover: boolean = false;
 
   menuItems:any = [

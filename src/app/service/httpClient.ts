@@ -310,6 +310,18 @@ export class ApiClient {
     return this.http.get(this.apiURL + '/files/vendorId/' + vendorId, opt);
   }
 
+  downloadProductsInXLS(productIds:string[]) {
+    let a = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+    console.log(productIds)
+    console.log(JSON.stringify(productIds))
+    let opt =  {observe:'response', responseType:'blob'};
+    return this.http.post<any>(this.apiURL + '/Products/xlsx_test', productIds)
+  }
+
   // INIT ENDPOINT
   fixSupplierStat() {
     return this.http.post<any>(this.apiURL + '/service/cleanstat', {}, this.httpOptions);

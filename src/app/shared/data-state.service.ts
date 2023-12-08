@@ -40,6 +40,11 @@ export class DataStateService {
     return this.selectedProductsState;
   }
 
+  isProductSelected(id:string) {
+    console.log(id)
+    return this.selectedProductsState.value.map((x:any) => x.id === id) ? true : false;
+  }
+
   removeSelectedProduct(id:string) {
     this.selectedProductsState.next(this.selectedProductsState.getValue().filter(x => x.id != id))
   }

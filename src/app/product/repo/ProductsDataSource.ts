@@ -133,9 +133,15 @@ export class ProductsDataSource implements DataSource<Product> {
 
     Promise.all(promises).then(() => {
       if (errorCounter > 0) {
-        this._notyf.onError('Ошибка скачивания (' + errorCounter + ' фото)')
+        this._notyf.onError('Ошибка скачивания (' + errorCounter + ')')
       }
     });
+  }
+
+  downloadAsXLS(products:Product[]) {
+    this.api.downloadProductsInXLS(products.map(x => x.id)).subscribe(x => {
+      console.log(x)
+    })
   }
 
   private imgDownloadAction(res:any) {
