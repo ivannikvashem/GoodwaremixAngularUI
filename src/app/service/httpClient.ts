@@ -302,7 +302,8 @@ export class ApiClient {
   }
 
   downloadProductsInXLS(productIds:string[]) {
-    return this.http.post(this.apiURL + '/Products/xlsx_test', productIds, {observe:'response', responseType:'blob'})
+    const params = productIds.join('&idProducts=');
+    return this.http.get(this.apiURL + '/Products/createFile_xlsx?idProducts=' + params, {observe:'response', responseType:'blob'})
   }
 
   // INIT ENDPOINT
