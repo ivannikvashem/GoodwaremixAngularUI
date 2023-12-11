@@ -292,34 +292,17 @@ export class ApiClient {
     return this.http.get(this.apiURL + '/suppliers/DownloadFileJson',opt)
   }
 
-  downloadProductImageByIC(internalCode:string, jpegFormat:boolean) {
+  downloadProductImage(id: string, type: 'internalCode' | 'vendorId', jpegFormat: boolean) {
     let opt = {};
     if (jpegFormat) {
-      opt = {params: new HttpParams().set('jpg', jpegFormat)}
+      opt = { params: new HttpParams().set('jpg', jpegFormat) };
     }
-    opt = Object.assign(opt, {observe:'response', responseType:'blob'});
-    return this.http.get(this.apiURL + '/files/internalCode/' + internalCode, opt);
-  }
-
-  downloadProductImageByVendorId(vendorId:string, jpegFormat:boolean) {
-    let opt = {};
-    if (jpegFormat) {
-      opt = {params: new HttpParams().set('jpg', jpegFormat)}
-    }
-    opt = Object.assign(opt, {observe:'response', responseType:'blob'});
-    return this.http.get(this.apiURL + '/files/vendorId/' + vendorId, opt);
+    opt = Object.assign(opt, { observe: 'response', responseType: 'blob' });
+    return this.http.get(this.apiURL + '/files/' + type + '/' + id, opt);
   }
 
   downloadProductsInXLS(productIds:string[]) {
-    let a = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    }
-    console.log(productIds)
-    console.log(JSON.stringify(productIds))
-    let opt =  {observe:'response', responseType:'blob'};
-    return this.http.post<any>(this.apiURL + '/Products/xlsx_test', productIds)
+    return this.http.post(this.apiURL + '/Products/xlsx_test', productIds, {observe:'response', responseType:'blob'})
   }
 
   // INIT ENDPOINT

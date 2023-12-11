@@ -5,7 +5,6 @@ import {SelectionModel} from "@angular/cdk/collections";
 import {Product} from "../../models/product.model";
 import {MatTableDataSource} from "@angular/material/table";
 import {DataStateService} from "../../shared/data-state.service";
-import {take} from "rxjs";
 
 @Component({
   selector: 'app-product-export-table',

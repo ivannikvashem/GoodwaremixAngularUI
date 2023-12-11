@@ -93,40 +93,33 @@ export class ProductsDataSource implements DataSource<Product> {
     products.forEach((product, i) => {
       let promise = new Promise<void>((resolve) => {
         setTimeout(() => {
-          if (product.internalCode) {
-            this.api.downloadProductImageByIC(product.internalCode, jpegFormat).pipe(map((res: any) => {
+          let downloadObservable;
+
+          if (product.internalCode)
+            downloadObservable = this.api.downloadProductImage(product.internalCode, 'internalCode', jpegFormat);
+          else if (product.vendorId)
+            downloadObservable = this.api.downloadProductImage(product.vendorId, 'vendorId', jpegFormat);
+
+          if (downloadObservable) {
+            downloadObservable.pipe(map((res: any) => {
               return {
-                filename: product.internalCode + '.' + res.body.type.split('/')[1],
+                filename: (product.internalCode || product.vendorId) + '.' + res.body.type.split('/')[1],
                 data: new Blob([res.body], {type: 'image/' + res.body.type.split('/')[1]})
-              }
+              };
             })).subscribe({
               next: res => {
-                this.imgDownloadAction(res);
+                this.downloadAction(res);
                 resolve();
               },
               error: () => {
                 errorCounter += 1;
                 resolve();
               }
-            })
-          } else if (product.vendorId) {
-            this.api.downloadProductImageByVendorId(product.vendorId, jpegFormat).pipe(map((res: any) => {
-              return {
-                filename: product.vendorId + '.' + res.body.type.split('/')[1],
-                data: new Blob([res.body], {type: 'image/' + res.body.type.split('/')[1]})
-              }
-            })).subscribe({
-              next: res => {
-                this.imgDownloadAction(res);
-                resolve();
-              },
-              error: () => {
-                errorCounter += 1;
-                resolve();
-              }
-            })
+            });
+          } else {
+            resolve();
           }
-        }, i * 200)
+        }, i * 200);
       });
       promises.push(promise);
     });
@@ -139,12 +132,18 @@ export class ProductsDataSource implements DataSource<Product> {
   }
 
   downloadAsXLS(products:Product[]) {
-    this.api.downloadProductsInXLS(products.map(x => x.id)).subscribe(x => {
-      console.log(x)
+    this.api.downloadProductsInXLS(products.map(x => x.id)).pipe(map((res:any) => {
+      const currentDate = new Date();
+      return {
+        filename: 'Выгрузка_' + currentDate.getDate() + '.' + (currentDate.getMonth() + 1) + '.' + currentDate.getFullYear() + '.' + res.body.type.split('/')[1],
+        data: new Blob([res.body], {type: 'application/' + res.body.type.split('/')[1]})
+      }
+    })).subscribe(res => {
+      this.downloadAction(res);
     })
   }
 
-  private imgDownloadAction(res:any) {
+  private downloadAction(res:any) {
     if (res.data) {
       let url = window.URL.createObjectURL(res.data);
       let a = document.createElement('a');
@@ -157,5 +156,4 @@ export class ProductsDataSource implements DataSource<Product> {
       a.remove();
     }
   }
-
 }
