@@ -87,8 +87,6 @@ export class ProductEditComponent implements OnInit {
       this.api.getProductById(this.productId).subscribe({ next: (s) => {
         this.product = s.body as Product;
         if (this.product.thumbnails.length > 0) {
-          this.product.localImages.forEach((value) => {this.preloadImagesView.push({id: null, file:value})})
-        } else {
           this.product.images.forEach((value) => {this.preloadImagesView.push({id:null, file:value})})
         }
         if (this.product.netto == null) {
@@ -158,7 +156,6 @@ export class ProductEditComponent implements OnInit {
   }
 
   removeImage(index:any, loadedImgIndex:any){
-    this.product.localImages.splice(index,1);
     this.product.thumbnails.splice(index,1);
     this.product.images.splice(index, 1);
     this.imagesView.splice(index, 1);
@@ -390,8 +387,6 @@ export class ProductEditComponent implements OnInit {
     let selectedImageIndex;
     if (this.product.images?.length > 0) {
       selectedImageIndex = this.product.images.findIndex((x:any) => x === (typeof image === "object" ? image[0] : image))
-    } else if (this.product.localImages?.length > 0) {
-      selectedImageIndex = this.product.localImages.findIndex((x:any) => x === (typeof image === "object" ? image[0] : image))
     } else if (this.product.thumbnails?.length > 0) {
       selectedImageIndex = this.product.thumbnails.findIndex((x:any) => x === (typeof image === "object" ? image[0] : image))
     }

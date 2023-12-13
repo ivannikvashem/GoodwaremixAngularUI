@@ -13,7 +13,7 @@
 
   <div class="img-container">
     <div *ngIf="!isImageLoaded" class="image-placeholder"></div>
-    <app-hover-image-slider [style.visibility]="isImageLoaded ? 'visible': 'collapse'" [imgList]="product.images.length > 0 ? product.images : product.localImages" [imgListThumb]="product.thumbnails" (onLoad)="imageLoaded($event)"></app-hover-image-slider>
+    <app-hover-image-slider [style.visibility]="isImageLoaded ? 'visible': 'collapse'" [imgList]="product.images" [imgListThumb]="product.thumbnails" (onLoad)="imageLoaded($event)"></app-hover-image-slider>
   </div>
   <span class="internal-code copy-string" *ngIf="product.internalCode" (click)="copyString(product.internalCode)">{{product.internalCode}}</span>
 
