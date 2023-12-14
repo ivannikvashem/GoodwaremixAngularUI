@@ -157,4 +157,9 @@ export class ProductDetailsComponent implements OnInit {
       return typeof objectValue?.value == this.attributeTypes.find(x => x.key === type).type;
     }
   }
+
+  typeofLogicalAttribute(objectValue:any) {
+    console.log(typeof objectValue)
+    return typeof objectValue;
+  }
 }
