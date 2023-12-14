@@ -12,7 +12,6 @@ export class ImagePreviewDialogComponent{
 
   imageIndex:number = 0;
   imgList:string[];
-  selectedImage:string;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: ImagePreviewDialogData, private imgHandler:MissingImageHandler) {
     this.imageIndex = this.data.selectedIndex < 0 ? 0 : this.data.selectedIndex;
@@ -33,7 +32,6 @@ export class ImagePreviewDialogComponent{
   slideImage(index: number) {
     if (index >= 0 && index <= this.imgList.length - 1) {
       this.imageIndex = index;
-      this.selectedImage = this.imgList[index];
     }
   }
 }

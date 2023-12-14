@@ -126,7 +126,10 @@
               <span *ngIf="row.objectValue?.minValue != undefined && row.objectValue?.maxValue != undefined">{{row.objectValue?.minValue + '...' + row.objectValue?.maxValue}}</span>
               <span *ngIf="row.objectValue?.minValue == undefined && row.objectValue?.maxValue == undefined">{{row.objectValue?.value}}</span>
             </span>
-            <span *ngIf="row.type == 'L'">{{row.objectValue.value ? 'Да' : 'Нет'}}</span>
+            <span *ngIf="row.type == 'L'">
+              <span *ngIf="row.objectValue.value == true || false; else logicalTypeString">boolean {{row.objectValue.value ? 'Да' : 'Нет'}} </span>
+              <ng-template #logicalTypeString>string {{row.objectValue.value}}</ng-template>
+            </span>
             <span *ngIf="row.type !== 'R' && row.type !== 'L'"> {{row.objectValue?.value}} </span>
 
             <span *ngIf="row.unit" class="unit-mark">{{row.unit}}</span>
