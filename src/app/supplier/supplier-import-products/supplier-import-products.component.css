@@ -9,6 +9,7 @@ input {
   height: 100px;
   border-radius: 10px;
   padding: 10px;
+  cursor: pointer;
 }
 
 .load-file-btn {

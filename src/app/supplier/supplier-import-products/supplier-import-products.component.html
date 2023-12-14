@@ -1,7 +1,7 @@
 <span class="modal-title">Импорт данных {{data.supplierName}}</span>
 <input type="file" #fileInput accept="application/JSON, text/xml, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" (change)="onFileLoaded($event)">
 <div class="file-input-container">
-  <div class="full-width">
+  <div class="full-width" (click)="file == undefined ? fileInput.click(): ''">
     {{file?.name}}
   </div>
   <div class="import-actions">
