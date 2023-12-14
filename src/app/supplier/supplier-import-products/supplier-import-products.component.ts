@@ -22,8 +22,8 @@ export class SupplierImportProductsComponent implements OnInit {
   }
 
   importProducts() {
-    this.api.importProducts(this.file, this.data.supplierId).subscribe(x => {
-      console.log(x)
+    this.api.importProducts(this.file, this.data.supplierId).subscribe(() => {
+      this.dialogRef.close();
     })
   }
 }
