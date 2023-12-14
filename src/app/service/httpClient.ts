@@ -277,6 +277,12 @@ export class ApiClient {
     }
     return this.http.post(this.apiURL + '/files/images/'+productId, formData, {headers:{"ContentType": "multipart/form-data"}})
   }
+
+  importProducts(file:File, supplierId:string): Observable<any> {
+    let formData = new FormData();
+    formData.append('file', file)
+    return this.http.post(this.apiURL + '/files/importXlsxFile/'+supplierId, formData, {headers:{"ContentType": "multipart/form-data"}})
+  }
   //
   // getFiles(): Observable<any> {
   //   return this.http.get(`${this.apiURL}/files`);

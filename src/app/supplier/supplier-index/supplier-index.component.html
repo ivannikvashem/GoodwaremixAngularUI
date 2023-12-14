@@ -96,9 +96,10 @@
           </div>
 
           <div class="element-actions">
-            <button mat-icon-button class="mat-elevation-z2" matTooltip="Привязать артикулы" (click)="internalCodeFetch(item.id)"><mat-icon>build</mat-icon></button>&nbsp;
-            <button mat-icon-button class="mat-elevation-z2" matTooltip="Скачать товары" (click)="downloadTable('Product', item.id)"><mat-icon>local_offer</mat-icon></button>&nbsp;
-            <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить товары" (click)="confirmDeleteSuppProdDialog(item.id, item.supplierName)"><mat-icon>remove_shopping_cart</mat-icon></button>&nbsp;
+            <button mat-icon-button class="mat-elevation-z2" matTooltip="Привязать артикулы" (click)="internalCodeFetch(item.id)"><mat-icon>build</mat-icon></button>
+            <button mat-icon-button class="mat-elevation-z2" matTooltip="Импорт данных" (click)="importProducts(item.id, item.supplierName)"><mat-icon>publish</mat-icon></button>
+            <button mat-icon-button class="mat-elevation-z2" matTooltip="Скачать товары" (click)="downloadTable('Product', item.id)"><mat-icon>local_offer</mat-icon></button>
+            <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить товары" (click)="confirmDeleteSuppProdDialog(item.id, item.supplierName)"><mat-icon>remove_shopping_cart</mat-icon></button>
             <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить поставщика"  (click)="confirmDeleteSuppDialog(item.id, item.supplierName)"><mat-icon>delete_forever</mat-icon></button>
           </div>
         </div>

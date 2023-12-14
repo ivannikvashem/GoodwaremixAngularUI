@@ -14,6 +14,7 @@ import {LocalStorageService} from "../../service/local-storage.service";
 import {DataStateService} from "../../shared/data-state.service";
 import {SelectionModel} from "@angular/cdk/collections";
 import {MatTableDataSource} from "@angular/material/table";
+import {SupplierImportProductsComponent} from "../supplier-import-products/supplier-import-products.component";
 
 @Component({
   selector: 'app-supplier-index',
@@ -194,5 +195,15 @@ export class SupplierIndexComponent implements OnInit {
       }, error:error => {
         this._notyf.onError('Ошибка' +JSON.stringify(error))
       }})
+  }
+
+  importProducts(supplierId:string, supplierName:string) {
+    const dialogRef = this.dialog.open(SupplierImportProductsComponent, {
+      maxWidth: "500px",
+      data: { supplierId:supplierId, supplierName:supplierName}
+    });
+    dialogRef.afterClosed().subscribe(dialogResult => {
+
+    });
   }
 }

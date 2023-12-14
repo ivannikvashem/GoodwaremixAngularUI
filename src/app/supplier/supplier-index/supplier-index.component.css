@@ -91,17 +91,12 @@ tr.element-row:not(.expanded-row):active {
 }
 
 .element-actions {
-  flex: 75%;
-  margin-right: 11px;
-  word-wrap: break-word !important;
-  white-space: unset !important;
-  flex: none;
-  min-width: 160px !important;
+  width: 225px !important;
   overflow-wrap: break-word;
-  justify-content: left;
+  justify-content: space-between;
   word-break: break-word;
-  padding: 16px 0 16px 16px;
-  display: table-cell;
+  padding: 16px 26px 16px 16px;
+  display: flex;
   vertical-align: inherit;
 }
 
