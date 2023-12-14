@@ -127,8 +127,8 @@
               <span *ngIf="row.objectValue?.minValue == undefined && row.objectValue?.maxValue == undefined">{{row.objectValue?.value}}</span>
             </span>
             <span *ngIf="row.type == 'L'">
-              <span *ngIf="typeofLogicalAttribute(row.objectValue.value) == 'boolean'; else logicalTypeString">boolean {{row.objectValue.value ? 'Да' : 'Нет'}} </span>
-              <ng-template #logicalTypeString>string {{row.objectValue.value}}</ng-template>
+              <span *ngIf="typeofLogicalAttribute(row.objectValue.value) == 'boolean'; else logicalTypeString">{{row.objectValue.value ? 'Да' : 'Нет'}} </span>
+              <ng-template #logicalTypeString>{{row.objectValue.value}}</ng-template>
             </span>
             <span *ngIf="row.type !== 'R' && row.type !== 'L'"> {{row.objectValue?.value}} </span>
 

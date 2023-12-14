@@ -180,7 +180,10 @@
                     <span *ngIf="row.objectValue?.minValue != undefined && row.objectValue?.maxValue != undefined">{{row.objectValue?.minValue + '...' + row.objectValue?.maxValue}} </span>
                     <span *ngIf="row.objectValue?.minValue == undefined && row.objectValue?.maxValue == undefined">{{row.objectValue?.value}}</span>
                   </span>
-                  <span *ngIf="row.type == 'L'">{{row.objectValue.value ? 'Да' : 'Нет'}}</span>
+                  <span *ngIf="row.type == 'L'">
+                    <span *ngIf="typeofLogicalAttribute(row.objectValue.value) == 'boolean'; else logicalTypeString">{{row.objectValue.value ? 'Да' : 'Нет'}} </span>
+                    <ng-template #logicalTypeString>{{row.objectValue.value}}</ng-template>
+                  </span>
                   <span *ngIf="row.type !== 'R' && row.type !== 'L'"> {{row.objectValue?.value}} </span>
                   <span class="unit-mark" *ngIf="row.unit">{{row.unit}}</span></td>
               </ng-container>

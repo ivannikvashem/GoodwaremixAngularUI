@@ -159,7 +159,6 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   typeofLogicalAttribute(objectValue:any) {
-    console.log(typeof objectValue)
     return typeof objectValue;
   }
 }

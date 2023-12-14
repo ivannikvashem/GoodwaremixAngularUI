@@ -415,6 +415,10 @@ export class ProductEditComponent implements OnInit {
       }
     }
   }
+
+  typeofLogicalAttribute(objectValue:any) {
+    return typeof objectValue;
+  }
 }
 
 // Service
