@@ -198,12 +198,10 @@ export class SupplierIndexComponent implements OnInit {
   }
 
   importProducts(supplierId:string, supplierName:string) {
-    const dialogRef = this.dialog.open(SupplierImportProductsComponent, {
+    this.dialog.open(SupplierImportProductsComponent, {
       maxWidth: "500px",
-      data: { supplierId:supplierId, supplierName:supplierName}
-    });
-    dialogRef.afterClosed().subscribe(dialogResult => {
-
+      data: { supplierId:supplierId, supplierName:supplierName},
+      autoFocus: false
     });
   }
 }
