@@ -6,10 +6,23 @@
 <mat-dialog-content>
   <div class="wrapper">
     <div *ngFor="let item of selectedItems" class="selected-item">
-      <span>{{item.vendorId}}</span>
-      <mat-icon class="remove-item" (click)="deleteSelectItem(item.id)">delete</mat-icon>
+      <div class="d-flex">
+        <div class="img-container">
+          <img (error)="handleMissingImage($event)" [src]="item.image" height="60" width="60">
+        </div>
+
+        <div class="title-container">
+          <div class="d-flex">
+            <div class="title-text">{{item.title}}</div>
+            <mat-icon class="remove-item" (click)="deleteSelectItem(item.id)">delete</mat-icon>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex int-code-vendorid-container" >
+        <div>{{item.vendorId}}</div>
+        <div *ngIf="item.internalCode"><small>арт.</small>{{item.internalCode}}</div>
+      </div>
     </div>
   </div>
 </mat-dialog-content>
-
-

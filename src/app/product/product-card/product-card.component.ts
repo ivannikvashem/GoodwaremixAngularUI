@@ -56,7 +56,7 @@ export class ProductCardComponent implements OnInit {
 
   onChecked(checkState:any) {
     if (checkState.checked) {
-      this.dss.setSelectedProduct({id:this.product.id, vendorId:this.product.vendorId, internalCode:this.product.internalCode})
+      this.dss.setSelectedProduct({id:this.product.id, vendorId:this.product.vendorId, internalCode:this.product.internalCode, title:this.product.title, image:this.product.images ? this.product.images : this.product.thumbnails})
     } else {
       this.dss.removeSelectedProduct(this.product.id)
     }

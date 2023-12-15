@@ -124,7 +124,7 @@ export class ProductIndexComponent implements OnInit {
 
   selectAll() {
     for (let product of this.productsList) {
-      this.dss.setSelectedProduct({id:product.id,vendorId:product.vendorId, internalCode: product.internalCode})
+      this.dss.setSelectedProduct({id:product.id, vendorId:product.vendorId, internalCode:product.internalCode, title:product.title, image:product.images ? product.images : product.thumbnails})
     }
   }
 
