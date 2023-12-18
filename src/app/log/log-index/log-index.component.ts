@@ -32,6 +32,8 @@ export class LogIndexComponent implements OnInit {
   expandedElement: Log | null | undefined;
   dataSource: LogsDataSource;
   selectedSupplier: Supplier;
+  scrollToTop:boolean;
+  isPaginatorFixed:boolean;
 
   constructor(
     public api: ApiClient,
@@ -48,15 +50,22 @@ export class LogIndexComponent implements OnInit {
         this.loadLogData();
       }
     )
+    this.dss.getSettings().subscribe((settings:any) => {
+      this.scrollToTop = settings.scrollPageToTop;
+      this.isPaginatorFixed = settings.isPaginatorFixed;
+    })
   }
 
   ngAfterViewInit(): void {
-    // If the user changes the sort order, reset back to the first page.
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
-    //todo доделать нормальный pipe и обработку ошибок
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(
-        tap( () => this.loadLogData())
+        tap( () => {
+          if (this.scrollToTop) {
+            window.scroll(0, 0);
+          }
+          this.loadLogData()
+        })
       ).subscribe();
   }
 

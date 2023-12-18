@@ -1,5 +1,5 @@
 import {Supplier} from "../models/supplier.model";
-import {BehaviorSubject, Subscription, take} from "rxjs";
+import {BehaviorSubject, take} from "rxjs";
 import {Injectable} from "@angular/core";
 import {LocalStorageService} from "../service/local-storage.service";
 
@@ -9,6 +9,7 @@ export class DataStateService {
   private selectedSupplierState: BehaviorSubject<Supplier | null> = new BehaviorSubject(null);
   private selectedProductsState: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([])
   private supplierList: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([])
+  private settings: BehaviorSubject<any> = new BehaviorSubject<any>(null)
 
   constructor(private _localStorageService: LocalStorageService) {
     this.getCookie();
@@ -21,6 +22,13 @@ export class DataStateService {
     this.pageCookie$.pipe(take(1)).subscribe((localStorageContent:any) => {
       if (localStorageContent) {
         this.setSelectedSupplier(localStorageContent?.id, localStorageContent?.supplierName)
+      }
+    });
+
+    this._localStorageService.getDataByPageName("Settings")
+    this.pageCookie$.pipe(take(1)).subscribe((localStorageContent:any) => {
+      if (localStorageContent) {
+        this.setSettings({menuState: /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ? false : localStorageContent.menuState, scrollPageToTop: localStorageContent.scrollPageToTop, isPaginatorFixed: localStorageContent.isPaginatorFixed});
       }
     });
   }
@@ -42,7 +50,6 @@ export class DataStateService {
   setSelectedSupplier(id:string, name:string) {
     console.log(`DSS: ${id} - ${name}`);
     this.selectedSupplierState.next({id:id, supplierName:name} as Supplier);
-    //console.log(`...DSS: ${this.selectedSupplierState}`);
     this.setCookie();
   }
 
@@ -71,5 +78,13 @@ export class DataStateService {
 
   clearSelectedProducts() {
     this.selectedProductsState.next([])
+  }
+
+  setSettings(settings:any) {
+    this.settings.next(settings)
+  }
+
+  getSettings() {
+    return this.settings;
   }
 }

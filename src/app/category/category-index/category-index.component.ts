@@ -9,6 +9,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {Category} from "../../models/category.model";
 import {CategoryEditComponent} from "../category-edit/category-edit.component";
+import {DataStateService} from "../../shared/data-state.service";
 
 @Component({
   selector: 'app-category-index',
@@ -21,6 +22,8 @@ export class CategoryIndexComponent implements OnInit {
   searchQueryCtrl = new FormControl<string>('');
   displayedColumns: string[] = ['title', 'parentId', 'venderId', 'supplierId', 'description', 'actions'];
   isLoading:boolean;
+  scrollToTop:boolean;
+  isPaginatorFixed:boolean;
 
   @Input() searchQuery:string;
   @Input() selectedSupplier: Supplier;
@@ -31,7 +34,7 @@ export class CategoryIndexComponent implements OnInit {
   @Output() pageParams:EventEmitter<any> = new EventEmitter();
   @Output() sortParams:EventEmitter<any> = new EventEmitter();
 
-  constructor(private api: ApiClient, public dialog: MatDialog) {
+  constructor(private api: ApiClient, public dialog: MatDialog, private dss: DataStateService) {
     this.dataSource = new CategoryDataSource(this.api)
   }
 
@@ -41,6 +44,11 @@ export class CategoryIndexComponent implements OnInit {
   ngOnInit(): void {
     this.dataSource.loading$.subscribe(loadState => {
       this.isLoading = loadState
+    })
+
+    this.dss.getSettings().subscribe((settings:any) => {
+      this.scrollToTop = settings.scrollPageToTop;
+      this.isPaginatorFixed = settings.isPaginatorFixed;
     })
 
     this.loadCategoryPagedData()
@@ -54,6 +62,9 @@ export class CategoryIndexComponent implements OnInit {
     this.paginator?.page
       .pipe(
         tap( () => {
+          if (this.scrollToTop) {
+            window.scroll(0, 0);
+          }
           this.pageParams.next({pageIndex: this.paginator.pageIndex, pageSize:this.paginator.pageSize})
         })).subscribe();
   }

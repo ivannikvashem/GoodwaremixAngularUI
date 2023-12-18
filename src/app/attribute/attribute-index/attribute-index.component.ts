@@ -12,6 +12,7 @@ import {NotificationService} from "../../service/notification-service";
 import {LocalStorageService} from "../../service/local-storage.service";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/shared/confirm-dialog/confirm-dialog.component";
 import {MatTableDataSource} from "@angular/material/table";
+import {DataStateService} from "../../shared/data-state.service";
 
 export interface AttrDialogData {
   oldAttributeId: string;
@@ -31,7 +32,8 @@ export class AttributeIndexComponent implements OnInit {
   isLoading:boolean;
   pageCookie$ = this._localStorageService.myData$
   pC: any = {};
-
+  scrollToTop:boolean;
+  isPaginatorFixed:boolean;
 
   @Input() searchQuery:string;
   @Input() withFixedAttrSelector = false;
@@ -53,6 +55,7 @@ export class AttributeIndexComponent implements OnInit {
     private _notyf: NotificationService,
     private _ActivatedRoute:ActivatedRoute,
     private _localStorageService: LocalStorageService,
+    private dss: DataStateService
   ) {
     this.dataSource = new AttributesDataSource(this.api);
   }
@@ -61,6 +64,11 @@ export class AttributeIndexComponent implements OnInit {
   ngOnInit() {
     this.dataSource.loading$.subscribe(loadState => {
       this.isLoading = loadState
+    })
+
+    this.dss.getSettings().subscribe((settings:any) => {
+      this.scrollToTop = settings.scrollPageToTop;
+      this.isPaginatorFixed = settings.isPaginatorFixed;
     })
   }
 
@@ -72,6 +80,9 @@ export class AttributeIndexComponent implements OnInit {
     this.paginator.page
       .pipe(
         tap( () => {
+          if (this.scrollToTop) {
+            window.scroll(0, 0);
+          }
           this.pageParams.next({pageIndex: this.paginator.pageIndex, pageSize:this.paginator.pageSize})
         })).subscribe();
   }

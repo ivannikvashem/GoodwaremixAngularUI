@@ -44,6 +44,8 @@ export class SupplierIndexComponent implements OnInit {
 
   supplierDataSource = new MatTableDataSource<Supplier>()
   selection = new SelectionModel<Supplier>(true, []);
+  scrollToTop:boolean;
+  isPaginatorFixed:boolean;
 
   constructor(
     public api: ApiClient,
@@ -62,17 +64,25 @@ export class SupplierIndexComponent implements OnInit {
   ngOnInit() {
     this.dataSource.loading$.subscribe(loadState => {
       this.isLoading = loadState
+    });
+
+    this.dss.getSettings().subscribe((settings:any) => {
+      this.scrollToTop = settings.scrollPageToTop;
+      this.isPaginatorFixed = settings.isPaginatorFixed;
     })
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.loadSupplierPagedData()
+    this.loadSupplierPagedData();
   }
 
   ngAfterViewInit(): void {
     this.paginator.page
       .pipe(
         tap( () => {
+          if (this.scrollToTop) {
+            window.scroll(0, 0);
+          }
           this.pageParams.next({pageIndex: this.paginator.pageIndex, pageSize:this.paginator.pageSize})
           this.selection.clear();
         })).subscribe();
@@ -111,7 +121,7 @@ export class SupplierIndexComponent implements OnInit {
   fixSupplierStat() {
     this.api.fixSupplierStat()
       .pipe(finalize( () => { this._notyf.onSuccess('Данные обновлены'); this.loadSupplierPagedData() })
-      ).subscribe( { next: (res) => {},
+      ).subscribe( { next: () => {},
       error: (err) => {
         this._notyf.onError("Ошибка: " + JSON.stringify(err));
       }})

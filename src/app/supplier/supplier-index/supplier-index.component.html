@@ -121,4 +121,4 @@
   <button mat-fab color="primary" class="mat-elevation-z2; float-button" (click)="fetchSelectedItems()" [class.cdk-visually-hidden]="selection.selected.length == 0" [matTooltip]="'Сбор выбранных ' + selection.selected.length"><mat-icon>restart_alt</mat-icon></button>
 </div>
 
-<mat-paginator class="paginator-fixed mat-elevation-z8" [style.visibility]="dataSource.rowCount > 0 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[12,24,48,96]></mat-paginator>
+<mat-paginator [ngStyle]="isPaginatorFixed == true ? {'position': 'fixed'} : {'position': 'absolute'}" class="paginator-fixed mat-elevation-z8" [style.visibility]="dataSource.rowCount > 0 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[12,24,48,96]></mat-paginator>

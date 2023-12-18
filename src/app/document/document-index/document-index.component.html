@@ -88,4 +88,4 @@
   </mat-card>
 </div>
 
-<mat-paginator class="paginator-fixed mat-elevation-z8" [style.visibility]="dataSource.rowCount > 0 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[12,20,50,100] aria-label="Страница"></mat-paginator>
+<mat-paginator [ngStyle]="isPaginatorFixed == true ? {'position': 'fixed'} : {'position': 'absolute'}" class="paginator-fixed mat-elevation-z8" [style.visibility]="dataSource.rowCount > 0 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[12,20,50,100] aria-label="Страница"></mat-paginator>

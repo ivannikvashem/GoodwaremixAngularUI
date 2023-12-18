@@ -104,7 +104,7 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
     MatBadgeModule,
     MatSliderModule,
     MatProgressBarModule,
-    MatSlideToggleModule,
+    MatSlideToggleModule
   ]
 })
 export class ProductModule { }

@@ -31,6 +31,8 @@ export class ProductIndexComponent implements OnInit {
 
   hoverImage: string = "";
   hoverRowId: string = "";
+  scrollToTop:boolean;
+  isPaginatorFixed:boolean;
 
   @Input() searchQuery:string;
   @Input() withInternalCode:boolean;
@@ -76,6 +78,11 @@ export class ProductIndexComponent implements OnInit {
         this.selectionActive = false;
       }
     })
+
+    this.dss.getSettings().subscribe((settings:any) => {
+      this.scrollToTop = settings.scrollPageToTop;
+      this.isPaginatorFixed = settings.isPaginatorFixed;
+    })
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -94,7 +101,7 @@ export class ProductIndexComponent implements OnInit {
   loadProductPagedData(): any {
     this.dataSource.loadPagedData(this.isCardLayout, this.searchQuery, this.selectedSupplier?.id,  this.pageIndex, this.pageSize, this.attributeFilter, this.sortActive.active, this.sortActive.direction,this.isModerated ? false : null, this.withInternalCode);
     this.dataSource.connect(null).subscribe(x => {
-      this.productsList = x
+      this.productsList = x;
     })
   }
 
@@ -149,6 +156,9 @@ export class ProductIndexComponent implements OnInit {
     this.paginator.page
       .pipe(
         tap( () => {
+          if (this.scrollToTop) {
+            window.scroll(0, 0);
+          }
           this.pageParams.next({pageIndex: this.paginator.pageIndex, pageSize:this.paginator.pageSize})
         })).subscribe();
   }

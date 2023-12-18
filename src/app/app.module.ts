@@ -60,6 +60,9 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import { CategoryComponent } from './category/category.component';
 import { CategoryIndexComponent } from './category/category-index/category-index.component';
 import { CategoryEditComponent } from './category/category-edit/category-edit.component';
+import { SettingsComponent } from './settings/settings.component';
+import { MatBottomSheetModule} from "@angular/material/bottom-sheet";
+import {SettingsModule} from "./settings/settings.module";
 
 @NgModule({
     declarations: [
@@ -70,7 +73,8 @@ import { CategoryEditComponent } from './category/category-edit/category-edit.co
         UnitConverterComponent,
         CategoryComponent,
         CategoryIndexComponent,
-        CategoryEditComponent
+        CategoryEditComponent,
+        SettingsComponent
     ],
   imports: [
     CommonModule,
@@ -110,6 +114,7 @@ import { CategoryEditComponent } from './category/category-edit/category-edit.co
     MatDatepickerModule,
     MatNativeDateModule,
     MatCheckboxModule,
+    MatBottomSheetModule,
     ScrollingModule,
     LogModule,
     SharedModule,
@@ -123,7 +128,8 @@ import { CategoryEditComponent } from './category/category-edit/category-edit.co
     DocumentModule,
     UnitConverterModule,
     StatisticModule,
-    MatSidenavModule
+    MatSidenavModule,
+    SettingsModule
   ],
     providers: [
         {

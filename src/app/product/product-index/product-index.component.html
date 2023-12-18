@@ -52,5 +52,4 @@
 
   <app-product-export-table [dataSource]="productsList" *ngIf="!isCardLayout"></app-product-export-table>
 </div>
-
-<app-mat-paginator-goto class="paginator-fixed mat-elevation-z8" [style.visibility]="dataSource.rowCount > -1 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[12,24,48,96] (matPaginatorGoTo)="paginatorChanged($event)" aria-label="Страница"></app-mat-paginator-goto>
+<app-mat-paginator-goto [ngStyle]="isPaginatorFixed == true ? {'position': 'fixed'} : {'position': 'absolute'}" class="paginator-fixed mat-elevation-z8" [style.visibility]="dataSource.rowCount > -1 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[12,24,48,96] (matPaginatorGoTo)="paginatorChanged($event)" aria-label="Страница"></app-mat-paginator-goto>

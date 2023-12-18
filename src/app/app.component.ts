@@ -8,6 +8,9 @@ import {NotificationService} from "./service/notification-service";
 import {HttpStatusCode} from "@angular/common/http";
 import {Title} from "@angular/platform-browser";
 import {NavigationEnd, Router} from "@angular/router";
+import {MatBottomSheet} from "@angular/material/bottom-sheet";
+import {SettingsComponent} from "./settings/settings.component";
+import {DataStateService} from "./shared/data-state.service";
 
 @Component({
   selector: 'app-root',
@@ -20,7 +23,7 @@ export class AppComponent{
   roles: string[] = [];
   isServerOffline: boolean;
 
-  sidebarState: boolean = true;
+  sidebarState: boolean;
   logoHover: boolean = false;
   showSupplierSelector:boolean = false;
 
@@ -37,7 +40,7 @@ export class AppComponent{
     { name: 'Панель администратора', route: '/admin', icon: 'admin_panel_settings', role: 'goodware-admin' },
   ]
 
-  constructor(private auth: AuthService, private api: ApiClient, private _notyf: NotificationService, private titleService:Title, private router:Router) {
+  constructor(private auth: AuthService, private api: ApiClient, private _notyf: NotificationService, private titleService:Title, private router:Router, private dss:DataStateService, private _bottomSheet: MatBottomSheet) {
     this.roles = this.auth.getRoles();
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((event:any) => {
       this.titleService.setTitle(this.menuItems.find((x:any) => x.route == event.url) ? this.menuItems.find((x:any) => x.route == event.url).name : 'GoodWareAngularUI')
@@ -46,6 +49,10 @@ export class AppComponent{
 
   ngOnInit() {
     this.checkServerAvailability();
+
+    this.dss.getSettings().subscribe((settings:any) => {
+      this.sidebarState = settings.menuState;
+    })
   }
 
   checkServerAvailability() {
@@ -67,5 +74,9 @@ export class AppComponent{
 
   onSupplierSelected() {
     this.showSupplierSelector = false;
+  }
+
+  openSettings() {
+    this._bottomSheet.open(SettingsComponent);
   }
 }

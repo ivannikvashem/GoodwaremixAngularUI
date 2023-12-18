@@ -52,6 +52,7 @@ $toolbar-opened-xl-width: 260px;
         a {
           .link_name {
             color: $color_1;
+            cursor: pointer;
           }
         }
       }
@@ -227,7 +228,7 @@ $toolbar-opened-xl-width: 260px;
     }
   }
 }
-.authToolbar {
+.menu-bottom-section {
   position: fixed;
   bottom: 0;
 }
@@ -373,6 +374,12 @@ footer {
 .supplier-autocomplete-container-collapsed {
   display: none;
   padding: 5px;
+}
+
+.mat-bottom-sheet-container {
+  /*
+  height: 600px;
+  */
 }
 
 .supplier-autocomplete-container-clicked-collapsed {

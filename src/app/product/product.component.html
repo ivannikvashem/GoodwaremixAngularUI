@@ -13,7 +13,7 @@
     </button>
   </mat-form-field>
 
-  <div class="toolbox-item-three" [style.grid-template-columns]="roles.includes('goodware-manager') ? '' : 'auto auto'">
+  <div class="toolbox-item-three" [style.grid-template-columns]="roles.includes('goodware-manager') ? '' : 'auto auto auto'">
     <mat-form-field appearance="outline" class="input-form-outline-background">
       <mat-label>Сортировка</mat-label>
       <select matNativeControl [(ngModel)]="selectedSort" (change)="sortData()">
