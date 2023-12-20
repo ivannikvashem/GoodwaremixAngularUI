@@ -304,7 +304,6 @@ export class ApiClient {
         .set(jpegFormat ? 'jpg' : '', jpegFormat || '')
         .set(createArchive ? 'createArchive' : '', createArchive || '')
     };
-    console.log(opt)
     opt = Object.assign(opt, { observe: 'response', responseType: 'blob' });
     return this.http.get(this.apiURL + '/files/' + type + '/' + id, opt);
   }
