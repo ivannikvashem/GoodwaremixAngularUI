@@ -86,7 +86,7 @@ export class ProductsDataSource implements DataSource<Product> {
       });
   }
 
-  downloadImages(products: Product[], jpegFormat: boolean) {
+  downloadImages(products: Product[], jpegFormat: boolean, createArchive:boolean) {
     let errorCounter = 0;
     let promises: Promise<any>[] = [];
 
@@ -96,9 +96,9 @@ export class ProductsDataSource implements DataSource<Product> {
           let downloadObservable;
 
           if (product.internalCode)
-            downloadObservable = this.api.downloadProductImage(product.internalCode, 'internalCode', jpegFormat);
+            downloadObservable = this.api.downloadProductImage(product.internalCode, 'internalCode', jpegFormat, createArchive);
           else if (product.vendorId)
-            downloadObservable = this.api.downloadProductImage(product.vendorId, 'vendorId', jpegFormat);
+            downloadObservable = this.api.downloadProductImage(product.vendorId, 'vendorId', jpegFormat, createArchive);
 
           if (downloadObservable) {
             downloadObservable.pipe(map((res: any) => {

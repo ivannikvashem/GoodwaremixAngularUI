@@ -17,10 +17,20 @@
       </div>
 
       <div class="toolbox-item">
-        <button class="full-height" mat-button [matMenuTriggerFor]="downloadImgMenu"><span class="button-text">Загрузить фото</span><mat-icon>download</mat-icon></button>
+        <button class="full-height" mat-button [matMenuTriggerFor]="downloadImgMenu"><span class="button-text">Скачать фото</span><mat-icon>download</mat-icon></button>
         <mat-menu #downloadImgMenu="matMenu">
-          <button mat-menu-item (click)="downloadProductsImage(true)">JPEG формат</button>
-          <button mat-menu-item (click)="downloadProductsImage(null)">Оригинальный формат</button>
+          <button mat-menu-item [matMenuTriggerFor]="downloadSinglePhoto"><mat-icon>photo</mat-icon>Первую фотографию</button>
+          <button mat-menu-item [matMenuTriggerFor]="downloadArchiveOfPhotos"><mat-icon>photo_album</mat-icon>Коллекцию фотографий</button>
+        </mat-menu>
+
+        <mat-menu #downloadSinglePhoto="matMenu">
+          <button mat-menu-item (click)="downloadProductsImage(true, null)">JPEG формат</button>
+          <button mat-menu-item (click)="downloadProductsImage(null, null)">Оригинальный формат</button>
+        </mat-menu>
+
+        <mat-menu #downloadArchiveOfPhotos="matMenu">
+          <button mat-menu-item (click)="downloadProductsImage(true, true)">JPEG формат</button>
+          <button mat-menu-item (click)="downloadProductsImage(null, true)">Оригинальный формат</button>
         </mat-menu>
       </div>
 

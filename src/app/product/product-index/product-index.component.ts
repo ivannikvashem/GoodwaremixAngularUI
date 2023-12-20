@@ -141,8 +141,8 @@ export class ProductIndexComponent implements OnInit {
     });
   }
 
-  downloadProductsImage(jpegFormat:boolean) {
-    this.dataSource.downloadImages(this.selectionItems, jpegFormat)
+  downloadProductsImage(jpegFormat:boolean, createArchive:boolean) {
+    this.dataSource.downloadImages(this.selectionItems, jpegFormat, createArchive)
   }
 
   downloadProductsInXLS() {

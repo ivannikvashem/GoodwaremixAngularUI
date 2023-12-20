@@ -298,11 +298,13 @@ export class ApiClient {
     return this.http.get(this.apiURL + '/suppliers/DownloadFileJson',opt)
   }
 
-  downloadProductImage(id: string, type: 'internalCode' | 'vendorId', jpegFormat: boolean) {
-    let opt = {};
-    if (jpegFormat) {
-      opt = { params: new HttpParams().set('jpg', jpegFormat) };
-    }
+  downloadProductImage(id: string, type: 'internalCode' | 'vendorId', jpegFormat: boolean, createArchive: boolean) {
+    let opt = {
+      params: new HttpParams()
+        .set(jpegFormat ? 'jpg' : '', jpegFormat || '')
+        .set(createArchive ? 'createArchive' : '', createArchive || '')
+    };
+    console.log(opt)
     opt = Object.assign(opt, { observe: 'response', responseType: 'blob' });
     return this.http.get(this.apiURL + '/files/' + type + '/' + id, opt);
   }
