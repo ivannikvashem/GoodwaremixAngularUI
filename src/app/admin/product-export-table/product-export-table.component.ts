@@ -101,7 +101,7 @@ export class ProductExportTableComponent implements OnInit {
     if (!this.selection.isSelected(product)) {
       this.dss.removeSelectedProduct(product.id)
     } else {
-      this.dss.setSelectedProduct({id:product.id,vendorId:product.vendorId, internalCode: product.internalCode})
+      this.dss.setSelectedProduct({id:product.id, vendorId:product.vendorId, internalCode:product.internalCode, title:product.title, image:product.thumbnails ? product.thumbnails : product.images})
     }
   }
 

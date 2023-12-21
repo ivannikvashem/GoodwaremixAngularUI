@@ -298,14 +298,14 @@ export class ApiClient {
     return this.http.get(this.apiURL + '/suppliers/DownloadFileJson',opt)
   }
 
-  downloadProductImage(id: string, type: 'internalCode' | 'vendorId', jpegFormat: boolean, createArchive: boolean) {
+  downloadProductImage(id: string, route: 'internalCode' | 'vendorId', jpegFormat: boolean, createArchive: boolean) {
     let opt = {
       params: new HttpParams()
         .set(jpegFormat ? 'jpg' : '', jpegFormat || '')
         .set(createArchive ? 'createArchive' : '', createArchive || '')
     };
     opt = Object.assign(opt, { observe: 'response', responseType: 'blob' });
-    return this.http.get(this.apiURL + '/files/' + type + '/' + id, opt);
+    return this.http.get(this.apiURL + '/files/' + route + '/' + id, opt);
   }
 
   downloadProductsInXLS(productIds:string[]) {
@@ -314,12 +314,8 @@ export class ApiClient {
   }
 
   // INIT ENDPOINT
-  fixSupplierStat() {
-    return this.http.post<any>(this.apiURL + '/service/cleanstat', {}, this.httpOptions);
-  }
-
-  fullInit() {
-    return this.http.post<any>(this.apiURL + '/service/initOld', {}, this.httpOptions);
+  initRequest(route:'cleanstat' | 'initOld') {
+    return this.http.post<any>(this.apiURL + '/service/' + route, {}, this.httpOptions);
   }
 
   checkImageStatusCode(url:string) {
@@ -459,7 +455,7 @@ export class ApiClient {
     }
     opt = Object.assign(opt, this.httpOptions);
 
-    return this.http.get(this.apiURL + '/statistics', opt) // 624d278141034b896a223e4c
+    return this.http.get(this.apiURL + '/statistics', opt)
   }
 
   getTotalStats(): Observable<any> {

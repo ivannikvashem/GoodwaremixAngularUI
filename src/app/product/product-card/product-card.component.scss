@@ -97,6 +97,13 @@
   visibility: hidden;
 }
 
+:host::ng-deep .mat-checkbox {
+  .mat-checkbox-layout {
+    padding: 7px;
+  }
+}
+
+
 @mixin xs-devices {
   .card {
     .img-container {

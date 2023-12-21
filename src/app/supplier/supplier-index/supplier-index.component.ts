@@ -110,7 +110,7 @@ export class SupplierIndexComponent implements OnInit {
   }
 
   fixSupplierStat() {
-    this.api.fixSupplierStat()
+    this.api.initRequest('cleanstat')
       .pipe(finalize( () => { this._notyf.onSuccess('Данные обновлены'); this.loadSupplierPagedData() })
       ).subscribe( { next: (res) => {},
       error: (err) => {
