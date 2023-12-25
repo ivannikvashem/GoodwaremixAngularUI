@@ -7,7 +7,7 @@ import {MatChipInputEvent} from "@angular/material/chips";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {AttributeProduct} from "../../models/attributeProduct.model";
 import {DataSource} from "@angular/cdk/collections";
-import {debounceTime, distinctUntilChanged, Observable, ReplaySubject, startWith, switchMap} from "rxjs";
+import {debounceTime, distinctUntilChanged, Observable, ReplaySubject, startWith, switchMap, tap} from "rxjs";
 import {NotificationService} from "../../service/notification-service";
 import {MatTableDataSource} from "@angular/material/table";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -16,7 +16,7 @@ import {ProductAttributeEditComponent} from "../product-attribute-edit/product-a
 import {Package} from "../../models/package.model";
 import {ProductPackageEditComponent} from "../product-package-edit/product-package-edit.component";
 import {Countries} from "../../../assets/countriesList"
-import {map} from "rxjs/operators";
+import {finalize, map} from "rxjs/operators";
 import {MissingImageHandler} from "../MissingImageHandler";
 import {DataStateService} from "../../shared/data-state.service";
 import {ImagePreviewDialogComponent} from "../image-preview-dialog/image-preview-dialog.component";
@@ -53,6 +53,7 @@ export class ProductEditComponent implements OnInit {
   // Package
   packageColumns: string[] = ['package', 'action'];
 
+  isLoading:boolean = true;
   roles:string[] = [];
   countriesList:Country[] = Countries
   searchCountryCtrl = new FormControl<string | any>('')
@@ -84,7 +85,9 @@ export class ProductEditComponent implements OnInit {
   ngOnInit(): void {
     this.productId = this._ActivatedRoute.snapshot.paramMap.get("id");
     if (this.productId) {
-      this.api.getProductById(this.productId).subscribe({ next: (s) => {
+      this.api.getProductById(this.productId).pipe(
+        tap( () => { this.isLoading = true; }), finalize( () => this.isLoading = false)
+      ).subscribe({ next: (s) => {
         this.product = s.body as Product;
         if (this.product.thumbnails.length > 0) {
           this.product.images.forEach((value) => {this.preloadImagesView.push({id:null, file:value})})

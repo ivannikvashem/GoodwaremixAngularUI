@@ -105,6 +105,12 @@ html {
   border-radius: 9px;
 }
 
+.loading-area {
+  position: fixed;
+  top:50%;
+  left:48%;
+}
+
 .form {
   min-width: 150px;
   max-width: 500px;

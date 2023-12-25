@@ -1,9 +1,3 @@
-.loadingArea {
-  position: fixed;
-  top:50%;
-  left:48%;
-}
-
 .supplier-autocomplete {
   width: 250px;
 }
