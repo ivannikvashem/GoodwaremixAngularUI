@@ -71,6 +71,10 @@ mat-tab-group.mainTabGroup {
   flex-direction: column;
 }
 
+:host ::ng-deep .mat-tab-body-content {
+  overflow: hidden;
+}
+
 mat-tab-body {
   flex-grow: 1;
   display: flex;
@@ -111,6 +115,10 @@ form {
     margin-left: 14px !important;
   }
 
+  :host ::ng-deep .mainTabGroup > .mat-tab-header > .mat-tab-label-container > .mat-tab-list {
+    padding: unset;
+  }
+
   :host ::ng-deep .mat-vertical-stepper-header {
     padding: 11px 2px !important;
   }
@@ -145,6 +153,10 @@ form {
 
   :host ::ng-deep .mat-vertical-stepper-header {
     padding: 24px 24px !important;
+  }
+
+  :host ::ng-deep .mainTabGroup > .mat-tab-header > .mat-tab-label-container > .mat-tab-list {
+    padding: 0 40px 0 40px;
   }
 
   :host ::ng-deep .mat-vertical-content {

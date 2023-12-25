@@ -103,8 +103,8 @@ export class ProductsDataSource implements DataSource<Product> {
           if (downloadObservable) {
             downloadObservable.pipe(map((res: any) => {
               return {
-                filename: (product.internalCode || product.vendorId) + '.' + res.body.type.split('/')[1],
-                data: new Blob([res.body], {type: 'image/' + res.body.type.split('/')[1]})
+                filename: (product.internalCode || product.vendorId) + (res.body.type.includes('.') ? '' : '.') + res.body.type.split('/')[1],
+                data: new Blob([res.body], {type: (createArchive ? 'application/' : 'image/') + (res.body.type.includes('.') ? res.body.type.split('/.')[1] : res.body.type.split('/')[1])})
               };
             })).subscribe({
               next: res => {
@@ -126,7 +126,7 @@ export class ProductsDataSource implements DataSource<Product> {
 
     Promise.all(promises).then(() => {
       if (errorCounter > 0) {
-        this._notyf.onError('Ошибка скачивания (' + errorCounter + ')')
+        this._notyf.onError('Ошибка скачивания (' + errorCounter + ' товаров)')
       }
     });
   }
