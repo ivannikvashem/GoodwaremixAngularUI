@@ -147,6 +147,11 @@
                 <textarea matInput name="description" cdkTextareaAutosize cdkAutosizeMinRows="3" cdkAutosizeMaxRows="15"  [(ngModel)]="product.description"></textarea>
               </mat-form-field>
 
+              <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Описание 1C</mat-label>
+                <textarea matInput name="description" cdkTextareaAutosize cdkAutosizeMinRows="3" cdkAutosizeMaxRows="15"  [(ngModel)]="product.customDescription"></textarea>
+              </mat-form-field>
+
               <mat-form-field class="full-width" appearance="fill">
                 <mat-label>ГТД</mat-label>
                 <mat-chip-list #chipList>
