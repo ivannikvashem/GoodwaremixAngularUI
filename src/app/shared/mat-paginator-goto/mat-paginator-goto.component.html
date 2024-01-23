@@ -2,8 +2,8 @@
   <div class="go-to-container">
     <div class="go-to-label">Перейти на страницу : </div>
     <mat-form-field>
-      <input type="number" [ngModel]="pageIndex + 1" matInput #jumpToInput (keydown.enter)="jumpTo(jumpToInput.value)">
-      <button matSuffix mat-icon-button (click)="jumpTo(jumpToInput.value)">
+      <input type="number" [ngModel]="pageIndex + 1" matInput [min]="1" [max]="" #jumpToInput (keydown.enter)="jumpTo(+jumpToInput.value)">
+      <button matSuffix mat-icon-button (click)="jumpTo(+jumpToInput.value)">
         <mat-icon>arrow_forward</mat-icon>
       </button>
     </mat-form-field>

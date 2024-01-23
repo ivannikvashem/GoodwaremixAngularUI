@@ -48,6 +48,7 @@ export class MatPaginatorGotoComponent implements OnInit {
     if (this.paginator) {
       this.matPaginatorGoTo.emit(this.paginator);
     }
+    console.log(this.length)
   }
 
   paginationChange(pageEvt: PageEvent) {
@@ -67,7 +68,7 @@ export class MatPaginatorGotoComponent implements OnInit {
     this.paginator.page.next(event);
   }
 
-  jumpTo(value: any) {
+  jumpTo(value: number) {
     if (value <= this.paginator.getNumberOfPages()) {
       this.goTo = value as number;
     }  else {
