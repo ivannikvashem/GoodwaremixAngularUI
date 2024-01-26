@@ -259,14 +259,13 @@ export class ApiClient {
     return this.http.delete(this.apiURL + '/SchedulerTask/' + id, this.httpOptions);
   }
 
-  startTask(id:string): Observable<any> {
-    return this.http.post(this.apiURL + '/Quartz/startQuartz/' + id, this.httpOptions)
+  startTask(ids:string[]): Observable<any> {
+    return this.http.post(this.apiURL + '/Quartz/startQuartz/', ids, this.httpOptions)
   }
 
-  stopTask(id:string): Observable<any> {
-    return this.http.get(this.apiURL + '/Quartz/stopQuartz/' + id, this.httpOptions)
+  stopTask(ids:string[]): Observable<any> {
+    return this.http.post(this.apiURL + '/Quartz/stopQuartz/', ids, this.httpOptions)
   }
-
   //#endregion
 
   //uploadPhoto
