@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ProductDocumentEditComponent} from "../product-document-edit/product-document-edit.component";
 import {Document} from "../../models/document.model";
-import {MatTableDataSource} from "@angular/material/table";
-import {MatDialog} from "@angular/material/dialog";
+import {MatLegacyTableDataSource as MatTableDataSource} from "@angular/material/legacy-table";
+import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 import {NotificationService} from "../../service/notification-service";
 import {ApiClient} from "../../service/httpClient";
 

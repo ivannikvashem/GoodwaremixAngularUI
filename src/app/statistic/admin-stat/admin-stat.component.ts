@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, QueryList, SimpleChanges, ViewChildren} from '@angular/core';
 import {BaseChartDirective} from "ng2-charts";
 import {SchedulerTask} from "../../models/schedulerTask.model";
-import {MatDialog} from "@angular/material/dialog";
+import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 import {StatisticDetailsComponent} from "../statistic-details/statistic-details.component";
 
 @Component({

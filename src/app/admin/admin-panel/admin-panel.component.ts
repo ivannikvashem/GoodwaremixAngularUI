@@ -5,7 +5,7 @@ import {
   ConfirmDialogComponent,
   ConfirmDialogModel
 } from "../../components/shared/confirm-dialog/confirm-dialog.component";
-import {MatDialog} from "@angular/material/dialog";
+import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 
 @Component({
   selector: 'app-admin-panel',

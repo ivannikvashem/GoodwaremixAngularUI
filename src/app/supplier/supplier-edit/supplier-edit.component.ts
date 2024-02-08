@@ -6,11 +6,11 @@ import {ApiClient} from "../../service/httpClient";
 import {ProductAttributeKey} from "../../models/productAttributeKey.model";
 import { Attribute } from 'src/app/models/attribute.model';
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
-import {MatChipInputEvent} from "@angular/material/chips";
+import {MatLegacyChipInputEvent as MatChipInputEvent} from "@angular/material/legacy-chips";
 import {BehaviorSubject} from "rxjs";
 import {finalize} from "rxjs/operators";
 import {NotificationService} from "../../service/notification-service";
-import {MatDialog} from "@angular/material/dialog";
+import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/shared/confirm-dialog/confirm-dialog.component";
 import {Title} from "@angular/platform-browser";
 

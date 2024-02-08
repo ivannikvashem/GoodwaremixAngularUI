@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {DataStateService} from "../shared/data-state.service";
 import {LocalStorageService} from "../service/local-storage.service";
-import {MatDialog} from "@angular/material/dialog";
+import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 import {FormControl} from "@angular/forms";
 import {Subscription} from "rxjs";
 

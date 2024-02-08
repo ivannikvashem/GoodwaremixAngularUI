@@ -6,7 +6,7 @@ import {AuthGuard} from "./auth.guard";
 import {AuthService} from "./service/auth.service";
 import { AuthToolbarComponent } from './auth-toolbar/auth-toolbar.component';
 import {MatIconModule} from "@angular/material/icon";
-import {MatButtonModule} from "@angular/material/button";
+import {MatLegacyButtonModule as MatButtonModule} from "@angular/material/legacy-button";
 
 @NgModule({
   declarations: [

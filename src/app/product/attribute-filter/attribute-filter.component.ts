@@ -3,7 +3,7 @@ import {FormControl} from "@angular/forms";
 import {Attribute} from "../../models/attribute.model";
 import {debounceTime, distinctUntilChanged, finalize, Observable, switchMap, tap} from "rxjs";
 import {ApiClient} from "../../service/httpClient";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from "@angular/material/legacy-dialog";
 
 export class Filter {
   attributeId:string;

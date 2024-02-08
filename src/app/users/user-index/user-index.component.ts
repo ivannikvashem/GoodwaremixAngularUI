@@ -2,7 +2,7 @@ import {Component, OnInit,} from '@angular/core';
 import {UsersDataSource} from "../repo/UsersDataSource";
 import {Router} from "@angular/router";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/shared/confirm-dialog/confirm-dialog.component";
-import {MatDialog} from "@angular/material/dialog";
+import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 import {ApiClient} from "../../service/httpClient";
 import {UserDetailsComponent} from "../user-details/user-details.component";
 import {UserInterface} from "../type/user.interface";

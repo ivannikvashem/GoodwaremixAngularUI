@@ -1,4 +1,4 @@
-import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
+import {MatLegacySnackBar as MatSnackBar, MatLegacySnackBarHorizontalPosition as MatSnackBarHorizontalPosition, MatLegacySnackBarVerticalPosition as MatSnackBarVerticalPosition} from "@angular/material/legacy-snack-bar";
 import {Injectable} from "@angular/core";
 @Injectable({
   providedIn: 'root'

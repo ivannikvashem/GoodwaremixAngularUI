@@ -5,7 +5,7 @@ import {Supplier} from "../models/supplier.model";
 import {FormControl} from "@angular/forms";
 import {LocalStorageService} from "../service/local-storage.service";
 import {Subscription} from "rxjs";
-import {MatDialog} from "@angular/material/dialog";
+import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 import {AttributeFilterComponent} from "./attribute-filter/attribute-filter.component";
 import {SelectedFiltersList} from "./repo/ProductsDataSource";
 import {AuthService} from "../auth/service/auth.service";

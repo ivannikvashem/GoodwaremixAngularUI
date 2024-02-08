@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {Attribute} from "../../../models/attribute.model";
 import {FormControl, Validators} from "@angular/forms";
 import {ApiClient} from "../../../service/httpClient";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from "@angular/material/legacy-dialog";
 import {debounceTime, distinctUntilChanged, finalize, switchMap, tap} from "rxjs";
 import {UnitConverter} from "../../../models/unitConverter.model";
 

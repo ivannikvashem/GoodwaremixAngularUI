@@ -2,12 +2,12 @@ import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild
 import {ApiClient} from "../../service/httpClient";
 import {Document} from "../../models/document.model";
 import {FormControl} from "@angular/forms";
-import {MatPaginator} from "@angular/material/paginator";
+import {MatLegacyPaginator as MatPaginator} from "@angular/material/legacy-paginator";
 import {
   ConfirmDialogComponent,
   ConfirmDialogModel
 } from "../../components/shared/confirm-dialog/confirm-dialog.component";
-import {MatDialog} from "@angular/material/dialog";
+import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 import {ProductDocumentEditComponent} from "../../product/product-document-edit/product-document-edit.component";
 import {ImagePreviewDialogComponent} from "../../product/image-preview-dialog/image-preview-dialog.component";
 import {Supplier} from "../../models/supplier.model";

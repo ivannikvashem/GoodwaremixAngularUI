@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Product} from "../../models/product.model";
 import {MissingImageHandler} from "../MissingImageHandler";
-import {MatDialog} from "@angular/material/dialog";
+import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 import {NotificationService} from "../../service/notification-service";
 import {Router} from "@angular/router";
 import {Clipboard} from "@angular/cdk/clipboard";

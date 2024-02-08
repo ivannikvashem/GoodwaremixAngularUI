@@ -1,14 +1,14 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ApiClient} from "../../service/httpClient";
 import {SchedulerTaskDataSource} from "../repo/SchedulerTaskDataSource";
-import {MatDialog} from "@angular/material/dialog";
+import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 import {TaskEditComponent} from "../task-edit/task-edit.component";
 import {SchedulerTask} from "../../models/schedulerTask.model";
-import {MatPaginator} from "@angular/material/paginator";
+import {MatLegacyPaginator as MatPaginator} from "@angular/material/legacy-paginator";
 import {merge, tap} from "rxjs";
 import {NotificationService} from "../../service/notification-service";
 import {SelectionModel} from "@angular/cdk/collections";
-import {MatTableDataSource} from "@angular/material/table";
+import {MatLegacyTableDataSource as MatTableDataSource} from "@angular/material/legacy-table";
 
 @Component({
   selector: 'app-task-index',
