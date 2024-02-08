@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {SchedulerTask} from "../../models/schedulerTask.model";
-import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from "@angular/material/legacy-dialog";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Supplier} from "../../models/supplier.model";
 import {ApiClient} from "../../service/httpClient";
 import {DataStateService} from "../../shared/data-state.service";

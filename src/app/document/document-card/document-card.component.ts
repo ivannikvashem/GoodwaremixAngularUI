@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Document} from "../../models/document.model";
 import {ProductDocumentEditComponent} from "../../product/product-document-edit/product-document-edit.component";
-import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-document-card',

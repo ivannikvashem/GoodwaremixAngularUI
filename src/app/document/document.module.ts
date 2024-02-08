@@ -2,17 +2,17 @@ import {NgModule} from "@angular/core";
 import {DocumentIndexComponent} from "./document-index/document-index.component";
 import {DocumentComponent} from "./document.component";
 import {SharedModule} from "../shared/shared.module";
-import {MatLegacyFormFieldModule as MatFormFieldModule} from "@angular/material/legacy-form-field";
+import {MatFormFieldModule} from "@angular/material/form-field";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
-import {MatLegacyPaginatorModule as MatPaginatorModule} from "@angular/material/legacy-paginator";
-import {MatLegacyTabsModule as MatTabsModule} from "@angular/material/legacy-tabs";
-import {MatLegacyTableModule as MatTableModule} from "@angular/material/legacy-table";
-import {MatLegacyCardModule as MatCardModule} from "@angular/material/legacy-card";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatTabsModule} from "@angular/material/tabs";
+import {MatTableModule} from "@angular/material/table";
+import {MatCardModule} from "@angular/material/card";
 import {ProductModule} from "../product/product.module";
 import {CommonModule} from "@angular/common";
-import {MatLegacyButtonModule as MatButtonModule} from "@angular/material/legacy-button";
-import {MatLegacyInputModule as MatInputModule} from "@angular/material/legacy-input";
+import {MatButtonModule} from "@angular/material/button";
+import {MatInputModule} from "@angular/material/input";
 import {MatSortModule} from "@angular/material/sort";
 
 @NgModule({

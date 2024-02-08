@@ -2,10 +2,10 @@ import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl} from "@angular/forms";
 import {Router} from "@angular/router";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
-import {MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent} from "@angular/material/legacy-autocomplete";
+import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {ApiClient} from "../../service/httpClient";
 import {Supplier} from "../../models/supplier.model";
-import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from "@angular/material/legacy-dialog";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {DataStateService} from "../../shared/data-state.service";
 import {NotificationService} from "../../service/notification-service";
 

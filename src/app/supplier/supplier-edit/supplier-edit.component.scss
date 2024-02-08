@@ -1,8 +1,8 @@
-.mat-form-field {
+.mat-mdc-form-field {
   width: 100% !important;
 }
 
-.mat-form-field:not(:last-child) {
+.mat-mdc-form-field:not(:last-child) {
   margin-right: 5px !important;
 }
 
@@ -51,30 +51,36 @@
   margin: 3px !important;
 }
 
-:host ::ng-deep .mainTabGroup > .mat-tab-header > .mat-tab-label-container > .mat-tab-list > .mat-tab-labels {
+/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
+:host ::ng-deep .mainTabGroup > .mat-mdc-tab-header > .mat-tab-label-container > .mat-tab-list > .mat-tab-labels {
   flex-direction: column;
 }
 
-:host ::ng-deep .mainTabGroup > .mat-tab-header > .mat-tab-label-container > .mat-tab-list {
+/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
+:host ::ng-deep .mainTabGroup > .mat-mdc-tab-header > .mat-tab-label-container > .mat-tab-list {
   padding: 0 40px 0 40px;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
 mat-tab-group.mainTabGroup {
   flex-grow: 1;
   display: flex;
   flex-direction: row;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
 :host ::ng-deep .mat-tab-body-wrapper {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
 :host ::ng-deep .mat-tab-body-content {
   overflow: hidden;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
 mat-tab-body {
   flex-grow: 1;
   display: flex;
@@ -85,10 +91,12 @@ mat-tab-body {
   display: none;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
 :host ::ng-deep .mat-tab-label-content {
   font-weight: bolder;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
 :host ::ng-deep.mat-tab-label {
   border-bottom: 2px solid #3f51b5;
 }
@@ -110,12 +118,13 @@ form {
 }
 
 @mixin xs-devices {
+  /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
   mat-tab-group.mainTabGroup { flex-direction: column}
   :host ::ng-deep .mat-vertical-content-container {
     margin-left: 14px !important;
   }
-
-  :host ::ng-deep .mainTabGroup > .mat-tab-header > .mat-tab-label-container > .mat-tab-list {
+  /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
+  :host ::ng-deep .mainTabGroup > .mat-mdc-tab-header > .mat-tab-label-container > .mat-tab-list {
     padding: unset;
   }
 
@@ -146,6 +155,7 @@ form {
 }
 
 @mixin xl-devices {
+  /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
   mat-tab-group.mainTabGroup { flex-direction: row}
   :host ::ng-deep .mat-vertical-content-container {
     margin-left: 36px !important;
@@ -154,8 +164,8 @@ form {
   :host ::ng-deep .mat-vertical-stepper-header {
     padding: 24px 24px !important;
   }
-
-  :host ::ng-deep .mainTabGroup > .mat-tab-header > .mat-tab-label-container > .mat-tab-list {
+  /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
+  :host ::ng-deep .mainTabGroup > .mat-mdc-tab-header > .mat-tab-label-container > .mat-tab-list {
     padding: 0 40px 0 40px;
   }
 

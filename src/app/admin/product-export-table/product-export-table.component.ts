@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
-import {MatLegacyPaginator as MatPaginator} from "@angular/material/legacy-paginator";
+import {MatPaginator} from "@angular/material/paginator";
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 import {SelectionModel} from "@angular/cdk/collections";
 import {Product} from "../../models/product.model";
-import {MatLegacyTableDataSource as MatTableDataSource} from "@angular/material/legacy-table";
+import {MatTableDataSource} from "@angular/material/table";
 import {DataStateService} from "../../shared/data-state.service";
 
 @Component({

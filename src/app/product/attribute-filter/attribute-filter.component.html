@@ -24,7 +24,7 @@
       <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
 
       <mat-dialog-content *ngIf="!isLoading" class="selected-filters">
-        <mat-card *ngFor="let item of attributesForFilter; let i = index" class="filter-card mat-elevation-z2">
+        <mat-card appearance="outlined" *ngFor="let item of attributesForFilter; let i = index" class="filter-card mat-elevation-z2">
           <div class="title-container">
             <div class="card-title">
               <strong>{{item.type}}</strong> {{item.nameAttribute}}
@@ -35,7 +35,7 @@
           <div *ngIf="item.type == 'A'">
             <div>
               <mat-form-field appearance="outline" class="full-width input-form-outline-background">
-                <mat-chip-list #attrVal>
+                <mat-chip-grid #attrVal>
                   <input matInput #allValueAuto placeholder="Введите значение..."
                          [matAutocomplete]="auto"
                          [matChipInputFor]="attrVal" (keydown.delete)="removeFilter(i)">
@@ -44,16 +44,16 @@
                       {{option}}
                     </mat-option>
                   </mat-autocomplete>
-                </mat-chip-list>
+                </mat-chip-grid>
 
               </mat-form-field>
               <div class="mat-chip-container">
-                <mat-chip *ngFor="let value of selectedValues(item.id)" (removed)="removeSelectedValue(item.id, value)">
+                <mat-chip-option *ngFor="let value of selectedValues(item.id)" (removed)="removeSelectedValue(item.id, value)">
                   {{value}}
                   <button matChipRemove>
                     <mat-icon>cancel</mat-icon>
                   </button>
-                </mat-chip>
+                </mat-chip-option>
               </div>
             </div>
           </div>

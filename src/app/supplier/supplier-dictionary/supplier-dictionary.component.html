@@ -10,7 +10,7 @@
   <ng-container matColumnDef="keySupplier">
     <th mat-header-cell *matHeaderCellDef> Атрибут поставщика </th>
     <td mat-cell *matCellDef="let i = index; let element" (click)="attrSelectedRow?.id != i ? onSelectRow(element, i) : ''">
-      <mat-form-field class="full-width" appearance="standard" *ngIf="attrSelectedRow?.id == i">
+      <mat-form-field class="full-width" *ngIf="attrSelectedRow?.id == i">
         <mat-label>Атрибут в файле поставщика</mat-label>
         <input type="text" matInput [value]="element.keySupplier"
                (keydown.enter)="updateSelectedSuppAttr(i, element)"
@@ -23,7 +23,7 @@
   <ng-container matColumnDef="attributeBDName">
     <th mat-header-cell *matHeaderCellDef> Наш атрибут </th>
     <td mat-cell *matCellDef="let i = index; let element" (click)="attrSelectedRow?.id != i ? onSelectRow(element, i) : ''">
-      <mat-form-field class="attribute-bd-name-input" appearance="standard" *ngIf="attrSelectedRow?.id == i">
+      <mat-form-field class="attribute-bd-name-input" *ngIf="attrSelectedRow?.id == i">
         <mat-label>Целевой атрибут</mat-label>
         <input type="text" matInput aria-label="Поставщик"
                [formControl]="attributeListCtrl"
@@ -42,7 +42,7 @@
         </mat-autocomplete>
       </mat-form-field>
 
-      <mat-form-field class="multiplier-input" appearance="standard" *ngIf="attrSelectedRow?.id == i">
+      <mat-form-field class="multiplier-input" *ngIf="attrSelectedRow?.id == i">
         <mat-label>Множитель</mat-label>
         <input matInput type="text"
                [formControl]="unitConverterListCtrl"

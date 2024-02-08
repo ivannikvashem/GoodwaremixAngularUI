@@ -21,7 +21,7 @@
   <div class="about-product-container">
 
     <div class="media-product-container">
-      <mat-card>
+      <mat-card appearance="outlined">
         <mat-tab-group animationDuration="0ms">
           <mat-tab *ngIf="product?.images || product?.localImages" label="Фото">
             <ng-template matTabContent>
@@ -86,7 +86,7 @@
     </div>
 
     <div class="spec-product-container">
-      <mat-card style="margin-right: 0;">
+      <mat-card appearance="outlined" style="margin-right: 0;">
         <mat-card-subtitle>
           <div class="card-container">
             <h2>О товаре</h2>
@@ -107,7 +107,7 @@
         </ul>
       </mat-card>
 
-      <mat-card style="margin-top: 10px;" *ngIf="product?.attributes && product?.attributes.length > 0">
+      <mat-card appearance="outlined" style="margin-top: 10px;" *ngIf="product?.attributes && product?.attributes.length > 0">
         <mat-card-subtitle><h2>Характеристики</h2></mat-card-subtitle>
         <table mat-table [dataSource]="dataSource" class="full-width">
           <!-- Etim Column -->

@@ -6,8 +6,8 @@ import {Attribute} from "../../../models/attribute.model";
 import {ApiClient} from "../../../service/httpClient";
 import {ActivatedRoute} from "@angular/router";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
-import {MatLegacyChipInputEvent as MatChipInputEvent} from "@angular/material/legacy-chips";
-import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from "@angular/material/legacy-dialog";
+import {MatChipInputEvent} from "@angular/material/chips";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 interface AttributeType {
   value: string;

@@ -1,4 +1,4 @@
-<mat-card *ngIf="document" class="document-card" [ngStyle]="{'background-image': 'linear-gradient(to bottom, rgba(255, 255, 255,1), rgba(255,255,255,0.5)), url(&quot;' + document.preview + '&quot;)', 'background-size':'cover'}">
+<mat-card appearance="outlined" *ngIf="document" class="document-card" [ngStyle]="{'background-image': 'linear-gradient(to bottom, rgba(255, 255, 255,1), rgba(255,255,255,0.5)), url(&quot;' + document.preview + '&quot;)', 'background-size':'cover'}">
     <mat-card-header>
       <div mat-card-avatar><mat-icon>picture_as_pdf</mat-icon></div>
       <div class="card-header">

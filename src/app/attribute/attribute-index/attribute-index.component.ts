@@ -3,15 +3,15 @@ import {AttributesDataSource} from "../repo/AttributesDataSource";
 import {ApiClient} from "../../service/httpClient";
 import {ActivatedRoute, Router} from "@angular/router";
 import {tap} from "rxjs";
-import {MatLegacyPaginator as MatPaginator} from "@angular/material/legacy-paginator";
+import {MatPaginator} from "@angular/material/paginator";
 import {Supplier} from "../../models/supplier.model";
-import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
+import {MatDialog} from "@angular/material/dialog";
 import {Attribute} from "../../models/attribute.model";
 import {SwapAttributeComponent} from "../../components/shared/swap-attribute/swap-attribute.component";
 import {NotificationService} from "../../service/notification-service";
 import {LocalStorageService} from "../../service/local-storage.service";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/shared/confirm-dialog/confirm-dialog.component";
-import {MatLegacyTableDataSource as MatTableDataSource} from "@angular/material/legacy-table";
+import {MatTableDataSource} from "@angular/material/table";
 
 export interface AttrDialogData {
   oldAttributeId: string;

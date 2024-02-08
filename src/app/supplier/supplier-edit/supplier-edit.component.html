@@ -12,7 +12,7 @@
 
   <form>
     <div class="full-width">
-      <mat-card>
+      <mat-card appearance="outlined">
         <mat-tab-group animationDuration="0ms" class="mainTabGroup">
           <mat-tab label="Профиль">
             <div class="form-block-full">
@@ -36,36 +36,36 @@
             <div class="form-block-full">
               <mat-form-field class="chip-list" appearance="fill">
                 <mat-label>ИНН</mat-label>
-                <mat-chip-list #innList name="inn" [(ngModel)]="supplier.inn">
-                  <mat-chip *ngFor="let inn of supplier.inn" (removed)="removeInn(inn)">
+                <mat-chip-grid #innList name="inn" [(ngModel)]="supplier.inn">
+                  <mat-chip-row *ngFor="let inn of supplier.inn" (removed)="removeInn(inn)">
                     {{inn}}
                     <button matChipRemove>
                       <mat-icon>cancel</mat-icon>
                     </button>
-                  </mat-chip>
+                  </mat-chip-row>
                   <input [matChipInputFor]="innList"
                          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                          [matChipInputAddOnBlur]="true"
                          (matChipInputTokenEnd)="addInn($event)">
-                </mat-chip-list>
+                </mat-chip-grid>
                 <mat-icon matSuffix>send</mat-icon>
               </mat-form-field>
             </div>
             <div class="form-block-full">
               <mat-form-field class="chip-list" appearance="fill">
                 <mat-label>Бренды</mat-label>
-                <mat-chip-list #brandList name="brands" [(ngModel)]="supplier.brands">
-                  <mat-chip *ngFor="let brand of supplier.brands" (removed)="removeBrand(brand)">
+                <mat-chip-grid #brandList name="brands" [(ngModel)]="supplier.brands">
+                  <mat-chip-row *ngFor="let brand of supplier.brands" (removed)="removeBrand(brand)">
                     {{brand}}
                     <button matChipRemove>
                       <mat-icon>cancel</mat-icon>
                     </button>
-                  </mat-chip>
+                  </mat-chip-row>
                   <input [matChipInputFor]="brandList"
                          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                          [matChipInputAddOnBlur]="true"
                          (matChipInputTokenEnd)="addBrand($event)">
-                </mat-chip-list>
+                </mat-chip-grid>
                 <mat-icon matSuffix>send</mat-icon>
               </mat-form-field>
             </div>
@@ -615,17 +615,17 @@
                       <div class="form-block-double">
                         <mat-form-field class="chip-list" appearance="fill" *ngIf="config.dateFormats">
                           <mat-label>Список возможных форматов даты</mat-label>
-                          <mat-chip-list #chipList aria-label="Список возможных форматов даты" name="dateFormats" [(ngModel)]="config.dateFormats">
-                            <mat-chip *ngFor="let df of config.dateFormats" (removed)="removeDateFormat(df, config)">
+                          <mat-chip-grid #chipList aria-label="Список возможных форматов даты" name="dateFormats" [(ngModel)]="config.dateFormats">
+                            <mat-chip-row *ngFor="let df of config.dateFormats" (removed)="removeDateFormat(df, config)">
                               {{df}}
                               <button matChipRemove><mat-icon>cancel</mat-icon></button>
-                            </mat-chip>
+                            </mat-chip-row>
                             <input placeholder="dd/MM/yyyy h:mm:ss tt"
                                    [matChipInputFor]="chipList"
                                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                                    [matChipInputAddOnBlur]="true"
                                    (matChipInputTokenEnd)="addDateFormat($event, config)">
-                          </mat-chip-list>
+                          </mat-chip-grid>
                         </mat-form-field>
                       </div>
                     </mat-step>

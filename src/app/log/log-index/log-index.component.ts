@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ApiClient} from "../../service/httpClient";
-import {MatLegacyPaginator as MatPaginator} from "@angular/material/legacy-paginator";
+import {MatPaginator} from "@angular/material/paginator";
 import {merge, tap} from "rxjs";
 import {LogsDataSource} from "../repo/LogsDataSource";
 import {MatSort} from "@angular/material/sort";
@@ -12,7 +12,7 @@ import {
   ConfirmDialogComponent,
   ConfirmDialogModel
 } from "../../components/shared/confirm-dialog/confirm-dialog.component";
-import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-log-index',

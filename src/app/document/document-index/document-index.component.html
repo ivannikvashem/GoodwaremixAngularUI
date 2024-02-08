@@ -1,7 +1,7 @@
 <div class="document-container">
   <div *ngIf="isCardLayout == true">
     <div class="cards" *ngIf="isLoading">
-      <mat-card class="card" *ngFor="let i of [].constructor(pageSize)">
+      <mat-card appearance="outlined" class="card" *ngFor="let i of [].constructor(pageSize)">
         <div class="title-container-placeholder">
           <div class="icon-placeholder"></div>
           <div class="title-lines">
@@ -83,7 +83,7 @@
     </table>
   </div>
 
-  <mat-card *ngIf="dataSource.rowCount == 0 && !isLoading">
+  <mat-card appearance="outlined" *ngIf="dataSource.rowCount == 0 && !isLoading">
     По вашему запросу ничего не найдено, попробуйте изменить критерии поиска
   </mat-card>
 </div>

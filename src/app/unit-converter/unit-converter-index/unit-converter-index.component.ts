@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges} from '@angular/core';
 import {UnitConvertersDataSource} from "../repo/UnitConvertersDataSource";
 import {ApiClient} from "../../service/httpClient";
-import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
+import {MatDialog} from "@angular/material/dialog";
 import {UnitConverterEditComponent} from "../unit-converter-edit/unit-converter-edit.component";
 import {UnitConverter} from "../../models/unitConverter.model";
 import {

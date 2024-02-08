@@ -42,7 +42,7 @@
 
   <div *ngIf="isCardLayout">
     <div class="cards" *ngIf="isLoading">
-      <mat-card class="card" *ngFor="let i of [].constructor(pageSize)">
+      <mat-card appearance="outlined" class="card" *ngFor="let i of [].constructor(pageSize)">
         <div class="product-image-placeholder"></div>
         <div class="title-container-placeholder"></div>
         <div class="card-content-placeholder">
@@ -59,7 +59,7 @@
       </ng-container>
     </div>
 
-    <mat-card *ngIf="dataSource.rowCount == 0 && !isLoading">
+    <mat-card appearance="outlined" *ngIf="dataSource.rowCount == 0 && !isLoading">
       По вашему запросу ничего не найдено, попробуйте изменить критерии поиска
     </mat-card>
   </div>

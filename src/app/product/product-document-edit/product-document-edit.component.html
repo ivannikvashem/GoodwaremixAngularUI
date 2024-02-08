@@ -79,7 +79,7 @@
           </form>
         </div>
         <div class="column">
-          <mat-card>
+          <mat-card appearance="outlined">
             <div class="upload-container" *ngIf="!preloadDocumentView" (click)="fileInput.value=''; fileInput.click()" (drop)="onDocumentChange($event,true)" (dragover)="onDragOver($event)">
                 <input #fileInput type="file" accept="application/pdf" (change)="onDocumentChange($event, false)" class="upload-input"/>
                 <mat-icon class="custom-icon-size">note_add</mat-icon>

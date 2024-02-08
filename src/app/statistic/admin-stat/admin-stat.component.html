@@ -2,7 +2,7 @@
   <div class="stat-cards-container">
 
     <div class="main-stat-cards-container">
-      <mat-card class="mat-elevation-z3 main-stat-card">
+      <mat-card appearance="outlined" class="mat-elevation-z3 main-stat-card">
         <mat-card-header>
           <!--        <div mat-card-avatar><mat-icon class="customIconSize">local_offer</mat-icon></div>-->
           <mat-card-title><a class="card-link" href="/products" target="_blank">Товары</a></mat-card-title>
@@ -22,7 +22,7 @@
         </div>
       </mat-card>
 
-      <mat-card class="mat-elevation-z3 main-stat-card">
+      <mat-card appearance="outlined" class="mat-elevation-z3 main-stat-card">
         <mat-card-header>
           <!--        <div mat-card-avatar><mat-icon class="customIconSize">insert_drive_file</mat-icon></div>-->
           <mat-card-title><a class="card-link" href="/documents" target="_blank">Документы</a></mat-card-title>
@@ -41,7 +41,7 @@
         </div>
       </mat-card>
 
-      <mat-card class="mat-elevation-z3 main-stat-card">
+      <mat-card appearance="outlined" class="mat-elevation-z3 main-stat-card">
         <mat-card-header>
           <!--        <div mat-card-avatar><mat-icon class="customIconSize">list</mat-icon></div>-->
           <mat-card-title><a class="card-link" href="/attributes" target="_blank">Атрибуты</a></mat-card-title>
@@ -61,7 +61,7 @@
       </mat-card>
     </div>
 
-    <mat-card class="mat-elevation-z3 notifications">
+    <mat-card appearance="outlined" class="mat-elevation-z3 notifications">
       <mat-card-header style="display: block"><mat-card-title><span>Уведомления</span></mat-card-title></mat-card-header>
       <div class="notifications-container" *ngIf="errorsList.length > 0">
         <div class="notification-card mat-elevation-z2" *ngFor="let messages of errorsList">
@@ -101,14 +101,14 @@
       </div>
     </mat-card>-->
 
-    <mat-card class="mat-elevation-z3 import-card">
+    <mat-card appearance="outlined" class="mat-elevation-z3 import-card">
       <mat-card-title><span>Импорт</span></mat-card-title>
       <div class="chart-container">
         <canvas baseChart (chartHover)="onChartHover($event)" (chartClick)="onChartClick($event, 'import')" [type]="'line'" [options]="chartOptions" [data]="chartsData[3]?.data"></canvas>
       </div>
     </mat-card>
 
-    <mat-card class="mat-elevation-z3 notifications notifications-mobile">
+    <mat-card appearance="outlined" class="mat-elevation-z3 notifications notifications-mobile">
       <mat-card-header style="display: block"><mat-card-title><span>Уведомления ({{errorsList.length ? errorsList.length : 0}})</span></mat-card-title></mat-card-header>
       <div class="notifications-container" *ngIf="errorsList.length > 0">
         <div class="notification-card mat-elevation-z2" *ngFor="let messages of errorsList">

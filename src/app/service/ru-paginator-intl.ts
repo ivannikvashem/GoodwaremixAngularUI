@@ -1,4 +1,4 @@
-import {MatLegacyPaginatorIntl as MatPaginatorIntl} from "@angular/material/legacy-paginator";
+import {MatPaginatorIntl} from "@angular/material/paginator";
 
 const ruRangeLabel = (page:number, pageSize:number, length:number) => {
   if (length == 0 || pageSize == 0) { return `0 из ${length}`; }

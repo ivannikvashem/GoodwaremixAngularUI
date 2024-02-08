@@ -1,19 +1,19 @@
 import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {SuppliersDataSource} from "../repo/SuppliersDataSource";
 import {ApiClient} from "../../service/httpClient";
-import {MatLegacyPaginator as MatPaginator} from "@angular/material/legacy-paginator";
+import {MatPaginator} from "@angular/material/paginator";
 import {finalize, tap} from "rxjs";
 import {Router} from "@angular/router";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {Supplier} from "../../models/supplier.model";
-import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
+import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/shared/confirm-dialog/confirm-dialog.component";
 import {MatSort} from "@angular/material/sort";
 import {NotificationService} from "../../service/notification-service";
 import {LocalStorageService} from "../../service/local-storage.service";
 import {DataStateService} from "../../shared/data-state.service";
 import {SelectionModel} from "@angular/cdk/collections";
-import {MatLegacyTableDataSource as MatTableDataSource} from "@angular/material/legacy-table";
+import {MatTableDataSource} from "@angular/material/table";
 import {SupplierImportProductsComponent} from "../supplier-import-products/supplier-import-products.component";
 
 @Component({

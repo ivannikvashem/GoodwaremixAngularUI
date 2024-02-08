@@ -1,4 +1,4 @@
-<div class="mat-headline">
+<div class="mat-headline-5">
     <span> Добавление нового атрибута</span>
 </div>
 
@@ -48,36 +48,36 @@
 
   <mat-form-field class="chip-list" appearance="fill">
     <mat-label>Список возможных значений</mat-label>
-    <mat-chip-list #chipList aria-label="Список возможных значений">
-      <mat-chip *ngFor="let v of attribute?.allValues" (removed)="removePossibleValue(v)">
+    <mat-chip-grid #chipList aria-label="Список возможных значений">
+      <mat-chip-row *ngFor="let v of attribute?.allValues" (removed)="removePossibleValue(v)">
         {{v}}
         <button matChipRemove>
           <mat-icon>cancel</mat-icon>
         </button>
-      </mat-chip>
+      </mat-chip-row>
       <input placeholder="Введите значение..."
              [matChipInputFor]="chipList"
              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
              [matChipInputAddOnBlur]="addOnBlur"
              (matChipInputTokenEnd)="addPossibleValue($event)">
-    </mat-chip-list>
+    </mat-chip-grid>
   </mat-form-field>
 
   <mat-form-field class="chip-list" appearance="fill" *ngIf="attribute?.isFixed">
     <mat-label>Список возможных имен атрибута</mat-label>
-    <mat-chip-list #chipList aria-label="Список возможных имен атрибута">
-      <mat-chip *ngFor="let pn of attribute?.altValues" (removed)="removePossibleName(pn)">
+    <mat-chip-grid #chipList aria-label="Список возможных имен атрибута">
+      <mat-chip-row *ngFor="let pn of attribute?.altValues" (removed)="removePossibleName(pn)">
         {{pn}}
         <button matChipRemove>
           <mat-icon>cancel</mat-icon>
         </button>
-      </mat-chip>
+      </mat-chip-row>
       <input placeholder="Введите значение..."
              [matChipInputFor]="chipList"
              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
              [matChipInputAddOnBlur]="addOnBlur"
              (matChipInputTokenEnd)="addPossibleName($event)">
-    </mat-chip-list>
+    </mat-chip-grid>
   </mat-form-field>
 
   <div mat-dialog-actions class="actions-div">

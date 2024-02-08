@@ -24,21 +24,21 @@
 
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Список доступных поставщиков</mat-label>
-      <mat-chip-list #chipList aria-label="Список доступных поставщиков" formControlName="linkedSuppliers">
-        <mat-chip *ngFor="let supplier of userForm.value.linkedSuppliers"
+      <mat-chip-grid #chipList aria-label="Список доступных поставщиков" formControlName="linkedSuppliers">
+        <mat-chip-row *ngFor="let supplier of userForm.value.linkedSuppliers"
                   (removed)="removeSupplierFromUser(supplier)">
           {{supplier.name}}
           <button matChipRemove>
             <mat-icon>cancel</mat-icon>
           </button>
-        </mat-chip>
+        </mat-chip-row>
         <input placeholder="Введите имя объединенного поставщика"
                [formControl]="suppliersSearchCtrl"
                #suppliersSearchInput
                [matAutocomplete]="auto"
                [matChipInputFor]="chipList"
                [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
-      </mat-chip-list>
+      </mat-chip-grid>
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="supplierAutocompleteSelected($event)">
         <mat-option *ngFor="let supplier of searchFilter(supplierList, suppliersSearchInput.value)" [value]="supplier">
           {{ supplier.supplierName }}

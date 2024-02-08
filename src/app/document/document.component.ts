@@ -6,7 +6,7 @@ import {DataStateService} from "../shared/data-state.service";
 import {LocalStorageService} from "../service/local-storage.service";
 import {ProductDocumentEditComponent} from "../product/product-document-edit/product-document-edit.component";
 import {Document} from "../models/document.model";
-import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-document',

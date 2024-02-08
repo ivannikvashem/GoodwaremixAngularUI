@@ -1,3 +1,5 @@
+
+/* TODO(mdc-migration): The following rule targets internal classes of dialog that may no longer apply for the MDC version. */
 mat-dialog-content {
   margin-bottom: 10px;
 }
@@ -66,27 +68,28 @@ img {
 }
 
 
-:host::ng-deep .mat-tab-header {
+:host::ng-deep .mat-mdc-tab-header {
   display: none!important;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of chips that may no longer apply for the MDC version. */
 mat-chip {
   max-width: 840px;
 }
 
-:host::ng-deep .mat-dialog-content {
+:host::ng-deep .mat-mdc-dialog-content {
   overflow: unset;
   display: flex;
   flex-direction: column;
   max-height: 100%;
 }
-:host::ng-deep .mat-dialog-content app-product-document-edit {
+:host::ng-deep .mat-mdc-dialog-content app-product-document-edit {
   display: flex;
   flex-direction: column;
   min-height: 1px;
 }
 
-:host::ng-deep .mat-dialog-title {
+:host::ng-deep .mat-mdc-dialog-title {
   display: flex;
   margin: 0 0 10px;
 }
@@ -97,16 +100,18 @@ mat-chip {
   gap: 1rem;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
 :host::ng-deep .mat-form-field-appearance-outline .mat-form-field-wrapper {
   margin: 0;
 }
 
 @mixin xs-devices {
+  /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
   :host::ng-deep .mat-form-field-wrapper {
     padding-bottom: 5px;
   }
 
-  .mat-form-field {
+  .mat-mdc-form-field {
     width: 100%;
   }
 
@@ -131,7 +136,7 @@ mat-chip {
     }
   }
 
-  .mat-dialog-title {
+  .mat-mdc-dialog-title {
     margin: 0;
   }
 }

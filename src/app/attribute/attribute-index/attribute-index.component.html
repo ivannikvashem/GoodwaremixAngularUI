@@ -64,11 +64,11 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-    <mat-card *ngIf="isLoading">
+    <mat-card appearance="outlined" *ngIf="isLoading">
       <div class="table-placeholder-line" *ngFor="let i of [].constructor(pageSize)"></div>
     </mat-card>
 
-    <mat-card *ngIf="dataSource.rowCount == 0 && !isLoading">
+    <mat-card appearance="outlined" *ngIf="dataSource.rowCount == 0 && !isLoading">
       По вашему запросу ничего не найдено, попробуйте изменить критерии поиска
     </mat-card>
   </div>

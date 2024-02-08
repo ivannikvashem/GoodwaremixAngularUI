@@ -15,10 +15,10 @@
   </div>
 
   <div class="product-main-fields-container">
-    <mat-card class="header-card">
+    <mat-card appearance="outlined" class="header-card">
       <div class="header-form-block">
 
-        <mat-form-field appearance="standard" class="product-title-input">
+        <mat-form-field class="product-title-input">
           <mat-label>Наименование</mat-label>
           <input matInput name="title" [(ngModel)]="product.title" required>
         </mat-form-field>
@@ -26,17 +26,17 @@
         <div *ngIf="!product.id" class="supplier-autocomplete-container">
           <app-supplier-autocomplete class="full-width" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
         </div>
-        <mat-form-field *ngIf="product?.supplierName && product.id" appearance="standard" class="supplier-autocomplete-container">
+        <mat-form-field *ngIf="product?.supplierName && product.id" class="supplier-autocomplete-container">
           <mat-label>Поставщик</mat-label>
           <input matInput [value]="product.supplierName" disabled>
         </mat-form-field>
 
-        <mat-form-field appearance="standard">
+        <mat-form-field>
           <mat-label>Идентификатор товара поставщика</mat-label>
           <input matInput name="vendorId" [(ngModel)]="product.vendorId" required minlength="1">
         </mat-form-field>
 
-        <mat-form-field *ngIf="product.internalCode" appearance="standard">
+        <mat-form-field *ngIf="product.internalCode">
           <mat-label>Артикул Энергомикс</mat-label>
           <input matInput name="internalCode" [(ngModel)]="product.internalCode" disabled>
         </mat-form-field>
@@ -47,7 +47,7 @@
     </mat-card>
 
     <div class="about-product-container">
-      <mat-card class="media-tab-group">
+      <mat-card appearance="outlined" class="media-tab-group">
         <mat-tab-group animationDuration="0ms">
           <mat-tab label="Фото">
             <ng-template matTabContent>
@@ -88,19 +88,19 @@
             <ng-template matTabContent>
               <mat-form-field class="full-width" appearance="fill">
                 <mat-label>Ссылка на видео</mat-label>
-                <mat-chip-list #chipList>
-                  <mat-chip *ngFor="let item of product.videos" (removed)="removeVideo(item)">
+                <mat-chip-grid #chipList>
+                  <mat-chip-row *ngFor="let item of product.videos" (removed)="removeVideo(item)">
                     {{item}}
                     <button matChipRemove>
                       <mat-icon>cancel</mat-icon>
                     </button>
-                  </mat-chip>
+                  </mat-chip-row>
                   <input placeholder=""
                          [matChipInputFor]="chipList"
                          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                          [matChipInputAddOnBlur]="true"
                          (matChipInputTokenEnd)="addVideo($event)">
-                </mat-chip-list>
+                </mat-chip-grid>
                 <mat-hint><strong> В формате https://www.youtube.com/embed/Код видео</strong></mat-hint>
               </mat-form-field>
             </ng-template>
@@ -108,7 +108,7 @@
         </mat-tab-group>
       </mat-card>
 
-      <mat-card class="about-product-detailed-container">
+      <mat-card appearance="outlined" class="about-product-detailed-container">
         <mat-tab-group animationDuration="0ms">
           <mat-tab label="О товаре">
             <ng-template matTabContent>
@@ -154,19 +154,19 @@
 
               <mat-form-field class="full-width" appearance="fill">
                 <mat-label>ГТД</mat-label>
-                <mat-chip-list #chipList>
-                  <mat-chip *ngFor="let item of product.gtd" (removed)="removeGTD(item)">
+                <mat-chip-grid #chipList>
+                  <mat-chip-row *ngFor="let item of product.gtd" (removed)="removeGTD(item)">
                     {{item}}
                     <button matChipRemove>
                       <mat-icon>cancel</mat-icon>
                     </button>
-                  </mat-chip>
+                  </mat-chip-row>
                   <input placeholder=""
                          [matChipInputFor]="chipList"
                          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                          [matChipInputAddOnBlur]="true"
                          (matChipInputTokenEnd)="addGTD($event)">
-                </mat-chip-list>
+                </mat-chip-grid>
               </mat-form-field>
 
             </ng-template>
@@ -280,7 +280,7 @@
             </div>
 
             <div class="cards">
-              <mat-card *ngFor="let pack of product.packages" class="card">
+              <mat-card appearance="outlined" *ngFor="let pack of product.packages" class="card">
                 <div>
                   <app-package-card [pack]="pack"></app-package-card>
                   <mat-card-actions align="end" class="package-card-actions">
