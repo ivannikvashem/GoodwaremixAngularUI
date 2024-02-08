@@ -96,7 +96,7 @@ export class ProductEditComponent implements OnInit {
           this.product.netto = new Package()
         }
         if (this.product.country) {
-          this.searchCountryCtrl.setValue(this.countriesList.find(option => option.name.toLowerCase().includes(this.product.country.toLowerCase()) as Country))
+          this.searchCountryCtrl.setValue(this.countriesList.find(option => option.name.toLowerCase().includes(this.product.country.toLowerCase())) as Country);
         }
         if (this.product.vendor) {
           this.searchBrandCtrl.setValue(this.product.vendor)
@@ -386,7 +386,7 @@ export class ProductEditComponent implements OnInit {
     this.onCountrySelected()
   }
 
-  openImageDialog(image: string) {
+  openImageDialog(image: string | string[]) {
     let selectedImageIndex;
     if (this.product.images?.length > 0) {
       selectedImageIndex = this.product.images.findIndex((x:any) => x === (typeof image === "object" ? image[0] : image))
