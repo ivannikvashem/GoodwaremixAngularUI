@@ -41,9 +41,6 @@
 
     .remove-filter-btn {
       transition: 400ms;
-      height: 30px;
-      width: 30px;
-      line-height: 30px;
     }
   }
 
@@ -89,8 +86,8 @@
 
 .remove-all-filters-btn, .remove-filter-btn {
   &:hover {
-    background-color: #f44336;
-    color: white;
+    /*background-color: #f44336;*/
+    color: #f44336;
   }
 }
 

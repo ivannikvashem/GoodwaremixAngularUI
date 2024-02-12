@@ -4,8 +4,8 @@
   background: white;
 }
 mat-form-field {
-  width: 56px;
-  margin: 6px 4px 0 4px;
+  width: 90px;
+  margin: 6px 0;
   font-size: 12px;
 }
 .go-to-label {
@@ -27,4 +27,16 @@ input::-webkit-inner-spin-button {
 
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+.mat-icon {
+  height: 20px;
+  width: 20px;
+  font-size: 20px;
+}
+
+button {
+  height: 100% !important;
+  width: 32px !important;
+  padding: 0 !important;
 }

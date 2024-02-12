@@ -107,7 +107,7 @@ export class ProductEditComponent implements OnInit {
         }, error: () => {
           this.router.navigate(['page-not-found'])
         }})
-    }
+    } else { this.isLoading = false }
     this.filteredCountries = this.searchCountryCtrl.valueChanges.pipe(
       startWith(''),
       map(value => ( value ? this.countryFilter(value) : this.countriesList.slice())));

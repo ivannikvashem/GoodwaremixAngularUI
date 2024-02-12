@@ -1,107 +1,111 @@
-<div class="main">
-  <div class="modal-header-container">
-    <span class="modal-title">Фильтры</span>
-    <button class="remove-all-filters-btn" mat-raised-button (click)="clearFilters()"><span class="modal-button-text"></span><mat-icon>delete</mat-icon> Очистить фильтры</button>
-  </div>
-  <div class="filter-container">
-    <div class="filter-actions-container">
-      <app-product-ic-filter-switch [state]="withICFilter" (withICFilterEmitter)="onICFilterChanged($event)"></app-product-ic-filter-switch>
-      <app-product-verified-filter-switch [state]="isModerated" (moderatedFilterEmitter)="onVerifiedChanged($event)"></app-product-verified-filter-switch>
+<mat-dialog-content>
+  <div class="main">
+    <div class="modal-header-container">
+      <span class="modal-title">Фильтры</span>
+      <button class="remove-all-filters-btn" mat-raised-button (click)="clearFilters()"><span class="modal-button-text"></span><mat-icon>delete</mat-icon> Очистить фильтры</button>
     </div>
-    <div class="attribute-filter">
-      <mat-form-field appearance="outline" class="full-width input-form-outline-background">
-        <mat-label>Характеристика</mat-label>
-        <input matInput placeholder=""
-               [formControl]="attributeValueFilterCtrl"
-               [matAutocomplete]="attributeValuesAuto">
-        <mat-autocomplete autoActiveFirstOption #attributeValuesAuto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onAttributeValueSelected($event); attributeValueFilterCtrl.setValue(null)">
-          <mat-option *ngFor="let option of attributesList" [value]="option">
-            <strong>{{option.type}}</strong> {{option.nameAttribute}} <span class="unit-mark" *ngIf="option.unit">{{option.unit}}</span>
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
+    <div class="filter-container">
+      <div class="filter-actions-container">
+        <app-product-ic-filter-switch [state]="withICFilter" (withICFilterEmitter)="onICFilterChanged($event)"></app-product-ic-filter-switch>
+        <app-product-verified-filter-switch [state]="isModerated" (moderatedFilterEmitter)="onVerifiedChanged($event)"></app-product-verified-filter-switch>
+      </div>
+      <div class="attribute-filter">
+        <mat-form-field appearance="outline" class="full-width input-form-outline-background">
+          <mat-label>Характеристика</mat-label>
+          <input matInput placeholder=""
+                 [formControl]="attributeValueFilterCtrl"
+                 [matAutocomplete]="attributeValuesAuto">
+          <mat-autocomplete autoActiveFirstOption #attributeValuesAuto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onAttributeValueSelected($event); attributeValueFilterCtrl.setValue(null)">
+            <mat-option *ngFor="let option of attributesList" [value]="option">
+              <strong>{{option.type}}</strong> {{option.nameAttribute}} <span class="unit-mark" *ngIf="option.unit">{{option.unit}}</span>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
 
-      <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+        <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
 
-      <mat-dialog-content *ngIf="!isLoading" class="selected-filters">
-        <mat-card appearance="outlined" *ngFor="let item of attributesForFilter; let i = index" class="filter-card mat-elevation-z2">
-          <div class="title-container">
-            <div class="card-title">
-              <strong>{{item.type}}</strong> {{item.nameAttribute}}
-              <span class="unit-mark" *ngIf="item.unit">{{item.unit}}</span>
+        <div *ngIf="!isLoading" class="selected-filters">
+          <mat-card appearance="outlined" *ngFor="let item of attributesForFilter; let i = index" class="filter-card mat-elevation-z2">
+            <div class="title-container">
+              <div class="card-title">
+                <strong>{{item.type}}</strong> {{item.nameAttribute}}
+                <span class="unit-mark" *ngIf="item.unit">{{item.unit}}</span>
+              </div>
+              <button (click)="removeFilter(i)" class="remove-filter-btn" mat-icon-button><mat-icon>delete</mat-icon></button>
             </div>
-            <button (click)="removeFilter(i)" class="mat-elevation-z2 remove-filter-btn" mat-icon-button><mat-icon>delete</mat-icon></button>
-          </div>
-          <div *ngIf="item.type == 'A'">
-            <div>
-              <mat-form-field appearance="outline" class="full-width input-form-outline-background">
-                <mat-chip-grid #attrVal>
-                  <input matInput #allValueAuto placeholder="Введите значение..."
-                         [matAutocomplete]="auto"
-                         [matChipInputFor]="attrVal" (keydown.delete)="removeFilter(i)">
-                  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="attributeAllValueSelected($event.option.value, item.id); allValueAuto.value = null">
-                    <mat-option *ngFor="let option of searchFilter(allValueAuto.value, item.allValues, item.nameAttribute)" [value]="option">
-                      {{option}}
-                    </mat-option>
-                  </mat-autocomplete>
-                </mat-chip-grid>
+            <div *ngIf="item.type == 'A'">
+              <div>
+                <mat-form-field appearance="outline" class="full-width input-form-outline-background">
+                  <mat-chip-grid #attrVal>
+                    <input matInput #allValueAuto placeholder="Введите значение..."
+                           [matAutocomplete]="auto"
+                           [matChipInputFor]="attrVal" (keydown.delete)="removeFilter(i)">
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="attributeAllValueSelected($event.option.value, item.id); allValueAuto.value = null">
+                      <mat-option *ngFor="let option of searchFilter(allValueAuto.value, item.allValues, item.nameAttribute)" [value]="option">
+                        {{option}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-chip-grid>
 
-              </mat-form-field>
-              <div class="mat-chip-container">
-                <mat-chip-option *ngFor="let value of selectedValues(item.id)" (removed)="removeSelectedValue(item.id, value)">
-                  {{value}}
-                  <button matChipRemove>
-                    <mat-icon>cancel</mat-icon>
-                  </button>
-                </mat-chip-option>
+                </mat-form-field>
+                <div class="mat-chip-container">
+                  <mat-chip *ngFor="let value of selectedValues(item.id)" (removed)="removeSelectedValue(item.id, value)">
+                    {{value}}
+                    <button matChipRemove>
+                      <mat-icon>cancel</mat-icon>
+                    </button>
+                  </mat-chip>
+                </div>
               </div>
             </div>
-          </div>
 
 
-          <!--            <div *ngIf="item.type == 'N'" class="gridLayout">
-                        <div>
-                          <mat-form-field appearance="standard" class="full-width">
-                            <mat-label>Значение</mat-label>
-                            <input matInput #number (change)="addValue(item.id, number.value)" [value]="selectedValues(item.id)[0] ? selectedValues(item.id)[0] : ''">
-                            <button *ngIf="number.value" matSuffix mat-icon-button (click)="removeSelectedValue(item.id, number.value)">
-                              <mat-icon>close</mat-icon>
-                            </button>
-                          </mat-form-field>
-                        </div>
+            <!--            <div *ngIf="item.type == 'N'" class="gridLayout">
+                          <div>
+                            <mat-form-field appearance="standard" class="full-width">
+                              <mat-label>Значение</mat-label>
+                              <input matInput #number (change)="addValue(item.id, number.value)" [value]="selectedValues(item.id)[0] ? selectedValues(item.id)[0] : ''">
+                              <button *ngIf="number.value" matSuffix mat-icon-button (click)="removeSelectedValue(item.id, number.value)">
+                                <mat-icon>close</mat-icon>
+                              </button>
+                            </mat-form-field>
+                          </div>
 
-                        <button (click)="removeFilter(i)" mat-icon-button><mat-icon>delete</mat-icon></button>
-                      </div>-->
+                          <button (click)="removeFilter(i)" mat-icon-button><mat-icon>delete</mat-icon></button>
+                        </div>-->
 
-          <div *ngIf="item.type == 'R' || item.type == 'N'">
-            <div class="d-flex">
-              <mat-form-field appearance="outline" class="full-width input-form-outline-background" style="margin-right: 5px">
-                <mat-label>Минимум</mat-label>
-                <input matInput #minValue (change)="addValue(item.id, minValue.value, maxValue.value)" [value]="selectedValues(item.id)[0] ? selectedValues(item.id)[0] : ''">
-              </mat-form-field>
+            <div *ngIf="item.type == 'R' || item.type == 'N'">
+              <div class="d-flex">
+                <mat-form-field appearance="outline" class="full-width input-form-outline-background" style="margin-right: 5px">
+                  <mat-label>Минимум</mat-label>
+                  <input matInput #minValue (change)="addValue(item.id, minValue.value, maxValue.value)" [value]="selectedValues(item.id)[0] ? selectedValues(item.id)[0] : ''">
+                </mat-form-field>
 
-              <mat-form-field appearance="outline" class="full-width input-form-outline-background">
-                <mat-label>Максимум</mat-label>
-                <input matInput #maxValue (change)="addValue(item.id, minValue.value, maxValue.value)" [value]="selectedValues(item.id)[1] ? selectedValues(item.id)[1] : ''">
-              </mat-form-field>
+                <mat-form-field appearance="outline" class="full-width input-form-outline-background">
+                  <mat-label>Максимум</mat-label>
+                  <input matInput #maxValue (change)="addValue(item.id, minValue.value, maxValue.value)" [value]="selectedValues(item.id)[1] ? selectedValues(item.id)[1] : ''">
+                </mat-form-field>
+              </div>
             </div>
-          </div>
 
-          <div *ngIf="item.type == 'L'">
-            <div style="margin-top:4px;">
-              <mat-button-toggle-group class="full-width" (change)="addValue(item.id, $event.value)" [value]="selectedValues(item.id)[0] ? selectedValues(item.id)[0] : null">
-                <mat-button-toggle value="false" class="full-width">Нет</mat-button-toggle>
-                <mat-button-toggle value="true" class="full-width">Да</mat-button-toggle>
-              </mat-button-toggle-group>
+            <div *ngIf="item.type == 'L'">
+              <div style="margin-top:4px;">
+                <mat-button-toggle-group class="full-width" (change)="addValue(item.id, $event.value)" [value]="selectedValues(item.id)[0] ? selectedValues(item.id)[0] : null">
+                  <mat-button-toggle value="false" class="full-width">Нет</mat-button-toggle>
+                  <mat-button-toggle value="true" class="full-width">Да</mat-button-toggle>
+                </mat-button-toggle-group>
+              </div>
             </div>
-          </div>
 
-        </mat-card>
-      </mat-dialog-content>
+          </mat-card>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-<div mat-dialog-actions class="actions-div">
-  <button mat-raised-button (click)="onFilterCancel()" type="button">Отмена</button>
-  <button mat-raised-button color="primary" (click)="onFilterApply()">Применить</button>
-</div>
+
+  <div mat-dialog-actions class="actions-div">
+    <button mat-raised-button (click)="onFilterCancel()" type="button">Отмена</button>
+    <button mat-raised-button color="primary" (click)="onFilterApply()">Применить</button>
+  </div>
+
+</mat-dialog-content>

@@ -25,8 +25,8 @@
         </small>
       </div>
       <div *ngIf="isChangeable">
-        <button mat-mini-fab color="" (click)="openDocumentEditorDialog(document)"><mat-icon>edit</mat-icon></button>&nbsp;
-        <button mat-mini-fab color="" (click)="onAttach(true,document)"><mat-icon>delete</mat-icon></button>
+        <button mat-mini-fab color="primary" (click)="openDocumentEditorDialog(document)"><mat-icon>edit</mat-icon></button>&nbsp;
+        <button mat-mini-fab color="primary" (click)="onAttach(true,document)"><mat-icon>delete</mat-icon></button>
       </div>
       <button *ngIf="isSelectable" mat-icon-button (click)="onAttach(false,document)" matTooltip="Привязать документ"><mat-icon>attach_file</mat-icon></button>
 

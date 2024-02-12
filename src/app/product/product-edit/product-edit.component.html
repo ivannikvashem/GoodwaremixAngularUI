@@ -16,288 +16,295 @@
 
   <div class="product-main-fields-container">
     <mat-card appearance="outlined" class="header-card">
-      <div class="header-form-block">
+      <mat-card-content>
+        <div class="header-form-block">
 
-        <mat-form-field class="product-title-input">
-          <mat-label>Наименование</mat-label>
-          <input matInput name="title" [(ngModel)]="product.title" required>
-        </mat-form-field>
+          <mat-form-field class="product-title-input" appearance="outline">
+            <mat-label>Наименование</mat-label>
+            <input matInput name="title" [(ngModel)]="product.title" required>
+          </mat-form-field>
 
-        <div *ngIf="!product.id" class="supplier-autocomplete-container">
-          <app-supplier-autocomplete class="full-width" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
+          <div *ngIf="!product.id" class="supplier-autocomplete-container">
+            <app-supplier-autocomplete class="full-width" [appearance]="'outline'" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
+          </div>
+          <mat-form-field *ngIf="product?.supplierName && product.id" class="supplier-autocomplete-container" appearance="outline">
+            <mat-label>Поставщик</mat-label>
+            <input matInput [value]="product.supplierName" disabled>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Идентификатор товара поставщика</mat-label>
+            <input matInput name="vendorId" [(ngModel)]="product.vendorId" required minlength="1">
+          </mat-form-field>
+
+          <mat-form-field *ngIf="product.internalCode" appearance="outline">
+            <mat-label>Артикул Энергомикс</mat-label>
+            <input matInput name="internalCode" [(ngModel)]="product.internalCode" disabled>
+          </mat-form-field>
+          <button *ngIf="!product.internalCode" class="request-internal-code-btn" type="button" [disabled]="!internalCodeFetching || !product.vendorId" mat-raised-button (click)="RequestProductInternalCode(productId)">
+            <span class="request-internal-code-btn-span">Запросить артикул</span>
+          </button>
         </div>
-        <mat-form-field *ngIf="product?.supplierName && product.id" class="supplier-autocomplete-container">
-          <mat-label>Поставщик</mat-label>
-          <input matInput [value]="product.supplierName" disabled>
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>Идентификатор товара поставщика</mat-label>
-          <input matInput name="vendorId" [(ngModel)]="product.vendorId" required minlength="1">
-        </mat-form-field>
-
-        <mat-form-field *ngIf="product.internalCode">
-          <mat-label>Артикул Энергомикс</mat-label>
-          <input matInput name="internalCode" [(ngModel)]="product.internalCode" disabled>
-        </mat-form-field>
-        <button *ngIf="!product.internalCode" class="request-internal-code-btn" type="button" [disabled]="!internalCodeFetching || !product.vendorId" mat-raised-button (click)="RequestProductInternalCode(productId)">
-          <span class="request-internal-code-btn-span">Запросить артикул</span>
-        </button>
-      </div>
+      </mat-card-content>
     </mat-card>
 
     <div class="about-product-container">
       <mat-card appearance="outlined" class="media-tab-group">
-        <mat-tab-group animationDuration="0ms">
-          <mat-tab label="Фото">
-            <ng-template matTabContent>
+        <mat-card-content>
+          <mat-tab-group animationDuration="0ms">
+            <mat-tab label="Фото">
+              <ng-template matTabContent>
 
-              <div class="tab-panel mat-elevation-z2">
-                <span>Прикреплено {{preloadImagesView.length}} фото</span>
-                <button mat-icon-button matTooltip="Прикрепить фото" (click)="fileInput.value= ''; fileInput.click()">
-                  <mat-icon>cloud_upload</mat-icon>
-                  <input #fileInput type="file" multiple="" accept="image/gif, image/jpeg, image/png, image/jpg" (change)="onImageChange($event)" style="display:none;"/>
-                </button>
-              </div>
-
-              <div class="attached-images-container">
-                <div class="attached-image-container mat-elevation-z2" *ngFor="let img of preloadImagesView; let i = index">
-                  <button disableRipple mat-mini-fab color="warn" type="button" class="delete-img-btn" (click)="removeImage(i, img.id)">
-                    <mat-icon>delete</mat-icon>
+                <div class="tab-panel mat-elevation-z2">
+                  <span>Прикреплено {{preloadImagesView.length}} фото</span>
+                  <button mat-icon-button matTooltip="Прикрепить фото" (click)="fileInput.value= ''; fileInput.click()">
+                    <mat-icon>cloud_upload</mat-icon>
+                    <input #fileInput type="file" multiple="" accept="image/gif, image/jpeg, image/png, image/jpg" (change)="onImageChange($event)" style="display:none;"/>
                   </button>
-                  <div class="image">
-                    <img [src]="img.file" (error)="handleMissingImage($event)" class="mat-elevation-z2" (click)="openImageDialog(img.file)">
-                  </div>
                 </div>
 
-              </div>
-
-            </ng-template>
-          </mat-tab>
-
-          <mat-tab label="Фото 360">
-            <ng-template matTabContent>
-              <mat-form-field class="full-width" appearance="fill">
-                <mat-label>Ссылка на фото 360</mat-label>
-                <input matInput name="image360" [(ngModel)]="product.image360">
-              </mat-form-field>
-            </ng-template>
-          </mat-tab>
-
-          <mat-tab  label="Видео">
-            <ng-template matTabContent>
-              <mat-form-field class="full-width" appearance="fill">
-                <mat-label>Ссылка на видео</mat-label>
-                <mat-chip-grid #chipList>
-                  <mat-chip-row *ngFor="let item of product.videos" (removed)="removeVideo(item)">
-                    {{item}}
-                    <button matChipRemove>
-                      <mat-icon>cancel</mat-icon>
+                <div class="attached-images-container">
+                  <div class="attached-image-container mat-elevation-z2" *ngFor="let img of preloadImagesView; let i = index">
+                    <button disableRipple mat-mini-fab color="warn" type="button" class="delete-img-btn" (click)="removeImage(i, img.id)">
+                      <mat-icon>delete</mat-icon>
                     </button>
-                  </mat-chip-row>
-                  <input placeholder=""
-                         [matChipInputFor]="chipList"
-                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                         [matChipInputAddOnBlur]="true"
-                         (matChipInputTokenEnd)="addVideo($event)">
-                </mat-chip-grid>
-                <mat-hint><strong> В формате https://www.youtube.com/embed/Код видео</strong></mat-hint>
-              </mat-form-field>
-            </ng-template>
-          </mat-tab>
-        </mat-tab-group>
+                    <div class="image">
+                      <img [src]="img.file" (error)="handleMissingImage($event)" class="mat-elevation-z2" (click)="openImageDialog(img.file)">
+                    </div>
+                  </div>
+
+                </div>
+
+              </ng-template>
+            </mat-tab>
+
+            <mat-tab label="Фото 360">
+              <ng-template matTabContent>
+                <mat-form-field class="full-width" appearance="fill">
+                  <mat-label>Ссылка на фото 360</mat-label>
+                  <input matInput name="image360" [(ngModel)]="product.image360">
+                </mat-form-field>
+              </ng-template>
+            </mat-tab>
+
+            <mat-tab  label="Видео">
+              <ng-template matTabContent>
+                <mat-form-field class="full-width" appearance="fill">
+                  <mat-label>Ссылка на видео</mat-label>
+                  <mat-chip-grid #chipList>
+                    <mat-chip-row *ngFor="let item of product.videos" (removed)="removeVideo(item)">
+                      {{item}}
+                      <button matChipRemove>
+                        <mat-icon>cancel</mat-icon>
+                      </button>
+                    </mat-chip-row>
+                    <input placeholder=""
+                           [matChipInputFor]="chipList"
+                           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                           [matChipInputAddOnBlur]="true"
+                           (matChipInputTokenEnd)="addVideo($event)">
+                  </mat-chip-grid>
+                  <mat-hint><strong> В формате https://www.youtube.com/embed/Код видео</strong></mat-hint>
+                </mat-form-field>
+              </ng-template>
+            </mat-tab>
+          </mat-tab-group>
+        </mat-card-content>
       </mat-card>
 
       <mat-card appearance="outlined" class="about-product-detailed-container">
-        <mat-tab-group animationDuration="0ms">
-          <mat-tab label="О товаре">
-            <ng-template matTabContent>
-              <div class="formBlockFull">
-                <mat-form-field appearance="fill" class="full-width; about-form-field-double">
-                  <mat-label>Бренд</mat-label>
-                  <input matInput name="vendor" [formControl]="searchBrandCtrl" required [matAutocomplete]="autocomplBrand">
-                  <mat-autocomplete #autocomplBrand="matAutocomplete">
-                    <mat-option *ngFor="let option of brandsList" [value]="option">{{option}}</mat-option>
-                  </mat-autocomplete>
-                </mat-form-field>&nbsp;
+        <mat-card-content>
+          <mat-tab-group animationDuration="0ms">
+            <mat-tab label="О товаре">
+              <ng-template matTabContent>
+                <div class="formBlockFull">
+                  <mat-form-field appearance="fill" class="full-width; about-form-field-double">
+                    <mat-label>Бренд</mat-label>
+                    <input matInput name="vendor" [formControl]="searchBrandCtrl" required [matAutocomplete]="autocomplBrand">
+                    <mat-autocomplete #autocomplBrand="matAutocomplete">
+                      <mat-option *ngFor="let option of brandsList" [value]="option">{{option}}</mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>&nbsp;
 
-                <mat-form-field appearance="fill" class="full-width; about-form-field-double">
-                  <mat-label>Страна производства</mat-label>
-                  <input matInput placeholder=""
-                         [formControl]="searchCountryCtrl"
-                         [matAutocomplete]="autocomplCountry">
-                  <mat-autocomplete autoActiveFirstOption #autocomplCountry="matAutocomplete" [displayWith]="displayCountryFn" (optionSelected)="onCountrySelected()">
-                    <mat-option *ngFor="let option of filteredCountries | async" [value]="option">
-                      {{option.name}}
-                    </mat-option>
-                  </mat-autocomplete>
-                  <button *ngIf="searchCountryCtrl.value" matSuffix aria-label="Clear" type="button" (click)="onCountryClearSelection()" style="border: none; background: transparent; cursor: pointer">
-                    <mat-icon>close</mat-icon>
-                  </button>
-                </mat-form-field>
-              </div>
-
-              <mat-form-field appearance="fill" class="full-width">
-                <mat-label>Полное наименование</mat-label>
-                <input matInput name="titleLong" [(ngModel)]="product.titleLong" [maxLength]="255">
-              </mat-form-field>
-
-              <mat-form-field appearance="fill" class="full-width">
-                <mat-label>Описание</mat-label>
-                <textarea matInput name="description" cdkTextareaAutosize cdkAutosizeMinRows="3" cdkAutosizeMaxRows="15"  [(ngModel)]="product.description"></textarea>
-              </mat-form-field>
-
-              <mat-form-field appearance="fill" class="full-width">
-                <mat-label>Описание 1C</mat-label>
-                <textarea matInput name="description" cdkTextareaAutosize cdkAutosizeMinRows="3" cdkAutosizeMaxRows="15"  [(ngModel)]="product.customDescription"></textarea>
-              </mat-form-field>
-
-              <mat-form-field class="full-width" appearance="fill">
-                <mat-label>ГТД</mat-label>
-                <mat-chip-grid #chipList>
-                  <mat-chip-row *ngFor="let item of product.gtd" (removed)="removeGTD(item)">
-                    {{item}}
-                    <button matChipRemove>
-                      <mat-icon>cancel</mat-icon>
+                  <mat-form-field appearance="fill" class="full-width; about-form-field-double">
+                    <mat-label>Страна производства</mat-label>
+                    <input matInput placeholder=""
+                           [formControl]="searchCountryCtrl"
+                           [matAutocomplete]="autocomplCountry">
+                    <mat-autocomplete autoActiveFirstOption #autocomplCountry="matAutocomplete" [displayWith]="displayCountryFn" (optionSelected)="onCountrySelected()">
+                      <mat-option *ngFor="let option of filteredCountries | async" [value]="option">
+                        {{option.name}}
+                      </mat-option>
+                    </mat-autocomplete>
+                    <button *ngIf="searchCountryCtrl.value" matSuffix aria-label="Clear" type="button" (click)="onCountryClearSelection()" style="border: none; background: transparent; cursor: pointer">
+                      <mat-icon>close</mat-icon>
                     </button>
-                  </mat-chip-row>
-                  <input placeholder=""
-                         [matChipInputFor]="chipList"
-                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                         [matChipInputAddOnBlur]="true"
-                         (matChipInputTokenEnd)="addGTD($event)">
-                </mat-chip-grid>
-              </mat-form-field>
+                  </mat-form-field>
+                </div>
 
-            </ng-template>
-          </mat-tab>
+                <mat-form-field appearance="fill" class="full-width">
+                  <mat-label>Полное наименование</mat-label>
+                  <input matInput name="titleLong" [(ngModel)]="product.titleLong" [maxLength]="255">
+                </mat-form-field>
 
-          <mat-tab label="Характеристики">
-            <ng-template matTabContent>
-              <table mat-table [dataSource]="attrDataSource" class="mat-elevation-z8; full-width">
-                <!-- attributeKey Column -->
-                <ng-container matColumnDef="attributeKey" class="full-width">
-                  <th mat-header-cell *matHeaderCellDef> Характеристика </th>
-                  <td mat-cell *matCellDef="let row"><strong *ngIf="row.type">{{row.type}}</strong>
-                    <span [style.color]="!isTypeValid(row.objectValue, row.type) ? 'red' : 'black'"> {{row.attributeName}} </span>
-                  </td>
-                </ng-container>
-                <!-- attributeValue Column -->
-                <ng-container matColumnDef="attributeValue" class="full-width">
-                  <th mat-header-cell *matHeaderCellDef> Значение </th>
-                  <td mat-cell *matCellDef="let row">
+                <mat-form-field appearance="fill" class="full-width">
+                  <mat-label>Описание</mat-label>
+                  <textarea matInput name="description" cdkTextareaAutosize cdkAutosizeMinRows="3" cdkAutosizeMaxRows="15"  [(ngModel)]="product.description"></textarea>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill" class="full-width">
+                  <mat-label>Описание 1C</mat-label>
+                  <textarea matInput name="description" cdkTextareaAutosize cdkAutosizeMinRows="3" cdkAutosizeMaxRows="15"  [(ngModel)]="product.customDescription"></textarea>
+                </mat-form-field>
+
+                <mat-form-field class="full-width" appearance="fill">
+                  <mat-label>ГТД</mat-label>
+                  <mat-chip-grid #chipList>
+                    <mat-chip-row *ngFor="let item of product.gtd" (removed)="removeGTD(item)">
+                      {{item}}
+                      <button matChipRemove>
+                        <mat-icon>cancel</mat-icon>
+                      </button>
+                    </mat-chip-row>
+                    <input placeholder=""
+                           [matChipInputFor]="chipList"
+                           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                           [matChipInputAddOnBlur]="true"
+                           (matChipInputTokenEnd)="addGTD($event)">
+                  </mat-chip-grid>
+                </mat-form-field>
+
+              </ng-template>
+            </mat-tab>
+
+            <mat-tab label="Характеристики">
+              <ng-template matTabContent>
+                <table mat-table [dataSource]="attrDataSource" class="mat-elevation-z8; full-width">
+                  <!-- attributeKey Column -->
+                  <ng-container matColumnDef="attributeKey" class="full-width">
+                    <th mat-header-cell *matHeaderCellDef> Характеристика </th>
+                    <td mat-cell *matCellDef="let row"><strong *ngIf="row.type">{{row.type}}</strong>
+                      <span [style.color]="!isTypeValid(row.objectValue, row.type) ? 'red' : 'black'"> {{row.attributeName}} </span>
+                    </td>
+                  </ng-container>
+                  <!-- attributeValue Column -->
+                  <ng-container matColumnDef="attributeValue" class="full-width">
+                    <th mat-header-cell *matHeaderCellDef> Значение </th>
+                    <td mat-cell *matCellDef="let row">
                   <span *ngIf="row.type == 'R'">
                     <span *ngIf="row.objectValue?.minValue != undefined && row.objectValue?.maxValue != undefined">{{row.objectValue?.minValue + '...' + row.objectValue?.maxValue}} </span>
                     <span *ngIf="row.objectValue?.minValue == undefined && row.objectValue?.maxValue == undefined">{{row.objectValue?.value}}</span>
                   </span>
-                    <span *ngIf="row.type == 'L'">
+                      <span *ngIf="row.type == 'L'">
                     <span *ngIf="typeofLogicalAttribute(row.objectValue.value) == 'boolean'; else logicalTypeString">{{row.objectValue.value ? 'Да' : 'Нет'}} </span>
                     <ng-template #logicalTypeString>{{row.objectValue.value}}</ng-template>
                   </span>
-                    <span *ngIf="row.type !== 'R' && row.type !== 'L'"> {{row.objectValue?.value}} </span>
-                    <span class="unit-mark" *ngIf="row.unit">{{row.unit}}</span></td>
-                </ng-container>
-                <!-- actions Column -->
-                <ng-container matColumnDef="action" class="full-width">
-                  <th mat-header-cell *matHeaderCellDef>
-                    <button mat-icon-button (click)="openAttributeEditorDialog(true)"><mat-icon>add</mat-icon></button>
-                  </th>
-                  <td mat-cell *matCellDef="let row; let i = index">
-                    <button mat-icon-button matTooltip="Редактировать" (click)="openAttributeEditorDialog(isTypeValid(row.objectValue, row.type), row)"><mat-icon>edit</mat-icon></button>
-                    <button mat-icon-button matTooltip="Удалить" (click)="deleteAttrRow(i)"><mat-icon>delete</mat-icon></button>
-                  </td>
-                </ng-container>
+                      <span *ngIf="row.type !== 'R' && row.type !== 'L'"> {{row.objectValue?.value}} </span>
+                      <span class="unit-mark" *ngIf="row.unit">{{row.unit}}</span></td>
+                  </ng-container>
+                  <!-- actions Column -->
+                  <ng-container matColumnDef="action" class="full-width">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <button mat-icon-button (click)="openAttributeEditorDialog(true)"><mat-icon>add</mat-icon></button>
+                    </th>
+                    <td mat-cell *matCellDef="let row; let i = index">
+                      <button mat-icon-button matTooltip="Редактировать" (click)="openAttributeEditorDialog(isTypeValid(row.objectValue, row.type), row)"><mat-icon>edit</mat-icon></button>
+                      <button mat-icon-button matTooltip="Удалить" (click)="deleteAttrRow(i)"><mat-icon>delete</mat-icon></button>
+                    </td>
+                  </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="attributeColumns; sticky: true" ></tr>
-                <tr mat-row *matRowDef="let row; columns: attributeColumns;"></tr>
-              </table>
-            </ng-template>
-          </mat-tab>
+                  <tr mat-header-row *matHeaderRowDef="attributeColumns; sticky: true" ></tr>
+                  <tr mat-row *matRowDef="let row; columns: attributeColumns;"></tr>
+                </table>
+              </ng-template>
+            </mat-tab>
 
-          <mat-tab label="Вес и габариты">
-            <ng-template matTabContent>
+            <mat-tab label="Вес и габариты">
+              <ng-template matTabContent>
 
-              <div style="padding: 10px 0">
-                <div class="formBlockFull">
-                  <mat-form-field appearance="fill" class="full-width">
-                    <mat-label>Штрихкод</mat-label>
-                    <input matInput [(ngModel)]="product.netto.barcode" name="barcode" required>
-                  </mat-form-field>
+                <div style="padding: 10px 0">
+                  <div class="formBlockFull">
+                    <mat-form-field appearance="fill" class="full-width">
+                      <mat-label>Штрихкод</mat-label>
+                      <input matInput [(ngModel)]="product.netto.barcode" name="barcode" required>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="formBlockFull">
+                    <mat-form-field appearance="fill" class="full-width; package-form-field-triple">
+                      <mat-label>Тип</mat-label>
+                      <input matInput [(ngModel)]="product.netto.type" name="type">
+                    </mat-form-field>&nbsp;
+
+                    <mat-form-field appearance="fill" class="full-width; package-form-field-triple">
+                      <mat-label>Кол-во в упаковке</mat-label>
+                      <input matInput [(ngModel)]="product.netto.packQty" name="packQty" type="number" min="0" pattern="\d*">
+                    </mat-form-field>&nbsp;
+
+                    <mat-form-field appearance="fill" class="full-width; package-form-field-triple">
+                      <mat-label>Вес</mat-label>
+                      <input matInput [(ngModel)]="product.netto.weight" name="weight" type="number" min="0">
+                      <span matSuffix>гр</span>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="formBlockFull">
+                    <mat-form-field appearance="fill" class="full-width; package-form-field-fourth">
+                      <mat-label>Ширина</mat-label>
+                      <input matInput [(ngModel)]="product.netto.width" #width name="width" type="number" min="0" step="0.5">
+                      <span matSuffix>см</span>
+                    </mat-form-field>&nbsp;
+
+                    <mat-form-field appearance="fill" class="full-width; package-form-field-fourth">
+                      <mat-label>Высота</mat-label>
+                      <input matInput [(ngModel)]="product.netto.height" #height name="height"  type="number" min="0" step="0.5">
+                      <span matSuffix>см</span>
+                    </mat-form-field>&nbsp;
+
+                    <mat-form-field appearance="fill" class="full-width; package-form-field-fourth">
+                      <mat-label>Глубина</mat-label>
+                      <input matInput [(ngModel)]="product.netto.depth" #depth name="depth" type="number" min="0" step="0.5">
+                      <span matSuffix>см</span>
+                    </mat-form-field>&nbsp;
+
+                    <mat-form-field appearance="fill" class="full-width; package-form-field-fourth">
+                      <mat-label>Объём</mat-label>
+                      <input matInput value="{{Math.round(((width.value * height.value * depth.value) + Eps) * 100) / 100}}" [(ngModel)]="product.netto.volume" name="volume" type="number" min="0">
+                      <span matSuffix>см<sup>3</sup></span>
+                    </mat-form-field>
+                  </div>
                 </div>
+              </ng-template>
+            </mat-tab>
 
-                <div class="formBlockFull">
-                  <mat-form-field appearance="fill" class="full-width; package-form-field-triple">
-                    <mat-label>Тип</mat-label>
-                    <input matInput [(ngModel)]="product.netto.type" name="type">
-                  </mat-form-field>&nbsp;
+            <mat-tab label="Упаковка">
 
-                  <mat-form-field appearance="fill" class="full-width; package-form-field-triple">
-                    <mat-label>Кол-во в упаковке</mat-label>
-                    <input matInput [(ngModel)]="product.netto.packQty" name="packQty" type="number" min="0" pattern="\d*">
-                  </mat-form-field>&nbsp;
-
-                  <mat-form-field appearance="fill" class="full-width; package-form-field-triple">
-                    <mat-label>Вес</mat-label>
-                    <input matInput [(ngModel)]="product.netto.weight" name="weight" type="number" min="0">
-                    <span matSuffix>гр</span>
-                  </mat-form-field>
-                </div>
-
-                <div class="formBlockFull">
-                  <mat-form-field appearance="fill" class="full-width; package-form-field-fourth">
-                    <mat-label>Ширина</mat-label>
-                    <input matInput [(ngModel)]="product.netto.width" #width name="width" type="number" min="0" step="0.5">
-                    <span matSuffix>см</span>
-                  </mat-form-field>&nbsp;
-
-                  <mat-form-field appearance="fill" class="full-width; package-form-field-fourth">
-                    <mat-label>Высота</mat-label>
-                    <input matInput [(ngModel)]="product.netto.height" #height name="height"  type="number" min="0" step="0.5">
-                    <span matSuffix>см</span>
-                  </mat-form-field>&nbsp;
-
-                  <mat-form-field appearance="fill" class="full-width; package-form-field-fourth">
-                    <mat-label>Глубина</mat-label>
-                    <input matInput [(ngModel)]="product.netto.depth" #depth name="depth" type="number" min="0" step="0.5">
-                    <span matSuffix>см</span>
-                  </mat-form-field>&nbsp;
-
-                  <mat-form-field appearance="fill" class="full-width; package-form-field-fourth">
-                    <mat-label>Объём</mat-label>
-                    <input matInput value="{{Math.round(((width.value * height.value * depth.value) + Eps) * 100) / 100}}" [(ngModel)]="product.netto.volume" name="volume" type="number" min="0">
-                    <span matSuffix>см<sup>3</sup></span>
-                  </mat-form-field>
-                </div>
+              <div class="tab-panel mat-elevation-z2">
+                <span>К товару прикреплено {{product.packages.length}} упак.</span>
+                <button mat-button (click)="openPackageEditorDialog()"><mat-icon>add</mat-icon> Добавить</button>
               </div>
-            </ng-template>
-          </mat-tab>
 
-          <mat-tab label="Упаковка">
+              <div class="cards">
+                <mat-card appearance="outlined" *ngFor="let pack of product.packages" class="card">
+                  <div>
+                    <app-package-card [pack]="pack"></app-package-card>
+                    <mat-card-actions align="end" class="package-card-actions">
+                      <button mat-mini-fab color="" matTooltip="Редактировать" (click)="openPackageEditorDialog(pack)"><mat-icon>edit</mat-icon></button>
+                      <button mat-mini-fab color="" matTooltip="Удалить" (click)="deletePackageRow(pack)"><mat-icon>delete</mat-icon></button>
+                    </mat-card-actions>
+                  </div>
+                </mat-card>
+              </div>
+            </mat-tab>
 
-            <div class="tab-panel mat-elevation-z2">
-              <span>К товару прикреплено {{product.packages.length}} упак.</span>
-              <button mat-button (click)="openPackageEditorDialog()"><mat-icon>add</mat-icon> Добавить</button>
-            </div>
+            <mat-tab label="Документы">
+              <ng-template matTabContent>
+                <app-product-document-list [supplierId]="product.supplierId" [document]="product.documents" [isChangeable]="true" [isSelectable]="false" (documentList)="onDocumentsChanged($event)"></app-product-document-list>
+              </ng-template>
+            </mat-tab>
+          </mat-tab-group>
 
-            <div class="cards">
-              <mat-card appearance="outlined" *ngFor="let pack of product.packages" class="card">
-                <div>
-                  <app-package-card [pack]="pack"></app-package-card>
-                  <mat-card-actions align="end" class="package-card-actions">
-                    <button mat-mini-fab color="" matTooltip="Редактировать" (click)="openPackageEditorDialog(pack)"><mat-icon>edit</mat-icon></button>
-                    <button mat-mini-fab color="" matTooltip="Удалить" (click)="deletePackageRow(pack)"><mat-icon>delete</mat-icon></button>
-                  </mat-card-actions>
-                </div>
-              </mat-card>
-            </div>
-          </mat-tab>
-
-          <mat-tab label="Документы">
-            <ng-template matTabContent>
-              <app-product-document-list [supplierId]="product.supplierId" [document]="product.documents" [isChangeable]="true" [isSelectable]="false" (documentList)="onDocumentsChanged($event)"></app-product-document-list>
-            </ng-template>
-          </mat-tab>
-        </mat-tab-group>
+        </mat-card-content>
       </mat-card>
     </div>
   </div>

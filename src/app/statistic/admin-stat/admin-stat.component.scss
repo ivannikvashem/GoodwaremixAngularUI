@@ -12,12 +12,12 @@ canvas {
   .stat-cards-container {
     display: grid;
     grid-template-columns: repeat(3, minmax(250px, 1920px)) minmax(250px, 250px);
-    gap: 1rem;
+    gap: 8px;
 
     .main-stat-cards-container {
       display: grid;
       grid-column: span 3;
-      gap: 1rem;
+      gap: 8px;
       grid-template-columns: repeat(3, 1fr);
 
       .main-stat-card {

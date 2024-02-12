@@ -79,13 +79,13 @@
 }
 
 /* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version. */
-:host::ng-deep .mat-checkbox-inner-container {
+:host::ng-deep .mat-mdc-checkbox-inner-container {
   height: 25px !important;
   width: 26px !important;
 }
 
 /* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version. */
-:host::ng-deep .mat-checkbox-frame {
+:host::ng-deep .mat-mdc-checkbox-frame {
   border-radius: 50% !important;
   border-color: white !important;
 }
@@ -102,7 +102,7 @@
 
 :host::ng-deep .mat-mdc-checkbox {
   /* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version. */
-  .mat-checkbox-layout {
+  .mat-mdc-checkbox-layout {
     padding: 7px;
   }
 }

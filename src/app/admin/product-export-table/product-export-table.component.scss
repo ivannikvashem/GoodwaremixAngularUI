@@ -29,7 +29,7 @@
 
 .mat-mdc-cell {
   vertical-align: top;
-  padding: 8px 8px 8px 0;
+  padding: 8px;
 }
 
 .mat-mdc-row {
@@ -38,4 +38,9 @@
 
 .cell-image {
   object-fit: cover;
+}
+
+.mat-column-checkbox {
+  width: 40px;
+  text-align: center !important;
 }

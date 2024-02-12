@@ -16,6 +16,20 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 
+.mat-mdc-form-field-subscript-wrapper { display: none; }
+
+.mat-mdc-text-field-wrapper {
+  background-color: white !important;
+}
+
+::ng-deep .mat-mdc-unelevated-button>.mat-icon, .mat-mdc-raised-button > .mat-icon, .mat-mdc-outlined-button > .mat-icon {
+  margin-right: unset !important;
+  font-size: 24px !important;
+  margin-left: unset !important;
+  height: auto !important;
+  width: auto !important;
+}
+
 html {
   background: var(--body-background-color)
 }
@@ -155,17 +169,17 @@ a:hover {
   text-decoration: none;
 }
 
-.success-snackbar {
+::ng-deep .success-snackbar {
   background: green;
   color:white;
 }
 
-.error-snackbar {
+::ng-deep .error-snackbar {
   background: #f44336;
   color:white;
 }
 
-.warning-snackbar {
+::ng-deep .warning-snackbar {
   background: darkorange;
   color:white;
 }

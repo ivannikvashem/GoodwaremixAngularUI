@@ -53,7 +53,7 @@
           <mat-hint align="start"><strong><a href="https://www.freeformatter.com/cron-expression-generator-quartz.html" target="_blank">Подробнее <small>(ссылка)</small></a></strong></mat-hint>
         </mat-form-field>
 
-        <div>
+        <div class="toggle-actions">
           <mat-button-toggle-group formControlName="isEnable">
             <mat-button-toggle [value]="true"><mat-icon>play_arrow</mat-icon>Активна</mat-button-toggle>
             <mat-button-toggle [value]="false"><mat-icon>stop</mat-icon>Выключена</mat-button-toggle>
@@ -61,7 +61,7 @@
         </div>
       </div>
 
-      <mat-card appearance="outlined" class="cron-example-card">
+<!--      <mat-card appearance="outlined" class="cron-example-card">
         <div>Структура cron</div>
         <div class="cron-line"><strong class="cron-dot">*</strong><span class="cron-text"> ── Секунды</span></div>
         <div class="cron-line"><strong class="cron-dot">*</strong><span class="cron-text"> ── Минуты</span></div>
@@ -70,12 +70,12 @@
         <div class="cron-line"><strong class="cron-dot">*</strong><span class="cron-text"> ── Месяц</span></div>
         <div class="cron-line"><strong class="cron-dot">*</strong><span class="cron-text"> ── День недели</span></div>
         <div class="cron-line"><strong class="cron-dot">*</strong><span class="cron-text"> ── Год</span></div>
-      </mat-card>
+      </mat-card>-->
     </div>
   </form>
 
 </mat-dialog-content>
 
-<mat-dialog-actions>
+<mat-dialog-actions >
   <button mat-raised-button color="primary" [mat-dialog-close]="data" (click)="onSubmitClick()" [disabled]="fb.invalid || supplier?.id == null">Сохранить</button>
 </mat-dialog-actions>

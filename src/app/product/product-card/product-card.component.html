@@ -2,12 +2,13 @@
   <div class="card-action-layer">
 
     <div class="card-action-container">
-      <button mat-mini-fab color="primary" class="action-item" [style.visibility]="selected ? 'visible': ''">
-        <mat-checkbox color="primary" [ngModel]="selected" (change)="onChecked($event)"></mat-checkbox>
+      <button mat-mini-fab color="primary" class="action-item" (click)="selected = !selected; onChecked()" [style.visibility]="selected ? 'visible': ''">
+        <mat-icon>{{selected ? 'done' : 'radio_button_unchecked'}}</mat-icon>
       </button>
-      <a *ngIf="roles.includes('goodware-manager');" mat-mini-fab color="primary" class="mat-elevation-z2 action-item" [href]="'product-edit/' + product.id">
+
+      <button *ngIf="roles.includes('goodware-manager');" mat-mini-fab color="primary" class="mat-elevation-z2 action-item" (mousedown)="editProduct('/product-edit/' + product.id, $event)">
         <mat-icon>edit</mat-icon>
-      </a>
+      </button>
     </div>
   </div>
 
