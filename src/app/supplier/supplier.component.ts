@@ -7,7 +7,8 @@ import {Subscription, take} from "rxjs";
 
 @Component({
   selector: 'app-supplier',
-  templateUrl: './supplier.component.html'
+  templateUrl: './supplier.component.html',
+  styleUrls: ['./supplier.component.css']
 })
 export class SupplierComponent implements OnInit {
 

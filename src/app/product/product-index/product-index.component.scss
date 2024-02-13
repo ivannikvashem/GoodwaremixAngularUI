@@ -75,6 +75,10 @@
   height: 100%;
 }
 
+.mat-mdc-menu-item .mat-icon {
+  margin-right: 8px!important;
+}
+
 @keyframes shine {
   to {
     background-position-x: -200%;

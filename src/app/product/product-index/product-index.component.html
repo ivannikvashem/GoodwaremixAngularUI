@@ -13,22 +13,36 @@
       </div>
 
       <div class="toolbox-item">
-        <button class="full-height" mat-button [matMenuTriggerFor]="downloadImgMenu"><span class="button-text">Загрузить фото</span><mat-icon>download</mat-icon></button>
+        <button class="full-height" (click)="downloadProductsInXLS()" mat-button><span class="button-text">Выгрузка XLS</span><mat-icon iconPositionEnd>download</mat-icon></button>
+      </div>
+
+      <div class="toolbox-item">
+        <button class="full-height" mat-button [matMenuTriggerFor]="downloadImgMenu"><span class="button-text">Скачать фото</span><mat-icon iconPositionEnd>download</mat-icon></button>
         <mat-menu #downloadImgMenu="matMenu">
-          <button mat-menu-item (click)="downloadProductsImage(true)">JPEG формат</button>
-          <button mat-menu-item (click)="downloadProductsImage(null)">Оригинальный формат</button>
+          <button mat-menu-item [matMenuTriggerFor]="downloadSinglePhoto"><mat-icon>photo</mat-icon>Первую фотографию</button>
+          <button mat-menu-item [matMenuTriggerFor]="downloadArchiveOfPhotos"><mat-icon>photo_album</mat-icon>Коллекцию фотографий</button>
+        </mat-menu>
+
+        <mat-menu #downloadSinglePhoto="matMenu">
+          <button mat-menu-item (click)="downloadProductsImage(true, null)">JPEG формат</button>
+          <button mat-menu-item (click)="downloadProductsImage(null, null)">Оригинальный формат</button>
+        </mat-menu>
+
+        <mat-menu #downloadArchiveOfPhotos="matMenu">
+          <button mat-menu-item (click)="downloadProductsImage(true, true)">JPEG формат</button>
+          <button mat-menu-item (click)="downloadProductsImage(null, true)">Оригинальный формат</button>
         </mat-menu>
       </div>
 
       <div class="toolbox-item" *ngIf="roles.includes('goodware-admin')">
-        <button class="full-height" mat-button (click)="confirmDeleteDialog()"><span class="button-text">Удалить</span><mat-icon>delete</mat-icon></button>
+        <button class="full-height" mat-button (click)="confirmDeleteDialog()"><span class="button-text">Удалить</span><mat-icon iconPositionEnd>delete</mat-icon></button>
       </div>
     </div>
   </div>
 
   <div *ngIf="isCardLayout">
     <div class="cards" *ngIf="isLoading">
-      <mat-card class="card" *ngFor="let i of [].constructor(pageSize)">
+      <mat-card appearance="outlined" class="card" *ngFor="let i of [].constructor(pageSize)">
         <div class="product-image-placeholder"></div>
         <div class="title-container-placeholder"></div>
         <div class="card-content-placeholder">
@@ -45,12 +59,12 @@
       </ng-container>
     </div>
 
-    <mat-card *ngIf="dataSource.rowCount == 0 && !isLoading">
-      По вашему запросу ничего не найдено, попробуйте изменить критерии поиска
+    <mat-card appearance="outlined" *ngIf="dataSource.rowCount == 0 && !isLoading">
+      <mat-card-content>По вашему запросу ничего не найдено, попробуйте изменить критерии поиска</mat-card-content>
     </mat-card>
   </div>
 
-  <app-product-export-table [dataSource]="productsList" *ngIf="!isCardLayout"></app-product-export-table>
+  <app-product-export-table [dataSource]="productsList" [pageSize]="pageSize" *ngIf="!isCardLayout"></app-product-export-table>
 </div>
 
 <app-mat-paginator-goto class="paginator-fixed mat-elevation-z8" [style.visibility]="dataSource.rowCount > -1 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[12,24,48,96] (matPaginatorGoTo)="paginatorChanged($event)" aria-label="Страница"></app-mat-paginator-goto>

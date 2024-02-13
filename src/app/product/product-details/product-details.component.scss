@@ -5,7 +5,7 @@
 
   .media-product-container {
     width: 30%;
-    .mat-card {
+    .mat-mdc-card {
       padding-top: 0;
     }
   }
@@ -35,7 +35,7 @@
   margin-top: 10px;
 }
 
-.mat-card {
+.mat-mdc-card {
   height:auto;
   min-height: 20px;
   margin-right: 10px;
@@ -43,7 +43,7 @@
   flex-direction: column;
 }
 
-.mat-card:last-child {
+.mat-mdc-card:last-child {
   margin-right: 0;
 }
 
@@ -59,7 +59,7 @@
   width: 30px;
 }
 
-th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
+th.mat-mdc-header-cell:last-of-type, td.mat-mdc-cell:last-of-type, td.mat-mdc-footer-cell:last-of-type {
   padding-right: 16px;
 }
 
@@ -68,10 +68,11 @@ td, th, .mat-line {
   word-wrap: break-word;
   max-width: 200px;
 }
-tr.mat-row {
+tr.mat-mdc-row {
   height: 35px;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
 ::ng-deep.mat-tab-label, ::ng-deep.mat-tab-label-active{
   min-width: 100px!important;
   padding: 3px!important;
@@ -92,33 +93,35 @@ tr.mat-row {
   justify-content: space-between;
 }
 
-.mat-card-header {
+.mat-mdc-card-header {
   flex-shrink: 0;
+  padding: 0 16px 0;
+  display: unset;
 }
 
-.mat-card-content{
+.mat-mdc-card-content{
   flex-grow: 1;
   overflow: auto;
   margin-bottom: 0;
 }
 
-.mat-card-actions {
+.mat-mdc-card-actions {
   padding: 0;
 }
 
-.mat-card-avatar {
+.mat-mdc-card-avatar {
   height:24px;
   width:24px;
 }
 
-:host::ng-deep .mat-card-header-text {
+:host::ng-deep .mat-mdc-card-header-text {
   margin: 0 6px;
 }
 
-:host::ng-deep .mat-card-subtitle {
+:host::ng-deep .mat-mdc-card-subtitle {
   margin: 0;
 }
-:host::ng-deep .mat-card {
+:host::ng-deep .mat-mdc-card {
   padding-top: 0;
 }
 
@@ -138,6 +141,10 @@ tr.mat-row {
   display: none;
 }
 
+::ng-deep .invisible-tabs .mat-mdc-tab-header {
+    display: none !important;
+}
+
 @mixin xs-devices {
   .floating-edit-btn {
     display: block;
@@ -153,8 +160,8 @@ tr.mat-row {
 
   .about-product-container {
     display: block;
-    .mat-card {
-      margin-bottom: 10px;
+    .mat-mdc-card {
+      margin-bottom: 100px;
       margin-right: 0;
     }
     .media-product-container {
@@ -184,7 +191,7 @@ tr.mat-row {
     }
   }
 
-  .mat-card {
+  .mat-mdc-card {
     margin-right: 0;
   }
 }
@@ -203,7 +210,7 @@ tr.mat-row {
     }
   }
 
-  .mat-card {
+  .mat-mdc-card {
     margin-right: 10px;
   }
 }
@@ -222,7 +229,7 @@ tr.mat-row {
     }
   }
 
-  .mat-card {
+  .mat-mdc-card {
     margin-right: 10px;
   }
 }

@@ -5,35 +5,36 @@
   height: auto;
 }
 
-.mat-card{
+.mat-mdc-card{
   display:flex;
   flex-direction: column;
 }
 
-.mat-card-header {
+.mat-mdc-card-header {
   flex-shrink: 0;
 }
 
-.mat-card-content{
+.mat-mdc-card-content{
   flex-grow: 1;
   overflow: auto;
 }
 
-.mat-card-actions {
+.mat-mdc-card-actions {
   padding: 0;
   vertical-align: bottom;
 }
 
-.mat-card-avatar {
+.mat-mdc-card-avatar {
   height:24px;
   width:24px;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
 :host::ng-deep .mat-card-header-text {
   margin: 0 6px;
 }
 
-:host::ng-deep .mat-card-subtitle {
+:host::ng-deep .mat-mdc-card-subtitle {
   padding-bottom: 0;
   margin-bottom: 0;
 }

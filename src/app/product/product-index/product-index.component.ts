@@ -107,6 +107,7 @@ export class ProductIndexComponent implements OnInit {
     const dialogData = new ConfirmDialogModel("Подтверждение", message);
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       panelClass: 'full-width',
+      maxWidth: 300,
       data: dialogData
     });
 
@@ -123,7 +124,7 @@ export class ProductIndexComponent implements OnInit {
 
   selectAll() {
     for (let product of this.productsList) {
-      this.dss.setSelectedProduct({id:product.id,vendorId:product.vendorId, internalCode: product.internalCode})
+      this.dss.setSelectedProduct({id:product.id, vendorId:product.vendorId, internalCode:product.internalCode, title:product.title, image:product.thumbnails ? product.thumbnails : product.images})
     }
   }
 
@@ -140,8 +141,12 @@ export class ProductIndexComponent implements OnInit {
     });
   }
 
-  downloadProductsImage(jpegFormat:boolean) {
-    this.dataSource.downloadImages(this.selectionItems, jpegFormat)
+  downloadProductsImage(jpegFormat:boolean, createArchive:boolean) {
+    this.dataSource.downloadImages(this.selectionItems, jpegFormat, createArchive)
+  }
+
+  downloadProductsInXLS() {
+    this.dataSource.downloadAsXLS(this.selectionItems)
   }
 
   paginatorChanged(matPaginator: MatPaginator) {
