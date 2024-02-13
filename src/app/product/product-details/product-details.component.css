@@ -34,7 +34,7 @@
   width: 100%;
   margin: 0 3px;
 }
-.mat-list .mat-list-item {
+.mat-mdc-list .mat-mdc-list-item {
   min-height: 20px; /* default is 72px */
 }
 
@@ -42,13 +42,13 @@
   margin-right: 10px;
 }
 
-.mat-card {
+.mat-mdc-card {
   height:auto;
   min-height: 20px;
   margin-right: 10px;
 }
 
-.mat-card:last-child {
+.mat-mdc-card:last-child {
   margin-right: 0;
 }
 
@@ -64,7 +64,7 @@
   width: 30px;
 }
 
-th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
+th.mat-mdc-header-cell:last-of-type, td.mat-mdc-cell:last-of-type, td.mat-mdc-footer-cell:last-of-type {
   padding-right: 16px;
 }
 
@@ -73,7 +73,7 @@ td, th, .mat-line {
   word-wrap: break-word;
   max-width: 200px;
 }
-tr.mat-row {
+tr.mat-mdc-row {
   height: 35px;
 }
 /*.mat-line {
@@ -101,6 +101,7 @@ tr.mat-row {
   font-weight: bold;
   color:rgba(0,0,0,.54)
 }
+/*TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
 ::ng-deep.mat-tab-label, ::ng-deep.mat-tab-label-active{
   min-width: 100px!important;
   padding: 3px!important;
@@ -127,38 +128,39 @@ tr.mat-row {
   top: 50%;
 }
 
-.mat-card{
+.mat-mdc-card{
   display:flex;
   flex-direction: column;
 }
 
-.mat-card-header {
+.mat-mdc-card-header {
   flex-shrink: 0;
 }
 
-.mat-card-content{
+.mat-mdc-card-content{
   flex-grow: 1;
   overflow: auto;
   margin-bottom: 0;
 }
 
-.mat-card-actions {
+.mat-mdc-card-actions {
   padding: 0;
 }
 
-.mat-card-avatar {
+.mat-mdc-card-avatar {
   height:24px;
   width:24px;
 }
 
+/*TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
 :host::ng-deep .mat-card-header-text {
   margin: 0 6px;
 }
 
-:host::ng-deep .mat-card-subtitle {
+:host::ng-deep .mat-mdc-card-subtitle {
   margin: 0;
 }
-:host::ng-deep .mat-card {
+:host::ng-deep .mat-mdc-card {
   padding-top: 0;
 }
 

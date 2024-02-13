@@ -31,18 +31,18 @@ a {
 
 .mat-column-actions {
   flex: none;
-  min-width: 160px !important;
+  min-width: 200px !important;
 }
 
 .mat-column-supplierName {
-  flex: 0 0 155px !important;
-  min-width: 155px !important;
+  flex: 0 0 165px !important;
+  min-width: 165px !important;
 }
 
 .mat-column-type {
-  flex: 0 0 70px !important;
-  width: 70px !important;
-  min-width: 70px;
+  flex: 0 0 90px !important;
+  width: 90px !important;
+  min-width: 90px;
 }
 
 .mat-column-stat {

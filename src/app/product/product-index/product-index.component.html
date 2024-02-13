@@ -13,11 +13,11 @@
       </div>
 
       <div class="toolbox-item">
-        <button class="full-height" (click)="downloadProductsInXLS()" mat-button><span class="button-text">Выгрузка XLS</span><mat-icon>download</mat-icon></button>
+        <button class="full-height" (click)="downloadProductsInXLS()" mat-button><span class="button-text">Выгрузка XLS</span><mat-icon iconPositionEnd>download</mat-icon></button>
       </div>
 
       <div class="toolbox-item">
-        <button class="full-height" mat-button [matMenuTriggerFor]="downloadImgMenu"><span class="button-text">Скачать фото</span><mat-icon>download</mat-icon></button>
+        <button class="full-height" mat-button [matMenuTriggerFor]="downloadImgMenu"><span class="button-text">Скачать фото</span><mat-icon iconPositionEnd>download</mat-icon></button>
         <mat-menu #downloadImgMenu="matMenu">
           <button mat-menu-item [matMenuTriggerFor]="downloadSinglePhoto"><mat-icon>photo</mat-icon>Первую фотографию</button>
           <button mat-menu-item [matMenuTriggerFor]="downloadArchiveOfPhotos"><mat-icon>photo_album</mat-icon>Коллекцию фотографий</button>
@@ -35,14 +35,14 @@
       </div>
 
       <div class="toolbox-item" *ngIf="roles.includes('goodware-admin')">
-        <button class="full-height" mat-button (click)="confirmDeleteDialog()"><span class="button-text">Удалить</span><mat-icon>delete</mat-icon></button>
+        <button class="full-height" mat-button (click)="confirmDeleteDialog()"><span class="button-text">Удалить</span><mat-icon iconPositionEnd>delete</mat-icon></button>
       </div>
     </div>
   </div>
 
   <div *ngIf="isCardLayout">
     <div class="cards" *ngIf="isLoading">
-      <mat-card class="card" *ngFor="let i of [].constructor(pageSize)">
+      <mat-card appearance="outlined" class="card" *ngFor="let i of [].constructor(pageSize)">
         <div class="product-image-placeholder"></div>
         <div class="title-container-placeholder"></div>
         <div class="card-content-placeholder">
@@ -59,8 +59,8 @@
       </ng-container>
     </div>
 
-    <mat-card *ngIf="dataSource.rowCount == 0 && !isLoading">
-      По вашему запросу ничего не найдено, попробуйте изменить критерии поиска
+    <mat-card appearance="outlined" *ngIf="dataSource.rowCount == 0 && !isLoading">
+      <mat-card-content>По вашему запросу ничего не найдено, попробуйте изменить критерии поиска</mat-card-content>
     </mat-card>
   </div>
 

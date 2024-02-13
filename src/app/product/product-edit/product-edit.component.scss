@@ -24,7 +24,7 @@
     height:fit-content;
     padding-top: 0;
 
-    .mat-tab-group {
+    .mat-mdc-tab-group {
       width:320px;
     }
   }
@@ -36,13 +36,11 @@
 
     .attached-image-container{
       margin: 5px;
-      width: 100%;
       height: 150px;
       float: left;
       box-sizing: border-box;
       position: relative;
       border-radius: 4px;
-
 
       .delete-img-btn {
         position: absolute;
@@ -89,15 +87,19 @@
   }
 }
 
+.mat-mdc-form-field {
+  margin-bottom: 7px;
+}
+
 .full-width {
   width: 100%;
 }
 
-.mat-card {
+.mat-mdc-card {
   margin-right: 10px;
 }
 
-.mat-card:last-child {
+.mat-mdc-card:last-child {
   margin-right: 0;
 }
 .mat-column-action {
@@ -108,7 +110,7 @@
   text-align: end;
 }
 
-th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
+th.mat-mdc-header-cell:last-of-type, td.mat-mdc-cell:last-of-type, td.mat-mdc-footer-cell:last-of-type {
   padding-right: 16px;
 }
 
@@ -117,7 +119,7 @@ td, th, .mat-line {
   word-wrap: break-word;
   max-width: 200px;
 }
-tr.mat-row {
+tr.mat-mdc-row {
   height: 35px;
 }
 
@@ -125,6 +127,7 @@ tr.mat-row {
   margin-right: 0;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
 ::ng-deep.mat-tab-label, ::ng-deep.mat-tab-label-active{
   min-width: 0!important;
   padding: 3px!important;
@@ -132,6 +135,7 @@ tr.mat-row {
 }
 
 .formBlockFull {
+  margin-top: 10px;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -150,10 +154,11 @@ tr.mat-row {
 }
 
 
-:host::ng-deep .mat-card-subtitle {
+:host::ng-deep .mat-mdc-card-subtitle {
   margin: 0;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
 :host::ng-deep .mat-tab-body-content{
   overflow: hidden;
   min-width: 0;
@@ -180,7 +185,7 @@ tr.mat-row {
   margin-right: 0;
 }
 
-.mat-card-actions {
+.mat-mdc-card-actions {
   padding: 0;
 }
 
@@ -222,7 +227,7 @@ tr.mat-row {
   .about-product-container {
     display: block;
     .media-tab-group {
-      .mat-tab-group {
+      .mat-mdc-tab-group {
         width:100%;
       }
 
@@ -239,7 +244,7 @@ tr.mat-row {
       width: unset;
     }
   }
-  .mat-card {
+  .mat-mdc-card {
     margin-bottom: 5px;
     margin-right: 0;
   }
@@ -248,7 +253,7 @@ tr.mat-row {
     font-size: 8px !important;
   }
 
-  :host::ng-deep .mat-raised-button {
+  :host::ng-deep .mat-mdc-raised-button {
     padding: 2px !important;
   }
 }
@@ -267,7 +272,7 @@ tr.mat-row {
   .about-product-container {
     display: block;
     .media-tab-group {
-      .mat-tab-group {
+      .mat-mdc-tab-group {
         width:100%;
       }
     }
@@ -277,7 +282,7 @@ tr.mat-row {
     }
   }
 
-  .mat-card {
+  .mat-mdc-card {
     margin-bottom: 5px;
     margin-right: 0;
   }
@@ -286,7 +291,7 @@ tr.mat-row {
     font-size: 10px !important;
   }
 
-  :host::ng-deep .mat-raised-button {
+  :host::ng-deep .mat-mdc-raised-button {
     padding: 2px !important;
   }
 }
@@ -305,7 +310,7 @@ tr.mat-row {
   .about-product-container {
     display: block;
     .media-tab-group {
-      .mat-tab-group {
+      .mat-mdc-tab-group {
         width:100%;
       }
     }
@@ -315,7 +320,7 @@ tr.mat-row {
     }
   }
 
-  :host::ng-deep .mat-raised-button {
+  :host::ng-deep .mat-mdc-raised-button {
     padding: 0 16px !important;
   }
 }
@@ -323,7 +328,7 @@ tr.mat-row {
 @mixin l-devices {
   .about-product-container {
     .media-tab-group {
-      .mat-tab-group {
+      .mat-mdc-tab-group {
         width:100%;
       }
 
@@ -334,7 +339,7 @@ tr.mat-row {
       }
     }
 
-    .mat-card:not(:first-child) {
+    .mat-mdc-card:not(:first-child) {
       margin-bottom: 5px;
       margin-right: 0;
     }
@@ -365,7 +370,7 @@ tr.mat-row {
     display: flex;
 
     .media-tab-group {
-      .mat-tab-group {
+      .mat-mdc-tab-group {
         width:320px;
       }
 
@@ -382,7 +387,7 @@ tr.mat-row {
     }
   }
 
-  .mat-card:not(:last-child) {
+  .mat-mdc-card:not(:last-child) {
     margin-bottom: 0;
     margin-right: 10px;
   }

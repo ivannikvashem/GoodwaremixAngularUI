@@ -21,33 +21,36 @@
   <div class="about-product-container">
 
     <div class="media-product-container">
-      <mat-card>
-        <mat-tab-group animationDuration="0ms">
-          <mat-tab *ngIf="product?.images || product?.localImages" label="Фото">
-            <ng-template matTabContent>
-              <div class="img-container">
-                <app-hover-image-slider [imgList]="remoteAndLocalImg"></app-hover-image-slider>
-              </div>
-            </ng-template>
-          </mat-tab>
-          <mat-tab *ngIf="product?.image360" label="Фото 360">
-            <ng-template matTabContent>
-              <!--<iframe width="460" height="440" [src]="safeImg360Url" title="360ImageViewer" allowfullscreen></iframe>-->
-            </ng-template>
-          </mat-tab>
+      <mat-card appearance="outlined">
+        <mat-card-content>
+          <mat-tab-group [ngClass]="{'' : product?.images && product?.localImages && product?.videos}" animationDuration="0ms">
+            <mat-tab *ngIf="product?.images || product?.localImages" label="Фото">
+              <ng-template matTabContent>
+                <div class="img-container">
+                  <app-hover-image-slider [imgList]="remoteAndLocalImg"></app-hover-image-slider>
+                </div>
+              </ng-template>
+            </mat-tab>
+            <mat-tab *ngIf="product?.image360" label="Фото 360">
+              <ng-template matTabContent>
+                <!--<iframe width="460" height="440" [src]="safeImg360Url" title="360ImageViewer" allowfullscreen></iframe>-->
+              </ng-template>
+            </mat-tab>
 
-          <mat-tab *ngIf="product?.videos.length >= 1" label="Видео">
-            <ng-template matTabContent>
-              <iframe width="460" height="440" [src]="selectedSafeVideo" allowfullscreen></iframe>
-              <div *ngIf="safeVideoUrl.length > 1" class="video-btn-wrapper">
-                <button mat-flat-button class="mat-elevation-z2 video-btn" *ngFor="let video of safeVideoUrl;let i = index" (click)="selectedSafeVideo = video">
-                  {{i+1}}
-                </button>
-              </div>
+            <mat-tab *ngIf="product?.videos.length >= 1" label="Видео">
+              <ng-template matTabContent>
+                <iframe width="460" height="440" [src]="selectedSafeVideo" allowfullscreen></iframe>
+                <div *ngIf="safeVideoUrl.length > 1" class="video-btn-wrapper">
+                  <button mat-flat-button class="mat-elevation-z2 video-btn" *ngFor="let video of safeVideoUrl;let i = index" (click)="selectedSafeVideo = video">
+                    {{i+1}}
+                  </button>
+                </div>
 
-            </ng-template>
-          </mat-tab>
-        </mat-tab-group>
+              </ng-template>
+            </mat-tab>
+          </mat-tab-group>
+
+        </mat-card-content>
       </mat-card>
 
       <mat-accordion  *ngIf="(product?.netto | json) != '{}'">
@@ -86,28 +89,34 @@
     </div>
 
     <div class="spec-product-container">
-      <mat-card style="margin-right: 0;">
-        <mat-card-subtitle>
-          <div class="card-container">
-            <h2>О товаре</h2>
-            <h4 *ngIf="product?.internalCode">арт. <span style="font-size: 1.5em">{{product.internalCode}}</span></h4>
-          </div>
-        </mat-card-subtitle>
-        <div [innerHTML]="product?.description"></div>
+      <mat-card appearance="outlined" style="margin-right: 0;">
+        <mat-card-header>
+          <mat-card-subtitle>
+            <div class="card-container">
+              <h2>О товаре</h2>
+              <h4 *ngIf="product?.internalCode">арт. <span style="font-size: 1.5em">{{product.internalCode}}</span></h4>
+            </div>
+          </mat-card-subtitle>
+        </mat-card-header>
 
-        <div class="custom-description" *ngIf="product?.customDescription">
-          <strong>Описание из 1С</strong>
-          <div>{{product.customDescription}}</div>
-        </div>
-        <ul>
-          <li *ngIf="product?.country">Страна производства - {{product.country}} <span *ngIf="product.countryCode">(Код {{product.countryCode}})</span></li>
-          <li *ngIf="product?.vendorId">Артикул поставщика - {{product.vendorId}}</li>
-          <li *ngIf="product?.vendor">Бренд - {{product.vendor}}</li>
-          <li *ngIf="product?.supplierName">Поставщик - {{product.supplierName}}</li>
-        </ul>
+        <mat-card-content>
+          <div [innerHTML]="product?.description"></div>
+
+          <div class="custom-description" *ngIf="product?.customDescription">
+            <strong>Описание из 1С</strong>
+            <div>{{product.customDescription}}</div>
+          </div>
+          <ul>
+            <li *ngIf="product?.country">Страна производства - {{product.country}} <span *ngIf="product.countryCode">(Код {{product.countryCode}})</span></li>
+            <li *ngIf="product?.vendorId">Артикул поставщика - {{product.vendorId}}</li>
+            <li *ngIf="product?.vendor">Бренд - {{product.vendor}}</li>
+            <li *ngIf="product?.supplierName">Поставщик - {{product.supplierName}}</li>
+          </ul>
+        </mat-card-content>
+
       </mat-card>
 
-      <mat-card style="margin-top: 10px;" *ngIf="product?.attributes && product?.attributes.length > 0">
+      <mat-card appearance="outlined" style="margin-top: 10px;" *ngIf="product?.attributes && product?.attributes.length > 0">
         <mat-card-subtitle><h2>Характеристики</h2></mat-card-subtitle>
         <table mat-table [dataSource]="dataSource" class="full-width">
           <!-- Etim Column -->

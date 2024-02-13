@@ -9,9 +9,8 @@
     </button>
   </mat-form-field>
 
-  <app-supplier-autocomplete [appearance]="'outline'" class="toolbox-item"></app-supplier-autocomplete>
-
-  <div class="toolbox-item">
+  <div class="toolbox-items">
+    <app-supplier-autocomplete [appearance]="'outline'" class="toolbox-item"></app-supplier-autocomplete>
     <app-attrtibute-state-switch [state]="attributeFixedFilterState" (stateEmitter)="onAttributeStateFilterChanged($event)"></app-attrtibute-state-switch>
   </div>
 </div>
