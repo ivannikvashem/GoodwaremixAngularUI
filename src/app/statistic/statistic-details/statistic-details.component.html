@@ -1,34 +1,26 @@
-<mat-dialog-content>
-  <div>
-    <h3>Статистика от {{this.statistics.data.mainStatistics ? datePipe.transform(this.statistics.data.mainStatistics.lastImport) : datePipe.transform(this.statistics.data.lastImport)}}</h3>
-  </div>
+<div mat-dialog-title>
+  <h3>Статистика от {{this.statistics.data.mainStatistics ? datePipe.transform(this.statistics.data.mainStatistics.lastImport) : datePipe.transform(this.statistics.data.lastImport)}}</h3>
+</div>
 
+<mat-dialog-content>
   <div class="stat-grid" *ngIf="statistics.chartType == 'import'">
-    <mat-card appearance="outlined" class="stat-card">
-      <mat-card-header>
-        <mat-card-title>Общая статистика</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>Всего: <strong>{{this.statistics.data.mainStatistics ? this.statistics.data.mainStatistics.productQty : this.statistics.data.productQty}}</strong></p>
-        <p>Добавлено: <strong>{{this.statistics.data.mainStatistics ? this.statistics.data.mainStatistics.productAddQty : this.statistics.data.productAddQty}}</strong></p>
-        <p>Обновлено: <strong>{{this.statistics.data.mainStatistics ? this.statistics.data.mainStatistics.productUpdateQty : this.statistics.data.productUpdateQty}}</strong></p>
-      </mat-card-content>
+    <mat-card class="stat-card">
+      <mat-card-title>Общая статистика</mat-card-title>
+      <p>Всего: <strong>{{this.statistics.data.mainStatistics ? this.statistics.data.mainStatistics.productQty : this.statistics.data.productQty}}</strong></p>
+      <p>Добавлено: <strong>{{this.statistics.data.mainStatistics ? this.statistics.data.mainStatistics.productAddQty : this.statistics.data.productAddQty}}</strong></p>
+      <p>Обновлено: <strong>{{this.statistics.data.mainStatistics ? this.statistics.data.mainStatistics.productUpdateQty : this.statistics.data.productUpdateQty}}</strong></p>
     </mat-card>
 
-    <mat-card appearance="outlined" *ngFor="let chart of chartList" class="stat-card">
-      <mat-card-header>
-        <mat-card-title>{{chart.datasets[0].label}}</mat-card-title>
-        <mat-card-subtitle>
-          Всего: <strong>{{chart.datasets[0].data[0]}}</strong>
-          Добавлено: <strong>{{chart.datasets[0].data[1]}}</strong>
-          Обновлено: <strong>{{chart.datasets[0].data[2]}}</strong>
-        </mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="chart-container">
-          <canvas baseChart [type]="'bar'" [options]="chartOptions" [data]="chart"></canvas>
-        </div>
-      </mat-card-content>
+    <mat-card *ngFor="let chart of chartList" class="stat-card">
+      <mat-card-title>{{chart.datasets[0].label}}</mat-card-title>
+      <mat-card-subtitle>
+        Всего: <strong>{{chart.datasets[0].data[0]}}</strong>
+        Добавлено: <strong>{{chart.datasets[0].data[1]}}</strong>
+        Обновлено: <strong>{{chart.datasets[0].data[2]}}</strong>
+      </mat-card-subtitle>
+      <div class="chart-container">
+        <canvas baseChart [type]="'bar'" [options]="chartOptions" [data]="chart"></canvas>
+      </div>
     </mat-card>
   </div>
 
@@ -45,14 +37,12 @@
     <mat-divider></mat-divider>
 
     <div class="stat-grid">
-      <mat-card appearance="outlined" class="stat-card" *ngFor="let stat of this.statistics.data.statisticsSupplier">
-        <mat-card-content>
-          <div class="page-title">{{stat.supplierName}}</div>
-          <div class="attribute-stat-values">
-            <span>Всего: <strong>{{stat.attributeQty}}</strong></span>
-            <span>Фиксированных: <strong>{{stat.attributeIsFixedQty}}</strong></span>
-          </div>
-        </mat-card-content>
+      <mat-card class="stat-card" *ngFor="let stat of this.statistics.data.statisticsSupplier">
+        <div class="page-title">{{stat.supplierName}}</div>
+        <div class="attribute-stat-values">
+          <span>Всего: <strong>{{stat.attributeQty}}</strong></span>
+          <span>Фиксированных: <strong>{{stat.attributeIsFixedQty}}</strong></span>
+        </div>
       </mat-card>
     </div>
   </div>

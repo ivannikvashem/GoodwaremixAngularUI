@@ -4,8 +4,7 @@ import {Supplier} from "../models/supplier.model";
 
 @Component({
   selector: 'app-log-page',
-  templateUrl: './log.component.html',
-  styleUrls: ['./log.component.css']
+  templateUrl: './log.component.html'
 })
 export class LogComponent implements OnInit {
 

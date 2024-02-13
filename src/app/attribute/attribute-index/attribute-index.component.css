@@ -14,9 +14,9 @@ table {
 }
 
 .mat-column-actions {
-  flex: 0 0 200px;
-  width: 200px;
-  min-width: 200px;
+  flex: 0 0 150px;
+  width: 150px;
+  min-width: 150px;
   -ms-hyphens: auto;
   -moz-hyphens: auto;
   -webkit-hyphens: auto;

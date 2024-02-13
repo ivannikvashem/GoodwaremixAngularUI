@@ -29,7 +29,7 @@ export class UserDetailsComponent implements OnInit {
     email: [''],
     phone: [''],
     role: ['goodware-users'],
-    linkedSuppliers: [],
+    linkedSuppliers: [[]],
     isDeleted: [false],
     lastLogin: [''],
     token: ['']
@@ -71,7 +71,7 @@ export class UserDetailsComponent implements OnInit {
 
   supplierAutocompleteSelected(event: MatAutocompleteSelectedEvent): void {
     const value = (event.option.value.id || '').trim();
-    const idx = this.userForm.value.linkedSuppliers.find((x:any) => x.id == value);
+    const idx = this.userForm.value.linkedSuppliers.find(x => x.id == value);
     if (!idx) {
       this.userForm.value.linkedSuppliers.push({id: event.option.value.id, name: event.option.viewValue});
     }
@@ -100,7 +100,7 @@ export class UserDetailsComponent implements OnInit {
 
   selectAll() {
     for (let i of this.supplierList) {
-      const idx = this.userForm.value.linkedSuppliers.find((x:any) => x.id == i.id);
+      const idx = this.userForm.value.linkedSuppliers.find(x => x.id == i.id);
       if (!idx) {
         this.userForm.value.linkedSuppliers.push({id: i.id, name: i.supplierName});
       }

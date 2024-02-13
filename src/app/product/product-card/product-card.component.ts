@@ -54,20 +54,11 @@ export class ProductCardComponent implements OnInit {
     this.isImageLoaded = loadState
   }
 
-  onChecked() {
-    if (this.selected) {
-      this.dss.setSelectedProduct({id:this.product.id, vendorId:this.product.vendorId, internalCode:this.product.internalCode, title:this.product.title, image:this.product.thumbnails ? this.product.thumbnails : this.product.images})
+  onChecked(checkState:any) {
+    if (checkState.checked) {
+      this.dss.setSelectedProduct({id:this.product.id, vendorId:this.product.vendorId, internalCode:this.product.internalCode})
     } else {
       this.dss.removeSelectedProduct(this.product.id)
-    }
-  }
-
-  editProduct(routeLink: string, event:any) {
-    if (event.which == 1 || event.which == 2) {
-      const url = this.router.serializeUrl(
-        this.router.createUrlTree([routeLink])
-      )
-      window.open(url, event.which == 1 ? '_self' : '_blank')
     }
   }
 }

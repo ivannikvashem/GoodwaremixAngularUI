@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {ApiClient} from "../../service/httpClient";
-import {Observable, tap} from "rxjs";
+import {Observable} from "rxjs";
 import {MatTableDataSource} from "@angular/material/table";
 import {Product} from "../../models/product.model";
 import {DomSanitizer, SafeResourceUrl, Title} from '@angular/platform-browser';
@@ -13,7 +13,6 @@ import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/share
 import {Document} from "../../models/document.model";
 import {Clipboard} from "@angular/cdk/clipboard";
 import {AuthService} from "../../auth/service/auth.service";
-import {finalize} from "rxjs/operators";
 
 @Component({
   selector: 'app-product-details',
@@ -33,7 +32,6 @@ export class ProductDetailsComponent implements OnInit {
   isDelBtnDisabled:boolean = false
   productDocuments:Document[] = [];
   roles:string[] = [];
-  isLoading:boolean = true;
 
   constructor(
     private api: ApiClient,
@@ -54,9 +52,7 @@ export class ProductDetailsComponent implements OnInit {
 
   fetchProductData() {
     this.productId = this._ActivatedRoute.snapshot.paramMap.get("id");
-    this.api.getProductById(this.productId)
-      .pipe(tap( () => { this.isLoading = true; }), finalize( () => this.isLoading = false))
-      .subscribe( {next:(data) => {
+    this.api.getProductById(this.productId).subscribe( {next:(data) => {
         this.product = data.body;
         if (this.product.videos.length > 0)
           this.product.videos.forEach((value:any) => {this.safeVideoUrl.push(this._sanitizer.bypassSecurityTrustResourceUrl(value))});
@@ -160,9 +156,5 @@ export class ProductDetailsComponent implements OnInit {
     } else {
       return typeof objectValue?.value == this.attributeTypes.find(x => x.key === type).type;
     }
-  }
-
-  typeofLogicalAttribute(objectValue:any) {
-    return typeof objectValue;
   }
 }

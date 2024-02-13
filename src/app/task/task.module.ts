@@ -18,8 +18,6 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {CronMaskInputDirective} from "./repo/cron-mask-input.directive";
-import {MatCheckboxModule} from "@angular/material/checkbox";
-import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
     declarations: [
@@ -30,26 +28,24 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     exports: [
         TaskIndexComponent
     ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    SharedModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatInputModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    MatDatepickerModule,
-    MatSelectModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
-    MatCardModule,
-    MatButtonToggleModule,
-    MatCheckboxModule,
-    MatTooltipModule
-  ]
+    imports: [
+        CommonModule,
+        FormsModule,
+        SharedModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatButtonModule,
+        MatDialogModule,
+        MatInputModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatDatepickerModule,
+        MatSelectModule,
+        MatIconModule,
+        MatProgressSpinnerModule,
+        MatCardModule,
+        MatButtonToggleModule
+    ]
 })
 export class TaskModule { }

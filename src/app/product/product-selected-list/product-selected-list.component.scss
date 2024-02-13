@@ -1,11 +1,10 @@
 .header {
   margin-bottom: 10px;
-  display: flex !important;
 }
 
 .wrapper {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 5px;
   padding-bottom: 5px;
 }
@@ -14,7 +13,8 @@
   background: lightgray;
   border-radius: 15px;
   padding: 10px;
-  height: 85px;
+  height: 15px;
+  line-height: 15px;
 }
 
 .remove-item {
@@ -28,42 +28,6 @@
 
 .remove-item:hover {
   color: #f44336;
-}
-
-.d-flex {
-  display: flex;
-  justify-content: space-between;
-}
-
-.img-container {
-  height: 60px;
-  width: 60px;
-  margin-right: 5px;
-  background: white;
-
-  img {
-    object-fit: cover;
-  }
-}
-
-.title-container {
-  height: 60px;
-  width: 100%;
-
-  .title-text {
-    font-size: 12px;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4;
-    line-height: 14px;
-    overflow: hidden;
-    height: 100%;
-    width: 100%;
-  }
-}
-
-.int-code-vendorid-container {
-  margin-top: 5px;
 }
 
 @mixin xs-devices {
@@ -80,58 +44,22 @@
   }
 }
 
-@mixin s-devices {
-  .wrapper {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
 @mixin m-devices {
   .product-cards-container {
     .selection-container {
       display: flex;
+
     }
   }
-
-  .wrapper {
-    grid-template-columns: repeat(3, 1fr);
-  }
 }
 
-@mixin l-devices {
-  .wrapper {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-@mixin xl-devices {
-  .wrapper {
-    grid-template-columns: repeat(5, 1fr);
-  }
-}
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
   @include xs-devices;
 }
 
-/* Small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (min-width: 600px) {
-  @include s-devices;
-}
-
-/* Medium devices (landscape tablets, 850px and up) */
-@media only screen and (min-width: 850px) {
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
   @include m-devices;
 }
-
-/* Large devices (laptops/desktops, 1155px and up) */
-@media only screen and (min-width: 1155px) {
-  @include l-devices;
-}
-
-/* Extra large devices (large laptops and desktops, 1400px and up) */
-@media only screen and (min-width: 1400px) {
-  @include xl-devices;
-}
-

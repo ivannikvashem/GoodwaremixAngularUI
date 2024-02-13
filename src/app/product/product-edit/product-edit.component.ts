@@ -7,7 +7,7 @@ import {MatChipInputEvent} from "@angular/material/chips";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {AttributeProduct} from "../../models/attributeProduct.model";
 import {DataSource} from "@angular/cdk/collections";
-import {debounceTime, distinctUntilChanged, Observable, ReplaySubject, startWith, switchMap, tap} from "rxjs";
+import {debounceTime, distinctUntilChanged, Observable, ReplaySubject, startWith, switchMap} from "rxjs";
 import {NotificationService} from "../../service/notification-service";
 import {MatTableDataSource} from "@angular/material/table";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -16,7 +16,7 @@ import {ProductAttributeEditComponent} from "../product-attribute-edit/product-a
 import {Package} from "../../models/package.model";
 import {ProductPackageEditComponent} from "../product-package-edit/product-package-edit.component";
 import {Countries} from "../../../assets/countriesList"
-import {finalize, map} from "rxjs/operators";
+import {map} from "rxjs/operators";
 import {MissingImageHandler} from "../MissingImageHandler";
 import {DataStateService} from "../../shared/data-state.service";
 import {ImagePreviewDialogComponent} from "../image-preview-dialog/image-preview-dialog.component";
@@ -53,7 +53,6 @@ export class ProductEditComponent implements OnInit {
   // Package
   packageColumns: string[] = ['package', 'action'];
 
-  isLoading:boolean = true;
   roles:string[] = [];
   countriesList:Country[] = Countries
   searchCountryCtrl = new FormControl<string | any>('')
@@ -85,18 +84,18 @@ export class ProductEditComponent implements OnInit {
   ngOnInit(): void {
     this.productId = this._ActivatedRoute.snapshot.paramMap.get("id");
     if (this.productId) {
-      this.api.getProductById(this.productId).pipe(
-        tap( () => { this.isLoading = true; }), finalize( () => this.isLoading = false)
-      ).subscribe({ next: (s) => {
+      this.api.getProductById(this.productId).subscribe({ next: (s) => {
         this.product = s.body as Product;
         if (this.product.thumbnails.length > 0) {
+          this.product.localImages.forEach((value) => {this.preloadImagesView.push({id: null, file:value})})
+        } else {
           this.product.images.forEach((value) => {this.preloadImagesView.push({id:null, file:value})})
         }
         if (this.product.netto == null) {
           this.product.netto = new Package()
         }
         if (this.product.country) {
-          this.searchCountryCtrl.setValue(this.countriesList.find(option => option.name.toLowerCase().includes(this.product.country.toLowerCase())) as Country);
+          this.searchCountryCtrl.setValue(this.countriesList.find(option => option.name.toLowerCase().includes(this.product.country.toLowerCase()) as Country))
         }
         if (this.product.vendor) {
           this.searchBrandCtrl.setValue(this.product.vendor)
@@ -107,7 +106,7 @@ export class ProductEditComponent implements OnInit {
         }, error: () => {
           this.router.navigate(['page-not-found'])
         }})
-    } else { this.isLoading = false }
+    }
     this.filteredCountries = this.searchCountryCtrl.valueChanges.pipe(
       startWith(''),
       map(value => ( value ? this.countryFilter(value) : this.countriesList.slice())));
@@ -159,6 +158,7 @@ export class ProductEditComponent implements OnInit {
   }
 
   removeImage(index:any, loadedImgIndex:any){
+    this.product.localImages.splice(index,1);
     this.product.thumbnails.splice(index,1);
     this.product.images.splice(index, 1);
     this.imagesView.splice(index, 1);
@@ -386,10 +386,12 @@ export class ProductEditComponent implements OnInit {
     this.onCountrySelected()
   }
 
-  openImageDialog(image: string | string[]) {
+  openImageDialog(image: string) {
     let selectedImageIndex;
     if (this.product.images?.length > 0) {
       selectedImageIndex = this.product.images.findIndex((x:any) => x === (typeof image === "object" ? image[0] : image))
+    } else if (this.product.localImages?.length > 0) {
+      selectedImageIndex = this.product.localImages.findIndex((x:any) => x === (typeof image === "object" ? image[0] : image))
     } else if (this.product.thumbnails?.length > 0) {
       selectedImageIndex = this.product.thumbnails.findIndex((x:any) => x === (typeof image === "object" ? image[0] : image))
     }
@@ -417,10 +419,6 @@ export class ProductEditComponent implements OnInit {
         return typeof objectValue.value == this.attributeTypes.find(x => x.key === type).type;
       }
     }
-  }
-
-  typeofLogicalAttribute(objectValue:any) {
-    return typeof objectValue;
   }
 }
 

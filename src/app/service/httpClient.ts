@@ -259,13 +259,14 @@ export class ApiClient {
     return this.http.delete(this.apiURL + '/SchedulerTask/' + id, this.httpOptions);
   }
 
-  startTask(ids:string[]): Observable<any> {
-    return this.http.post(this.apiURL + '/Quartz/startQuartz/', ids, this.httpOptions)
+  startTask(id:string): Observable<any> {
+    return this.http.post(this.apiURL + '/Quartz/startQuartz/' + id, this.httpOptions)
   }
 
-  stopTask(ids:string[]): Observable<any> {
-    return this.http.post(this.apiURL + '/Quartz/stopQuartz/', ids, this.httpOptions)
+  stopTask(id:string): Observable<any> {
+    return this.http.get(this.apiURL + '/Quartz/stopQuartz/' + id, this.httpOptions)
   }
+
   //#endregion
 
   //uploadPhoto
@@ -275,12 +276,6 @@ export class ApiClient {
       formData.append('files', photo)
     }
     return this.http.post(this.apiURL + '/files/images/'+productId, formData, {headers:{"ContentType": "multipart/form-data"}})
-  }
-
-  importProducts(file:File, supplierId:string): Observable<any> {
-    let formData = new FormData();
-    formData.append('file', file)
-    return this.http.post(this.apiURL + '/files/importXlsxFile/'+supplierId, formData, {headers:{"ContentType": "multipart/form-data"}})
   }
   //
   // getFiles(): Observable<any> {
@@ -297,23 +292,31 @@ export class ApiClient {
     return this.http.get(this.apiURL + '/suppliers/DownloadFileJson',opt)
   }
 
-  downloadProductImage(id: string, route: 'internalCode' | 'vendorId', jpegFormat: boolean, createArchive: boolean) {
-    let opt = {
-      params: new HttpParams()
-        .set(jpegFormat ? 'jpg' : '', jpegFormat || '')
-        .set(createArchive ? 'createArchive' : '', createArchive || '')
-    };
-    opt = Object.assign(opt, { observe: 'response', responseType: 'blob' });
-    return this.http.get(this.apiURL + '/files/' + route + '/' + id, opt);
+  downloadProductImageByIC(internalCode:string, jpegFormat:boolean) {
+    let opt = {};
+    if (jpegFormat) {
+      opt = {params: new HttpParams().set('jpg', jpegFormat)}
+    }
+    opt = Object.assign(opt, {observe:'response', responseType:'blob'});
+    return this.http.get(this.apiURL + '/files/internalCode/' + internalCode, opt);
   }
 
-  downloadProductsInXLS(productIds:string[]) {
-    return this.http.post(this.apiURL + '/Products/createFile_xlsx',productIds , {observe:'response', responseType:'blob'})
+  downloadProductImageByVendorId(vendorId:string, jpegFormat:boolean) {
+    let opt = {};
+    if (jpegFormat) {
+      opt = {params: new HttpParams().set('jpg', jpegFormat)}
+    }
+    opt = Object.assign(opt, {observe:'response', responseType:'blob'});
+    return this.http.get(this.apiURL + '/files/vendorId/' + vendorId, opt);
   }
 
   // INIT ENDPOINT
-  initRequest(route:'cleanstat' | 'initOld') {
-    return this.http.post<any>(this.apiURL + '/service/' + route, {}, this.httpOptions);
+  fixSupplierStat() {
+    return this.http.post<any>(this.apiURL + '/service/cleanstat', {}, this.httpOptions);
+  }
+
+  fullInit() {
+    return this.http.post<any>(this.apiURL + '/service/initOld', {}, this.httpOptions);
   }
 
   checkImageStatusCode(url:string) {
@@ -453,7 +456,7 @@ export class ApiClient {
     }
     opt = Object.assign(opt, this.httpOptions);
 
-    return this.http.get(this.apiURL + '/statistics', opt)
+    return this.http.get(this.apiURL + '/statistics', opt) // 624d278141034b896a223e4c
   }
 
   getTotalStats(): Observable<any> {

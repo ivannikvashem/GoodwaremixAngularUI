@@ -31,18 +31,18 @@ a {
 
 .mat-column-actions {
   flex: none;
-  min-width: 200px !important;
+  min-width: 160px !important;
 }
 
 .mat-column-supplierName {
-  flex: 0 0 165px !important;
-  min-width: 165px !important;
+  flex: 0 0 155px !important;
+  min-width: 155px !important;
 }
 
 .mat-column-type {
-  flex: 0 0 90px !important;
-  width: 90px !important;
-  min-width: 90px;
+  flex: 0 0 70px !important;
+  width: 70px !important;
+  min-width: 70px;
 }
 
 .mat-column-stat {
@@ -91,12 +91,17 @@ tr.element-row:not(.expanded-row):active {
 }
 
 .element-actions {
-  width: 225px !important;
+  flex: 75%;
+  margin-right: 11px;
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: none;
+  min-width: 160px !important;
   overflow-wrap: break-word;
-  justify-content: space-between;
+  justify-content: left;
   word-break: break-word;
-  padding: 16px 26px 16px 16px;
-  display: flex;
+  padding: 16px 0 16px 16px;
+  display: table-cell;
   vertical-align: inherit;
 }
 
