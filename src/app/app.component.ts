@@ -8,6 +8,9 @@ import {NotificationService} from "./service/notification-service";
 import {HttpStatusCode} from "@angular/common/http";
 import {Title} from "@angular/platform-browser";
 import {NavigationEnd, Router} from "@angular/router";
+import {DataStateService} from "./shared/data-state.service";
+import {MatBottomSheet} from "@angular/material/bottom-sheet";
+import {SettingsComponent} from "./settings/settings.component";
 
 @Component({
   selector: 'app-root',
@@ -20,8 +23,9 @@ export class AppComponent{
   roles: string[] = [];
   isServerOffline: boolean;
 
-  sidebarState: boolean = true;
+  sidebarState: boolean;
   logoHover: boolean = false;
+  showSupplierSelector:boolean = false;
 
   menuItems:any = [
     { name: 'Главная', route: '/home', icon: 'home', role: 'goodware-manager' },
@@ -29,14 +33,14 @@ export class AppComponent{
     { name: 'Поставщики', route: '/suppliers', icon: 'settings_accessibility', role: 'goodware-admin' },
     { name: 'Атрибуты', route: '/attributes', icon: 'list', role: 'goodware-admin' },
     { name: 'Документы', route: '/documents', icon: 'insert_drive_file', role: 'goodware-admin' },
+    { name: 'Категории', route: '/categories', icon: 'category', role: 'goodware-admin' },
     { name: 'Журнал событий', route: '/log', icon: 'receipt_long', role: 'goodware-admin' },
-    { name: 'Пользователи', route: '/users', icon: 'manage_accounts', role: 'goodware-admin' },
-    { name: 'Задачи', route: '/tasks', icon: 'task', role: 'goodware-admin' },
+/*    { name: 'Пользователи', route: '/users', icon: 'manage_accounts', role: 'goodware-admin' }, */
+/*    { name: 'Задачи', route: '/tasks', icon: 'task', role: 'goodware-admin' }, */
     { name: 'Панель администратора', route: '/admin', icon: 'admin_panel_settings', role: 'goodware-admin' },
   ]
 
-  constructor(private auth: AuthService, private api: ApiClient, private _notyf: NotificationService, private titleService:Title, private router:Router) {
-    this.roles = this.auth.getRoles();
+  constructor(private auth: AuthService, private api: ApiClient, private _notyf: NotificationService, private titleService:Title, private router:Router, private dss:DataStateService, private _bottomSheet: MatBottomSheet) {    this.roles = this.auth.getRoles();
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((event:any) => {
       this.titleService.setTitle(this.menuItems.find((x:any) => x.route == event.url) ? this.menuItems.find((x:any) => x.route == event.url).name : 'GoodWareAngularUI')
     })
@@ -44,6 +48,10 @@ export class AppComponent{
 
   ngOnInit() {
     this.checkServerAvailability();
+
+    this.dss.getSettings().subscribe((settings:any) => {
+      this.sidebarState = settings.menuState;
+    })
   }
 
   checkServerAvailability() {
@@ -57,5 +65,10 @@ export class AppComponent{
           return throwError(err)
         })
       ).subscribe();
+  }
+
+
+  openSettings() {
+    this._bottomSheet.open(SettingsComponent);
   }
 }

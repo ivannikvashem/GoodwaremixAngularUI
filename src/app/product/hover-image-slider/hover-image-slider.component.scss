@@ -42,8 +42,13 @@
 
 .mat-mdc-icon-button {
   line-height: 1;
+}
+
+.mat-mdc-icon-button.mat-mdc-button-base {
+  padding: unset;
   height: 24px;
   width: 24px;
+  margin-bottom: 1px;
 }
 
 .slider-row {

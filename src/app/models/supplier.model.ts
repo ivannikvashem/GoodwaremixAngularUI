@@ -2,6 +2,7 @@ import {Stat} from "./Stat.model";
 import {ProductAttributeKey} from "./productAttributeKey.model";
 import { Dimensions } from './dimensions.model';
 import {Multipliers} from "./multipliers.model";
+import {ProductCategoryKey} from "./productCategoryKey.model";
 
 export class Supplier {
   id: string;
@@ -58,6 +59,7 @@ export class SupplierConfig {
   documentConfig: DocumentConfig;
   imageConfig: ImageConfig;
   attributeConfig: AttributeConfig;
+  categoryConfig: CategoryConfig;
   packageConfig: PackageConfig;
   nettoConfig: NettoConfig;
   dateFormats: string[];
@@ -69,6 +71,7 @@ export class SupplierConfig {
     this.documentConfig = new DocumentConfig()
     this.imageConfig = new ImageConfig()
     this.attributeConfig = new AttributeConfig()
+    this.categoryConfig = new CategoryConfig()
     this.packageConfig = new PackageConfig()
     this.nettoConfig = new NettoConfig()
     this.multipliers = new Multipliers()
@@ -168,6 +171,21 @@ export class NettoConfig {
 
   constructor() {
     this.dimensions = new Dimensions()
+  }
+}
+
+export class CategoryConfig {
+  typeURL: string;
+  categoryURL: string;
+  categoriesStartTag: string;
+  categoriesProduct: string;
+  categoryId: string;
+  title: string;
+  description: string;
+  subCategoriesId: string;
+  productCategoryKeys: ProductCategoryKey[];
+  constructor() {
+    this.productCategoryKeys = [];
   }
 }
 

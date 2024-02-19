@@ -1,0 +1,7 @@
+.page-container {
+  overflow: auto;
+}
+
+.mat-column-actions {
+  width: 70px;
+}

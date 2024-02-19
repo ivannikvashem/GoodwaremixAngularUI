@@ -594,7 +594,63 @@
 
                       <mat-step>
                         <ng-template matStepLabel>Парсер. Словарь атрибутов</ng-template>
-                        <app-supplier-dictionary [configDictionary]="config.attributeConfig.productAttributeKeys" (configDictionaryOut)="onDictionaryChanged($event, config)"></app-supplier-dictionary>
+                        <app-supplier-dictionary [dictionaryType]="'attribute'" [configDictionary]="config.attributeConfig.productAttributeKeys" (configDictionaryOut)="onDictionaryChanged($event, config)"></app-supplier-dictionary>
+                      </mat-step>
+
+                      <mat-step>
+                        <ng-template matStepLabel>Парсер. Категории</ng-template>
+
+                        <div class="form-block-double">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Стартовый таг категорий</mat-label>
+                            <input matInput name="categoriesStartTag" placeholder="" [(ngModel)]="config.categoryConfig.categoriesStartTag">
+                          </mat-form-field>
+                        </div>
+                        <div class="form-block-double">
+                          <mat-form-field appearance="fill">
+                            <mat-label>URL к данным категорий</mat-label>
+                            <input matInput name="categoriesURL" placeholder="" [(ngModel)]="config.categoryConfig.categoryURL">
+                          </mat-form-field>
+                        </div>
+                        <div class="form-block-double">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Тип свойства</mat-label>
+                            <input matInput name="attrType" placeholder="" [(ngModel)]="config.attributeConfig.attrType">
+                          </mat-form-field>
+                        </div>
+                        <div class="form-block-double">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Наименование категории</mat-label>
+                            <input matInput name="categoryName" placeholder="" [(ngModel)]="config.categoryConfig.title">
+                          </mat-form-field>
+                          <mat-form-field appearance="fill">
+                            <mat-label>Единица измерения</mat-label>
+                            <input matInput name="unit" placeholder="" [(ngModel)]="config.attributeConfig.unit">
+                          </mat-form-field>
+                          <mat-form-field appearance="fill">
+                            <mat-label>Значение</mat-label>
+                            <input matInput name="value" placeholder="" [(ngModel)]="config.attributeConfig.value">
+                          </mat-form-field>
+                        </div>
+                        <div class="form-block-double">
+                          <mat-form-field appearance="fill">
+                            <mat-label>ETIM свойство</mat-label>
+                            <input matInput name="etimFeature" placeholder="" [(ngModel)]="config.attributeConfig.etimFeature">
+                          </mat-form-field>
+                          <mat-form-field appearance="fill">
+                            <mat-label>ETIM единица измерения</mat-label>
+                            <input matInput name="etimUnit" placeholder="" [(ngModel)]="config.attributeConfig.etimUnit">
+                          </mat-form-field>
+                          <mat-form-field appearance="fill">
+                            <mat-label>ETIM значение</mat-label>
+                            <input matInput name="etimValue" placeholder="" [(ngModel)]="config.attributeConfig.etimValue">
+                          </mat-form-field>
+                        </div>
+                      </mat-step>
+
+                      <mat-step>
+                        <ng-template matStepLabel>Парсер. Словарь категорий</ng-template>
+
                       </mat-step>
 
                       <mat-step>

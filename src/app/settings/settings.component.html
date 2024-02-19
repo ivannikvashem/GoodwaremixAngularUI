@@ -1,0 +1,28 @@
+<div class="modal-header-container">
+  <span class="modal-title">Настройки</span>
+
+  <div>
+    <button mat-icon-button (click)="restoreSettings()" matTooltip="Сброс настроек"><mat-icon>restore</mat-icon></button>
+    <button mat-raised-button color="primary" (click)="saveSettings()">Сохранить</button>
+  </div>
+</div>
+<div class="settings-container">
+  <mat-list>
+    <div>
+      <h4>Поставщик для работы</h4>
+      <app-supplier-autocomplete [appearance]="'outline'"></app-supplier-autocomplete>
+    </div>
+
+    <mat-list-item>
+      <mat-slide-toggle color="primary" [(ngModel)]="scrollPageToTop">Автоматически пролистывать страницу вверх при переходе на новую страницу</mat-slide-toggle>
+    </mat-list-item>
+
+    <mat-list-item>
+      <mat-slide-toggle color="primary" [(ngModel)]="isPaginatorFixed">Закрепленный пагинатор</mat-slide-toggle>
+    </mat-list-item>
+
+    <mat-list-item>
+      <mat-slide-toggle color="primary" [disabled]="isMobile" [(ngModel)]="isMobile ? false : menuState">Меню развернуто по умолчанию</mat-slide-toggle>
+    </mat-list-item>
+  </mat-list>
+</div>

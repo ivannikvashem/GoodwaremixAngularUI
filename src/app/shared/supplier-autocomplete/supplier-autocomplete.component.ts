@@ -17,14 +17,16 @@ export class SupplierAutocompleteComponent implements OnInit {
 
   searchSuppliersCtrl  = new FormControl<string | Supplier>('');
   supplierList:Supplier[] = [];
-  @Input() appearance:any = 'standard'
+  @Input() appearance:any = 'standard';
+  @Input() minimizedInput:boolean = true;
+  @Input() changeSupplierGlobally:boolean = true;
+  @Input() onSelectedSupplierId:any;
   @Output() selectedSupplier = new EventEmitter<Supplier>();
   private subscription: Subscription;
 
   constructor(public api: ApiClient,
               public dss: DataStateService,
-              private _localStorageService:LocalStorageService
-  ) {}
+              private _localStorageService:LocalStorageService) {}
 
   ngOnInit(): void {
     this.subscription = this.dss.getSelectedSupplier().subscribe((supplier: Supplier) => {
@@ -44,6 +46,11 @@ export class SupplierAutocompleteComponent implements OnInit {
     } else {
       this.supplierList = this.dss.getSupplierList();
     }
+
+    if (this.onSelectedSupplierId) {
+      this.searchSuppliersCtrl.setValue(this.supplierList.find(x => x.id === this.onSelectedSupplierId));
+      this.onSupplierSelected();
+    }
   }
 
   displayFn(supplier: Supplier): string {
@@ -54,10 +61,14 @@ export class SupplierAutocompleteComponent implements OnInit {
     let supp = this.searchSuppliersCtrl.value as Supplier
     if (supp.supplierName && supp.id) {
       this.selectedSupplier.emit(({id:supp.id, supplierName:supp.supplierName}) as Supplier);
-      this.dss.getSelectedSupplier().next(({id:supp.id, supplierName:supp.supplierName}) as Supplier)
+      if (this.changeSupplierGlobally) {
+        this.dss.getSelectedSupplier().next(({id:supp.id, supplierName:supp.supplierName}) as Supplier)
+      }
     } else {
       this.selectedSupplier.emit(new Supplier());
-      this.dss.getSelectedSupplier().next(new Supplier())
+      if (this.changeSupplierGlobally) {
+        this.dss.getSelectedSupplier().next(new Supplier())
+      }
     }
   }
 

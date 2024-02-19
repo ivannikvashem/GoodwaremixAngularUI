@@ -57,6 +57,12 @@ import { UnitConverterComponent } from './unit-converter/unit-converter.componen
 import {UnitConverterModule} from "./unit-converter/unit-converter.module";
 import {StatisticModule} from "./statistic/statistic.module";
 import {MatSidenavModule} from "@angular/material/sidenav";
+import {CategoryModule} from "./category/category.module";
+import {SettingsComponent} from "./settings/settings.component";
+import {CategoryComponent} from "./category/category.component";
+import {CategoryIndexComponent} from "./category/category-index/category-index.component";
+import {CategoryEditComponent} from "./category/category-edit/category-edit.component";
+import {MatBottomSheet, MatBottomSheetModule} from "@angular/material/bottom-sheet";
 
 @NgModule({
     declarations: [
@@ -64,7 +70,11 @@ import {MatSidenavModule} from "@angular/material/sidenav";
         ConfirmDialogComponent,
         SwapAttributeComponent,
         SupplierAttributeAddComponent,
-        UnitConverterComponent
+        UnitConverterComponent,
+        SettingsComponent,
+        CategoryComponent,
+        CategoryIndexComponent,
+        CategoryEditComponent
     ],
   imports: [
     CommonModule,
@@ -117,6 +127,7 @@ import {MatSidenavModule} from "@angular/material/sidenav";
     DocumentModule,
     UnitConverterModule,
     StatisticModule,
+    MatBottomSheetModule,
     MatSidenavModule
   ],
     providers: [

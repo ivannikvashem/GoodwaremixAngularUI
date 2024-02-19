@@ -1,0 +1,14 @@
+<span class="page-title">Категории</span>
+
+<div class="search-input">
+  <mat-form-field appearance="outline" class="toolbox-item-xl input-form-outline-background full-width">
+    <mat-label>Поиск</mat-label>
+    <input matInput [formControl]="searchQueryCtrl" (keydown.enter)="searchQueryChanged()">
+    <button *ngIf="searchQueryCtrl.value" matSuffix mat-icon-button aria-label="Clear" (click)="searchQueryClear()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+</div>
+
+
+<app-category-index></app-category-index>

@@ -18,6 +18,7 @@ import {RouterModule} from "@angular/router";
 import { AdminComponent } from './admin.component';
 import {NgChartsModule} from "ng2-charts";
 import {TaskModule} from "../task/task.module";
+import {LogModule} from "../log/log.module";
 
 @NgModule({
     declarations: [
@@ -44,7 +45,8 @@ import {TaskModule} from "../task/task.module";
         CdkTableModule,
         RouterModule,
         NgChartsModule,
-        TaskModule
+        TaskModule,
+        LogModule
     ]
 })
 export class AdminModule { }

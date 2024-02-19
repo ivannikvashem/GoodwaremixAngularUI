@@ -1,0 +1,21 @@
+.mat-card {
+  margin-top: 7px;
+}
+
+.settings-container {
+  height: 350px;
+}
+
+h4 {
+  margin-bottom: 0;
+}
+
+::ng-deep .mat-slide-toggle-label .mat-slide-toggle-content {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+}
+
+.modal-header-container {
+  display: flex !important;
+}

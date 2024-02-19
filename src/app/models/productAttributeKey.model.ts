@@ -1,4 +1,3 @@
-
 export class ProductAttributeKey {
   attributeIdBD: string;
   keySupplier: string;

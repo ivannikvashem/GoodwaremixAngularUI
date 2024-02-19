@@ -27,6 +27,15 @@
         </div>
       </li>
     </ng-container>
+
+    <li matTooltipPosition="right" [matTooltip]="!sidebarState ? 'Настройки' : ''" (click)="showSupplierSelector = false">
+      <div class="dropdown-title">
+        <a (click)="openSettings()">
+          <mat-icon class="menu-icon-size">settings</mat-icon>
+          <span class="link_name" *ngIf="sidebarState">Настройки</span>
+        </a>
+      </div>
+    </li>
   </ul>
   <div class="authToolbar" matTooltipPosition="right" [matTooltip]="!sidebarState ? 'Выйти' : ''">
     <app-auth-toolbar [sideBarState]="sidebarState"></app-auth-toolbar>
