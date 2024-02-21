@@ -70,7 +70,6 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
     ProductVerifiedFilterSwitchComponent,
   ],
   exports: [
-    HoverImageSliderComponent
   ],
   imports: [
     CommonModule,
@@ -105,7 +104,7 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
     MatBadgeModule,
     MatSliderModule,
     MatProgressBarModule,
-    MatSlideToggleModule,
+    MatSlideToggleModule
   ]
 })
 export class ProductModule { }

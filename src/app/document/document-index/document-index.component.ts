@@ -15,6 +15,7 @@ import {DocumentsDataSource} from "../repo/DocumentsDataSource";
 import {tap} from "rxjs";
 import {MissingImageHandler} from "../../product/MissingImageHandler";
 import {MatSort} from "@angular/material/sort";
+import {DataStateService} from "../../shared/data-state.service";
 
 @Component({
   selector: 'app-document-index',
@@ -29,6 +30,8 @@ export class DocumentIndexComponent implements OnInit {
   // table view
   displayedColumns: string[] = ['preview', 'number', 'certTitle', 'endDate', 'actions'];
   isLoading:boolean;
+  scrollToTop:boolean;
+  isPaginatorFixed:boolean;
 
   @Input() searchQuery:string;
   //selectedSupplier: Supplier = this.dss.selectedSupplierState.value
@@ -44,6 +47,7 @@ export class DocumentIndexComponent implements OnInit {
   constructor(
     private api: ApiClient,
     public dialog: MatDialog,
+    private dss:DataStateService,
     private imgHandler:MissingImageHandler
   ) { this.dataSource = new DocumentsDataSource(this.api) }
 
@@ -53,6 +57,11 @@ export class DocumentIndexComponent implements OnInit {
   ngOnInit(): void {
     this.dataSource.loading$.subscribe(loadState => {
       this.isLoading = loadState
+    })
+
+    this.dss.getSettings().subscribe((settings:any) => {
+      this.scrollToTop = settings.scrollPageToTop;
+      this.isPaginatorFixed = settings.isPaginatorFixed;
     })
   }
 
@@ -64,6 +73,9 @@ export class DocumentIndexComponent implements OnInit {
     this.paginator.page
       .pipe(
         tap( () => {
+          if (this.scrollToTop) {
+            window.scroll(0, 0);
+          }
           this.pageParams.next({pageIndex: this.paginator.pageIndex, pageSize:this.paginator.pageSize})
         })).subscribe();
 

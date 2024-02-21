@@ -14,8 +14,8 @@ import {DataStateService} from "../../shared/data-state.service";
 export class ProductExportTableComponent implements OnInit {
 
   displayedColumns: any[] = [
-    {field:'checkbox', name:'Флажок', isActive: true},
-    {field:'images', name:'Фото', isArray:true, isObjectType:false, isActive: true},
+    {field:'checkbox', name:'Флажок', isActive: false},
+    {field:'images', name:'Фото', isArray:true, isObjectType:false, isActive: false},
     {field:'title', name:'Наименование', isArray:false, isObjectType:false, isActive: true},
     {field:'titleLong', name:'Полное наименование', isArray:false, isObjectType:false, isActive: false},
     {field:'description', name:'Описание', isArray:false, isObjectType:false, isActive: false},
@@ -34,11 +34,10 @@ export class ProductExportTableComponent implements OnInit {
 
   showNestedTablesHeaders:boolean = false;
   @Input() dataSource:Product[];
-  @Input() pageSize:number;
   @Output() selectedItems:EventEmitter<any> = new EventEmitter();
 
-  productDataSource = new MatTableDataSource<any>()
-  selection = new SelectionModel<any>(true, []);
+  productDataSource = new MatTableDataSource<Product>()
+  selection = new SelectionModel<Product>(true, []);
 
   constructor(private dss:DataStateService) {
   }
@@ -48,13 +47,7 @@ export class ProductExportTableComponent implements OnInit {
   ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.productDataSource.data = this.dataSource;
-    this.selection.clear();
-    this.dss.getSelectedProducts().subscribe((selection:Product[]) => {
-      for (let i of this.productDataSource.data) {
-        i.selected = !!selection.find(item => item.id === i.id);
-      }
-    })
+    this.productDataSource.data = this.dataSource
   }
 
   drop(event: CdkDragDrop<string[]>) {
@@ -101,7 +94,7 @@ export class ProductExportTableComponent implements OnInit {
     if (!this.selection.isSelected(product)) {
       this.dss.removeSelectedProduct(product.id)
     } else {
-      this.dss.setSelectedProduct({id:product.id, vendorId:product.vendorId, internalCode:product.internalCode, title:product.title, image:product.thumbnails ? product.thumbnails : product.images})
+      this.dss.setSelectedProduct({id:product.id,vendorId:product.vendorId, internalCode: product.internalCode})
     }
   }
 

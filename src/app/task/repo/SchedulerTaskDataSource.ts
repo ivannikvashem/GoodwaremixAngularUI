@@ -90,7 +90,7 @@ export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
 
   taskOnExecute(id:string, state:boolean) {
     if (state) {
-      this.api.startTask([id]).subscribe( {
+      this.api.startTask(id).subscribe( {
         next:() => {
           let newData = this.TaskListSubject.value.map(x => x.id === id ? {...x, isEnable:state}: x)
           this.TaskListSubject.next(newData)
@@ -101,7 +101,7 @@ export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
         }
       })
     } else {
-      this.api.stopTask([id]).subscribe({
+      this.api.stopTask(id).subscribe({
         next:() => {
           let newData = this.TaskListSubject.value.map(x => x.id === id ? {...x, isEnable:state}: x)
           this.TaskListSubject.next(newData)
@@ -114,21 +114,4 @@ export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
     }
   }
 
-  startTaskList(selectedTasks:string[]) {
-    this.api.startTask(selectedTasks).subscribe({
-      next:() => {
-        this._notyf.onSuccess('Задачи запущены')
-      }, error:error => {
-        this._notyf.onError('Ошибка' +JSON.stringify(error))
-      }})
-  }
-
-  stopTaskList(selectedTasks:string[]) {
-    this.api.stopTask(selectedTasks).subscribe({
-      next:() => {
-        this._notyf.onSuccess('Задачи остановлены')
-      }, error:error => {
-        this._notyf.onError('Ошибка' +JSON.stringify(error))
-      }})
-  }
 }

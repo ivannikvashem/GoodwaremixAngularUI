@@ -10,11 +10,14 @@
   word-wrap: break-word !important;
   white-space: unset !important;
 }
-
-.mat-column-actions,
 .mat-column-supplierName {
   flex: 0 0 150px !important;
   width: 150px !important;
+}
+
+.mat-column-actions {
+  flex: 0 0 45px !important;
+  width: 45px !important;
 }
 
 .mat-column-date {

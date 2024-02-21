@@ -26,19 +26,14 @@ a {
   color:black;
 }
 
-:host::ng-deep .mat-mdc-dialog-content {
+:host::ng-deep .mat-dialog-content {
   overflow: unset;
   display: flex;
   flex-direction: column;
   max-height: 100%;
 }
 
-mat-form-field, .toggle-actions {
-  margin-top: 8px;
-}
-
 @mixin xs-devices {
-  /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
   :host::ng-deep .mat-form-field-wrapper {
     padding-bottom: 5px;
   }

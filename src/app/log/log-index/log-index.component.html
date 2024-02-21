@@ -50,4 +50,4 @@
   </table>
 </div>
 
-<mat-paginator class="paginator-fixed mat-elevation-z8" [style.visibility]="dataSource.rowCount > 0 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageSize]="12" [pageSizeOptions]=[12,24,48,96]></mat-paginator>
+<mat-paginator [ngStyle]="isPaginatorFixed == true ? {'position': 'fixed'} : {'position': 'absolute'}" class="paginator-fixed mat-elevation-z8" [style.visibility]="dataSource.rowCount > 0 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageSize]="12" [pageSizeOptions]=[12,24,48,96]></mat-paginator>

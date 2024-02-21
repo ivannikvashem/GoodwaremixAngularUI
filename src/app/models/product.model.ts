@@ -19,6 +19,7 @@ export class Product {
   packages:Package[];
   images: string[];
   thumbnails: string[];
+  localImages: string[];
   documents: string[];
   image360: string;
   videos: string[];
@@ -36,6 +37,7 @@ export class Product {
     this.packages = [] as Package[]
     this.images = []
     this.thumbnails = []
+    this.localImages = []
     this.documents = []
     this.videos = []
     this.attributes = [] as AttributeProduct[]

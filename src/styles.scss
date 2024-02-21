@@ -16,20 +16,6 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 
-.mat-mdc-form-field-subscript-wrapper { display: none; }
-
-.mat-mdc-text-field-wrapper {
-  background-color: white !important;
-}
-
-::ng-deep .mat-mdc-unelevated-button>.mat-icon, .mat-mdc-raised-button > .mat-icon, .mat-mdc-outlined-button > .mat-icon {
-  margin-right: unset !important;
-  font-size: 24px !important;
-  margin-left: unset !important;
-  height: auto !important;
-  width: auto !important;
-}
-
 html {
   background: var(--body-background-color)
 }
@@ -62,9 +48,6 @@ html {
   justify-content: space-between;
 }
 
-/*
-  TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.
-  */
 .input-form-outline-background > .mat-form-field-wrapper {
   background: white;
   border-radius: 6%;
@@ -72,6 +55,22 @@ html {
   font-size: 12px;
   margin: 0.25em 0 0 0 !important;
 }
+
+.input-form-standard-background > .mat-form-field-wrapper {
+  background: white;
+  border-radius: 7px;
+  padding: 4px 7px;
+  font-size: 12px;
+
+  .mat-form-field-underline {
+    position: unset;
+  }
+
+  .mat-form-field-flex {
+    padding-top: unset;
+  }
+}
+
 
 .toolbox-button {
   height: 42px;
@@ -122,12 +121,6 @@ html {
   border-radius: 9px;
 }
 
-.loading-area {
-  position: fixed;
-  top:50%;
-  left:48%;
-}
-
 .form {
   min-width: 150px;
   max-width: 500px;
@@ -169,17 +162,17 @@ a:hover {
   text-decoration: none;
 }
 
-::ng-deep .success-snackbar {
+.success-snackbar {
   background: green;
   color:white;
 }
 
-::ng-deep .error-snackbar {
+.error-snackbar {
   background: #f44336;
   color:white;
 }
 
-::ng-deep .warning-snackbar {
+.warning-snackbar {
   background: darkorange;
   color:white;
 }
@@ -188,7 +181,7 @@ a:hover {
   background-color: rgb(0 0 0 / 70%);
 }
 
-.dialog-gray-background .mat-mdc-dialog-container{
+.dialog-gray-background .mat-dialog-container{
   background-color: var(--body-background-color);
 }
 
@@ -226,13 +219,7 @@ table {
   .modal-title {font-size: 16px}
   .modal-button-text {display: none}
   .page-title {font-size: 18px}
-  /*
-  TODO(mdc-migration): The following rule targets internal classes of paginator that may no longer apply for the MDC version.
-  */
-  /*
-  TODO(mdc-migration): The following rule targets internal classes of paginator that may no longer apply for the MDC version.
-  */
   mat-paginator {
-    .mat-mdc-paginator-range-label {margin: 0 !important}
+    .mat-paginator-range-label {margin: 0 !important}
   }
 }

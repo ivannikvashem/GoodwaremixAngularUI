@@ -13,9 +13,7 @@
     </button>
   </mat-form-field>
 
-  <app-supplier-autocomplete [appearance]="'outline'" class="toolbox-item"></app-supplier-autocomplete>
-
-  <div class="toolbox-item-three" [style.grid-template-columns]="roles.includes('goodware-manager') ? '' : 'auto auto'">
+  <div class="toolbox-item-three" [style.grid-template-columns]="roles.includes('goodware-manager') ? '' : 'auto auto auto'">
     <mat-form-field appearance="outline" class="input-form-outline-background">
       <mat-label>Сортировка</mat-label>
       <select matNativeControl [(ngModel)]="selectedSort" (change)="sortData()">
@@ -27,7 +25,7 @@
       <mat-icon>tune</mat-icon>
     </button>
 
-    <button mat-raised-button (click)="changeLayout()" class="toolbox-button raised-icon-button">
+    <button mat-raised-button (click)="cardLayout = !cardLayout" class="toolbox-button raised-icon-button">
       <mat-icon>{{ cardLayout ? 'format_list_bulleted' : 'dashboard'}}</mat-icon>
     </button>
 

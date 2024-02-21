@@ -52,6 +52,7 @@ $toolbar-opened-xl-width: 260px;
         a {
           .link_name {
             color: $color_1;
+            cursor: pointer;
           }
         }
       }
@@ -227,7 +228,7 @@ $toolbar-opened-xl-width: 260px;
     }
   }
 }
-.authToolbar {
+.menu-bottom-section {
   position: fixed;
   bottom: 0;
 }
@@ -356,7 +357,41 @@ footer {
   right: 0
 }
 
+.toolbar-backdrop-supplier-selection {
+  background-color: rgb(0 0 0 / 60%);
+  height: 100%;
+  width: 100%;
+  z-index: 500;
+  position: fixed;
+  top: 0;
+  right: 0
+}
+
+.supplier-autocomplete-container {
+  padding: 5px 10px;
+}
+
+.supplier-autocomplete-container-collapsed {
+  display: none;
+  padding: 5px;
+}
+
+.mat-bottom-sheet-container {
+  /*
+  height: 600px;
+  */
+}
+
+.supplier-autocomplete-container-clicked-collapsed {
+  background: var(--toolbar-background-color);
+  border-radius: 0 10px 10px 0;
+  position: fixed;
+  z-index: 450;
+  div { padding: 5px 10px;}
+}
+
 @mixin xs-devices-toolbar {
+  .supplier-autocomplete-container-clicked-collapsed {  left: 50px;}
   .toolbar-backdrop {visibility: visible}
   .home-section { width: calc(100% - $toolbar-collapsed-xs-width); left: 0; margin: 10px 0 0 $toolbar-collapsed-xs-width}
   .mat-icon { min-width: 40px }
@@ -394,6 +429,7 @@ footer {
 }
 
 @mixin s-devices-toolbar {
+  .supplier-autocomplete-container-clicked-collapsed {  left: 55px;}
   .toolbar-backdrop {visibility: visible}
   .home-section { width: calc(100% - $toolbar-collapsed-s-width); left: 0; margin: 10px 0 0 $toolbar-collapsed-s-width}
   .mat-icon { min-width: 40px }
@@ -431,6 +467,7 @@ footer {
 }
 
 @mixin m-devices-toolbar {
+  .supplier-autocomplete-container-clicked-collapsed {  left: 60px;}
   .toolbar-backdrop {visibility: visible}
   .home-section { width: calc(100% - $toolbar-collapsed-m-width); left: 0; margin: 10px 0 0 $toolbar-collapsed-m-width}
   .sidebar {
@@ -463,6 +500,7 @@ footer {
 }
 
 @mixin l-devices-toolbar {
+  .supplier-autocomplete-container-clicked-collapsed {  left: 65px;}
   .toolbar-backdrop {visibility: hidden}
   .label-hamburger-menu { .bar {width: 40px} }
   .home-header { margin-top: 20px}
@@ -499,6 +537,7 @@ footer {
 }
 
 @mixin xl-devices-toolbar {
+  .supplier-autocomplete-container-clicked-collapsed {  left: 70px;}
   .toolbar-backdrop {visibility: hidden}
   .label-hamburger-menu { .bar {width: 40px} }
   .home-header { margin-top: 20px !important}

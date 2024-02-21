@@ -37,7 +37,7 @@ export class ProductsDataSource implements DataSource<Product> {
   }
 
   // loadPagedData - isCardLayout param should be removed
-  loadPagedData(isCardLayout = true,queryString = "", selectedSuppId = '', pageIndex = 0, pageSize = 10, selectedAttributes:any | null, sortActive:string, sortDirection:string, isModerated:boolean, withInternalCodeSelector:boolean) {
+  loadPagedData(isCardLayout:boolean, queryString:string, selectedSuppId:string, pageIndex:number, pageSize:number, selectedAttributes:any | null, sortActive:string, sortDirection:string, isModerated:boolean, withInternalCodeSelector:boolean) {
     if (this.loadingSubject.value == true)
       return;
     this.loadingSubject.next(true);
@@ -86,64 +86,59 @@ export class ProductsDataSource implements DataSource<Product> {
       });
   }
 
-  downloadImages(products: Product[], jpegFormat: boolean, createArchive:boolean) {
+  downloadImages(products: Product[], jpegFormat: boolean) {
     let errorCounter = 0;
     let promises: Promise<any>[] = [];
 
     products.forEach((product, i) => {
       let promise = new Promise<void>((resolve) => {
         setTimeout(() => {
-          let downloadObservable;
-
-          if (product.internalCode)
-            downloadObservable = this.api.downloadProductImage(product.internalCode, 'internalCode', jpegFormat, createArchive);
-          else if (product.vendorId)
-            downloadObservable = this.api.downloadProductImage(product.vendorId, 'vendorId', jpegFormat, createArchive);
-
-          if (downloadObservable) {
-            downloadObservable.pipe(map((res: any) => {
+          if (product.internalCode) {
+            this.api.downloadProductImageByIC(product.internalCode, jpegFormat).pipe(map((res: any) => {
               return {
-                filename: (product.internalCode || product.vendorId) + (res.body.type.includes('.') ? '' : '.') + res.body.type.split('/')[1],
-                data: new Blob([res.body], {type: (createArchive ? 'application/' : 'image/') + (res.body.type.includes('.') ? res.body.type.split('/.')[1] : res.body.type.split('/')[1])})
-              };
+                filename: product.internalCode + '.' + res.body.type.split('/')[1],
+                data: new Blob([res.body], {type: 'image/' + res.body.type.split('/')[1]})
+              }
             })).subscribe({
               next: res => {
-                this.downloadAction(res);
+                this.imgDownloadAction(res);
                 resolve();
               },
               error: () => {
                 errorCounter += 1;
                 resolve();
               }
-            });
-          } else {
-            resolve();
+            })
+          } else if (product.vendorId) {
+            this.api.downloadProductImageByVendorId(product.vendorId, jpegFormat).pipe(map((res: any) => {
+              return {
+                filename: product.vendorId + '.' + res.body.type.split('/')[1],
+                data: new Blob([res.body], {type: 'image/' + res.body.type.split('/')[1]})
+              }
+            })).subscribe({
+              next: res => {
+                this.imgDownloadAction(res);
+                resolve();
+              },
+              error: () => {
+                errorCounter += 1;
+                resolve();
+              }
+            })
           }
-        }, i * 200);
+        }, i * 200)
       });
       promises.push(promise);
     });
 
     Promise.all(promises).then(() => {
       if (errorCounter > 0) {
-        this._notyf.onError('Ошибка скачивания (' + errorCounter + ' товаров)')
+        this._notyf.onError('Ошибка скачивания (' + errorCounter + ' фото)')
       }
     });
   }
 
-  downloadAsXLS(products:Product[]) {
-    this.api.downloadProductsInXLS(products.map(x => x.id)).pipe(map((res:any) => {
-      const currentDate = new Date();
-      return {
-        filename: 'Выгрузка_' + currentDate.getDate() + '.' + (currentDate.getMonth() + 1) + '.' + currentDate.getFullYear() + '.' + res.body.type.split('/')[1],
-        data: new Blob([res.body], {type: 'application/' + res.body.type.split('/')[1]})
-      }
-    })).subscribe(res => {
-      this.downloadAction(res);
-    })
-  }
-
-  private downloadAction(res:any) {
+  private imgDownloadAction(res:any) {
     if (res.data) {
       let url = window.URL.createObjectURL(res.data);
       let a = document.createElement('a');
@@ -156,4 +151,5 @@ export class ProductsDataSource implements DataSource<Product> {
       a.remove();
     }
   }
+
 }

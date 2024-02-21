@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Supplier} from "../models/supplier.model";
 import {FormControl} from "@angular/forms";
-import {Subscription} from "rxjs";
+import {Subscription, take} from "rxjs";
 import {DataStateService} from "../shared/data-state.service";
 import {LocalStorageService} from "../service/local-storage.service";
 import {ProductDocumentEditComponent} from "../product/product-document-edit/product-document-edit.component";
@@ -40,7 +40,7 @@ export class DocumentComponent implements OnInit {
 
   getCookie() {
     this._localStorageService.getDataByPageName("DocumentIndex")
-    this.pageCookie$.subscribe(localStorageContent => {
+    this.pageCookie$.pipe(take(1)).subscribe(localStorageContent => {
       if (localStorageContent) {
         this.pC = localStorageContent;
         this.searchQueryCtrl.setValue(this.pC.searchQuery);
@@ -109,7 +109,6 @@ export class DocumentComponent implements OnInit {
 
   addDocumentDialog() {
     this.dialog.open(ProductDocumentEditComponent, {
-      width: '1050px',
       autoFocus: false,
       data: {oldDocument: new Document(), newDocument: new Document() },
     });

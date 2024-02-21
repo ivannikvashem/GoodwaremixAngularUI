@@ -4,7 +4,7 @@ import {DataStateService} from "../shared/data-state.service";
 import {Supplier} from "../models/supplier.model";
 import {FormControl} from "@angular/forms";
 import {LocalStorageService} from "../service/local-storage.service";
-import {Subscription} from "rxjs";
+import {Subscription, take} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
 import {AttributeFilterComponent} from "./attribute-filter/attribute-filter.component";
 import {SelectedFiltersList} from "./repo/ProductsDataSource";
@@ -59,7 +59,7 @@ export class ProductComponent implements OnInit {
 
   getCookie() {
     this._localStorageService.getDataByPageName("ProductIndex")
-    this.pageCookie$.subscribe(localStorageContent => {
+    this.pageCookie$.pipe(take(1)).subscribe(localStorageContent => {
       if (localStorageContent) {
         this.pC = localStorageContent;
         this.searchQueryCtrl.setValue(this.pC.searchQuery);
@@ -71,7 +71,6 @@ export class ProductComponent implements OnInit {
         this.sortActive = this.pC.sortActive;
         this.sortDirection = this.pC.sortDirection;
         this.isModerated = this.pC.isModerated;
-        this.cardLayout = this.pC.cardLayout;
         this.selectedSort = this.sortOptions.find(x => x.value.active === this.sortActive && x.value.direction === this.sortDirection)?.value;
       }
     });
@@ -86,8 +85,7 @@ export class ProductComponent implements OnInit {
       filterAttribute: this.filterAttribute != undefined ? this.filterAttribute : null,
       sortActive: this.sortActive,
       sortDirection: this.sortDirection,
-      isModerated: this.isModerated != undefined ? this.isModerated : null,
-      cardLayout: this.cardLayout
+      isModerated: this.isModerated != undefined ? this.isModerated : null
     });
   }
 
@@ -167,10 +165,5 @@ export class ProductComponent implements OnInit {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-  }
-
-  changeLayout() {
-    this.cardLayout = !this.cardLayout;
-    this.setCookie();
   }
 }

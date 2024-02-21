@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {DataStateService} from "../../shared/data-state.service";
 import {MatDialog} from "@angular/material/dialog";
 import {Product} from "../../models/product.model";
-import {MissingImageHandler} from "../MissingImageHandler";
 
 @Component({
   selector: 'app-product-selected-list',
@@ -13,7 +12,7 @@ export class ProductSelectedListComponent implements OnInit {
 
   selectedItems:any[] = []
 
-  constructor(private dss:DataStateService, public dialog: MatDialog, private imgHandler:MissingImageHandler) { }
+  constructor(private dss:DataStateService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.dss.getSelectedProducts().subscribe((selection:Product[]) => {
@@ -30,9 +29,5 @@ export class ProductSelectedListComponent implements OnInit {
 
   clearAll() {
     this.dss.clearSelectedProducts()
-  }
-
-  handleMissingImage($event: ErrorEvent) {
-    this.imgHandler.checkImgStatus($event)
   }
 }

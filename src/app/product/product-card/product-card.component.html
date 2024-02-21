@@ -1,20 +1,19 @@
-<mat-card appearance="outlined" class="card mat-elevation-z3">
+<mat-card class="card mat-elevation-z3">
   <div class="card-action-layer">
 
     <div class="card-action-container">
-      <button mat-mini-fab color="primary" class="action-item" (click)="selected = !selected; onChecked()" [style.visibility]="selected ? 'visible': ''">
-        <mat-icon>{{selected ? 'done' : 'radio_button_unchecked'}}</mat-icon>
+      <button mat-mini-fab color="primary" class="action-item" [style.visibility]="selected ? 'visible': ''">
+        <mat-checkbox color="primary" [ngModel]="selected" (change)="onChecked($event)"></mat-checkbox>
       </button>
-
-      <button *ngIf="roles.includes('goodware-manager');" mat-mini-fab color="primary" class="mat-elevation-z2 action-item" (mousedown)="editProduct('/product-edit/' + product.id, $event)">
+      <a *ngIf="roles.includes('goodware-manager');" mat-mini-fab color="primary" class="mat-elevation-z2 action-item" [href]="'product-edit/' + product.id">
         <mat-icon>edit</mat-icon>
-      </button>
+      </a>
     </div>
   </div>
 
   <div class="img-container">
     <div *ngIf="!isImageLoaded" class="image-placeholder"></div>
-    <app-hover-image-slider [style.visibility]="isImageLoaded ? 'visible': 'collapse'" [imgList]="product.images" [imgListThumb]="product.thumbnails" (onLoad)="imageLoaded($event)"></app-hover-image-slider>
+    <app-hover-image-slider [style.visibility]="isImageLoaded ? 'visible': 'collapse'" [imgList]="product.images.length > 0 ? product.images : product.localImages" [imgListThumb]="product.thumbnails" (onLoad)="imageLoaded($event)"></app-hover-image-slider>
   </div>
   <span class="internal-code copy-string" *ngIf="product.internalCode" (click)="copyString(product.internalCode)">{{product.internalCode}}</span>
 

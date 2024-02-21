@@ -12,12 +12,12 @@ canvas {
   .stat-cards-container {
     display: grid;
     grid-template-columns: repeat(3, minmax(250px, 1920px)) minmax(250px, 250px);
-    gap: 8px;
+    gap: 1rem;
 
     .main-stat-cards-container {
       display: grid;
       grid-column: span 3;
-      gap: 8px;
+      gap: 1rem;
       grid-template-columns: repeat(3, 1fr);
 
       .main-stat-card {
@@ -53,8 +53,7 @@ canvas {
   }
 }
 
-/*     TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.      */
-::ng-deep .mat-mdc-card-header .mat-card-header-text {
+::ng-deep .mat-card-header .mat-card-header-text {
   margin: 0;
 }
 
@@ -120,7 +119,7 @@ canvas > .legend > .legend-item > .legend-rect {
         }
       }
 
-      .mat-mdc-card {
+      .mat-card {
         padding: 8px;
         margin-top: 5px;
 
@@ -128,7 +127,7 @@ canvas > .legend > .legend-item > .legend-rect {
           display: block;
         }
 
-        .mat-mdc-card-header {
+        .mat-card-header {
           display: none;
         }
 
@@ -164,14 +163,14 @@ canvas > .legend > .legend-item > .legend-rect {
         }
       }
 
-      .mat-mdc-card {
+      .mat-card {
         padding: 8px;
 
         .mobile-card-title {
           display: block;
         }
 
-        .mat-mdc-card-header {
+        .mat-card-header {
           display: none;
         }
 
@@ -207,14 +206,14 @@ canvas > .legend > .legend-item > .legend-rect {
         }
       }
 
-      .mat-mdc-card {
+      .mat-card {
         padding: 8px;
 
         .mobile-card-title {
           display: block;
         }
 
-        .mat-mdc-card-header {
+        .mat-card-header {
           display: none;
         }
 
@@ -251,14 +250,14 @@ canvas > .legend > .legend-item > .legend-rect {
         }
       }
 
-      .mat-mdc-card {
+      .mat-card {
         padding: 8px;
 
         .mobile-card-title {
           display: block;
         }
 
-        .mat-mdc-card-header {
+        .mat-card-header {
           display: none;
         }
 
@@ -296,7 +295,7 @@ canvas > .legend > .legend-item > .legend-rect {
       }
     }
   }
-  .mat-mdc-card-header {
+  .mat-card-header {
     display: flex !important;
   }
   .notifications {

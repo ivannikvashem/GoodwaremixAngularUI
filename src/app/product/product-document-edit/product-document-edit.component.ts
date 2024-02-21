@@ -7,7 +7,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {NotificationService} from "../../service/notification-service";
 import {MissingImageHandler} from "../MissingImageHandler";
 import {Supplier} from "../../models/supplier.model";
-import {debounceTime, distinctUntilChanged, finalize, switchMap, tap} from "rxjs";
+
 export interface AttrDialogData {
   documentIds:string[]
   supplierId?:string;
@@ -29,8 +29,6 @@ export class ProductDocumentEditComponent implements OnInit {
   documentsList:Document[] = []
   previewImg:string
   files: FileSystemHandle[] = []
-  searchSuppliersCtrl  = new FormControl<string | Supplier>('');
-  supplierList:Supplier[] = []
 
 
   mimeExt:any[] = [
@@ -65,12 +63,6 @@ export class ProductDocumentEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.data.supplierId) {
-      this.api.getSupplierById(this.data.supplierId).subscribe(x => {
-        this.searchSuppliersCtrl.setValue(x.body)
-      })
-      this.searchSuppliersCtrl.disable()
-    }
 
     if (this.data.oldDocument !== undefined) {
       this.documentProduct = this.data.oldDocument
@@ -93,21 +85,6 @@ export class ProductDocumentEditComponent implements OnInit {
         }
       })
     }
-
-    this.searchSuppliersCtrl.valueChanges.pipe(
-      distinctUntilChanged(),
-      debounceTime(300),
-      tap(() => {
-        //this.isLoading = true;
-      }),
-      switchMap(value => this.api.getSuppliers(value, 0 ,100,"supplierName", "asc")
-        .pipe(
-          finalize(() => {
-            //this.isLoading = false
-          }),
-        )
-      )
-    ).subscribe((data: any) => { this.supplierList = data.body.data; });
   }
 
   onDocumentChange(event: any, isDropped:boolean) {
@@ -219,8 +196,9 @@ export class ProductDocumentEditComponent implements OnInit {
     return supplier && supplier.supplierName ? supplier.supplierName : '';
   }
 
-  onSupplierSelected() {
-    this.data.supplierId = (this.searchSuppliersCtrl.value as Supplier).id
+  onSupplierSelected(supplier:any) {
+    this.data.supplierId = supplier.id
+    console.log(this.data.supplierId)
   }
 
   generateUUID(): string {

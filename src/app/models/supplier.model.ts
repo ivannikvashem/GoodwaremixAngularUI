@@ -133,10 +133,9 @@ export class AttributeConfig {
   productAttributeKeys: ProductAttributeKey[];
   //
   attrType:string
-  bindType:boolean = true;
 
   constructor() {
-    this.productAttributeKeys = [];
+    this.productAttributeKeys = []
   }
 }
 

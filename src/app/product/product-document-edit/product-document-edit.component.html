@@ -1,12 +1,12 @@
-<mat-dialog-content>
-  <div class="header-container">
-    <span class="page-title">{{documentProduct?.certTitle == undefined ? "Добавление документа" : "Редактирование документа"}}</span>
-    <div *ngIf="!data.oldDocument" class="buttons-container">
-      <button mat-raised-button (click)="matTabGroup.selectedIndex = 0"><mat-icon>search</mat-icon> Поиск</button>
-      <button mat-raised-button (click)="matTabGroup.selectedIndex = 1"><mat-icon>add</mat-icon> Добавить новый</button>
-    </div>
+<div mat-dialog-title class="header-container">
+  <span class="page-title">{{documentProduct?.certTitle == undefined ? "Добавление документа" : "Редактирование документа"}}</span>
+  <div *ngIf="!data.oldDocument" class="buttons-container">
+    <button mat-raised-button (click)="matTabGroup.selectedIndex = 0"><mat-icon>search</mat-icon> Поиск</button>
+    <button mat-raised-button (click)="matTabGroup.selectedIndex = 1"><mat-icon>add</mat-icon> Добавить новый</button>
   </div>
+</div>
 
+<mat-dialog-content>
   <mat-tab-group #matTabGroup animationDuration="0ms">
     <mat-tab *ngIf="!data.oldDocument">
       <mat-form-field appearance="outline" class="full-width">
@@ -29,7 +29,10 @@
       <div class="row">
         <div class="column">
           <form [formGroup]="form" (ngSubmit)="onSubmitClick()">
-            <mat-form-field appearance="outline" class="full-width">
+
+            <app-supplier-autocomplete [onSelectedSupplierId]="documentProduct.supplierId" [minimizedInput]="false" [changeSupplierGlobally]="false" [appearance]="'outline'" (selectedSupplier)="onSupplierSelected($event)"></app-supplier-autocomplete>
+
+       <!--     <mat-form-field appearance="outline" class="full-width">
               <mat-label>Поставщик</mat-label>
               <input type="text" matInput [formControl]="searchSuppliersCtrl" [matAutocomplete]="auto">
               <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onSupplierSelected()">
@@ -37,7 +40,7 @@
                   {{option.supplierName}}
                 </mat-option>
               </mat-autocomplete>
-            </mat-form-field>
+            </mat-form-field>-->
 
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Название</mat-label>
@@ -79,7 +82,7 @@
           </form>
         </div>
         <div class="column">
-          <mat-card appearance="outlined">
+          <mat-card>
             <div class="upload-container" *ngIf="!preloadDocumentView" (click)="fileInput.value=''; fileInput.click()" (drop)="onDocumentChange($event,true)" (dragover)="onDragOver($event)">
                 <input #fileInput type="file" accept="application/pdf" (change)="onDocumentChange($event, false)" class="upload-input"/>
                 <mat-icon class="custom-icon-size">note_add</mat-icon>
@@ -92,7 +95,7 @@
             <ng-container *ngIf="preloadDocumentView">
               <img mat-card-image [src]="documentProduct.preview" (error)="handleMissingImage($event)" height="430"/>
 
-              <button mat-mini-fab color="warn" class="delete-doc-btn" (click)="deletePreloadDoc()">
+              <button mat-mini-fab color="" class="delete-doc-btn" (click)="deletePreloadDoc()">
                 <mat-icon>delete</mat-icon>
               </button>
             </ng-container>

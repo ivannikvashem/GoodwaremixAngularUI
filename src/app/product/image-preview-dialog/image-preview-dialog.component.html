@@ -1,3 +1,3 @@
 <button *ngIf="imgList.length > 1" (click)="slideImage(this.imageIndex - 1)" [disabled]="imageIndex <= 0" mat-icon-button class="left-arrow-btn"><mat-icon>keyboard_arrow_left</mat-icon></button>
-<img [src]="data.imgList[imageIndex]"/>
+<img src="{{this.selectedImage}}"/>
 <button *ngIf="imgList.length > 1" (click)="slideImage(this.imageIndex + 1)" [disabled]="imageIndex == this.imgList.length - 1" mat-icon-button class="right-arrow-btn"><mat-icon>keyboard_arrow_right</mat-icon></button>

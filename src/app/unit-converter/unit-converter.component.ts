@@ -3,7 +3,7 @@ import {DataStateService} from "../shared/data-state.service";
 import {LocalStorageService} from "../service/local-storage.service";
 import {MatDialog} from "@angular/material/dialog";
 import {FormControl} from "@angular/forms";
-import {Subscription} from "rxjs";
+import {Subscription, take} from "rxjs";
 
 @Component({
   selector: 'app-unit-converter',
@@ -27,7 +27,7 @@ export class UnitConverterComponent implements OnInit {
 
   getCookie() {
     this._localStorageService.getDataByPageName("UnitConverterIndex")
-    this.pageCookie$.subscribe(localStorageContent => {
+    this.pageCookie$.pipe(take(1)).subscribe(localStorageContent => {
       if (localStorageContent) {
         this.pC = localStorageContent;
         this.searchQueryCtrl.setValue(this.pC.searchQuery);

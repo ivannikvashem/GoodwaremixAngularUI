@@ -3,12 +3,11 @@ import {FormControl} from "@angular/forms";
 import {Supplier} from "../models/supplier.model";
 import {DataStateService} from "../shared/data-state.service";
 import {LocalStorageService} from "../service/local-storage.service";
-import {Subscription} from "rxjs";
+import {Subscription, take} from "rxjs";
 
 @Component({
   selector: 'app-supplier',
-  templateUrl: './supplier.component.html',
-  styleUrls: ['./supplier.component.css']
+  templateUrl: './supplier.component.html'
 })
 export class SupplierComponent implements OnInit {
 
@@ -24,11 +23,11 @@ export class SupplierComponent implements OnInit {
   pC: any = {};
   private subscription: Subscription;
 
-  constructor(private dss: DataStateService, private _localStorageService: LocalStorageService,) { }
+  constructor(private dss: DataStateService, private _localStorageService: LocalStorageService) { }
 
   getCookie() {
     this._localStorageService.getDataByPageName("SupplierIndex")
-    this.pageCookie$.subscribe(localStorageContent => {
+    this.pageCookie$.pipe(take(1)).subscribe(localStorageContent => {
       if (localStorageContent) {
         this.pC = localStorageContent;
         this.searchQueryCtrl.setValue(this.pC.searchQuery);

@@ -27,7 +27,7 @@ export class AdminPanelComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult === true) {
-        this.api.initRequest('initOld').subscribe({
+        this.api.fullInit().subscribe({
           next: () => {
             this._notyf.onSuccess("Инициализация БД начата")
           },
@@ -39,7 +39,7 @@ export class AdminPanelComponent implements OnInit {
   }
 
   fixSupplierStat() {
-    this.api.initRequest('cleanstat').subscribe({
+    this.api.fixSupplierStat().subscribe({
       next: () => {
         this._notyf.onSuccess("Обновление статистики")
       },

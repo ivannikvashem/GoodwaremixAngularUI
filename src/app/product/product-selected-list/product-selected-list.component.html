@@ -1,28 +1,15 @@
-<mat-dialog-content>
-  <div class="modal-header-container header">
-    <span class="modal-title">Выбранные товары</span>
-    <button disableRipple mat-raised-button (click)="clearAll()"><span class="button-text">Очистить список</span> <mat-icon>delete</mat-icon></button>
-  </div>
+<div class="modal-header-container header">
+  <span class="modal-title">Выбранные товары</span>
+  <button disableRipple mat-raised-button (click)="clearAll()"><span class="button-text">Очистить список</span> <mat-icon>delete</mat-icon></button>
+</div>
 
+<mat-dialog-content>
   <div class="wrapper">
     <div *ngFor="let item of selectedItems" class="selected-item">
-      <div class="d-flex">
-        <div class="img-container">
-          <img (error)="handleMissingImage($event)" [src]="item.image" height="60" width="60">
-        </div>
-
-        <div class="title-container">
-          <div class="d-flex">
-            <div class="title-text">{{item.title}}</div>
-            <mat-icon class="remove-item" (click)="deleteSelectItem(item.id)">delete</mat-icon>
-          </div>
-        </div>
-      </div>
-
-      <div class="d-flex int-code-vendorid-container" >
-        <div>{{item.vendorId}}</div>
-        <div *ngIf="item.internalCode"><small>арт.</small>{{item.internalCode}}</div>
-      </div>
+      <span>{{item.vendorId}}</span>
+      <mat-icon class="remove-item" (click)="deleteSelectItem(item.id)">delete</mat-icon>
     </div>
   </div>
 </mat-dialog-content>
+
+

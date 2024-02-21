@@ -11,6 +11,8 @@
 
 .stat-card {
   max-height: 250px;
+  width: 315px;
+
   .chart-container {
     display: block;
   }
@@ -33,7 +35,6 @@
 }
 
 .attribute-stat-container {
-  width: 100%;
   margin-bottom: 15px;
   padding: 5px;
 }
