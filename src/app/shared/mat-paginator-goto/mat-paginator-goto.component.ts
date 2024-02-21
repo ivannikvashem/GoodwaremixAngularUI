@@ -48,7 +48,6 @@ export class MatPaginatorGotoComponent implements OnInit {
     if (this.paginator) {
       this.matPaginatorGoTo.emit(this.paginator);
     }
-    console.log(this.length)
   }
 
   paginationChange(pageEvt: PageEvent) {

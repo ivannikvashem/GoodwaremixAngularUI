@@ -18,11 +18,12 @@ export class CategoryEditComponent implements OnInit {
               public dialogRef: MatDialogRef<CategoryEditComponent>,
               @Inject(MAT_DIALOG_DATA)
               public data: any) {
-    this.form = new FormGroup<any>({
+    this.form = new FormGroup({
       "title": new FormControl<string>('', Validators.required),
       "parentId": new FormControl<string>('', Validators.required),
+/*
       "venderId": new FormControl<string>('', Validators.required),
-      "description": new FormControl<string>(''),
+*/
     })
   }
 
@@ -31,21 +32,19 @@ export class CategoryEditComponent implements OnInit {
       this.category = this.data;
       this.form.get("title").setValue(this.category.title)
       this.form.get("parentId").setValue(this.category.parentId)
+/*
       this.form.get("venderId").setValue(this.category.venderId)
-      this.form.get("description").setValue(this.category.description)
+*/
     }
   }
 
   onSubmitClick() {
-    if (this.form.valid) {
-      this.data.title = this.form.get("title").value
-      this.data.parentId = this.form.get("parentId").value
-      this.data.venderId = this.form.get("venderId").value
-      this.data.description = this.form.get("description").value
-    }
+   /* if (this.form.valid) {
+      this.dialogRef.close(this.form)
+    }*/
   }
   onSupplierSelected(supplier: any) {
-    this.data.supplierId = supplier.id;
+    //this.data.supplierId = supplier.id;
   }
 
   onCancelClick() {
