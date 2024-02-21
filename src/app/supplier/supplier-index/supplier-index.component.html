@@ -96,9 +96,10 @@
           </div>
 
           <div class="element-actions">
-            <button mat-icon-button class="mat-elevation-z2" matTooltip="Привязать артикулы" (click)="internalCodeFetch(item.id)"><mat-icon>build</mat-icon></button>&nbsp;
-            <button mat-icon-button class="mat-elevation-z2" matTooltip="Скачать товары" (click)="downloadTable('Product', item.id)"><mat-icon>local_offer</mat-icon></button>&nbsp;
-            <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить товары" (click)="confirmDeleteSuppProdDialog(item.id, item.supplierName)"><mat-icon>remove_shopping_cart</mat-icon></button>&nbsp;
+            <button mat-icon-button class="mat-elevation-z2" matTooltip="Привязать артикулы" (click)="internalCodeFetch(item.id)"><mat-icon>build</mat-icon></button>
+            <button mat-icon-button class="mat-elevation-z2" matTooltip="Импорт данных" (click)="importProducts(item.id, item.supplierName)"><mat-icon>publish</mat-icon></button>
+            <button mat-icon-button class="mat-elevation-z2" matTooltip="Скачать товары" (click)="downloadTable('Product', item.id)"><mat-icon>local_offer</mat-icon></button>
+            <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить товары" (click)="confirmDeleteSuppProdDialog(item.id, item.supplierName)"><mat-icon>remove_shopping_cart</mat-icon></button>
             <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить поставщика"  (click)="confirmDeleteSuppDialog(item.id, item.supplierName)"><mat-icon>delete_forever</mat-icon></button>
           </div>
         </div>
@@ -110,12 +111,14 @@
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
   </table>
 
-  <mat-card *ngIf="isLoading">
-    <div class="table-placeholder-line" *ngFor="let i of [].constructor(pageSize)"></div>
+  <mat-card appearance="outlined" *ngIf="isLoading">
+    <mat-card-content>
+      <div class="table-placeholder-line" *ngFor="let i of [].constructor(pageSize)"></div>
+    </mat-card-content>
   </mat-card>
 
-  <mat-card *ngIf="dataSource.rowCount == 0 && !isLoading">
-    По вашему запросу ничего не найдено, попробуйте изменить критерии поиска
+  <mat-card appearance="outlined" *ngIf="dataSource.rowCount == 0 && !isLoading">
+    <mat-card-content>По вашему запросу ничего не найдено, попробуйте изменить критерии поиска</mat-card-content>
   </mat-card>
 
   <button mat-fab color="primary" class="mat-elevation-z2; float-button" (click)="fetchSelectedItems()" [class.cdk-visually-hidden]="selection.selected.length == 0" [matTooltip]="'Сбор выбранных ' + selection.selected.length"><mat-icon>restart_alt</mat-icon></button>

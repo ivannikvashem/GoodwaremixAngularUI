@@ -8,7 +8,7 @@
     <button mat-raised-button color="primary" (click)="saveAttribute()">Сохранить</button>
   </div>
 
-  <mat-card>
+  <mat-card appearance="outlined">
     <form>
       <app-supplier-autocomplete class="full-width" [changeSupplierGlobally]="false" [appearance]="'fill'" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
       <div class="form-container">
@@ -51,13 +51,13 @@
 
       <mat-form-field class="chip-list" appearance="fill">
         <mat-label>Список возможных значений</mat-label>
-        <mat-chip-list #chipList aria-label="Список возможных значений">
-          <mat-chip *ngFor="let value of attribute?.allValues" (removed)="removePossibleValue(value)">
+        <mat-chip-grid #chipList aria-label="Список возможных значений">
+          <mat-chip-row *ngFor="let value of attribute?.allValues" (removed)="removePossibleValue(value)">
             {{value}}
             <button matChipRemove>
               <mat-icon>cancel</mat-icon>
             </button>
-          </mat-chip>
+          </mat-chip-row>
           <input placeholder="Введите значение..."
                  [matChipInputFor]="chipList"
                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
@@ -66,18 +66,18 @@
           <button *ngIf="attribute.allValues.length > 0" matSuffix mat-icon-button (click)="attribute.allValues = []" type="button" matTooltip="Очистить список">
             <mat-icon>delete</mat-icon>
           </button>
-        </mat-chip-list>
+        </mat-chip-grid>
       </mat-form-field>
 
       <mat-form-field class="chip-list" appearance="fill" *ngIf="attribute?.isFixed">
         <mat-label>Список возможных имен атрибута</mat-label>
-        <mat-chip-list #chipList aria-label="Список возможных имен атрибута">
-          <mat-chip *ngFor="let pn of attribute?.altValues" (removed)="removePossibleName(pn)">
+        <mat-chip-grid #chipList aria-label="Список возможных имен атрибута">
+          <mat-chip-row *ngFor="let pn of attribute?.altValues" (removed)="removePossibleName(pn)">
             {{pn}}
             <button matChipRemove>
               <mat-icon>cancel</mat-icon>
             </button>
-          </mat-chip>
+          </mat-chip-row>
           <input placeholder="Введите значение..."
                  [matChipInputFor]="chipList"
                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
@@ -86,7 +86,7 @@
           <button *ngIf="attribute.altValues.length > 0" matSuffix mat-icon-button (click)="attribute.altValues = []" type="button" matTooltip="Очистить список">
             <mat-icon>delete</mat-icon>
           </button>
-        </mat-chip-list>
+        </mat-chip-grid>
       </mat-form-field>
     </form>
   </mat-card>

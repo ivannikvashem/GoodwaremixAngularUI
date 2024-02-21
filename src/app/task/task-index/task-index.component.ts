@@ -7,6 +7,8 @@ import {SchedulerTask} from "../../models/schedulerTask.model";
 import {MatPaginator} from "@angular/material/paginator";
 import {merge, tap} from "rxjs";
 import {NotificationService} from "../../service/notification-service";
+import {SelectionModel} from "@angular/cdk/collections";
+import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
   selector: 'app-task-index',
@@ -15,8 +17,10 @@ import {NotificationService} from "../../service/notification-service";
 })
 export class TaskIndexComponent implements OnInit {
 
-  displayedColumns: string[] = ['status', 'task', 'supplier', 'duration', 'actions'];
+  displayedColumns: string[] = ['select', 'status', 'task', 'supplier', 'duration', 'actions'];
+  selection = new SelectionModel<SchedulerTask>(true, []);
   dataSource: SchedulerTaskDataSource;
+  taskDataSource = new MatTableDataSource<SchedulerTask>()
   supplierId = '';
 
   constructor(
@@ -45,6 +49,9 @@ export class TaskIndexComponent implements OnInit {
 
   loadData() {
     this.dataSource.loadPagedData(this.paginator?.pageIndex || 0, this.paginator?.pageSize || 10,'date','asc')
+    this.dataSource.connect(null).subscribe(x => {
+      this.taskDataSource.data = x;
+    })
   }
 
   addTask() {
@@ -77,4 +84,29 @@ export class TaskIndexComponent implements OnInit {
     this.dataSource.taskOnExecute(id,state)
   }
 
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.taskDataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  toggleAllRows() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
+    }
+
+    this.selection.select(...this.taskDataSource.data);
+  }
+
+  startSelectedTasks() {
+    this.dataSource.startTaskList(this.selection.selected.map(x => x.id));
+  }
+
+  stopSelectedTasks() {
+    this.dataSource.stopTaskList(this.selection.selected.map(x => x.id));
+  }
 }

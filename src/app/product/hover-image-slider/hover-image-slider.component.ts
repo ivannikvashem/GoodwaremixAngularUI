@@ -32,8 +32,8 @@ export class HoverImageSliderComponent implements OnInit {
     this.imgIndex = index;
     this.hoverImage = image;
   }
-  openDialog(image: string) {
-    if (image) {
+  openDialog(image: string | string[]) {
+    if (image != null) {
       let selectedImageIndex;
       if (this.imgList?.length > 0) {
         selectedImageIndex = this.imgList.findIndex((x:any) => x === (typeof image === "object" ? image[0] : image))

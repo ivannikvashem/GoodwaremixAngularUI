@@ -3,7 +3,8 @@ import {Subject} from "rxjs";
 
 @Component({
   selector: 'app-attrtibute-state-switch',
-  templateUrl: './attrtibute-state-switch.component.html'
+  templateUrl: './attrtibute-state-switch.component.html',
+  styleUrls: ['attribute-state-switch.components.scss']
 })
 export class AttrtibuteStateSwitchComponent {
 

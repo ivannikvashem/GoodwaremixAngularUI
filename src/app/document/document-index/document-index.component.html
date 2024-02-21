@@ -1,19 +1,21 @@
 <div class="document-container">
   <div *ngIf="isCardLayout == true">
     <div class="cards" *ngIf="isLoading">
-      <mat-card class="card" *ngFor="let i of [].constructor(pageSize)">
-        <div class="title-container-placeholder">
-          <div class="icon-placeholder"></div>
-          <div class="title-lines">
-            <div class="title-placeholder"></div>
-            <div class="title-placeholder"></div>
+      <mat-card appearance="outlined" class="card" *ngFor="let i of [].constructor(pageSize)">
+        <mat-card-content>
+          <div class="title-container-placeholder">
+            <div class="icon-placeholder"></div>
+            <div class="title-lines">
+              <div class="title-placeholder"></div>
+              <div class="title-placeholder"></div>
+            </div>
           </div>
-        </div>
-        <div class="document-content-placeholder"></div>
-        <div class="actions-container">
-          <div class="document-date-placeholder"></div>
-          <div class="action-button-placeholder"></div>
-        </div>
+          <div class="document-content-placeholder"></div>
+          <div class="actions-container">
+            <div class="document-date-placeholder"></div>
+            <div class="action-button-placeholder"></div>
+          </div>
+        </mat-card-content>
       </mat-card>
     </div>
 
@@ -83,8 +85,8 @@
     </table>
   </div>
 
-  <mat-card *ngIf="dataSource.rowCount == 0 && !isLoading">
-    По вашему запросу ничего не найдено, попробуйте изменить критерии поиска
+  <mat-card appearance="outlined" *ngIf="dataSource.rowCount == 0 && !isLoading">
+    <mat-card-content>По вашему запросу ничего не найдено, попробуйте изменить критерии поиска</mat-card-content>
   </mat-card>
 </div>
 

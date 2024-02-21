@@ -5,6 +5,7 @@ import {Supplier} from "../../models/supplier.model";
 import {ApiClient} from "../../service/httpClient";
 import {DataStateService} from "../data-state.service";
 import {LocalStorageService} from "../../service/local-storage.service";
+import {MatAutocompleteTrigger} from "@angular/material/autocomplete";
 @Injectable({
   providedIn: 'root'
 })
@@ -62,12 +63,12 @@ export class SupplierAutocompleteComponent implements OnInit {
     if (supp.supplierName && supp.id) {
       this.selectedSupplier.emit(({id:supp.id, supplierName:supp.supplierName}) as Supplier);
       if (this.changeSupplierGlobally) {
-        this.dss.getSelectedSupplier().next(({id:supp.id, supplierName:supp.supplierName}) as Supplier)
+        this.dss.setSelectedSupplier(supp.id, supp.supplierName)
       }
     } else {
       this.selectedSupplier.emit(new Supplier());
       if (this.changeSupplierGlobally) {
-        this.dss.getSelectedSupplier().next(new Supplier())
+        this.dss.clearSelectedSupplier();
       }
     }
   }
@@ -75,6 +76,11 @@ export class SupplierAutocompleteComponent implements OnInit {
   onClearSupplierSelection() {
     this.searchSuppliersCtrl.setValue('');
     this.onSupplierSelected();
+  }
+
+  isSupplierSelected() {
+    const supp = this.searchSuppliersCtrl.value as Supplier;
+    return supp?.supplierName && supp?.id;
   }
 
   onDestroy() {

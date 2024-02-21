@@ -16,7 +16,7 @@
       display: grid;
       row-gap: 10px;
 
-      .mat-checkbox {
+      .mat-mdc-checkbox {
         margin: auto;
       }
     }
@@ -52,7 +52,7 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
-  max-height: 48px;
+  height: 40px;
   margin-top: 2px;
   margin-bottom: 10px;
 }
@@ -72,17 +72,20 @@
   border-radius: 5px
 }
 
-:host::ng-deep .mat-mini-fab .mat-button-wrapper {
+/* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
+:host::ng-deep .mat-mdc-mini-fab .mat-button-wrapper {
   padding: 0!important;
   line-height: 0;
 }
 
-:host::ng-deep .mat-checkbox-inner-container {
+/* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version. */
+:host::ng-deep .mat-mdc-checkbox-inner-container {
   height: 25px !important;
   width: 26px !important;
 }
 
-:host::ng-deep .mat-checkbox-frame {
+/* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version. */
+:host::ng-deep .mat-mdc-checkbox-frame {
   border-radius: 50% !important;
   border-color: white !important;
 }
@@ -96,6 +99,14 @@
 .action-item {
   visibility: hidden;
 }
+
+:host::ng-deep .mat-mdc-checkbox {
+  /* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version. */
+  .mat-mdc-checkbox-layout {
+    padding: 7px;
+  }
+}
+
 
 @mixin xs-devices {
   .card {

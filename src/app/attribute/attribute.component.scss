@@ -1,9 +1,28 @@
+:host ::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+}
+
+:host ::ng-deep .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-floating-label {
+  top: 50% ;
+}
+
+:host ::ng-deep .mat-mdc-form-field-flex {
+  height: 45px !important;
+}
+
 .toolbox-container {
   display: grid;
   gap: 1rem;
-  grid-template-columns: 2fr auto;
+  grid-template-columns: 2fr 1fr;
   width: 100%;
   justify-content: unset;
+}
+
+.toolbox-items {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
 }
 
 @mixin xs-devices {
@@ -26,7 +45,7 @@
 
 @mixin m-devices {
   .toolbox-container {
-    grid-template-columns: 2fr auto;
+    grid-template-columns: 2fr 1fr;
     .toolbox-item-xl {
       grid-column: span 1;
     }
@@ -35,7 +54,7 @@
 
 @mixin l-devices {
   .toolbox-container {
-    grid-template-columns: 2fr auto;
+    grid-template-columns: 2fr 1fr;
     .toolbox-item-xl {
       grid-column: span 1;
     }
@@ -44,7 +63,7 @@
 
 @mixin xl-devices {
   .toolbox-container {
-    grid-template-columns: 3fr auto;
+    grid-template-columns: 3fr 1fr;
     .toolbox-item-xl {
       grid-column: span 1;
     }

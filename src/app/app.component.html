@@ -15,24 +15,7 @@
     </div>
   </div>
 
-  <div [ngClass]="{'supplier-autocomplete-container': sidebarState, 'supplier-autocomplete-container-collapsed': !sidebarState}">
-    <app-supplier-autocomplete [appearance]="'standard'"></app-supplier-autocomplete>
-  </div>
-
   <ul class="nav-links" id="nav-links">
-    <li *ngIf="!sidebarState" matTooltipPosition="right" [matTooltip]="!sidebarState && !showSupplierSelector ? 'Выбранный поставщик' : ''">
-      <div class="dropdown-title">
-        <a (click)="openSupplierSelector()">
-          <mat-icon class="menu-icon-size">switch_account</mat-icon>
-        </a>
-
-        <div *ngIf="showSupplierSelector" class="supplier-autocomplete-container-clicked-collapsed">
-          <div>
-            <app-supplier-autocomplete (selectedSupplier)="onSupplierSelected()" [appearance]="'standard'"></app-supplier-autocomplete>
-          </div>
-        </div>
-      </div>
-    </li>
 
     <ng-container *ngFor="let item of menuItems">
       <li routerLinkActive="active" *ngIf="roles.includes(item.role)" matTooltipPosition="right" [matTooltip]="!sidebarState ? item.name : ''" (click)="showSupplierSelector = false">

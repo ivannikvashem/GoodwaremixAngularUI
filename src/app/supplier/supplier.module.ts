@@ -29,6 +29,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import { SupplierComponent } from './supplier.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { SupplierDictionaryComponent } from './supplier-dictionary/supplier-dictionary.component';
+import { SupplierImportProductsComponent } from './supplier-import-products/supplier-import-products.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { SupplierDictionaryComponent } from './supplier-dictionary/supplier-dict
     SupplierEditComponent,
     SupplierComponent,
     SupplierDictionaryComponent,
+    SupplierImportProductsComponent,
   ],
     imports: [
         CommonModule,

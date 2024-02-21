@@ -9,21 +9,21 @@
     </button>
   </mat-form-field>
 
-  <div class="toolbox-item">
+  <app-supplier-autocomplete [appearance]="'outline'" class="toolbox-item"></app-supplier-autocomplete>
+
+  <div class="toolbox-items">
     <mat-form-field appearance="outline" class="input-form-outline-background full-width">
       <mat-label>Сортировка</mat-label>
       <select matNativeControl [(ngModel)]="selectedSort" (change)="sortData()">
         <option *ngFor="let option of sortOptions" [ngValue]="option.value">{{option.displayText}}</option>
       </select>
     </mat-form-field>
-  </div>
 
-  <div class="toolbox-item">
     <button class="toolbox-button" mat-raised-button matTooltip="Добавить документ" (click)="addDocumentDialog()">
       <mat-icon>add</mat-icon> Добавить
     </button>
 
-    <button class="toolbox-button" mat-raised-button (click)="isCardLayout = !isCardLayout">
+    <button class="toolbox-button change-layout-btn" mat-raised-button (click)="isCardLayout = !isCardLayout">
       <mat-icon>{{ isCardLayout ? 'format_list_bulleted' : 'dashboard'}}</mat-icon>
     </button>
   </div>

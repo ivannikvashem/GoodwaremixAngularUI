@@ -6,7 +6,7 @@
     width: 10%;
 
     .cdk-item-container {
-      padding: 2px;
+      padding-bottom: 4px;
       margin-right: 5px;
 
       .toggle-column-button {
@@ -27,15 +27,20 @@
   }
 }
 
-.mat-cell {
+.mat-mdc-cell {
   vertical-align: top;
-  padding: 8px 8px 8px 0;
+  padding: 8px;
 }
 
-.mat-row {
+.mat-mdc-row {
   height: auto;
 }
 
 .cell-image {
   object-fit: cover;
+}
+
+.mat-column-checkbox {
+  width: 40px;
+  text-align: center !important;
 }
