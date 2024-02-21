@@ -1,5 +1,5 @@
 <div class="table-container" #scrollable>
-  <table mat-table #attrTable [dataSource]="configDictionary" class="dictionary-table">
+  <table mat-table #attrTable [dataSource]="configDictionary" class="dictionary-table" *ngIf="dictionaryType == 'attribute'">
   <ng-container matColumnDef="idx">
     <th mat-header-cell *matHeaderCellDef> # </th>
     <td mat-cell *matCellDef="let i = index;let element;">
@@ -9,28 +9,28 @@
 
   <ng-container matColumnDef="keySupplier">
     <th mat-header-cell *matHeaderCellDef> Атрибут поставщика </th>
-    <td mat-cell *matCellDef="let i = index; let element" (click)="attrSelectedRow?.id != i ? onSelectRow(element, i) : ''">
-      <mat-form-field class="full-width" *ngIf="attrSelectedRow?.id == i">
+    <td mat-cell *matCellDef="let i = index; let element" (click)="selectedRow?.id != i ? onSelectRow(element, i) : ''">
+      <mat-form-field class="full-width" *ngIf="selectedRow?.id == i">
         <mat-label>Атрибут в файле поставщика</mat-label>
         <input type="text" matInput [value]="element.keySupplier"
-               (keydown.enter)="updateSelectedSuppAttr(i, element)"
+               (keydown.enter)="updateSelectedValue(i, element)"
                (keyup)="element.keySupplier=$any($event.target['value'])" required (keydown.escape)="onSelectedRowClose(element, i, attrTable)"><!--NOT WORKING IN STRICT MODE-->
       </mat-form-field>
-      <span *ngIf="attrSelectedRow?.id != i">{{element.keySupplier}}</span>
+      <span *ngIf="selectedRow?.id != i">{{element.keySupplier}}</span>
     </td>
   </ng-container>
 
   <ng-container matColumnDef="attributeBDName">
     <th mat-header-cell *matHeaderCellDef> Наш атрибут </th>
-    <td mat-cell *matCellDef="let i = index; let element" (click)="attrSelectedRow?.id != i ? onSelectRow(element, i) : ''">
-      <mat-form-field class="attribute-bd-name-input" *ngIf="attrSelectedRow?.id == i">
+    <td mat-cell *matCellDef="let i = index; let element" (click)="selectedRow?.id != i ? onSelectRow(element, i) : ''">
+      <mat-form-field class="attribute-bd-name-input" *ngIf="selectedRow?.id == i">
         <mat-label>Целевой атрибут</mat-label>
         <input type="text" matInput aria-label="Поставщик"
                [formControl]="attributeListCtrl"
                [matAutocomplete]="auto"
-               (keydown.enter)="updateSelectedSuppAttr(i, element)"
+               (keydown.enter)="updateSelectedValue(i, element)"
                (keydown.escape)="onSelectedRowClose(element, i, attrTable)">
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" panelWidth="auto" (optionSelected)="onDBAttrSelected()">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" panelWidth="auto" (optionSelected)="onDBValueSelected()">
           <mat-option *ngFor="let option of attributeList" [value]="option">
             <mat-icon>{{option.isFixed ? 'check_circle' : 'radio_button_unchecked'}}</mat-icon>
             <span [ngClass]="{'energomixStamp': option.supplierName == 'Энергомикс', 'supplierStamp': option.supplierName != 'Энергомикс'}">{{option.supplierName}}</span>
@@ -42,7 +42,7 @@
         </mat-autocomplete>
       </mat-form-field>
 
-      <mat-form-field class="multiplier-input" *ngIf="attrSelectedRow?.id == i">
+      <mat-form-field class="multiplier-input" *ngIf="selectedRow?.id == i">
         <mat-label>Множитель</mat-label>
         <input matInput type="text"
                [formControl]="unitConverterListCtrl"
@@ -55,7 +55,7 @@
         </mat-autocomplete>
       </mat-form-field>
 
-      <span *ngIf="attrSelectedRow?.id != i" [style.color]="element.attributeValid ? 'black': 'orangered'">{{element.attributeBDName}} <strong *ngIf="element.convertId">[Множ. {{element.convertId}}]</strong></span>
+      <span *ngIf="selectedRow?.id != i" [style.color]="element.attributeValid ? 'black': 'orangered'">{{element.attributeBDName}} <strong *ngIf="element.convertId">[Множ. {{element.convertId}}]</strong></span>
     </td>
 
   </ng-container>
@@ -67,7 +67,7 @@
       </button>
     </th>
     <td mat-cell *matCellDef="let i = index; let element">
-      <ng-container *ngIf="attrSelectedRow?.id != i">
+      <ng-container *ngIf="selectedRow?.id != i">
         <!--        <button mat-icon-button class="mat-elevation-z2" (click)="onSelectRow(element, i, config)">
                   <mat-icon>edit</mat-icon>
                 </button>&nbsp;-->
@@ -78,8 +78,8 @@
       <!--    <button mat-mini-fab color="primary" class="mat-elevation-z2" (click)="addNewAttr()" *ngIf="attrSelectedRow?.id == i">
             <mat-icon>add</mat-icon>
           </button>&nbsp;-->
-      <div *ngIf="attrSelectedRow?.id == i" class="buttons-container">
-        <button mat-mini-fab color="accent" class="mat-elevation-z2" (click)="updateSelectedSuppAttr(i, element)" [disabled]="attrSelectedRow?.keySupplier == ''">
+      <div *ngIf="selectedRow?.id == i" class="buttons-container">
+        <button mat-mini-fab color="accent" class="mat-elevation-z2" (click)="updateSelectedValue(i, element)" [disabled]="selectedRow?.keySupplier == ''">
           <mat-icon>check</mat-icon>
         </button>
         <button mat-icon-button class="mat-elevation-z2" (click)="onSelectedRowClose(element, i, attrTable)">
@@ -89,7 +89,81 @@
     </td>
   </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="attrTableColumns; sticky:true"></tr>
+  <tr mat-header-row *matHeaderRowDef=" attrTableColumns; sticky:true"></tr>
   <tr mat-row *matRowDef="let i = index; let row; columns: attrTableColumns;"></tr>
  </table>
+
+  <table mat-table #categoryTable [dataSource]="configDictionary" class="dictionary-table" *ngIf="dictionaryType == 'category'">
+    <ng-container matColumnDef="idx">
+      <th mat-header-cell *matHeaderCellDef> # </th>
+      <td mat-cell *matCellDef="let i = index;let element;">
+        <span>{{i+1}}</span>&nbsp;
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="keySupplier">
+      <th mat-header-cell *matHeaderCellDef> Категория поставщика </th>
+      <td mat-cell *matCellDef="let i = index; let element" (click)="selectedRow?.id != i ? onSelectRow(element, i) : ''">
+        <mat-form-field class="full-width" *ngIf="selectedRow?.id == i">
+          <mat-label>Категория в файле поставщика</mat-label>
+          <input type="text" matInput [value]="element.keySupplier"
+                 (keydown.enter)="updateSelectedValue(i, element)"
+                 (keyup)="element.keySupplier=$any($event.target['value'])" required (keydown.escape)="onSelectedRowClose(element, i, categoryTable)"><!--NOT WORKING IN STRICT MODE-->
+        </mat-form-field>
+        <span *ngIf="selectedRow?.id != i">{{element.keySupplier}}</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="categoryId">
+      <th mat-header-cell *matHeaderCellDef> Наша категория </th>
+      <td mat-cell *matCellDef="let i = index; let element" (click)="selectedRow?.id != i ? onSelectRow(element, i) : ''">
+        <mat-form-field class="attribute-bd-name-input" *ngIf="selectedRow?.id == i">
+          <mat-label>Целевая категория</mat-label>
+          <input type="text" matInput aria-label="Поставщик"
+                 [formControl]="categoryListCtrl"
+                 [matAutocomplete]="auto"
+                 (keydown.enter)="updateSelectedValue(i, element)"
+                 (keydown.escape)="onSelectedRowClose(element, i, categoryTable)">
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" panelWidth="auto" (optionSelected)="onDBValueSelected()">
+            <mat-option *ngFor="let option of categoryList" [value]="option">
+              <span>{{option.title}}</span>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </td>
+
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>
+        <button mat-icon-button class="mat-elevation-z2" (click)="addSuppAttr(categoryTable)">
+          <mat-icon>add</mat-icon>
+        </button>
+      </th>
+      <td mat-cell *matCellDef="let i = index; let element">
+        <ng-container *ngIf="selectedRow?.id != i">
+          <!--        <button mat-icon-button class="mat-elevation-z2" (click)="onSelectRow(element, i, config)">
+                    <mat-icon>edit</mat-icon>
+                  </button>&nbsp;-->
+          <button mat-icon-button class="mat-elevation-z2" (click)="deleteSuppAttr(i, categoryTable)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </ng-container>
+        <!--    <button mat-mini-fab color="primary" class="mat-elevation-z2" (click)="addNewAttr()" *ngIf="attrSelectedRow?.id == i">
+              <mat-icon>add</mat-icon>
+            </button>&nbsp;-->
+        <div *ngIf="selectedRow?.id == i" class="buttons-container">
+          <button mat-mini-fab color="accent" class="mat-elevation-z2" (click)="updateSelectedValue(i, element)" [disabled]="selectedRow?.keySupplier == ''">
+            <mat-icon>check</mat-icon>
+          </button>
+          <button mat-icon-button class="mat-elevation-z2" (click)="onSelectedRowClose(element, i, categoryTable)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef=" categoryTableColumns; sticky:true"></tr>
+    <tr mat-row *matRowDef="let i = index; let row; columns: categoryTableColumns;"></tr>
+  </table>
 </div>

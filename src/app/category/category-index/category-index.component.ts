@@ -80,7 +80,7 @@ export class CategoryIndexComponent implements OnInit {
   editCategory(category:Category) {
     const dialogRef = this.dialog.open(CategoryEditComponent, {
       autoFocus: false,
-      data: { oldCategory: category, newCategory: new Category() },
+      data: category,
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined && result != '') {
@@ -94,9 +94,14 @@ export class CategoryIndexComponent implements OnInit {
   }
 
   addCategoryDialog() {
-    this.dialog.open(CategoryEditComponent, {
+    const dialogRef = this.dialog.open(CategoryEditComponent, {
       autoFocus: false,
-      data: {oldCategory: new Category(), newCategory: new Category() },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != undefined) {
+        this.dataSource.insertCategory(result);
+      }
     });
   }
 }

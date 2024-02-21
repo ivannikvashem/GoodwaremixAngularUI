@@ -32,6 +32,7 @@ export class CategoryDataSource implements DataSource<Category> {
           this.loadingSubject.next(true)
         }),
         map((res:any) => {
+          console.log(res)
           return res.body;
         }),
         catchError(() => of([])),
@@ -42,6 +43,12 @@ export class CategoryDataSource implements DataSource<Category> {
         this.rowCount = body.totalRecords;
         this.pageCountSize = body.data.length;
       });
+  }
+
+  insertCategory(category:Category) {
+    this.api.insertCategory(category).subscribe(x => {
+      console.log(x)
+    })
   }
 
   deleteCategory(id: string) {

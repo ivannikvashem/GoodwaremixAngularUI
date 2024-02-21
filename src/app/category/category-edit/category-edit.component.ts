@@ -27,8 +27,8 @@ export class CategoryEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.data.oldCategory !== undefined) {
-      this.category = this.data.oldCategory;
+    if (this.data) {
+      this.category = this.data;
       this.form.get("title").setValue(this.category.title)
       this.form.get("parentId").setValue(this.category.parentId)
       this.form.get("venderId").setValue(this.category.venderId)
@@ -38,37 +38,14 @@ export class CategoryEditComponent implements OnInit {
 
   onSubmitClick() {
     if (this.form.valid) {
-      this.data.newCategory.title = this.form.get("title").value
-      this.data.newCategory.parentId = this.form.get("parentId").value
-      this.data.newCategory.venderId = this.form.get("venderId").value
-      this.data.newCategory.description = this.form.get("description").value
-
-      if (this.data.oldCategory?.id != undefined) {
-        this.updateCategory(this.data.newCategory)
-      } else {
-        this.insertCategory(this.data.newCategory)
-      }
+      this.data.title = this.form.get("title").value
+      this.data.parentId = this.form.get("parentId").value
+      this.data.venderId = this.form.get("venderId").value
+      this.data.description = this.form.get("description").value
     }
   }
-
-  insertCategory(newCategory:Category) {
-    this.api.insertCategory(newCategory).subscribe((x:any) => {
-      if (x.body) {
-        this.data.newCategory.id = x.body
-      }
-    })
-  }
-
-  updateCategory(category:Category) {
-    this.data.newCategory.id = this.data.oldCategory.id
-    this.api.updateCategory(category).subscribe(() => {
-
-    })
-    this.dialogRef.close(this.data)
-  }
-
   onSupplierSelected(supplier: any) {
-    this.data.newCategory.supplierId = supplier.id;
+    this.data.supplierId = supplier.id;
   }
 
   onCancelClick() {
