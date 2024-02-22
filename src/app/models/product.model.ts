@@ -10,6 +10,7 @@ export class Product {
   titleLong: string;
   description: string;
   customDescription:string
+  categoryId:string;
   vendor: string;
   vendorId: string;
   country:string;

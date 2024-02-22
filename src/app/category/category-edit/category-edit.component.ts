@@ -3,6 +3,8 @@ import {ApiClient} from "../../service/httpClient";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Category} from "../../models/category.model";
+import {Attribute} from "../../models/attribute.model";
+import {debounceTime, switchMap} from "rxjs";
 
 @Component({
   selector: 'app-category-edit',
@@ -13,6 +15,7 @@ export class CategoryEditComponent implements OnInit {
 
   category:Category = new Category();
   form:FormGroup;
+  parentIdList:Category[];
 
   constructor(public api: ApiClient,
               public dialogRef: MatDialogRef<CategoryEditComponent>,
@@ -20,10 +23,8 @@ export class CategoryEditComponent implements OnInit {
               public data: any) {
     this.form = new FormGroup({
       "title": new FormControl<string>('', Validators.required),
-      "parentId": new FormControl<string>('', Validators.required),
-/*
-      "venderId": new FormControl<string>('', Validators.required),
-*/
+      "parentId" : new FormControl<string | Attribute>('')
+      /* "venderId": new FormControl<string>('', Validators.required), */
     })
   }
 
@@ -31,21 +32,26 @@ export class CategoryEditComponent implements OnInit {
     if (this.data) {
       this.category = this.data;
       this.form.get("title").setValue(this.category.title)
-      this.form.get("parentId").setValue(this.category.parentId)
-/*
-      this.form.get("venderId").setValue(this.category.venderId)
-*/
+      if (this.category.parentId) {
+        this.api.getCategoryById(this.category.parentId).subscribe((x:any) => {
+          console.log(x)
+          this.form.get("parentId").setValue(x.body.result)
+        })
+      }
     }
+
+    this.form.controls['parentId'].valueChanges.pipe(
+      debounceTime(100),
+      switchMap(value => this.api.getCategories(value.toString(), 0,  500, '', undefined, "desc"))
+    ).subscribe((data: any) => {
+      this.parentIdList = data.body.data;
+    });
   }
 
-  onSubmitClick() {
-   /* if (this.form.valid) {
-      this.dialogRef.close(this.form)
-    }*/
+  displayFn(value: Category): string {
+    return value.title
   }
-  onSupplierSelected(supplier: any) {
-    //this.data.supplierId = supplier.id;
-  }
+
 
   onCancelClick() {
     this.dialogRef.close()

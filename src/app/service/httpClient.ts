@@ -468,12 +468,21 @@ export class ApiClient {
   getCategories(searchString:string, pageIndex: number, pageSize: number, supplierId:string, sortField: string, sortDirection: string): Observable<any> {
     let opt = {
         params: new HttpParams()
+          .set('filterTitle', searchString ? searchString : '')
           .set('filter.pageNumber', pageIndex ? pageIndex + 1 : 1)
           .set('filter.pageSize', pageSize ?? 10)
     };
 
     opt = Object.assign(opt, this.httpOptions);
     return this.http.get<any>(this.apiURL + '/categories', opt);
+  }
+
+  getCategoryById(id:string) {
+    return this.http.get(this.apiURL + '/categories/' + id, this.httpOptions)
+  }
+
+  getCategoryTreeById(id:string) {
+    return this.http.get(this.apiURL + '/categories/tree/' + id, this.httpOptions)
   }
 
   insertCategory(category:Category): Observable<any> {

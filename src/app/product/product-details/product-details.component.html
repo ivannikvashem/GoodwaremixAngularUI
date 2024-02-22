@@ -18,6 +18,16 @@
 
   </div>
 
+  <mat-card class="category-tree-container">
+    <mat-card-content class="category-tree-content">
+      <a *ngFor="let category of categoryTree; index as i">
+        <div>{{category.title}}</div> <mat-icon class="route-icon" *ngIf="categoryTree.length - 1 != i">arrow_right</mat-icon>
+      </a>
+    </mat-card-content>
+  </mat-card>
+
+
+
   <div class="about-product-container">
 
     <div class="media-product-container">

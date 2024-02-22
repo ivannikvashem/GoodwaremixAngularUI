@@ -32,7 +32,6 @@ export class CategoryDataSource implements DataSource<Category> {
           this.loadingSubject.next(true)
         }),
         map((res:any) => {
-          console.log(res)
           return res.body;
         }),
         catchError(() => of([])),

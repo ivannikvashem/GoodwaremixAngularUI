@@ -14,6 +14,7 @@ import {Document} from "../../models/document.model";
 import {Clipboard} from "@angular/cdk/clipboard";
 import {AuthService} from "../../auth/service/auth.service";
 import {finalize} from "rxjs/operators";
+import {Category} from "../../models/category.model";
 
 @Component({
   selector: 'app-product-details',
@@ -34,6 +35,7 @@ export class ProductDetailsComponent implements OnInit {
   productDocuments:Document[] = [];
   roles:string[] = [];
   isLoading:boolean = true;
+  categoryTree: Category[] = [];
 
   constructor(
     private api: ApiClient,
@@ -75,6 +77,14 @@ export class ProductDetailsComponent implements OnInit {
           }
         }
         this.titleService.setTitle(this.product.internalCode ? 'арт. ' + this.product.internalCode + ' ' + this.product.title : this.product.title);
+          console.log(this.product)
+
+          if (this.product.categoryId) {
+            this.api.getCategoryTreeById(this.product.categoryId).subscribe((x:any) => {
+              console.log(x)
+              this.categoryTree = x.body.result
+            })
+          }
       }, error: () => {
         this.router.navigate(['page-not-found'])
       }});

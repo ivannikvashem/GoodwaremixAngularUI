@@ -1,18 +1,24 @@
-<div mat-dialog-title class="header-container">
-  <span class="page-title">{{category?.title == undefined ? "Добавление категории" : "Редактирование категории"}}</span>
-</div>
-
 <mat-dialog-content>
+  <div class="header-container">
+    <span class="page-title">{{category?.title == undefined ? "Добавление категории" : "Редактирование категории"}}</span>
+  </div>
+
+
   <form [formGroup]="form">
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Родительская категория</mat-label>
+      <input type="text" matInput formControlName="parentId" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" panelWidth="auto">
+        <mat-option *ngFor="let option of parentIdList" [value]="option">
+          <span>{{option.id + ' ' + option.title}}</span>
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
 
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Название</mat-label>
       <input matInput formControlName="title" name="title" required>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>parentId</mat-label>
-      <input matInput formControlName="parentId" name="parentId" required>
     </mat-form-field>
 
 <!--    <mat-form-field appearance="outline" class="full-width">

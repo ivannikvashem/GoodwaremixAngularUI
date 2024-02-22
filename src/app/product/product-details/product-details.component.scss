@@ -145,6 +145,30 @@ tr.mat-mdc-row {
     display: none !important;
 }
 
+.category-tree-container {
+  margin-right: 0 !important;
+  margin-bottom: 10px;
+}
+
+.category-tree-content {
+  display: flex;
+  padding: 6px 16px !important;
+
+  a {
+    cursor: pointer;
+    margin-right: 5px;
+    padding: 3px 10px;
+    background: #EEEEEE;
+    display: flex;
+
+    .route-icon {
+      height: 20px;
+      width: 20px;
+      font-size: 20px;
+    }
+  }
+}
+
 @mixin xs-devices {
   .floating-edit-btn {
     display: block;
