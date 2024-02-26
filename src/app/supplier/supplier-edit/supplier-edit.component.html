@@ -602,49 +602,51 @@
 
                         <div class="form-block-double">
                           <mat-form-field appearance="fill">
+                            <mat-label>TypeFile</mat-label>
+                            <input matInput name="categoryTypeFile" placeholder="" [(ngModel)]="config.categoryConfig.typeFile">
+                          </mat-form-field>
+
+                          <mat-form-field appearance="fill">
+                            <mat-label>TypeURL</mat-label>
+                            <input matInput name="categoryTypeURL" placeholder="" [(ngModel)]="config.categoryConfig.typeURL">
+                          </mat-form-field>
+
+                          <mat-form-field appearance="fill">
+                            <mat-label>CategoryURL</mat-label>
+                            <input matInput name="categoryURL" placeholder="" [(ngModel)]="config.categoryConfig.categoryURL">
+                          </mat-form-field>
+                        </div>
+
+                        <div class="form-block-double">
+                          <mat-form-field appearance="fill">
                             <mat-label>Стартовый таг категорий</mat-label>
                             <input matInput name="categoriesStartTag" placeholder="" [(ngModel)]="config.categoryConfig.categoriesStartTag">
                           </mat-form-field>
                         </div>
+
                         <div class="form-block-double">
                           <mat-form-field appearance="fill">
-                            <mat-label>URL к данным категорий</mat-label>
-                            <input matInput name="categoriesURL" placeholder="" [(ngModel)]="config.categoryConfig.categoryURL">
+                            <mat-label>Категория в продукте</mat-label>
+                            <input matInput name="categoriesProduct" placeholder="" [(ngModel)]="config.categoryConfig.categoriesProduct">
                           </mat-form-field>
                         </div>
-                        <div class="form-block-double">
-                          <mat-form-field appearance="fill">
-                            <mat-label>Тип свойства</mat-label>
-                            <input matInput name="attrType" placeholder="" [(ngModel)]="config.attributeConfig.attrType">
-                          </mat-form-field>
-                        </div>
+
                         <div class="form-block-double">
                           <mat-form-field appearance="fill">
                             <mat-label>Наименование категории</mat-label>
                             <input matInput name="categoryName" placeholder="" [(ngModel)]="config.categoryConfig.title">
                           </mat-form-field>
                           <mat-form-field appearance="fill">
-                            <mat-label>Единица измерения</mat-label>
-                            <input matInput name="unit" placeholder="" [(ngModel)]="config.attributeConfig.unit">
+                            <mat-label>ID категории</mat-label>
+                            <input matInput name="categoryId" placeholder="" [(ngModel)]="config.categoryConfig.categoryId">
                           </mat-form-field>
+
+
                           <mat-form-field appearance="fill">
-                            <mat-label>Значение</mat-label>
-                            <input matInput name="value" placeholder="" [(ngModel)]="config.attributeConfig.value">
+                            <mat-label>Родительская категория</mat-label>
+                            <input matInput name="subCategoriesId" placeholder="" [(ngModel)]="config.categoryConfig.subCategoriesId">
                           </mat-form-field>
-                        </div>
-                        <div class="form-block-double">
-                          <mat-form-field appearance="fill">
-                            <mat-label>ETIM свойство</mat-label>
-                            <input matInput name="etimFeature" placeholder="" [(ngModel)]="config.attributeConfig.etimFeature">
-                          </mat-form-field>
-                          <mat-form-field appearance="fill">
-                            <mat-label>ETIM единица измерения</mat-label>
-                            <input matInput name="etimUnit" placeholder="" [(ngModel)]="config.attributeConfig.etimUnit">
-                          </mat-form-field>
-                          <mat-form-field appearance="fill">
-                            <mat-label>ETIM значение</mat-label>
-                            <input matInput name="etimValue" placeholder="" [(ngModel)]="config.attributeConfig.etimValue">
-                          </mat-form-field>
+
                         </div>
                       </mat-step>
 

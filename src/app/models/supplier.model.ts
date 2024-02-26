@@ -176,6 +176,7 @@ export class NettoConfig {
 
 export class CategoryConfig {
   typeURL: string;
+  typeFile:string;
   categoryURL: string;
   categoriesStartTag: string;
   categoriesProduct: string;
