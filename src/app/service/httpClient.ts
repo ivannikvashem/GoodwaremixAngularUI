@@ -125,7 +125,7 @@ export class ApiClient {
   //#endregion
 
   //#region Product ENDPOINT
-  getProducts(searchQuery: string, selectedSuppId: string, pageIndex: number, pageSize: number, attributes:any, sortField:string, sortDirection:string, isModerated?:boolean, withInternalCodeSelector?: boolean) {
+  getProducts(searchQuery: string, selectedSuppId: string, pageIndex: number, pageSize: number, attributes:any, sortField:string, sortDirection:string, categoryId?:number, isModerated?:boolean, withInternalCodeSelector?: boolean) {
     let opt = {
       params: new HttpParams()
         .set('pageNumber', pageIndex ? pageIndex + 1 : 1)
@@ -141,6 +141,8 @@ export class ApiClient {
       opt.params = opt.params.append('isModerated', isModerated);
     if (typeof (withInternalCodeSelector) == "boolean")
       opt.params = opt.params.append('withInternalCode', withInternalCodeSelector);
+    if (categoryId)
+      opt.params = opt.params.append('categoryId', categoryId);
     if (sortField)
       opt.params = opt.params.append('sortField', sortField);
     if (attributes.attributeSearchFilters?.length > 0)

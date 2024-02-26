@@ -8,6 +8,21 @@
       <div class="filter-actions-container">
         <app-product-ic-filter-switch [state]="withICFilter" (withICFilterEmitter)="onICFilterChanged($event)"></app-product-ic-filter-switch>
         <app-product-verified-filter-switch [state]="isModerated" (moderatedFilterEmitter)="onVerifiedChanged($event)"></app-product-verified-filter-switch>
+        <hr>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Категория</mat-label>
+          <input type="text" matInput
+                 [formControl]="categoryValueFilterCtrl"
+                 [matAutocomplete]="auto">
+          <button *ngIf="categoryValueFilterCtrl.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearCategorySelection()">
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnCategory" panelWidth="auto" (optionSelected)="onCategorySelected()">
+            <mat-option *ngFor="let option of categoryList" [value]="option">
+              <span>{{option.title}}</span>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
       </div>
       <div class="attribute-filter">
         <mat-form-field appearance="outline" class="full-width input-form-outline-background">

@@ -37,6 +37,7 @@ export class ProductIndexComponent implements OnInit {
   @Input() searchQuery:string;
   @Input() withInternalCode:boolean;
   @Input() isModerated:boolean;
+  @Input() categoryId:number;
   //selectedSupplier: Supplier = this.dss.selectedSupplierState.value
   @Input() selectedSupplier: Supplier;
   @Input() pageIndex:number;
@@ -99,7 +100,7 @@ export class ProductIndexComponent implements OnInit {
 
   // isCardLayout params should be removed
   loadProductPagedData(): any {
-    this.dataSource.loadPagedData(this.isCardLayout, this.searchQuery, this.selectedSupplier?.id,  this.pageIndex, this.pageSize, this.attributeFilter, this.sortActive.active, this.sortActive.direction,this.isModerated ? false : null, this.withInternalCode);
+    this.dataSource.loadPagedData(this.isCardLayout, this.searchQuery, this.selectedSupplier?.id,  this.pageIndex, this.pageSize, this.attributeFilter, this.sortActive.active, this.sortActive.direction, this.categoryId, this.isModerated ? false : null, this.withInternalCode);
     this.dataSource.connect(null).subscribe(x => {
       this.productsList = x;
     })

@@ -70,7 +70,7 @@ export class CategoryIndexComponent implements OnInit {
   }
 
   loadCategoryPagedData():any {
-    this.dataSource.loadPagedData(this.searchQuery, this.selectedSupplier?.id,  this.pageIndex, this.pageSize, this.sortActive, this.sortDirection);
+    this.dataSource.loadPagedData(this.searchQuery,  this.selectedSupplier?.id,  this.pageIndex, this.pageSize, this.sortActive, this.sortDirection);
   }
 
   sortData(sort: any) {

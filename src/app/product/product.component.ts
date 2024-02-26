@@ -23,6 +23,7 @@ export class ProductComponent implements OnInit {
   pageSize:number = 12;
   sortDirection:string;
   sortActive:string = null;
+  categoryId:number;
 
   //About to be deprecated
   cardLayout:boolean = true;
@@ -72,6 +73,7 @@ export class ProductComponent implements OnInit {
         this.sortDirection = this.pC.sortDirection;
         this.isModerated = this.pC.isModerated;
         this.cardLayout = this.pC.cardLayout;
+        this.categoryId = this.pC.categoryId;
         this.selectedSort = this.sortOptions.find(x => x.value.active === this.sortActive && x.value.direction === this.sortDirection)?.value;
       }
     });
@@ -87,7 +89,8 @@ export class ProductComponent implements OnInit {
       sortActive: this.sortActive,
       sortDirection: this.sortDirection,
       isModerated: this.isModerated != undefined ? this.isModerated : null,
-      cardLayout: this.cardLayout
+      cardLayout: this.cardLayout,
+      categoryId: this.categoryId
     });
   }
 
@@ -100,6 +103,8 @@ export class ProductComponent implements OnInit {
         }
       }
     )
+
+    this.categoryId = +this._ActivatedRoute.snapshot.paramMap.get("categoryId");
   }
 
   searchQueryChanged() {
@@ -123,6 +128,10 @@ export class ProductComponent implements OnInit {
     this.isModerated = state;
   }
 
+  onCategoryIdChanged(id:number) {
+    this.categoryId = id;
+  }
+
   onPageParamsChanged(params: any) {
     this.pageIndex = params.pageIndex;
     this.pageSize = params.pageSize;
@@ -138,7 +147,7 @@ export class ProductComponent implements OnInit {
   attributeFilter() {
     const dialogRef = this.dialog.open(AttributeFilterComponent, {
       panelClass: ['dialog-gray-background', 'full-width'],
-      data: {filter: JSON.stringify(this.filterAttribute), withICFilter:this.withICFilter, isModerated:this.isModerated},
+      data: {filter: JSON.stringify(this.filterAttribute), withICFilter:this.withICFilter, isModerated:this.isModerated, categoryId:this.categoryId},
       autoFocus:false
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -149,6 +158,7 @@ export class ProductComponent implements OnInit {
       }
       this.onModeratedChanged(result.isModerated);
       this.onICFilterChanged(result.withICFilter);
+      this.onCategoryIdChanged(result.categoryId);
       this.pageIndex = 0;
       this.setCookie();
     });
@@ -162,6 +172,10 @@ export class ProductComponent implements OnInit {
     if (this.isModerated == true || this.isModerated == false) {
       length += 1;
     }
+    if (this.categoryId) {
+      length += 1;
+    }
+
     return length;
   }
 

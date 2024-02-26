@@ -37,11 +37,11 @@ export class ProductsDataSource implements DataSource<Product> {
   }
 
   // loadPagedData - isCardLayout param should be removed
-  loadPagedData(isCardLayout:boolean, queryString:string, selectedSuppId:string, pageIndex:number, pageSize:number, selectedAttributes:any | null, sortActive:string, sortDirection:string, isModerated:boolean, withInternalCodeSelector:boolean) {
+  loadPagedData(isCardLayout:boolean, queryString:string, selectedSuppId:string, pageIndex:number, pageSize:number, selectedAttributes:any | null, sortActive:string, sortDirection:string, categoryId:number, isModerated:boolean, withInternalCodeSelector:boolean) {
     if (this.loadingSubject.value == true)
       return;
     this.loadingSubject.next(true);
-    this.api.getProducts(queryString, selectedSuppId, pageIndex, pageSize, selectedAttributes, sortActive, sortDirection, isModerated, withInternalCodeSelector)
+    this.api.getProducts(queryString, selectedSuppId, pageIndex, pageSize, selectedAttributes, sortActive, sortDirection, categoryId, isModerated, withInternalCodeSelector)
       .pipe(
         tap(() => {
           this.loadingSubject.next(true);

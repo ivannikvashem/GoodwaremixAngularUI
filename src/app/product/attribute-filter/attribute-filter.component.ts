@@ -4,6 +4,7 @@ import {Attribute} from "../../models/attribute.model";
 import {debounceTime, distinctUntilChanged, finalize, Observable, switchMap, tap} from "rxjs";
 import {ApiClient} from "../../service/httpClient";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {Category} from "../../models/category.model";
 
 export class Filter {
   attributeId:string;
@@ -24,6 +25,7 @@ export class SelectedFiltersList {
 export class AttributeFilterComponent implements OnInit {
 
   attributeValueFilterCtrl =  new FormControl<string | Attribute>(null);
+  categoryValueFilterCtrl =  new FormControl<string | Category>(null);
   attributesList: Attribute[] = [];
   attributesForFilter:Attribute[] = []
   selectedFilterAttributes:SelectedFiltersList[] = []
@@ -31,19 +33,28 @@ export class AttributeFilterComponent implements OnInit {
   private filterCaches = new Map<string, Map<string, string[]>>();
   withICFilter:boolean = false;
   isModerated:boolean = false;
+  categoryList:Category[] = [];
 
   onFilterCancelData:string = '';
   isLoading:boolean;
+  categoryId:number;
   selectedAttributes: SelectedFiltersList = new SelectedFiltersList()
 
   constructor(private api:ApiClient, @Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<AttributeFilterComponent>) { }
 
   ngOnInit(): void {
+    this.categoryId = this.data.categoryId;
     this.withICFilter = this.data.withICFilter;
     this.isModerated = this.data.isModerated;
     if (this.data.filter.length > 0) {
       this.data = JSON.parse(this.data.filter)
     }
+    if (this.categoryId) {
+      this.api.getCategoryById(this.categoryId.toString()).subscribe((x:any) => {
+        this.categoryValueFilterCtrl.setValue(x.body.result as Category)
+      })
+    }
+
     if (this.data.attributeSearchFilters?.length > 0) {
       this.onFilterCancelData = JSON.stringify(this.data);
       this.isLoading = true;
@@ -69,6 +80,14 @@ export class AttributeFilterComponent implements OnInit {
       switchMap(value => this.api.getAttributes(value, '', 0, 100, undefined, "rating", "desc")
       )).subscribe((response: any) => {
       this.attributesList = response.body.data;
+    });
+
+    this.categoryValueFilterCtrl.valueChanges.pipe(
+      distinctUntilChanged(),
+      debounceTime(100),
+      switchMap(value => this.api.getCategories(value, 0, 100, undefined, "", "desc")
+      )).subscribe((response: any) => {
+      this.categoryList = response.body.data;
     });
 
     this.dialogRef.backdropClick().subscribe(() => {
@@ -98,6 +117,10 @@ export class AttributeFilterComponent implements OnInit {
 
   displayFn(attribute: Attribute): string {
     return attribute && attribute.nameAttribute ? attribute.nameAttribute : '';
+  }
+
+  displayFnCategory(category: Category): string {
+    return category && category.title;
   }
 
   removeFilter(i: number) {
@@ -157,7 +180,7 @@ export class AttributeFilterComponent implements OnInit {
         this.selectedAttributes.attributeSearchFilters = this.selectedAttributes.attributeSearchFilters.filter(x => x.attributeId !== i.attributeId)
       }
     }
-    let filters = {selectedAttributes:this.selectedAttributes, withICFilter:this.withICFilter, isModerated: this.isModerated}
+    let filters = {selectedAttributes:this.selectedAttributes, withICFilter:this.withICFilter, isModerated: this.isModerated, categoryId: this.categoryId}
     this.dialogRef.close(filters)
   }
 
@@ -175,5 +198,14 @@ export class AttributeFilterComponent implements OnInit {
 
   clearFilters() {
     this.dialogRef.close({isModerated: null, withICFilter: null, selectedAttributes:null});
+  }
+
+  onCategorySelected() {
+    this.categoryId = +(this.categoryValueFilterCtrl.value as Category).id;
+  }
+
+  clearCategorySelection() {
+    this.categoryValueFilterCtrl.setValue(null);
+    this.categoryId = null;
   }
 }

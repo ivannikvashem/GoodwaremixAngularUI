@@ -172,4 +172,8 @@ export class ProductDetailsComponent implements OnInit {
   typeofLogicalAttribute(objectValue:any) {
     return typeof objectValue;
   }
+
+  goToCategory(id: string) {
+    this.router.navigate([`products/${id}`]);
+  }
 }
