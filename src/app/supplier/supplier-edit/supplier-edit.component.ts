@@ -13,6 +13,7 @@ import {NotificationService} from "../../service/notification-service";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/shared/confirm-dialog/confirm-dialog.component";
 import {Title} from "@angular/platform-browser";
+import {ProductCategoryKey} from "../../models/productCategoryKey.model";
 
 export class HeaderModel {
   HeaderName:string
@@ -219,7 +220,12 @@ export class SupplierEditComponent implements OnInit {
     this.router.navigate(['suppliers'])
   }
 
-  onDictionaryChanged(productAttributeKeys: ProductAttributeKey[], config: SupplierConfig) {
-    config.attributeConfig.productAttributeKeys = productAttributeKeys
+  onDictionaryChanged(productKeys: any[], config: SupplierConfig, dictionaryKey:string) {
+    if (dictionaryKey == 'attribute') {
+      config.attributeConfig.productAttributeKeys = productKeys;
+    } else if (dictionaryKey == 'category') {
+      console.log(productKeys)
+      config.categoryConfig.productCategoryKeys = productKeys;
+    }
   }
 }

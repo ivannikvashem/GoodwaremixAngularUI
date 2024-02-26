@@ -77,11 +77,8 @@ export class ProductDetailsComponent implements OnInit {
           }
         }
         this.titleService.setTitle(this.product.internalCode ? 'арт. ' + this.product.internalCode + ' ' + this.product.title : this.product.title);
-          console.log(this.product)
-
           if (this.product.categoryId) {
             this.api.getCategoryTreeById(this.product.categoryId).subscribe((x:any) => {
-              console.log(x)
               this.categoryTree = x.body.result
             })
           }

@@ -465,7 +465,7 @@ export class ApiClient {
     return this.http.get(this.apiURL + '/statistics/LastSupplierStatistic/' + supplierId, this.httpOptions)
   }
 
-  getCategories(searchString:string, pageIndex: number, pageSize: number, supplierId:string, sortField: string, sortDirection: string): Observable<any> {
+  getCategories(searchString:any, pageIndex: number, pageSize: number, supplierId:string, sortField: string, sortDirection: string): Observable<any> {
     let opt = {
         params: new HttpParams()
           .set('filterTitle', searchString ? searchString : '')

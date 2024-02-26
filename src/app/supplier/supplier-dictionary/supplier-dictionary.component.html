@@ -130,6 +130,7 @@
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
+        <span *ngIf="selectedRow?.id != i">{{element.title}}</span>
       </td>
 
     </ng-container>

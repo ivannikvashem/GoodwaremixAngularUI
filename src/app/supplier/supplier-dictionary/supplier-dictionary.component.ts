@@ -34,11 +34,6 @@ export class SupplierDictionaryComponent implements OnInit {
   public unitConverterList: UnitConverter[] | undefined;
 
   ngOnInit(): void {
-    console.log(this.dictionaryType)
-    setTimeout(() => {
-      console.log( this.dictionaryType == 'attribute' ? '123' : '_________')
-    }, 1000)
-
     if (this.dictionaryType == 'attribute') {
       this.attributeListCtrl.valueChanges.pipe(
         debounceTime(100),
@@ -54,10 +49,10 @@ export class SupplierDictionaryComponent implements OnInit {
         this.unitConverterList = data.body.data;
       });
 
-    } else {
+    } else if (this.dictionaryType == 'category') {
       this.categoryListCtrl.valueChanges.pipe(
         debounceTime(100),
-        switchMap(value => this.api.getCategories(value.toString(), 0,  500, '', undefined, "desc"))
+        switchMap(value => this.api.getCategories(value, 0,  500, '', undefined, "desc"))
       ).subscribe((data: any) => {
         this.categoryList = data.body.data;
       });
@@ -75,27 +70,46 @@ export class SupplierDictionaryComponent implements OnInit {
     }
     let a: any = {
       id: this.configDictionary.length,
-      keySupplier: '',
+      keySupplier: ''
+/*      keySupplier: '',
       attributeBDName: '',
       attributeIdBD: '',
       attributeValid: false,
-      convertId: ''
+      convertId: ''*/
     };
     this.configDictionary.push(a);
     let row = this.configDictionary[this.configDictionary.length - 1];
+/*
     this.attributeListCtrl.setValue(row.attributeBDName);
+*/
     this.selectedRow = row;
     table.renderRows();
     this.scrollToBottom();
   }
 
   onSelectRow(row: any, i: any) {
-    let at = new Attribute()
-    at.nameAttribute = this.configDictionary[i].attributeBDName
-    this.selectedAttr = at;
-    this.attributeListCtrl.setValue(this.selectedAttr);
-    this.selectedRow = row;
-    this.selectedRow.id = i;
+    if (this.dictionaryType == 'attribute') {
+      let attribute = new Attribute();
+      attribute.nameAttribute = this.configDictionary[i].attributeBDName
+      this.attributeListCtrl.setValue(attribute);
+      this.selectedRow = row;
+      this.selectedRow.id = i;
+    }
+    else if (this.dictionaryType == 'category') {
+
+      console.log(this.configDictionary[i])
+
+      this.api.getCategoryById(this.configDictionary[i].categoryId).subscribe((x:any) => {
+        console.log(x)
+        this.categoryListCtrl.setValue(x.body.result as Category)
+      })
+
+      let category = new Category();
+      category.title = this.configDictionary[i].attributeBDName
+      this.categoryListCtrl.setValue(category);
+      this.selectedRow = row;
+      this.selectedRow.id = i;
+    }
   }
 
   deleteSuppAttr(index: number, table: any) {
@@ -139,27 +153,44 @@ export class SupplierDictionaryComponent implements OnInit {
   updateSelectedValue(i: number, row: any) {
     //validation
     // Add our value
-    const idx = this.configDictionary.indexOf(row.attributeIdBD);
-    if (row.keySupplier == null && idx != i) {
-      return;
+    if (this.dictionaryType == 'attribute') {
+      const idx = this.configDictionary.indexOf(row.attributeIdBD);
+      if (row.keySupplier == null && idx != i) {
+        return;
+      }
+      //update
+      this.selectedRow.nameAttribute = (this.attributeListCtrl.value as Attribute).nameAttribute;
+      this.selectedRow.id = this.configDictionary.length;
+      this.selectedRow.attributeBDName = this.selectedAttr?.nameAttribute;
+      this.selectedRow.attributeValid = true;
+      this.selectedRow.attributeIdBD = this.selectedAttr?.id || this.selectedRow.attributeIdBD;
+      this.clearAttrSelection();
     }
-    //update
-    this.selectedRow.nameAttribute = (this.attributeListCtrl.value as Attribute).nameAttribute;
-    this.selectedRow.id = this.configDictionary.length;
-    this.selectedRow.attributeBDName = this.selectedAttr?.nameAttribute;
-    this.selectedRow.attributeValid = true;
-    this.selectedRow.attributeIdBD = this.selectedAttr?.id || this.selectedRow.attributeIdBD;
+    else if (this.dictionaryType == 'category') {
+      const idx = this.configDictionary.indexOf(row.id);
+      if (row.keySupplier == null && idx != i) {
+        return;
+      }
+      this.selectedRow.title = (this.categoryListCtrl.value as Category).title;
+      this.selectedRow.id = this.configDictionary.length;
+      this.selectedRow.categoryId = (this.categoryListCtrl.value as Category).id.toString();
+      this.clearCategorySelection();
+    }
+
     this.configDictionary[i] = this.selectedRow;
     this.selectedAttr = null;
+
     //prepare for refresh
     this.onDictionaryChanged();
-    this.clearAttrSelection();
   }
 
   clearAttrSelection(): void {
-    this.selectedRow = null;
     this.attributeListCtrl.setValue(null)
     this.unitConverterListCtrl.setValue('')
+  }
+
+  clearCategorySelection(): void {
+    this.categoryListCtrl.setValue(null)
   }
 
   // if add new attribute will be needed

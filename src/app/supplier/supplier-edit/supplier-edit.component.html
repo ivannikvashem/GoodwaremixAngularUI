@@ -594,7 +594,7 @@
 
                       <mat-step>
                         <ng-template matStepLabel>Парсер. Словарь атрибутов</ng-template>
-                        <app-supplier-dictionary [dictionaryType]="'attribute'" [configDictionary]="config.attributeConfig.productAttributeKeys" (configDictionaryOut)="onDictionaryChanged($event, config)"></app-supplier-dictionary>
+                        <app-supplier-dictionary [dictionaryType]="'attribute'" [configDictionary]="config.attributeConfig.productAttributeKeys" (configDictionaryOut)="onDictionaryChanged($event, config, 'attribute')"></app-supplier-dictionary>
                       </mat-step>
 
                       <mat-step>
@@ -650,7 +650,7 @@
 
                       <mat-step>
                         <ng-template matStepLabel>Парсер. Словарь категорий</ng-template>
-                        <app-supplier-dictionary [dictionaryType]="'category'" [configDictionary]="config.categoryConfig.productCategoryKeys"></app-supplier-dictionary>
+                        <app-supplier-dictionary [dictionaryType]="'category'" [configDictionary]="config.categoryConfig.productCategoryKeys" (configDictionaryOut)="onDictionaryChanged($event, config, 'category')"></app-supplier-dictionary>
                       </mat-step>
 
                       <mat-step>
