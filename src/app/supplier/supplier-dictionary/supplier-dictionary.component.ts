@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {ProductAttributeKey} from "../../models/productAttributeKey.model";
 import {Attribute} from "../../models/attribute.model";
 import {FormControl} from "@angular/forms";
@@ -6,6 +6,7 @@ import {debounceTime, switchMap} from "rxjs";
 import {ApiClient} from "../../service/httpClient";
 import {UnitConverter} from "../../models/unitConverter.model";
 import {Category} from "../../models/category.model";
+import {COMMA, ENTER} from "@angular/cdk/keycodes";
 
 @Component({
   selector: 'app-supplier-dictionary',
@@ -20,6 +21,8 @@ export class SupplierDictionaryComponent implements OnInit {
   @Input() dictionaryType: string;
   @Output() configDictionaryOut:EventEmitter<any[]> = new EventEmitter();
   @ViewChild('scrollable') private scrollable: ElementRef;
+  readonly separatorKeysCodes = [ENTER, COMMA] as const;
+  addOnBlur = true;
 
   attrTableColumns: string[] = ['idx', 'keySupplier', 'attributeBDName', 'action'];
   categoryTableColumns: string[] = ['idx', 'keySupplier', 'categoryId', 'action'];
@@ -70,7 +73,7 @@ export class SupplierDictionaryComponent implements OnInit {
     }
     let a: any = {
       id: this.configDictionary.length,
-      keySupplier: ''
+      keySupplier: []
 /*      keySupplier: '',
       attributeBDName: '',
       attributeIdBD: '',
@@ -96,11 +99,7 @@ export class SupplierDictionaryComponent implements OnInit {
       this.selectedRow.id = i;
     }
     else if (this.dictionaryType == 'category') {
-
-      console.log(this.configDictionary[i])
-
       this.api.getCategoryById(this.configDictionary[i].categoryId).subscribe((x:any) => {
-        console.log(x)
         this.categoryListCtrl.setValue(x.body.result as Category)
       })
 
@@ -112,7 +111,7 @@ export class SupplierDictionaryComponent implements OnInit {
     }
   }
 
-  deleteSuppAttr(index: number, table: any) {
+  deleteTableLine(index: number, table: any) {
     this.configDictionary.splice(index, 1);
     this.onDictionaryChanged()
     table.renderRows()
@@ -120,10 +119,19 @@ export class SupplierDictionaryComponent implements OnInit {
 
 
   onSelectedRowClose(row: any, i: any, table: any) {
-    if (row.keySupplier == '' && row.attributeBDName == '') {
-      this.deleteSuppAttr(i, table)
+    if (this.dictionaryType == 'attribute') {
+      if (row.keySupplier == '' && row.attributeBDName == '') {
+        this.deleteTableLine(i, table)
+      }
+      this.clearAttrSelection();
     }
-    this.clearAttrSelection();
+    else if (this.dictionaryType == 'category') {
+      if (row.keySupplier.length <= 0 && row.categoryId == '') {
+        this.deleteTableLine(i, table)
+      }
+      this.clearCategorySelection();
+    }
+    this.selectedRow = null;
   }
 
   displayFn(value: any): string {
@@ -221,6 +229,17 @@ export class SupplierDictionaryComponent implements OnInit {
 
   onUnitConverterSelected(element:any) {
     element.convertId = (this.unitConverterListCtrl.value as UnitConverter).id;
+  }
+
+  addElementKeyValue($event: any, index: number) {
+    console.log(this.configDictionary[index])
+
+    const value = ($event.value || '').trim();
+    const idx = this.configDictionary[index].keySupplier?.indexOf(value);
+    if (value && idx === -1) {
+      this.configDictionary[index].keySupplier.push($event.value)
+    }
+    $event.chipInput!.clear();
   }
 }
 

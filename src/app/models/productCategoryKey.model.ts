@@ -1,4 +1,8 @@
 export class ProductCategoryKey {
   categoryId:string;
-  keySupplier:string;
+  keySupplier:string[];
+
+  constructor() {
+    this.keySupplier = []
+  }
 }

@@ -71,7 +71,7 @@
         <!--        <button mat-icon-button class="mat-elevation-z2" (click)="onSelectRow(element, i, config)">
                   <mat-icon>edit</mat-icon>
                 </button>&nbsp;-->
-        <button mat-icon-button class="mat-elevation-z2" (click)="deleteSuppAttr(i, attrTable)">
+        <button mat-icon-button class="mat-elevation-z2" (click)="deleteTableLine(i, attrTable)">
           <mat-icon>delete</mat-icon>
         </button>
       </ng-container>
@@ -104,13 +104,38 @@
     <ng-container matColumnDef="keySupplier">
       <th mat-header-cell *matHeaderCellDef> Категория поставщика </th>
       <td mat-cell *matCellDef="let i = index; let element" (click)="selectedRow?.id != i ? onSelectRow(element, i) : ''">
-        <mat-form-field class="full-width" *ngIf="selectedRow?.id == i">
+
+        <mat-form-field class="full-width" appearance="fill"  *ngIf="selectedRow?.id == i">
+          <mat-label>Категория в файле поставищка</mat-label>
+
+            <input matInput placeholder="Введите значение..."
+                   [matChipInputFor]="categoryKeyChipList"
+                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                   [matChipInputAddOnBlur]="addOnBlur"
+                   (matChipInputTokenEnd)="addElementKeyValue($event, i)"
+                   (keydown.escape)="onSelectedRowClose(element, i, categoryTable)">
+        </mat-form-field>
+        <mat-chip-grid #categoryKeyChipList aria-label="Категория в файле поставищка">
+          <mat-chip-row [value]="element.keySupplier" *ngFor="let value of element?.keySupplier">
+            {{value}}
+            <button matChipRemove *ngIf="selectedRow?.id == i">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+        </mat-chip-grid>
+
+
+<!--
+        <div *ngIf="selectedRow?.id != i"><span>{{element.keySupplier != null ? element.keySupplier.slice(0, element.keySupplier.length).join(', ') : ""}}</span></div>
+-->
+
+       <!-- <mat-form-field class="full-width" *ngIf="selectedRow?.id == i">
           <mat-label>Категория в файле поставщика</mat-label>
           <input type="text" matInput [value]="element.keySupplier"
                  (keydown.enter)="updateSelectedValue(i, element)"
-                 (keyup)="element.keySupplier=$any($event.target['value'])" required (keydown.escape)="onSelectedRowClose(element, i, categoryTable)"><!--NOT WORKING IN STRICT MODE-->
+                 (keyup)="element.keySupplier=$any($event.target['value'])" required (keydown.escape)="onSelectedRowClose(element, i, categoryTable)">&lt;!&ndash;NOT WORKING IN STRICT MODE&ndash;&gt;
         </mat-form-field>
-        <span *ngIf="selectedRow?.id != i">{{element.keySupplier}}</span>
+        <span *ngIf="selectedRow?.id != i">{{element.keySupplier}}</span>-->
       </td>
     </ng-container>
 
@@ -146,7 +171,7 @@
           <!--        <button mat-icon-button class="mat-elevation-z2" (click)="onSelectRow(element, i, config)">
                     <mat-icon>edit</mat-icon>
                   </button>&nbsp;-->
-          <button mat-icon-button class="mat-elevation-z2" (click)="deleteSuppAttr(i, categoryTable)">
+          <button mat-icon-button class="mat-elevation-z2" (click)="deleteTableLine(i, categoryTable)">
             <mat-icon>delete</mat-icon>
           </button>
         </ng-container>
@@ -154,7 +179,7 @@
               <mat-icon>add</mat-icon>
             </button>&nbsp;-->
         <div *ngIf="selectedRow?.id == i" class="buttons-container">
-          <button mat-mini-fab color="accent" class="mat-elevation-z2" (click)="updateSelectedValue(i, element)" [disabled]="selectedRow?.keySupplier == ''">
+          <button mat-mini-fab color="primary" class="mat-elevation-z2" (click)="updateSelectedValue(i, element)" [disabled]="selectedRow?.keySupplier == ''">
             <mat-icon>check</mat-icon>
           </button>
           <button mat-icon-button class="mat-elevation-z2" (click)="onSelectedRowClose(element, i, categoryTable)">

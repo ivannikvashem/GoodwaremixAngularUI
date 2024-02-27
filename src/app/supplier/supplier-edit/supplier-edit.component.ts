@@ -3,7 +3,6 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {FormControl} from "@angular/forms";
 import {Supplier, SupplierConfig} from "../../models/supplier.model";
 import {ApiClient} from "../../service/httpClient";
-import {ProductAttributeKey} from "../../models/productAttributeKey.model";
 import { Attribute } from 'src/app/models/attribute.model';
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {MatChipInputEvent} from "@angular/material/chips";
@@ -13,7 +12,6 @@ import {NotificationService} from "../../service/notification-service";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/shared/confirm-dialog/confirm-dialog.component";
 import {Title} from "@angular/platform-browser";
-import {ProductCategoryKey} from "../../models/productCategoryKey.model";
 
 export class HeaderModel {
   HeaderName:string
@@ -224,7 +222,6 @@ export class SupplierEditComponent implements OnInit {
     if (dictionaryKey == 'attribute') {
       config.attributeConfig.productAttributeKeys = productKeys;
     } else if (dictionaryKey == 'category') {
-      console.log(productKeys)
       config.categoryConfig.productCategoryKeys = productKeys;
     }
   }
