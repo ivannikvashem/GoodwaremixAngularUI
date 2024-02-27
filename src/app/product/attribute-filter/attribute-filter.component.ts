@@ -46,6 +46,7 @@ export class AttributeFilterComponent implements OnInit {
     this.categoryId = this.data.categoryId;
     this.withICFilter = this.data.withICFilter;
     this.isModerated = this.data.isModerated;
+    this.onFilterCancelData = JSON.stringify(this.data);
     if (this.data.filter.length > 0) {
       this.data = JSON.parse(this.data.filter)
     }
@@ -56,7 +57,6 @@ export class AttributeFilterComponent implements OnInit {
     }
 
     if (this.data.attributeSearchFilters?.length > 0) {
-      this.onFilterCancelData = JSON.stringify(this.data);
       this.isLoading = true;
       for (let i of this.data.attributeSearchFilters) {
         this.api.getAttributeById(i.attributeId).pipe(
@@ -185,6 +185,7 @@ export class AttributeFilterComponent implements OnInit {
   }
 
   onFilterCancel() {
+    console.log(this.onFilterCancelData)
     this.dialogRef.close(this.onFilterCancelData.length > 0 ? JSON.parse(this.onFilterCancelData): {})
   }
 
