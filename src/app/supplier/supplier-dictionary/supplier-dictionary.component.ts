@@ -232,9 +232,21 @@ export class SupplierDictionaryComponent implements OnInit {
   }
 
   addElementKeyValue($event: any, index: number) {
-    console.log(this.configDictionary[index])
-
     const value = ($event.value || '').trim();
+
+    if (value.includes(";")) {
+      for (let v of value.split(";")) {
+        if (v != '') {
+          const idx = this.configDictionary[index].keySupplier?.indexOf(v);
+          if (value && idx === -1) {
+            this.configDictionary[index].keySupplier.push(v)
+          }
+        }
+      }
+      $event.chipInput!.clear();
+      return;
+    }
+
     const idx = this.configDictionary[index].keySupplier?.indexOf(value);
     if (value && idx === -1) {
       this.configDictionary[index].keySupplier.push($event.value)
