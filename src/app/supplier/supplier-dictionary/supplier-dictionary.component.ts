@@ -241,5 +241,12 @@ export class SupplierDictionaryComponent implements OnInit {
     }
     $event.chipInput!.clear();
   }
+
+  removeCategory(value: any, i: number) {
+    const index = this.configDictionary[i].keySupplier?.indexOf(value);
+    if (typeof (index) == "number" && index >= 0) {
+      this.configDictionary[i].keySupplier?.splice(index, 1);
+    }
+  }
 }
 

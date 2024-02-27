@@ -116,7 +116,7 @@
                    (keydown.escape)="onSelectedRowClose(element, i, categoryTable)">
         </mat-form-field>
         <mat-chip-grid #categoryKeyChipList aria-label="Категория в файле поставищка">
-          <mat-chip-row [value]="element.keySupplier" *ngFor="let value of element?.keySupplier">
+          <mat-chip-row [value]="element.keySupplier" *ngFor="let value of element?.keySupplier" (removed)="removeCategory(value, i)">
             {{value}}
             <button matChipRemove *ngIf="selectedRow?.id == i">
               <mat-icon>cancel</mat-icon>
