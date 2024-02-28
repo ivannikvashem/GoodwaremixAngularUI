@@ -49,6 +49,7 @@ import {
   ProductVerifiedFilterSwitchComponent
 } from "./product-verified-filter-switch/product-verified-filter-switch.component";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import { ProductCategoryFilterSwitchComponent } from './product-category-filter-switch/product-category-filter-switch.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
     ProductCardComponent,
     ProductSelectedListComponent,
     ProductVerifiedFilterSwitchComponent,
+    ProductCategoryFilterSwitchComponent,
   ],
   exports: [
     HoverImageSliderComponent

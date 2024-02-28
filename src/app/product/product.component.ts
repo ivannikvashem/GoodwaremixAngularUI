@@ -34,6 +34,7 @@ export class ProductComponent implements OnInit {
   pC: any = {};
   withICFilter: boolean = null;
   isModerated: boolean = null;
+  containsCategory: boolean = null;
   roles:string[] = [];
 
   sortOptions =[
@@ -74,6 +75,7 @@ export class ProductComponent implements OnInit {
         this.isModerated = this.pC.isModerated;
         this.cardLayout = this.pC.cardLayout;
         this.categoryId = this.pC.categoryId;
+        this.containsCategory = this.pC.containsCategory;
         this.selectedSort = this.sortOptions.find(x => x.value.active === this.sortActive && x.value.direction === this.sortDirection)?.value;
       }
     });
@@ -90,7 +92,8 @@ export class ProductComponent implements OnInit {
       sortDirection: this.sortDirection,
       isModerated: this.isModerated != undefined ? this.isModerated : null,
       cardLayout: this.cardLayout,
-      categoryId: this.categoryId
+      categoryId: this.categoryId,
+      containsCategory: this.containsCategory
     });
   }
 
@@ -128,6 +131,10 @@ export class ProductComponent implements OnInit {
     this.isModerated = state;
   }
 
+  onCategoryContainsChanged(state: boolean) {
+    this.containsCategory = state;
+  }
+
   onCategoryIdChanged(id:number) {
     this.categoryId = id;
   }
@@ -147,7 +154,7 @@ export class ProductComponent implements OnInit {
   attributeFilter() {
     const dialogRef = this.dialog.open(AttributeFilterComponent, {
       panelClass: ['dialog-gray-background', 'full-width'],
-      data: {filter: JSON.stringify(this.filterAttribute), withICFilter:this.withICFilter, isModerated:this.isModerated, categoryId:this.categoryId},
+      data: {filter: JSON.stringify(this.filterAttribute), withICFilter:this.withICFilter, isModerated:this.isModerated, categoryId:this.categoryId, containsCategory:this.containsCategory},
       autoFocus:false
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -159,6 +166,7 @@ export class ProductComponent implements OnInit {
       this.onModeratedChanged(result.isModerated);
       this.onICFilterChanged(result.withICFilter);
       this.onCategoryIdChanged(result.categoryId);
+      this.onCategoryContainsChanged(result.containsCategory);
       this.pageIndex = 0;
       this.setCookie();
     });
@@ -170,6 +178,9 @@ export class ProductComponent implements OnInit {
       length += 1;
     }
     if (this.isModerated == true || this.isModerated == false) {
+      length += 1;
+    }
+    if (this.containsCategory == true || this.containsCategory == false) {
       length += 1;
     }
     if (this.categoryId) {

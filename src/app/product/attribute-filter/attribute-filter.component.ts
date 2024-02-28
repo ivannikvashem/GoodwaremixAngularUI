@@ -33,6 +33,7 @@ export class AttributeFilterComponent implements OnInit {
   private filterCaches = new Map<string, Map<string, string[]>>();
   withICFilter:boolean = false;
   isModerated:boolean = false;
+  containsCategory:boolean = false;
   categoryList:Category[] = [];
 
   onFilterCancelData:string = '';
@@ -43,9 +44,11 @@ export class AttributeFilterComponent implements OnInit {
   constructor(private api:ApiClient, @Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<AttributeFilterComponent>) { }
 
   ngOnInit(): void {
+    console.log(this.data)
     this.categoryId = this.data.categoryId;
     this.withICFilter = this.data.withICFilter;
     this.isModerated = this.data.isModerated;
+    this.containsCategory = this.data.containsCategory;
     this.onFilterCancelData = JSON.stringify(this.data);
     if (this.data.filter.length > 0) {
       this.data = JSON.parse(this.data.filter)
@@ -180,12 +183,11 @@ export class AttributeFilterComponent implements OnInit {
         this.selectedAttributes.attributeSearchFilters = this.selectedAttributes.attributeSearchFilters.filter(x => x.attributeId !== i.attributeId)
       }
     }
-    let filters = {selectedAttributes:this.selectedAttributes, withICFilter:this.withICFilter, isModerated: this.isModerated, categoryId: this.categoryId}
+    let filters = {selectedAttributes:this.selectedAttributes, withICFilter:this.withICFilter, isModerated: this.isModerated, categoryId: this.categoryId, containsCategory: this.containsCategory}
     this.dialogRef.close(filters)
   }
 
   onFilterCancel() {
-    console.log(this.onFilterCancelData)
     this.dialogRef.close(this.onFilterCancelData.length > 0 ? JSON.parse(this.onFilterCancelData): {})
   }
 
@@ -197,8 +199,12 @@ export class AttributeFilterComponent implements OnInit {
     this.isModerated = state;
   }
 
+  onCategoryContainsChanged(state:boolean) {
+    this.containsCategory = state;
+  }
+
   clearFilters() {
-    this.dialogRef.close({isModerated: null, withICFilter: null, selectedAttributes:null});
+    this.dialogRef.close({isModerated: null, withICFilter: null, containsCategory: null, selectedAttributes:null});
   }
 
   onCategorySelected() {

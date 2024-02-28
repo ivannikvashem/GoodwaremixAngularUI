@@ -8,6 +8,7 @@
       <div class="filter-actions-container">
         <app-product-ic-filter-switch [state]="withICFilter" (withICFilterEmitter)="onICFilterChanged($event)"></app-product-ic-filter-switch>
         <app-product-verified-filter-switch [state]="isModerated" (moderatedFilterEmitter)="onVerifiedChanged($event)"></app-product-verified-filter-switch>
+        <app-product-category-filter-switch [state]="containsCategory" (categoryFilterEmitter)="onCategoryContainsChanged($event)"></app-product-category-filter-switch>
         <hr>
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Категория</mat-label>
