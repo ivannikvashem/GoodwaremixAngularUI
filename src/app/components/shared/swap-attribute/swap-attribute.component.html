@@ -1,50 +1,52 @@
-<div class="main-container">
-  <span class="page-title">Удаление атрибута с заменой</span>
-  <div class="inputs">
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Старый атрибут:</mat-label>
-      <input matInput placeholder="" name="oldAttribute" [(ngModel)]="data.oldAttribute" readonly="true">
-    </mat-form-field>
-    <br/>
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Заменить на:</mat-label>
-      <input matInput placeholder=""
-             [formControl]="searchAttributeCtrl"
-             [matAutocomplete]="auto">
+<mat-dialog-content>
+  <div class="main-container">
+    <span class="page-title">Удаление атрибута с заменой</span>
+    <div class="inputs">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Старый атрибут:</mat-label>
+        <input matInput placeholder="" name="oldAttribute" [(ngModel)]="data.oldAttribute" readonly="true">
+      </mat-form-field>
+      <br/>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Заменить на:</mat-label>
+        <input matInput placeholder=""
+               [formControl]="searchAttributeCtrl"
+               [matAutocomplete]="auto">
 
-      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="diaplayFn" (optionSelected)="onAttributeSelected()">
-        <mat-option *ngFor="let option of attributes" [value]="option">
-          <mat-icon>{{option.isFixed ? 'check_circle' : 'radio_button_unchecked'}}</mat-icon>
-          <span [ngClass]="{'energomixStamp': option.supplierName == 'Энергомикс', 'supplierStamp': option.supplierName != 'Энергомикс'}">{{option.supplierName}}</span>
-          <span *ngIf="option.etimFeature" class="etimFeature-span"> [{{option.etimFeature}}]</span>
-          <strong *ngIf="option.type"> {{option.type}}</strong>
-          <span> {{option.nameAttribute}} </span>
-          <span *ngIf="option.unit && option.isFixed" class="unit-mark">{{option.unit}}</span>
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="diaplayFn" (optionSelected)="onAttributeSelected()">
+          <mat-option *ngFor="let option of attributes" [value]="option">
+            <mat-icon>{{option.isFixed ? 'check_circle' : 'radio_button_unchecked'}}</mat-icon>
+            <span [ngClass]="{'energomixStamp': option.supplierName == 'Энергомикс', 'supplierStamp': option.supplierName != 'Энергомикс'}">{{option.supplierName}}</span>
+            <span *ngIf="option.etimFeature" class="etimFeature-span"> [{{option.etimFeature}}]</span>
+            <strong *ngIf="option.type"> {{option.type}}</strong>
+            <span> {{option.nameAttribute}} </span>
+            <span *ngIf="option.unit && option.isFixed" class="unit-mark">{{option.unit}}</span>
+          </mat-option>
+        </mat-autocomplete>
+        <mat-icon matSuffix (click)="searchAttributeCtrl.setValue(null)">close</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Множитель</mat-label>
+      <input matInput type="text"
+             [formControl]="unitConverterListCtrl"
+             [matAutocomplete]="multiplierAuto">
+      <mat-autocomplete #multiplierAuto="matAutocomplete" panelWidth="auto" [displayWith]="displayFnUnit" (optionSelected)="onUnitConverterSelected($event)">
+        <mat-option *ngFor="let option of unitConverterList" [value]="option">
+          <span> <span class="unit-mark">{{option.multiplier}}</span> {{option.sourceUnit}}<mat-icon>arrow_forward</mat-icon>{{option.targetUnit}} </span>
         </mat-option>
       </mat-autocomplete>
-      <mat-icon matSuffix (click)="searchAttributeCtrl.setValue(null)">close</mat-icon>
+      <mat-icon matSuffix (click)="unitConverterListCtrl.setValue(null)">close</mat-icon>
     </mat-form-field>
-  </div>
 
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Множитель</mat-label>
-    <input matInput type="text"
-           [formControl]="unitConverterListCtrl"
-           [matAutocomplete]="multiplierAuto">
-    <mat-autocomplete #multiplierAuto="matAutocomplete" panelWidth="auto" [displayWith]="displayFnUnit" (optionSelected)="onUnitConverterSelected($event)">
-      <mat-option *ngFor="let option of unitConverterList" [value]="option">
-        <span> <span class="unit-mark">{{option.multiplier}}</span> {{option.sourceUnit}}<mat-icon>arrow_forward</mat-icon>{{option.targetUnit}} </span>
-      </mat-option>
-    </mat-autocomplete>
-    <mat-icon matSuffix (click)="unitConverterListCtrl.setValue(null)">close</mat-icon>
-  </mat-form-field>
+    <div class="information" *ngIf="data.newAttribute.nameAttribute != null">
+      <p>Аттрибут "{{data.oldAttribute}}", будет заменён на "{{data.newAttribute.nameAttribute}}"</p>
+    </div>
 
-  <div class="information" *ngIf="data.newAttribute.nameAttribute != null">
-    <p>Аттрибут "{{data.oldAttribute}}", будет заменён на "{{data.newAttribute.nameAttribute}}"</p>
+    <div mat-dialog-actions class="actions-div">
+      <button mat-raised-button mat-dialog-close (click)="onCancelClick()" type="button">Отмена</button>
+      <button mat-raised-button color="primary" [mat-dialog-close]="data" [disabled]="searchAttributeCtrl.invalid">Заменить</button>
+    </div>
   </div>
-
-  <div mat-dialog-actions class="actions-div">
-    <button mat-raised-button mat-dialog-close (click)="onCancelClick()" type="button">Отмена</button>
-    <button mat-raised-button color="primary" [mat-dialog-close]="data" [disabled]="searchAttributeCtrl.invalid">Заменить</button>
-  </div>
-</div>
+</mat-dialog-content>

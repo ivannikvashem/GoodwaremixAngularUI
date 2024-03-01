@@ -207,6 +207,10 @@ export class SupplierIndexComponent implements OnInit {
       }})
   }
 
+  bindSupplierCategories() {
+    this.api.bindSupplierCategories(this.selection.selected.map(x => x.id)).subscribe();
+  }
+
   importProducts(supplierId:string, supplierName:string) {
     this.dialog.open(SupplierImportProductsComponent, {
       maxWidth: "500px",

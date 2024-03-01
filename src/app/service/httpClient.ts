@@ -236,6 +236,10 @@ export class ApiClient {
     return this.http.get(this.apiURL+ '/Suppliers/Brend', opt)
   }
 
+  bindSupplierCategories(supplierIds: string[]) {
+    return this.http.post(this.apiURL + '/FetchListCategory/', supplierIds)
+  }
+
   //#endregion
 
   //#region TASK ENDPOINT

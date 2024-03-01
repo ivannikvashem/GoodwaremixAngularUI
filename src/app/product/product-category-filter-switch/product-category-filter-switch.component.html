@@ -4,7 +4,7 @@
     <button mat-raised-button class="toolbox-button filter-button"
             (click)="switchCategoryStateFilter()">
       <mat-icon>{{state == null ? 'all_inclusive' : state == true ? 'done_all' : 'remove_done' }}</mat-icon>
-      {{state == null ? 'Все товары' : state == true ? 'С категорией' : 'без категории'}}
+      {{state == null ? 'Все товары' : state == true ? 'С категорией' : 'Без категории'}}
     </button>
   </div>
 </mat-card>

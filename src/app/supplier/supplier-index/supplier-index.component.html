@@ -78,6 +78,10 @@
         <button mat-icon-button class="mat-elevation-z2" matTooltip="Обновить кол-во товара и бренды" (click)="fixSupplierStat()">
           <mat-icon>build</mat-icon>
         </button>&nbsp;
+
+        <button mat-icon-button class="mat-elevation-z2" matTooltip="Привязать категории" [disabled]="selection.selected.length <= 0" (click)="bindSupplierCategories()">
+          <mat-icon>category</mat-icon>
+        </button>&nbsp;
       </th>
       <td mat-cell *matCellDef="let item">
         <button mat-icon-button class="mat-elevation-z2" matTooltip="Загрузить данные" (click)="fetchItem(item.supplierName, item.id)"><mat-icon>start</mat-icon></button>&nbsp;

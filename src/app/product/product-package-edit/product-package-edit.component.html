@@ -1,7 +1,8 @@
-<div class="main">
-  <h3>{{data.oldPackage == undefined ? "Добавление упаковки" : "Редактирование упаковки"}}</h3>
+<mat-dialog-content>
+  <div class="main">
+    <h3>{{data.oldPackage == undefined ? "Добавление упаковки" : "Редактирование упаковки"}}</h3>
 
-  <form [formGroup]="form" (ngSubmit)="onSubmitClick()">
+    <form [formGroup]="form" (ngSubmit)="onSubmitClick()">
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Штрихкод</mat-label>
         <input matInput formControlName="barcode" required>
@@ -56,8 +57,9 @@
     </form>
 
 
-  <div mat-dialog-actions class="actions-div">
-    <button mat-raised-button mat-dialog-close="" (click)="onCancelClick()" type="button">Отмена</button>
-    <button mat-raised-button color="primary" [mat-dialog-close]="data" (click)="onSubmitClick()" [disabled]="form.invalid">Сохранить</button>
+    <div mat-dialog-actions class="actions-div">
+      <button mat-raised-button mat-dialog-close="" (click)="onCancelClick()" type="button">Отмена</button>
+      <button mat-raised-button color="primary" [mat-dialog-close]="data" (click)="onSubmitClick()" [disabled]="form.invalid">Сохранить</button>
+    </div>
   </div>
-</div>
+</mat-dialog-content>
