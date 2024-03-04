@@ -237,7 +237,7 @@ export class ApiClient {
   }
 
   bindSupplierCategories(supplierIds: string[]) {
-    return this.http.post(this.apiURL + '/FetchListCategory/', supplierIds)
+    return this.http.post(this.apiURL + '/Suppliers/FetchListCategory/', supplierIds)
   }
 
   //#endregion
