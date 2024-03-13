@@ -5,6 +5,8 @@ import {debounceTime, distinctUntilChanged, finalize, Observable, switchMap, tap
 import {ApiClient} from "../../service/httpClient";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Category} from "../../models/category.model";
+import {AttributesDataSource} from "../../attribute/repo/AttributesDataSource";
+import {CategoryDataSource} from "../../category/repo/CategoryDataSource";
 
 export class Filter {
   attributeId:string;
@@ -41,10 +43,9 @@ export class AttributeFilterComponent implements OnInit {
   categoryId:number;
   selectedAttributes: SelectedFiltersList = new SelectedFiltersList()
 
-  constructor(private api:ApiClient, @Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<AttributeFilterComponent>) { }
+  constructor(private api:ApiClient, @Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<AttributeFilterComponent>, private attributeDS:AttributesDataSource, private categoryDS:CategoryDataSource) { }
 
   ngOnInit(): void {
-    console.log(this.data)
     this.categoryId = this.data.categoryId;
     this.withICFilter = this.data.withICFilter;
     this.isModerated = this.data.isModerated;
@@ -54,7 +55,7 @@ export class AttributeFilterComponent implements OnInit {
       this.data = JSON.parse(this.data.filter)
     }
     if (this.categoryId) {
-      this.api.getCategoryById(this.categoryId.toString()).subscribe((x:any) => {
+      this.categoryDS.getCategoryById(this.categoryId.toString()).subscribe((x:any) => {
         this.categoryValueFilterCtrl.setValue(x.body.result as Category)
       })
     }
@@ -62,7 +63,7 @@ export class AttributeFilterComponent implements OnInit {
     if (this.data.attributeSearchFilters?.length > 0) {
       this.isLoading = true;
       for (let i of this.data.attributeSearchFilters) {
-        this.api.getAttributeById(i.attributeId).pipe(
+        this.attributeDS.getAttributeById(i.attributeId).pipe(
           distinctUntilChanged(),
           debounceTime(100),
           tap(() => {
@@ -80,15 +81,15 @@ export class AttributeFilterComponent implements OnInit {
     this.attributeValueFilterCtrl.valueChanges.pipe(
       distinctUntilChanged(),
       debounceTime(100),
-      switchMap(value => this.api.getAttributes(value, '', 0, 100, undefined, "rating", "desc")
-      )).subscribe((response: any) => {
-      this.attributesList = response.body.data;
+      switchMap(value => this.attributeDS.loadAutocompleteData(value ? value.toString() : '', '', 1, 100, "rating", "desc", null)
+      )).subscribe((response: Attribute[]) => {
+      this.attributesList = response;
     });
 
     this.categoryValueFilterCtrl.valueChanges.pipe(
       distinctUntilChanged(),
       debounceTime(100),
-      switchMap(value => this.api.getCategories(value, 0, 100, undefined, "", "desc")
+      switchMap(value => this.categoryDS.loadPagedData(value.toString(), 0, 100, undefined, "", "desc")
       )).subscribe((response: any) => {
       this.categoryList = response.body.data;
     });

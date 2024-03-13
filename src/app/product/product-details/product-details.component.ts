@@ -15,6 +15,10 @@ import {Clipboard} from "@angular/cdk/clipboard";
 import {AuthService} from "../../auth/service/auth.service";
 import {finalize} from "rxjs/operators";
 import {Category} from "../../models/category.model";
+import {AttributesDataSource} from "../../attribute/repo/AttributesDataSource";
+import {ProductsDataSource} from "../repo/ProductsDataSource";
+import {DocumentsDataSource} from "../../document/repo/DocumentsDataSource";
+import {CategoryDataSource} from "../../category/repo/CategoryDataSource";
 
 @Component({
   selector: 'app-product-details',
@@ -46,7 +50,11 @@ export class ProductDetailsComponent implements OnInit {
     private _notyf: NotificationService,
     private clipboard:Clipboard,
     private titleService:Title,
-    private auth:AuthService) {
+    private auth:AuthService,
+    private productDS: ProductsDataSource,
+    private attributeDS: AttributesDataSource,
+    private documentDS: DocumentsDataSource,
+    private categoryDS: CategoryDataSource) {
     this.roles = this.auth.getRoles();
   }
 
@@ -56,7 +64,7 @@ export class ProductDetailsComponent implements OnInit {
 
   fetchProductData() {
     this.productId = this._ActivatedRoute.snapshot.paramMap.get("id");
-    this.api.getProductById(this.productId)
+    this.productDS.getProductById(this.productId)
       .pipe(tap( () => { this.isLoading = true; }), finalize( () => this.isLoading = false))
       .subscribe( {next:(data) => {
         this.product = data.body;
@@ -69,7 +77,7 @@ export class ProductDetailsComponent implements OnInit {
         if (this.product.localImages) { this.product.localImages.forEach((value:any) => {this.remoteAndLocalImg.push(value)})}
         if (this.product.documents) {
           for (let i of this.product.documents) {
-            this.api.getDocumentById(i).subscribe(x => {
+            this.documentDS.getDocumentById(i).subscribe(x => {
               if (x.body) {
                 this.productDocuments.push(x.body);
               }
@@ -78,7 +86,7 @@ export class ProductDetailsComponent implements OnInit {
         }
         this.titleService.setTitle(this.product.internalCode ? 'арт. ' + this.product.internalCode + ' ' + this.product.title : this.product.title);
           if (this.product.categoryId) {
-            this.api.getCategoryTreeById(this.product.categoryId).subscribe((x:any) => {
+            this.categoryDS.getCategoryTreeById(this.product.categoryId).subscribe((x:any) => {
               this.categoryTree = x.body.result
             })
           }
@@ -99,7 +107,7 @@ export class ProductDetailsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.api.swapAttribute(result.oldAttributeId, result.newAttribute.id, result.convertId).subscribe({
+      this.attributeDS.swapAttribute(result.oldAttributeId, result.newAttribute.id, result.convertId).subscribe({
         next: () => {
           this.fetchProductData()
           this._notyf.onSuccess('Данные сохранены успешно');
@@ -124,7 +132,7 @@ export class ProductDetailsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult === true) {
-        this.api.deleteProductAttribute(attributeId).subscribe( {
+        this.attributeDS.deleteProductAttribute(attributeId).subscribe( {
           next: () => {
             this.fetchProductData()
             this._notyf.onSuccess('Успешно исключен')

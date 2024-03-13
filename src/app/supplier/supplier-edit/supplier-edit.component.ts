@@ -12,6 +12,8 @@ import {NotificationService} from "../../service/notification-service";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent, ConfirmDialogModel} from "../../components/shared/confirm-dialog/confirm-dialog.component";
 import {Title} from "@angular/platform-browser";
+import {AttributesDataSource} from "../../attribute/repo/AttributesDataSource";
+import {SuppliersDataSource} from "../repo/SuppliersDataSource";
 
 export class HeaderModel {
   HeaderName:string
@@ -44,13 +46,15 @@ export class SupplierEditComponent implements OnInit {
     private _notyf: NotificationService,
     public dialog: MatDialog,
     private api: ApiClient,
+    private attributeDS: AttributesDataSource,
+    private supplierDS: SuppliersDataSource,
     private titleService:Title) {}
 
   ngOnInit(): void {
     this.supplierId = this._ActivatedRoute.snapshot.paramMap.get("supplierId");
     if (this.supplierId) {
       this.loadingSubject.next(true)
-      this.api.getSupplierById(this.supplierId)
+      this.supplierDS.getSupplierById(this.supplierId)
         .pipe(
           finalize(() => this.loadingSubject.next(false))
         ).subscribe({
@@ -104,12 +108,12 @@ export class SupplierEditComponent implements OnInit {
     }
 
     if (supplier.id == undefined) {
-      this.api.insertSupplier(supplier).subscribe(x => {
+      this.supplierDS.insertSupplier(supplier).subscribe(x => {
           this._notyf.onSuccess("Конфигурация добавлена");
           for (let i of this.attributesToAdd) {
             i.supplierId = x.body
             i.supplierName = this.supplier.supplierName
-            this.api.updateAttribute(i).subscribe()
+            this.attributeDS.updateAttribute(i).subscribe()
           }
           this.router.navigate([`supplier-edit/${x.body}`])
         },
@@ -117,12 +121,12 @@ export class SupplierEditComponent implements OnInit {
           this._notyf.onError("Ошибка: " + JSON.stringify(error));
         });
     } else {
-      this.api.updateSupplier(supplier).subscribe(() => {
+      this.supplierDS.updateSupplier(supplier).subscribe(() => {
           this._notyf.onSuccess("Конфигурация сохранена");
           for (let i of this.attributesToAdd) {
             i.supplierId = this.supplier.id
             i.supplierName = this.supplier.supplierName
-            this.api.updateAttribute(i).subscribe()
+            this.attributeDS.updateAttribute(i).subscribe()
           }
         },
         error => {
@@ -208,7 +212,7 @@ export class SupplierEditComponent implements OnInit {
   }
 
   fetchSupplierProducts() {
-    this.api.fetchDataFromSupplier(this.supplier.id).subscribe(() => {
+    this.supplierDS.fetchDataFromSupplier(this.supplier.id).subscribe(() => {
         this._notyf.onSuccess('Сбор данных ' + this.supplier.supplierName + ' начат')
       },
       err => {

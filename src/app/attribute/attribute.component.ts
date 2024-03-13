@@ -17,7 +17,7 @@ export class AttributeComponent implements OnInit {
   searchQuery: string = '';
   attributeFixedFilterState: boolean | null = null;
 
-  pageIndex:number = 0;
+  pageIndex:number = 1;
   pageSize:number = 12;
   sortDirection:string = 'asc';
   sortActive:string = 'rating';
@@ -69,20 +69,20 @@ export class AttributeComponent implements OnInit {
   }
 
   searchQueryChanged() {
-    this.pageIndex = 0;
+    this.pageIndex = 1;
     this.searchQuery = this.searchQueryCtrl.value;
     this.setCookie();
   }
 
   searchQueryClear() {
-    this.pageIndex = 0;
+    this.pageIndex = 1;
     this.searchQueryCtrl.setValue('');
     this.searchQuery = '';
     this.setCookie();
   }
 
   onAttributeStateFilterChanged(attributeFilterState: boolean) {
-    this.pageIndex = 0;
+    this.pageIndex = 1;
     this.attributeFixedFilterState = attributeFilterState;
     this.setCookie();
   }

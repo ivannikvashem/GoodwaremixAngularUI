@@ -7,6 +7,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {NotificationService} from "../../service/notification-service";
 import {MissingImageHandler} from "../MissingImageHandler";
 import {Supplier} from "../../models/supplier.model";
+import {DocumentsDataSource} from "../../document/repo/DocumentsDataSource";
 
 export interface AttrDialogData {
   documentIds:string[]
@@ -49,6 +50,7 @@ export class ProductDocumentEditComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA)
               public data: AttrDialogData,
               private _notyf: NotificationService,
+              private documentDS: DocumentsDataSource,
               private imgHandler:MissingImageHandler) {
     this.form = new FormGroup<any>({
       "certTitle": new FormControl<string>('', Validators.required),
@@ -76,8 +78,8 @@ export class ProductDocumentEditComponent implements OnInit {
         this.preloadDocumentView = { fileName:this.documentProduct.file}
       }
     } else {
-      this.api.getDocuments('', 0,600, this.data.supplierId, '', 'desc').subscribe(x => {
-        this.documentsList = x.body.data
+      this.documentDS.loadAutocompleteData('', this.data.supplierId, 0,600, '', 'desc').subscribe(x => {
+        this.documentsList = x;
         for (let i of this.documentsList) {
           if (this.data.documentIds.find(x => x == i.id)) {
            this.documentsList = this.documentsList.filter(x => x !== i)
@@ -140,7 +142,7 @@ export class ProductDocumentEditComponent implements OnInit {
 
   async insertDocument(newDocument:Document) {
     let promise = new Promise((resolve, reject) => {
-      this.api.addDocument(newDocument).subscribe((x:any) => {
+      this.documentDS.insertDocument(newDocument).subscribe((x:any) => {
         if (x.body) {
           this.data.newDocument.id = x.body
           resolve(true)
@@ -157,7 +159,7 @@ export class ProductDocumentEditComponent implements OnInit {
 
   updateDocument(document:Document) {
     this.data.newDocument.id = this.data.oldDocument.id
-    this.api.updateDocument(document).subscribe(() => {
+    this.documentDS.updateDocument(document).subscribe(() => {
       if (this.preloadDocumentView?.fileContent != undefined)
         this.uploadDocumentFiles()
     })
@@ -165,7 +167,7 @@ export class ProductDocumentEditComponent implements OnInit {
   }
 
   uploadDocumentFiles() {
-    this.api.uploadDocument(this.preloadDocumentView.fileContent, this.data.newDocument.id).subscribe(x => {console.log(x)})
+    this.documentDS.uploadDocument(this.preloadDocumentView.fileContent, this.data.newDocument.id).subscribe(x => {console.log(x)})
   }
 
   onCancelClick() {
@@ -173,7 +175,7 @@ export class ProductDocumentEditComponent implements OnInit {
   }
 
   searchQueryChanged(searchQuery:string) {
-    this.api.getDocuments(searchQuery, 0, 100, this.data.supplierId,'','desc').subscribe(x => {
+    this.documentDS.loadAutocompleteData(searchQuery, this.data.supplierId, 0, 100,'','desc').subscribe(x => {
       this.documentsList = x.body.data
     });
   }

@@ -7,6 +7,9 @@ import {ApiClient} from "../../service/httpClient";
 import {UnitConverter} from "../../models/unitConverter.model";
 import {Category} from "../../models/category.model";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
+import {AttributesDataSource} from "../../attribute/repo/AttributesDataSource";
+import {UnitConvertersDataSource} from "../../unit-converter/repo/UnitConvertersDataSource";
+import {CategoryDataSource} from "../../category/repo/CategoryDataSource";
 
 @Component({
   selector: 'app-supplier-dictionary',
@@ -15,7 +18,7 @@ import {COMMA, ENTER} from "@angular/cdk/keycodes";
 })
 export class SupplierDictionaryComponent implements OnInit {
 
-  constructor(private api:ApiClient) { }
+  constructor(private api:ApiClient, private attributeDS:AttributesDataSource, private unitConverterDS: UnitConvertersDataSource, private categoryDS: CategoryDataSource) { }
 
   @Input() configDictionary: any[]
   @Input() dictionaryType: string;
@@ -40,14 +43,14 @@ export class SupplierDictionaryComponent implements OnInit {
     if (this.dictionaryType == 'attribute') {
       this.attributeListCtrl.valueChanges.pipe(
         debounceTime(100),
-        switchMap(value => this.api.getAttributes(value, '', 0, 500, undefined, "rating", "desc"))
-      ).subscribe((data: any) => {
-        this.attributeList = data.body.data;
+        switchMap(value => this.attributeDS.loadAutocompleteData(value.toString(), '', 1, 500, "rating", "desc", null))
+      ).subscribe((data: Attribute[]) => {
+        this.attributeList = data;
       });
 
       this.unitConverterListCtrl.valueChanges.pipe(
         debounceTime(100),
-        switchMap(value => this.api.getConverterUnits(value.toString(), 0, 100))
+        switchMap(value => this.unitConverterDS.loadPagedData(value.toString(), 0, 100))
       ).subscribe((data: any) => {
         this.unitConverterList = data.body.data;
       });
@@ -55,7 +58,7 @@ export class SupplierDictionaryComponent implements OnInit {
     } else if (this.dictionaryType == 'category') {
       this.categoryListCtrl.valueChanges.pipe(
         debounceTime(100),
-        switchMap(value => this.api.getCategories(value, 0,  500, '', undefined, "desc"))
+        switchMap(value => this.categoryDS.loadPagedData(value.toString(), 0,  500, '', undefined, "desc"))
       ).subscribe((data: any) => {
         this.categoryList = data.body.data;
       });
@@ -99,7 +102,7 @@ export class SupplierDictionaryComponent implements OnInit {
       this.selectedRow.id = i;
     }
     else if (this.dictionaryType == 'category') {
-      this.api.getCategoryById(this.configDictionary[i].categoryId).subscribe((x:any) => {
+      this.categoryDS.getCategoryById(this.configDictionary[i].categoryId).subscribe((x:any) => {
         this.categoryListCtrl.setValue(x.body.result as Category)
       })
 

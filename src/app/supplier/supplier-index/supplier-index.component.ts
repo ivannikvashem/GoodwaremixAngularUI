@@ -15,6 +15,7 @@ import {DataStateService} from "../../shared/data-state.service";
 import {SelectionModel} from "@angular/cdk/collections";
 import {MatTableDataSource} from "@angular/material/table";
 import {SupplierImportProductsComponent} from "../supplier-import-products/supplier-import-products.component";
+import {StatisticDataSource} from "../../statistic/repo/StatisticDataSource";
 
 @Component({
   selector: 'app-supplier-index',
@@ -54,9 +55,11 @@ export class SupplierIndexComponent implements OnInit {
     public dialog: MatDialog,
     private _notyf: NotificationService,
     private _localStorageService: LocalStorageService,
-    private dss: DataStateService
+    private dss: DataStateService,
+    private supplierDS: SuppliersDataSource,
+    private statDS: StatisticDataSource
   ) {
-    this.dataSource = new SuppliersDataSource(this.api);
+    this.dataSource = new SuppliersDataSource(this.api, this.statDS);
   }
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator
@@ -102,7 +105,7 @@ export class SupplierIndexComponent implements OnInit {
   }
 
   fetchItem(supplierName: string, id:string) {
-    this.api.fetchDataFromSupplier(id).subscribe( () => {
+    this.supplierDS.fetchDataFromSupplier(id).subscribe( () => {
        this._notyf.onSuccess('Сбор данных '+supplierName+' начат')
       },
       err => {
@@ -111,7 +114,7 @@ export class SupplierIndexComponent implements OnInit {
   }
 
   stopFetchItem(supplierName: string) {
-    this.api.stopFetchDataFromSupplier(supplierName).subscribe( () => {
+    this.supplierDS.stopFetchDataFromSupplier(supplierName).subscribe( () => {
         this._notyf.onSuccess('Сбор данных '+supplierName+' остановлен')
       },
       err => {
@@ -120,7 +123,7 @@ export class SupplierIndexComponent implements OnInit {
   }
 
   fixSupplierStat() {
-    this.api.initRequest('cleanstat')
+    this.api.postRequest('service/cleanstat', {})
       .pipe(finalize( () => { this._notyf.onSuccess('Данные обновлены'); this.loadSupplierPagedData() })
       ).subscribe( { next: () => {},
       error: (err) => {
@@ -157,7 +160,7 @@ export class SupplierIndexComponent implements OnInit {
   }
 
   internalCodeFetch(id: string) {
-    this.api.internalCodeBindForSupplier(id).subscribe( res => {
+    this.supplierDS.internalCodeBindForSupplier(id).subscribe( res => {
         console.log(JSON.stringify(res));
       },
       err => {
@@ -166,7 +169,7 @@ export class SupplierIndexComponent implements OnInit {
   }
 
   downloadTable(table: string, id:string) {
-    this.api.downloadTableFile(table, id).subscribe( (resp: any) => {
+    this.supplierDS.downloadTableFile(table, id).subscribe( (resp: any) => {
       let blob:any = new Blob([resp.body], {type: 'application/json; charset=utf-8'})
       let downloadAction = document.createElement('a')
       downloadAction.download = table;
@@ -199,7 +202,7 @@ export class SupplierIndexComponent implements OnInit {
     for (let i of this.selection.selected) {
       suppliers += i.id+';'
     }
-    this.api.fetchDataFromSupplier(suppliers).subscribe({
+    this.supplierDS.fetchDataFromSupplier(suppliers).subscribe({
       next:() => {
         this._notyf.onSuccess('Сбор данных начат')
       }, error:error => {
@@ -208,7 +211,7 @@ export class SupplierIndexComponent implements OnInit {
   }
 
   bindSupplierCategories() {
-    this.api.bindSupplierCategories(this.selection.selected.map(x => x.id)).subscribe();
+    this.supplierDS.bindSupplierCategories(this.selection.selected.map(x => x.id)).subscribe();
   }
 
   importProducts(supplierId:string, supplierName:string) {

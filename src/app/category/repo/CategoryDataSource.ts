@@ -3,11 +3,19 @@ import {Category} from "../../models/category.model";
 import {BehaviorSubject, Observable, of, tap} from "rxjs";
 import {catchError, finalize, map} from "rxjs/operators";
 import {ApiClient} from "../../service/httpClient";
+import {HttpParamsModel} from "../../models/service/http-params.model";
+import {Injectable} from "@angular/core";
+
+@Injectable({
+  providedIn: 'root'
+})
 
 export class CategoryDataSource implements DataSource<Category> {
 
   private CategoryListSubject = new BehaviorSubject<Category[]>([]);
   private loadingSubject = new BehaviorSubject<boolean>(false);
+  private loadPageParamsKeys: string[] = ['filterTitle',  'filter.pageNumber', 'filter.pageSize'];
+  private params:HttpParamsModel[] = [];
 
   public loading$ = this.loadingSubject.asObservable();
   public rowCount = 0;
@@ -24,9 +32,21 @@ export class CategoryDataSource implements DataSource<Category> {
     this.loadingSubject.complete();
   }
 
-  loadPagedData(queryString:string, supplierId:string, pageIndex:number, pageSize:number, sortActive:string, sortDirection:string): any {
+  private createParamsObj(arg:IArguments, paramKeys:string[]) {
+    let params:HttpParamsModel[] = [];
+    for (let i = 0; i < arg.length; i++) {
+      if (paramKeys[i] == 'filter.pageNumber')
+        arg[i] = (arg[i] ? arg[i] + 1 : 1)
+      params.push(new HttpParamsModel(paramKeys[i], arg[i]));
+    }
+    return params;
+  }
+
+  loadPagedData(queryString:string, pageIndex: number, pageSize: number, supplierId:string, sortField: string, sortDirection: string): any {
     this.loadingSubject.next(true);
-    this.api.getCategories(queryString, pageIndex, pageSize, supplierId, sortActive, sortDirection)
+    this.params = this.createParamsObj(arguments, this.loadPageParamsKeys);
+
+    this.api.getRequest('categories', this.params)
       .pipe(
         tap( () => {
           this.loadingSubject.next(true)
@@ -44,14 +64,28 @@ export class CategoryDataSource implements DataSource<Category> {
       });
   }
 
+  getCategoryById(id:string) {
+    return this.api.getRequest(`categories/${id}`, [])
+  }
+
+  getCategoryTreeById(id:string) {
+    return this.api.getRequest(`categories/tree/${id}`, [])
+  }
+
   insertCategory(category:Category) {
-    this.api.insertCategory(category).subscribe(x => {
+    this.api.postRequest('categories', category).subscribe(x => {
+      console.log(x)
+    })
+  }
+
+  updateCategory(category:Category) {
+    this.api.putRequest('categories', category).subscribe(x => {
       console.log(x)
     })
   }
 
   deleteCategory(id: string) {
-    this.api.deleteCategory(id).subscribe( {
+    this.api.deleteRequest(`categories/${id}`).subscribe( {
       next: () => {
         let newdata = this.CategoryListSubject.value.filter(row => row.id != id );
         this.CategoryListSubject.next(newdata);

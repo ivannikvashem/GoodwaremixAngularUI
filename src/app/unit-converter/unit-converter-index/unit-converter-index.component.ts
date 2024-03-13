@@ -47,7 +47,7 @@ export class UnitConverterIndexComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined) {
         if (result.oldUnit == undefined && result.newUnit) {
-          this.dataSource.addUnitConverter(result.newUnit)
+          this.dataSource.insertUnitConverter(result.newUnit)
         } else if (result.oldUnit && result.newUnit) {
           this.dataSource.updateUnitConverter(Object.assign(result.oldUnit, result.newUnit))
         }

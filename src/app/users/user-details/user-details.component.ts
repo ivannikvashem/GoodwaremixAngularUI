@@ -8,6 +8,7 @@ import {Supplier} from "../../models/supplier.model";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {DataStateService} from "../../shared/data-state.service";
 import {NotificationService} from "../../service/notification-service";
+import {SuppliersDataSource} from "../../supplier/repo/SuppliersDataSource";
 
 @Component({
   selector: 'app-user-details',
@@ -41,6 +42,7 @@ export class UserDetailsComponent implements OnInit {
               private dss: DataStateService,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private _notyf: NotificationService,
+              private supplierDS: SuppliersDataSource,
               public dialogRef: MatDialogRef<UserDetailsComponent>) { }
 
   ngOnInit(): void {
@@ -49,7 +51,7 @@ export class UserDetailsComponent implements OnInit {
     }
 
     if (this.dss.getSupplierList().length == 0) {
-      this.api.getSuppliers("", 0 ,100, "supplierName", "asc").subscribe( (r:any) => {
+      this.supplierDS.loadAutocompleteData("", 0 ,100, "supplierName", "asc").subscribe( (r:any) => {
         this.supplierList = r.body.data
         this.dss.setSupplierList(this.supplierList)
       });
@@ -82,14 +84,16 @@ export class UserDetailsComponent implements OnInit {
   onSubmit(): void {
     if (!this.data?.id) {
       console.log("submitting " + this.userForm.value.username + " by ID " + this.data?.id + " with data: " + JSON.stringify(this.userForm.value));
-      this.api.addUser(this.userForm.value).subscribe(() => {
+      delete this.userForm.value.id;
+      delete this.userForm.value.lastLogin;
+      this.api.postRequest('users',this.userForm.value).subscribe(() => {
         this.dialogRef.close(this.userForm.value)
       },error => {
         this._notyf.onError(error)
       });
     } else {
       console.log("submitting " + this.userForm.value.username + " by ID " + this.data?.id + " with data: " + JSON.stringify(this.userForm.value));
-      this.api.updateUser(this.data.id, this.userForm.value).subscribe(() => {
+      this.api.postRequest(`users/${this.data.id}`, this.userForm.value).subscribe(() => {
         this.dialogRef.close(this.userForm.value)
       } ,error => {
         this._notyf.onError(error)

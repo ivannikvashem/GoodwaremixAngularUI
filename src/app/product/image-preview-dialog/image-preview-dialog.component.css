@@ -12,16 +12,6 @@
   right: 100px;
 }
 
-button, .mat-icon {
-  height: 56px;
-  width: 56px;
-  line-height: 56px;
-}
-
-.mat-icon {
-  font-size: 56px;
-}
-
 button:hover {
   color: var(--toolbar-item-active-color);
 }

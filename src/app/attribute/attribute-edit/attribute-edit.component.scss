@@ -20,6 +20,10 @@ form {
   margin-right: 5px !important;
 }
 
+.mat-mdc-form-field {
+  margin-top: 5px;
+}
+
 @mixin xs-devices {
   .form-container {
     display: block;

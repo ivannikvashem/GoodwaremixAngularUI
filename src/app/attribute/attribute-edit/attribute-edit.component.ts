@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {MatChipInputEvent} from "@angular/material/chips";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {Attribute} from "../../models/attribute.model";
-import {ApiClient} from "../../service/httpClient";
 import {ActivatedRoute, Router} from "@angular/router";
 import {catchError, finalize, map} from "rxjs/operators";
 import {BehaviorSubject, of} from "rxjs";
@@ -10,6 +9,7 @@ import {Supplier} from "../../models/supplier.model";
 import {NotificationService} from "../../service/notification-service";
 import {DataStateService} from "../../shared/data-state.service";
 import {Title} from "@angular/platform-browser";
+import {AttributesDataSource} from "../repo/AttributesDataSource";
 
 interface AttributeType {
   value: string;
@@ -38,18 +38,18 @@ export class AttributeEditComponent implements OnInit {
   ];
 
   constructor(
-    public api: ApiClient,
     private _ActivatedRoute: ActivatedRoute,
     private router: Router,
     private _notyf: NotificationService,
     private dss:DataStateService,
+    private attributeDS: AttributesDataSource,
     private titleService:Title) {}
 
   ngOnInit(): void {
     this.id = this._ActivatedRoute.snapshot.paramMap.get("id");
     if (this.id) {
       this.loadingSubject.next(true)
-      this.api.getAttributeById(this.id ?? "")
+      this.attributeDS.getAttributeById(this.id ?? "")
         .pipe(
           map(res => {
             return res.body;
@@ -119,7 +119,7 @@ export class AttributeEditComponent implements OnInit {
       this.attribute.supplierName = this.selectedSupplier.supplierName
     }
     if (this.attribute.id == undefined) {
-      this.api.insertAttribute(this.attribute).subscribe( {
+      this.attributeDS.insertAttribute(this.attribute).subscribe( {
         next:() => {
           this._notyf.onSuccess('Успешно добавлено')
         },
@@ -127,7 +127,7 @@ export class AttributeEditComponent implements OnInit {
           this._notyf.onError('Ошибка ' + ex.error)
         }})
     } else {
-      this.api.updateAttribute(this.attribute).subscribe( {
+      this.attributeDS.updateAttribute(this.attribute).subscribe( {
         next:() => {
           this._notyf.onSuccess('Успешно сохранено')
         },

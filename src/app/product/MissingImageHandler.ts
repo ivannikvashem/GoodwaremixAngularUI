@@ -1,14 +1,14 @@
-import {ApiClient} from "../service/httpClient";
 import {Injectable} from "@angular/core";
+import {HttpClient} from "@angular/common/http";
 @Injectable({
   providedIn: 'root'
 })
 export class MissingImageHandler {
-  constructor(public api:ApiClient) {
+  constructor(private http:HttpClient) {
   }
 
   checkImgStatus($event:Event) {
-    this.api.checkImageStatusCode(($event.target as HTMLImageElement).src).subscribe(resp => { }, error => {
+    this.http.get(($event.target as HTMLImageElement).src).subscribe(() => { }, error => {
       if (error.status == 200) {
         ($event.target as HTMLImageElement).src='./assets/imgPlaceholder.png'
       }

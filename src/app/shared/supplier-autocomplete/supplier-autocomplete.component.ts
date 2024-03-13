@@ -5,7 +5,7 @@ import {Supplier} from "../../models/supplier.model";
 import {ApiClient} from "../../service/httpClient";
 import {DataStateService} from "../data-state.service";
 import {LocalStorageService} from "../../service/local-storage.service";
-import {MatAutocompleteTrigger} from "@angular/material/autocomplete";
+import {SuppliersDataSource} from "../../supplier/repo/SuppliersDataSource";
 @Injectable({
   providedIn: 'root'
 })
@@ -27,6 +27,7 @@ export class SupplierAutocompleteComponent implements OnInit {
 
   constructor(public api: ApiClient,
               public dss: DataStateService,
+              private supplierDS: SuppliersDataSource,
               private _localStorageService:LocalStorageService) {}
 
   ngOnInit(): void {
@@ -36,8 +37,8 @@ export class SupplierAutocompleteComponent implements OnInit {
     )
 
     if (this.dss.getSupplierList().length == 0) {
-      this.api.getSuppliers("", 0 ,100, "supplierName", "asc").subscribe( (r:any) => {
-        this.supplierList = r.body.data
+      this.supplierDS.loadAutocompleteData("", 0 ,100, "supplierName", "asc").subscribe( (res:Supplier[]) => {
+        this.supplierList = res;
         if (this.supplierList.length == 1) {
           this.searchSuppliersCtrl.setValue(this.supplierList[0])
           this.onSupplierSelected();

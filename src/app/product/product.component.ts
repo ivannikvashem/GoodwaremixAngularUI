@@ -23,7 +23,7 @@ export class ProductComponent implements OnInit {
   pageSize:number = 12;
   sortDirection:string;
   sortActive:string = null;
-  categoryId:number;
+  categoryId:number = undefined;
 
   //About to be deprecated
   cardLayout:boolean = true;

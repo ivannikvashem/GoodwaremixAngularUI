@@ -8,6 +8,7 @@ import {catchError, finalize, map} from "rxjs/operators";
 import {DatePipe} from "@angular/common";
 import {DataStateService} from "../shared/data-state.service";
 import {AuthService} from "../auth/service/auth.service";
+import {StatisticDataSource} from "./repo/StatisticDataSource";
 
 export interface ChartDataset {
   data:[],
@@ -68,7 +69,7 @@ export class StatisticComponent implements OnInit {
   datePipe = new DatePipe('ru-RU');
   supplierStatsList:any[] = [];
 
-  constructor(private api: ApiClient, private dss:DataStateService, private auth: AuthService) {
+  constructor(private api: ApiClient, private dss:DataStateService, private auth: AuthService, private statDS: StatisticDataSource) {
     this.roles = this.auth.getRoles();
   }
 
@@ -80,11 +81,22 @@ export class StatisticComponent implements OnInit {
     this.dss.getSelectedSupplier().subscribe(supplier => {
         this.onSupplierSelected(supplier)
     });
+
+    this.statDS.loading$.subscribe(x => {
+      this.isLoading = x;
+    })
+
+    this.statDS.connect(null).subscribe(x => {
+      this.supplierStatsList = x.data;
+      this.supplierConfigs = x.configs
+      this.getConfigErrors(x.configs);
+      this.setBodyData(this.supplierStatsList, false);
+    })
   }
 
 
   getTotalStats() {
-    this.api.getTotalStats()
+    this.statDS.getTotalStats()
       .pipe(
         tap( () => { this.isLoading = true; }),
         map((res:any) => { return res; }),
@@ -105,20 +117,11 @@ export class StatisticComponent implements OnInit {
   }
 
   getStats(supplierId:string) {
-    this.api.getSupplierStats(supplierId, 'lastImport', 'asc').pipe(
-      tap(() => {this.isLoading = true}),
-      catchError(() => of([])),
-      finalize(() => this.isLoading = false)
-    ).subscribe(x => {
-      this.supplierStatsList = x.body.data;
-      this.supplierConfigs = x.body.configs;
-      this.getConfigErrors(x.body.configs);
-      this.setBodyData(this.supplierStatsList, false);
+    this.statDS.loadData(supplierId, 'lastImport', 'asc');
 
-      for (let chart of this.chartList) {
-        this.setDataToChart(chart.data, chart.headers, false);
-      }
-    })
+    for (let chart of this.chartList) {
+      this.setDataToChart(chart.data, chart.headers, false);
+    }
   }
 
   setBodyData(data:any, isAdmin:boolean) {

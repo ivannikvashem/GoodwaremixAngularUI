@@ -9,85 +9,87 @@
   </div>
 
   <mat-card appearance="outlined">
-    <form>
-      <app-supplier-autocomplete class="full-width" [changeSupplierGlobally]="false" [appearance]="'fill'" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
-      <div class="form-container">
+    <mat-card-content>
+      <form>
+        <app-supplier-autocomplete class="full-width" [changeSupplierGlobally]="false" [appearance]="'fill'" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
+        <div class="form-container">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Фиксация</mat-label>
+            <mat-select name="fixed" [(ngModel)]="attribute.isFixed">
+              <mat-option [value]="false">Нет</mat-option>
+              <mat-option [value]="true">Фиксирован</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Тип атрибута</mat-label>
+            <mat-select name="type" [(ngModel)]="attribute.type" [value]="attribute.type">
+              <mat-option *ngFor="let at of attrType" [value]="at.value">
+                {{at.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Наименование атрибута по ETIM</mat-label>
+            <input matInput placeholder="EFxxxxxx" name="etimFeature" [(ngModel)]="attribute.etimFeature">
+          </mat-form-field>
+
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Единица измерения</mat-label>
+            <input matInput placeholder="Единица измерения" name="unit" [(ngModel)]="attribute.unit">
+          </mat-form-field>
+
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Единица измерения ETIM</mat-label>
+            <input matInput placeholder="EUxxxxxx" name="etimUnit" [(ngModel)]="attribute.etimUnit">
+          </mat-form-field>
+        </div>
         <mat-form-field class="full-width" appearance="fill">
-          <mat-label>Фиксация</mat-label>
-          <mat-select name="fixed" [(ngModel)]="attribute.isFixed">
-            <mat-option [value]="false">Нет</mat-option>
-            <mat-option [value]="true">Фиксирован</mat-option>
-          </mat-select>
+          <mat-label>Наименование атрибута</mat-label>
+          <input matInput placeholder="Наименование" name="nameAttribute" [(ngModel)]="attribute.nameAttribute">
         </mat-form-field>
 
-        <mat-form-field class="full-width" appearance="fill">
-          <mat-label>Тип атрибута</mat-label>
-          <mat-select name="type" [(ngModel)]="attribute.type" [value]="attribute.type">
-            <mat-option *ngFor="let at of attrType" [value]="at.value">
-              {{at.viewValue}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field class="full-width" appearance="fill">
-          <mat-label>Наименование атрибута по ETIM</mat-label>
-          <input matInput placeholder="EFxxxxxx" name="etimFeature" [(ngModel)]="attribute.etimFeature">
-        </mat-form-field>
-
-        <mat-form-field class="full-width" appearance="fill">
-          <mat-label>Единица измерения</mat-label>
-          <input matInput placeholder="Единица измерения" name="unit" [(ngModel)]="attribute.unit">
-        </mat-form-field>
-
-        <mat-form-field class="full-width" appearance="fill">
-          <mat-label>Единица измерения ETIM</mat-label>
-          <input matInput placeholder="EUxxxxxx" name="etimUnit" [(ngModel)]="attribute.etimUnit">
-        </mat-form-field>
-      </div>
-      <mat-form-field class="full-width" appearance="fill">
-        <mat-label>Наименование атрибута</mat-label>
-        <input matInput placeholder="Наименование" name="nameAttribute" [(ngModel)]="attribute.nameAttribute">
-      </mat-form-field>
-
-      <mat-form-field class="chip-list" appearance="fill">
-        <mat-label>Список возможных значений</mat-label>
-        <mat-chip-grid #chipList aria-label="Список возможных значений">
-          <mat-chip-row *ngFor="let value of attribute?.allValues" (removed)="removePossibleValue(value)">
-            {{value}}
-            <button matChipRemove>
-              <mat-icon>cancel</mat-icon>
+        <mat-form-field class="chip-list" appearance="fill">
+          <mat-label>Список возможных значений</mat-label>
+          <mat-chip-grid #chipList aria-label="Список возможных значений">
+            <mat-chip-row *ngFor="let value of attribute?.allValues" (removed)="removePossibleValue(value)">
+              {{value}}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+            <input placeholder="Введите значение..."
+                   [matChipInputFor]="chipList"
+                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                   [matChipInputAddOnBlur]="addOnBlur"
+                   (matChipInputTokenEnd)="addPossibleValue($event)">
+            <button *ngIf="attribute.allValues.length > 0" matSuffix mat-icon-button (click)="attribute.allValues = []" type="button" matTooltip="Очистить список">
+              <mat-icon>delete</mat-icon>
             </button>
-          </mat-chip-row>
-          <input placeholder="Введите значение..."
-                 [matChipInputFor]="chipList"
-                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                 [matChipInputAddOnBlur]="addOnBlur"
-                 (matChipInputTokenEnd)="addPossibleValue($event)">
-          <button *ngIf="attribute.allValues.length > 0" matSuffix mat-icon-button (click)="attribute.allValues = []" type="button" matTooltip="Очистить список">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </mat-chip-grid>
-      </mat-form-field>
+          </mat-chip-grid>
+        </mat-form-field>
 
-      <mat-form-field class="chip-list" appearance="fill" *ngIf="attribute?.isFixed">
-        <mat-label>Список возможных имен атрибута</mat-label>
-        <mat-chip-grid #chipList aria-label="Список возможных имен атрибута">
-          <mat-chip-row *ngFor="let pn of attribute?.altValues" (removed)="removePossibleName(pn)">
-            {{pn}}
-            <button matChipRemove>
-              <mat-icon>cancel</mat-icon>
+        <mat-form-field class="chip-list" appearance="fill" *ngIf="attribute?.isFixed">
+          <mat-label>Список возможных имен атрибута</mat-label>
+          <mat-chip-grid #chipList aria-label="Список возможных имен атрибута">
+            <mat-chip-row *ngFor="let pn of attribute?.altValues" (removed)="removePossibleName(pn)">
+              {{pn}}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+            <input placeholder="Введите значение..."
+                   [matChipInputFor]="chipList"
+                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                   [matChipInputAddOnBlur]="addOnBlur"
+                   (matChipInputTokenEnd)="addPossibleName($event)">
+            <button *ngIf="attribute.altValues.length > 0" matSuffix mat-icon-button (click)="attribute.altValues = []" type="button" matTooltip="Очистить список">
+              <mat-icon>delete</mat-icon>
             </button>
-          </mat-chip-row>
-          <input placeholder="Введите значение..."
-                 [matChipInputFor]="chipList"
-                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                 [matChipInputAddOnBlur]="addOnBlur"
-                 (matChipInputTokenEnd)="addPossibleName($event)">
-          <button *ngIf="attribute.altValues.length > 0" matSuffix mat-icon-button (click)="attribute.altValues = []" type="button" matTooltip="Очистить список">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </mat-chip-grid>
-      </mat-form-field>
-    </form>
+          </mat-chip-grid>
+        </mat-form-field>
+      </form>
+    </mat-card-content>
   </mat-card>
 </div>

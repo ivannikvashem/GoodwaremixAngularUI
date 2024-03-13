@@ -31,7 +31,7 @@ export class UserIndexComponent implements OnInit {
   }
 
   deleteUser(id: string) {
-    this.api.deleteUser(id).subscribe( () => {
+    this.api.deleteRequest(`users/${id}`).subscribe( () => {
       this.loadUsersList();
     });
   }

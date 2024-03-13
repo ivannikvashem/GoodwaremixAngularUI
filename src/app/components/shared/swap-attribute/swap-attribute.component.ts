@@ -3,8 +3,10 @@ import {Attribute} from "../../../models/attribute.model";
 import {FormControl, Validators} from "@angular/forms";
 import {ApiClient} from "../../../service/httpClient";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {debounceTime, distinctUntilChanged, finalize, switchMap, tap} from "rxjs";
+import {debounceTime, distinctUntilChanged, switchMap, tap} from "rxjs";
 import {UnitConverter} from "../../../models/unitConverter.model";
+import {AttributesDataSource} from "../../../attribute/repo/AttributesDataSource";
+import {UnitConvertersDataSource} from "../../../unit-converter/repo/UnitConvertersDataSource";
 
 @Component({
   selector: 'app-swap-attribute',
@@ -23,10 +25,10 @@ export class SwapAttributeComponent implements OnInit {
   constructor(public api: ApiClient,
               public dialogRef: MatDialogRef<SwapAttributeComponent>,
               @Inject(MAT_DIALOG_DATA)
-              public data: any) { }
+              public data: any, private attributeDS:AttributesDataSource, private unitConverterDS: UnitConvertersDataSource) { }
 
   ngOnInit(): void {
-    this.api.getAttributeById(this.data.oldAttributeId).subscribe((response) => {
+    this.attributeDS.getAttributeById(this.data.oldAttributeId).subscribe((response) => {
       this.attribute = response.body;
     });
     this.data.newAttribute.supplierName = this.data.oldAttribute;
@@ -37,18 +39,15 @@ export class SwapAttributeComponent implements OnInit {
       tap(() => {
         // this.isLoading = true;
       }),
-      switchMap(value => this.api.getAttributes(value, '' ,0, 500, undefined, "rating", "desc")
-        .pipe(
-          finalize(() => {
-            //this.isLoading = false
-          }),
-        )
+      switchMap(value => this.attributeDS.loadAutocompleteData(value.toString(), '' ,1, 500, "rating", "desc", null)
       )
-    ).subscribe((response: any) => { this.attributes = response.body.data; });
+    ).subscribe((response: Attribute[]) => {
+      this.attributes = response;
+    });
 
     this.unitConverterListCtrl.valueChanges.pipe(
       debounceTime(100),
-      switchMap(value => this.api.getConverterUnits(value.toString(), 0, 100))
+      switchMap(value => this.unitConverterDS.loadPagedData(value.toString(), 0, 100))
     ).subscribe((data: any) => {
       this.unitConverterList = data.body.data;
     });

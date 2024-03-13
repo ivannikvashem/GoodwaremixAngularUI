@@ -32,7 +32,7 @@ $toolbar-opened-xl-width: 260px;
   width: $toolbar-opened-xl-width;
   background: var(--toolbar-background-color);
   z-index: 999;
-  transition: all 0.35s ease;
+  /*transition: all 0.35s ease;*/
   .nav-links {
     width: auto;
     padding-bottom: 150px;
@@ -64,7 +64,7 @@ $toolbar-opened-xl-width: 260px;
         color: $icon-color;
         font-size: 30px;
         cursor: pointer;
-        transition: all 0.3s ease;
+        /*transition: all 0.3s ease;*/
       }
       a {
         display: flex;
@@ -75,7 +75,7 @@ $toolbar-opened-xl-width: 260px;
           font-size: 16px;
           font-weight: 600;
           color: $color_1;
-          transition: all 0.35s ease;
+          /*transition: all 0.35s ease;*/
         }
       }
     }
@@ -97,7 +97,7 @@ $toolbar-opened-xl-width: 260px;
     .dropdown-title {
       width: $toolbar-opened-xl-width;
       overflow: hidden;
-      transition: all 0.35s ease;
+      /*transition: all 0.35s ease;*/
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -144,13 +144,13 @@ $toolbar-opened-xl-width: 260px;
   left: 50%;
   transform: translate(-50%, -50%);
   cursor: pointer;
-  transition: 0.5s ease;
+  /*transition: 0.5s ease;*/
   .bar {
     width: 40px;
     height: 4px;
     background: #ffffff;
     border-radius: 1px;
-    transition: 0.4s ease;
+    /*transition: 0.4s ease;*/
     &:not(:first-child) {
       margin-top: 5px;
     }
@@ -185,7 +185,7 @@ $toolbar-opened-xl-width: 260px;
   background: var(--body-background-color);
   left: $toolbar-opened-xl-width;
   width: calc(100% - $toolbar-opened-xl-width);
-  transition: all 0.7s ease;
+  /*transition: all 0.7s ease;*/
   display: flex;
   flex-direction: column;
   .home-header {

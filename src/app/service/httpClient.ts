@@ -1,14 +1,10 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {Supplier} from "../models/supplier.model";
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
+import {Observable, throwError} from 'rxjs';
 import {environment} from '../../environments/environment';
-import {Product} from "../models/product.model";
-import {Attribute} from "../models/attribute.model";
-import {SchedulerTask} from "../models/schedulerTask.model";
 import {AuthService} from "../auth/service/auth.service";
-import {UnitConverter} from "../models/unitConverter.model";
-import {Category} from "../models/category.model";
+import {HttpParamsModel} from "../models/service/http-params.model";
+import {catchError} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +26,7 @@ export class ApiClient {
   =========================================*/
 
   // Http Options
-  httpOptions = {
+  private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
       Accept: 'application/json',
@@ -42,466 +38,58 @@ export class ApiClient {
     observe: 'response' as 'body' // it's possible to see response status
   };
 
-  //#region Attributes ENDPOINTS
-  getAttributes(searchQuery: any, supplierId: string, pageIndex: number, pageSize: number, fixed?: boolean, sortField?: string, sortDirection?: string): Observable<any> {
-    let opt = {
-      params: new HttpParams()
-        .set('filter.pageNumber', pageIndex ? pageIndex + 1 : 1)
-        .set('filter.pageSize', pageSize ?? 10)
-        .set('searchFilter', searchQuery)
-        .set('sortDirection', sortDirection == "desc" ? "-1" : "1")
-    };
-    if (sortField && sortDirection) {
-      opt.params = opt.params.append('sortField', sortField);
-      opt.params = opt.params.append('sortDirection', sortDirection == "desc" ? "-1" : "1");
+  private errorHandler(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      console.error('An error occurred:', error.error.message);
+    } else {
+      console.error(`Backend returned code ${error.status}, ` + `body was: ${error.error}`);
     }
-    if (supplierId != null) {
-      opt.params = opt.params.append('supplierId', supplierId);
+    return throwError('Something bad happened; please try again later.');
+  }
+
+  private applyParams(params: HttpParamsModel[]) : HttpParams {
+    let httpParams: HttpParams = new HttpParams();
+    params = params.filter((param) => {
+      return param.value !== null && param.value !== '' && param.value !== undefined;
+    });
+    params.forEach((param) => {
+      httpParams = httpParams.append(param.key, param.value);
+    });
+    return httpParams;
+  }
+
+  public getRequest(endpoint:string, params:HttpParamsModel[], options?:any): Observable<any> {
+    let opt = {params: new HttpParams()};
+    if (params && params.length > 0) {
+      opt.params = this.applyParams(params)
     }
-    if (typeof (fixed) == "boolean") {
-      opt.params = opt.params.append('fixedFilter', fixed);
-    }
-    opt = Object.assign(opt, this.httpOptions);
-    return this.http.get<any>(this.apiURL + '/Attributes', opt);
-  }
-
-  getAttributeById(id: string): Observable<any> {
-    return this.http.get<any>(this.apiURL + '/Attributes/'+ id, this.httpOptions);
-  }
-
-  swapAttribute(sourceId: string, destId: string, convertId?:string): Observable<any> {
-    let opt = {
-      params: new HttpParams()
-        .set('sourceId', sourceId)
-        .set('destionationId', destId)
-    };
-    if (convertId != undefined && convertId != null) {
-      opt.params = opt.params.append('convertId', convertId)
-    }
-
-    opt = Object.assign(opt, this.httpOptions);
-    return this.http.post<any>(this.apiURL + '/Attributes/swap/', {}, opt);
-  }
-
-  switchFixAttribute(id: string): Observable<any> {
-    return this.http.post<any>(this.apiURL + '/Attributes/' + id + '/fix/', {}, this.httpOptions);
-  }
-
-  insertAttribute (attribute: Attribute) {
-    return this.http.post<any>(this.apiURL + '/Attributes/', attribute, this.httpOptions);
-  }
-
-  updateAttribute (attribute: Attribute) {
-    return this.http.put<any>(this.apiURL + '/Attributes/', attribute, this.httpOptions);
-  }
-
-  deleteAttribute (id: string) {
-    return this.http.delete<any>(this.apiURL + '/Attributes/' + id, this.httpOptions);
-  }
-
-  deleteProductAttribute (id:string)  {
-    return this.http.delete(this.apiURL+ '/Attributes/' + id, this.httpOptions)
-  }
-  //#endregion
-
-  //#region Log ENDPOINT
-  getLogs(supplierId:string, pageIndex: number, pageSize: number, sortField: string, sortDirection: string): Observable<any> {
-    let opt = {
-      params: new HttpParams()
-        .set('searchFilter', supplierId)
-        .set('filter.pageNumber', pageIndex ? pageIndex + 1 : 1)
-        .set('filter.pageSize', pageSize ?? 10)
-        .set('sortField', sortField)
-        .set('sortDirection', sortDirection == "desc" ? "-1" : "1")
-    };
-    opt = Object.assign(opt, this.httpOptions);
-    return this.http.get<any>(this.apiURL + '/Logs', opt);
-  }
-
-  flushLogs(): Observable<boolean> {
-    return this.http.delete<any>(this.apiURL + '/Logs', this.httpOptions);
-  }
-
-  //#endregion
-
-  //#region Product ENDPOINT
-  getProducts(searchQuery: string, selectedSuppId: string, pageIndex: number, pageSize: number, attributes:any, sortField:string, sortDirection:string, categoryId?:number, containsCategory?:boolean, isModerated?:boolean, withInternalCodeSelector?: boolean) {
-    let opt = {
-      params: new HttpParams()
-        .set('pageNumber', pageIndex ? pageIndex + 1 : 1)
-        .set('pageSize', pageSize ?? 10)
-        .set('sortDirection', sortDirection == "desc" ? "-1" : "1")
-    };
-
-    if (selectedSuppId)
-      opt.params = opt.params.append('supplierId', selectedSuppId);
-    if (searchQuery)
-      opt.params = opt.params.append('searchFilter', searchQuery);
-    if (typeof (isModerated) == "boolean")
-      opt.params = opt.params.append('isModerated', isModerated);
-    if (typeof (withInternalCodeSelector) == "boolean")
-      opt.params = opt.params.append('withInternalCode', withInternalCodeSelector);
-    if (typeof (containsCategory) == "boolean")
-      opt.params = opt.params.append('availabilityCategory', containsCategory);
-    if (categoryId)
-      opt.params = opt.params.append('categoryId', categoryId);
-    if (sortField)
-      opt.params = opt.params.append('sortField', sortField);
-    if (attributes.attributeSearchFilters?.length > 0)
-      opt.params = opt.params.append('attributeSearch', JSON.stringify(attributes))
-    opt = Object.assign(opt, this.httpOptions);
-    return this.http.get<Product[]>(this.apiURL + '/Products/', opt);
-  }
-
-  getProductById(id: string): Observable<any> {
-    return this.http.get<any>(this.apiURL + '/Products/' +id, this.httpOptions);
-  }
-
-  bindProductInternalCodeById(id: string): Observable<any> {
-    //also possible to extract internal name here and on API
-    return this.http.patch<any>(this.apiURL + '/products/' + id + '/intCode', this.httpOptions);
-  }
-
-  insertProduct(product:Product): Observable<any> {
-    return this.http.put(this.apiURL + '/Products/', product, this.httpOptions);
-  }
-
-  updateProduct(product:Product): Observable<any> {
-    return this.http.post(this.apiURL + '/Products/', product, this.httpOptions)
-  }
-
-  deleteProductById(productId:string) {
-    return this.http.delete<any>(this.apiURL + '/Products/' + productId, this.httpOptions);
-  }
-  //#endregion
-
-  //#region Suppliers ENDPOINT
-
-  getSuppliers(searchQuery: any, pageIndex: number, pageSize: number, sortField: string, sortDirection: string) {
-    let opt = {
-      params: new HttpParams()
-        .set('pagination.pageNumber', pageIndex ? pageIndex + 1 : 1)
-        .set('pagination.pageSize', pageSize ?? 15)
-        .set('searchFilter', searchQuery)
-        .set('sortField', sortField)
-        .set('sortDirection', sortDirection == "desc" ? "-1" : "1")
-    };
-    opt = Object.assign(opt, this.httpOptions);
-    return this.http.get<any>(this.apiURL + '/suppliers', opt);
-  }
-
-  getSupplierById(supplierId: string){
-    return this.http.get<any>(this.apiURL + '/suppliers/' + supplierId, this.httpOptions);
-  }
-
-  fetchDataFromSupplier(supplierName: any): Observable<any> {
-    return this.http.post<any>(this.apiURL + '/suppliers/FetchList/' + supplierName, {}, this.httpOptions);
-  }
-
-  stopFetchDataFromSupplier(supplierName: any): Observable<any> {
-    return this.http.post<any>(this.apiURL + '/suppliers/fetchStop/' + supplierName, {}, this.httpOptions);
-  }
-
-  internalCodeBindForSupplier(id: string): Observable<any> {
-    return this.http.post<any>(this.apiURL + '/suppliers/internalBind/' + id, {}, this.httpOptions);
-  }
-
-  insertSupplier(supplier: Supplier): Observable<any> {
-    return this.http.post<any>(this.apiURL + '/suppliers/', supplier, this.httpOptions);
-  }
-
-  updateSupplier(supplier: Supplier): Observable<any> {
-    return this.http.put<any>(this.apiURL + '/suppliers/', supplier, this.httpOptions);
-  }
-
-  postSupplier(supplier: any): Observable<any> {
-    let body = { ...supplier };
-    return this.http.post<any>(this.apiURL + '/suppliers', body, this.httpOptions)
-  }
-
-  deleteSupplierProducts(id: any): Observable<any> {
-    return this.http.delete<any>(this.apiURL + '/products/' + id + '/products', this.httpOptions);
-  }
-
-  deleteSupplier(id: any): Observable<any> {
-    return this.http.delete<any>(this.apiURL + '/suppliers/' + id, this.httpOptions);
-  }
-
-  getBrands(searchQuery: any) {
-    let opt = {
-      params: new HttpParams()
-        .set('searchFilter', searchQuery)
-    }
-    opt = Object.assign(opt, this.httpOptions);
-    return this.http.get(this.apiURL+ '/Suppliers/Brend', opt)
-  }
-
-  bindSupplierCategories(supplierIds: string[]) {
-    return this.http.post(this.apiURL + '/Suppliers/FetchListCategory/', supplierIds)
-  }
-
-  //#endregion
-
-  //#region TASK ENDPOINT
-
-  getTasks(pageIndex: number, pageSize: number, sortField: string, sortDirection: string): Observable<any> {
-    let opt = {
-      params: new HttpParams()
-        .set('filter.pageNumber', pageIndex ? pageIndex + 1 : 1)
-        .set('filter.pageSize', pageSize ?? 10)
-        .set('sortField', sortField)
-        .set('sortDirection', sortDirection == "desc" ? "-1" : "1")
-    };
-    opt = Object.assign(opt, this.httpOptions);
-    return this.http.get<any>(this.apiURL + '/SchedulerTask', opt);
-  }
-
-  insertTask(schedulerTask:SchedulerTask): Observable<any> {
-    return this.http.post<any>(this.apiURL + '/SchedulerTask/', schedulerTask, this.httpOptions)
-  }
-
-  updateTask(schedulerTask: SchedulerTask): Observable<any> {
-    return this.http.put<any>(this.apiURL + '/SchedulerTask/', schedulerTask, this.httpOptions)
-  }
-
-  deleteTask(id:string): Observable<any> {
-    return this.http.delete(this.apiURL + '/SchedulerTask/' + id, this.httpOptions);
-  }
-
-  startTask(ids:string[]): Observable<any> {
-    return this.http.post(this.apiURL + '/Quartz/startQuartz/', ids, this.httpOptions)
-  }
-
-  stopTask(ids:string[]): Observable<any> {
-    return this.http.post(this.apiURL + '/Quartz/stopQuartz/', ids, this.httpOptions)
-  }
-  //#endregion
-
-  //uploadPhoto
-  uploadPhoto(files: File[], productId:string): Observable<any> {
-    let formData = new FormData();
-    for (const photo of files) {
-      formData.append('files', photo)
-    }
-    return this.http.post(this.apiURL + '/files/images/'+productId, formData, {headers:{"ContentType": "multipart/form-data"}})
-  }
-
-  importProducts(file:File, supplierId:string): Observable<any> {
-    let formData = new FormData();
-    formData.append('file', file)
-    return this.http.post(this.apiURL + '/files/importXlsxFile/'+supplierId, formData, {headers:{"ContentType": "multipart/form-data"}})
-  }
-  //
-  // getFiles(): Observable<any> {
-  //   return this.http.get(`${this.apiURL}/files`);
-  // }
-
-  // DOWNLOAD FILE ENDPOINT
-  downloadTableFile(table:string, supplierId:string) {
-    let opt = { params: new HttpParams().set('table', table) };
-    if (supplierId) {
-      opt.params = opt.params.append('supplierId', supplierId);
-    }
-    opt = Object.assign(opt, {observe:'response', responseType:'blob'});
-    return this.http.get(this.apiURL + '/suppliers/DownloadFileJson',opt)
-  }
-
-  downloadProductImage(id: string, route: 'internalCode' | 'vendorId', jpegFormat: boolean, createArchive: boolean) {
-    let opt = {
-      params: new HttpParams()
-        .set(jpegFormat ? 'jpg' : '', jpegFormat || '')
-        .set(createArchive ? 'createArchive' : '', createArchive || '')
-    };
-    opt = Object.assign(opt, { observe: 'response', responseType: 'blob' });
-    return this.http.get(this.apiURL + '/files/' + route + '/' + id, opt);
-  }
-
-  downloadProductsInXLS(productIds:string[]) {
-    return this.http.post(this.apiURL + '/Products/createFile_xlsx',productIds , {observe:'response', responseType:'blob'})
-  }
-
-  // INIT ENDPOINT
-  initRequest(route:'cleanstat' | 'initOld') {
-    return this.http.post<any>(this.apiURL + '/service/' + route, {}, this.httpOptions);
-  }
-
-  checkImageStatusCode(url:string) {
-    return this.http.get(url)
-  }
-
-  //#region User ENDPOINT
-  getUsers(pageIndex: number, pageSize: number, sortField: string, sortDirection: string): Observable<any> {
-    let opt = {
-      params: new HttpParams()
-        .set('filter.pageNumber', pageIndex ? pageIndex + 1 : 1)
-        .set('filter.pageSize', pageSize ?? 10)
-        .set('sortField', sortField)
-        .set('sortDirection', sortDirection == "desc" ? "-1" : "1")
-    };
-    opt = Object.assign(opt, this.httpOptions);
-    return this.http.get<any>(this.apiURL + '/users', opt);
-  }
-
-  getUserById(id: string): Observable<any> {
-    return this.http.get<any>(this.apiURL + '/users/' + id, this.httpOptions);
-  }
-
-  addUser(user: any): Observable<any> {
-    delete user.id;
-    delete user.lastLogin;
-    console.log("SENDING: " + JSON.stringify(user));
-    return this.http.post(this.apiURL + '/users/', user, this.httpOptions);
-  }
-
-  updateUser(id: string, user: any): Observable<any> {
-    console.log(JSON.stringify(user));
-    return this.http.post(this.apiURL + '/users/' + id, user, this.httpOptions);
-  }
-
-  deleteUser(id: string) {
-    return this.http.delete(this.apiURL + '/users/' + id, this.httpOptions);
-  }
-  //#endregion
-
-  //#region Document ENDPOINT
-  getDocuments(searchString:string, pageIndex: number, pageSize: number, supplierId:string, sortField: string, sortDirection: string): Observable<any> {
-    let opt = {
-      params: new HttpParams()
-        .set('searchFilter', searchString)
-        .set('filter.pageNumber', pageIndex ? pageIndex + 1 : 1)
-        .set('filter.pageSize', pageSize ?? 10)
-        .set('sortField', sortField)
-        .set('sortDirection', sortDirection == "desc" ? "-1" : "1")
-    };
-    if (supplierId != undefined) {
-      opt.params = opt.params.append('supplierId', supplierId);
-    }
-    opt = Object.assign(opt, this.httpOptions);
-    return this.http.get<any>(this.apiURL + '/documents', opt);
-  }
-
-  getDocumentById(id:string): Observable<any> {
-    return this.http.get<any>(this.apiURL + '/documents/document/' + id, this.httpOptions);
-  }
-
-  getDocumentsDTOById(ids:string[]): Observable<any> {
-    let query = ''
-    for (let id of ids) {
-      query += 'documentsId='+id+'&'
-    }
-    return this.http.get<any>(this.apiURL + '/documents/documentsDTO?' + query, this.httpOptions);
-  }
-
-  getDocumentsById(ids:string[]): Observable<any> {
-    let query = ''
-    for (let id of ids) {
-      query += 'documentsId='+id+'&'
-    }
-    return this.http.get<any>(this.apiURL + '/documents/documents?' + query, this.httpOptions);
-  }
-
-  addDocument(document:any): Observable<any> {
-    return this.http.post(this.apiURL + '/documents/', document, this.httpOptions);
-  }
-
-  updateDocument(document:any): Observable<any> {
-    return this.http.put(this.apiURL + '/documents/', document, this.httpOptions);
-  }
-
-  deleteDocument(id:string) {
-    return this.http.delete(this.apiURL + '/documents/documentDelete/' + id, this.httpOptions);
-  }
-
-  uploadDocument(file: File, documentId:string): Observable<any> {
-    let formData = new FormData();
-    formData.append('file', file)
-    return this.http.post(this.apiURL + '/files/documents/'+documentId, formData, {headers:{"ContentType": "multipart/form-data"}})
-  }
-  //#endregion
-
-  //#region UnitConverter ENDPOINT
-  getConverterUnits(searchString:string, pageIndex: number, pageSize: number): Observable<any> {
-    let opt = {
-      params: new HttpParams()
-        .set('searchFilter', searchString)
-        .set('filter.pageNumber', pageIndex ? pageIndex + 1 : 1)
-        .set('filter.pageSize', pageSize ?? 10)
-    };
-    opt = Object.assign(opt, this.httpOptions);
-    return this.http.get(this.apiURL + '/unitConverter', opt)
-  }
-
-  addConverterUnit(unit:UnitConverter) {
-    return this.http.put(this.apiURL + '/unitConverter/', unit, this.httpOptions);
-  }
-
-  updateConverterUnit(unit:UnitConverter) {
-    return this.http.post(this.apiURL + '/unitConverter/', unit, this.httpOptions);
-  }
-
-  deleteConverterUnit(id:string) {
-    return this.http.delete(this.apiURL + '/unitConverter/delete/' + id, this.httpOptions);
-  }
-  //#endregion
-
-  checkIfServerAlive(): Observable<any> {
-    return this.http.get(this.apiURL + '/logs', this.httpOptions)
-  }
-
-  getSupplierStats(supplierId:string, sortField?: string, sortDirection?: string): Observable<any> {
-    let opt = {
-      params: new HttpParams()
-    };
-
-    if (supplierId != null) {
-      opt.params = opt.params.append('supplierId', supplierId);
-    }
-    if (sortField && sortDirection) {
-      opt.params = opt.params.append('sortField', sortField);
-      opt.params = opt.params.append('sortDirection', sortDirection == "desc" ? "-1" : "1");
+    if (options) {
+      opt = Object.assign(opt, options);
     }
     opt = Object.assign(opt, this.httpOptions);
 
-    return this.http.get(this.apiURL + '/statistics', opt)
+    return this.http.get(`${this.apiURL}/${endpoint}`, opt).pipe(catchError(this.errorHandler));
   }
-
-  getTotalStats(): Observable<any> {
-    return this.http.get(this.apiURL + '/statistics/total' , this.httpOptions)
-  }
-
-  getSupplierLastStats(supplierId:string): Observable<any> {
-    return this.http.get(this.apiURL + '/statistics/LastSupplierStatistic/' + supplierId, this.httpOptions)
-  }
-
-  getCategories(searchString:any, pageIndex: number, pageSize: number, supplierId:string, sortField: string, sortDirection: string): Observable<any> {
-    let opt = {
-        params: new HttpParams()
-          .set('filterTitle', searchString ? searchString : '')
-          .set('filter.pageNumber', pageIndex ? pageIndex + 1 : 1)
-          .set('filter.pageSize', pageSize ?? 10)
-    };
-
+  public postRequest(endpoint:string, body:any, params?:HttpParamsModel[], headerOptions?:any): Observable<any> {
+    let opt = {params: new HttpParams()};
+    if (params && params.length > 0) {
+      opt.params = this.applyParams(params)
+    }
     opt = Object.assign(opt, this.httpOptions);
-    return this.http.get<any>(this.apiURL + '/categories', opt);
+    if (headerOptions)
+      opt = headerOptions;
+    return this.http.post(`${this.apiURL}/${endpoint}`, body, opt).pipe(catchError(this.errorHandler));
   }
 
-  getCategoryById(id:string) {
-    return this.http.get(this.apiURL + '/categories/' + id, this.httpOptions)
+  public putRequest(endpoint:string, body:any): Observable<any> {
+    return this.http.put(`${this.apiURL}/${endpoint}`, body, this.httpOptions).pipe(catchError(this.errorHandler));
   }
 
-  getCategoryTreeById(id:string) {
-    return this.http.get(this.apiURL + '/categories/tree/' + id, this.httpOptions)
+  public deleteRequest(endpoint:string): Observable<any> {
+    return this.http.delete(`${this.apiURL}/${endpoint}`, this.httpOptions).pipe(catchError(this.errorHandler));
   }
 
-  insertCategory(category:Category): Observable<any> {
-    return this.http.post(this.apiURL + '/categories/', category, this.httpOptions);
-  }
-
-  updateCategory(category:Category): Observable<any> {
-    return this.http.put(this.apiURL + '/categories/', category, this.httpOptions);
-  }
-
-  deleteCategory(categoryId:string): Observable<any> {
-    return this.http.delete(this.apiURL + '/categories/' + categoryId, this.httpOptions);
+  public patchRequest(endpoint:string): Observable<any> {
+    return this.http.patch(`${this.apiURL}/${endpoint}`, this.httpOptions).pipe(catchError(this.errorHandler));
   }
 }

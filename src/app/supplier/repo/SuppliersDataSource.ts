@@ -1,20 +1,29 @@
 import {CollectionViewer, DataSource} from '@angular/cdk/collections';
-import {BehaviorSubject, Observable, of, tap} from 'rxjs';
+import {BehaviorSubject, Observable, of} from 'rxjs';
 import {catchError, finalize, map} from 'rxjs/operators';
 import {ApiClient} from "../../service/httpClient";
 import {Supplier} from "../../models/supplier.model";
 import {Stat} from "../../models/Stat.model";
+import {HttpParamsModel} from "../../models/service/http-params.model";
+import {Injectable} from "@angular/core";
+import {StatisticDataSource} from "../../statistic/repo/StatisticDataSource";
+
+@Injectable({
+  providedIn: 'root'
+})
 
 export class SuppliersDataSource implements DataSource<Supplier> {
 
   private SupplierListSubject = new BehaviorSubject<Supplier[]>([]);
   private loadingSubject = new BehaviorSubject<boolean>(false);
+  private loadPageParamsKeys: string[] = ['searchFilter',  'filter.pageNumber', 'filter.pageSize', 'sortField', 'sortDirection'];
+  private params:HttpParamsModel[] = [];
 
   public loading$ = this.loadingSubject.asObservable();
   public rowCount = 0;
   public pageCount = 0;
 
-  constructor(private api: ApiClient) {  }
+  constructor(private api: ApiClient, private statDS: StatisticDataSource) {  }
 
   connect(collectionViewer: CollectionViewer): Observable<Supplier[]> {
     return this.SupplierListSubject.asObservable();
@@ -25,13 +34,28 @@ export class SuppliersDataSource implements DataSource<Supplier> {
     this.loadingSubject.complete();
   }
 
+  private createParamsObj(arg:IArguments, paramKeys:string[]) {
+    let params:HttpParamsModel[] = [];
+    for (let i = 0; i < arg.length; i++) {
+      if (paramKeys[i] == 'sortDirection')
+        arg[i] = (arg[i] == "desc" ? "-1" : "1")
+      if (paramKeys[i] == 'filter.pageNumber')
+        arg[i] = (arg[i] ? arg[i] + 1 : 1)
+      if (paramKeys[i] == 'categoryId')
+        arg[i] = (arg[i] == 0 ? undefined : arg[i])
+      params.push(new HttpParamsModel(paramKeys[i], arg[i]));
+    }
+    return params;
+  }
+
   loadPagedData(searchQuery:string, pageIndex:number, pageSize:number, sortActive:string, sortDirection:string) {
     this.loadingSubject.next(true);
-    this.api.getSuppliers(searchQuery, pageIndex, pageSize, sortActive, sortDirection)
+    this.params = this.createParamsObj(arguments, this.loadPageParamsKeys);
+    this.api.getRequest('Suppliers', this.params)
       .pipe(
         map(res => {
           for (let supplier of res.body.data) {
-            this.api.getSupplierLastStats(supplier.id).subscribe(stat => {
+            this.statDS.getSupplierLastStats(supplier.id).subscribe(stat => {
               if (stat.body) {
                 supplier.productQty = stat.body.productQty;
                 supplier.lastImport = stat.body.lastImport;
@@ -51,8 +75,24 @@ export class SuppliersDataSource implements DataSource<Supplier> {
       });
   }
 
-  deleteSupplier(id: any) {
-    this.api.deleteSupplier(id).subscribe( () => {
+  loadAutocompleteData(searchQuery:string, pageIndex:number, pageSize:number, sortActive:string, sortDirection:string): Observable<any> {
+    this.params = this.createParamsObj(arguments, this.loadPageParamsKeys);
+    return this.api.getRequest('Suppliers', this.params).pipe(map((res:any) => { return res.body.data; }));
+  }
+
+  getSupplierById(id:string) {
+    return this.api.getRequest(`Suppliers/${id}`, []);
+  }
+
+  insertSupplier(supplier: Supplier) {
+    return this.api.postRequest('Suppliers', supplier)
+  }
+  updateSupplier(supplier: Supplier) {
+    return this.api.putRequest('Suppliers', supplier)
+  }
+
+  deleteSupplier(id:string) {
+    this.api.deleteRequest(`Suppliers/${id}`).subscribe( () => {
         let newdata = this.SupplierListSubject.value.filter(row => row.id != id );
         this.SupplierListSubject.next(newdata);
       },
@@ -60,8 +100,8 @@ export class SuppliersDataSource implements DataSource<Supplier> {
       });
   }
 
-  deleteSupplierProducts(id: any) {
-    this.api.deleteSupplierProducts(id).subscribe( () => {
+  deleteSupplierProducts(id:string) {
+    this.api.deleteRequest(`Products/${id}/products`).subscribe( () => {
         const newSuppliers = this.SupplierListSubject.getValue().map(s =>
           s.id === id
             ? { ...s, stat: new Stat() }
@@ -72,5 +112,29 @@ export class SuppliersDataSource implements DataSource<Supplier> {
       },
       err => {
       })
+  }
+
+  fetchDataFromSupplier(id:string) {
+    return this.api.postRequest(`Suppliers/FetchList/${id}`, null)
+  }
+  stopFetchDataFromSupplier(id:string) {
+    return this.api.postRequest(`Suppliers/fetchStop/${id}`, null)
+  }
+  internalCodeBindForSupplier(id:string) {
+    return this.api.postRequest(`Suppliers/internalBind/${id}`, null)
+  }
+
+  getBrands(searchQuery:string) {
+    this.params = this.createParamsObj(arguments, ['searchFilter']);
+    return this.api.getRequest('Suppliers/brend', this.params).pipe(map((res:any) => { return res.body.data; }));
+  }
+
+  bindSupplierCategories(supplierIds:string[]) {
+    return this.api.postRequest('Suppliers/FetchListCategory', supplierIds)
+  }
+
+  downloadTableFile(table: string, supplierId: string) {
+    this.params = this.createParamsObj(arguments, ['table', 'supplierId']);
+    return this.api.getRequest('suppliers/DownloadFileJson', this.params)
   }
 }

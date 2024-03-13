@@ -9,6 +9,7 @@ import {FormControl, Validators} from "@angular/forms";
 import {debounceTime, distinctUntilChanged, finalize, Observable, startWith, switchMap, tap} from "rxjs";
 import {map} from "rxjs/operators";
 import {AuthService} from "../../auth/service/auth.service";
+import {AttributesDataSource} from "../../attribute/repo/AttributesDataSource";
 
 export interface AttrDialogData {
   newAttribute?: AttributeProduct;
@@ -39,14 +40,14 @@ export class ProductAttributeEditComponent implements OnInit {
   constructor(public api: ApiClient,
               public dialogRef: MatDialogRef<ProductAttributeEditComponent>,
               @Inject(MAT_DIALOG_DATA)
-              public data: AttrDialogData, private auth: AuthService) {
+              public data: AttrDialogData, private auth: AuthService, private attributeDS:AttributesDataSource) {
     this.roles = this.auth.getRoles();
   }
 
   ngOnInit(): void {
     if (this.data.oldAttribute !== undefined) {
       this.isOldAttributeLoading = true;
-      this.api.getAttributeById(this.data.oldAttribute.attributeId).pipe(
+      this.attributeDS.getAttributeById(this.data.oldAttribute.attributeId).pipe(
         tap(() => {
           this.isOldAttributeLoading = true
         }),
@@ -82,15 +83,10 @@ export class ProductAttributeEditComponent implements OnInit {
       tap(() => {
         // this.isLoading = true;
       }),
-      switchMap(value => this.api.getAttributes(value, '', 0, 100, undefined, "rating", "desc")
-        .pipe(
-          finalize(() => {
-            //this.isLoading = false
-          }),
-        )
+      switchMap(value => this.attributeDS.loadAutocompleteData(value.toString(), '', 1, 100, "rating", "desc", null)
       )
-    ).subscribe((response: any) => {
-      this.attributesList = response.body.data;
+    ).subscribe((response: Attribute[]) => {
+      this.attributesList = response;
     });
   }
 

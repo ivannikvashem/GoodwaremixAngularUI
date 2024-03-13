@@ -22,6 +22,8 @@ import {DataStateService} from "../../shared/data-state.service";
 import {ImagePreviewDialogComponent} from "../image-preview-dialog/image-preview-dialog.component";
 import {Title} from "@angular/platform-browser";
 import {AuthService} from "../../auth/service/auth.service";
+import {ProductsDataSource} from "../repo/ProductsDataSource";
+import {SuppliersDataSource} from "../../supplier/repo/SuppliersDataSource";
 
 interface Country {
   code?:string
@@ -77,7 +79,9 @@ export class ProductEditComponent implements OnInit {
               private imgHandler:MissingImageHandler,
               private dss: DataStateService,
               private titleService:Title,
-              private auth:AuthService
+              private auth:AuthService,
+              private productDS: ProductsDataSource,
+              private supplierDS: SuppliersDataSource
   ) {
     this.roles = this.auth.getRoles();
   }
@@ -85,7 +89,7 @@ export class ProductEditComponent implements OnInit {
   ngOnInit(): void {
     this.productId = this._ActivatedRoute.snapshot.paramMap.get("id");
     if (this.productId) {
-      this.api.getProductById(this.productId).pipe(
+      this.productDS.getProductById(this.productId).pipe(
         tap( () => { this.isLoading = true; }), finalize( () => this.isLoading = false)
       ).subscribe({ next: (s) => {
         this.product = s.body as Product;
@@ -114,8 +118,8 @@ export class ProductEditComponent implements OnInit {
 
     this.searchBrandCtrl.valueChanges.pipe(
       distinctUntilChanged(), debounceTime(300),
-      switchMap(value => this.api.getBrands(value))
-    ).subscribe((data: any) => {this.brandsList = data.body; });
+      switchMap(value => this.supplierDS.getBrands(value))
+    ).subscribe((data: any) => { this.brandsList = data; });
 
     this.selectedSupplier = this.dss.getSelectedSupplier().getValue();
 
@@ -328,11 +332,11 @@ export class ProductEditComponent implements OnInit {
    }
 
    uploadPhotos(photos:File[], productId:string) {
-    this.api.uploadPhoto(photos, productId).subscribe()
+    this.productDS.uploadPhoto(photos, productId).subscribe()
    }
 
    updateProduct(product: Product) {
-    this.api.updateProduct(product).subscribe({
+    this.productDS.updateProduct(product).subscribe({
       next: () => {
         if (this.imagesToUpload.length > 0) {
           this.uploadPhotos(this.imagesToUpload, product.id)
@@ -345,7 +349,7 @@ export class ProductEditComponent implements OnInit {
    }
 
    insertProduct(product: Product) {
-     this.api.insertProduct(product).subscribe({
+     this.productDS.insertProduct(product).subscribe({
        next:x => {
          if (this.imagesToUpload.length > 0) {
            this.uploadPhotos(this.imagesToUpload, x.body)
@@ -370,7 +374,7 @@ export class ProductEditComponent implements OnInit {
 
   RequestProductInternalCode(id: string) {
     this.internalCodeFetching = false
-    this.api.bindProductInternalCodeById(id).subscribe(x => {
+    this.productDS.bindProductInternalCodeById(id).subscribe(x => {
         this._notyf.onSuccess("Артикул успешно привязан");
         this.product.internalCode = x;
         this.internalCodeFetching = true

@@ -4,11 +4,14 @@ import {BehaviorSubject, Observable, of} from "rxjs";
 import {catchError, finalize, map} from "rxjs/operators";
 import {ApiClient} from "../../service/httpClient";
 import {NotificationService} from "../../service/notification-service";
+import {HttpParamsModel} from "../../models/service/http-params.model";
 
 export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
 
   private TaskListSubject = new BehaviorSubject<SchedulerTask[]>([]);
   private loadingSubject = new BehaviorSubject<boolean>(false);
+  private loadPageParamsKeys: string[] = ['filter.pageNumber', 'filter.pageSize', 'sortField', 'sortDirection'];
+  private params:HttpParamsModel[] = [];
 
   public loading$ = this.loadingSubject.asObservable();
   public rowCount = 0;
@@ -24,9 +27,22 @@ export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
     this.loadingSubject.complete();
   }
 
-  loadPagedData(pageIndex = 1, pageSize = 10, sortActive = "date", sortDirection = "desc"):any {
+  private createParamsObj(arg:IArguments, paramKeys:string[]) {
+    let params:HttpParamsModel[] = [];
+    for (let i = 0; i < arg.length; i++) {
+      if (paramKeys[i] == 'sortDirection')
+        arg[i] = (arg[i] == "desc" ? "-1" : "1")
+      if (paramKeys[i] == 'filter.pageNumber')
+        arg[i] = (arg[i] ? arg[i] + 1 : 1)
+      params.push(new HttpParamsModel(paramKeys[i], arg[i]));
+    }
+    return params;
+  }
+
+  loadPagedData(pageIndex:number = 1, pageSize:number = 12, sortActive:string = "date", sortDirection:string = "desc"):any {
     this.loadingSubject.next(true);
-    this.api.getTasks(pageIndex, pageSize, sortActive, sortDirection)
+    this.params = this.createParamsObj(arguments, this.loadPageParamsKeys);
+    this.api.getRequest('SchedulerTask', this.params)
       .pipe(
         map(res => {
           return res.body;
@@ -40,19 +56,26 @@ export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
       });
   }
 
-  deleteTask(id: any) {
-    this.api.deleteTask(id).subscribe( () => {
-        let newdata = this.TaskListSubject.value.filter(row => row.id != id );
-        this.TaskListSubject.next(newdata);
-      },
-      err => {
-        console.log(err);
-      });
+  insertTask(schedulerTask:SchedulerTask) {
+    return this.api.postRequest('/SchedulerTask/', schedulerTask)
+  }
+  updateTask(schedulerTask:SchedulerTask) {
+    return this.api.putRequest('/SchedulerTask/', schedulerTask)
+  }
+
+  deleteTask(id: string) {
+  this.api.deleteRequest(`SchedulerTask/${id}`).subscribe( () => {
+      let newdata = this.TaskListSubject.value.filter(row => row.id != id );
+      this.TaskListSubject.next(newdata);
+    },
+    err => {
+      console.log(err);
+    });
   }
 
   submitSchedulerTask(task:SchedulerTask) {
     if (task.id) {
-      this.api.updateTask(task).subscribe( () => {
+      this.updateTask(task).subscribe( () => {
         let newData;
         if (task.id) {
           newData = this.TaskListSubject.value.map(x => {
@@ -68,7 +91,7 @@ export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
         this.TaskListSubject.next(newData)
       })
     } else {
-      this.api.insertTask(task).subscribe( id => {
+      this.insertTask(task).subscribe( id => {
         let newData;
         if (task.id) {
           newData = this.TaskListSubject.value.map(x => {
@@ -90,7 +113,7 @@ export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
 
   taskOnExecute(id:string, state:boolean) {
     if (state) {
-      this.api.startTask([id]).subscribe( {
+      this.api.postRequest('Quartz/startQuartz',[id]).subscribe( {
         next:() => {
           let newData = this.TaskListSubject.value.map(x => x.id === id ? {...x, isEnable:state}: x)
           this.TaskListSubject.next(newData)
@@ -101,7 +124,7 @@ export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
         }
       })
     } else {
-      this.api.stopTask([id]).subscribe({
+      this.api.postRequest('Quartz/stopQuartz',[id]).subscribe({
         next:() => {
           let newData = this.TaskListSubject.value.map(x => x.id === id ? {...x, isEnable:state}: x)
           this.TaskListSubject.next(newData)
@@ -115,7 +138,7 @@ export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
   }
 
   startTaskList(selectedTasks:string[]) {
-    this.api.startTask(selectedTasks).subscribe({
+    this.api.postRequest('Quartz/startQuartz', selectedTasks).subscribe( {
       next:() => {
         this._notyf.onSuccess('Задачи запущены')
       }, error:error => {
@@ -124,7 +147,7 @@ export class SchedulerTaskDataSource implements DataSource<SchedulerTask> {
   }
 
   stopTaskList(selectedTasks:string[]) {
-    this.api.stopTask(selectedTasks).subscribe({
+    this.api.postRequest('Quartz/stopQuartz',selectedTasks).subscribe({
       next:() => {
         this._notyf.onSuccess('Задачи остановлены')
       }, error:error => {

@@ -5,6 +5,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Category} from "../../models/category.model";
 import {Attribute} from "../../models/attribute.model";
 import {debounceTime, switchMap} from "rxjs";
+import {CategoryDataSource} from "../repo/CategoryDataSource";
 
 @Component({
   selector: 'app-category-edit',
@@ -20,7 +21,7 @@ export class CategoryEditComponent implements OnInit {
   constructor(public api: ApiClient,
               public dialogRef: MatDialogRef<CategoryEditComponent>,
               @Inject(MAT_DIALOG_DATA)
-              public data: any) {
+              public data: any, private categoryDS: CategoryDataSource) {
     this.form = new FormGroup({
       "title": new FormControl<string>('', Validators.required),
       "parentId" : new FormControl<string | Attribute>('')
@@ -33,8 +34,7 @@ export class CategoryEditComponent implements OnInit {
       this.category = this.data;
       this.form.get("title").setValue(this.category.title)
       if (this.category.parentId) {
-        this.api.getCategoryById(this.category.parentId).subscribe((x:any) => {
-          console.log(x)
+        this.categoryDS.getCategoryById(this.category.parentId).subscribe((x:any) => {
           this.form.get("parentId").setValue(x.body.result)
         })
       }
@@ -42,7 +42,7 @@ export class CategoryEditComponent implements OnInit {
 
     this.form.controls['parentId'].valueChanges.pipe(
       debounceTime(100),
-      switchMap(value => this.api.getCategories(value.toString(), 0,  500, '', undefined, "desc"))
+      switchMap(value => this.categoryDS.loadPagedData(value.toString(),0,  500, '', undefined, "desc"))
     ).subscribe((data: any) => {
       this.parentIdList = data.body.data;
     });

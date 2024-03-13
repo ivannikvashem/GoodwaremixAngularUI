@@ -13,6 +13,7 @@ import {AuthService} from "../../auth/service/auth.service";
 import {Product} from "../../models/product.model";
 import {DataStateService} from "../../shared/data-state.service";
 import {ProductSelectedListComponent} from "../product-selected-list/product-selected-list.component";
+import {DocumentsDataSource} from "../../document/repo/DocumentsDataSource";
 
 @Component({
   selector: 'app-product-index',
@@ -60,8 +61,9 @@ export class ProductIndexComponent implements OnInit {
     private _notyf: NotificationService,
     private imgHandler:MissingImageHandler,
     private dss:DataStateService,
+    private documentDS: DocumentsDataSource,
     private auth:AuthService) {
-    this.dataSource = new ProductsDataSource(this.api, this._notyf);
+    this.dataSource = new ProductsDataSource(this.api, this._notyf, this.documentDS);
     this.roles = this.auth.getRoles();
   }
 
@@ -101,7 +103,8 @@ export class ProductIndexComponent implements OnInit {
 
   // isCardLayout params should be removed
   loadProductPagedData(): any {
-    this.dataSource.loadPagedData(this.isCardLayout, this.searchQuery, this.selectedSupplier?.id,  this.pageIndex, this.pageSize, this.attributeFilter, this.sortActive.active, this.sortActive.direction, this.categoryId, this.containsCategory, this.isModerated ? false : null, this.withInternalCode);
+    this.dataSource.isCardLayout = this.isCardLayout;
+    this.dataSource.loadPagedData(this.searchQuery, this.selectedSupplier?.id, this.pageIndex, this.pageSize, this.attributeFilter.attributeSearchFilters.length > 0 ? JSON.stringify(this.attributeFilter) : null, this.sortActive.active, this.sortActive.direction, this.categoryId, this.containsCategory, this.isModerated ? false : null, this.withInternalCode);
     this.dataSource.connect(null).subscribe(x => {
       this.productsList = x;
     })

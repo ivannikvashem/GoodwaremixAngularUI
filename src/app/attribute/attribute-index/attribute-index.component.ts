@@ -55,7 +55,8 @@ export class AttributeIndexComponent implements OnInit {
     private _notyf: NotificationService,
     private _ActivatedRoute:ActivatedRoute,
     private _localStorageService: LocalStorageService,
-    private dss: DataStateService
+    private dss: DataStateService,
+    private attributeDS: AttributesDataSource
   ) {
     this.dataSource = new AttributesDataSource(this.api);
   }
@@ -88,9 +89,9 @@ export class AttributeIndexComponent implements OnInit {
   }
 
   loadAttributePagedData(): any {
-    this.dataSource.loadPagedData(this.searchQuery, this.selectedSupplier?.id ? this.selectedSupplier.id : null, this.pageIndex, this.pageSize,this.sortActive, this.sortDirection, this.withFixedAttrSelector);
-    this.dataSource.connect(null).subscribe(x => {
-      this.attributeDataSource.data = x;
+    this.dataSource.loadPagedData(this.searchQuery, this.selectedSupplier?.id ? this.selectedSupplier.id : "", this.pageIndex, this.pageSize,this.sortActive, this.sortDirection, this.withFixedAttrSelector);
+    this.dataSource.connect(null).subscribe((attributes: Attribute[]) => {
+      this.attributeDataSource.data = attributes;
     })
   }
 
@@ -113,7 +114,8 @@ export class AttributeIndexComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.api.swapAttribute(result.oldAttributeId, result.newAttribute.id, result.newAttribute.convertId).subscribe({
+
+      this.attributeDS.swapAttribute(result.oldAttributeId, result.newAttribute.id, result.newAttribute.convertId).subscribe({
         next: () => {
           this.dataSource.updateSwappedAttribute(result.oldAttributeId)
           this._notyf.onSuccess("Атрибут переназначен")
@@ -142,7 +144,7 @@ export class AttributeIndexComponent implements OnInit {
   }
 
   switchFixAttr(id: any, val: boolean) {
-    this.api.switchFixAttribute(id).subscribe({
+    this.attributeDS.switchFixAttribute(id).subscribe({
       next: () => {
         this.dataSource.updateFixedAttributeState(id, val);
         this._notyf.onSuccess("Статус атрибута изменен")

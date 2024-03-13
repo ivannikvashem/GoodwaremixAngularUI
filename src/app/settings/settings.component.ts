@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {MatBottomSheetRef} from "@angular/material/bottom-sheet";
 import {LocalStorageService} from "../service/local-storage.service";
-import {take} from "rxjs";
+import {BehaviorSubject, take} from "rxjs";
 import {DataStateService} from "../shared/data-state.service";
+import {SettingsModel} from "../models/service/settings.model";
 
 @Component({
   selector: 'app-settings',
@@ -46,7 +47,7 @@ export class SettingsComponent implements OnInit {
   }
 
   saveSettings() {
-    this.dss.setSettings({menuState: this.menuState, scrollPageToTop: this.scrollPageToTop, isPaginatorFixed: this.isPaginatorFixed});
+    this.dss.setSettings(new BehaviorSubject<SettingsModel>({menuState: this.menuState, scrollPageToTop: this.scrollPageToTop, isPaginatorFixed: this.isPaginatorFixed}));
     this.setCookie();
     this._bottomSheetRef.dismiss();
   }

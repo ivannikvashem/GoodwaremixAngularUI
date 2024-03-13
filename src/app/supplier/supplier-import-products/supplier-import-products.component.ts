@@ -1,6 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ApiClient} from "../../service/httpClient";
+import {ProductsDataSource} from "../../product/repo/ProductsDataSource";
 
 @Component({
   selector: 'app-supplier-import-products',
@@ -10,9 +11,9 @@ import {ApiClient} from "../../service/httpClient";
 export class SupplierImportProductsComponent implements OnInit {
 
   constructor(public dialogRef:MatDialogRef<SupplierImportProductsComponent>,
+              private productDS: ProductsDataSource,
               @Inject(MAT_DIALOG_DATA)
-              public data:any,
-              private api:ApiClient) { }
+              public data:any) { }
   file:File;
 
   ngOnInit(): void {}
@@ -22,7 +23,7 @@ export class SupplierImportProductsComponent implements OnInit {
   }
 
   importProducts() {
-    this.api.importProducts(this.file, this.data.supplierId).subscribe(() => {
+    this.productDS.importProducts(this.file, this.data.supplierId).subscribe(() => {
       this.dialogRef.close();
     })
   }

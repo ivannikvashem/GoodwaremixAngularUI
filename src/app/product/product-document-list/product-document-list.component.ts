@@ -5,6 +5,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {MatDialog} from "@angular/material/dialog";
 import {NotificationService} from "../../service/notification-service";
 import {ApiClient} from "../../service/httpClient";
+import {DocumentsDataSource} from "../../document/repo/DocumentsDataSource";
 
 @Component({
   selector: 'app-product-document-list',
@@ -15,7 +16,7 @@ export class ProductDocumentListComponent implements OnInit {
   dataSource = new MatTableDataSource<any>()
   documentsView:Document[] = []
   isDocumentsLoading:boolean = false;
-  constructor(public dialog: MatDialog, private _notyf: NotificationService, private api:ApiClient) { }
+  constructor(public dialog: MatDialog, private _notyf: NotificationService, private api:ApiClient, private documentDS: DocumentsDataSource) { }
   @Input() document:string[] = []
   @Input() supplierId:string
   @Input() isChangeable:boolean
@@ -24,7 +25,7 @@ export class ProductDocumentListComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.document) {
-      this.api.getDocumentsById(this.document).subscribe((response) => {
+      this.documentDS.getDocumentsById(this.document, 'documents').subscribe((response) => {
         if (response.status == 200)
           if (response.body.length > 0) {
             this.isDocumentsLoading = true

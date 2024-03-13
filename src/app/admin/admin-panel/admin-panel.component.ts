@@ -6,6 +6,7 @@ import {
   ConfirmDialogModel
 } from "../../components/shared/confirm-dialog/confirm-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import {SuppliersDataSource} from "../../supplier/repo/SuppliersDataSource";
 
 @Component({
   selector: 'app-admin-panel',
@@ -14,7 +15,7 @@ import {MatDialog} from "@angular/material/dialog";
 })
 export class AdminPanelComponent implements OnInit {
 
-  constructor(private api:ApiClient, private _notyf:NotificationService, public dialog: MatDialog) { }
+  constructor(private api:ApiClient, private _notyf:NotificationService, public dialog: MatDialog, private supplierDS: SuppliersDataSource) { }
 
   ngOnInit(): void {}
 
@@ -27,7 +28,7 @@ export class AdminPanelComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult === true) {
-        this.api.initRequest('initOld').subscribe({
+        this.api.postRequest('service/initOld', {}).subscribe({
           next: () => {
             this._notyf.onSuccess("Инициализация БД начата")
           },
@@ -39,7 +40,7 @@ export class AdminPanelComponent implements OnInit {
   }
 
   fixSupplierStat() {
-    this.api.initRequest('cleanstat').subscribe({
+    this.api.postRequest('service/cleanstat', {}).subscribe({
       next: () => {
         this._notyf.onSuccess("Обновление статистики")
       },
@@ -49,7 +50,8 @@ export class AdminPanelComponent implements OnInit {
   }
 
   downloadTable(table:string, supplierId?:string) {
-    this.api.downloadTableFile(table,supplierId).subscribe((p:any) =>{
+    this.supplierDS.downloadTableFile(table,supplierId).subscribe((p:any) =>{
+      console.log(p)
       let downloadAction = document.createElement('a')
       downloadAction.download = table;
       downloadAction.href = window.URL.createObjectURL(new Blob([p.body], {type: 'application/json; charset=utf-8'}))

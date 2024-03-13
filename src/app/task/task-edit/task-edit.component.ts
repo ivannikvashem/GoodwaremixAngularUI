@@ -5,6 +5,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Supplier} from "../../models/supplier.model";
 import {ApiClient} from "../../service/httpClient";
 import {DataStateService} from "../../shared/data-state.service";
+import {SuppliersDataSource} from "../../supplier/repo/SuppliersDataSource";
 
 
 export interface DialogData {
@@ -27,7 +28,8 @@ export class TaskEditComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA)
               public data:DialogData,
               private api:ApiClient,
-              private dss:DataStateService
+              private dss:DataStateService,
+              private supplierDS: SuppliersDataSource
   ) { }
 
   fb:FormGroup = new FormGroup({
@@ -42,7 +44,7 @@ export class TaskEditComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.data.oldTask !== undefined) {
-      this.api.getSupplierById(this.data.oldTask.supplierId).subscribe(x => {
+      this.supplierDS.getSupplierById(this.data.oldTask.supplierId).subscribe(x => {
         this.supplier = x.body as Supplier;
         this.selectedSupplier = x.body;
         this.dss.setSelectedSupplier(this.supplier.id, this.supplier.supplierName);

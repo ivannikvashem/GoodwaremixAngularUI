@@ -2,6 +2,7 @@ import {Supplier} from "../models/supplier.model";
 import {BehaviorSubject, take} from "rxjs";
 import {Injectable} from "@angular/core";
 import {LocalStorageService} from "../service/local-storage.service";
+import {SettingsModel} from "../models/service/settings.model";
 
 @Injectable()
 export class DataStateService {
@@ -9,7 +10,7 @@ export class DataStateService {
   private selectedSupplierState: BehaviorSubject<Supplier | null> = new BehaviorSubject(null);
   private selectedProductsState: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([])
   private supplierList: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([])
-  private settings: BehaviorSubject<any> = new BehaviorSubject<any>(null)
+  private settings: BehaviorSubject<SettingsModel> = new BehaviorSubject<SettingsModel>(null)
 
   constructor(private _localStorageService: LocalStorageService) {
     this.getCookie();
@@ -28,7 +29,7 @@ export class DataStateService {
     this._localStorageService.getDataByPageName("Settings")
     this.pageCookie$.pipe(take(1)).subscribe((localStorageContent:any) => {
       if (localStorageContent) {
-        this.setSettings({menuState: /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ? false : localStorageContent.menuState, scrollPageToTop: localStorageContent.scrollPageToTop, isPaginatorFixed: localStorageContent.isPaginatorFixed});
+        this.setSettings(new BehaviorSubject<SettingsModel>({menuState: /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ? false : localStorageContent.menuState, scrollPageToTop: localStorageContent.scrollPageToTop, isPaginatorFixed: localStorageContent.isPaginatorFixed}));
       }
     });
   }
@@ -80,11 +81,15 @@ export class DataStateService {
     this.selectedProductsState.next([])
   }
 
-  setSettings(settings:any) {
-    this.settings.next(settings)
+  setSettings(settings:BehaviorSubject<SettingsModel>) {
+    this.settings.next(settings.value);
   }
 
   getSettings() {
-    return this.settings;
+    if (this.settings.value == null) {
+      return new BehaviorSubject<SettingsModel>({isPaginatorFixed: true, menuState: true, scrollPageToTop: false});
+    } else {
+      return this.settings;
+    }
   }
 }
