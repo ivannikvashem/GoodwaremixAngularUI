@@ -2,7 +2,7 @@
   <span class="modal-title">Настройки</span>
 
   <div>
-    <button mat-icon-button (click)="restoreSettings()" matTooltip="Сброс настроек"><mat-icon>restore</mat-icon></button>
+    <button mat-icon-button class="restore-settings-btn" (click)="restoreSettings()" matTooltip="Сброс настроек"><mat-icon>restore</mat-icon></button>
     <button mat-raised-button color="primary" (click)="saveSettings()">Сохранить</button>
   </div>
 </div>
@@ -10,7 +10,7 @@
   <mat-list>
     <div>
       <h4>Поставщик для работы</h4>
-      <app-supplier-autocomplete [appearance]="'outline'"></app-supplier-autocomplete>
+      <app-supplier-autocomplete [changeSupplierGlobally]="false" [appearance]="'outline'" (selectedSupplier)="onSupplierSelect($event)"></app-supplier-autocomplete>
     </div>
 
     <mat-list-item>

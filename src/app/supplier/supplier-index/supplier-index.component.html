@@ -1,3 +1,18 @@
+<mat-card class="actions-container">
+  <mat-card-content>
+    <div>
+      <button mat-icon-button class="actions-btn" matTooltip="Обновить кол-во товара и бренды" (click)="fixSupplierStat()"><mat-icon>construction</mat-icon></button>
+      <button mat-icon-button class="actions-btn" matTooltip="Скачать товары" [disabled]="selection.selected.length <= 0" (click)="downloadSelectedSuppCollection('Product')"><mat-icon>download</mat-icon></button>
+      <button mat-icon-button class="actions-btn" matTooltip="Удалить товары" [disabled]="selection.selected.length <= 0" (click)="confirmSelectedSuppProductsDialog()"><mat-icon>remove_shopping_cart</mat-icon></button>
+      <button mat-icon-button class="actions-btn" matTooltip="Привязать артикулы" [disabled]="selection.selected.length <= 0"  (click)="selectedSuppInternalCodesFetch()"><mat-icon>build</mat-icon></button>
+      <button mat-icon-button class="actions-btn" [matTooltip]="'Сбор выбранных ' + selection.selected.length" [disabled]="selection.selected.length <= 0"  (click)="fetchSelectedItems()"><mat-icon>restart_alt</mat-icon></button>
+      <button mat-icon-button class="actions-btn" matTooltip="Привязать категории" [disabled]="selection.selected.length <= 0" (click)="bindSupplierCategories()"><mat-icon>category</mat-icon></button>
+    </div>
+   <button mat-icon-button class="actions-btn" [matTooltip]="'Удалить выбранных ' + selection.selected.length" [disabled]="selection.selected.length <= 0" (click)="confirmSelectionSuppDeleteDialog()" color="warn"><mat-icon>delete_forever</mat-icon></button>
+
+  </mat-card-content>
+</mat-card>
+
 <div class="mat-elevation-z2 page-container">
   <table mat-table *ngIf="dataSource.rowCount != 0 && !isLoading" [dataSource]="supplierDataSource" multiTemplateDataRows matSort [matSortActive]="sortActive" matSortDirection="{{sortDirection}}" (matSortChange)="sortData($event)" matSortDisableClear>
     <!-- Checkbox Column -->
@@ -72,24 +87,17 @@
     <!-- ACTIONS Column -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="Добавить поставщика" [routerLink]="['/supplier-add']">
-          <mat-icon>add</mat-icon>
-        </button>&nbsp;
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="Обновить кол-во товара и бренды" (click)="fixSupplierStat()">
-          <mat-icon>build</mat-icon>
-        </button>&nbsp;
-
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="Привязать категории" [disabled]="selection.selected.length <= 0" (click)="bindSupplierCategories()">
-          <mat-icon>category</mat-icon>
-        </button>&nbsp;
+        <div class="buttons-container">
+          <button mat-icon-button class="mat-elevation-z2" matTooltip="Добавить поставщика" [routerLink]="['/supplier-add']">
+            <mat-icon>add</mat-icon>
+          </button>&nbsp;
+        </div>
       </th>
       <td mat-cell *matCellDef="let item">
-        <button mat-icon-button class="mat-elevation-z2" matTooltip="Загрузить данные" (click)="fetchItem(item.supplierName, item.id)"><mat-icon>start</mat-icon></button>&nbsp;
-        <a mat-icon-button class="mat-elevation-z2" matTooltip="Изменить" style="color: black" [href]="'/supplier-edit/' + item.id"><mat-icon>edit</mat-icon></a>&nbsp;
-        <button mat-icon-button class="mat-elevation-z2"  aria-label="expand row" (click)="(expandedElement = expandedElement === item ? null : item); $event.stopPropagation()">
-          <mat-icon *ngIf="expandedElement !== item">keyboard_arrow_down</mat-icon>
-          <mat-icon *ngIf="expandedElement === item">keyboard_arrow_up</mat-icon>
-        </button>
+        <div class="buttons-container">
+          <button mat-icon-button class="mat-elevation-z2" matTooltip="Импорт данных" (click)="importProducts(item.id, item.supplierName)"><mat-icon>publish</mat-icon></button>
+          <a mat-icon-button class="mat-elevation-z2" matTooltip="Изменить" style="color: black; margin-left: 5px;" [href]="'/supplier-edit/' + item.id"><mat-icon>edit</mat-icon></a>&nbsp;
+        </div>
       </td>
     </ng-container>
     <ng-container matColumnDef="expandedDetail">
@@ -97,14 +105,6 @@
         <div class="element-detail" [@detailExpand]="item == expandedElement ? 'expanded' : 'collapsed'">
           <div class="element-brands">
               <!--  {{ item.stat.brands != null ? item.stat.brands.join(', ') : ""}}-->
-          </div>
-
-          <div class="element-actions">
-            <button mat-icon-button class="mat-elevation-z2" matTooltip="Привязать артикулы" (click)="internalCodeFetch(item.id)"><mat-icon>build</mat-icon></button>
-            <button mat-icon-button class="mat-elevation-z2" matTooltip="Импорт данных" (click)="importProducts(item.id, item.supplierName)"><mat-icon>publish</mat-icon></button>
-            <button mat-icon-button class="mat-elevation-z2" matTooltip="Скачать товары" (click)="downloadTable('Product', item.id)"><mat-icon>local_offer</mat-icon></button>
-            <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить товары" (click)="confirmDeleteSuppProdDialog(item.id, item.supplierName)"><mat-icon>remove_shopping_cart</mat-icon></button>
-            <button mat-icon-button class="mat-elevation-z2" matTooltip="Удалить поставщика"  (click)="confirmDeleteSuppDialog(item.id, item.supplierName)"><mat-icon>delete_forever</mat-icon></button>
           </div>
         </div>
       </td>
@@ -125,7 +125,6 @@
     <mat-card-content>По вашему запросу ничего не найдено, попробуйте изменить критерии поиска</mat-card-content>
   </mat-card>
 
-  <button mat-fab color="primary" class="mat-elevation-z2; float-button" (click)="fetchSelectedItems()" [class.cdk-visually-hidden]="selection.selected.length == 0" [matTooltip]="'Сбор выбранных ' + selection.selected.length"><mat-icon>restart_alt</mat-icon></button>
 </div>
 
 <mat-paginator [ngStyle]="isPaginatorFixed == true ? {'position': 'fixed'} : {'position': 'absolute'}" class="paginator-fixed mat-elevation-z8" [style.visibility]="dataSource.rowCount > 0 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[12,24,48,96]></mat-paginator>

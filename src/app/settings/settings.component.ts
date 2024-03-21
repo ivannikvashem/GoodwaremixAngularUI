@@ -4,6 +4,7 @@ import {LocalStorageService} from "../service/local-storage.service";
 import {BehaviorSubject, take} from "rxjs";
 import {DataStateService} from "../shared/data-state.service";
 import {SettingsModel} from "../models/service/settings.model";
+import {Supplier} from "../models/supplier.model";
 
 @Component({
   selector: 'app-settings',
@@ -18,6 +19,7 @@ export class SettingsComponent implements OnInit {
   menuState:boolean = true;
   isPaginatorFixed:boolean = true;
   isMobile:boolean;
+  selectedSupplier:Supplier;
 
   constructor(private _bottomSheetRef: MatBottomSheetRef<SettingsComponent>, private _localStorageService: LocalStorageService, private dss: DataStateService) { }
 
@@ -47,6 +49,7 @@ export class SettingsComponent implements OnInit {
   }
 
   saveSettings() {
+    this.dss.setSelectedSupplier(this.selectedSupplier?.id, this.selectedSupplier?.supplierName)
     this.dss.setSettings(new BehaviorSubject<SettingsModel>({menuState: this.menuState, scrollPageToTop: this.scrollPageToTop, isPaginatorFixed: this.isPaginatorFixed}));
     this.setCookie();
     this._bottomSheetRef.dismiss();
@@ -57,5 +60,9 @@ export class SettingsComponent implements OnInit {
     this.menuState = true;
     this.isPaginatorFixed = true;
     this.saveSettings();
+  }
+
+  onSupplierSelect(supplier:Supplier) {
+    this.selectedSupplier = supplier;
   }
 }

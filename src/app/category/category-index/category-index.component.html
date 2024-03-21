@@ -13,24 +13,6 @@
       <td mat-cell *matCellDef="let row">{{row.parentId}}</td>
     </ng-container>
 
-    <!-- vendorId Column -->
-    <ng-container matColumnDef="venderId">
-      <th mat-header-cell *matHeaderCellDef>vendorId</th>
-      <td mat-cell *matCellDef="let row">{{row.venderId}}</td>
-    </ng-container>
-
-    <!-- supplierId Column -->
-    <ng-container matColumnDef="supplierId">
-      <th mat-header-cell *matHeaderCellDef>supplierId</th>
-      <td mat-cell *matCellDef="let row">{{row.supplierId}}</td>
-    </ng-container>
-
-    <!-- description Column -->
-    <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef>Описание</th>
-      <td mat-cell *matCellDef="let row">{{row.description}}</td>
-    </ng-container>
-
     <!-- ACTIONS Column -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>
@@ -39,12 +21,12 @@
         </button>
       </th>
       <td mat-cell *matCellDef="let item">
-        <button mat-icon-button matTooltip="Изменить категорию" (click)="editCategory(item)">
+<!--        <button mat-icon-button matTooltip="Изменить категорию" (click)="editCategory(item)">
           <mat-icon>edit</mat-icon>
         </button>&nbsp;
         <button  mat-icon-button matTooltip="Удалить категорию" (click)="deleteCategory(item.id)">
           <mat-icon>delete</mat-icon>
-        </button>
+        </button>-->
       </td>
     </ng-container>
 
@@ -53,4 +35,4 @@
   </table>
 
 </div>
-<mat-paginator [ngStyle]="isPaginatorFixed == true ? {'position': 'fixed'} : {'position': 'absolute'}" class="paginator-fixed mat-elevation-z8" [style.visibility]="dataSource.rowCount > 0 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[12,20,50,100] aria-label="Страница"></mat-paginator>
+<mat-paginator [ngStyle]="isPaginatorFixed == true ? {'position': 'fixed'} : {'position': 'absolute'}" class="paginator-fixed mat-elevation-z8" [style.visibility]="dataSource.rowCount > 0 ? 'visible' : 'hidden'" [length]="dataSource.rowCount" showFirstLastButtons [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]=[12,24,48,96] aria-label="Страница"></mat-paginator>

@@ -5,7 +5,7 @@
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
     margin-bottom: 7px;
     background: white;
     border-radius: 4px;
@@ -18,7 +18,17 @@
       }
     }
 
-    .selected-items-counter { margin-left: 10px }
+    .selected-items-counter {
+      margin-left: 10px;
+      display: flex;
+      align-items: center;
+
+      button {
+        padding: 0 !important;
+        height: 25px;
+        width: 35px;
+      }
+    }
   }
 }
 

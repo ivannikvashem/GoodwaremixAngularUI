@@ -71,7 +71,11 @@
                 </mat-form-field>
               </div>
             </mat-tab>
+
             <mat-tab label="Конфигурации ({{supplier.supplierConfigs.length}})">
+
+              <button mat-raised-button color="primary" (click)="addConfig()">Добавить конфигурацию</button>
+
               <mat-tab-group [selectedIndex]="selectedConfig.value" (selectedIndexChange)="selectedConfig.setValue($event)" animationDuration="0ms">
                 <mat-tab *ngFor="let config of supplier.supplierConfigs; let i = index">
                   <ng-template mat-tab-label>
@@ -690,11 +694,6 @@
                       </mat-step>
                     </mat-stepper>
                   </form>
-                </mat-tab>
-                <mat-tab class="add-new-config" disabled>
-                  <ng-template mat-tab-label class="add-new-config">
-                    <button mat-icon-button (click)="addConfig()"><mat-icon>add</mat-icon></button>
-                  </ng-template>
                 </mat-tab>
               </mat-tab-group>
 

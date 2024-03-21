@@ -12,11 +12,12 @@
 }
 
 .toolbox-container {
-  display: grid;
   gap: 1rem;
   grid-template-columns: 2fr 1fr;
   width: 100%;
   justify-content: unset;
+  display: flex;
+  align-items: flex-start;
 }
 
 .toolbox-items {
@@ -45,7 +46,7 @@
 
 @mixin m-devices {
   .toolbox-container {
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 2fr auto;
     .toolbox-item-xl {
       grid-column: span 1;
     }
@@ -54,7 +55,7 @@
 
 @mixin l-devices {
   .toolbox-container {
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 2fr auto;
     .toolbox-item-xl {
       grid-column: span 1;
     }
@@ -63,7 +64,7 @@
 
 @mixin xl-devices {
   .toolbox-container {
-    grid-template-columns: 3fr 1fr;
+    grid-template-columns: 3fr auto;
     .toolbox-item-xl {
       grid-column: span 1;
     }

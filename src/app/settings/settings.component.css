@@ -16,6 +16,14 @@ h4 {
   text-overflow: unset;
 }
 
+.restore-settings-btn {
+  height: 36px;
+  width: 36px;
+  vertical-align: middle;
+  padding: unset;
+  margin-right: 10px;
+}
+
 .modal-header-container {
   display: flex !important;
 }

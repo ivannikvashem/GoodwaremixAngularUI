@@ -89,7 +89,7 @@ export class AttributeIndexComponent implements OnInit {
   }
 
   loadAttributePagedData(): any {
-    this.dataSource.loadPagedData(this.searchQuery, this.selectedSupplier?.id ? this.selectedSupplier.id : "", this.pageIndex, this.pageSize,this.sortActive, this.sortDirection, this.withFixedAttrSelector);
+    this.dataSource.loadPagedData(this.searchQuery, this.selectedSupplier?.id ? this.selectedSupplier.id : "", this.pageIndex == 0 ? 1 : this.pageIndex, this.pageSize,this.sortActive, this.sortDirection, this.withFixedAttrSelector);
     this.dataSource.connect(null).subscribe((attributes: Attribute[]) => {
       this.attributeDataSource.data = attributes;
     })

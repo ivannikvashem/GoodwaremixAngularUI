@@ -20,7 +20,7 @@ import {StatisticDataSource} from "../../statistic/repo/StatisticDataSource";
 @Component({
   selector: 'app-supplier-index',
   templateUrl: './supplier-index.component.html',
-  styleUrls: ['./supplier-index.component.css'],
+  styleUrls: ['./supplier-index.component.scss'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({height: '0px', minHeight: '0'})),
@@ -104,24 +104,6 @@ export class SupplierIndexComponent implements OnInit {
     this.sortParams.next({direction: sort.direction, active:sort.active});
   }
 
-  fetchItem(supplierName: string, id:string) {
-    this.supplierDS.fetchDataFromSupplier(id).subscribe( () => {
-       this._notyf.onSuccess('Сбор данных '+supplierName+' начат')
-      },
-      err => {
-        this._notyf.onError("Ошибка: " + JSON.stringify(err));
-      })
-  }
-
-  stopFetchItem(supplierName: string) {
-    this.supplierDS.stopFetchDataFromSupplier(supplierName).subscribe( () => {
-        this._notyf.onSuccess('Сбор данных '+supplierName+' остановлен')
-      },
-      err => {
-        this._notyf.onError("Ошибка: " + JSON.stringify(err));
-      })
-  }
-
   fixSupplierStat() {
     this.api.postRequest('service/cleanstat', {})
       .pipe(finalize( () => { this._notyf.onSuccess('Данные обновлены'); this.loadSupplierPagedData() })
@@ -131,8 +113,8 @@ export class SupplierIndexComponent implements OnInit {
       }})
   }
 
-  confirmDeleteSuppDialog(id: string, name: string): void {
-    const message = `Удалить поставщика ` + name + `?`;
+  confirmSelectionSuppDeleteDialog(): void {
+    const message = `Удалить поставщиков (${this.selection.selected.length}) ?`;
     const dialogData = new ConfirmDialogModel("Подтверждение", message);
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       minWidth: "400px",
@@ -140,13 +122,15 @@ export class SupplierIndexComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult === true) {
-        this.dataSource.deleteSupplier(id);
+        this.selection.selected.forEach(supplier => {
+          this.dataSource.deleteSupplier(supplier.id);
+        })
       }
     });
   }
 
-  confirmDeleteSuppProdDialog(id: string, name: string): void {
-    const message = `Удалить все товары поставщика ` + name + `?`;
+  confirmSelectedSuppProductsDialog(): void {
+    const message = `Удалить все товары выбранных поставщиков ?`;
     const dialogData = new ConfirmDialogModel("Подтверждение", message);
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: "500px",
@@ -154,27 +138,33 @@ export class SupplierIndexComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult === true) {
-        this.dataSource.deleteSupplierProducts(id);
+        this.selection.selected.forEach(supplier => {
+          this.dataSource.deleteSupplierProducts(supplier.id);
+        })
       }
     });
   }
 
-  internalCodeFetch(id: string) {
-    this.supplierDS.internalCodeBindForSupplier(id).subscribe( res => {
-        console.log(JSON.stringify(res));
-      },
-      err => {
-        console.log(err);
-      })
+  selectedSuppInternalCodesFetch() {
+    this.selection.selected.forEach(supplier => {
+      this.supplierDS.internalCodeBindForSupplier(supplier.id).subscribe( res => {
+          console.log(JSON.stringify(res));
+        },
+        err => {
+          console.log(err);
+        })
+    })
   }
 
-  downloadTable(table: string, id:string) {
-    this.supplierDS.downloadTableFile(table, id).subscribe( (resp: any) => {
-      let blob:any = new Blob([resp.body], {type: 'application/json; charset=utf-8'})
-      let downloadAction = document.createElement('a')
-      downloadAction.download = table;
-      downloadAction.href = window.URL.createObjectURL(blob)
-      downloadAction.click()
+  downloadSelectedSuppCollection(table:string) {
+    this.selection.selected.forEach(supplier => {
+      this.supplierDS.downloadTableFile(table, supplier.id).subscribe( (resp: any) => {
+        let blob:any = new Blob([resp.body], {type: 'application/json; charset=utf-8'})
+        let downloadAction = document.createElement('a')
+        downloadAction.download = table;
+        downloadAction.href = window.URL.createObjectURL(blob)
+        downloadAction.click()
+      })
     })
   }
 

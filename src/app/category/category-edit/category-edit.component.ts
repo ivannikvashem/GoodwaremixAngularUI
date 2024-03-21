@@ -42,9 +42,9 @@ export class CategoryEditComponent implements OnInit {
 
     this.form.controls['parentId'].valueChanges.pipe(
       debounceTime(100),
-      switchMap(value => this.categoryDS.loadPagedData(value.toString(),0,  500, '', undefined, "desc"))
-    ).subscribe((data: any) => {
-      this.parentIdList = data.body.data;
+      switchMap(value => this.categoryDS.loadAutocompleteData(value.toString(),0,  500))
+    ).subscribe((data: Category[]) => {
+      this.parentIdList = data;
     });
   }
 

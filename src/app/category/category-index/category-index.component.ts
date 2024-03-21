@@ -20,7 +20,7 @@ export class CategoryIndexComponent implements OnInit {
 
   dataSource: CategoryDataSource;
   searchQueryCtrl = new FormControl<string>('');
-  displayedColumns: string[] = ['title', 'parentId', 'venderId', 'supplierId', 'description', 'actions'];
+  displayedColumns: string[] = ['title', 'parentId', 'actions'];
   isLoading:boolean;
   scrollToTop:boolean;
   isPaginatorFixed:boolean;
@@ -51,10 +51,13 @@ export class CategoryIndexComponent implements OnInit {
       this.isPaginatorFixed = settings.isPaginatorFixed;
     })
 
+
+
     this.loadCategoryPagedData()
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log('changes')
     this.loadCategoryPagedData()
   }
 
@@ -66,11 +69,14 @@ export class CategoryIndexComponent implements OnInit {
             window.scroll(0, 0);
           }
           this.pageParams.next({pageIndex: this.paginator.pageIndex, pageSize:this.paginator.pageSize})
-        })).subscribe();
+        })).subscribe(x => {
+          console.log(`changes ${JSON.stringify(x)}`)
+      console.log('')
+    });
   }
 
   loadCategoryPagedData():any {
-    this.dataSource.loadPagedData(this.searchQuery, this.pageIndex, this.pageSize, this.selectedSupplier?.id, this.sortActive, this.sortDirection);
+    this.dataSource.loadPagedData(this.searchQuery, this.pageIndex, this.pageSize);
   }
 
   sortData(sort: any) {

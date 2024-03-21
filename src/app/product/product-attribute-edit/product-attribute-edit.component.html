@@ -1,81 +1,83 @@
-<div class="main">
-  <h3>{{data.oldAttribute?.attributeName == undefined ? "Добавление характеристики" : "Редактирование " + data.oldAttribute?.attributeName}}</h3>
+<mat-dialog-content>
+  <div class="main">
+    <h3>{{data.oldAttribute?.attributeName == undefined ? "Добавление характеристики" : "Редактирование " + data.oldAttribute?.attributeName}}</h3>
 
-  <mat-spinner *ngIf="isOldAttributeLoading"></mat-spinner>
+    <mat-spinner *ngIf="isOldAttributeLoading"></mat-spinner>
 
-  <div *ngIf="!isOldAttributeLoading">
+    <div *ngIf="!isOldAttributeLoading">
 
-    <mat-form-field appearance="fill" class="full-width search-attribute-input">
-      <mat-label>Характеристика</mat-label>
-      <input matInput placeholder=""
-             [formControl]="searchAttributeCtrl"
-             [matAutocomplete]="auto">
+      <mat-form-field appearance="fill" class="full-width search-attribute-input">
+        <mat-label>Характеристика</mat-label>
+        <input matInput placeholder=""
+               [formControl]="searchAttributeCtrl"
+               [matAutocomplete]="auto">
 
-      <mat-hint *ngIf="selectedAttribute">
-        <mat-icon>{{selectedAttribute.isFixed ? 'check_circle' : 'radio_button_unchecked'}}</mat-icon>
-        <span *ngIf="selectedAttribute.etimFeature"> [{{selectedAttribute.etimFeature}}] </span>
-        {{selectedAttribute.nameAttribute}}
-        <span *ngIf="selectedAttribute.unit && selectedAttribute.isFixed" class="unit-mark">{{selectedAttribute.unit}}</span>
-        <strong>{{selectedAttribute.type}}</strong>
-      </mat-hint>
+        <mat-hint *ngIf="selectedAttribute">
+          <mat-icon>{{selectedAttribute.isFixed ? 'check_circle' : 'radio_button_unchecked'}}</mat-icon>
+          <span *ngIf="selectedAttribute.etimFeature"> [{{selectedAttribute.etimFeature}}] </span>
+          {{selectedAttribute.nameAttribute}}
+          <span *ngIf="selectedAttribute.unit && selectedAttribute.isFixed" class="unit-mark">{{selectedAttribute.unit}}</span>
+          <strong>{{selectedAttribute.type}}</strong>
+        </mat-hint>
 
-      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onAttributeKeySelected()">
-        <mat-option *ngFor="let option of attributesList" [value]="option" > <!--<mat-icon>{{option.etimFeature? 'explicit' : 'crop_square'}}</mat-icon>-->
-          <mat-icon>{{option.isFixed ? 'check_circle' : 'radio_button_unchecked'}}</mat-icon>
-          <span *ngIf="roles.includes('goodware-admin')" [ngClass]="{'energomixStamp': option.supplierName == 'Энергомикс', 'supplierStamp': option.supplierName != 'Энергомикс'}">{{option.supplierName}}</span>
-          <span *ngIf="option.etimFeature" class="etimFeature-span"> [{{option.etimFeature}}]</span>
-          <strong *ngIf="option.type"> {{option.type}}</strong>
-          <span> {{option.nameAttribute}} </span>
-          <span *ngIf="option.unit && option.isFixed" class="unit-mark">{{option.unit}}</span>
-        </mat-option>
-      </mat-autocomplete>
-      <button *ngIf="searchAttributeCtrl.value;" (click)="searchAttributeCtrl.setValue('');selectedAttribute = null" matSuffix mat-icon-button aria-label="Clear" type="button">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" class="full-width" *ngIf="data.oldAttribute.type == 'A'">
-      <mat-label>Значение</mat-label>
-      <input matInput placeholder=""
-             [formControl]="attributeValuesCtrl"
-             [matAutocomplete]="attributeValuesAuto" [autofocus]="true">
-      <mat-autocomplete autoActiveFirstOption #attributeValuesAuto="matAutocomplete"  (optionSelected)="onAttributeValueSelected()">
-        <mat-option *ngFor="let option of filteredAttributeValues | async" [value]="option">
-          {{option}}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" class="full-width" *ngIf="data.oldAttribute.type == 'N'">
-      <mat-label>Значение</mat-label>
-      <input matInput [formControl]="attributeValueNumber" type="number">
-    </mat-form-field>
-
-   <div class="r-type-container" *ngIf="data.oldAttribute.type == 'R'">
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Минимальное значение</mat-label>
-        <input matInput [formControl]="attributeValueRangeMin" type="number">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onAttributeKeySelected()">
+          <mat-option *ngFor="let option of attributesList" [value]="option" > <!--<mat-icon>{{option.etimFeature? 'explicit' : 'crop_square'}}</mat-icon>-->
+            <mat-icon>{{option.isFixed ? 'check_circle' : 'radio_button_unchecked'}}</mat-icon>
+            <span *ngIf="roles.includes('goodware-admin')" [ngClass]="{'energomixStamp': option.supplierName == 'Энергомикс', 'supplierStamp': option.supplierName != 'Энергомикс'}">{{option.supplierName}}</span>
+            <span *ngIf="option.etimFeature" class="etimFeature-span"> [{{option.etimFeature}}]</span>
+            <strong *ngIf="option.type"> {{option.type}}</strong>
+            <span> {{option.nameAttribute}} </span>
+            <span *ngIf="option.unit && option.isFixed" class="unit-mark">{{option.unit}}</span>
+          </mat-option>
+        </mat-autocomplete>
+        <button *ngIf="searchAttributeCtrl.value;" (click)="searchAttributeCtrl.setValue('');selectedAttribute = null" matSuffix mat-icon-button aria-label="Clear" type="button">
+          <mat-icon>close</mat-icon>
+        </button>
       </mat-form-field>
 
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Максимальное значение</mat-label>
-        <input matInput [formControl]="attributeValueRangeMax" [min]="attributeValueRangeMin.value" type="number">
+      <mat-form-field appearance="fill" class="full-width" *ngIf="data.oldAttribute.type == 'A'">
+        <mat-label>Значение</mat-label>
+        <input matInput placeholder=""
+               [formControl]="attributeValuesCtrl"
+               [matAutocomplete]="attributeValuesAuto" [autofocus]="true">
+        <mat-autocomplete autoActiveFirstOption #attributeValuesAuto="matAutocomplete"  (optionSelected)="onAttributeValueSelected()">
+          <mat-option *ngFor="let option of filteredAttributeValues | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
       </mat-form-field>
-    </div>
 
-    <mat-button-toggle-group [formControl]="attributeValueLogic" *ngIf="data.oldAttribute.type == 'L'" class="full-width">
-      <mat-button-toggle [value]="false" class="full-width">Нет</mat-button-toggle>
-      <mat-button-toggle [value]="true" class="full-width">Да</mat-button-toggle>
-    </mat-button-toggle-group>
+      <mat-form-field appearance="fill" class="full-width" *ngIf="data.oldAttribute.type == 'N'">
+        <mat-label>Значение</mat-label>
+        <input matInput [formControl]="attributeValueNumber" type="number">
+      </mat-form-field>
 
-    <div *ngIf="!data.isValid">
-      <span class="non-valid-span">Значение характеристики не корректно, пожалуйста перенестите значение. </span>
-      <strong>{{data.oldAttribute.objectValue?.value}}</strong>
-    </div>
+      <div class="r-type-container" *ngIf="data.oldAttribute.type == 'R'">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Минимальное значение</mat-label>
+          <input matInput [formControl]="attributeValueRangeMin" type="number">
+        </mat-form-field>
 
-    <div mat-dialog-actions class="actions-div">
-      <button mat-raised-button mat-dialog-close (click)="onCancelClick()" type="button">Отмена</button>
-      <button mat-raised-button color="primary" [mat-dialog-close]="data" [disabled]="!isFormValid()" (click)="submitForm()">Сохранить</button>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Максимальное значение</mat-label>
+          <input matInput [formControl]="attributeValueRangeMax" [min]="attributeValueRangeMin.value" type="number">
+        </mat-form-field>
+      </div>
+
+      <mat-button-toggle-group [formControl]="attributeValueLogic" *ngIf="data.oldAttribute.type == 'L'" class="full-width">
+        <mat-button-toggle [value]="false" class="full-width">Нет</mat-button-toggle>
+        <mat-button-toggle [value]="true" class="full-width">Да</mat-button-toggle>
+      </mat-button-toggle-group>
+
+      <div *ngIf="!data.isValid">
+        <span class="non-valid-span">Значение характеристики не корректно, пожалуйста перенестите значение. </span>
+        <strong>{{data.oldAttribute.objectValue?.value}}</strong>
+      </div>
+
+      <div mat-dialog-actions class="actions-div">
+        <button mat-raised-button mat-dialog-close (click)="onCancelClick()" type="button">Отмена</button>
+        <button mat-raised-button color="primary" [mat-dialog-close]="data" [disabled]="!isFormValid()" (click)="submitForm()">Сохранить</button>
+      </div>
     </div>
   </div>
-</div>
+</mat-dialog-content>

@@ -42,7 +42,7 @@ export class CategoryDataSource implements DataSource<Category> {
     return params;
   }
 
-  loadPagedData(queryString:string, pageIndex: number, pageSize: number, supplierId:string, sortField: string, sortDirection: string): any {
+  loadPagedData(queryString:string, pageIndex: number, pageSize: number): any {
     this.loadingSubject.next(true);
     this.params = this.createParamsObj(arguments, this.loadPageParamsKeys);
 
@@ -58,10 +58,16 @@ export class CategoryDataSource implements DataSource<Category> {
         finalize(() => this.loadingSubject.next(false))
       )
       .subscribe(body => {
+        console.log(body)
         this.CategoryListSubject.next(body.data);
         this.rowCount = body.totalRecords;
         this.pageCountSize = body.data.length;
       });
+  }
+
+  loadAutocompleteData(queryString:string, pageIndex: number, pageSize: number): Observable<any> {
+    this.params = this.createParamsObj(arguments, this.loadPageParamsKeys);
+    return this.api.getRequest('categories', this.params).pipe(map((res:any) => { return res.body.data; }));
   }
 
   getCategoryById(id:string) {

@@ -323,10 +323,13 @@ export class ProductEditComponent implements OnInit {
     this.product.updatedAt = new Date().toISOString();
     this.product.vendor = this.searchBrandCtrl.value
     if (this.product.id != null) {
+      console.log('update')
       this.updateProduct(this.product)
     }
     else if (this.product.id == null) {
       this.product.createdAt = new Date().toISOString();
+      console.log('insert')
+
       this.insertProduct(this.product)
     }
    }

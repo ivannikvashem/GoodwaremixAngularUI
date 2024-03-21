@@ -58,9 +58,9 @@ export class SupplierDictionaryComponent implements OnInit {
     } else if (this.dictionaryType == 'category') {
       this.categoryListCtrl.valueChanges.pipe(
         debounceTime(100),
-        switchMap(value => this.categoryDS.loadPagedData(value.toString(), 0,  500, '', undefined, "desc"))
-      ).subscribe((data: any) => {
-        this.categoryList = data.body.data;
+        switchMap(value => this.categoryDS.loadAutocompleteData(value.toString(), 0,  500))
+      ).subscribe((data: Category[]) => {
+        this.categoryList = data;
       });
     }
   }
@@ -201,7 +201,7 @@ export class SupplierDictionaryComponent implements OnInit {
   }
 
   clearCategorySelection(): void {
-    this.categoryListCtrl.setValue(null)
+    this.categoryListCtrl.setValue('' as string)
   }
 
   // if add new attribute will be needed

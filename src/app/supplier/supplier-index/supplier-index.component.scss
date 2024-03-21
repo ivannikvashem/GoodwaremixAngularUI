@@ -29,10 +29,6 @@ a {
   word-break: break-word;
 }
 
-.mat-column-actions {
-  flex: none;
-  min-width: 200px !important;
-}
 
 .mat-column-supplierName {
   flex: 0 0 165px !important;
@@ -104,4 +100,26 @@ tr.element-row:not(.expanded-row):active {
   position: fixed !important;
   bottom: 120px;
   right: 8px;
+}
+
+.actions-container {
+  margin-bottom: 10px;
+
+  mat-card-content {
+    padding: 6px 20px;
+    justify-content: space-between;
+    display: flex;
+  }
+
+  .actions-btn {
+    height: 30px;
+    width: 30px;
+    padding: unset;
+    margin-right: 10px;
+  }
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: end;
 }

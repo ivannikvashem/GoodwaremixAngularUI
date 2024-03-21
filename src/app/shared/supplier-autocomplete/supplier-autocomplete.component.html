@@ -1,6 +1,6 @@
 <mat-form-field class="full-width" [appearance]="appearance" [ngClass]="{'input-form-outline-background': appearance == 'outline' && minimizedInput, 'input-form-standard-background': appearance == 'standard'}">
   <mat-label>Поставщик</mat-label>
-  <input type="text" #searchSupplier matInput aria-label="Поставщик" (keydown)="keyPressValidation($event)"
+  <input type="text" #searchSupplier matInput aria-label="Поставщик" (keydown)="keyPressValidation($event)" matAutocompletePosition="below"
          [formControl]="searchSuppliersCtrl"
          [matAutocomplete]="auto" (keydown.enter)="supplierList.length > 1 ? onSupplierSelected() : ''" [readonly]="supplierList.length <= 1">
   <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onSupplierSelected()" >

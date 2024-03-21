@@ -2,7 +2,6 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {Attribute} from "../../models/attribute.model";
 import {debounceTime, distinctUntilChanged, finalize, Observable, switchMap, tap} from "rxjs";
-import {ApiClient} from "../../service/httpClient";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Category} from "../../models/category.model";
 import {AttributesDataSource} from "../../attribute/repo/AttributesDataSource";
@@ -43,7 +42,7 @@ export class AttributeFilterComponent implements OnInit {
   categoryId:number;
   selectedAttributes: SelectedFiltersList = new SelectedFiltersList()
 
-  constructor(private api:ApiClient, @Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<AttributeFilterComponent>, private attributeDS:AttributesDataSource, private categoryDS:CategoryDataSource) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<AttributeFilterComponent>, private attributeDS:AttributesDataSource, private categoryDS:CategoryDataSource) { }
 
   ngOnInit(): void {
     this.categoryId = this.data.categoryId;
@@ -89,9 +88,9 @@ export class AttributeFilterComponent implements OnInit {
     this.categoryValueFilterCtrl.valueChanges.pipe(
       distinctUntilChanged(),
       debounceTime(100),
-      switchMap(value => this.categoryDS.loadPagedData(value.toString(), 0, 100, undefined, "", "desc")
-      )).subscribe((response: any) => {
-      this.categoryList = response.body.data;
+      switchMap(value => this.categoryDS.loadAutocompleteData(value.toString(), 0, 100)
+      )).subscribe((response: Category[]) => {
+      this.categoryList = response;
     });
 
     this.dialogRef.backdropClick().subscribe(() => {

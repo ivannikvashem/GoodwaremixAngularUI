@@ -9,10 +9,7 @@
     </button>
   </mat-form-field>
 
-  <div class="toolbox-items">
-    <app-supplier-autocomplete [appearance]="'outline'" class="toolbox-item"></app-supplier-autocomplete>
-    <app-attrtibute-state-switch [state]="attributeFixedFilterState" (stateEmitter)="onAttributeStateFilterChanged($event)"></app-attrtibute-state-switch>
-  </div>
+  <app-attrtibute-state-switch [state]="attributeFixedFilterState" (stateEmitter)="onAttributeStateFilterChanged($event)"></app-attrtibute-state-switch>
 </div>
 
 <app-attribute-index [searchQuery]="searchQuery" [withFixedAttrSelector]="attributeFixedFilterState" [pageIndex]="pageIndex" [pageSize]="pageSize" [sortActive]="sortActive" [sortDirection]="sortDirection" (pageParams)="onPageParamsChanged($event)" (sortParams)="onSortParamsChanged($event)" [selectedSupplier]="selectedSupplier"></app-attribute-index>
