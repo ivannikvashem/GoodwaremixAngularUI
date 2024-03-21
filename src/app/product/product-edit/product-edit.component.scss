@@ -4,7 +4,7 @@
   .header-form-block {
     width: 100%;
     display: grid;
-    grid-template-columns: 49% 15% 15% 20%;
+    grid-template-columns: 49% 20% 30%;
     .product-title-input {width: 100%}
     .supplier-autocomplete-container {width: 100%}
     .request-internal-code-btn {
@@ -373,7 +373,7 @@ tr.mat-mdc-row {
   .product-main-fields-container {
     .header-form-block {
 
-      grid-template-columns: 49% 15% 15% 20%;
+      grid-template-columns: 49% 20% 30%;
       gap: 5px;
       .product-title-input {
         grid-column: span 1;
