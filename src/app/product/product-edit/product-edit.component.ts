@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {Supplier} from "../../models/supplier.model";
-import {ApiClient} from "../../service/httpClient";
 import {Product} from "../../models/product.model";
 import {MatChipInputEvent} from "@angular/material/chips";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
@@ -24,6 +23,9 @@ import {Title} from "@angular/platform-browser";
 import {AuthService} from "../../auth/service/auth.service";
 import {ProductsDataSource} from "../repo/ProductsDataSource";
 import {SuppliersDataSource} from "../../supplier/repo/SuppliersDataSource";
+import {Category} from "../../models/category.model";
+import {CategoryDataSource} from "../../category/repo/CategoryDataSource";
+import {CategoryTreeModel} from "../../models/categoryTree.model";
 
 interface Country {
   code?:string
@@ -61,7 +63,9 @@ export class ProductEditComponent implements OnInit {
   searchCountryCtrl = new FormControl<string | any>('')
   filteredCountries: Observable<any[]>
   brandsList:string[] = []
+  categoryListTree:CategoryTreeModel[] = []
   searchBrandCtrl = new FormControl<string>('')
+  searchCategoryCtrl = new FormControl<string | Category>('')
   Math = Math;
   Eps = Number.EPSILON;
   attributeTypes:any[] = [
@@ -71,8 +75,7 @@ export class ProductEditComponent implements OnInit {
     {key:'A', type: 'string'},
   ]
 
-  constructor(private api:ApiClient,
-              private _ActivatedRoute:ActivatedRoute,
+  constructor(private _ActivatedRoute:ActivatedRoute,
               private router: Router,
               private _notyf:NotificationService,
               public dialog: MatDialog,
@@ -81,7 +84,8 @@ export class ProductEditComponent implements OnInit {
               private titleService:Title,
               private auth:AuthService,
               private productDS: ProductsDataSource,
-              private supplierDS: SuppliersDataSource
+              private supplierDS: SuppliersDataSource,
+              private categoryDS: CategoryDataSource
   ) {
     this.roles = this.auth.getRoles();
   }
@@ -105,6 +109,11 @@ export class ProductEditComponent implements OnInit {
         if (this.product.vendor) {
           this.searchBrandCtrl.setValue(this.product.vendor)
         }
+        if (this.product.categoryId) {
+          this.categoryDS.getCategoryById(this.product.categoryId).subscribe((category: Category) => {
+            this.searchCategoryCtrl.setValue(category);
+          })
+        }
         this.attrDataSource.setData(this.product.attributes || []);
         this.titleService.setTitle(this.product.internalCode ? 'арт. ' + this.product.internalCode + ' ' + this.product.title : this.product.title);
 
@@ -120,6 +129,11 @@ export class ProductEditComponent implements OnInit {
       distinctUntilChanged(), debounceTime(300),
       switchMap(value => this.supplierDS.getBrands(value))
     ).subscribe((data: any) => { this.brandsList = data; });
+
+    this.searchCategoryCtrl.valueChanges.pipe(
+      distinctUntilChanged(), debounceTime(300),
+      switchMap(value => this.categoryDS.loadAutocompleteData(value.toString(), 0, 500))
+    ).subscribe((data: any) => {this.categoryListTree = data; });
 
     this.selectedSupplier = this.dss.getSelectedSupplier().getValue();
 
@@ -206,6 +220,11 @@ export class ProductEditComponent implements OnInit {
   displayCountryFn(country: any): string {
     return country && country.name + ' (Код '+country.code+')';
   }
+
+  displayCategoryFn(category: any): string {
+    return category && category.title;
+  }
+
 
   // Attribute
   openAttributeEditorDialog(isAttributeTypeValid:boolean, oldAttribute?:any): void {
@@ -428,6 +447,17 @@ export class ProductEditComponent implements OnInit {
 
   typeofLogicalAttribute(objectValue:any) {
     return typeof objectValue;
+  }
+
+  onCategorySelected() {
+    if (this.searchCategoryCtrl.value) {
+      this.product.categoryId = (this.searchCategoryCtrl.value as Category).id;
+    }
+  }
+
+  onCategorySelectionClear() {
+    this.searchCategoryCtrl.setValue(null);
+    this.product.categoryId = '';
   }
 }
 

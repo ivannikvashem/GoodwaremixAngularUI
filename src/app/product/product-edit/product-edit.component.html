@@ -32,18 +32,24 @@
             <input matInput [value]="product.supplierName" disabled>
           </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Идентификатор товара поставщика</mat-label>
-            <input matInput name="vendorId" [(ngModel)]="product.vendorId" required minlength="1">
-          </mat-form-field>
+          <div style="display: flex">
+            <mat-form-field appearance="outline">
+              <mat-label>ID товара поставщика</mat-label>
+              <input matInput name="vendorId" [(ngModel)]="product.vendorId" required minlength="1">
+              <button matSuffix mat-icon-button [disabled]="!internalCodeFetching || !product.vendorId" (click)="RequestProductInternalCode(productId)">
+                <mat-icon>saved_search</mat-icon>
+              </button>
+            </mat-form-field>
 
-          <mat-form-field *ngIf="product.internalCode" appearance="outline">
-            <mat-label>Артикул Энергомикс</mat-label>
-            <input matInput name="internalCode" [(ngModel)]="product.internalCode" disabled>
-          </mat-form-field>
-          <button *ngIf="!product.internalCode" class="request-internal-code-btn" type="button" [disabled]="!internalCodeFetching || !product.vendorId" mat-raised-button (click)="RequestProductInternalCode(productId)">
+            <mat-form-field *ngIf="product.internalCode" appearance="outline">
+              <mat-label>Артикул Энергомикс</mat-label>
+              <input matInput name="internalCode" [(ngModel)]="product.internalCode" disabled>
+            </mat-form-field>
+          </div>
+
+   <!--       <button *ngIf="!product.internalCode" class="request-internal-code-btn" type="button" [disabled]="!internalCodeFetching || !product.vendorId" mat-raised-button (click)="RequestProductInternalCode(productId)">
             <span class="request-internal-code-btn-span">Запросить артикул</span>
-          </button>
+          </button>-->
         </div>
       </mat-card-content>
     </mat-card>
@@ -117,10 +123,25 @@
           <mat-tab-group animationDuration="0ms">
             <mat-tab label="О товаре">
               <ng-template matTabContent>
+                <mat-form-field class="product-title-input; full-width">
+                  <mat-label>Категория</mat-label>
+                  <input matInput name="category" [formControl]="searchCategoryCtrl" [matAutocomplete]="categoryAutocompl" >
+                  <mat-autocomplete #categoryAutocompl="matAutocomplete" [displayWith]="displayCategoryFn" (optionSelected)="onCategorySelected()">
+                    <mat-option *ngFor="let tree of categoryListTree" [value]="tree.categories.length > 1 ? tree.categories.reverse()[0] : tree.categories[0]">
+                      <div class="category-tree-container">
+                        <div *ngFor="let opt of tree.categories; index as i" class="category-tree-option">
+                          <div [style.font-weight]="tree.categories.length - 1 != i ? '' : 'bolder'" class="category-tree-text">{{opt.title}}</div>
+                          <mat-icon *ngIf="tree.categories.length - 1 != i" class="category-tree-icon">arrow_right</mat-icon>
+                        </div>
+                      </div>
+                    </mat-option>            </mat-autocomplete>
+                  <button *ngIf="searchCategoryCtrl.value" matSuffix mat-icon-button (click)="searchCategoryCtrl.setValue(null)"><mat-icon>close</mat-icon></button>
+                </mat-form-field>
+
                 <div class="formBlockFull">
                   <mat-form-field appearance="fill" class="full-width; about-form-field-double">
                     <mat-label>Бренд</mat-label>
-                    <input matInput name="vendor" [formControl]="searchBrandCtrl" required [matAutocomplete]="autocomplBrand">
+                    <input matInput name="vendor" [formControl]="searchBrandCtrl" [matAutocomplete]="autocomplBrand">
                     <mat-autocomplete #autocomplBrand="matAutocomplete">
                       <mat-option *ngFor="let option of brandsList" [value]="option">{{option}}</mat-option>
                     </mat-autocomplete>

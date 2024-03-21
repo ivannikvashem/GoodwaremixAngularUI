@@ -3,13 +3,13 @@ import {ProductAttributeKey} from "../../models/productAttributeKey.model";
 import {Attribute} from "../../models/attribute.model";
 import {FormControl} from "@angular/forms";
 import {debounceTime, switchMap} from "rxjs";
-import {ApiClient} from "../../service/httpClient";
 import {UnitConverter} from "../../models/unitConverter.model";
 import {Category} from "../../models/category.model";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {AttributesDataSource} from "../../attribute/repo/AttributesDataSource";
 import {UnitConvertersDataSource} from "../../unit-converter/repo/UnitConvertersDataSource";
 import {CategoryDataSource} from "../../category/repo/CategoryDataSource";
+import {CategoryTreeModel} from "../../models/categoryTree.model";
 
 @Component({
   selector: 'app-supplier-dictionary',
@@ -18,7 +18,7 @@ import {CategoryDataSource} from "../../category/repo/CategoryDataSource";
 })
 export class SupplierDictionaryComponent implements OnInit {
 
-  constructor(private api:ApiClient, private attributeDS:AttributesDataSource, private unitConverterDS: UnitConvertersDataSource, private categoryDS: CategoryDataSource) { }
+  constructor(private attributeDS:AttributesDataSource, private unitConverterDS: UnitConvertersDataSource, private categoryDS: CategoryDataSource) { }
 
   @Input() configDictionary: any[]
   @Input() dictionaryType: string;
@@ -36,7 +36,7 @@ export class SupplierDictionaryComponent implements OnInit {
   categoryListCtrl = new FormControl<string | Category>('');
   selectedRow: any;
   public attributeList: Attribute[] | undefined;
-  public categoryList: Category[] | undefined;
+  public categoryListTree: CategoryTreeModel[] | undefined;
   public unitConverterList: UnitConverter[] | undefined;
 
   ngOnInit(): void {
@@ -59,8 +59,8 @@ export class SupplierDictionaryComponent implements OnInit {
       this.categoryListCtrl.valueChanges.pipe(
         debounceTime(100),
         switchMap(value => this.categoryDS.loadAutocompleteData(value.toString(), 0,  500))
-      ).subscribe((data: Category[]) => {
-        this.categoryList = data;
+      ).subscribe((data: CategoryTreeModel[]) => {
+        this.categoryListTree = data;
       });
     }
   }
@@ -102,8 +102,8 @@ export class SupplierDictionaryComponent implements OnInit {
       this.selectedRow.id = i;
     }
     else if (this.dictionaryType == 'category') {
-      this.categoryDS.getCategoryById(this.configDictionary[i].categoryId).subscribe((x:any) => {
-        this.categoryListCtrl.setValue(x.body.result as Category)
+      this.categoryDS.getCategoryById(this.configDictionary[i].categoryId).subscribe((category:Category) => {
+        this.categoryListCtrl.setValue(category)
       })
 
       let category = new Category();

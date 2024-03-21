@@ -34,8 +34,8 @@ export class CategoryEditComponent implements OnInit {
       this.category = this.data;
       this.form.get("title").setValue(this.category.title)
       if (this.category.parentId) {
-        this.categoryDS.getCategoryById(this.category.parentId).subscribe((x:any) => {
-          this.form.get("parentId").setValue(x.body.result)
+        this.categoryDS.getCategoryById(this.category.parentId).subscribe((category:Category) => {
+          this.form.get("parentId").setValue(category)
         })
       }
     }

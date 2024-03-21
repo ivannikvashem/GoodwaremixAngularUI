@@ -6,6 +6,7 @@
     </div>
     <div class="filter-container">
       <div class="filter-actions-container">
+        {{categoryId}}
         <app-product-ic-filter-switch [state]="withICFilter" (withICFilterEmitter)="onICFilterChanged($event)"></app-product-ic-filter-switch>
         <app-product-verified-filter-switch [state]="isModerated" (moderatedFilterEmitter)="onVerifiedChanged($event)"></app-product-verified-filter-switch>
         <app-product-category-filter-switch [state]="containsCategory" (categoryFilterEmitter)="onCategoryContainsChanged($event)"></app-product-category-filter-switch>
@@ -19,8 +20,13 @@
             <mat-icon>close</mat-icon>
           </button>
           <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnCategory" panelWidth="auto" (optionSelected)="onCategorySelected()">
-            <mat-option *ngFor="let option of categoryList" [value]="option">
-              <span>{{option.title}}</span>
+            <mat-option *ngFor="let tree of categoryListTree" [value]="tree.categories.length > 1 ? tree.categories.reverse()[0] : tree.categories[0]">
+              <div class="category-tree-container">
+                <div *ngFor="let opt of tree.categories; index as i" class="category-tree-option">
+                  <div [style.font-weight]="tree.categories.length - 1 != i ? '' : 'bolder'" class="category-tree-text">{{opt.title}}</div>
+                  <mat-icon *ngIf="tree.categories.length - 1 != i" class="category-tree-icon">arrow_right</mat-icon>
+                </div>
+              </div>
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>

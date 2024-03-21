@@ -67,11 +67,11 @@ export class CategoryDataSource implements DataSource<Category> {
 
   loadAutocompleteData(queryString:string, pageIndex: number, pageSize: number): Observable<any> {
     this.params = this.createParamsObj(arguments, this.loadPageParamsKeys);
-    return this.api.getRequest('categories', this.params).pipe(map((res:any) => { return res.body.data; }));
+    return this.api.getRequest('categories/GetPageList', this.params).pipe(map((res:any) => {console.log(res) ;return res.body.data; }));
   }
 
   getCategoryById(id:string) {
-    return this.api.getRequest(`categories/${id}`, [])
+    return this.api.getRequest(`categories/${id}`, []).pipe(map((res:any) => {console.log(res); return res.body.result; }));
   }
 
   getCategoryTreeById(id:string) {

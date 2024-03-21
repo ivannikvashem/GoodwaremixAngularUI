@@ -70,7 +70,7 @@ export class LogIndexComponent implements OnInit {
   }
 
   loadLogData(): any {
-    this.dataSource.loadPagedData(this.selectedSupplier?.id,this.paginator?.pageIndex ?? 0, this.paginator?.pageSize ?? 12, this.sort?.active, this.sort?.direction);
+    this.dataSource.loadPagedData(this.selectedSupplier?.id,this.paginator?.pageIndex ?? 0, this.paginator?.pageSize ?? 12, "date", "desc");
   }
 
   flushLogTable(): any {

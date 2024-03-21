@@ -6,6 +6,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Category} from "../../models/category.model";
 import {AttributesDataSource} from "../../attribute/repo/AttributesDataSource";
 import {CategoryDataSource} from "../../category/repo/CategoryDataSource";
+import {CategoryTreeModel} from "../../models/categoryTree.model";
 
 export class Filter {
   attributeId:string;
@@ -35,11 +36,11 @@ export class AttributeFilterComponent implements OnInit {
   withICFilter:boolean = false;
   isModerated:boolean = false;
   containsCategory:boolean = false;
-  categoryList:Category[] = [];
+  categoryListTree:CategoryTreeModel[] = [];
 
   onFilterCancelData:string = '';
   isLoading:boolean;
-  categoryId:number;
+  categoryId:string;
   selectedAttributes: SelectedFiltersList = new SelectedFiltersList()
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<AttributeFilterComponent>, private attributeDS:AttributesDataSource, private categoryDS:CategoryDataSource) { }
@@ -54,8 +55,8 @@ export class AttributeFilterComponent implements OnInit {
       this.data = JSON.parse(this.data.filter)
     }
     if (this.categoryId) {
-      this.categoryDS.getCategoryById(this.categoryId.toString()).subscribe((x:any) => {
-        this.categoryValueFilterCtrl.setValue(x.body.result as Category)
+      this.categoryDS.getCategoryById(this.categoryId.toString()).subscribe((category:Category) => {
+        this.categoryValueFilterCtrl.setValue(category);
       })
     }
 
@@ -89,8 +90,8 @@ export class AttributeFilterComponent implements OnInit {
       distinctUntilChanged(),
       debounceTime(100),
       switchMap(value => this.categoryDS.loadAutocompleteData(value.toString(), 0, 100)
-      )).subscribe((response: Category[]) => {
-      this.categoryList = response;
+      )).subscribe((response: CategoryTreeModel[]) => {
+      this.categoryListTree = response;
     });
 
     this.dialogRef.backdropClick().subscribe(() => {
@@ -208,7 +209,7 @@ export class AttributeFilterComponent implements OnInit {
   }
 
   onCategorySelected() {
-    this.categoryId = +(this.categoryValueFilterCtrl.value as Category).id;
+    this.categoryId = (this.categoryValueFilterCtrl.value as Category).id
   }
 
   clearCategorySelection() {

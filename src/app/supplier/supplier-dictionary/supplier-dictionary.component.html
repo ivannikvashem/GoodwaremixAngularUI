@@ -150,8 +150,13 @@
                  (keydown.enter)="updateSelectedValue(i, element)"
                  (keydown.escape)="onSelectedRowClose(element, i, categoryTable)">
           <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" panelWidth="auto" (optionSelected)="onDBValueSelected()">
-            <mat-option *ngFor="let option of categoryList" [value]="option">
-              <span>{{option.title}}</span>
+            <mat-option *ngFor="let tree of categoryListTree" [value]="tree.categories.length > 1 ? tree.categories.reverse()[0] : tree.categories[0]">
+              <div class="category-tree-container">
+                <div *ngFor="let opt of tree.categories; index as i" class="category-tree-option">
+                  <div [style.font-weight]="tree.categories.length - 1 != i ? '' : 'bolder'" class="category-tree-text">{{opt.title}}</div>
+                  <mat-icon *ngIf="tree.categories.length - 1 != i" class="category-tree-icon">arrow_right</mat-icon>
+                </div>
+              </div>
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>

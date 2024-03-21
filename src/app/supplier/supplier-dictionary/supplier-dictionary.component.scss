@@ -49,3 +49,18 @@ td {
     margin-right: 5px;
   }
 }
+
+.category-tree-container {
+  display: flex;
+
+  .category-tree-option {
+    display: flex;
+    .category-tree-text {
+      background: #EEEEEE;padding: 3px 10px;
+    }
+
+    .category-tree-icon {
+      margin-right: 0
+    }
+  }
+}
