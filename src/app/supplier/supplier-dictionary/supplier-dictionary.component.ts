@@ -58,7 +58,7 @@ export class SupplierDictionaryComponent implements OnInit {
     } else if (this.dictionaryType == 'category') {
       this.categoryListCtrl.valueChanges.pipe(
         debounceTime(100),
-        switchMap(value => this.categoryDS.loadAutocompleteData(value.toString(), 0,  500))
+        switchMap(value => this.categoryDS.loadAutocompleteData(value.toString(), 0,  50))
       ).subscribe((data: CategoryTreeModel[]) => {
         this.categoryListTree = data;
       });

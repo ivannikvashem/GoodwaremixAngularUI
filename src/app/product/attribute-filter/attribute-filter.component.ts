@@ -89,7 +89,7 @@ export class AttributeFilterComponent implements OnInit {
     this.categoryValueFilterCtrl.valueChanges.pipe(
       distinctUntilChanged(),
       debounceTime(100),
-      switchMap(value => this.categoryDS.loadAutocompleteData(value.toString(), 0, 100)
+      switchMap(value => this.categoryDS.loadAutocompleteData(value.toString(), 0, 50)
       )).subscribe((response: CategoryTreeModel[]) => {
       this.categoryListTree = response;
     });

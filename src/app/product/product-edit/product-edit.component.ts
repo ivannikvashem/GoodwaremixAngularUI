@@ -132,7 +132,7 @@ export class ProductEditComponent implements OnInit {
 
     this.searchCategoryCtrl.valueChanges.pipe(
       distinctUntilChanged(), debounceTime(300),
-      switchMap(value => this.categoryDS.loadAutocompleteData(value.toString(), 0, 500))
+      switchMap(value => this.categoryDS.loadAutocompleteData(value.toString(), 0, 50))
     ).subscribe((data: any) => {this.categoryListTree = data; });
 
     this.selectedSupplier = this.dss.getSelectedSupplier().getValue();
