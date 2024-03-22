@@ -16,6 +16,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import { MatPaginatorGotoComponent } from './mat-paginator-goto/mat-paginator-goto.component';
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSelectModule} from "@angular/material/select";
+import { CategoryAutocompleteComponent } from './category-autocomplete/category-autocomplete.component';
 
 @NgModule({
     declarations: [
@@ -24,6 +25,7 @@ import {MatSelectModule} from "@angular/material/select";
         DocumentCardComponent,
         ScrollToTopComponent,
         MatPaginatorGotoComponent,
+        CategoryAutocompleteComponent,
     ],
   imports: [
     CommonModule,
@@ -40,11 +42,12 @@ import {MatSelectModule} from "@angular/material/select";
     MatSelectModule,
     FormsModule,
   ],
-  exports: [
-    SupplierAutocompleteComponent,
-    DocumentCardComponent,
-    ScrollToTopComponent,
-    MatPaginatorGotoComponent
-  ]
+    exports: [
+        SupplierAutocompleteComponent,
+        DocumentCardComponent,
+        ScrollToTopComponent,
+        MatPaginatorGotoComponent,
+        CategoryAutocompleteComponent
+    ]
 })
 export class SharedModule { }

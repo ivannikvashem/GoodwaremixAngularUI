@@ -1,0 +1,15 @@
+<mat-form-field class="product-title-input; full-width" [appearance]="appearance">
+  <mat-label>Категория</mat-label>
+  <input matInput name="category" [formControl]="searchCategoryCtrl" [matAutocomplete]="categoryAutocompl" >
+  <mat-autocomplete #categoryAutocompl="matAutocomplete" [displayWith]="displayCategoryFn" (optionSelected)="onCategorySelected()" panelWidth="auto">
+    <mat-option *ngFor="let tree of categoryListTree" [value]="tree.categories.length > 1 ? tree.categories.reverse()[0] : tree.categories[0]">
+      <div class="category-tree-container">
+        <div *ngFor="let opt of tree.categories; index as i" class="category-tree-option">
+          <div [style.font-weight]="tree.categories.length - 1 != i ? '' : 'bolder'" class="category-tree-text">{{opt.title}}</div>
+          <mat-icon *ngIf="tree.categories.length - 1 != i" class="category-tree-icon">arrow_right</mat-icon>
+        </div>
+      </div>
+    </mat-option>
+  </mat-autocomplete>
+  <button *ngIf="searchCategoryCtrl.value" matSuffix mat-icon-button (click)="clearSelection()"><mat-icon>close</mat-icon></button>
+</mat-form-field>

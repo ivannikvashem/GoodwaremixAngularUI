@@ -63,9 +63,7 @@ export class ProductEditComponent implements OnInit {
   searchCountryCtrl = new FormControl<string | any>('')
   filteredCountries: Observable<any[]>
   brandsList:string[] = []
-  categoryListTree:CategoryTreeModel[] = []
   searchBrandCtrl = new FormControl<string>('')
-  searchCategoryCtrl = new FormControl<string | Category>('')
   Math = Math;
   Eps = Number.EPSILON;
   attributeTypes:any[] = [
@@ -84,9 +82,7 @@ export class ProductEditComponent implements OnInit {
               private titleService:Title,
               private auth:AuthService,
               private productDS: ProductsDataSource,
-              private supplierDS: SuppliersDataSource,
-              private categoryDS: CategoryDataSource
-  ) {
+              private supplierDS: SuppliersDataSource) {
     this.roles = this.auth.getRoles();
   }
 
@@ -109,11 +105,6 @@ export class ProductEditComponent implements OnInit {
         if (this.product.vendor) {
           this.searchBrandCtrl.setValue(this.product.vendor)
         }
-        if (this.product.categoryId) {
-          this.categoryDS.getCategoryById(this.product.categoryId).subscribe((category: Category) => {
-            this.searchCategoryCtrl.setValue(category);
-          })
-        }
         this.attrDataSource.setData(this.product.attributes || []);
         this.titleService.setTitle(this.product.internalCode ? 'арт. ' + this.product.internalCode + ' ' + this.product.title : this.product.title);
 
@@ -129,11 +120,6 @@ export class ProductEditComponent implements OnInit {
       distinctUntilChanged(), debounceTime(300),
       switchMap(value => this.supplierDS.getBrands(value))
     ).subscribe((data: any) => { this.brandsList = data; });
-
-    this.searchCategoryCtrl.valueChanges.pipe(
-      distinctUntilChanged(), debounceTime(300),
-      switchMap(value => this.categoryDS.loadAutocompleteData(value.toString(), 0, 50))
-    ).subscribe((data: any) => {this.categoryListTree = data; });
 
     this.selectedSupplier = this.dss.getSelectedSupplier().getValue();
 
@@ -449,15 +435,8 @@ export class ProductEditComponent implements OnInit {
     return typeof objectValue;
   }
 
-  onCategorySelected() {
-    if (this.searchCategoryCtrl.value) {
-      this.product.categoryId = (this.searchCategoryCtrl.value as Category).id;
-    }
-  }
-
-  onCategorySelectionClear() {
-    this.searchCategoryCtrl.setValue(null);
-    this.product.categoryId = '';
+  onCategorySelected(categoryId: string) {
+    this.product.categoryId = categoryId;
   }
 }
 

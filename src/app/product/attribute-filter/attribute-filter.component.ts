@@ -27,7 +27,6 @@ export class SelectedFiltersList {
 export class AttributeFilterComponent implements OnInit {
 
   attributeValueFilterCtrl =  new FormControl<string | Attribute>(null);
-  categoryValueFilterCtrl =  new FormControl<string | Category>(null);
   attributesList: Attribute[] = [];
   attributesForFilter:Attribute[] = []
   selectedFilterAttributes:SelectedFiltersList[] = []
@@ -36,14 +35,13 @@ export class AttributeFilterComponent implements OnInit {
   withICFilter:boolean = false;
   isModerated:boolean = false;
   containsCategory:boolean = false;
-  categoryListTree:CategoryTreeModel[] = [];
 
   onFilterCancelData:string = '';
   isLoading:boolean;
   categoryId:string;
   selectedAttributes: SelectedFiltersList = new SelectedFiltersList()
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<AttributeFilterComponent>, private attributeDS:AttributesDataSource, private categoryDS:CategoryDataSource) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<AttributeFilterComponent>, private attributeDS:AttributesDataSource) { }
 
   ngOnInit(): void {
     this.categoryId = this.data.categoryId;
@@ -53,11 +51,6 @@ export class AttributeFilterComponent implements OnInit {
     this.onFilterCancelData = JSON.stringify(this.data);
     if (this.data.filter.length > 0) {
       this.data = JSON.parse(this.data.filter)
-    }
-    if (this.categoryId) {
-      this.categoryDS.getCategoryById(this.categoryId.toString()).subscribe((category:Category) => {
-        this.categoryValueFilterCtrl.setValue(category);
-      })
     }
 
     if (this.data.attributeSearchFilters?.length > 0) {
@@ -84,14 +77,6 @@ export class AttributeFilterComponent implements OnInit {
       switchMap(value => this.attributeDS.loadAutocompleteData(value ? value.toString() : '', '', 1, 100, "rating", "desc", null)
       )).subscribe((response: Attribute[]) => {
       this.attributesList = response;
-    });
-
-    this.categoryValueFilterCtrl.valueChanges.pipe(
-      distinctUntilChanged(),
-      debounceTime(100),
-      switchMap(value => this.categoryDS.loadAutocompleteData(value.toString(), 0, 50)
-      )).subscribe((response: CategoryTreeModel[]) => {
-      this.categoryListTree = response;
     });
 
     this.dialogRef.backdropClick().subscribe(() => {
@@ -208,12 +193,7 @@ export class AttributeFilterComponent implements OnInit {
     this.dialogRef.close({isModerated: null, withICFilter: null, containsCategory: null, selectedAttributes:null});
   }
 
-  onCategorySelected() {
-    this.categoryId = (this.categoryValueFilterCtrl.value as Category).id
-  }
-
-  clearCategorySelection() {
-    this.categoryValueFilterCtrl.setValue(null);
-    this.categoryId = null;
+  onCategorySelected(categoryId: string) {
+    this.categoryId = categoryId;
   }
 }
