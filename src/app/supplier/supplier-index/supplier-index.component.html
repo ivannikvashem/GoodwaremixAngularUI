@@ -2,6 +2,7 @@
   <mat-card-content>
     <div>
       <button mat-icon-button class="actions-btn" matTooltip="Обновить кол-во товара и бренды" (click)="fixSupplierStat()"><mat-icon>construction</mat-icon></button>
+      <button mat-icon-button class="actions-btn" matTooltip="Обновить кол-во товара" [disabled]="selection.selected.length <= 0" (click)="supplierStatisticUpdate()"><mat-icon>pin</mat-icon></button>
       <button mat-icon-button class="actions-btn" matTooltip="Скачать товары" [disabled]="selection.selected.length <= 0" (click)="downloadSelectedSuppCollection('Product')"><mat-icon>download</mat-icon></button>
       <button mat-icon-button class="actions-btn" matTooltip="Удалить товары" [disabled]="selection.selected.length <= 0" (click)="confirmSelectedSuppProductsDialog()"><mat-icon>remove_shopping_cart</mat-icon></button>
       <button mat-icon-button class="actions-btn" matTooltip="Привязать артикулы" [disabled]="selection.selected.length <= 0"  (click)="selectedSuppInternalCodesFetch()"><mat-icon>build</mat-icon></button>

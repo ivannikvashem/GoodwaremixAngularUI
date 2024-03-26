@@ -61,7 +61,7 @@ export class SupplierAutocompleteComponent implements OnInit {
 
   onSupplierSelected() {
     let supp = this.searchSuppliersCtrl.value as Supplier
-    if (supp.supplierName && supp.id) {
+    if (supp?.supplierName && supp?.id) {
       this.selectedSupplier.emit(({id:supp.id, supplierName:supp.supplierName}) as Supplier);
       if (this.changeSupplierGlobally) {
         this.dss.setSelectedSupplier(supp.id, supp.supplierName)

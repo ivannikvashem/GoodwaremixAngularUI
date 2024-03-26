@@ -124,6 +124,10 @@ export class SuppliersDataSource implements DataSource<Supplier> {
     return this.api.postRequest(`Suppliers/internalBind/${id}`, null)
   }
 
+  supplierStatUpdate(ids:string[]) {
+    return this.api.postRequest(`Suppliers/StatisticBind/`, ids)
+  }
+
   getBrands(searchQuery:string) {
     this.params = this.createParamsObj(arguments, ['searchFilter']);
     return this.api.getRequest('Suppliers/brend', this.params).pipe(map((res:any) => { return res.body.data; }));

@@ -211,4 +211,8 @@ export class SupplierIndexComponent implements OnInit {
       autoFocus: false
     });
   }
+
+  supplierStatisticUpdate() {
+    this.supplierDS.supplierStatUpdate(this.selection.selected.map(x => x.id)).subscribe();
+  }
 }

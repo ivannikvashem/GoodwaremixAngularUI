@@ -58,7 +58,6 @@ export class CategoryDataSource implements DataSource<Category> {
         finalize(() => this.loadingSubject.next(false))
       )
       .subscribe(body => {
-        console.log(body)
         this.CategoryListSubject.next(body.data);
         this.rowCount = body.totalRecords;
         this.pageCountSize = body.data.length;
@@ -67,7 +66,7 @@ export class CategoryDataSource implements DataSource<Category> {
 
   loadAutocompleteData(queryString:string, pageIndex: number, pageSize: number): Observable<any> {
     this.params = this.createParamsObj(arguments, this.loadPageParamsKeys);
-    return this.api.getRequest('categories/GetPageList', this.params).pipe(map((res:any) => {console.log(res) ;return res.body.data; }));
+    return this.api.getRequest('categories/GetPageList', this.params).pipe(map((res:any) => { return res.body.data; }));
   }
 
   getCategoryById(id:string) {
