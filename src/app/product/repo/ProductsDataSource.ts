@@ -1,5 +1,5 @@
 import {CollectionViewer, DataSource} from '@angular/cdk/collections';
-import {BehaviorSubject, Observable, of, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, Observable, of, tap} from 'rxjs';
 import {catchError, finalize, map} from 'rxjs/operators';
 import {ApiClient} from "../../service/httpClient";
 import {Product} from "../../models/product.model";
@@ -73,39 +73,38 @@ export class ProductsDataSource implements DataSource<Product> {
         tap(() => {
           this.loadingSubject.next(true);
         }),
-        switchMap((res: any) => {
-          return this.getTotalRecordsCount(this.params).pipe(
-            map((totalRecords: any) => {
-              return new ApiResponseModel(res.body.pageNumber, res.body.pageSize, res.body.data as Product[], totalRecords.body);
-            })
-          );
+        map((res: any) => {
+          return res.body;
         }),
         catchError(() => of([])),
         finalize(() => this.loadingSubject.next(false))
       ).subscribe(res => {
-      let products = res as ApiResponseModel;
+        this.getTotalRecordsCount(this.params).subscribe(count => {
+          this.rowCount = count.body;
+        })
 
-      // the REAL crutch thing
-      if (!this.isCardLayout) {
-        for (let product of products.data as any[]) {
-          if (product.documents) {
-            product['documentsModel'] = [];
-            this.documentsDS.getDocumentsById(product.documents, 'documentsDTO').subscribe(docs => {
-              for (let doc of docs.body) {
-                delete doc['supplierId']
-                delete doc['url']
-                delete doc['file']
-                delete doc['id']
-                product.documentsModel.push(doc)
-              }
-            })
+        let products = res as ApiResponseModel;
+
+        // the REAL crutch thing
+        if (!this.isCardLayout) {
+          for (let product of products.data as any[]) {
+            if (product.documents) {
+              product['documentsModel'] = [];
+              this.documentsDS.getDocumentsById(product.documents, 'documentsDTO').subscribe(docs => {
+                for (let doc of docs.body) {
+                  delete doc['supplierId']
+                  delete doc['url']
+                  delete doc['file']
+                  delete doc['id']
+                  product.documentsModel.push(doc)
+                }
+              })
+            }
           }
         }
-      }
-      // the REAL crutch thing END
-      this.ProductListSubject.next(products.data as Product[])
-      this.rowCount = products.totalRecords;
-      this.pageCountSize = products.data?.length;
+        // the REAL crutch thing END
+        this.ProductListSubject.next(products.data as Product[])
+        this.pageCountSize = products.data?.length;
     });
   }
 
