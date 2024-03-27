@@ -1,5 +1,5 @@
 import {CollectionViewer, DataSource} from '@angular/cdk/collections';
-import {BehaviorSubject, Observable, of, tap} from 'rxjs';
+import {BehaviorSubject, Observable, of, switchMap, tap} from 'rxjs';
 import {catchError, finalize, map} from 'rxjs/operators';
 import {ApiClient} from "../../service/httpClient";
 import {Product} from "../../models/product.model";
@@ -8,15 +8,16 @@ import {environment} from "../../../environments/environment";
 import {HttpParamsModel} from "../../models/service/http-params.model";
 import {Injectable} from "@angular/core";
 import {DocumentsDataSource} from "../../document/repo/DocumentsDataSource";
+import {ApiResponseModel} from "../../models/service/api-response.model";
 
 export class Filter {
-  attributeName:string;
-  type:string;
-  attributeValues:string[] = []
+  attributeName: string;
+  type: string;
+  attributeValues: string[] = []
 }
 
 export class SelectedFiltersList {
-  attributeSearchFilters:Filter[] = [];
+  attributeSearchFilters: Filter[] = [];
 }
 
 @Injectable({
@@ -28,14 +29,15 @@ export class ProductsDataSource implements DataSource<Product> {
   private ProductListSubject = new BehaviorSubject<Product[]>([]);
   private loadingSubject = new BehaviorSubject<boolean>(false);
   private loadPageParamsKeys: string[] = ['searchFilter', 'supplierId', 'filter.pageNumber', 'filter.pageSize', 'attributeSearch', 'sortField', 'sortDirection', 'categoryId', 'availabilityCategory', 'isModerated', 'withInternalCode'];
-  private params:HttpParamsModel[] = [];
+  private params: HttpParamsModel[] = [];
 
   public loading$ = this.loadingSubject.asObservable();
-  public rowCount:number = -1;
-  public pageCountSize:number;
-  public isCardLayout:boolean;
+  public rowCount: number = -1;
+  public pageCountSize: number;
+  public isCardLayout: boolean;
 
-  constructor(private api: ApiClient, private _notyf:NotificationService, private documentsDS: DocumentsDataSource) {}
+  constructor(private api: ApiClient, private _notyf: NotificationService, private documentsDS: DocumentsDataSource) {
+  }
 
   connect(collectionViewer: CollectionViewer): Observable<Product[]> {
     return this.ProductListSubject.asObservable();
@@ -46,8 +48,8 @@ export class ProductsDataSource implements DataSource<Product> {
     this.loadingSubject.complete();
   }
 
-  private createParamsObj(arg:IArguments, paramKeys:string[]) {
-    let params:HttpParamsModel[] = [];
+  private createParamsObj(arg: IArguments, paramKeys: string[]) {
+    let params: HttpParamsModel[] = [];
     for (let i = 0; i < arg.length; i++) {
       if (paramKeys[i] == 'sortDirection')
         arg[i] = (arg[i] == "desc" ? "-1" : "1")
@@ -60,7 +62,7 @@ export class ProductsDataSource implements DataSource<Product> {
     return params;
   }
 
-  loadPagedData(queryString:string, selectedSuppId:string, pageIndex:number, pageSize:number, selectedAttributes:any | null, sortActive:string, sortDirection:string, categoryId:number, containsCategory:boolean, isModerated:boolean, withInternalCodeSelector:boolean) {
+  loadPagedData(queryString: string, selectedSuppId: string, pageIndex: number, pageSize: number, selectedAttributes: any | null, sortActive: string, sortDirection: string, categoryId: number, containsCategory: boolean, isModerated: boolean, withInternalCodeSelector: boolean) {
     if (this.loadingSubject.value == true)
       return;
     this.loadingSubject.next(true);
@@ -71,35 +73,44 @@ export class ProductsDataSource implements DataSource<Product> {
         tap(() => {
           this.loadingSubject.next(true);
         }),
-        map((res:any) => {
-          return res.body;
+        switchMap((res: any) => {
+          return this.getTotalRecordsCount(this.params).pipe(
+            map((totalRecords: any) => {
+              return new ApiResponseModel(res.body.pageNumber, res.body.pageSize, res.body.data as Product[], totalRecords.body);
+            })
+          );
         }),
         catchError(() => of([])),
         finalize(() => this.loadingSubject.next(false))
-      ).subscribe(body => {
-        // the REAL crutch thing
-        if (!this.isCardLayout) {
-          for (let product of body.data) {
-            if (product.documents) {
-              product['documentsModel'] = [];
-              this.documentsDS.getDocumentsById(product.documents, 'documentsDTO').subscribe(docs => {
-                console.log(docs)
-                  for (let doc of docs.body) {
-                    delete doc['supplierId']
-                    delete doc['url']
-                    delete doc['file']
-                    delete doc['id']
-                    product.documentsModel.push(doc)
-                  }
-              })
-            }
+      ).subscribe(res => {
+      let products = res as ApiResponseModel;
+
+      // the REAL crutch thing
+      if (!this.isCardLayout) {
+        for (let product of products.data as any[]) {
+          if (product.documents) {
+            product['documentsModel'] = [];
+            this.documentsDS.getDocumentsById(product.documents, 'documentsDTO').subscribe(docs => {
+              for (let doc of docs.body) {
+                delete doc['supplierId']
+                delete doc['url']
+                delete doc['file']
+                delete doc['id']
+                product.documentsModel.push(doc)
+              }
+            })
           }
         }
-        // the REAL crutch thing END
-        this.ProductListSubject.next(body.data)
-        this.rowCount = body.totalRecords;
-        this.pageCountSize = body.data?.length;
-      });
+      }
+      // the REAL crutch thing END
+      this.ProductListSubject.next(products.data as Product[])
+      this.rowCount = products.totalRecords;
+      this.pageCountSize = products.data?.length;
+    });
+  }
+
+  private getTotalRecordsCount(params: HttpParamsModel[]) {
+    return this.api.getRequest('Products/ProductPageCount', params)
   }
 
   getProductById(id: string) {
@@ -115,8 +126,8 @@ export class ProductsDataSource implements DataSource<Product> {
   }
 
   deleteProduct(id: string) {
-    this.api.deleteRequest(`Products/${id}`).subscribe( () => {
-        let newdata = this.ProductListSubject.value.filter(row => row.id != id );
+    this.api.deleteRequest(`Products/${id}`).subscribe(() => {
+        let newdata = this.ProductListSubject.value.filter(row => row.id != id);
         this.ProductListSubject.next(newdata);
       },
       err => {
@@ -128,7 +139,7 @@ export class ProductsDataSource implements DataSource<Product> {
     return this.api.patchRequest(`Products/${id}/intCode`)
   }
 
-  downloadImages(products: Product[], jpegFormat: boolean, createArchive:boolean) {
+  downloadImages(products: Product[], jpegFormat: boolean, createArchive: boolean) {
     let errorCounter = 0;
     let promises: Promise<any>[] = [];
 
@@ -136,11 +147,17 @@ export class ProductsDataSource implements DataSource<Product> {
       let promise = new Promise<void>((resolve) => {
         setTimeout(() => {
           let downloadObservable;
-          this.params = [{key:'jpg', value: jpegFormat}, {key: 'createArchive', value: createArchive}];
+          this.params = [{key: 'jpg', value: jpegFormat}, {key: 'createArchive', value: createArchive}];
           if (product.internalCode)
-            downloadObservable = this.api.getRequest(`files/internalCode/${product.internalCode}`, this.params, { observe: 'response', responseType: 'blob' });
+            downloadObservable = this.api.getRequest(`files/internalCode/${product.internalCode}`, this.params, {
+              observe: 'response',
+              responseType: 'blob'
+            });
           else if (product.vendorId)
-            downloadObservable = this.api.getRequest(`files/vendorId/${product.vendorId}`, this.params, { observe: 'response', responseType: 'blob' });
+            downloadObservable = this.api.getRequest(`files/vendorId/${product.vendorId}`, this.params, {
+              observe: 'response',
+              responseType: 'blob'
+            });
 
           if (downloadObservable) {
             downloadObservable.pipe(map((res: any) => {
@@ -173,8 +190,11 @@ export class ProductsDataSource implements DataSource<Product> {
     });
   }
 
-  downloadAsXLS(products:Product[]) {
-    this.api.postRequest('Products/createFile_xlsx',products.map(x => x.id),[], {observe:'response', responseType:'blob'}).pipe(map((res:any) => {
+  downloadAsXLS(products: Product[]) {
+    this.api.postRequest('Products/createFile_xlsx', products.map(x => x.id), [], {
+      observe: 'response',
+      responseType: 'blob'
+    }).pipe(map((res: any) => {
       const currentDate = new Date();
       return {
         filename: 'Выгрузка_' + currentDate.getDate() + '.' + (currentDate.getMonth() + 1) + '.' + currentDate.getFullYear() + '.' + res.body.type.split('/')[1],
@@ -185,22 +205,22 @@ export class ProductsDataSource implements DataSource<Product> {
     })
   }
 
-  uploadPhoto(files: File[], productId:string) {
+  uploadPhoto(files: File[], productId: string) {
     let formData = new FormData();
     for (const photo of files) {
       formData.append('files', photo)
     }
 
-    return this.api.postRequest(`files/images/${productId}`, formData, [], {headers:{"ContentType": "multipart/form-data"}})
+    return this.api.postRequest(`files/images/${productId}`, formData, [], {headers: {"ContentType": "multipart/form-data"}})
   }
 
-  importProducts(file:File, supplierId:string) {
+  importProducts(file: File, supplierId: string) {
     let formData = new FormData();
     formData.append('file', file)
-    return this.api.postRequest(`files/importXlsxFile/${supplierId}`, formData, [], {headers:{"ContentType": "multipart/form-data"}})
+    return this.api.postRequest(`files/importXlsxFile/${supplierId}`, formData, [], {headers: {"ContentType": "multipart/form-data"}})
   }
 
-  private downloadAction(res:any) {
+  private downloadAction(res: any) {
     if (res.data) {
       let url = window.URL.createObjectURL(res.data);
       let a = document.createElement('a');

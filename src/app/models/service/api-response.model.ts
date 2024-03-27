@@ -4,14 +4,15 @@ import {Category} from "../category.model";
 import {Log} from "../../log/models/log.model";
 import {SchedulerTask} from "../schedulerTask.model";
 import {UnitConverter} from "../unitConverter.model";
+import {Product} from "../product.model";
 
 export class ApiResponseModel {
   pageNumber: number;
   pageSize: number;
-  data: Attribute[] | Supplier[] | Category[] | Document[] | Log[] | SchedulerTask[] | UnitConverter[];
+  data: Product[] | Attribute[] | Supplier[] | Category[] | Document[] | Log[] | SchedulerTask[] | UnitConverter[];
   totalRecords: number;
 
-  constructor(pageNumber:number, pageSize:number, data:Attribute[] | Supplier[] | Category[] | Document[] | Log[] | SchedulerTask[] | UnitConverter[], totalRecords:number) {
+  constructor(pageNumber:number, pageSize:number, data:Product[] | Attribute[] | Supplier[] | Category[] | Document[] | Log[] | SchedulerTask[] | UnitConverter[], totalRecords:number) {
     this.pageNumber = pageNumber;
     this.pageSize = pageSize;
     this.data = data;
