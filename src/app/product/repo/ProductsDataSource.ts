@@ -62,7 +62,7 @@ export class ProductsDataSource implements DataSource<Product> {
     return params;
   }
 
-  loadPagedData(queryString: string, selectedSuppId: string, pageIndex: number, pageSize: number, selectedAttributes: any | null, sortActive: string, sortDirection: string, categoryId: number, containsCategory: boolean, isModerated: boolean, withInternalCodeSelector: boolean) {
+  loadPagedData(queryString: string, selectedSuppId: string, pageIndex: number, pageSize: number, selectedAttributes: any | null, sortActive: string, sortDirection: string, categoryId: string, containsCategory: boolean, isModerated: boolean, withInternalCodeSelector: boolean) {
     if (this.loadingSubject.value == true)
       return;
     this.loadingSubject.next(true);

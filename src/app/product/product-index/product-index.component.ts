@@ -38,7 +38,7 @@ export class ProductIndexComponent implements OnInit {
   @Input() searchQuery:string;
   @Input() withInternalCode:boolean;
   @Input() isModerated:boolean;
-  @Input() categoryId:number;
+  @Input() categoryId:string;
   @Input() containsCategory:boolean;
   //selectedSupplier: Supplier = this.dss.selectedSupplierState.value
   @Input() selectedSupplier: Supplier;
