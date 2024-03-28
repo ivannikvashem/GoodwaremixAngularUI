@@ -1,5 +1,6 @@
 <div class="page-container">
-  <table mat-table [dataSource]="dataSource" matSort  [matSortActive]="sortActive" matSortDirection="{{sortDirection}}" (matSortChange)="sortData($event)" matSortDisableClear>
+
+  <table mat-table [dataSource]="categoryDataSource" matSort  [matSortActive]="sortActive" matSortDirection="{{sortDirection}}" (matSortChange)="sortData($event)" matSortDisableClear>
 
     <!-- title Column -->
     <ng-container matColumnDef="title">
@@ -16,9 +17,9 @@
     <!-- ACTIONS Column -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>
-        <button mat-icon-button matTooltip="Добавить категорию" (click)="addCategoryDialog()">
+<!--        <button mat-icon-button matTooltip="Добавить категорию" (click)="addCategoryDialog()">
           <mat-icon>add</mat-icon>
-        </button>
+        </button>-->
       </th>
       <td mat-cell *matCellDef="let item">
 <!--        <button mat-icon-button matTooltip="Изменить категорию" (click)="editCategory(item)">

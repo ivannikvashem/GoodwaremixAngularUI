@@ -42,7 +42,7 @@ export class CategoryDataSource implements DataSource<Category> {
     return params;
   }
 
-  loadPagedData(queryString:string, pageIndex: number, pageSize: number): any {
+  loadPagedData(queryString:string, pageIndex: number, pageSize: number = 70): any {
     this.loadingSubject.next(true);
     this.params = this.createParamsObj(arguments, this.loadPageParamsKeys);
 

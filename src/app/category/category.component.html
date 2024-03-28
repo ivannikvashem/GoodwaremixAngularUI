@@ -11,4 +11,4 @@
 </div>
 
 
-<app-category-index></app-category-index>
+<app-category-index [pageIndex]="pageIndex" [pageSize]="pageSize" [searchQuery]="searchQuery" (pageParams)="onPageParamsChanged($event)"></app-category-index>

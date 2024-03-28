@@ -10,6 +10,7 @@ import {MatSort} from "@angular/material/sort";
 import {Category} from "../../models/category.model";
 import {CategoryEditComponent} from "../category-edit/category-edit.component";
 import {DataStateService} from "../../shared/data-state.service";
+import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
   selector: 'app-category-index',
@@ -33,6 +34,7 @@ export class CategoryIndexComponent implements OnInit {
   @Input() sortDirection:string;
   @Output() pageParams:EventEmitter<any> = new EventEmitter();
   @Output() sortParams:EventEmitter<any> = new EventEmitter();
+  categoryDataSource = new MatTableDataSource<Category>()
 
   constructor(private api: ApiClient, public dialog: MatDialog, private dss: DataStateService) {
     this.dataSource = new CategoryDataSource(this.api)
@@ -50,14 +52,9 @@ export class CategoryIndexComponent implements OnInit {
       this.scrollToTop = settings.scrollPageToTop;
       this.isPaginatorFixed = settings.isPaginatorFixed;
     })
-
-
-
-    this.loadCategoryPagedData()
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('changes')
     this.loadCategoryPagedData()
   }
 
@@ -69,14 +66,14 @@ export class CategoryIndexComponent implements OnInit {
             window.scroll(0, 0);
           }
           this.pageParams.next({pageIndex: this.paginator.pageIndex, pageSize:this.paginator.pageSize})
-        })).subscribe(x => {
-          console.log(`changes ${JSON.stringify(x)}`)
-      console.log('')
-    });
+        })).subscribe();
   }
 
   loadCategoryPagedData():any {
     this.dataSource.loadPagedData(this.searchQuery, this.pageIndex, this.pageSize);
+    this.dataSource.connect(null).subscribe((categories: Category[]) => {
+      this.categoryDataSource.data = categories;
+    })
   }
 
   sortData(sort: any) {

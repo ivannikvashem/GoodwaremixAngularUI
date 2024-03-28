@@ -47,7 +47,6 @@ export class AttributeIndexComponent implements OnInit {
   @Output() sortParams:EventEmitter<any> = new EventEmitter();
   attributeDataSource = new MatTableDataSource<Attribute>()
 
-
   constructor(
     private api: ApiClient,
     private router: Router,

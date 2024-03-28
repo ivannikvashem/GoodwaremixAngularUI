@@ -1,5 +1,5 @@
 <div style="display: flex; justify-content: space-between">
-  <span class="page-title">Товары</span>
+  <span class="page-title">Товары <span *ngIf="selectedSupplier.supplierName">поставщика {{selectedSupplier.supplierName}}</span></span>
   <button *ngIf="roles.includes('goodware-manager')" color="primary" class="toolbox-button raised-icon-button mobile-layout-btn add-product-btn" mat-raised-button matTooltip="Добавить товар" [routerLink]="['/product-add']">
     <mat-icon>add</mat-icon> Добавить
   </button>

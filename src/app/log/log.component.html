@@ -1,5 +1,5 @@
 <div class="header-container">
-  <span class="page-title">Журнал событий </span>
+  <span class="page-title">Журнал событий <span *ngIf="selectedSupplier.supplierName">поставщика {{selectedSupplier.supplierName}}</span></span>
 <!--  <mat-spinner diameter="35" *ngIf="dataSource.loading$ | async"></mat-spinner>-->
 </div>
 
