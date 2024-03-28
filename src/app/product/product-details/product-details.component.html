@@ -20,7 +20,7 @@
 
   <mat-card class="category-tree-container" *ngIf="categoryTree.length > 0">
     <mat-card-content class="category-tree-content">
-      <a *ngFor="let category of categoryTree; index as i" (click)="goToCategory(category.id)">
+      <a *ngFor="let category of categoryTree; index as i" (click)="goToCategory(category.id)" target="_blank">
         <div>{{category.title}}</div> <mat-icon class="route-icon" *ngIf="categoryTree.length - 1 != i">arrow_right</mat-icon>
       </a>
     </mat-card-content>

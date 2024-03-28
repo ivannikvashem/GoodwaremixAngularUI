@@ -23,7 +23,7 @@ export class ProductComponent implements OnInit {
   pageSize:number = 12;
   sortDirection:string;
   sortActive:string = null;
-  categoryId:number = undefined;
+  categoryId:string = undefined;
 
   //About to be deprecated
   cardLayout:boolean = true;
@@ -107,7 +107,7 @@ export class ProductComponent implements OnInit {
       }
     )
 
-    this.categoryId = +this._ActivatedRoute.snapshot.paramMap.get("categoryId");
+    this.categoryId = this._ActivatedRoute.snapshot.paramMap.get("categoryId");
   }
 
   searchQueryChanged() {
@@ -135,7 +135,7 @@ export class ProductComponent implements OnInit {
     this.containsCategory = state;
   }
 
-  onCategoryIdChanged(id:number) {
+  onCategoryIdChanged(id:string) {
     this.categoryId = id;
   }
 

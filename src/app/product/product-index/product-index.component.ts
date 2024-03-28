@@ -29,9 +29,7 @@ export class ProductIndexComponent implements OnInit {
 
   selectionActive:boolean = false;
   selectionItems:any[] = []
-
-  hoverImage: string = "";
-  hoverRowId: string = "";
+  
   scrollToTop:boolean;
   isPaginatorFixed:boolean;
 
@@ -40,15 +38,12 @@ export class ProductIndexComponent implements OnInit {
   @Input() isModerated:boolean;
   @Input() categoryId:string;
   @Input() containsCategory:boolean;
-  //selectedSupplier: Supplier = this.dss.selectedSupplierState.value
   @Input() selectedSupplier: Supplier;
   @Input() pageIndex:number;
   @Input() pageSize:number;
   @Input() sortActive:any;
   @Input() attributeFilter:any;
   @Output() pageParams:EventEmitter<any> = new EventEmitter();
-
-  productId: string | any;
 
   //About to be deprecated
   @Input() isCardLayout:boolean;
