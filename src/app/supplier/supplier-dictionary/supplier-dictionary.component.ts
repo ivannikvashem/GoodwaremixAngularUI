@@ -144,9 +144,10 @@ export class SupplierDictionaryComponent implements OnInit {
         res += " [" + value?.etimFeature + "] от " + value?.supplierName
       }
       return res
-    } else {
+    } else if (this.dictionaryType == 'category') {
       return value && value.title;
     }
+    return null;
   }
 
   displayFnUnit(unit: UnitConverter): string {

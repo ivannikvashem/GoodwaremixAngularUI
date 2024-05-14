@@ -79,7 +79,7 @@
             <mat-icon>add</mat-icon>
           </button>&nbsp;-->
       <div *ngIf="selectedRow?.id == i" class="buttons-container">
-        <button mat-mini-fab color="accent" class="mat-elevation-z2" (click)="updateSelectedValue(i, element)" [disabled]="selectedRow?.keySupplier == ''">
+        <button mat-mini-fab color="primary" class="mat-elevation-z2" (click)="updateSelectedValue(i, element)" [disabled]="selectedRow?.keySupplier == ''">
           <mat-icon>check</mat-icon>
         </button>
         <button mat-icon-button class="mat-elevation-z2" (click)="onSelectedRowClose(element, i, attrTable)">

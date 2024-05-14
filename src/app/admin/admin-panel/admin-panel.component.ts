@@ -51,7 +51,6 @@ export class AdminPanelComponent implements OnInit {
 
   downloadTable(table:string, supplierId?:string) {
     this.supplierDS.downloadTableFile(table,supplierId).subscribe((p:any) =>{
-      console.log(p)
       let downloadAction = document.createElement('a')
       downloadAction.download = table;
       downloadAction.href = window.URL.createObjectURL(new Blob([p.body], {type: 'application/json; charset=utf-8'}))
