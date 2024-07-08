@@ -82,7 +82,6 @@ export class UserDetailsComponent implements OnInit {
     }
     /*this.suppliersSearchInput.nativeElement.value = '';
     this.suppliersSearchCtrl.setValue(null);*/
-    console.log(this.userForm.value.linkedSuppliers)
   }
 
   onSubmit(): void {
@@ -98,6 +97,7 @@ export class UserDetailsComponent implements OnInit {
       });
     } else {
       console.log("submitting " + this.userForm.value.username + " by ID " + this.data?.id + " with data: " + JSON.stringify(this.userForm.value));
+      this.userForm.value.linkedSuppliers = this.linkedSuppliers;
       this.api.postRequest(`users/${this.data.id}`, this.userForm.value).subscribe(() => {
         this.dialogRef.close(this.userForm.value)
       } ,error => {
