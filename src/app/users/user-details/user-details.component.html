@@ -26,7 +26,7 @@
       <mat-form-field class="full-width" appearance="fill">
         <mat-label>Список доступных поставщиков</mat-label>
         <mat-chip-grid #chipList aria-label="Список доступных поставщиков" formControlName="linkedSuppliers">
-          <mat-chip-row *ngFor="let supplier of userForm.value.linkedSuppliers"
+          <mat-chip-row *ngFor="let supplier of linkedSuppliers"
                         (removed)="removeSupplierFromUser(supplier)">
             {{supplier.name}}
             <button matChipRemove>
@@ -53,5 +53,4 @@
       <button mat-raised-button color="primary" type="submit" class="save-btn">Сохранить</button>
     </form>
   </div>
-
 </mat-dialog-content>
