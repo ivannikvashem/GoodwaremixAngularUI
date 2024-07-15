@@ -18,7 +18,7 @@
   <ul class="nav-links" id="nav-links">
 
     <ng-container *ngFor="let item of menuItems">
-      <li routerLinkActive="active" *ngIf="roles.includes(item.role)" matTooltipPosition="right" [matTooltip]="!sidebarState ? item.name : ''" (click)="showSupplierSelector = false">
+      <li routerLinkActive="active" matTooltipPosition="right" [matTooltip]="!sidebarState ? item.name : ''" (click)="showSupplierSelector = false">
         <div class="dropdown-title">
           <a [routerLink]="item.route">
             <mat-icon class="menu-icon-size">{{item.icon}}</mat-icon>

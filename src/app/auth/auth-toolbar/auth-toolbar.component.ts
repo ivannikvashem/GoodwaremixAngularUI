@@ -17,8 +17,8 @@ export class AuthToolbarComponent implements OnInit {
   constructor(private auth: AuthService) { }
 
   ngOnInit(): void {
-    this.isLoggedIn$ = defer(() => from(this.auth.isLoggedIn()));
-    this.user$ = defer(() => from(this.auth.loadUserProfile()).pipe(map((x) => x.username)));
+    //this.isLoggedIn$ = defer(() => from(this.auth.isLoggedIn()));
+    //this.user$ = defer(() => from(this.auth.loadUserProfile()).pipe(map((x) => x.username)));
 
     this.roles = this.auth.getRoles();
     console.warn('_____TOKEN_____',this.auth.getToken().__zone_symbol__value)
