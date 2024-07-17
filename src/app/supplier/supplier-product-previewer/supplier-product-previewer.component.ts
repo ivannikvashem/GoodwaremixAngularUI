@@ -16,6 +16,7 @@ export class SupplierProductPreviewerComponent {
 
   mimeExt:any[] = [
     {type:'xml', mime:'application/xml'},
+    {type:'xml', mime:'text/xml'},
     {type:'json', mime:'application/json'},
     {type:'xlsx', mime:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'},
   ]
