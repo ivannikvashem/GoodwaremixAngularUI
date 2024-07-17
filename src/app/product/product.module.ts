@@ -50,6 +50,7 @@ import {
 } from "./product-verified-filter-switch/product-verified-filter-switch.component";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import { ProductCategoryFilterSwitchComponent } from './product-category-filter-switch/product-category-filter-switch.component';
+import {PdfViewerModule} from "ng2-pdf-viewer";
 
 @NgModule({
   declarations: [
@@ -74,40 +75,41 @@ import { ProductCategoryFilterSwitchComponent } from './product-category-filter-
   exports: [
     HoverImageSliderComponent
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatInputModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatTableModule,
-    MatButtonModule,
-    MatIconModule,
-    MatButtonToggleModule,
-    MatFormFieldModule,
-    MatCardModule,
-    MatExpansionModule,
-    MatChipsModule,
-    MatTooltipModule,
-    ReactiveFormsModule,
-    NgxBarcode6Module,
-    MatTabsModule,
-    MatMenuModule,
-    MatDialogModule,
-    SharedModule,
-    MatDatepickerModule,
-    MatAutocompleteModule,
-    MatSelectModule,
-    MatListModule,
-    MatProgressSpinnerModule,
-    RouterModule,
-    MatCheckboxModule,
-    ScrollingModule,
-    AdminModule,
-    MatBadgeModule,
-    MatSliderModule,
-    MatProgressBarModule,
-    MatSlideToggleModule
-  ]
+    imports: [
+        CommonModule,
+        FormsModule,
+        MatInputModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatTableModule,
+        MatButtonModule,
+        MatIconModule,
+        MatButtonToggleModule,
+        MatFormFieldModule,
+        MatCardModule,
+        MatExpansionModule,
+        MatChipsModule,
+        MatTooltipModule,
+        ReactiveFormsModule,
+        NgxBarcode6Module,
+        MatTabsModule,
+        MatMenuModule,
+        MatDialogModule,
+        SharedModule,
+        MatDatepickerModule,
+        MatAutocompleteModule,
+        MatSelectModule,
+        MatListModule,
+        MatProgressSpinnerModule,
+        RouterModule,
+        MatCheckboxModule,
+        ScrollingModule,
+        AdminModule,
+        MatBadgeModule,
+        MatSliderModule,
+        MatProgressBarModule,
+        MatSlideToggleModule,
+        PdfViewerModule
+    ]
 })
 export class ProductModule { }

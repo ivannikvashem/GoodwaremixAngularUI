@@ -1,0 +1,34 @@
+<div class="full-width">
+  <mat-card-title><button (click)="getPreloadOfProducts()">+</button> Предпросмотр товара <mat-chip *ngIf="preloadedFile"><div style="display: flex"><div class="loaded-file-name">{{preloadedFile.fileName}}</div><strong>.{{preloadedFile.fileType}}</strong></div>
+    <button matChipRemove (click)="preloadedFile = null">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </mat-chip></mat-card-title>
+
+
+  <div *ngIf="!preloadedFile">
+    <div class="upload-container" (click)="fileInput.value=''; fileInput.click()" (drop)="onFileChange($event,true)" (dragover)="onDragOver($event)">
+      <input #fileInput type="file" accept="application/json,application/xml,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" (change)="onFileChange($event, false)" class="upload-input"/>
+      <mat-icon class="custom-icon-size">note_add</mat-icon>
+      <div>
+        <span>Выберите файл с товарами</span>
+        <small>в формате XML, JSON или XLSX</small>
+        <small>или перетащите его в эту зону</small>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="preloadedFile">
+    <mat-card *ngIf="!isFileLoaded" appearance="outlined" class="mat-elevation-z3 product-preview">
+      <mat-spinner class="loading-area"></mat-spinner>
+    </mat-card>
+
+    <mat-card *ngIf="isFileLoaded"  appearance="outlined" class="mat-elevation-z3 product-preview">
+      <app-hover-image-slider></app-hover-image-slider>
+      abc
+    </mat-card>
+  </div>
+
+
+</div>
+

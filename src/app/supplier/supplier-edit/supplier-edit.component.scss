@@ -75,6 +75,10 @@ mat-mdc-tab-group.mainTabGroup {
   overflow: hidden;
 }
 
+:host ::ng-deep .mat-mdc-tab-body-content {
+  overflow: unset !important;
+}
+
 mat-mdc-tab-body {
   flex-grow: 1;
   display: flex;
@@ -109,11 +113,21 @@ form {
   }
 }
 
+.config-tab-group {
+  margin-top: 10px;
+}
+
+.d-flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+:host ::ng-deep .config-tab-group > .mat-mdc-tab-header > .mat-mdc-tab-label-container {
+  display: none;
+}
+
 @mixin xs-devices {
   mat-mdc-tab-group.mainTabGroup { flex-direction: column}
-  :host ::ng-deep .mat-vertical-content-container {
-    margin-left: 14px !important;
-  }
 
   :host ::ng-deep .mainTabGroup > .mat-mdc-tab-header > .mat-mdc-tab-label-container > .mat-mdc-tab-list {
     padding: unset;

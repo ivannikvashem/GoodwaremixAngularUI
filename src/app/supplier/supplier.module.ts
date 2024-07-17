@@ -30,6 +30,8 @@ import { SupplierComponent } from './supplier.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { SupplierDictionaryComponent } from './supplier-dictionary/supplier-dictionary.component';
 import { SupplierImportProductsComponent } from './supplier-import-products/supplier-import-products.component';
+import { SupplierProductPreviewerComponent } from './supplier-product-previewer/supplier-product-previewer.component';
+import {ProductModule} from "../product/product.module";
 
 @NgModule({
   declarations: [
@@ -38,6 +40,7 @@ import { SupplierImportProductsComponent } from './supplier-import-products/supp
     SupplierComponent,
     SupplierDictionaryComponent,
     SupplierImportProductsComponent,
+    SupplierProductPreviewerComponent,
   ],
     imports: [
         CommonModule,
@@ -68,6 +71,7 @@ import { SupplierImportProductsComponent } from './supplier-import-products/supp
         MatAutocompleteModule,
         MatCheckboxModule,
         MatProgressSpinnerModule,
+        ProductModule,
     ]
 })
 export class SupplierModule { }

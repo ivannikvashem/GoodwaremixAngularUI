@@ -104,8 +104,12 @@ mat-mdc-chip {
   margin: 0;
 }
 
-mat-form-field:not(:last-child) {
-  margin-bottom: 8px;
+mat-form-field {
+  margin-top: 8px;
+}
+
+.row  {
+  margin-top: 8px;
 }
 
 @mixin xs-devices {

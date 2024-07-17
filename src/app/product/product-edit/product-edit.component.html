@@ -25,7 +25,7 @@
           </mat-form-field>
 
           <div *ngIf="!product.id" class="supplier-autocomplete-container">
-            <app-supplier-autocomplete class="full-width" [appearance]="'outline'" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
+            <app-supplier-autocomplete class="full-width" [appearance]="'outline'" [changeSupplierGlobally]="false" (selectedSupplier)="handleChangeSelectedSupplier($event)"></app-supplier-autocomplete>
           </div>
           <mat-form-field *ngIf="product?.supplierName && product.id" class="supplier-autocomplete-container" appearance="outline">
             <mat-label>Поставщик</mat-label>

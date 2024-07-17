@@ -2,7 +2,7 @@ import {CollectionViewer, DataSource} from '@angular/cdk/collections';
 import {BehaviorSubject, Observable, of} from 'rxjs';
 import {catchError, finalize, map} from 'rxjs/operators';
 import {ApiClient} from "../../service/httpClient";
-import {Supplier} from "../../models/supplier.model";
+import {Supplier, SupplierConfig} from "../../models/supplier.model";
 import {Stat} from "../../models/Stat.model";
 import {HttpParamsModel} from "../../models/service/http-params.model";
 import {Injectable} from "@angular/core";
@@ -140,5 +140,12 @@ export class SuppliersDataSource implements DataSource<Supplier> {
   downloadTableFile(table: string, supplierId: string) {
     this.params = this.createParamsObj(arguments, ['table', 'supplierId']);
     return this.api.getRequest('suppliers/DownloadFileJson', this.params)
+  }
+
+  preparseProduct(file: File, supplier: Supplier) {
+    let formData = new FormData();
+    formData.append('value', JSON.stringify(supplier))
+    formData.append('file', file)
+    return this.api.postRequest(`Products/PreParser`, formData, [],{headers:{"ContentType": "multipart/form-data"}})
   }
 }

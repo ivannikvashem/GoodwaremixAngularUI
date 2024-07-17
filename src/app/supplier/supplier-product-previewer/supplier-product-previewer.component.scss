@@ -1,0 +1,39 @@
+.upload-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+  width: 550px;
+  border: 3px dashed #ababab;
+  border-radius: 7px;
+  cursor: pointer;
+
+  .upload-input { display:none; }
+  .custom-icon-size {
+    font-size: 50px;
+    height: 50px ;
+    width: 50px ;
+  }
+
+  small {
+    display: block;
+  }
+}
+
+.product-preview {
+  margin-top: 10px;
+  height: 500px;
+  width: 585px;
+}
+
+.loaded-file-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 290px;
+}
+
+.loading-area {
+  top: 40%;
+  left: 43%;
+}

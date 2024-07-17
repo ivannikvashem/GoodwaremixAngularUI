@@ -31,7 +31,6 @@ export class SupplierEditComponent implements OnInit {
 
   supplierId: string = '';
   supplier: Supplier = new Supplier();
-  dataToDisplay: any = [];
   selectedConfig = new FormControl(0)
   private loadingSubject = new BehaviorSubject<boolean>(false);
   public isLoading: boolean = false;
@@ -70,6 +69,8 @@ export class SupplierEditComponent implements OnInit {
           this.router.navigate(['page-not-found'])
         }
       });
+    } else {
+      this.supplier.supplierConfigs.push(new SupplierConfig());
     }
 
     this.loadingSubject.subscribe(x => {
@@ -194,7 +195,7 @@ export class SupplierEditComponent implements OnInit {
   }
 
   deleteConfig(value: any) {
-    const message = `Удалить конфигурацию «` + value.name  + `»?`;
+    const message = `Удалить конфигурацию ` + (value.name == undefined ? '?' : `«` + value.name  + `»?`);
     const dialogData = new ConfirmDialogModel("Подтверждение", message);
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       minWidth: "400px",

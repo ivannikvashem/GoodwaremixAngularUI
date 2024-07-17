@@ -30,7 +30,9 @@ export class ProductDocumentEditComponent implements OnInit {
   documentsList:Document[] = []
   previewImg:string
   files: FileSystemHandle[] = []
-
+  pdfSrc = "";
+  totalPages:number = 0;
+  currentPage:number = 1;
 
   mimeExt:any[] = [
     {type:'pdf', mime:'application/pdf'}
@@ -77,6 +79,8 @@ export class ProductDocumentEditComponent implements OnInit {
       if (this.documentProduct.file != null) {
         this.preloadDocumentView = { fileName:this.documentProduct.file}
       }
+
+
     } else {
       this.documentDS.loadAutocompleteData('', this.data.supplierId, 0,600, '', 'desc').subscribe(x => {
         this.documentsList = x;
@@ -102,8 +106,9 @@ export class ProductDocumentEditComponent implements OnInit {
       //const oldFileName = file.name
       //file = new File([file], this.generateUUID()+ '.' + this.mimeExt.find(x => x.mime == file.type).type, {type:file.type});
 
-      reader.onload = () => {
+      reader.onload = (e: any) => {
         this.preloadDocumentView = {fileContent:file, fileName:file.name, size:file.size}
+        this.pdfSrc = e.target.result;
       }
       reader.readAsDataURL(file);
     } else {
@@ -112,6 +117,7 @@ export class ProductDocumentEditComponent implements OnInit {
   }
 
   deletePreloadDoc() {
+    this.pdfSrc = null;
     this.preloadDocumentView = null
     this.documentProduct.preview = null
     this.data.newDocument.preview = null
@@ -225,6 +231,28 @@ export class ProductDocumentEditComponent implements OnInit {
       }
     }
     return uuid;
+  }
+
+  afterLoadComplete(pdf: any) {
+    this.totalPages = pdf.numPages;
+  }
+
+  previous() {
+    if (this.currentPage > 0) {
+      if (this.currentPage == 1) {
+        this.currentPage = this.totalPages;
+      } else {
+        this.currentPage--;
+      }
+    }
+  }
+
+  next() {
+    if (this.totalPages > this.currentPage) {
+      this.currentPage++;
+    } else {
+      this.currentPage = 1;
+    }
   }
 
 }

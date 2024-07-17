@@ -25,6 +25,7 @@
     "keycloak-angular": "^12.1.0",
     "keycloak-js": "^19.0.3",
     "ng2-charts": "^4.1.1",
+    "ng2-pdf-viewer": "^10.2.2",
     "ngx-barcode6": "^1.0.21",
     "rxjs": "~7.5.6",
     "tslib": "^2.4.0",
