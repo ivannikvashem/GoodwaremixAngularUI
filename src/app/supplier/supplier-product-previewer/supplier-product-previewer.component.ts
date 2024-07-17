@@ -2,6 +2,7 @@ import {Component, Input} from '@angular/core';
 import {Supplier, SupplierConfig} from "../../models/supplier.model";
 import {NotificationService} from "../../service/notification-service";
 import {SuppliersDataSource} from "../repo/SuppliersDataSource";
+import {HeaderModel} from "../supplier-edit/supplier-edit.component";
 
 @Component({
   selector: 'app-supplier-product-previewer',
@@ -51,7 +52,19 @@ export class SupplierProductPreviewerComponent {
   }
 
   getPreloadOfProducts() {
-    this.supplierDS.preparseProduct(this.preloadedFile.fileContent, this.supplier).subscribe(x => {
+    let supplier = JSON.parse(JSON.stringify(this.supplier))
+
+    for (let config of supplier.supplierConfigs) {
+      if (config.sourceSettings.header != undefined && config.sourceSettings.header.length > 0) {
+        for (let header of config.sourceSettings.header) {
+          delete header.isEditable
+        }
+        config.sourceSettings.header = JSON.stringify(config.sourceSettings.header)
+      } else {
+        config.sourceSettings.header = null
+      }
+    }
+    this.supplierDS.preparseProduct(this.preloadedFile.fileContent, supplier).subscribe(x => {
       console.log(x)
     })
   }
