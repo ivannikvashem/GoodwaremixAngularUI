@@ -22,13 +22,11 @@
     <mat-card *ngIf="!isFileLoaded" appearance="outlined" class="mat-elevation-z3 product-preview">
       <mat-spinner class="loading-area"></mat-spinner>
     </mat-card>
-    {{productIndex}}
 
     <div>
       <button (click)="swipeLeftPreview()"><-</button>
       <button (click)="swipeRightPreview()">-></button>
     </div>
-    <pre>{{previewedProducts[productIndex] | json }}</pre>
 
     <mat-card *ngIf="isFileLoaded"  appearance="outlined" class="mat-elevation-z3 product-preview">
       <mat-card-header>
