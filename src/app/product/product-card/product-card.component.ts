@@ -20,6 +20,7 @@ export class ProductCardComponent implements OnInit {
   selected:boolean = false;
   roles:string[] = []
   @Input() product:Product
+  @Input() previewMode:boolean = false;
   constructor(
     private imgHandler:MissingImageHandler,
     public dialog: MatDialog,

@@ -1,4 +1,4 @@
-<div class="full-width">
+<div class="full-width preview-container">
   <mat-card-title><button (click)="getPreloadOfProducts()">+</button> Предпросмотр товара <mat-chip *ngIf="preloadedFile"><div style="display: flex"><div class="loaded-file-name">{{preloadedFile.fileName}}</div><strong>.{{preloadedFile.fileType}}</strong></div>
     <button matChipRemove (click)="preloadedFile = null">
       <mat-icon>delete</mat-icon>
@@ -22,11 +22,71 @@
     <mat-card *ngIf="!isFileLoaded" appearance="outlined" class="mat-elevation-z3 product-preview">
       <mat-spinner class="loading-area"></mat-spinner>
     </mat-card>
+    {{productIndex}}
+
+    <div>
+      <button (click)="swipeLeftPreview()"><-</button>
+      <button (click)="swipeRightPreview()">-></button>
+    </div>
+    <pre>{{previewedProducts[productIndex] | json }}</pre>
 
     <mat-card *ngIf="isFileLoaded"  appearance="outlined" class="mat-elevation-z3 product-preview">
-      <app-hover-image-slider></app-hover-image-slider>
-      abc
+      <mat-card-header>
+        <mat-card-title-group>
+          <mat-card-title>Название {{previewedProducts[productIndex]?.title}}</mat-card-title>
+          <mat-card-subtitle>Полное название {{previewedProducts[productIndex]?.titleLong}}</mat-card-subtitle>
+          <img mat-card-lg-image [src]="previewedProducts[productIndex]?.images[0]"/>
+        </mat-card-title-group>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="previewedProducts[productIndex]?.description">
+          <mat-card-subtitle><strong>Описание</strong></mat-card-subtitle>
+          {{previewedProducts[productIndex]?.description}}
+        </div>
+
+        <div *ngIf="previewedProducts[productIndex]?.documents.length > 0">
+          <mat-card-subtitle><strong>Документы</strong></mat-card-subtitle>
+          <div class="document-grid">
+            <div class="document-card" *ngFor="let document of previewedProducts[productIndex]?.documents">
+              <app-document-card [document]="document"></app-document-card>
+            </div>
+          </div>
+        </div>
+
+
+        <div *ngIf="previewedProducts[productIndex]?.attributes.length > 0">
+          <mat-card-subtitle><strong>Характеристики</strong></mat-card-subtitle>
+          <table>
+            <tr *ngFor="let i of previewedProducts[productIndex]?.attributes">
+              <td>{{i.attributeName}}</td>
+              <td>{{i.objectValue.value}}</td>
+            </tr>
+          </table>
+        </div>
+
+        <div *ngIf="previewedProducts[productIndex]?.netto">
+          <mat-card-subtitle><strong>Нетто</strong></mat-card-subtitle>
+          <app-package-card [pack]="previewedProducts[productIndex]?.netto"></app-package-card>
+        </div>
+
+        <div *ngIf="previewedProducts[productIndex]?.packages.length > 0">
+          <mat-card-subtitle><strong>Упаковки</strong></mat-card-subtitle>
+          <div class="document-grid">
+            <div class="document-card" *ngFor="let package of previewedProducts[productIndex]?.packages">
+              <app-package-card [pack]="package"></app-package-card>
+            </div>
+          </div>
+        </div>
+
+      </mat-card-content>
+
     </mat-card>
+
+    <h2>Пример карточки товара</h2>
+    <div style="width: 330px">
+      <app-product-card [product]="previewedProducts[productIndex]" [previewMode]="true"></app-product-card>
+    </div>
+
   </div>
 
 

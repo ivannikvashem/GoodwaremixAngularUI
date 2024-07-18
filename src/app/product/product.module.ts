@@ -72,9 +72,11 @@ import {PdfViewerModule} from "ng2-pdf-viewer";
     ProductVerifiedFilterSwitchComponent,
     ProductCategoryFilterSwitchComponent,
   ],
-  exports: [
-    HoverImageSliderComponent
-  ],
+    exports: [
+        HoverImageSliderComponent,
+        ProductCardComponent,
+        PackageCardComponent
+    ],
     imports: [
         CommonModule,
         FormsModule,

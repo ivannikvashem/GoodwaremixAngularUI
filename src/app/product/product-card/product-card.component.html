@@ -1,5 +1,5 @@
 <mat-card appearance="outlined" class="card mat-elevation-z3">
-  <div class="card-action-layer">
+  <div *ngIf="!previewMode" class="card-action-layer">
 
     <div class="card-action-container">
       <button mat-mini-fab color="primary" class="action-item" (click)="selected = !selected; onChecked()" [style.visibility]="selected ? 'visible': ''">
@@ -14,12 +14,13 @@
 
   <div class="img-container">
     <div *ngIf="!isImageLoaded" class="image-placeholder"></div>
-    <app-hover-image-slider [style.visibility]="isImageLoaded ? 'visible': 'collapse'" [imgList]="product.images" [imgListThumb]="product.thumbnails" (onLoad)="imageLoaded($event)"></app-hover-image-slider>
+    <app-hover-image-slider [style.visibility]="isImageLoaded ? 'visible': 'collapse'" [imgList]="product?.images" [imgListThumb]="product?.thumbnails" (onLoad)="imageLoaded($event)"></app-hover-image-slider>
   </div>
   <span class="internal-code copy-string" *ngIf="product.internalCode" (click)="copyString(product.internalCode)">{{product.internalCode}}</span>
 
   <h4 class="title-container">
-    <a [href]="'product-details/' + product.id" matTooltip="{{product.title}}" matTooltipShowDelay="1000"> <span class="title">{{product.title}}</span> </a>
+    <a *ngIf="!previewMode" [href]="'product-details/' + product.id" matTooltip="{{product.title}}" matTooltipShowDelay="1000"> <span class="title">{{product.title}}</span> </a>
+    <a *ngIf="previewMode" matTooltip="{{product.title}}" matTooltipShowDelay="1000"> <span class="title">{{product.title}}</span> </a>
   </h4>
 
   <span class="card-content" [style.justify-content]="product.vendor ? 'space-between' : 'flex-end'">

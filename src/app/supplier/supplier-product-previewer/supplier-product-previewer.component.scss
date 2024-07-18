@@ -22,7 +22,6 @@
 
 .product-preview {
   margin-top: 10px;
-  height: 500px;
   width: 585px;
 }
 
@@ -37,3 +36,28 @@
   top: 40%;
   left: 43%;
 }
+
+.d-flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.preview-container {
+  margin-left: 10px;
+}
+
+.document-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  .document-card {
+    width: 270px;
+  }
+}
+
+.mat-mdc-card-content {
+  div {
+    margin-top: 10px;
+  }
+}
+
