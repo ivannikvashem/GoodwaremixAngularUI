@@ -80,9 +80,11 @@
 
     </mat-card>
 
-    <h2>Пример карточки товара</h2>
-    <div style="width: 330px">
-      <app-product-card [product]="previewedProducts[productIndex]" [previewMode]="true"></app-product-card>
+    <div *ngIf="previewedProducts[productIndex]">
+      <h2>Пример карточки товара</h2>
+      <div style="width: 330px">
+        <app-product-card [product]="previewedProducts[productIndex]" [previewMode]="true"></app-product-card>
+      </div>
     </div>
 
   </div>
