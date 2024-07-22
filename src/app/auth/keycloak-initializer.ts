@@ -2,7 +2,7 @@ import {KeycloakOptions, KeycloakService} from "keycloak-angular";
 
 export function initializeKeycloak(keycloak: KeycloakService): () => Promise<boolean> {
 
-/*  const options: KeycloakOptions = {
+  const options: KeycloakOptions = {
     config: {
       url: 'https://login.energomix.ru:8443/auth',
       realm: 'energomix',
@@ -18,6 +18,5 @@ export function initializeKeycloak(keycloak: KeycloakService): () => Promise<boo
     bearerExcludedUrls: ['/assets', '/clients/public'],
   };
 
-  return () => keycloak.init(options);*/
-  return null;
+  return () => keycloak.init(options);
 }

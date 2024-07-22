@@ -24,11 +24,11 @@ export class AuthGuard extends KeycloakAuthGuard {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot) {
     //force user log in
-/*    if (!this.authenticated) {
+    if (!this.authenticated) {
       await this.keycloak.login({
         redirectUri: window.location.origin + state.url,
       });
-    }*/
+    }
 
     //get required roles
     const requiredRoles = route.data['roles'];

@@ -41,10 +41,10 @@ export class AuthService {
   }
 
   public getRoles(): string[] {
-    return []; //this.keycloakService.getUserRoles();
+    return this.keycloakService.getUserRoles();
   }
 
   public getToken(): any {
-    return []; // this.keycloakService.getToken();
+    return this.keycloakService.getToken();
   }
 }

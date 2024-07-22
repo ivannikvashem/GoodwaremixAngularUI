@@ -22,14 +22,14 @@ import {MatButtonModule} from "@angular/material/button";
     AuthToolbarComponent
   ],
   providers: [
-/*    {
+    {
       provide: APP_INITIALIZER,
       useFactory: initializeKeycloak,
       multi: true,
       deps: [KeycloakService]
     },
     AuthGuard,
-    AuthService*/
+    AuthService
   ]
 })
 export class AuthModule { }
