@@ -1,5 +1,5 @@
 <div class="full-width preview-container">
-  <mat-card-title><button (click)="getPreloadOfProducts()">+</button> Предпросмотр товара <mat-chip *ngIf="preloadedFile"><div style="display: flex"><div class="loaded-file-name">{{preloadedFile.fileName}}</div><strong>.{{preloadedFile.fileType}}</strong></div>
+  <mat-card-title>Предпросмотр товаров <mat-chip *ngIf="preloadedFile"><div style="display: flex"><div class="loaded-file-name">{{preloadedFile.fileName}}</div><strong>.{{preloadedFile.fileType}}</strong></div>
     <button matChipRemove (click)="preloadedFile = null">
       <mat-icon>delete</mat-icon>
     </button>
@@ -23,17 +23,30 @@
       <mat-spinner class="loading-area"></mat-spinner>
     </mat-card>
 
-    <div>
+    <div class="d-flex swipe-buttons-container">
+      <button mat-mini-fab color="primary" (click)="swipeLeftPreview()">
+        <mat-icon>navigate_before</mat-icon>
+      </button>
+<!--
       <button (click)="swipeLeftPreview()"><-</button>
+-->
+      <div>
+        Товар {{productIndex + 1}} из {{previewedProducts.length}}
+      </div>
+<!--
       <button (click)="swipeRightPreview()">-></button>
+-->
+      <button mat-mini-fab color="primary" (click)="swipeRightPreview()">
+        <mat-icon>navigate_next</mat-icon>
+      </button>
     </div>
 
     <mat-card *ngIf="isFileLoaded"  appearance="outlined" class="mat-elevation-z3 product-preview">
       <mat-card-header>
         <mat-card-title-group>
-          <mat-card-title>Название {{previewedProducts[productIndex]?.title}}</mat-card-title>
-          <mat-card-subtitle>Полное название {{previewedProducts[productIndex]?.titleLong}}</mat-card-subtitle>
-          <img mat-card-lg-image [src]="previewedProducts[productIndex]?.images[0]"/>
+          <mat-card-title>{{previewedProducts[productIndex]?.title}}</mat-card-title>
+          <mat-card-subtitle *ngIf="previewedProducts[productIndex]?.titleLong">Полное название {{previewedProducts[productIndex]?.titleLong}}</mat-card-subtitle>
+          <img mat-card-lg-image [src]="previewedProducts[productIndex]?.images[0] ? previewedProducts[productIndex]?.images[0] : null"/>
         </mat-card-title-group>
       </mat-card-header>
       <mat-card-content>

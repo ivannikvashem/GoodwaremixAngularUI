@@ -38,6 +38,18 @@ export class ApiClient {
     observe: 'response' as 'body' // it's possible to see response status
   };
 
+  private httpOptionsFormData = {
+    withCredentials: true,
+    headers: new HttpHeaders({
+      'Content-Type': 'multipart/form-data',
+      Accept: 'multipart/form-data',
+      Authorization: 'Bearer ' + this.auth.getToken(),
+      'Access-Control-Allow-Credentials':'true',
+    }),
+    observe: 'response' as 'body' // it's possible to see response status
+  };
+
+
   private errorHandler(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       console.error('An error occurred:', error.error.message);
@@ -71,6 +83,17 @@ export class ApiClient {
     return this.http.get(`${this.apiURL}/${endpoint}`, opt).pipe(catchError(this.errorHandler));
   }
   public postRequest(endpoint:string, body:any, params?:HttpParamsModel[], headerOptions?:any): Observable<any> {
+    let opt = {params: new HttpParams()};
+    if (params && params.length > 0) {
+      opt.params = this.applyParams(params)
+    }
+    opt = Object.assign(opt, this.httpOptions);
+    if (headerOptions)
+      opt = headerOptions;
+    return this.http.post(`${this.apiURL}/${endpoint}`, body, opt).pipe(catchError(this.errorHandler));
+  }
+
+  public postRequestFormData(endpoint:string, body:any, params?:HttpParamsModel[], headerOptions?:any): Observable<any> {
     let opt = {params: new HttpParams()};
     if (params && params.length > 0) {
       opt.params = this.applyParams(params)

@@ -43,7 +43,7 @@
 }
 
 .preview-container {
-  margin-left: 10px;
+  /*margin-left: 10px;*/
 }
 
 .document-grid {
@@ -58,6 +58,19 @@
 .mat-mdc-card-content {
   div {
     margin-top: 10px;
+  }
+}
+
+.swipe-buttons-container {
+  margin-top: 10px;
+
+  .mat-mdc-fab, .mat-mdc-mini-fab {
+    box-shadow: unset;
+  }
+
+  div {
+    font-weight: bold;
+    padding: 10px;
   }
 }
 

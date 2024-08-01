@@ -59,9 +59,9 @@
       </ng-container>
     </div>
 
-<!--    <mat-card appearance="outlined" *ngIf="dataSource.rowCount == 0 && !isLoading">
+    <mat-card appearance="outlined" *ngIf="dataSource.rowCount == 0 && !isLoading">
       <mat-card-content>По вашему запросу ничего не найдено, попробуйте изменить критерии поиска</mat-card-content>
-    </mat-card>-->
+    </mat-card>
   </div>
 
   <app-product-export-table [dataSource]="productsList" [pageSize]="pageSize" *ngIf="!isCardLayout"></app-product-export-table>

@@ -146,6 +146,6 @@ export class SuppliersDataSource implements DataSource<Supplier> {
     let formData = new FormData();
     formData.append('value', JSON.stringify(supplier))
     formData.append('file', file)
-    return this.api.postRequest(`Products/PreParser`, formData, [],{headers:{"ContentType": "multipart/form-data"}})
+    return this.api.postRequestFormData(`Products/PreParser`, formData, [],{headers:{"ContentType": "multipart/form-data"}})
   }
 }
