@@ -4,9 +4,7 @@ export function initializeKeycloak(keycloak: KeycloakService): () => Promise<boo
 
   const options: KeycloakOptions = {
     config: {
-      url: 'https://login.energomix.ru:8443/auth',
-      realm: 'energomix',
-      clientId: 'goodware-ui',
+     
     },
     initOptions: {
       onLoad: 'login-required',
